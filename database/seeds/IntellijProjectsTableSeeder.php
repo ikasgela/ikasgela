@@ -15,5 +15,13 @@ class IntellijProjectsTableSeeder extends Seeder
         $proyecto = new IntellijProject();
         $proyecto->repositorio = 'programacion/introduccion/hola-mundo';
         $proyecto->save();
+
+        $proyecto = new IntellijProject();
+        $proyecto->repositorio = 'programacion/gui/agenda';
+        $proyecto->save();
+
+        $proyecto = new IntellijProject();
+        $proyecto->repositorio = 'programacion/gui/tres-en-raya';
+        $proyecto->save();
     }
 }
