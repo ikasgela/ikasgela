@@ -16,6 +16,8 @@ class ActividadesTableSeeder extends Seeder
      */
     public function run()
     {
+        // --- Tarea de bienvenida
+
         $unidad = Unidad::where('nombre', 'Introducción')->first();
 
         $nombre = 'Tarea de bienvenida';
@@ -33,7 +35,7 @@ class ActividadesTableSeeder extends Seeder
         $proyecto = IntellijProject::where('repositorio', 'programacion/introduccion/hola-mundo')->first();
         $actividad->intellij_projects()->attach($proyecto);
 
-        // ---
+        // --- GUI - Agenda
 
         $unidad = Unidad::where('nombre', 'GUI')->first();
 
@@ -51,7 +53,7 @@ class ActividadesTableSeeder extends Seeder
 
         $siguiente = $actividad;
 
-        // ---
+        // --- GUI - Tres en raya
 
         $unidad = Unidad::where('nombre', 'GUI')->first();
 
@@ -68,5 +70,21 @@ class ActividadesTableSeeder extends Seeder
         $actividad->intellij_projects()->attach($proyecto);
 
         $actividad->siguiente()->save($siguiente);
+
+        // --- Colecciones - Reservas
+
+        $unidad = Unidad::where('nombre', 'Colecciones')->first();
+
+        $nombre = 'Reservas';
+        $actividad = new Actividad();
+        $actividad->nombre = $nombre;
+        $actividad->descripcion = 'Reservas, huéspedes y hoteles.';
+        $actividad->puntuacion = 10;
+        $actividad->slug = Str::slug($nombre);
+        $actividad->plantilla = true;
+        $unidad->actividades()->save($actividad);
+
+        $proyecto = IntellijProject::where('repositorio', 'programacion/colecciones/reservas')->first();
+        $actividad->intellij_projects()->attach($proyecto);
     }
 }
