@@ -16,14 +16,18 @@
         <table class="table">
             <thead class="thead-dark">
             <tr>
-                <th>Repositorio</th>
-                <th>Acciones</th>
+                <th>#</th>
+                <th>{{ __('Name') }}</th>
+                <th>{{ __('GitLab') }}</th>
+                <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
             <tbody>
             @foreach($intellij_projects as $intellij_project)
                 <tr>
-                    <td class="py-3">{{ $intellij_project->repositorio }}</td>
+                    <td class="py-3">{{ $intellij_project->gitlab()['id'] }}</td>
+                    <td class="py-3">{{ $intellij_project->gitlab()['name'] }}</td>
+                    <td class="py-3">@include('partials.link_gitlab', ['proyecto' => $intellij_project->gitlab() ])</td>
                     <td>
                         <form method="POST" action="{{ route('intellij_projects.destroy', [$intellij_project->id]) }}">
                             @csrf

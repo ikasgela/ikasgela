@@ -16,6 +16,7 @@
         <table class="table">
             <thead class="thead-dark">
             <tr>
+                <th>#</th>
                 <th>Curso</th>
                 <th>Nombre</th>
                 <th>Descripción</th>
@@ -26,6 +27,7 @@
             <tbody>
             @foreach($unidades as $unidad)
                 <tr>
+                    <td class="py-3">{{ $unidad->id }}</td>
                     <td class="py-3">{{ $unidad->curso->nombre }}</td>
                     <td class="py-3">{{ $unidad->nombre }}</td>
                     <td class="py-3">{{ $unidad->descripcion }}</td>

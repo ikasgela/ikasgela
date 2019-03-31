@@ -90,7 +90,7 @@
                         <td class="py-3"><input type="checkbox" name="seleccionadas[]"
                                                 value="{{ $intellij_project->id }}">
                         </td>
-                        <td class="py-3">{{ $intellij_project->repositorio }}</td>
+                        <td class="py-3">@include('partials.link_gitlab', ['proyecto' => $intellij_project->gitlab() ])</td>
                     </tr>
                 @endforeach
                 </tbody>

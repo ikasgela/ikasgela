@@ -28,7 +28,7 @@
             <tr>
                 <th>#</th>
                 <th>{{ __('Name') }}</th>
-                <th>{{ __('Repository') }}</th>
+                <th>{{ __('GitLab') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -36,7 +36,7 @@
                 <tr>
                     <td class="py-3">{{ $proyecto['id'] }}</td>
                     <td class="py-3">{{ $proyecto['name'] }}</td>
-                    <td class="py-3">{{ $proyecto['path_with_namespace'] }}</td>
+                    <td class="py-3">@include('partials.link_gitlab', ['proyecto' => $proyecto ])</td>
                 </tr>
             @endforeach
             </tbody>
