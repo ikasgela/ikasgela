@@ -2,17 +2,19 @@
     <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="{{ url('/') }}">
-        <img class="navbar-brand-full" src="{{ url('/svg/logo.svg') }}" height="25" alt="{{ __('Logo') }}">
-        <img class="navbar-brand-minimized" src="{{ url('/svg/icono.svg') }}" width="30" alt="{{ __('Logo') }}">
-    </a>
+    @if (Auth::check())
+        <a class="navbar-brand" href="{{ url('/home') }}">@include('partials.logos')</a>
+    @else
+        <a class="navbar-brand" href="{{ url('/') }}">@include('partials.logos')</a>
+    @endif
     <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
         <span class="navbar-toggler-icon"></span>
     </button>
     @if (Auth::check())
         <ul class="nav navbar-nav ml-auto mr-3">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                   aria-haspopup="true"
                    aria-expanded="false">
                     <img class="img-avatar mx-1" src="{{Auth::user()->avatar_url()}}">
                 </a>
