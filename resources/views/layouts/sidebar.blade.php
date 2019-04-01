@@ -10,17 +10,17 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('users.home') }}">
+                        <a class="nav-link" href="#">
                             <i class="nav-icon fas fa-comment"></i> {{ __('Tutorship') }}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('users.home') }}">
+                        <a class="nav-link" href="#">
                             <i class="nav-icon fas fa-archive"></i> {{ __('Archived') }}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('users.home') }}">
+                        <a class="nav-link" href="#">
                             <i class="nav-icon fas fa-graduation-cap"></i> {{ __('Results') }}
                         </a>
                     </li>
