@@ -8,7 +8,7 @@
         @foreach($actividades as $actividad)
             @if(session('tutorial'))
                 <div class="callout callout-success b-t-1 b-r-1 b-b-1">
-                    <small class="text-muted">{{ __('Help') }}</small>
+                    <small class="text-muted">{{ __('Tutorial') }}</small>
                     <p>Para comenzar la actividad, acéptala. A partir de ese momento tendrás acceso a sus recursos.</p>
                 </div>
             @endif
