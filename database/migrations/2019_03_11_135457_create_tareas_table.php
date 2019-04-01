@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateTareasTable extends Migration
 {
@@ -22,10 +22,13 @@ class CreateTareasTable extends Migration
             $table->foreign('actividad_id')->references('id')->on('actividades')->onDelete('cascade');
 
             $table->dateTimeTz('aceptada')->nullable();
-            $table->dateTimeTz('completada')->nullable();
+            $table->dateTimeTz('enviada')->nullable();
             $table->dateTimeTz('revisada')->nullable();
+            $table->dateTimeTz('feedback_recibido')->nullable();
             $table->text('feedback')->nullable();
             $table->integer('puntuacion')->nullable();
+            $table->boolean('feedback_leido')->nullable()->default(false);
+            $table->boolean('archivada')->nullable()->default(false);
 
             $table->timestamps();
         });

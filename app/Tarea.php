@@ -11,7 +11,7 @@ class Tarea extends Pivot
     public $incrementing = true;
 
     protected $fillable = [
-        'aceptada', 'completada', 'revisada', 'feedback', 'puntuacion'
+        'aceptada', 'enviada', 'revisada', 'feedback_recibido', 'feedback', 'puntuacion', 'feedback_leido', 'archivada'
     ];
 
 }

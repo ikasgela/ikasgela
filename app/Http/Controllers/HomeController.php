@@ -2,13 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use GitLab;
-
 use Illuminate\Support\Facades\Auth;
-
-use App\Actividad;
 
 class HomeController extends Controller
 {

@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -46,11 +46,7 @@ class User extends Authenticatable implements MustVerifyEmail
             ->as('tarea')
             ->withPivot([
                 'id',
-                'aceptada',
-                'completada',
-                'revisada',
-                'feedback',
-                'puntuacion'
+                'aceptada', 'enviada', 'revisada', 'feedback_recibido', 'feedback', 'puntuacion', 'feedback_leido', 'archivada'
             ]);
     }
 

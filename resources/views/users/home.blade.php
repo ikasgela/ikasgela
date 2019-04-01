@@ -4,15 +4,15 @@
 
     @include('partials.titular', ['titular' => 'Escritorio'])
 
-    <div class="callout callout-success b-t-1 b-r-1 b-b-1">
-        <small class="text-muted">Ayuda</small>
-        <br>
-        <p>Para comenzar la actividad, acéptala. A partir de ese momento tendrás acceso a sus recursos.</p>
-    </div>
-
-    <div class="row">
-        @if(count($actividades) > 0)
-            @foreach($actividades as $actividad)
+    @if(count($actividades) > 0)
+        @foreach($actividades as $actividad)
+            @if($user->tutorial)
+                <div class="callout callout-success b-t-1 b-r-1 b-b-1">
+                    <small class="text-muted">{{ __('Help') }}</small>
+                    <p>Para comenzar la actividad, acéptala. A partir de ese momento tendrás acceso a sus recursos.</p>
+                </div>
+            @endif
+            <div class="row">
                 <div class="col-md-12">
                     {{-- Tarjeta --}}
                     <div class="card border-dark">
@@ -23,22 +23,21 @@
 
                             <div class="mb-3">
                                 <form method="POST" action="">
-{{--                                    <button type="submit" class="btn btn-primary">Aceptar</button>--}}
-                                    <button type="submit" class="btn btn-primary">Enviar para revisar</button>
-{{--                                    <button type="submit" class="btn btn-primary">Feedback leído</button>--}}
-{{--                                    <button type="submit" class="btn btn-primary">Archivar</button>--}}
+                                    <button type="submit" class="btn btn-primary">{{ __('Accept') }}</button>
+                                    <button type="submit" class="btn btn-primary">{{ __('Submit for review') }}</button>
+                                    <button type="submit" class="btn btn-primary">{{ __('Feedback read') }}</button>
+                                    <button type="submit" class="btn btn-primary">{{ __('Archive') }}</button>
                                 </form>
                             </div>
                         </div>
                         <hr class="mt-0 mb-2">
-                        <div class="card-body pb-1">
+                        <div class="card-body py-1">
+                            <h6 class="text-center font-weight-bold mt-2">{{ __('Preparing for submission') }}</h6>
                             <ul class="progress-indicator">
-                                <li class="completed"><span class="bubble"></span>Aceptada</li>
-                                <li><span class="bubble"></span>Enviada</li>
-                                <li class="no-bubble"><span class="bubble"></span>Revisando</li>
-                                <li><span class="bubble"></span>Feedback recibido</li>
-                                <li><span class="bubble"></span>Terminada</li>
-                                <li><span class="bubble"></span>Archivada</li>
+                                <li class="completed"><span class="bubble"></span>{{ __('Accepted') }}</li>
+                                <li><span class="bubble"></span>{{ __('Submitted') }}</li>
+                                <li><span class="bubble"></span>{{ __('Feedback available') }}</li>
+                                <li><span class="bubble"></span>{{ __('Finished') }}</li>
                             </ul>
                         </div>
                     </div>
@@ -55,11 +54,13 @@
                         @include('tarjetas.intellij_project')
                     </div>
                 @endforeach
-            @endforeach
-        @else
-            <div class="col-md">
+            </div>
+        @endforeach
+    @else
+        <div class="row">
+            <div class="col-md-12">
                 <p>No tienes tareas asignadas.</p>
             </div>
-        @endif
-    </div>
+        </div>
+    @endif
 @endsection
