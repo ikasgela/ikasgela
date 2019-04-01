@@ -5,7 +5,7 @@
         <p class="card-text">{{ $repositorio['description'] }}</p>
         @if(!$intellij_project->isForked())
             <a href="{{ route('intellij_projects.fork', ['actividad' => $actividad->id, 'intellij_project'=>$intellij_project->id]) }}"
-               class=" btn btn-primary">Clonar el repositorio</a>
+               class="btn btn-primary">Clonar el repositorio</a>
         @else
             <a href="jetbrains://idea/checkout/git?checkout.repo={{ str_replace('https://',"https://$user->username@",$repositorio['http_url_to_repo']) }}&idea.required.plugins.id=Git4Idea"
                class="btn btn-primary">Abrir en IntelliJ IDEA</a>
