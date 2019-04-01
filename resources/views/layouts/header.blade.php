@@ -16,19 +16,19 @@
                    aria-expanded="false">
                     <img class="img-avatar mx-1" src="{{Auth::user()->avatar_url()}}">
                 </a>
-                <div class="dropdown-menu dropdown-menu-right shadow mt-2">
-                    <div class="px-3 py-2">
+                <div class="dropdown-menu dropdown-menu-right shadow mt-2 pb-2">
+                    <div class="dropdown-item-text">
                         <h5>{{ Auth::user()->name }}</h5>
                         <small class="text-muted">{{ Auth::user()->email }}</small>
                     </div>
+                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/profile">
                         <i class="fas fa-user"></i> {{ __('Profile') }}
                     </a>
-                    <div class="divider"></div>
                     <a class="dropdown-item" href="/password">
                         <i class="fas fa-key"></i> {{ __('Password') }}
                     </a>
-                    <div class="divider"></div>
+                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ route('logout') }}"
                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}
