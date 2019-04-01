@@ -21,6 +21,12 @@ class EventServiceProvider extends ServiceProvider
         'Illuminate\Auth\Events\Verified' => [
             'App\Listeners\ActivarUsuarioGitLab',
         ],
+        'Illuminate\Auth\Events\Login' => [
+            'App\Listeners\LoginSuccess',
+        ],
+        'Illuminate\Auth\Events\Logout' => [
+            'App\Listeners\LogoutSuccess',
+        ],
     ];
 
     /**

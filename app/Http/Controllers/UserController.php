@@ -30,6 +30,8 @@ class UserController extends Controller
         $user->tutorial = !$user->tutorial;
         $user->save();
 
+        session(['tutorial' => $user->tutorial]);
+
         return back();
     }
 }
