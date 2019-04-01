@@ -16,6 +16,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('users.home');
     Route::view('/dashboard', 'users.dashboard')
         ->name('users.dashboard');
+    Route::post('/users/toggle_help', 'UserController@toggle_help')
+        ->name('users.toggle_help');
 });
 
 // Alumno

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -20,5 +21,15 @@ class UserController extends Controller
         });
 
         return view('users.index', compact('usuarios'));
+    }
+
+    public function toggle_help()
+    {
+        $user = Auth::user();
+
+        $user->tutorial = !$user->tutorial;
+        $user->save();
+
+        return back();
     }
 }

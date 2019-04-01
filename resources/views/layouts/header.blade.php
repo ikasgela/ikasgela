@@ -24,6 +24,20 @@
                         <small class="text-muted">{{ Auth::user()->email }}</small>
                     </div>
                     <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ route('users.toggle_help') }}"
+                       onclick="event.preventDefault(); document.getElementById('toggle_help').submit();">
+                        @if($user->tutorial)
+                            <i class="fas fa-check"></i>
+                        @else
+                            <i class="fas fa-times"></i>
+                        @endif
+                        {{ __('View tutorial') }}
+                    </a>
+                    <form id="toggle_help" action="{{ route('users.toggle_help') }}" method="POST"
+                          style="display: none;">
+                        @csrf
+                    </form>
+                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/profile">
                         <i class="fas fa-user"></i> {{ __('Profile') }}
                     </a>
@@ -35,8 +49,7 @@
                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}
                     </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                          style="display: none;">
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
                 </div>
