@@ -18,7 +18,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('index');
     }
 
     /**
@@ -26,12 +26,20 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function home()
     {
         $user = $this->getAuthUser();
 
         $actividades = $user->actividades()->get();
 
         return view('users.home', compact(['actividades', 'user']));
+    }
+
+    public function index()
+    {
+        if (!is_null($this->getAuthUser()))
+            return redirect(route('users.home'));
+        else
+            return view('welcome');
     }
 }

@@ -2,11 +2,7 @@
     <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
         <span class="navbar-toggler-icon"></span>
     </button>
-    @if (Auth::check())
-        <a class="navbar-brand" href="{{ url('/home') }}">@include('partials.logos')</a>
-    @else
-        <a class="navbar-brand" href="{{ url('/') }}">@include('partials.logos')</a>
-    @endif
+    <a class="navbar-brand" href="{{ url('/') }}">@include('partials.logos')</a>
     <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
         <span class="navbar-toggler-icon"></span>
     </button>

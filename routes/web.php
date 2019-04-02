@@ -1,7 +1,8 @@
 <?php
 
 // Página principal
-Route::view('/', 'welcome');
+Route::get('/', 'HomeController@index')
+    ->name('portada');
 
 // Páginas públicas
 Route::view('/documentacion', 'documentacion.index');
@@ -12,7 +13,7 @@ require __DIR__ . '/profile/profile.php';
 
 // Perfil de usuario
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/home', 'HomeController@index')
+    Route::get('/home', 'HomeController@home')
         ->name('users.home');
     Route::view('/dashboard', 'users.dashboard')
         ->name('users.dashboard');
