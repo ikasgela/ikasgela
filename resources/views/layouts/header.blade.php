@@ -3,7 +3,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="{{ url('/') }}">@include('partials.logos')</a>
-    <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
+    <button class="navbar-toggler sidebar-toggler d-md-down-none mr-auto" type="button" data-toggle="sidebar-lg-show">
         <span class="navbar-toggler-icon"></span>
     </button>
     @if (Auth::check())
@@ -52,10 +52,12 @@
             </li>
         </ul>
     @else
-        <ul class="nav navbar-nav ml-auto mr-3">
-            <li class="nav-item mr-2"><a href="{{ route('login') }}">{{ __('Sign in') }}</a></li>
-            <li class="nav-item"><a href="{{ route('register') }}">{{ __('Register') }}</a></li>
-        </ul>
+        {{--
+                <ul class="nav navbar-nav ml-auto mr-3">
+                    <li class="nav-item mr-2"><a href="{{ route('login') }}">{{ __('Sign in') }}</a></li>
+                    <li class="nav-item"><a href="{{ route('register') }}">{{ __('Register') }}</a></li>
+                </ul>
+        --}}
     @endif
 
 </header>
