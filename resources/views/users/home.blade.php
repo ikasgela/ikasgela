@@ -56,6 +56,12 @@
                 @endforeach
             </div>
         @endforeach
+        @if(session('tutorial'))
+            <div class="callout callout-danger b-t-1 b-r-1 b-b-1">
+                <small class="text-muted">{{ __('Tutorial') }}</small>
+                <p>Puedes desactivar el tutorial en tu perfil de usuario.</p>
+            </div>
+        @endif
     @else
         <div class="row">
             <div class="col-md-12">
