@@ -2,11 +2,15 @@
     <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="{{ url('/') }}">@include('partials.logos')</a>
+    @if(Auth::check())
+        <a class="navbar-brand" href="{{ url('/home') }}">@include('partials.logos')</a>
+    @else
+        <a class="navbar-brand" href="{{ url('/') }}">@include('partials.logos')</a>
+    @endif
     <button class="navbar-toggler sidebar-toggler d-md-down-none mr-auto" type="button" data-toggle="sidebar-lg-show">
         <span class="navbar-toggler-icon"></span>
     </button>
-    @if (Auth::check())
+    @if(Auth::check())
         <ul class="nav navbar-nav ml-auto mr-3">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
@@ -35,10 +39,10 @@
                     </form>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/profile">
-                        <i class="fas fa-user"></i> {{ __('Profile') }}
+                        <i class="fas fa-user text-primary"></i> {{ __('Profile') }}
                     </a>
                     <a class="dropdown-item" href="/password">
-                        <i class="fas fa-key"></i> {{ __('Password') }}
+                        <i class="fas fa-key text-primary"></i> {{ __('Password') }}
                     </a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ route('logout') }}"
