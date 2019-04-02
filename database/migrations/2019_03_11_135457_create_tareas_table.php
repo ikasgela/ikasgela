@@ -10,6 +10,7 @@ class CreateTareasTable extends Migration
      * Run the migrations.
      *
      * @return void
+     * limiteurn void
      */
     public function up()
     {
@@ -22,6 +23,7 @@ class CreateTareasTable extends Migration
             $table->foreign('actividad_id')->references('id')->on('actividades')->onDelete('cascade');
 
             $table->dateTimeTz('aceptada')->nullable();
+            $table->dateTimeTz('fecha_limite')->nullable();
             $table->dateTimeTz('enviada')->nullable();
             $table->dateTimeTz('revisada')->nullable();
             $table->dateTimeTz('feedback_recibido')->nullable();
