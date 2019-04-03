@@ -9,7 +9,31 @@
             @if(session('tutorial'))
                 <div class="callout callout-success b-t-1 b-r-1 b-b-1 mb-4">
                     <small class="text-muted">{{ __('Tutorial') }}</small>
-                    <p>Para comenzar la actividad, acéptala. A partir de ese momento tendrás acceso a sus recursos.</p>
+                    @switch($actividad->tarea->estado)
+                        @case(10)   {{-- Nueva --}}
+                        <p>Para comenzar la actividad, acéptala. A partir de ese momento tendrás acceso a sus
+                            recursos.</p>
+                        @break
+                        @case(20)   {{-- Aceptada --}}
+                        <p>Completa la actividad y, cuando esté lista, envíala para revisar.</p>
+                        @break
+                        @case(30)   {{-- Enviada --}}
+                        <p>La actividad está pendiente de revisar, vuelve más tarde.</p>
+                        @break
+                        @case(40)   {{-- Revisada: OK --}}
+                        @case(41)   {{-- Revisada: ERROR --}}
+                        <p>La actividad está revisada y tienes disponible el feedback. Si se ha dado por buena, podrás
+                            darla por terminada. Si no, tendrás que mejorarla y volver a enviarla.</p>
+                        @break
+                        @case(50)   {{-- Terminada --}}
+                        <p>La actividad está terminada y puedes archivarla para que desaparezca del escritorio. Podrás
+                            verla en <a href="{{ route('actividades.archivo') }}">archivadas</a>.</p>
+                        @break
+                        @case(60)   {{-- Archivada --}}
+                        @break
+                        @default
+                    @endswitch
+
                 </div>
             @endif
             <div class="row">
@@ -36,6 +60,14 @@
                                                 class="btn btn-primary">{{ __('Submit for review') }}</button>
                                         @break
                                         @case(30)   {{-- Enviada --}}
+                                        @if(config('app.debug'))
+                                            <button type="submit" name="nuevoestado" value="40"
+                                                    class="btn btn-success">OK
+                                            </button>
+                                            <button type="submit" name="nuevoestado" value="41"
+                                                    class="btn btn-danger">ERROR
+                                            </button>
+                                        @endif
                                         @break
                                         @case(40)   {{-- Revisada: OK --}}
                                         <button type="submit" name="nuevoestado" value="50"
