@@ -1,9 +1,13 @@
 @extends('layouts.auth')
 
 @section('auth')
-    <div class="col-md-6">
+    <div class="col-12 col-lg-6">
         <div class="card mx-4">
-            <div class="card-body p-4">
+            <div class="card-body p-5">
+                <div class="text-center">
+                    <img src="/svg/logo.svg" class="mb-5" width="200" alt="Ikasgela Logo">
+                </div>
+
                 <h1>{{ __('Reset Password') }}</h1>
                 <p class="text-muted">{{ __('Reset you password') }}</p>
 
@@ -12,7 +16,9 @@
 
                     <div class="input-group mb-4">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">@</span>
+                            <span class="input-group-text">
+                                <i class="fas fa-at text-secondary"></i>
+                            </span>
                         </div>
                         <input id="email" type="email"
                                class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"

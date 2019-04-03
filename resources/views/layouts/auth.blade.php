@@ -29,7 +29,7 @@
             @yield('auth')
         </div>
         <div class="m-3 text-center">
-            <a href="{{ url('/') }}">{{ __('Return to the homepage') }}</a>
+            <a class="text-secondary" href="{{ url('/') }}">{{ __('Return to the homepage') }}</a>
         </div>
     </div>
 </div>

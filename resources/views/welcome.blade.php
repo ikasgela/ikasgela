@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="row">
-        <div class="col-sm-6 mx-auto">
+        <div class="col-12 col-lg-6 mx-auto">
 
             {{-- Tarjeta --}}
             <div class="card">
@@ -14,7 +14,8 @@
                 <hr class="mt-0 mb-0">
                 <div class="card-body pb-4 text-center">
                     <a class="btn btn-primary mr-3" href="{{ route('login') }}">{{ __('Sign in') }}</a>
-                    <a class="btn btn-secondary" href="{{ route('register') }}">{{ __('Register') }}</a>
+                    <span class="mx-3">o</span>
+                    <a class="btn btn-link" href="{{ route('register') }}">{{ __('Sign up') }}</a>
                 </div>
             </div>
             {{-- Fin tarjeta--}}
