@@ -195,7 +195,15 @@ class ActividadController extends Controller
                 $tarea->enviada = $ahora;
                 break;
             case 40:
+                if (config('app.debug')) {
+                    $tarea->feedback = 'Muy bien, buen trabajo.';
+                }
+                $tarea->revisada = $ahora;
+                break;
             case 41:
+                if (config('app.debug')) {
+                    $tarea->feedback = 'Ummm, a casita a volverlo a intentar.';
+                }
                 $tarea->revisada = $ahora;
                 break;
             case 50:
