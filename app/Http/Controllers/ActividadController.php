@@ -7,6 +7,7 @@ use App\Tarea;
 use App\Unidad;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class ActividadController extends Controller
@@ -14,7 +15,7 @@ class ActividadController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:admin')->except('actualizarEstado');
+        $this->middleware('role:admin')->except('actualizarEstado', 'archivo');
     }
 
     /**
@@ -210,4 +211,13 @@ class ActividadController extends Controller
 
         return redirect(route('users.home'));
     }
+
+    public function archivo()
+    {
+        $user = Auth::user();
+        $actividades = $user->actividades()->wherePivot('estado', 60)->get();
+
+        return view('actividades.archivo', compact('actividades'));
+    }
+
 }

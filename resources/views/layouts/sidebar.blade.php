@@ -15,7 +15,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="/actividades/archivo">
                             <i class="nav-icon fas fa-archive"></i> {{ __('Archived') }}
                         </a>
                     </li>
