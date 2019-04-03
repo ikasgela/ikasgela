@@ -138,6 +138,17 @@
                     {{-- Fin tarjeta--}}
                 </div>
                 @if($actividad->tarea->estado > 10)
+                    @if(!is_null($actividad->tarea->feedback))
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header"><i class="fas fa-bullhorn"></i></i> {{ __('Feedback') }}
+                                </div>
+                                <div class="card-body">
+                                    <p>{{ $actividad->tarea->feedback }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                     @foreach($actividad->youtube_videos()->get() as $youtube_video)
                         <div class="col-md-6">
                             @include('tarjetas.youtube_video')
