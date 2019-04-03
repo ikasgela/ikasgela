@@ -41,12 +41,22 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function actividades()
     {
+        // Modificar tambien los campos en \App\Tarea::$fillable
         return $this->belongsToMany('App\Actividad', 'tareas')
             ->using('App\Tarea')
             ->as('tarea')
             ->withPivot([
                 'id',
-                'estado', 'aceptada', 'enviada', 'revisada', 'feedback_recibido', 'feedback', 'puntuacion', 'feedback_leido', 'archivada'
+
+                'estado',
+                'aceptada',
+                'fecha_limite',
+                'enviada',
+                'revisada',
+                'feedback',
+                'puntuacion',
+                'terminada',
+                'archivada'
             ]);
     }
 

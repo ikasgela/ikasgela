@@ -27,11 +27,10 @@ class CreateTareasTable extends Migration
             $table->dateTimeTz('fecha_limite')->nullable();
             $table->dateTimeTz('enviada')->nullable();
             $table->dateTimeTz('revisada')->nullable();
-            $table->dateTimeTz('feedback_recibido')->nullable();
             $table->text('feedback')->nullable();
             $table->integer('puntuacion')->nullable();
-            $table->boolean('feedback_leido')->nullable()->default(false);
-            $table->boolean('archivada')->nullable()->default(false);
+            $table->dateTimeTz('terminada')->nullable();
+            $table->dateTimeTz('archivada')->nullable();
 
             $table->timestamps();
         });

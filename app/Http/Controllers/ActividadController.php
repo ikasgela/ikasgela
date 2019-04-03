@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Actividad;
 use App\Tarea;
-use App\YoutubeVideo;
-use Illuminate\Http\Request;
-
 use App\Unidad;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class ActividadController extends Controller
@@ -180,7 +179,33 @@ class ActividadController extends Controller
 
     public function actualizarEstado(Tarea $tarea, Request $request)
     {
-        $tarea->estado = $request->input('nuevoestado');
+        $nuevoestado = $request->input('nuevoestado');
+        $ahora = Carbon::now();
+
+        $tarea->estado = $nuevoestado;
+
+        switch ($nuevoestado) {
+            case 10:
+                break;
+            case 20:
+                $tarea->aceptada = $ahora;
+                break;
+            case 30:
+                $tarea->enviada = $ahora;
+                break;
+            case 40:
+            case 41:
+                $tarea->revisada = $ahora;
+                break;
+            case 50:
+                $tarea->terminada = $ahora;
+                break;
+            case 60:
+                $tarea->archivada = $ahora;
+                break;
+            default:
+        }
+
         $tarea->save();
 
         return redirect(route('users.home'));
