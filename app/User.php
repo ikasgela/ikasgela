@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -16,7 +16,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'username'
+        'name', 'email', 'password', 'username', 'tutorial'
     ];
 
     /**
@@ -41,16 +41,22 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function actividades()
     {
+        // Modificar tambien los campos en \App\Tarea::$fillable
         return $this->belongsToMany('App\Actividad', 'tareas')
             ->using('App\Tarea')
             ->as('tarea')
             ->withPivot([
                 'id',
+
+                'estado',
                 'aceptada',
-                'completada',
+                'fecha_limite',
+                'enviada',
                 'revisada',
                 'feedback',
-                'puntuacion'
+                'puntuacion',
+                'terminada',
+                'archivada'
             ]);
     }
 

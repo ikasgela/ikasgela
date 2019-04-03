@@ -2,13 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use GitLab;
-
 use Illuminate\Support\Facades\Auth;
-
-use App\Actividad;
 
 class HomeController extends Controller
 {
@@ -24,7 +18,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('index');
     }
 
     /**
@@ -32,12 +26,31 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function home()
     {
-        $user = $this->getAuthUser();
+        /*
+         * 10 -> Nueva
+         * 20 -> Aceptada
+         * 30 -> Enviada
+         * 40 -> Revisada: OK
+         * 41 -> Revisada: ERROR
+         * 50 -> Terminada
+         * 60 -> Archivada
+         * */
 
-        $actividades = $user->actividades()->get();
+        \Debugbar::disable();
+
+        $user = $this->getAuthUser();
+        $actividades = $user->actividades()->wherePivot('estado', '!=', 60)->get();
 
         return view('users.home', compact(['actividades', 'user']));
+    }
+
+    public function index()
+    {
+        if (!is_null($this->getAuthUser()))
+            return redirect(route('users.home'));
+        else
+            return view('welcome');
     }
 }

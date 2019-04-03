@@ -6,16 +6,24 @@
                     <li class="nav-title">{{ __('Student') }}</li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('users.home') }}">
-                            <i class="nav-icon icon-screen-desktop"></i> {{ __('Desktop') }}
+                            <i class="nav-icon fas fa-home"></i> {{ __('Desktop') }}
                         </a>
                     </li>
-                    {{--
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('users.dashboard') }}">
-                                                <i class="nav-icon icon-graduation"></i> {{ __('Results') }}
-                                            </a>
-                                        </li>
-                    --}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="nav-icon fas fa-comment"></i> {{ __('Tutorship') }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/actividades/archivo">
+                            <i class="nav-icon fas fa-archive"></i> {{ __('Archived') }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="nav-icon fas fa-graduation-cap"></i> {{ __('Results') }}
+                        </a>
+                    </li>
                 @endif
             @endauth
             @auth
@@ -23,12 +31,12 @@
                     <li class="nav-title">{{ __('Teacher') }}</li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('users.index') }}">
-                            <i class="nav-icon icon-notebook"></i> {{ __('Assign activities') }}
+                            <i class="nav-icon fas fa-tasks"></i> {{ __('Assign activities') }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('actividades.plantillas') }}">
-                            <i class="nav-icon far fa-copy"></i> {{ __('Activity templates') }}
+                            <i class="nav-icon fas fa-file"></i> {{ __('Activity templates') }}
                         </a>
                     </li>
                 @endif
@@ -38,12 +46,12 @@
                     <li class="nav-title">{{ __('Admin') }}</li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('intellij_projects.copia') }}">
-                            <i class="nav-icon far fa-copy"></i> {{ __('Project cloner') }}
+                            <i class="nav-icon fas fa-copy"></i> {{ __('Project cloner') }}
                         </a>
                     </li>
                     <li class="nav-item nav-dropdown">
                         <a class="nav-link nav-dropdown-toggle" href="#">
-                            <i class="nav-icon icon-book-open"></i> {{ __('Structure') }}
+                            <i class="nav-icon fas fa-database"></i> {{ __('Structure') }}
                         </a>
                         <ul class="nav-dropdown-items">
                             <li class="nav-item">
@@ -65,7 +73,7 @@
                     </li>
                     <li class="nav-item nav-dropdown">
                         <a class="nav-link nav-dropdown-toggle" href="#">
-                            <i class="nav-icon icon-book-open"></i> {{ __('Resources') }}
+                            <i class="nav-icon fas fa-database"></i> {{ __('Resources') }}
                         </a>
                         <ul class="nav-dropdown-items">
                             <li class="nav-item">
@@ -82,37 +90,37 @@
                     </li>
                     <li class="nav-item nav-dropdown">
                         <a class="nav-link nav-dropdown-toggle" href="#">
-                            <i class="nav-icon icon-question"></i> Tarjetas de prueba
+                            <i class="nav-icon fas fa-bug"></i> Tarjetas de prueba
                         </a>
                         <ul class="nav-dropdown-items">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('/tarjeta_si_no') }}">
-                                    <i class="nav-icon icon-question"></i> Sí/No
+                                    Sí/No
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('/tarjeta_video') }}">
-                                    <i class="nav-icon icon-question"></i> Vídeo
+                                    Vídeo
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('/tarjeta_respuesta_multiple') }}">
-                                    <i class="nav-icon icon-question"></i> Test
+                                    Test
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('/tarjeta_respuesta_corta') }}">
-                                    <i class="nav-icon icon-question"></i> Escribir
+                                    Escribir
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('/tarjeta_texto_markdown') }}">
-                                    <i class="nav-icon icon-question"></i> Texto
+                                    Texto
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('/tarjeta_pdf') }}">
-                                    <i class="nav-icon icon-question"></i> PDF
+                                    PDF
                                 </a>
                             </li>
                         </ul>
@@ -153,26 +161,24 @@
             --}}
             <li class="nav-item mt-auto">
                 <a class="nav-link" href="mailto:info@ikasgela.com">
-                    <i class="nav-icon icon-envelope"></i> {{ __('Contact') }}</a>
+                    <i class="nav-icon fas fa-envelope"></i> {{ __('Contact') }}</a>
             </li>
             @auth
-                {{--
-                                <li class="nav-item">
-                                    <a class="nav-link nav-link-success" href="{{ url('/documentacion') }}">
-                                        <i class="nav-icon icon-docs"></i> {{ __('Help') }}</a>
-                                </li>
-                --}}
                 @if(Auth::user()->hasAnyRole(['admin','profesor']))
                     {{--
                                         <li class="nav-item">
-                                            <a class="nav-link nav-link-danger" href="https://coreui.io/pro/">
-                                                <i class="nav-icon icon-layers"></i> Premium
+                                            <a class="nav-link nav-link-success" href="{{ url('/documentacion') }}">
+                                                <i class="nav-icon fas fa-question-circle"></i> {{ __('Documentation') }}</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link nav-link-danger" href="#">
+                                                <i class="nav-icon fas fa-plus"></i> Premium
                                             </a>
                                         </li>
                     --}}
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            <i class="nav-icon icon-settings"></i> {{ __('Settings') }}
+                            <i class="nav-icon fas fa-cog"></i> {{ __('Settings') }}
                         </a>
                     </li>
                 @endif

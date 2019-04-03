@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateTareasTable extends Migration
 {
@@ -10,6 +10,7 @@ class CreateTareasTable extends Migration
      * Run the migrations.
      *
      * @return void
+     * limiteurn void
      */
     public function up()
     {
@@ -21,11 +22,15 @@ class CreateTareasTable extends Migration
             $table->bigInteger('actividad_id')->unsigned()->index();;
             $table->foreign('actividad_id')->references('id')->on('actividades')->onDelete('cascade');
 
+            $table->integer('estado')->nullable()->default(10);
             $table->dateTimeTz('aceptada')->nullable();
-            $table->dateTimeTz('completada')->nullable();
+            $table->dateTimeTz('fecha_limite')->nullable();
+            $table->dateTimeTz('enviada')->nullable();
             $table->dateTimeTz('revisada')->nullable();
             $table->text('feedback')->nullable();
             $table->integer('puntuacion')->nullable();
+            $table->dateTimeTz('terminada')->nullable();
+            $table->dateTimeTz('archivada')->nullable();
 
             $table->timestamps();
         });

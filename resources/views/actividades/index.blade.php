@@ -25,7 +25,7 @@
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Slug') }}</th>
                 {{-- <th>{{ __('Score') }}</th> --}}
-                <th colspan="2">{{ __('Next') }}</th>
+                <th>{{ __('Next') }}</th>
                 <th>{{ __('Resources') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
@@ -39,11 +39,16 @@
                     <td class="py-3">{{ $actividad->nombre }}</td>
                     <td class="py-3">{{ $actividad->slug }}</td>
                     {{-- <td class="py-3">{{ $actividad->puntuacion }}</td> --}}
-                    <td class="py-3">{!! !is_null($actividad->siguiente) ? $actividad->final ? '<i class="fas fa-times text-danger"></i>' : '<i class="fas fa-arrow-right text-success"></i>' : '' !!}</td>
                     <td class="py-3">
-                    @if( !is_null($actividad->siguiente) )
-                        {{ $actividad->siguiente->slug . ' ('.$actividad->siguiente->id.')' }}
-                    @endif
+                        {!! !is_null($actividad->siguiente) ? $actividad->final
+                        ? '<i class="fas fa-times text-danger"></i>'
+                        : '<i class="fas fa-arrow-right text-success"></i>'
+                        : '' !!}
+                        &nbsp;
+                        @if( !is_null($actividad->siguiente) )
+                            {{ $actividad->siguiente->slug . ' ('.$actividad->siguiente->id.')' }}
+                        @endif
+                    </td>
                     <td>
                         <a href="{{ route('youtube_videos.actividad', [$actividad->id]) }}"
                            class='btn btn-outline-dark'>Youtube</a>

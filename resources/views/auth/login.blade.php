@@ -1,7 +1,7 @@
 @extends('layouts.auth')
 
 @section('auth')
-    <div class="col-md-10 pb-4">
+    <div class="col-12 col-lg-10 pb-4">
         <div class="card-group">
             <div class="card">
                 <div class="card-body p-5">
@@ -16,7 +16,9 @@
                         @csrf
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">@</span>
+                            <span class="input-group-text">
+                                <i class="fas fa-at text-secondary"></i>
+                            </span>
                             </div>
                             <input id="email" type="email"
                                    class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
@@ -33,7 +35,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                             <span class="input-group-text">
-                                <i class="icon-lock"></i>
+                                <i class="fas fa-lock text-secondary"></i>
                             </span>
                             </div>
                             <input id="password" type="password"
@@ -58,16 +60,16 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-3">
-                                <button type="submit" class="btn btn-primary px-3">
+                        <div class="row d-flex align-items-center">
+                            <div class="col-12 col-md-6 m-0">
+                                <button type="submit" class="btn btn-primary btn-block">
                                     {{ __('Login') }}
                                 </button>
                             </div>
-                            <div class="col-9 text-right px-0">
-                                <a class="btn btn-link"
+                            <div class="col-12 col-md-6 mt-3 mt-md-0 text-center">
+                                <a class="btn btn-link text-primary text-sm-center"
                                    href="{{ route('password.request') }}">
-                                    {{ __('Forgot Your Password?') }}
+                                    {{ __('Forgotten password?') }}
                                 </a>
                             </div>
                         </div>
@@ -86,7 +88,7 @@
                         <img src="svg/logo-dark.svg" class="mb-5" width="200" alt="Logo">
                         <h2>{{ __('Sign up') }}</h2>
                         <p>{{ __("If you don't have account, create one.") }}</p>
-                        <a class="btn btn-primary active mt-2"
+                        <a class="btn btn-link btn-light text-dark mt-2"
                            href="{{ route('register') }}">{{ __('Register Now!') }}</a>
                     </div>
                 </div>

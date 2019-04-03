@@ -1,19 +1,22 @@
 @extends('layouts.auth')
 
 @section('auth')
-    <div class="col-md-6">
-        <div class="card mx-4">
-            <div class="card-body p-4">
-                <h1>{{ __('Register') }}</h1>
+    <div class="col-12 col-lg-6">
+        <div class="card">
+            <div class="card-body p-5">
+                <div class="text-center">
+                    <img src="svg/logo.svg" class="mb-5" width="200" alt="Ikasgela Logo">
+                </div>
+                <h1>{{ __('Sign up') }}</h1>
                 <p class="text-muted">{{ __('Create your account') }}</p>
 
                 <form method="POST" action="{{ route('register') }}">
                     @csrf
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <i class="icon-user"></i>
-                        </span>
+                            <span class="input-group-text">
+                                <i class="fas fa-user text-secondary"></i>
+                            </span>
                         </div>
                         <input id="name" type="text"
                                class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
@@ -28,7 +31,9 @@
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">@</span>
+                            <span class="input-group-text">
+                                <i class="fas fa-at text-secondary"></i>
+                            </span>
                         </div>
                         <input id="email" type="email"
                                class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
@@ -43,9 +48,9 @@
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <i class="icon-lock"></i>
-                        </span>
+                            <span class="input-group-text">
+                                <i class="fas fa-lock text-secondary"></i>
+                            </span>
                         </div>
                         <input id="password" type="password"
                                class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
@@ -60,9 +65,9 @@
                     </div>
                     <div class="input-group mb-4">
                         <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <i class="icon-lock"></i>
-                        </span>
+                            <span class="input-group-text">
+                                <i class="fas fa-lock text-secondary"></i>
+                            </span>
                         </div>
                         <input id="password-confirm" type="password" class="form-control"
                                name="password_confirmation"

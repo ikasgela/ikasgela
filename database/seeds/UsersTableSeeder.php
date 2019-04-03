@@ -42,6 +42,7 @@ class UsersTableSeeder extends Seeder
         $user->username = $usuario;
         $user->email_verified_at = $fecha;
         $user->password = bcrypt($password);
+        $user->tutorial = true;
         $user->save();
 
         foreach ($roles as $rol) {

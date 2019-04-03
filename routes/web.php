@@ -1,7 +1,8 @@
 <?php
 
 // Página principal
-Route::view('/', 'welcome');
+Route::get('/', 'HomeController@index')
+    ->name('portada');
 
 // Páginas públicas
 Route::view('/documentacion', 'documentacion.index');
@@ -12,14 +13,21 @@ require __DIR__ . '/profile/profile.php';
 
 // Perfil de usuario
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/home', 'HomeController@index')
+    Route::get('/home', 'HomeController@home')
         ->name('users.home');
     Route::view('/dashboard', 'users.dashboard')
         ->name('users.dashboard');
+    Route::post('/users/toggle_help', 'UserController@toggle_help')
+        ->name('users.toggle_help');
 });
 
 // Alumno
 Route::middleware(['auth', 'role:alumno'])->group(function () {
+
+    Route::put('/actividades/{tarea}/estado', 'ActividadController@actualizarEstado')
+        ->name('actividades.estado');
+    Route::get('/actividades/archivo', 'ActividadController@archivo')
+        ->name('actividades.archivo');
 
     // IntellijProject
     Route::get('/intellij_projects/{actividad}/fork/{intellij_project}', 'IntellijProjectController@fork')

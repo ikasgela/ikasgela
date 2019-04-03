@@ -3,10 +3,23 @@
 @section('content')
 
     <div class="row">
-        <div class="col-md">
-            <h1>{{ __('Welcome') }}</h1>
-            <p>Para utilizar Ikasgela necesitas una cuenta de usuario. Si ya tienes una, <a href="{{ route('login') }}">inicia sesión</a>; si no, <a
-                        href="{{ route('register') }}">regístrate</a>.</p>
+        <div class="col-12 col-lg-6 mx-auto">
+
+            {{-- Tarjeta --}}
+            <div class="card">
+                <div class="card-header">{{ __('Welcome') }}</div>
+                <div class="card-body pb-1">
+                    <p>{{ __('You need a user account to use ikasgela.') }}</p>
+                </div>
+                <hr class="mt-0 mb-0">
+                <div class="card-body pb-4 text-center">
+                    <a class="btn btn-primary mr-3" href="{{ route('login') }}">{{ __('Sign in') }}</a>
+                    <span class="mx-3">{{ __('or') }}</span>
+                    <a class="btn btn-link" href="{{ route('register') }}">{{ __('Sign up') }}</a>
+                </div>
+            </div>
+            {{-- Fin tarjeta--}}
+
         </div>
     </div>
 
