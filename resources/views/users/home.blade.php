@@ -22,24 +22,32 @@
                             <p>{{ $actividad->descripcion }}</p>
 
                             <div class="mb-3">
-                                <form method="POST" action="">
+                                <form method="POST"
+                                      action="{{ route('actividades.estado', [$actividad->tarea->id]) }}">
+                                    @csrf
+                                    @method('PUT')
                                     @switch($actividad->tarea->estado)
                                         @case(10)   {{-- Nueva --}}
-                                        <button type="submit"
+                                        <button type="submit" name="nuevoestado" value="20"
                                                 class="btn btn-primary">{{ __('Accept activity') }}</button>
                                         @break
                                         @case(20)   {{-- Aceptada --}}
-                                        <button type="submit"
+                                        <button type="submit" name="nuevoestado" value="30"
                                                 class="btn btn-primary">{{ __('Submit for review') }}</button>
                                         @break
                                         @case(30)   {{-- Enviada --}}
                                         @break
                                         @case(40)   {{-- Revisada: OK --}}
+                                        <button type="submit" name="nuevoestado" value="50"
+                                                class="btn btn-primary">{{ __('Feedback read') }}</button>
+                                        @break;
                                         @case(41)   {{-- Revisada: ERROR --}}
-                                        <button type="submit" class="btn btn-primary">{{ __('Feedback read') }}</button>
+                                        <button type="submit" name="nuevoestado" value="20"
+                                                class="btn btn-primary">{{ __('Feedback read') }}</button>
                                         @break
                                         @case(50)   {{-- Terminada --}}
-                                        <button type="submit" class="btn btn-primary">{{ __('Archive') }}</button>
+                                        <button type="submit" name="nuevoestado" value="60"
+                                                class="btn btn-primary">{{ __('Archive') }}</button>
                                         @break
                                         @case(60)   {{-- Archivada --}}
                                         @break

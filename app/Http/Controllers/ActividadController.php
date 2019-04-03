@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
+use App\Tarea;
 use App\YoutubeVideo;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class ActividadController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:admin');
+        $this->middleware('role:admin')->except('actualizarEstado');
     }
 
     /**
@@ -175,5 +176,13 @@ class ActividadController extends Controller
         $actividad->delete();
 
         return redirect(route('actividades.index'));
+    }
+
+    public function actualizarEstado(Tarea $tarea, Request $request)
+    {
+        $tarea->estado = $request->input('nuevoestado');
+        $tarea->save();
+
+        return redirect(route('users.home'));
     }
 }
