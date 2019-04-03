@@ -9,12 +9,12 @@
             <div class="card">
                 <div class="card-header">{{ __('Welcome') }}</div>
                 <div class="card-body pb-1">
-                    <p>{{ __('Para utilizar ikasgela necesitas una cuenta de usuario.') }}</p>
+                    <p>{{ __('You need a user account to use ikasgela.') }}</p>
                 </div>
                 <hr class="mt-0 mb-0">
                 <div class="card-body pb-4 text-center">
                     <a class="btn btn-primary mr-3" href="{{ route('login') }}">{{ __('Sign in') }}</a>
-                    <span class="mx-3">o</span>
+                    <span class="mx-3">{{ __('or') }}</span>
                     <a class="btn btn-link" href="{{ route('register') }}">{{ __('Sign up') }}</a>
                 </div>
             </div>
