@@ -7,7 +7,7 @@
     @if(count($actividades) > 0)
         @foreach($actividades as $actividad)
             @if(session('tutorial'))
-                <div class="callout callout-success b-t-1 b-r-1 b-b-1">
+                <div class="callout callout-success b-t-1 b-r-1 b-b-1 mb-4">
                     <small class="text-muted">{{ __('Tutorial') }}</small>
                     <p>Para comenzar la actividad, acéptala. A partir de ese momento tendrás acceso a sus recursos.</p>
                 </div>
@@ -152,13 +152,13 @@
                 @endif
             </div>
         @endforeach
+    @else
         @if(session('tutorial'))
-            <div class="callout callout-danger b-t-1 b-r-1 b-b-1">
+            <div class="callout callout-success b-t-1 b-r-1 b-b-1">
                 <small class="text-muted">{{ __('Tutorial') }}</small>
-                <p>Puedes desactivar el tutorial en tu perfil de usuario.</p>
+                <p>Aquí aparecerán las actividades que tengas asignadas.</p>
             </div>
         @endif
-    @else
         <div class="row">
             <div class="col-md-12">
                 <p>No tienes tareas asignadas.</p>
