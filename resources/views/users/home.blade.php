@@ -16,7 +16,7 @@
                 <div class="col-md-12">
                     {{-- Tarjeta --}}
                     <div class="card border-dark">
-                        <div class="card-header text-white bg-dark ">{{ $actividad->unidad->slug.'/'.$actividad->slug }}</div>
+                        <div class="card-header text-white bg-dark ">{{ $actividad->unidad->curso->nombre.' » '.$actividad->unidad->nombre }}</div>
                         <div class="card-body pb-1">
                             <h2>{{ $actividad->nombre }}</h2>
                             <p>{{ $actividad->descripcion }}</p>
