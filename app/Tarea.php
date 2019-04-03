@@ -10,8 +10,9 @@ class Tarea extends Pivot
 
     public $incrementing = true;
 
+    // Modificar tambien el pivote en \App\User::actividades
     protected $fillable = [
-        'aceptada', 'enviada', 'revisada', 'feedback_recibido', 'feedback', 'puntuacion', 'feedback_leido', 'archivada'
+        'estado', 'aceptada', 'enviada', 'revisada', 'feedback_recibido', 'feedback', 'puntuacion', 'feedback_leido', 'archivada'
     ];
 
 }

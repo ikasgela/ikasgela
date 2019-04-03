@@ -46,7 +46,7 @@ class User extends Authenticatable implements MustVerifyEmail
             ->as('tarea')
             ->withPivot([
                 'id',
-                'aceptada', 'enviada', 'revisada', 'feedback_recibido', 'feedback', 'puntuacion', 'feedback_leido', 'archivada'
+                'estado', 'aceptada', 'enviada', 'revisada', 'feedback_recibido', 'feedback', 'puntuacion', 'feedback_leido', 'archivada'
             ]);
     }
 

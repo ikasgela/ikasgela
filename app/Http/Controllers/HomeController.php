@@ -28,8 +28,17 @@ class HomeController extends Controller
      */
     public function home()
     {
-        $user = $this->getAuthUser();
+        /*
+         * 10 -> Nueva
+         * 20 -> Aceptada
+         * 30 -> Enviada
+         * 40 -> Revisada: OK
+         * 41 -> Revisada: ERROR
+         * 50 -> Terminada
+         * 60 -> Archivada
+         * */
 
+        $user = $this->getAuthUser();
         $actividades = $user->actividades()->get();
 
         return view('users.home', compact(['actividades', 'user']));
