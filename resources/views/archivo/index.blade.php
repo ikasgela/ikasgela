@@ -5,7 +5,7 @@
     @include('partials.titular', ['titular' => __('Archived')])
 
     @if(session('tutorial'))
-        <div class="callout callout-success b-t-1 b-r-1 b-b-1 mb-4">
+        <div class="callout callout-success b-t-1 b-r-1 b-b-1">
             <small class="text-muted">{{ __('Tutorial') }}</small>
             <p>Aquí aparecerán las tareas una vez que las completes.</p>
         </div>
