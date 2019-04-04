@@ -176,8 +176,13 @@
                 @if($actividad->tarea->estado > 10)
                     @if(!is_null($actividad->tarea->feedback))
                         <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-header"><i class="fas fa-bullhorn"></i></i> {{ __('Feedback') }}
+                            <div class="card
+                            {{ $actividad->tarea->estado == 40 ? 'border-success' : '' }}
+                            {{ $actividad->tarea->estado == 41 ? 'border-warning' : '' }}">
+                                <div class="card-header
+                                {{ $actividad->tarea->estado == 40 ? 'bg-success' : '' }}
+                                {{ $actividad->tarea->estado == 41 ? 'bg-warning' : '' }}">
+                                    <i class="fas fa-bullhorn"></i></i> {{ __('Feedback') }}
                                 </div>
                                 <div class="card-body">
                                     <p>{{ $actividad->tarea->feedback }}</p>
