@@ -241,12 +241,4 @@ class ActividadController extends Controller
         return redirect(route('users.home'));
     }
 
-    public function archivo()
-    {
-        $user = Auth::user();
-        $actividades = $user->actividades()->wherePivot('estado', 60)->get();
-
-        return view('actividades.archivo', compact('actividades'));
-    }
-
 }

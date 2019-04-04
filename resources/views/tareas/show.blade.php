@@ -34,7 +34,9 @@
         <div class="card border-dark">
             <div class="card-header text-white bg-dark d-flex justify-content-between">
                 <span>{{ $actividad->unidad->curso->nombre }} » {{ $actividad->unidad->nombre }}</span>
-                <span>{{ $num_actividad }} {{ __('of') }} {{count($actividades)}}</span>
+                @if(isset($num_actividad))
+                    <span>{{ $num_actividad }} {{ __('of') }} {{count($actividades)}}</span>
+                @endif
             </div>
             <div class="card-body pb-1">
                 <h2>{{ $actividad->nombre }}</h2>

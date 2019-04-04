@@ -26,8 +26,11 @@ Route::middleware(['auth', 'role:alumno'])->group(function () {
 
     Route::put('/actividades/{tarea}/estado', 'ActividadController@actualizarEstado')
         ->name('actividades.estado');
-    Route::get('/actividades/archivo', 'ActividadController@archivo')
-        ->name('actividades.archivo');
+
+    Route::get('/archivo/{actividad}', 'ArchivoController@show')
+        ->name('archivo.show');
+    Route::get('/archivo', 'ArchivoController@index')
+        ->name('archivo.index');
 
     // IntellijProject
     Route::get('/intellij_projects/{actividad}/fork/{intellij_project}', 'IntellijProjectController@fork')
