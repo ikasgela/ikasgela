@@ -38,8 +38,6 @@ class HomeController extends Controller
          * 60 -> Archivada
          * */
 
-        \Debugbar::disable();
-
         $user = $this->getAuthUser();
         $actividades = $user->actividades()->wherePivot('estado', '!=', 60)->get();
 

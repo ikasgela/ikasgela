@@ -20,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
         Form::component('campoTextoLabel', 'components.form.text_label', ['name', 'label' => null, 'value' => null, 'attributes' => []]);
         Form::component('campoCheck', 'components.form.check', ['name', 'label' => null, 'value' => null, 'attributes' => []]);
         Form::component('campoCheckLabel', 'components.form.check_label', ['name', 'label' => null, 'value' => null, 'attributes' => []]);
+
+        \Debugbar::disable();
     }
 
     /**
@@ -29,8 +31,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-/*        if ($this->app->environment() !== 'production') {
-            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
-        }*/
+        /*        if ($this->app->environment() !== 'production') {
+                    $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+                }*/
     }
 }
