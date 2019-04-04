@@ -30,6 +30,7 @@ class HomeController extends Controller
     {
         /*
          * 10 -> Nueva
+         * 11 -> Oculta
          * 20 -> Aceptada
          * 30 -> Enviada
          * 40 -> Revisada: OK
@@ -38,10 +39,8 @@ class HomeController extends Controller
          * 60 -> Archivada
          * */
 
-        \Debugbar::disable();
-
         $user = $this->getAuthUser();
-        $actividades = $user->actividades()->wherePivot('estado', '!=', 60)->get();
+        $actividades = $user->actividades()->wherePivotIn('estado', [60, 11], 'and', 'notin')->get();
 
         return view('users.home', compact(['actividades', 'user']));
     }

@@ -5,6 +5,7 @@
     @include('partials.titular', ['titular' => 'Escritorio'])
 
     @if(count($actividades) > 0)
+        @php($num_actividad = 1)
         @foreach($actividades as $actividad)
             @if(session('tutorial'))
                 <div class="callout callout-success b-t-1 b-r-1 b-b-1 mb-4">
@@ -40,7 +41,10 @@
                 <div class="col-md-12">
                     {{-- Tarjeta --}}
                     <div class="card border-dark">
-                        <div class="card-header text-white bg-dark ">{{ $actividad->unidad->curso->nombre.' » '.$actividad->unidad->nombre }}</div>
+                        <div class="card-header text-white bg-dark d-flex justify-content-between">
+                            <span>{{ $actividad->unidad->curso->nombre }} » {{ $actividad->unidad->nombre }}</span>
+                            <span>{{ $num_actividad }} {{ __('of') }} {{count($actividades)}}</span>
+                        </div>
                         <div class="card-body pb-1">
                             <h2>{{ $actividad->nombre }}</h2>
                             <p>{{ $actividad->descripcion }}</p>
@@ -194,6 +198,7 @@
                     @endforeach
                 @endif
             </div>
+            @php($num_actividad+=1)
         @endforeach
     @else
         @if(session('tutorial'))

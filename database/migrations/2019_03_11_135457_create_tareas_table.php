@@ -22,7 +22,7 @@ class CreateTareasTable extends Migration
             $table->bigInteger('actividad_id')->unsigned()->index();;
             $table->foreign('actividad_id')->references('id')->on('actividades')->onDelete('cascade');
 
-            $table->integer('estado')->nullable()->default(10);
+            $table->integer('estado')->nullable()->index()->default(10);
             $table->dateTimeTz('aceptada')->nullable();
             $table->dateTimeTz('fecha_limite')->nullable();
             $table->dateTimeTz('enviada')->nullable();
