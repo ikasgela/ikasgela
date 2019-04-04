@@ -193,16 +193,24 @@ class ActividadController extends Controller
                 break;
             case 30:
                 $tarea->enviada = $ahora;
+
+                if (!config('app.debug')) {
+                    if ($tarea->actividad->auto_avance) {
+                        $tarea->estado = 50;
+                        $tarea->terminada = $ahora;
+                        $tarea->save();
+                    }
+                }
                 break;
             case 40:
                 if (config('app.debug')) {
-                    $tarea->feedback = 'Muy bien, buen trabajo.';
+                    $tarea->feedback = __('Well done, good job.');
                 }
                 $tarea->revisada = $ahora;
                 break;
             case 41:
                 if (config('app.debug')) {
-                    $tarea->feedback = 'Ummm, a casita a volverlo a intentar.';
+                    $tarea->feedback = __('Needs improvement, send it again when done.');
                 }
                 $tarea->revisada = $ahora;
                 break;
@@ -213,16 +221,15 @@ class ActividadController extends Controller
                 // Archivar
                 $tarea->archivada = $ahora;
 
-                // Buscar la actividad y el usuario (deberían estar enlazados, pero no lo están)
-                $actividad = Actividad::find($tarea->actividad_id);
-                $user = Auth::user();
+                $actividad = $tarea->actividad;
+                $usuario = $tarea->user;
 
                 // Pasar a la siguiente si no es final
                 if (!is_null($actividad->siguiente)) {
                     if (!$actividad->final) {
-                        $user->actividades()->attach($actividad->siguiente);
+                        $usuario->actividades()->attach($actividad->siguiente);
                     } else {
-                        $user->actividades()->attach($actividad->siguiente, ['estado' => 11]);
+                        $usuario->actividades()->attach($actividad->siguiente, ['estado' => 11]);
                     }
                 }
                 break;

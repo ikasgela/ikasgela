@@ -27,6 +27,7 @@ class ActividadesTableSeeder extends Seeder
         $actividad->puntuacion = 10;
         $actividad->slug = Str::slug($nombre);
         $actividad->plantilla = true;
+        $actividad->auto_avance = true;
         $unidad->actividades()->save($actividad);
 
         $video = YoutubeVideo::where('titulo', 'Primeros pasos')->first();

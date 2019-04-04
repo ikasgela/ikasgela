@@ -66,10 +66,10 @@
                                         @case(30)   {{-- Enviada --}}
                                         @if(config('app.debug'))
                                             <button type="submit" name="nuevoestado" value="40"
-                                                    class="btn btn-success">OK
+                                                    class="btn btn-success"> {{ __('Ok') }}
                                             </button>
                                             <button type="submit" name="nuevoestado" value="41"
-                                                    class="btn btn-danger">ERROR
+                                                    class="btn btn-danger"> {{ __('Error') }}
                                             </button>
                                         @endif
                                         @break

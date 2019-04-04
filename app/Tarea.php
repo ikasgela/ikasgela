@@ -23,4 +23,13 @@ class Tarea extends Pivot
         'archivada'
     ];
 
+    public function actividad()
+    {
+        return $this->belongsTo('App\Actividad');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }
