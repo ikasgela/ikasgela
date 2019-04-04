@@ -31,6 +31,8 @@ class CreateActividadesTable extends Migration
             $table->foreign('siguiente_id')->references('id')->on('actividades')->onDelete('set null');
             $table->boolean('final')->nullable()->default(false);
 
+            $table->boolean('auto_avance')->nullable()->default(false);
+
             $table->timestamps();
         });
     }

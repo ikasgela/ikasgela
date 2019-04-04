@@ -193,16 +193,25 @@ class ActividadController extends Controller
                 break;
             case 30:
                 $tarea->enviada = $ahora;
+
+                if (!config('app.debug')) {
+                    $actividad = Actividad::find($tarea->actividad_id);
+                    if ($actividad->auto_avance) {
+                        $tarea->estado = 50;
+                        $tarea->terminada = $ahora;
+                        $tarea->save();
+                    }
+                }
                 break;
             case 40:
                 if (config('app.debug')) {
-                    $tarea->feedback = 'Muy bien, buen trabajo.';
+                    $tarea->feedback = __('Well done, good job.');
                 }
                 $tarea->revisada = $ahora;
                 break;
             case 41:
                 if (config('app.debug')) {
-                    $tarea->feedback = 'Ummm, a casita a volverlo a intentar.';
+                    $tarea->feedback = __('Needs improvement, send it again when done.');
                 }
                 $tarea->revisada = $ahora;
                 break;
