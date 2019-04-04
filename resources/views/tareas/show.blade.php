@@ -25,7 +25,9 @@
             @break
             @default
         @endswitch
-
+        @if(Route::current()->getName() == 'archivo.show')
+            <p>Esta es una actividad archivada.</p>
+        @endif
     </div>
 @endif
 <div class="row">

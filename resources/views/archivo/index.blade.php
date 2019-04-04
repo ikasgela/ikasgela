@@ -12,7 +12,7 @@
     @endif
     @if(count($actividades) > 0)
         <div class="table-responsive">
-            <table class="table table-hover">
+            <table class="table table-hover mt-2 mb-4">
                 <thead class="thead-dark">
                 <tr>
                     <th>{{ __('Unit') }}</th>

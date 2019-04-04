@@ -8,4 +8,5 @@
 
     @include('partials.backbutton')
 
+    <div>&nbsp;</div>
 @endsection
