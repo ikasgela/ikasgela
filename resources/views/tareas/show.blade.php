@@ -19,7 +19,7 @@
             @break
             @case(50)   {{-- Terminada --}}
             <p>La actividad está terminada y puedes archivarla para que desaparezca del escritorio. Podrás
-                verla en <a href="{{ route('archivo.index') }}">archivadas</a>.</p>
+                verla en el <a href="{{ route('archivo.index') }}">archivo</a>.</p>
             @break
             @case(60)   {{-- Archivada --}}
             @break
