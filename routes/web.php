@@ -24,9 +24,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // Alumno
 Route::middleware(['auth', 'role:alumno'])->group(function () {
 
+    // Cambiar estado de una tarea
     Route::put('/actividades/{tarea}/estado', 'ActividadController@actualizarEstado')
         ->name('actividades.estado');
 
+    // Archivo
     Route::get('/archivo/{actividad}', 'ArchivoController@show')
         ->name('archivo.show');
     Route::get('/archivo', 'ArchivoController@index')
