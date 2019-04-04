@@ -195,8 +195,7 @@ class ActividadController extends Controller
                 $tarea->enviada = $ahora;
 
                 if (!config('app.debug')) {
-                    $actividad = Actividad::find($tarea->actividad_id);
-                    if ($actividad->auto_avance) {
+                    if ($tarea->actividad->auto_avance) {
                         $tarea->estado = 50;
                         $tarea->terminada = $ahora;
                         $tarea->save();
@@ -222,16 +221,15 @@ class ActividadController extends Controller
                 // Archivar
                 $tarea->archivada = $ahora;
 
-                // Buscar la actividad y el usuario (deberían estar enlazados, pero no lo están)
-                $actividad = Actividad::find($tarea->actividad_id);
-                $user = Auth::user();
+                $actividad = $tarea->actividad;
+                $usuario = $tarea->user;
 
                 // Pasar a la siguiente si no es final
                 if (!is_null($actividad->siguiente)) {
                     if (!$actividad->final) {
-                        $user->actividades()->attach($actividad->siguiente);
+                        $usuario->actividades()->attach($actividad->siguiente);
                     } else {
-                        $user->actividades()->attach($actividad->siguiente, ['estado' => 11]);
+                        $usuario->actividades()->attach($actividad->siguiente, ['estado' => 11]);
                     }
                 }
                 break;

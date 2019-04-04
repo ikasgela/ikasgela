@@ -23,7 +23,7 @@ class Actividad extends Model
         return $this->belongsTo(Unidad::class);
     }
 
-    public function usuarios()
+    public function users()
     {
         return $this->belongsToMany('App\User', 'tareas')->using('App\Tarea');
     }
