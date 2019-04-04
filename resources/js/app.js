@@ -28,3 +28,11 @@ Vue.component('profile-password', require('./components/profile/Password.vue').d
 const app = new Vue({
     el: '#app'
 });
+
+// https://stackoverflow.com/a/17147973
+// https://codepen.io/NaokiIshimura/pen/aEvQPY
+$(document).ready(function ($) {
+    $(".table-row").click(function () {
+        window.location = $(this).data("href");
+    });
+});
