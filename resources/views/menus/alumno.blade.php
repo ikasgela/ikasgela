@@ -2,6 +2,7 @@
 <li class="nav-item">
     <a class="nav-link" href="{{ route('users.home') }}">
         <i class="nav-icon fas fa-home"></i> {{ __('Desktop') }}
+        <span class="badge badge-primary">2</span>
     </a>
 </li>
 @if(config('app.debug'))
