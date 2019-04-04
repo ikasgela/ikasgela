@@ -24,10 +24,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // Alumno
 Route::middleware(['auth', 'role:alumno'])->group(function () {
 
+    // Cambiar estado de una tarea
     Route::put('/actividades/{tarea}/estado', 'ActividadController@actualizarEstado')
         ->name('actividades.estado');
-    Route::get('/actividades/archivo', 'ActividadController@archivo')
-        ->name('actividades.archivo');
+
+    // Archivo
+    Route::get('/archivo/{actividad}', 'ArchivoController@show')
+        ->name('archivo.show');
+    Route::get('/archivo', 'ArchivoController@index')
+        ->name('archivo.index');
 
     // IntellijProject
     Route::get('/intellij_projects/{actividad}/fork/{intellij_project}', 'IntellijProjectController@fork')

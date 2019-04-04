@@ -15,7 +15,7 @@ class ActividadController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:admin')->except('actualizarEstado', 'archivo');
+        $this->middleware('role:admin')->except('actualizarEstado');
     }
 
     /**
@@ -239,14 +239,6 @@ class ActividadController extends Controller
         $tarea->save();
 
         return redirect(route('users.home'));
-    }
-
-    public function archivo()
-    {
-        $user = Auth::user();
-        $actividades = $user->actividades()->wherePivot('estado', 60)->get();
-
-        return view('actividades.archivo', compact('actividades'));
     }
 
 }

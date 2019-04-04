@@ -53061,6 +53061,13 @@ Vue.component('profile', __webpack_require__(/*! ./components/profile/Profile.vu
 Vue.component('profile-password', __webpack_require__(/*! ./components/profile/Password.vue */ "./resources/js/components/profile/Password.vue").default);
 var app = new Vue({
   el: '#app'
+}); // https://stackoverflow.com/a/17147973
+// https://codepen.io/NaokiIshimura/pen/aEvQPY
+
+$(document).ready(function ($) {
+  $(".table-row").click(function () {
+    window.location = $(this).data("href");
+  });
 });
 
 /***/ }),
