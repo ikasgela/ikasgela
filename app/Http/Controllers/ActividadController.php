@@ -210,7 +210,21 @@ class ActividadController extends Controller
                 $tarea->terminada = $ahora;
                 break;
             case 60:
+                // Archivar
                 $tarea->archivada = $ahora;
+
+                // Buscar la actividad y el usuario (deberían estar enlazados, pero no lo están)
+                $actividad = Actividad::find($tarea->actividad_id);
+                $user = Auth::user();
+
+                // Pasar a la siguiente si no es final
+                if (!is_null($actividad->siguiente)) {
+                    if (!$actividad->final) {
+                        $user->actividades()->attach($actividad->siguiente);
+                    } else {
+                        $user->actividades()->attach($actividad->siguiente, ['estado' => 11]);
+                    }
+                }
                 break;
             default:
         }
