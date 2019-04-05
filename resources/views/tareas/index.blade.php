@@ -2,27 +2,34 @@
 
 @section('content')
 
-    <div class="row">
-        <div class="col-md-6">
-            <h1>Asignar actividades</h1>
+    @include('partials.titular', ['titular' => 'Asignar actividades'])
 
+    <div class="d-flex flex-row mb-4">
+        <div class="align-self-center">
+            <a class="btn btn-light" href="#"><i class="fas fa-arrow-left"></i></a>
+        </div>
+        <div class="flex-fill mx-3">
             {{-- Tarjeta --}}
-            <div class="card">
+            <div class="card m-0">
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-8">
+                    <div class="d-flex flex-row">
+                        <div class="flex-fill">
                             <h5 class="card-title">{{ $user->name }}</h5>
                             <a href="mailto:{{ $user->email }}" class="card-link">{{ $user->email }}</a>
                         </div>
-                        <div class="col-md-4">
+                        <div>
                             <img style="width:100px;" src="{{ $user->avatar_url()}}">
                         </div>
                     </div>
                 </div>
             </div>
             {{-- Fin tarjeta--}}
-
         </div>
+
+        <div class="align-self-center">
+            <a class="btn btn-light" href="#"><i class="fas fa-arrow-right"></i></a>
+        </div>
+
     </div>
 
     <div class="row mb-3">
