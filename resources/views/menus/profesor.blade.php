@@ -2,6 +2,7 @@
 <li class="nav-item">
     <a class="nav-link" href="{{ route('users.index') }}">
         <i class="nav-icon fas fa-tasks"></i> {{ __('Control panel') }}
+        <span class="badge badge-danger">{{ session('num_enviadas') }}</span>
     </a>
 </li>
 <li class="nav-item">
