@@ -15,7 +15,7 @@ class ArchivoController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $actividades = $user->actividades()->wherePivot('estado', 60)->get();
+        $actividades = $user->actividades_archivadas();
 
         return view('archivo.index', compact('actividades'));
     }
