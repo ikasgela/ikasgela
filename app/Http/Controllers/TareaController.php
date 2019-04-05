@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
+use App\Unidad;
 use Illuminate\Http\Request;
 
 use App\User;
@@ -15,13 +16,36 @@ class TareaController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(User $user)
+    public function index(User $user, Request $request)
     {
         $actividades = $user->actividades()->get();
 
-        $disponibles = Actividad::where('plantilla', true)->get();
+        $unidades = Unidad::all();
 
-        return view('tareas.index', compact(['actividades', 'disponibles', 'user']));
+        // https://gist.github.com/ermand/5458012
+
+        // Get ID of a User whose autoincremented ID is less than the current user, but because some entries might have been deleted we need to get the max available ID of all entries whose ID is less than current user's
+        $user_anterior = User::orderBy('name')->where('id', '<', $user->id)->get()->filter(function ($usuario) {
+            return $usuario->hasRole('alumno');
+        })->max('id');
+
+        // Same for the next user's id as previous user's but in the other direction
+        $user_siguiente = User::orderBy('name')->where('id', '>', $user->id)->get()->filter(function ($usuario) {
+            return $usuario->hasRole('alumno');
+        })->min('id');
+
+        if ($request->has('unidad_id')) {
+            session(['profesor_unidad_actual' => $request->input('unidad_id')]);
+        }
+
+        if (session('profesor_unidad_actual')) {
+            // ->whereNotIn('id', $actividades)
+            $disponibles = Actividad::where('plantilla', true)->where('unidad_id', session('profesor_unidad_actual'))->get();
+        } else {
+            $disponibles = Actividad::where('plantilla', true)->get();
+        }
+
+        return view('tareas.index', compact(['actividades', 'disponibles', 'user', 'unidades', 'user_anterior', 'user_siguiente']));
     }
 
     public function asignar(User $user, Request $request)

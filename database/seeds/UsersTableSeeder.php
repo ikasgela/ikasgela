@@ -19,9 +19,10 @@ class UsersTableSeeder extends Seeder
         $rol_profesor = Role::where('name', 'profesor')->first();
         $rol_alumno = Role::where('name', 'alumno')->first();
 
-        $this->generarUsuario('Test', 'test@ikasgela.com', [$rol_alumno]);
-        $this->generarUsuario('Test2', 'test2@ikasgela.com', [$rol_alumno]);
-        $this->generarUsuario('Profe', 'profe@ikasgela.com', [$rol_admin, $rol_profesor]);
+        $this->generarUsuario('Marc', 'test@ikasgela.com', [$rol_alumno]);
+        $this->generarUsuario('Noa', 'test2@ikasgela.com', [$rol_alumno]);
+        $this->generarUsuario('Lucía', 'profe@ikasgela.com', [$rol_profesor, $rol_admin]);
+        $this->generarUsuario('Administrador', 'admin@ikasgela.com', [$rol_admin]);
     }
 
     /**

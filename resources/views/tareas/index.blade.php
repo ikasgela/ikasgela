@@ -2,27 +2,46 @@
 
 @section('content')
 
-    <div class="row">
-        <div class="col-md-6">
-            <h1>Asignar actividades</h1>
+    @include('partials.titular', ['titular' => 'Asignar actividades'])
 
+    <div class="d-flex flex-row mb-4">
+        <div class="align-self-center">
+            @if(isset($user_anterior))
+                <a class="btn btn-primary" href="{{ route('tareas.index', [$user_anterior]) }}"><i
+                            class="fas fa-arrow-left"></i></a>
+            @else
+                <a class="btn btn-light disabled" href="#"><i
+                            class="fas fa-arrow-left"></i></a>
+            @endif
+        </div>
+        <div class="flex-fill mx-3">
             {{-- Tarjeta --}}
-            <div class="card">
+            <div class="card m-0">
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-8">
+                    <div class="d-flex flex-row">
+                        <div class="flex-fill">
                             <h5 class="card-title">{{ $user->name }}</h5>
                             <a href="mailto:{{ $user->email }}" class="card-link">{{ $user->email }}</a>
                         </div>
-                        <div class="col-md-4">
+                        <div>
                             <img style="width:100px;" src="{{ $user->avatar_url()}}">
                         </div>
                     </div>
                 </div>
             </div>
             {{-- Fin tarjeta--}}
-
         </div>
+
+        <div class="align-self-center">
+            @if(isset($user_siguiente))
+                <a class="btn btn-primary" href="{{ route('tareas.index', [$user_siguiente]) }}"><i
+                            class="fas fa-arrow-right"></i></a>
+            @else
+                <a class="btn btn-light disabled" href="#"><i
+                            class="fas fa-arrow-right"></i></a>
+            @endif
+        </div>
+
     </div>
 
     <div class="row mb-3">
@@ -85,6 +104,28 @@
     <div class="row mb-3">
         <div class="col-md">
             <h2>Actividades disponibles</h2>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-12">
+            {!! Form::open(['route' => ['tareas.index', $user->id]]) !!}
+
+            <div class="form-group d-flex flex-row justify-content-between">
+                {!! Form::label('unidad', __('Unit'), ['class' => 'col-form-label']) !!}
+                <div class="flex-fill mx-3">
+                    <select class="form-control" id="unidad_id" name="unidad_id">
+                        @foreach($unidades as $unidad)
+                            <option value="{{ $unidad->id }}" {{ session('profesor_unidad_actual') == $unidad->id ? 'selected' : '' }}>{{ $unidad->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mt-3 mt-sm-0">
+                    <button type="submit" class="btn btn-primary">{{ __('Change') }}</button>
+                </div>
+            </div>
+
+            {!! Form::close() !!}
         </div>
     </div>
 
