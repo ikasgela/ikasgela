@@ -16,7 +16,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $usuarios = User::all()->filter(function ($usuario) {
+        $usuarios = User::orderBy('name')->get()->filter(function ($usuario) {
             return $usuario->hasRole('alumno');
         });
 

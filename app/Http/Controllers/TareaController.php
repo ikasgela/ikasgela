@@ -22,6 +22,18 @@ class TareaController extends Controller
 
         $unidades = Unidad::all();
 
+        // https://gist.github.com/ermand/5458012
+
+        // Get ID of a User whose autoincremented ID is less than the current user, but because some entries might have been deleted we need to get the max available ID of all entries whose ID is less than current user's
+        $user_anterior = User::orderBy('name')->where('id', '<', $user->id)->get()->filter(function ($usuario) {
+            return $usuario->hasRole('alumno');
+        })->max('id');
+
+        // Same for the next user's id as previous user's but in the other direction
+        $user_siguiente = User::orderBy('name')->where('id', '>', $user->id)->get()->filter(function ($usuario) {
+            return $usuario->hasRole('alumno');
+        })->min('id');
+
         if ($request->has('unidad_id')) {
             session(['profesor_unidad_actual' => $request->input('unidad_id')]);
         }
@@ -33,7 +45,7 @@ class TareaController extends Controller
             $disponibles = Actividad::where('plantilla', true)->get();
         }
 
-        return view('tareas.index', compact(['actividades', 'disponibles', 'user', 'unidades']));
+        return view('tareas.index', compact(['actividades', 'disponibles', 'user', 'unidades', 'user_anterior', 'user_siguiente']));
     }
 
     public function asignar(User $user, Request $request)

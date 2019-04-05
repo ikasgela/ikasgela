@@ -6,7 +6,13 @@
 
     <div class="d-flex flex-row mb-4">
         <div class="align-self-center">
-            <a class="btn btn-light" href="#"><i class="fas fa-arrow-left"></i></a>
+            @if(isset($user_anterior))
+                <a class="btn btn-primary" href="{{ route('tareas.index', [$user_anterior]) }}"><i
+                            class="fas fa-arrow-left"></i></a>
+            @else
+                <a class="btn btn-light disabled" href="#"><i
+                            class="fas fa-arrow-left"></i></a>
+            @endif
         </div>
         <div class="flex-fill mx-3">
             {{-- Tarjeta --}}
@@ -27,7 +33,13 @@
         </div>
 
         <div class="align-self-center">
-            <a class="btn btn-light" href="#"><i class="fas fa-arrow-right"></i></a>
+            @if(isset($user_siguiente))
+                <a class="btn btn-primary" href="{{ route('tareas.index', [$user_siguiente]) }}"><i
+                            class="fas fa-arrow-right"></i></a>
+            @else
+                <a class="btn btn-light disabled" href="#"><i
+                            class="fas fa-arrow-right"></i></a>
+            @endif
         </div>
 
     </div>
