@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
+use App\Unidad;
 use Illuminate\Http\Request;
 
 use App\User;
@@ -15,13 +16,24 @@ class TareaController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(User $user)
+    public function index(User $user, Request $request)
     {
         $actividades = $user->actividades()->get();
 
-        $disponibles = Actividad::where('plantilla', true)->get();
+        $unidades = Unidad::all();
 
-        return view('tareas.index', compact(['actividades', 'disponibles', 'user']));
+        if ($request->has('unidad_id')) {
+            session(['profesor_unidad_actual' => $request->input('unidad_id')]);
+        }
+
+        if (session('profesor_unidad_actual')) {
+            // ->whereNotIn('id', $actividades)
+            $disponibles = Actividad::where('plantilla', true)->where('unidad_id', session('profesor_unidad_actual'))->get();
+        } else {
+            $disponibles = Actividad::where('plantilla', true)->get();
+        }
+
+        return view('tareas.index', compact(['actividades', 'disponibles', 'user', 'unidades']));
     }
 
     public function asignar(User $user, Request $request)

@@ -83,6 +83,8 @@ Route::middleware(['auth', 'role:profesor'])->group(function () {
         ->name('users.index');
     Route::get('/tareas/{user}', 'TareaController@index')
         ->name('tareas.index');
+    Route::post('/tareas/{user}', 'TareaController@index')
+        ->name('tareas.index');
     Route::post('/tareas/{user}/asignar', 'TareaController@asignar')
         ->name('tareas.asignar');
     Route::delete('/tareas/{user}/destroy/{tarea}', 'TareaController@destroy')

@@ -88,6 +88,28 @@
         </div>
     </div>
 
+    <div class="row mb-3">
+        <div class="col-md-12">
+            {!! Form::open(['route' => ['tareas.index', $user->id]]) !!}
+
+            <div class="form-group row">
+                {!! Form::label('unidad', __('Unit'), ['class' => 'col-sm-2 col-form-label']) !!}
+                <div class="col-sm-8">
+                    <select class="form-control" id="unidad_id" name="unidad_id">
+                        @foreach($unidades as $unidad)
+                            <option value="{{ $unidad->id }}" {{ session('profesor_unidad_actual') == $unidad->id ? 'selected' : '' }}>{{ $unidad->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-sm-2 mt-3 mt-sm-0">
+                    <button type="submit" class="btn btn-primary">{{ __('Change') }}</button>
+                </div>
+            </div>
+
+            {!! Form::close() !!}
+        </div>
+    </div>
+
     <?php if (count($disponibles) > 0 ) { ?>
     <form method="POST" action="{{ route('tareas.asignar', ['user' => $user->id]) }}">
         @csrf
