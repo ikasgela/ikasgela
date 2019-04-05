@@ -1,5 +1,5 @@
 @if(session('tutorial'))
-    <div class="callout callout-success b-t-1 b-r-1 b-b-1 mb-4">
+    <div class="callout callout-success b-t-1 b-r-1 b-b-1">
         <small class="text-muted">{{ __('Tutorial') }}</small>
         @switch($actividad->tarea->estado)
             @case(10)   {{-- Nueva --}}
