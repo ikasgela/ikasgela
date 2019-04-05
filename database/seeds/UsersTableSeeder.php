@@ -21,7 +21,7 @@ class UsersTableSeeder extends Seeder
 
         $this->generarUsuario('Marc', 'test@ikasgela.com', [$rol_alumno]);
         $this->generarUsuario('Noa', 'test2@ikasgela.com', [$rol_alumno]);
-        $this->generarUsuario('Lucía', 'profe@ikasgela.com', [$rol_profesor]);
+        $this->generarUsuario('Lucía', 'profe@ikasgela.com', [$rol_profesor, $rol_admin]);
         $this->generarUsuario('Administrador', 'admin@ikasgela.com', [$rol_admin]);
     }
 
