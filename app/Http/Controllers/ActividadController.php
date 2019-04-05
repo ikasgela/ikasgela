@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
+use App\Mail\TareaEnviada;
 use App\Tarea;
 use App\Unidad;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class ActividadController extends Controller
@@ -193,6 +195,8 @@ class ActividadController extends Controller
                 break;
             case 30:
                 $tarea->enviada = $ahora;
+
+                Mail::to('info@ikasgela.com')->send(new TareaEnviada($tarea));
 
                 if (!config('app.debug')) {
                     if ($tarea->actividad->auto_avance) {
