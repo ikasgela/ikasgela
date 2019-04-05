@@ -40,7 +40,8 @@ class HomeController extends Controller
          * */
 
         $user = $this->getAuthUser();
-        $actividades = $user->actividades()->wherePivotIn('estado', [60, 11], 'and', 'notin')->get();
+
+        $actividades = $user->actividades_asignadas();
 
         $num_actividades = count($actividades);
         if ($num_actividades > 0)

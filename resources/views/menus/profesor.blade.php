@@ -1,7 +1,7 @@
 <li class="nav-title">{{ __('Teacher') }}</li>
 <li class="nav-item">
     <a class="nav-link" href="{{ route('users.index') }}">
-        <i class="nav-icon fas fa-tasks"></i> {{ __('Assign activities') }}
+        <i class="nav-icon fas fa-tasks"></i> {{ __('Control panel') }}
     </a>
 </li>
 <li class="nav-item">
