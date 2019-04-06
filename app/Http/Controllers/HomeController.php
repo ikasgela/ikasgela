@@ -29,7 +29,7 @@ class HomeController extends Controller
     public function home()
     {
         if ($this->getAuthUser()->hasRole('profesor')) {
-            return redirect(route('users.index'));
+            return redirect(route('alumnos.index'));
         } else {
 
             /*

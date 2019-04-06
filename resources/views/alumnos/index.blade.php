@@ -28,7 +28,7 @@
                     <td><a href="mailto:{{ $usuario->email }}" class="card-link">{{ $usuario->email }}</a></td>
                     <td>{{ count($usuario->actividades_asignadas()) }}</td>
                     <td>{{ count($usuario->actividades_enviadas()) }}</td>
-                    <td><a href="{{ route('tareas.index', [$usuario->id]) }}"
+                    <td><a href="{{ route('alumnos.tareas', [$usuario->id]) }}"
                            class='btn btn-outline-dark'>Asignar actividades</a>
                     </td>
                 </tr>

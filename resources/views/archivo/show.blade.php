@@ -4,7 +4,7 @@
 
     @include('partials.titular', ['titular' => 'Actividad'])
 
-    @include('tareas.show')
+    @include('alumnos.tarea')
 
     @include('partials.backbutton')
 

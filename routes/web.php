@@ -15,8 +15,6 @@ require __DIR__ . '/profile/profile.php';
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/home', 'HomeController@home')
         ->name('users.home');
-    Route::view('/dashboard', 'users.dashboard')
-        ->name('users.dashboard');
     Route::post('/users/toggle_help', 'UserController@toggle_help')
         ->name('users.toggle_help');
 });
@@ -79,14 +77,20 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 // Profesor
 Route::middleware(['auth', 'role:profesor'])->group(function () {
-    Route::get('/users', 'UserController@index')
-        ->name('users.index');
-    Route::get('/tareas/{user}', 'TareaController@index')
-        ->name('tareas.index');
-    Route::post('/tareas/{user}', 'TareaController@index')
-        ->name('tareas.index');
-    Route::post('/tareas/{user}/asignar', 'TareaController@asignar')
-        ->name('tareas.asignar');
+
+    // Panel de control
+    Route::get('/alumnos', 'AlumnoController@index')
+        ->name('alumnos.index');
+
+    // Tareas actuales de un alumno
+    Route::get('/alumnos/{user}/tareas', 'AlumnoController@tareas')
+        ->name('alumnos.tareas');
+
+    // Asignar una tarea a un alumno
+    Route::post('/alumnos/{user}/asignar_tarea', 'AlumnoController@asignarTarea')
+        ->name('alumnos.asignar_tarea');
+
+    // Borrar una tarea
     Route::delete('/tareas/{user}/destroy/{tarea}', 'TareaController@destroy')
         ->name('tareas.destroy');
 });

@@ -7,7 +7,7 @@
     <div class="d-flex flex-row mb-4">
         <div class="align-self-center">
             @if(isset($user_anterior))
-                <a class="btn btn-primary" href="{{ route('tareas.index', [$user_anterior]) }}"><i
+                <a class="btn btn-primary" href="{{ route('alumnos.index', [$user_anterior]) }}"><i
                             class="fas fa-arrow-left"></i></a>
             @else
                 <a class="btn btn-light disabled" href="#"><i
@@ -34,7 +34,7 @@
 
         <div class="align-self-center">
             @if(isset($user_siguiente))
-                <a class="btn btn-primary" href="{{ route('tareas.index', [$user_siguiente]) }}"><i
+                <a class="btn btn-primary" href="{{ route('alumnos.index', [$user_siguiente]) }}"><i
                             class="fas fa-arrow-right"></i></a>
             @else
                 <a class="btn btn-light disabled" href="#"><i
@@ -109,7 +109,7 @@
 
     <div class="row mb-3">
         <div class="col-md-12">
-            {!! Form::open(['route' => ['tareas.index', $user->id]]) !!}
+            {!! Form::open(['route' => ['alumnos.index', $user->id]]) !!}
 
             <div class="form-group d-flex flex-row justify-content-between">
                 {!! Form::label('unidad', __('Unit'), ['class' => 'col-form-label']) !!}
@@ -130,7 +130,7 @@
     </div>
 
     <?php if (count($disponibles) > 0 ) { ?>
-    <form method="POST" action="{{ route('tareas.asignar', ['user' => $user->id]) }}">
+    <form method="POST" action="{{ route('alumnos.asignar_tarea', ['user' => $user->id]) }}">
         @csrf
 
         <div class="table-responsive">
@@ -156,7 +156,7 @@
 
         <div>
             <button type="submit" class="btn btn-primary">Guardar asignación</button>
-            <a href="{{ route('users.index') }}" class="btn btn-link text-secondary">Cancelar</a>
+            <a href="{{ route('alumnos.index') }}" class="btn btn-link text-secondary">Cancelar</a>
         </div>
 
     </form>
