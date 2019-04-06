@@ -28,35 +28,41 @@ class HomeController extends Controller
      */
     public function home()
     {
-        /*
-         * 10 -> Nueva
-         * 11 -> Oculta
-         * 20 -> Aceptada
-         * 30 -> Enviada
-         * 40 -> Revisada: OK
-         * 41 -> Revisada: ERROR
-         * 50 -> Terminada
-         * 60 -> Archivada
-         * */
+        if ($this->getAuthUser()->hasRole('profesor')) {
+            return redirect(route('users.index'));
+        } else {
 
-        $user = $this->getAuthUser();
+            /*
+             * 10 -> Nueva
+             * 11 -> Oculta
+             * 20 -> Aceptada
+             * 30 -> Enviada
+             * 40 -> Revisada: OK
+             * 41 -> Revisada: ERROR
+             * 50 -> Terminada
+             * 60 -> Archivada
+             * */
 
-        $actividades = $user->actividades_asignadas();
+            $user = $this->getAuthUser();
 
-        $num_actividades = count($actividades);
-        if ($num_actividades > 0)
-            session(['num_actividades' => $num_actividades]);
-        else
-            session()->forget('num_actividades');
+            $actividades = $user->actividades_asignadas();
 
-        return view('users.home', compact(['actividades', 'user']));
+            $num_actividades = count($actividades);
+            if ($num_actividades > 0)
+                session(['num_actividades' => $num_actividades]);
+            else
+                session()->forget('num_actividades');
+
+            return view('users.home', compact(['actividades', 'user']));
+        }
     }
 
     public function index()
     {
-        if (!is_null($this->getAuthUser()))
+        if (!is_null($this->getAuthUser())) {
             return redirect(route('users.home'));
-        else
+        } else {
             return view('welcome');
+        }
     }
 }

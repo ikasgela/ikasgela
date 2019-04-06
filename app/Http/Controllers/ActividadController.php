@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
+use App\Mail\FeedbackRecibido;
+use App\Mail\TareaEnviada;
 use App\Tarea;
 use App\Unidad;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class ActividadController extends Controller
@@ -194,6 +196,8 @@ class ActividadController extends Controller
             case 30:
                 $tarea->enviada = $ahora;
 
+                Mail::to('info@ikasgela.com')->queue(new TareaEnviada($tarea));
+
                 if (!config('app.debug')) {
                     if ($tarea->actividad->auto_avance) {
                         $tarea->estado = 50;
@@ -207,12 +211,16 @@ class ActividadController extends Controller
                     $tarea->feedback = __('Well done, good job.');
                 }
                 $tarea->revisada = $ahora;
+
+                Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea));
                 break;
             case 41:
                 if (config('app.debug')) {
                     $tarea->feedback = __('Needs improvement, send it again when done.');
                 }
                 $tarea->revisada = $ahora;
+
+                Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea));
                 break;
             case 50:
                 $tarea->terminada = $ahora;

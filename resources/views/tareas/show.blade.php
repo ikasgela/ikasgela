@@ -14,8 +14,9 @@
             @break
             @case(40)   {{-- Revisada: OK --}}
             @case(41)   {{-- Revisada: ERROR --}}
-            <p>La actividad está revisada y tienes disponible el feedback. Si se ha dado por buena, podrás
-                darla por terminada. Si no, tendrás que mejorarla y volver a enviarla.</p>
+            <p>La actividad está revisada y tienes disponible el feedback.<br> Si se ha dado por buena,
+                podrás darla por terminada y trasladarla al <a href="{{ route('archivo.index') }}">archivo</a>. Si no,
+                tendrás que mejorarla y volver a enviarla. </p>
             @break
             @case(50)   {{-- Terminada --}}
             <p>La actividad está terminada y puedes archivarla para que desaparezca del escritorio. Podrás
@@ -69,8 +70,8 @@
                             @endif
                             @break
                             @case(40)   {{-- Revisada: OK --}}
-                            <button type="submit" name="nuevoestado" value="50"
-                                    class="btn btn-primary">{{ __('Feedback read') }}</button>
+                            <button type="submit" name="nuevoestado" value="60"
+                                    class="btn btn-primary">{{ __('Archive') }}</button>
                             @break;
                             @case(41)   {{-- Revisada: ERROR --}}
                             <button type="submit" name="nuevoestado" value="20"
