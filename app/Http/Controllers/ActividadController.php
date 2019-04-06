@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
+use App\Mail\FeedbackRecibido;
 use App\Mail\TareaEnviada;
 use App\Tarea;
 use App\Unidad;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -211,12 +211,16 @@ class ActividadController extends Controller
                     $tarea->feedback = __('Well done, good job.');
                 }
                 $tarea->revisada = $ahora;
+
+                Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea));
                 break;
             case 41:
                 if (config('app.debug')) {
                     $tarea->feedback = __('Needs improvement, send it again when done.');
                 }
                 $tarea->revisada = $ahora;
+
+                Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea));
                 break;
             case 50:
                 $tarea->terminada = $ahora;
