@@ -31,7 +31,7 @@ class FeedbackRecibido extends Mailable
     public function build()
     {
         return $this
-            ->subject(__('Feedback available'))
+            ->subject(__('Review completed'))
             ->markdown('emails.feedback_recibido');
     }
 }

@@ -1,5 +1,5 @@
 @component('mail::message')
-# {{ __('Feedback available') }}
+# {{ __('Review completed') }}
 
 {{ $tarea->user->name }}, tu envío está revisado.
 
