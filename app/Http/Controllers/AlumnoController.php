@@ -25,9 +25,9 @@ class AlumnoController extends Controller
         else
             session()->forget('num_enviadas');
 
-        $usuarios = User::orderBy('name')->get()->filter(function ($usuario) {
-            return $usuario->hasRole('alumno');
-        });
+        $usuarios = User::orderBy('id')->whereHas('roles', function ($query) {
+            $query->where('name', 'alumno');
+        })->get();
 
         return view('alumnos.index', compact('usuarios'));
     }
@@ -40,15 +40,13 @@ class AlumnoController extends Controller
 
         // https://gist.github.com/ermand/5458012
 
-        // Get ID of a User whose autoincremented ID is less than the current user, but because some entries might have been deleted we need to get the max available ID of all entries whose ID is less than current user's
-        $user_anterior = User::orderBy('name')->where('id', '<', $user->id)->get()->filter(function ($usuario) {
-            return $usuario->hasRole('alumno');
-        })->max('id');
+        $user_anterior = User::orderBy('id')->whereHas('roles', function ($query) {
+            $query->where('name', 'alumno');
+        })->where('id', '<', $user->id)->get()->max('id');
 
-        // Same for the next user's id as previous user's but in the other direction
-        $user_siguiente = User::orderBy('name')->where('id', '>', $user->id)->get()->filter(function ($usuario) {
-            return $usuario->hasRole('alumno');
-        })->min('id');
+        $user_siguiente = User::orderBy('id')->whereHas('roles', function ($query) {
+            $query->where('name', 'alumno');
+        })->where('id', '>', $user->id)->get()->min('id');
 
         if ($request->has('unidad_id')) {
             session(['profesor_unidad_actual' => $request->input('unidad_id')]);
