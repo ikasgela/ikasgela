@@ -1,5 +1,5 @@
 @component('mail::message')
-# ikasgela
+# {{ __('New submission received') }}
 
 [{{ $tarea->user->name }}]({{ $tarea->user->email }}) ha enviado una nueva tarea para revisar.
 

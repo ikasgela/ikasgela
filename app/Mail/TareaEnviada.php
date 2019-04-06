@@ -31,7 +31,7 @@ class TareaEnviada extends Mailable
     public function build()
     {
         return $this
-            ->subject('Nuevo envío recibido')
+            ->subject(__('New submission received'))
             ->markdown('emails.tarea_enviada');
     }
 }
