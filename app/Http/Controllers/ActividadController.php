@@ -196,7 +196,7 @@ class ActividadController extends Controller
             case 30:
                 $tarea->enviada = $ahora;
 
-                Mail::to('info@ikasgela.com')->send(new TareaEnviada($tarea));
+                Mail::to('info@ikasgela.com')->queue(new TareaEnviada($tarea));
 
                 if (!config('app.debug')) {
                     if ($tarea->actividad->auto_avance) {
