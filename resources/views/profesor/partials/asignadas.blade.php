@@ -23,9 +23,9 @@
                 <tr>
                     <td class="py-3">{{ $actividad->tarea->id }}</td>
                     <td class="py-3">{{ $actividad->unidad->slug.'/'.$actividad->slug }}</td>
-                    <td class="py-3">{{ !is_null($actividad->tarea->aceptada) ? __('Yes') : __('No') }}</td>
-                    <td class="py-3">{{ !is_null($actividad->tarea->enviada) ? __('Yes') : __('No') }}</td>
-                    <td class="py-3">{{ !is_null($actividad->tarea->revisada) ? __('Yes') : __('No') }}</td>
+                    <td class="py-3">{!! !is_null($actividad->tarea->aceptada) ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                    <td class="py-3">{!! !is_null($actividad->tarea->enviada) ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                    <td class="py-3">{!! !is_null($actividad->tarea->revisada) ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
                     <td>
                         <div class='btn-group'>
                             <a href="{{ route('youtube_videos.actividad', [$actividad->id]) }}"
@@ -40,6 +40,8 @@
                             @csrf
                             @method('DELETE')
                             <div class='btn-group'>
+                                <a href="{{ route('profesor.revisar', ['user' => $user->id, 'actividad'=>$actividad->tarea->id]) }}"
+                                   class="btn btn-light btn-sm"><i class="fas fa-edit"></i></a>
                                 <button type="submit" onclick="return confirm('¿Seguro?')"
                                         class="btn btn-light btn-sm"><i class="fas fa-trash text-danger"></i>
                                 </button>

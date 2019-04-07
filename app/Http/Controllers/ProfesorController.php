@@ -83,8 +83,10 @@ class ProfesorController extends Controller
         return redirect(route('profesor.tareas', ['user' => $user->id]));
     }
 
-    public function revisar(Tarea $tarea)
+    public function revisar(User $user, Tarea $tarea)
     {
+        $actividad = $tarea->actividad();
 
+        return view('profesor.revisar', compact(['user', 'actividad']));
     }
 }

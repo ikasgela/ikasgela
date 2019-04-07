@@ -17,6 +17,7 @@
                 <th>Email</th>
                 <th>Asignadas</th>
                 <th>Para revisar</th>
+                <th>Terminadas</th>
             </tr>
             </thead>
             <tbody>
@@ -27,6 +28,7 @@
                     <td><a href="mailto:{{ $usuario->email }}" class="card-link">{{ $usuario->email }}</a></td>
                     <td>{{ count($usuario->actividades_asignadas()) }}</td>
                     <td>{{ count($usuario->actividades_enviadas()) }}</td>
+                    <td>{{ count($usuario->actividades_terminadas()) }}</td>
                 </tr>
             @endforeach
             </tbody>

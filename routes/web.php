@@ -98,6 +98,10 @@ Route::middleware(['auth', 'role:profesor'])->group(function () {
     Route::post('/alumnos/{user}/asignar_tarea', 'ProfesorController@asignarTarea')
         ->name('profesor.asignar_tarea');
 
+    // Mostrar una tarea para revisar
+    Route::get('/profesor/{user}/revisar/{tarea}', 'ProfesorController@revisar')
+        ->name('profesor.revisar');
+
     // Borrar una tarea
     Route::delete('/tareas/{user}/destroy/{tarea}', 'TareaController@destroy')
         ->name('tareas.destroy');
