@@ -20,6 +20,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/users/toggle_help', 'UserController@toggle_help')
         ->name('users.toggle_help');
 
+    // Actualizar estado de una tarea
+    Route::put('/actividades/{tarea}/estado', 'ActividadController@actualizarEstado')
+        ->name('actividades.estado');
+
     // Alumno
     Route::middleware(['role:alumno'])->group(function () {
 
@@ -36,6 +40,34 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // IntellijProject
         Route::get('/intellij_projects/{actividad}/fork/{intellij_project}', 'IntellijProjectController@fork')
             ->name('intellij_projects.fork');
+    });
+
+    // Profesor
+    Route::middleware(['role:profesor'])->group(function () {
+
+        // Panel de control
+        Route::get('/alumnos', 'ProfesorController@index')
+            ->name('profesor.index');
+
+        // Tareas actuales de un alumno
+        Route::get('/alumnos/{user}/tareas', 'ProfesorController@tareas')
+            ->name('profesor.tareas');
+
+        // Selector de unidad
+        Route::post('/alumnos/{user}/tareas', 'ProfesorController@tareas')
+            ->name('profesor.tareas');
+
+        // Asignar una tarea a un alumno
+        Route::post('/alumnos/{user}/asignar_tarea', 'ProfesorController@asignarTarea')
+            ->name('profesor.asignar_tarea');
+
+        // Mostrar una tarea para revisar
+        Route::get('/profesor/{user}/revisar/{tarea}', 'ProfesorController@revisar')
+            ->name('profesor.revisar');
+
+        // Borrar una tarea
+        Route::delete('/tareas/{user}/destroy/{tarea}', 'TareaController@destroy')
+            ->name('tareas.destroy');
     });
 
     // Administrador
@@ -74,42 +106,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/intellij_projects/{actividad}/desasociar/{intellij_project}', 'IntellijProjectController@desasociar')
             ->name('intellij_projects.desasociar');
 
-    });
-
-    // Profesor
-    Route::middleware(['role:profesor'])->group(function () {
-
-        // Panel de control
-        Route::get('/alumnos', 'ProfesorController@index')
-            ->name('profesor.index');
-
-        // Tareas actuales de un alumno
-        Route::get('/alumnos/{user}/tareas', 'ProfesorController@tareas')
-            ->name('profesor.tareas');
-
-        // Selector de unidad
-        Route::post('/alumnos/{user}/tareas', 'ProfesorController@tareas')
-            ->name('profesor.tareas');
-
-        // Asignar una tarea a un alumno
-        Route::post('/alumnos/{user}/asignar_tarea', 'ProfesorController@asignarTarea')
-            ->name('profesor.asignar_tarea');
-
-        // Mostrar una tarea para revisar
-        Route::get('/profesor/{user}/revisar/{tarea}', 'ProfesorController@revisar')
-            ->name('profesor.revisar');
-
-        // Borrar una tarea
-        Route::delete('/tareas/{user}/destroy/{tarea}', 'TareaController@destroy')
-            ->name('tareas.destroy');
-    });
-
-    // Profesor y alumno
-    Route::put('/actividades/{tarea}/estado', 'ActividadController@actualizarEstado')
-        ->name('actividades.estado');
-
-    // Profesor y alumno
-    Route::middleware(['role:profesor,role:alumno'])->group(function () {
     });
 
     // Pruebas
