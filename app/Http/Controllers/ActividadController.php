@@ -9,6 +9,7 @@ use App\Tarea;
 use App\Unidad;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -183,6 +184,7 @@ class ActividadController extends Controller
     public function actualizarEstado(Tarea $tarea, Request $request)
     {
         $nuevoestado = $request->input('nuevoestado');
+
         $ahora = Carbon::now();
 
         $tarea->estado = $nuevoestado;
@@ -207,17 +209,8 @@ class ActividadController extends Controller
                 }
                 break;
             case 40:
-                if (config('app.debug')) {
-                    $tarea->feedback = __('Well done, good job.');
-                }
-                $tarea->revisada = $ahora;
-
-                Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea));
-                break;
             case 41:
-                if (config('app.debug')) {
-                    $tarea->feedback = __('Needs improvement, send it again when done.');
-                }
+                $tarea->feedback = $request->input('feedback');
                 $tarea->revisada = $ahora;
 
                 Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea));
@@ -246,7 +239,13 @@ class ActividadController extends Controller
 
         $tarea->save();
 
-        return redirect(route('users.home'));
+        if (Auth::user()->hasRole('alumno')) {
+            return redirect(route('users.home'));
+        } else if (Auth::user()->hasRole('profesor')) {
+            return redirect(route('profesor.tareas', ['usuario' => $tarea->user->id]));
+        } else {
+            return redirect(route('home'));
+        }
     }
 
 }

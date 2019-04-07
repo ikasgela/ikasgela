@@ -3,7 +3,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     @if(Auth::check())
-        <a class="navbar-brand" href="{{ url('/home') }}">@include('partials.logos')</a>
+        <a class="navbar-brand" href="{{ url('/') }}">@include('partials.logos')</a>
     @else
         <a class="navbar-brand" href="{{ url('/') }}">@include('partials.logos')</a>
     @endif

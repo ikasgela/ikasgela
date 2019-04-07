@@ -7,7 +7,7 @@
     @if(count($actividades) > 0)
         @php($num_actividad = 1)
         @foreach($actividades as $actividad)
-            @include('tareas.show')
+            @include('alumnos.partials.tarea')
             @php($num_actividad+=1)
         @endforeach
     @else

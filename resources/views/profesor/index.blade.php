@@ -17,20 +17,18 @@
                 <th>Email</th>
                 <th>Asignadas</th>
                 <th>Para revisar</th>
-                <th>Acciones</th>
+                <th>Terminadas</th>
             </tr>
             </thead>
             <tbody>
             @foreach($usuarios as $usuario)
-                <tr>
+                <tr  class="table-row" data-href="{{ route('profesor.tareas', [$usuario->id]) }}">
                     <td><img style="height:35px;" src="{{ $usuario->avatar_url()}}"/></td>
                     <td>{{ $usuario->name }}</td>
                     <td><a href="mailto:{{ $usuario->email }}" class="card-link">{{ $usuario->email }}</a></td>
                     <td>{{ count($usuario->actividades_asignadas()) }}</td>
                     <td>{{ count($usuario->actividades_enviadas()) }}</td>
-                    <td><a href="{{ route('tareas.index', [$usuario->id]) }}"
-                           class='btn btn-outline-dark'>Asignar actividades</a>
-                    </td>
+                    <td>{{ count($usuario->actividades_terminadas()) }}</td>
                 </tr>
             @endforeach
             </tbody>

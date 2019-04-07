@@ -25,7 +25,22 @@ class Actividad extends Model
 
     public function users()
     {
-        return $this->belongsToMany('App\User', 'tareas')->using('App\Tarea');
+        return $this->belongsToMany('App\User', 'tareas')
+            ->using('App\Tarea')
+            ->as('tarea')
+            ->withPivot([
+                'id',
+
+                'estado',
+                'aceptada',
+                'fecha_limite',
+                'enviada',
+                'revisada',
+                'feedback',
+                'puntuacion',
+                'terminada',
+                'archivada'
+            ]);
     }
 
     public function youtube_videos()
