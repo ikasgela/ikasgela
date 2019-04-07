@@ -7,6 +7,10 @@ Route::get('/', 'HomeController@index')
 // Páginas públicas
 Route::view('/documentacion', 'documentacion.index');
 
+// Gestión de usuarios
+Auth::routes(['verify' => true]);
+require __DIR__ . '/profile/profile.php';
+
 // Sesión iniciada y cuenta verificada
 Route::middleware(['auth', 'verified'])->group(function () {
 
@@ -15,10 +19,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('users.home');
     Route::post('/users/toggle_help', 'UserController@toggle_help')
         ->name('users.toggle_help');
-
-    // Gestión de usuarios
-    Auth::routes(['verify' => true]);
-    require __DIR__ . '/profile/profile.php';
 
     // Alumno
     Route::middleware(['role:alumno'])->group(function () {
