@@ -22,8 +22,8 @@
                 <tbody>
                 @foreach($actividades as $actividad)
                     <tr class="table-row" data-href="{{ route('archivo.show', $actividad->id) }}">
-                        <td style="cursor:pointer" class="py-3">{{ $actividad->unidad->nombre }}</td>
-                        <td style="cursor:pointer" class="py-3">{{ $actividad->nombre }}</td>
+                        <td class="py-3">{{ $actividad->unidad->nombre }}</td>
+                        <td class="py-3">{{ $actividad->nombre }}</td>
                     </tr>
                 @endforeach
                 </tbody>

@@ -11727,3 +11727,7 @@ a.text-dark:focus {
   }
 }
 
+.table-row td {
+  cursor: pointer;
+}
+
