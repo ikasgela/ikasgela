@@ -9,10 +9,11 @@
         <table class="table">
             <thead class="thead-dark">
             <tr>
-                <th>Tarea</th>
+                <th>#</th>
                 <th>Actividad</th>
                 <th>Aceptada</th>
-                <th>Feedback</th>
+                <th>Enviada</th>
+                <th>Revisada</th>
                 <th>Recursos</th>
                 <th>Acciones</th>
             </tr>
@@ -22,13 +23,16 @@
                 <tr>
                     <td class="py-3">{{ $actividad->tarea->id }}</td>
                     <td class="py-3">{{ $actividad->unidad->slug.'/'.$actividad->slug }}</td>
-                    <td class="py-3">{{ $actividad->tarea->aceptada != null ? \Carbon\Carbon::parse($actividad->tarea->aceptada)->timezone('Europe/Madrid')->locale('es_ES')->isoFormat('LLLL') : 'No' }}</td>
-                    <td class="py-3">{{ $actividad->tarea->feedback }}</td>
+                    <td class="py-3">{{ !is_null($actividad->tarea->aceptada) ? __('Yes') : __('No') }}</td>
+                    <td class="py-3">{{ !is_null($actividad->tarea->enviada) ? __('Yes') : __('No') }}</td>
+                    <td class="py-3">{{ !is_null($actividad->tarea->revisada) ? __('Yes') : __('No') }}</td>
                     <td>
-                        <a href="{{ route('youtube_videos.actividad', [$actividad->id]) }}"
-                           class='btn btn-outline-dark'>Youtube</a>
-                        <a href="{{ route('intellij_projects.actividad', [$actividad->id]) }}"
-                           class='btn btn-outline-dark'>IntelliJ</a>
+                        <div class='btn-group'>
+                            <a href="{{ route('youtube_videos.actividad', [$actividad->id]) }}"
+                               class="btn btn-light btn-sm"><i class="fab fa-youtube"></i></a>
+                            <a href="{{ route('intellij_projects.actividad', [$actividad->id]) }}"
+                               class="btn btn-light btn-sm"><i class="fab fa-java"></i></a>
+                        </div>
                     </td>
                     <td>
                         <form method="POST"
