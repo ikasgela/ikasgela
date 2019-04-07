@@ -4,10 +4,10 @@
     </div>
 </div>
 
-@include('alumnos.tareas.selector_unidad')
+@include('profesor.partials.selector_unidad')
 
 @if(count($disponibles) > 0)
-    <form method="POST" action="{{ route('alumnos.asignar_tarea', ['user' => $user->id]) }}">
+    <form method="POST" action="{{ route('profesor.asignar_tarea', ['user' => $user->id]) }}">
         @csrf
         <div class="table-responsive">
             <table class="table">
@@ -31,7 +31,7 @@
         @include('layouts.errors')
         <div>
             <button type="submit" class="btn btn-primary">Guardar asignación</button>
-            <a href="{{ route('alumnos.index') }}" class="btn btn-link text-secondary">Cancelar</a>
+            <a href="{{ route('profesor.index') }}" class="btn btn-link text-secondary">Cancelar</a>
         </div>
     </form>
 @else

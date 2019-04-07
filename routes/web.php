@@ -79,20 +79,20 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 Route::middleware(['auth', 'role:profesor'])->group(function () {
 
     // Panel de control
-    Route::get('/alumnos', 'AlumnoController@index')
-        ->name('alumnos.index');
+    Route::get('/alumnos', 'ProfesorController@index')
+        ->name('profesor.index');
 
     // Tareas actuales de un alumno
-    Route::get('/alumnos/{user}/tareas', 'AlumnoController@tareas')
-        ->name('alumnos.tareas');
+    Route::get('/alumnos/{user}/tareas', 'ProfesorController@tareas')
+        ->name('profesor.tareas');
 
     // Selector de unidad
-    Route::post('/alumnos/{user}/tareas', 'AlumnoController@tareas')
-        ->name('alumnos.tareas');
+    Route::post('/alumnos/{user}/tareas', 'ProfesorController@tareas')
+        ->name('profesor.tareas');
 
     // Asignar una tarea a un alumno
-    Route::post('/alumnos/{user}/asignar_tarea', 'AlumnoController@asignarTarea')
-        ->name('alumnos.asignar_tarea');
+    Route::post('/alumnos/{user}/asignar_tarea', 'ProfesorController@asignarTarea')
+        ->name('profesor.asignar_tarea');
 
     // Borrar una tarea
     Route::delete('/tareas/{user}/destroy/{tarea}', 'TareaController@destroy')

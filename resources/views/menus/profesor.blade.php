@@ -1,6 +1,6 @@
 <li class="nav-title">{{ __('Teacher') }}</li>
 <li class="nav-item">
-    <a class="nav-link" href="{{ route('alumnos.index') }}">
+    <a class="nav-link" href="{{ route('profesor.index') }}">
         <i class="nav-icon fas fa-tasks"></i> {{ __('Control panel') }}
         <span class="badge badge-danger">{{ session('num_enviadas') }}</span>
     </a>

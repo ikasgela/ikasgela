@@ -1,6 +1,6 @@
 <div class="row mb-3">
     <div class="col-md-12">
-        {!! Form::open(['route' => ['alumnos.tareas', $user->id]]) !!}
+        {!! Form::open(['route' => ['profesor.tareas', $user->id]]) !!}
 
         <div class="form-group d-flex flex-row justify-content-between">
             {!! Form::label('unidad', __('Unit'), ['class' => 'col-form-label']) !!}

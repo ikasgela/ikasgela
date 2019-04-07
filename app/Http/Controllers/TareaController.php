@@ -20,6 +20,6 @@ class TareaController extends Controller
     {
         $tarea->delete();
 
-        return redirect(route('alumnos.tareas', ['user' => $user->id]));
+        return redirect(route('profesor.tareas', ['user' => $user->id]));
     }
 }
