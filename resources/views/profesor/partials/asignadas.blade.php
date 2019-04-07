@@ -42,7 +42,7 @@
                             <div class='btn-group'>
                                 <a href="{{ route('profesor.revisar', ['user' => $user->id, 'actividad'=>$actividad->tarea->id]) }}"
                                    class="btn btn-light btn-sm"><i class="fas fa-bullhorn"></i></a>
-                                <button type="submit" onclick="return confirm({{ __('¿Are you sure?') }})"
+                                <button type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
                                         class="btn btn-light btn-sm"><i class="fas fa-trash text-danger"></i>
                                 </button>
                             </div>

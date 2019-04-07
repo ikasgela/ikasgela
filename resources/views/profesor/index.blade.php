@@ -17,6 +17,7 @@
                 <th>Asignadas</th>
                 <th>Para revisar</th>
                 <th>Terminadas</th>
+                <th>Acciones</th>
             </tr>
             </thead>
             <tbody>
@@ -27,6 +28,18 @@
                     <td>{{ count($usuario->actividades_asignadas()) }}</td>
                     <td>{{ count($usuario->actividades_enviadas()) }}</td>
                     <td>{{ count($usuario->actividades_terminadas()) }}</td>
+                    <td>
+                        <form method="POST"
+                              action="{{ route('users.destroy', ['user' => $usuario->id]) }}">
+                            @csrf
+                            @method('DELETE')
+                            <div class='btn-group'>
+                                <button type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
+                                        class="btn btn-light btn-sm"><i class="fas fa-trash text-danger"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </td>
                 </tr>
             @endforeach
             </tbody>

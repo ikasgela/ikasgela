@@ -76,6 +76,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/actividades/plantillas', 'ActividadController@plantillas')
             ->name('actividades.plantillas');
 
+        // Borrar un usuario
+        Route::delete('/users/{user}', 'UserController@destroy')
+            ->name('users.destroy');
+
         // Estructura del curso
         Route::resource('cursos', 'CursoController');
         Route::resource('unidades', 'UnidadController')
