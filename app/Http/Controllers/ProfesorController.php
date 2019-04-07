@@ -85,8 +85,8 @@ class ProfesorController extends Controller
 
     public function revisar(User $user, Tarea $tarea)
     {
-        $actividad = $tarea->actividad();
+        $actividad = $tarea->actividad;
 
-        return view('profesor.revisar', compact(['user', 'actividad']));
+        return view('profesor.revisar', compact(['user', 'tarea', 'actividad']));
     }
 }

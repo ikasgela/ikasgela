@@ -2,7 +2,7 @@
 
 // Página principal
 Route::get('/', 'HomeController@index')
-    ->name('portada');
+    ->name('home');
 
 // Páginas públicas
 Route::view('/documentacion', 'documentacion.index');
@@ -26,10 +26,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Mostrar el escritorio del alumno
         Route::get('/home', 'AlumnoController@tarea')
             ->name('users.home');
-
-        // Cambiar estado de una tarea
-        Route::put('/actividades/{tarea}/estado', 'ActividadController@actualizarEstado')
-            ->name('actividades.estado');
 
         // Archivo
         Route::get('/archivo/{actividad}', 'ArchivoController@show')
@@ -106,6 +102,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Borrar una tarea
         Route::delete('/tareas/{user}/destroy/{tarea}', 'TareaController@destroy')
             ->name('tareas.destroy');
+    });
+
+    // Cambiar estado de una tarea
+    Route::put('/actividades/{tarea}/estado', 'ActividadController@actualizarEstado')
+        ->name('actividades.estado');
+
+    // Profesor y alumno
+    Route::middleware(['role:profesor|alumno'])->group(function () {
     });
 
     // Pruebas
