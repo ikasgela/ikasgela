@@ -22,6 +22,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // Alumno
 Route::middleware(['auth', 'role:alumno'])->group(function () {
 
+    // Mostrar el escritorio del alumno
+    Route::get('/home', 'AlumnoController@tarea')
+        ->name('users.home');
+
     // Cambiar estado de una tarea
     Route::put('/actividades/{tarea}/estado', 'ActividadController@actualizarEstado')
         ->name('actividades.estado');
