@@ -11,7 +11,7 @@ class AlumnoController extends Controller
         $this->middleware('auth');
     }
 
-    public function tarea()
+    public function tareas()
     {
         /*
          * 10 -> Nueva
@@ -34,6 +34,6 @@ class AlumnoController extends Controller
         else
             session()->forget('num_actividades');
 
-        return view('alumnos.tarea', compact(['actividades', 'user']));
+        return view('alumnos.tareas', compact(['actividades', 'user']));
     }
 }
