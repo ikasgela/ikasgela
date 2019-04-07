@@ -7,108 +7,108 @@ Route::get('/', 'HomeController@index')
 // Páginas públicas
 Route::view('/documentacion', 'documentacion.index');
 
-// Gestión de usuarios
-Auth::routes(['verify' => true]);
-require __DIR__ . '/profile/profile.php';
-
-// Perfil de usuario
+// Sesión iniciada y cuenta verificada
 Route::middleware(['auth', 'verified'])->group(function () {
+
+    // Perfil de usuario
     Route::get('/home', 'HomeController@home')
         ->name('users.home');
     Route::post('/users/toggle_help', 'UserController@toggle_help')
         ->name('users.toggle_help');
-});
 
-// Alumno
-Route::middleware(['auth', 'role:alumno'])->group(function () {
+    // Gestión de usuarios
+    Auth::routes(['verify' => true]);
+    require __DIR__ . '/profile/profile.php';
 
-    // Mostrar el escritorio del alumno
-    Route::get('/home', 'AlumnoController@tarea')
-        ->name('users.home');
+    // Alumno
+    Route::middleware(['role:alumno'])->group(function () {
 
-    // Cambiar estado de una tarea
-    Route::put('/actividades/{tarea}/estado', 'ActividadController@actualizarEstado')
-        ->name('actividades.estado');
+        // Mostrar el escritorio del alumno
+        Route::get('/home', 'AlumnoController@tarea')
+            ->name('users.home');
 
-    // Archivo
-    Route::get('/archivo/{actividad}', 'ArchivoController@show')
-        ->name('archivo.show');
-    Route::get('/archivo', 'ArchivoController@index')
-        ->name('archivo.index');
+        // Cambiar estado de una tarea
+        Route::put('/actividades/{tarea}/estado', 'ActividadController@actualizarEstado')
+            ->name('actividades.estado');
 
-    // IntellijProject
-    Route::get('/intellij_projects/{actividad}/fork/{intellij_project}', 'IntellijProjectController@fork')
-        ->name('intellij_projects.fork');
-});
+        // Archivo
+        Route::get('/archivo/{actividad}', 'ArchivoController@show')
+            ->name('archivo.show');
+        Route::get('/archivo', 'ArchivoController@index')
+            ->name('archivo.index');
 
-// Administrador
-Route::middleware(['auth', 'role:admin'])->group(function () {
+        // IntellijProject
+        Route::get('/intellij_projects/{actividad}/fork/{intellij_project}', 'IntellijProjectController@fork')
+            ->name('intellij_projects.fork');
+    });
 
-    Route::get('/actividades/plantillas', 'ActividadController@plantillas')
-        ->name('actividades.plantillas');
+    // Administrador
+    Route::middleware(['role:admin'])->group(function () {
 
-    // Estructura del curso
-    Route::resource('cursos', 'CursoController');
-    Route::resource('unidades', 'UnidadController')
-        ->parameters(['unidades' => 'unidad']);
-    Route::resource('actividades', 'ActividadController')
-        ->parameters(['actividades' => 'actividad']);
+        Route::get('/actividades/plantillas', 'ActividadController@plantillas')
+            ->name('actividades.plantillas');
 
-    // YoutubeVideo
-    Route::resource('youtube_videos', 'YoutubeVideoController');
-    Route::get('/youtube_videos/{actividad}/actividad', 'YoutubeVideoController@actividad')
-        ->name('youtube_videos.actividad');
-    Route::post('/youtube_videos/{actividad}/asociar', 'YoutubeVideoController@asociar')
-        ->name('youtube_videos.asociar');
-    Route::delete('/youtube_videos/{actividad}/desasociar/{youtube_video}', 'YoutubeVideoController@desasociar')
-        ->name('youtube_videos.desasociar');
+        // Estructura del curso
+        Route::resource('cursos', 'CursoController');
+        Route::resource('unidades', 'UnidadController')
+            ->parameters(['unidades' => 'unidad']);
+        Route::resource('actividades', 'ActividadController')
+            ->parameters(['actividades' => 'actividad']);
 
-    // IntellijProject
-    Route::get('/intellij_projects/copia', 'IntellijProjectController@copia')
-        ->name('intellij_projects.copia');
-    Route::post('/intellij_projects/duplicar', 'IntellijProjectController@duplicar')
-        ->name('intellij_projects.duplicar');
+        // YoutubeVideo
+        Route::resource('youtube_videos', 'YoutubeVideoController');
+        Route::get('/youtube_videos/{actividad}/actividad', 'YoutubeVideoController@actividad')
+            ->name('youtube_videos.actividad');
+        Route::post('/youtube_videos/{actividad}/asociar', 'YoutubeVideoController@asociar')
+            ->name('youtube_videos.asociar');
+        Route::delete('/youtube_videos/{actividad}/desasociar/{youtube_video}', 'YoutubeVideoController@desasociar')
+            ->name('youtube_videos.desasociar');
 
-    Route::resource('intellij_projects', 'IntellijProjectController');
-    Route::get('/intellij_projects/{actividad}/actividad', 'IntellijProjectController@actividad')
-        ->name('intellij_projects.actividad');
-    Route::post('/intellij_projects/{actividad}/asociar', 'IntellijProjectController@asociar')
-        ->name('intellij_projects.asociar');
-    Route::delete('/intellij_projects/{actividad}/desasociar/{intellij_project}', 'IntellijProjectController@desasociar')
-        ->name('intellij_projects.desasociar');
+        // IntellijProject
+        Route::get('/intellij_projects/copia', 'IntellijProjectController@copia')
+            ->name('intellij_projects.copia');
+        Route::post('/intellij_projects/duplicar', 'IntellijProjectController@duplicar')
+            ->name('intellij_projects.duplicar');
 
-});
+        Route::resource('intellij_projects', 'IntellijProjectController');
+        Route::get('/intellij_projects/{actividad}/actividad', 'IntellijProjectController@actividad')
+            ->name('intellij_projects.actividad');
+        Route::post('/intellij_projects/{actividad}/asociar', 'IntellijProjectController@asociar')
+            ->name('intellij_projects.asociar');
+        Route::delete('/intellij_projects/{actividad}/desasociar/{intellij_project}', 'IntellijProjectController@desasociar')
+            ->name('intellij_projects.desasociar');
 
-// Profesor
-Route::middleware(['auth', 'role:profesor'])->group(function () {
+    });
 
-    // Panel de control
-    Route::get('/alumnos', 'ProfesorController@index')
-        ->name('profesor.index');
+    // Profesor
+    Route::middleware(['role:profesor'])->group(function () {
 
-    // Tareas actuales de un alumno
-    Route::get('/alumnos/{user}/tareas', 'ProfesorController@tareas')
-        ->name('profesor.tareas');
+        // Panel de control
+        Route::get('/alumnos', 'ProfesorController@index')
+            ->name('profesor.index');
 
-    // Selector de unidad
-    Route::post('/alumnos/{user}/tareas', 'ProfesorController@tareas')
-        ->name('profesor.tareas');
+        // Tareas actuales de un alumno
+        Route::get('/alumnos/{user}/tareas', 'ProfesorController@tareas')
+            ->name('profesor.tareas');
 
-    // Asignar una tarea a un alumno
-    Route::post('/alumnos/{user}/asignar_tarea', 'ProfesorController@asignarTarea')
-        ->name('profesor.asignar_tarea');
+        // Selector de unidad
+        Route::post('/alumnos/{user}/tareas', 'ProfesorController@tareas')
+            ->name('profesor.tareas');
 
-    // Mostrar una tarea para revisar
-    Route::get('/profesor/{user}/revisar/{tarea}', 'ProfesorController@revisar')
-        ->name('profesor.revisar');
+        // Asignar una tarea a un alumno
+        Route::post('/alumnos/{user}/asignar_tarea', 'ProfesorController@asignarTarea')
+            ->name('profesor.asignar_tarea');
 
-    // Borrar una tarea
-    Route::delete('/tareas/{user}/destroy/{tarea}', 'TareaController@destroy')
-        ->name('tareas.destroy');
-});
+        // Mostrar una tarea para revisar
+        Route::get('/profesor/{user}/revisar/{tarea}', 'ProfesorController@revisar')
+            ->name('profesor.revisar');
 
-// Pruebas
-Route::middleware(['auth', 'verified'])->group(function () {
+        // Borrar una tarea
+        Route::delete('/tareas/{user}/destroy/{tarea}', 'TareaController@destroy')
+            ->name('tareas.destroy');
+    });
+
+    // Pruebas
     Route::view('/tarjeta_si_no', 'tarjetas.si_no');
     Route::view('/tarjeta_video', 'tarjetas.video');
     Route::view('/tarjeta_respuesta_multiple', 'tarjetas.respuesta_multiple');
