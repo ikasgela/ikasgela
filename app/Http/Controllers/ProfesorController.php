@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
+use App\Mail\ActividadAsignada;
 use App\Tarea;
 use App\Unidad;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ProfesorController extends Controller
 {
@@ -68,6 +70,8 @@ class ProfesorController extends Controller
             'seleccionadas' => 'required',
         ]);
 
+        $asignadas = '';
+
         foreach (request('seleccionadas') as $actividad_id) {
             $actividad = Actividad::find($actividad_id);
 
@@ -77,8 +81,12 @@ class ProfesorController extends Controller
             $clon = $actividad->duplicate();
             $clon->save();
 
+            $asignadas .= "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n\n";
+
             $user->actividades()->attach($clon);
         }
+
+        Mail::to($user->email)->queue(new ActividadAsignada($user->name, $asignadas));
 
         return redirect(route('profesor.tareas', ['user' => $user->id]));
     }
