@@ -13,16 +13,20 @@
             <table class="table">
                 <thead class="thead-dark">
                 <tr>
+                    <th>#</th>
                     <th>Seleccionar</th>
-                    <th>Actividad</th>
+                    <th colspan="2">Actividad</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($disponibles as $actividad)
                     <tr>
-                        <td class="py-3"><input type="checkbox" name="seleccionadas[]" value="{{ $actividad->id }}">
+                        <td class="align-middle">{{ $actividad->id }}</td>
+                        <td class="align-middle">
+                            <input type="checkbox" name="seleccionadas[]" value="{{ $actividad->id }}">
                         </td>
-                        <td class="py-3">{{ $actividad->unidad->slug.'/'.$actividad->slug }}</td>
+                        <td class="align-middle">{{ $actividad->nombre }}</td>
+                        <td class="align-middle">{{ $actividad->unidad->slug.'/'.$actividad->slug }}</td>
                     </tr>
                 @endforeach
                 </tbody>

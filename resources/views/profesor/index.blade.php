@@ -24,7 +24,7 @@
             <tbody>
             @foreach($usuarios as $usuario)
                 <tr class="table-row" data-href="{{ route('profesor.tareas', [$usuario->id]) }}">
-                    <td><img style="height:35px;" src="{{ $usuario->avatar_url()}}"/></td>
+                    <td class="align-middle"><img style="height:35px;" src="{{ $usuario->avatar_url()}}"/></td>
                     <td class="align-middle">{{ $usuario->name }}</td>
                     <td class="text-center align-middle">{{ count($usuario->actividades_nuevas()) }}</td>
                     <td class="text-center align-middle">{{ count($usuario->actividades_en_curso()) }}</td>
@@ -35,7 +35,7 @@
                               action="{{ route('users.destroy', ['user' => $usuario->id]) }}">
                             @csrf
                             @method('DELETE')
-                            <div class='btn-group'>
+                            <div class="btn-group">
                                 <button type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
                                         class="btn btn-light btn-sm"><i class="fas fa-trash text-danger"></i>
                                 </button>
