@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
+use App\Mail\ActividadAsignada;
 use App\Mail\FeedbackRecibido;
 use App\Mail\TareaEnviada;
 use App\Tarea;
@@ -228,6 +229,9 @@ class ActividadController extends Controller
                 if (!is_null($actividad->siguiente)) {
                     if (!$actividad->final) {
                         $usuario->actividades()->attach($actividad->siguiente);
+
+                        $asignada = "- " . $actividad->siguiente->unidad->nombre . " - " . $actividad->siguiente->nombre . ".\n\n";
+                        Mail::to($usuario->email)->queue(new ActividadAsignada($usuario->name, $asignada));
                     } else {
                         $usuario->actividades()->attach($actividad->siguiente, ['estado' => 11]);
                     }
