@@ -34,7 +34,7 @@
                     <textarea class="form-control"
                               id="feedback"
                               name="feedback"
-                              rows="10">{{ $tarea->feedback }}</textarea>
+                              rows="10">{{ !is_null($tarea->feedback) ? $tarea->feedback : 'Buen trabajo, sigue así.' }}</textarea>
                 </div>
             </form>
             {{-- Fin tarjeta--}}
