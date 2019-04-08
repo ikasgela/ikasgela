@@ -99,14 +99,19 @@ class User extends Authenticatable implements MustVerifyEmail
         return false;
     }
 
+    public function actividades_nuevas()
+    {
+        return $this->actividades()->wherePivot('estado', 10)->get();
+    }
+
     public function actividades_asignadas()
     {
         return $this->actividades()->wherePivotIn('estado', [60, 11], 'and', 'notin')->get();
     }
 
-    public function actividades_archivadas()
+    public function actividades_en_curso()
     {
-        return $this->actividades()->wherePivot('estado', 60)->get();
+        return $this->actividades()->wherePivotIn('estado', [60, 10, 11], 'and', 'notin')->get();
     }
 
     public function actividades_enviadas()
@@ -117,5 +122,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function actividades_terminadas()
     {
         return $this->actividades()->wherePivot('estado', '>=', 50)->get();
+    }
+
+    public function actividades_archivadas()
+    {
+        return $this->actividades()->wherePivot('estado', 60)->get();
     }
 }

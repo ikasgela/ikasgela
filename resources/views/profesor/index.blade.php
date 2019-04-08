@@ -14,9 +14,10 @@
             <tr>
                 <th></th>
                 <th>Nombre</th>
-                <th>Asignadas</th>
-                <th>Para revisar</th>
-                <th>Terminadas</th>
+                <th class="text-center">Nuevas</th>
+                <th class="text-center">En curso</th>
+                <th class="text-center">Enviadas</th>
+                <th class="text-center">Terminadas</th>
                 <th>Acciones</th>
             </tr>
             </thead>
@@ -24,11 +25,12 @@
             @foreach($usuarios as $usuario)
                 <tr class="table-row" data-href="{{ route('profesor.tareas', [$usuario->id]) }}">
                     <td><img style="height:35px;" src="{{ $usuario->avatar_url()}}"/></td>
-                    <td>{{ $usuario->name }}</td>
-                    <td>{{ count($usuario->actividades_asignadas()) }}</td>
-                    <td>{{ count($usuario->actividades_enviadas()) }}</td>
-                    <td>{{ count($usuario->actividades_terminadas()) }}</td>
-                    <td>
+                    <td class="align-middle">{{ $usuario->name }}</td>
+                    <td class="text-center align-middle">{{ count($usuario->actividades_nuevas()) }}</td>
+                    <td class="text-center align-middle">{{ count($usuario->actividades_en_curso()) }}</td>
+                    <td class="text-center align-middle {{ count($usuario->actividades_enviadas())>0 ? 'bg-danger' : '' }}">{{ count($usuario->actividades_enviadas()) }}</td>
+                    <td class="text-center align-middle">{{ count($usuario->actividades_terminadas()) }}</td>
+                    <td class="align-middle">
                         <form method="POST"
                               action="{{ route('users.destroy', ['user' => $usuario->id]) }}">
                             @csrf
