@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Tarea extends Pivot
 {
+    use LogsActivity;
+
     protected $table = 'tareas';
 
     public $incrementing = true;

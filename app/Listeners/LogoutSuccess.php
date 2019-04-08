@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use Illuminate\Auth\Events\Logout;
+use Illuminate\Support\Facades\Auth;
 
 class LogoutSuccess
 {
@@ -24,6 +25,8 @@ class LogoutSuccess
      */
     public function handle(Logout $event)
     {
-        //
+        activity()
+            ->causedBy(Auth::user())
+            ->log('Sesión cerrada');
     }
 }

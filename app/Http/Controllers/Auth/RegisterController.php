@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Role;
 use App\User;
-use App\Http\Controllers\Controller;
+use GitLab;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
-
-use GitLab;
 
 class RegisterController extends Controller
 {
@@ -93,6 +92,10 @@ class RegisterController extends Controller
         $laravel
             ->roles()
             ->attach(Role::where('name', 'alumno')->first());
+
+        activity()
+            ->causedBy($laravel)
+            ->log('Nuevo usuario');
 
         return $laravel;
     }

@@ -25,5 +25,9 @@ class LoginSuccess
     public function handle(Login $event)
     {
         session(['tutorial' => $event->user->tutorial]);
+
+        activity()
+            ->causedBy($event->user)
+            ->log('Sesión iniciada');
     }
 }
