@@ -6,7 +6,7 @@
 @endif
 @include('profesor.partials.tarjeta_usuario')
 <div class="row mt-4">
-    <form class="col-md-12 p-0"
+    <form class="col-md-12 p-0 form-inline"
           method="POST"
           action="{{ route('actividades.estado', [$tarea->id]) }}">
         @csrf
