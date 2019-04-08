@@ -205,12 +205,11 @@ class ActividadController extends Controller
                 break;
             case 40:
             case 41:
-                $tarea->revisada = $ahora;
-
                 if ($tarea->actividad->auto_avance) {
                     $tarea->feedback = 'Tarea completada automáticamente, no revisada por ningún profesor.';
                 } else {
                     $tarea->feedback = $request->input('feedback');
+                    $tarea->revisada = $ahora;
                 }
 
                 Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea));
