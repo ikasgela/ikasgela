@@ -1,10 +1,11 @@
 @if(session('tutorial'))
     <div class="callout callout-success b-t-1 b-r-1 b-b-1">
         <small class="text-muted">{{ __('Tutorial') }}</small>
-        <p></p>
+        <p>Aquí puedes valorar la actividad y dar el feedback oportuno.</p>
     </div>
 @endif
-<div class="row">
+@include('profesor.partials.tarjeta_usuario')
+<div class="row mt-4">
     <form class="col-md-12 p-0"
           method="POST"
           action="{{ route('actividades.estado', [$tarea->id]) }}">
@@ -36,8 +37,8 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <i class="fas fa-bullhorn"></i></i>
-                        <label for="feedback">{{ __('Feedback') }}</label>
+                        <i class="fas fa-bullhorn"></i>
+                        <label class="m-0" for="feedback">{{ __('Feedback') }}</label>
                     </div>
                     <div class="card-body">
                                 <textarea class="form-control"

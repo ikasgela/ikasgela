@@ -29,7 +29,7 @@
             </table>
         </div>
         @include('layouts.errors')
-        <div>
+        <div class="mb-4">
             <button type="submit" class="btn btn-primary">Guardar asignación</button>
             <a href="{{ route('profesor.index') }}" class="btn btn-link text-secondary">Cancelar</a>
         </div>

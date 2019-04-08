@@ -198,21 +198,19 @@ class ActividadController extends Controller
             case 30:
                 $tarea->enviada = $ahora;
 
-                Mail::to('info@ikasgela.com')->queue(new TareaEnviada($tarea));
-
-                if (!config('app.debug')) {
-                    if ($tarea->actividad->auto_avance) {
-                        $tarea->estado = 50;
-                        $tarea->revisada = $ahora;
-                        $tarea->terminada = $ahora;
-                        $tarea->save();
-                    }
+                if (!$tarea->actividad->auto_avance) {
+                    Mail::to('info@ikasgela.com')->queue(new TareaEnviada($tarea));
                 }
                 break;
             case 40:
             case 41:
-                $tarea->feedback = $request->input('feedback');
                 $tarea->revisada = $ahora;
+
+                if ($tarea->actividad->auto_avance) {
+                    $tarea->feedback = 'Tarea completada automáticamente, no revisada por ningún profesor.';
+                } else {
+                    $tarea->feedback = $request->input('feedback');
+                }
 
                 Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea));
                 break;

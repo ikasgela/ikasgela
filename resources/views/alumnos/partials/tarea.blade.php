@@ -10,7 +10,7 @@
             <p>Completa la actividad y, cuando esté lista, envíala para revisar.</p>
             @break
             @case(30)   {{-- Enviada --}}
-            <p>La actividad está pendiente de revisar, vuelve más tarde.</p>
+            <p>La actividad está pendiente de revisar, recibirás un email cuando se complete la revisión.</p>
             @break
             @case(40)   {{-- Revisada: OK --}}
             @case(41)   {{-- Revisada: ERROR --}}
@@ -60,6 +60,15 @@
                                     class="btn btn-primary">{{ __('Submit for review') }}</button>
                             @break
                             @case(30)   {{-- Enviada --}}
+                            @if($actividad->auto_avance)
+                                <div class="alert alert-success" role="alert">
+                                    <p>Esta actividad es de avance automático, no hay revisión del profesor.</p>
+                                    <button type="submit" name="nuevoestado" value="40"
+                                            class="btn btn-success"> {{ __('Next step') }}
+                                    </button>
+                                </div>
+                            @endif
+{{--
                             @if(config('app.debug'))
                                 <button type="submit" name="nuevoestado" value="40"
                                         class="btn btn-success"> {{ __('Ok') }}
@@ -68,6 +77,7 @@
                                         class="btn btn-danger"> {{ __('Error') }}
                                 </button>
                             @endif
+--}}
                             @break
                             @case(40)   {{-- Revisada: OK --}}
                             <button type="submit" name="nuevoestado" value="60"
