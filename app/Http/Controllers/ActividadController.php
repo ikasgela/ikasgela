@@ -203,6 +203,7 @@ class ActividadController extends Controller
                 if (!config('app.debug')) {
                     if ($tarea->actividad->auto_avance) {
                         $tarea->estado = 50;
+                        $tarea->revisada = $ahora;
                         $tarea->terminada = $ahora;
                         $tarea->save();
                     }
