@@ -43,6 +43,10 @@ class ActivarUsuarioGitLab
             $clon->save();
             $event->user->actividades()->attach($clon, ['puntuacion' => $actividad->puntuacion]);
 
+            activity()
+                ->causedBy($event->user)
+                ->log('Usuario verificado');
+
         } catch (Exception $e) {
         }
     }

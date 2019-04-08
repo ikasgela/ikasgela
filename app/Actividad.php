@@ -4,10 +4,12 @@ namespace App;
 
 use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Actividad extends Model
 {
     use Cloneable;
+    use LogsActivity;
 
     protected $cloneable_relations = ['intellij_projects', 'youtube_videos', 'siguiente'];
     protected $clone_exempt_attributes = ['plantilla'];
