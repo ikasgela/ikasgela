@@ -175,7 +175,12 @@ class ActividadController extends Controller
 
         $actividad->save();
 
-        return redirect(route('actividades.index'));
+        switch (session('ubicacion')) {
+            case 'actividades.index':
+                return redirect(route('actividades.index'));
+            case 'actividades.plantillas':
+                return redirect(route('actividades.plantillas'));
+        }
     }
 
     /**
