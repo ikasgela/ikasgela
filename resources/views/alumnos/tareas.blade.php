@@ -2,7 +2,20 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => 'Escritorio'])
+    <div class="d-flex flex-row justify-content-between align-items-baseline mb-3">
+        <div>
+            <h1>{{ __('Desktop') }}</h1>
+        </div>
+        <div>
+            @if(session('num_actividades') > 0)
+                @if(session('num_actividades') == 1)
+                    <h2 class="text-muted font-xl">Tienes una actividad en curso</h2>
+                @else
+                    <h2 class="text-muted font-xl">Tienes {{ session('num_actividades') }} actividades en curso</h2>
+                @endif
+            @endif
+        </div>
+    </div>
 
     @if(count($actividades) > 0)
         @php($num_actividad = 1)
