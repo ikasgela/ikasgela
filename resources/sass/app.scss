@@ -42,3 +42,8 @@
 .table-row td {
   cursor: pointer;
 }
+
+// https://stackoverflow.com/a/27747130
+.table > tbody > tr > td {
+  vertical-align: middle;
+}
