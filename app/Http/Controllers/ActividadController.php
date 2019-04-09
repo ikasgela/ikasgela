@@ -38,7 +38,7 @@ class ActividadController extends Controller
     {
         $actividades = Actividad::where('plantilla', true)->get();
 
-        return view('actividades.index', compact('actividades'));
+        return view('actividades.plantillas', compact('actividades'));
     }
 
     /**

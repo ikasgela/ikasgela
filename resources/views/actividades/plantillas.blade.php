@@ -5,14 +5,7 @@
     @include('partials.titular', ['titular' => __('Activities')])
 
     <div class="mb-3">
-        <a class="btn btn-primary" href="{{ route('actividades.create') }}">{{ __('New activity') }}</a>
-        @if(Route::currentRouteName() == 'actividades.index')
-            {!! link_to_route('actividades.plantillas', $title = 'Ver solo plantillas', $parameters = [],
-                    $attributes = ['class' => 'btn btn-link text-secondary']); !!}
-        @else
-            {!! link_to_route('actividades.index', $title = 'Ver todas las actividades', $parameters = [],
-                    $attributes = ['class' => 'btn btn-link text-secondary']); !!}
-        @endif
+        <a class="btn btn-primary" href="{{ route('actividades.create') }}">{{ __('New activity template') }}</a>
     </div>
 
     <div class="table-responsive">
@@ -20,11 +13,11 @@
             <thead class="thead-dark">
             <tr>
                 <th>#</th>
-                <th></th>
                 <th>{{ __('Unit') }}</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Slug') }}</th>
-                {{-- <th>{{ __('Score') }}</th> --}}
+                <th>{{ __('Score') }}</th>
+                <th class="text-center">{{ __('Auto advance') }}</th>
                 <th>{{ __('Next') }}</th>
                 <th>{{ __('Resources') }}</th>
                 <th>{{ __('Actions') }}</th>
@@ -33,13 +26,13 @@
             <tbody>
             @foreach($actividades as $actividad)
                 <tr>
-                    <td class="py-3">{{ $actividad->id }}</td>
-                    <td class="py-3">{!! $actividad->plantilla ? '<i class="far fa-copy"></i>' : '' !!}</td>
-                    <td class="py-3">{{ $actividad->unidad->nombre }}</td>
-                    <td class="py-3">{{ $actividad->nombre }}</td>
-                    <td class="py-3">{{ $actividad->slug }}</td>
-                    {{-- <td class="py-3">{{ $actividad->puntuacion }}</td> --}}
-                    <td class="py-3">
+                    <td>{{ $actividad->id }}</td>
+                    <td>{{ $actividad->unidad->nombre }}</td>
+                    <td>{{ $actividad->nombre }}</td>
+                    <td>{{ $actividad->slug }}</td>
+                    <td class="py-3">{{ $actividad->puntuacion }}</td>
+                    <td class="text-center">{!! $actividad->auto_avance ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                    <td>
                         {!! !is_null($actividad->siguiente) ? $actividad->final
                         ? '<i class="fas fa-times text-danger"></i>'
                         : '<i class="fas fa-arrow-right text-success"></i>'
@@ -49,22 +42,20 @@
                             {{ $actividad->siguiente->slug . ' ('.$actividad->siguiente->id.')' }}
                         @endif
                     </td>
-                    <td>
-                        <a href="{{ route('youtube_videos.actividad', [$actividad->id]) }}"
-                           class='btn btn-outline-dark'>Youtube</a>
-                        <a href="{{ route('intellij_projects.actividad', [$actividad->id]) }}"
-                           class='btn btn-outline-dark'>IntelliJ</a>
-                    </td>
+                    @include('partials.botones_recursos')
                     <td>
                         <form method="POST" action="{{ route('actividades.destroy', [$actividad->id]) }}">
                             @csrf
                             @method('DELETE')
                             <div class='btn-group'>
-                                <a href="{{ route('actividades.show', [$actividad->id]) }}"
-                                   class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
-                                <a href="{{ route('actividades.edit', [$actividad->id]) }}"
+                                <a title="{{ __('Edit') }}"
+                                   href="{{ route('actividades.edit', [$actividad->id]) }}"
                                    class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                                <button type="submit" onclick="return confirm('¿Seguro?')"
+                                <a title="{{ __('Duplicate') }}"
+                                   href="{{ route('actividades.edit', [$actividad->id]) }}"
+                                   class='btn btn-light btn-sm'><i class="fas fa-copy"></i></a>
+                                <button title="{{ __('Delete') }}"
+                                        type="submit" onclick="return confirm('¿Seguro?')"
                                         class="btn btn-light btn-sm"><i class="fas fa-trash text-danger"></i>
                                 </button>
                             </div>

@@ -38,6 +38,7 @@
                 </div>
             </div>
             {{ Form::campoCheck('final', __('Final')) }}
+            {{ Form::campoCheck('auto_avance', __('Auto advance')) }}
 
             @include('partials.guardar_cancelar')
 

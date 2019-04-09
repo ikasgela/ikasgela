@@ -10,7 +10,7 @@
     <form method="POST" action="{{ route('profesor.asignar_tarea', ['user' => $user->id]) }}">
         @csrf
         <div class="table-responsive">
-            <table class="table">
+            <table class="table table-hover">
                 <thead class="thead-dark">
                 <tr>
                     <th>#</th>
@@ -21,12 +21,12 @@
                 <tbody>
                 @foreach($disponibles as $actividad)
                     <tr>
-                        <td class="align-middle">{{ $actividad->id }}</td>
-                        <td class="align-middle">
+                        <td>{{ $actividad->id }}</td>
+                        <td>
                             <input type="checkbox" name="seleccionadas[]" value="{{ $actividad->id }}">
                         </td>
-                        <td class="align-middle">{{ $actividad->nombre }}</td>
-                        <td class="align-middle">{{ $actividad->unidad->slug.'/'.$actividad->slug }}</td>
+                        <td>{{ $actividad->nombre }}</td>
+                        <td>{{ $actividad->unidad->slug.'/'.$actividad->slug }}</td>
                     </tr>
                 @endforeach
                 </tbody>
