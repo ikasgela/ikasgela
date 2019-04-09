@@ -52,7 +52,7 @@
                                    href="{{ route('actividades.edit', [$actividad->id]) }}"
                                    class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
                                 <a title="{{ __('Duplicate') }}"
-                                   href="{{ route('actividades.edit', [$actividad->id]) }}"
+                                   href="#"
                                    class='btn btn-light btn-sm'><i class="fas fa-copy"></i></a>
                                 @include('partials.boton_borrar')
                             </div>

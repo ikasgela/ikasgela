@@ -31,12 +31,16 @@ class ActividadController extends Controller
     {
         $actividades = Actividad::all();
 
+        session(['ubicacion' => 'actividades.index']);
+
         return view('actividades.index', compact('actividades'));
     }
 
     public function plantillas()
     {
         $actividades = Actividad::where('plantilla', true)->get();
+
+        session(['ubicacion' => 'actividades.plantillas']);
 
         return view('actividades.plantillas', compact('actividades'));
     }
@@ -85,7 +89,12 @@ class ActividadController extends Controller
             $actividad->siguiente()->save($siguiente);
         }
 
-        return redirect(route('actividades.index'));
+        switch (session('ubicacion')) {
+            case 'actividades.index':
+                return redirect(route('actividades.index'));
+            case 'actividades.plantillas':
+                return redirect(route('actividades.plantillas'));
+        }
     }
 
     protected $table = 'actividades';
