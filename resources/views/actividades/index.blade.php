@@ -16,7 +16,7 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table">
+        <table class="table table-hover">
             <thead class="thead-dark">
             <tr>
                 <th>#</th>

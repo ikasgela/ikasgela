@@ -13,32 +13,35 @@
             <thead class="thead-dark">
             <tr>
                 <th></th>
-                <th>Nombre</th>
+                <th>{{ __('Name') }}</th>
+                <th class="text-center">Ocultas</th>
                 <th class="text-center">Nuevas</th>
-                <th class="text-center">En curso</th>
+                <th class="text-center">Aceptadas</th>
                 <th class="text-center">Enviadas</th>
-                <th class="text-center">Terminadas</th>
+                <th class="text-center">Revisadas</th>
+                <th class="text-center">Archivadas</th>
                 <th>Acciones</th>
             </tr>
             </thead>
             <tbody>
             @foreach($usuarios as $usuario)
                 <tr class="table-row" data-href="{{ route('profesor.tareas', [$usuario->id]) }}">
-                    <td class="align-middle"><img style="height:35px;" src="{{ $usuario->avatar_url()}}"/></td>
-                    <td class="align-middle">{{ $usuario->name }}</td>
-                    <td class="text-center align-middle">{{ count($usuario->actividades_nuevas()) }}</td>
-                    <td class="text-center align-middle">{{ count($usuario->actividades_en_curso()) }}</td>
-                    <td class="text-center align-middle {{ count($usuario->actividades_enviadas())>0 ? 'bg-danger' : '' }}">{{ count($usuario->actividades_enviadas()) }}</td>
-                    <td class="text-center align-middle">{{ count($usuario->actividades_terminadas()) }}</td>
-                    <td class="align-middle">
+                    <td><img style="height:35px;" src="{{ $usuario->avatar_url()}}"/></td>
+                    <td>{{ $usuario->name }}</td>
+
+                    <td class="text-center">{{ count($usuario->actividades_ocultas()) }}</td>
+                    <td class="text-center">{{ count($usuario->actividades_nuevas()) }}</td>
+                    <td class="text-center">{{ count($usuario->actividades_aceptadas()) }}</td>
+                    <td class="text-center {{ count($usuario->actividades_enviadas())>0 ? 'bg-danger' : '' }}">{{ count($usuario->actividades_enviadas()) }}</td>
+                    <td class="text-center">{{ count($usuario->actividades_revisadas()) }}</td>
+                    <td class="text-center">{{ count($usuario->actividades_archivadas()) }}</td>
+                    <td>
                         <form method="POST"
                               action="{{ route('users.destroy', ['user' => $usuario->id]) }}">
                             @csrf
                             @method('DELETE')
                             <div class="btn-group">
-                                <button type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
-                                        class="btn btn-light btn-sm"><i class="fas fa-trash text-danger"></i>
-                                </button>
+                                @include('partials.boton_borrar')
                             </div>
                         </form>
                     </td>

@@ -31,6 +31,8 @@ class ActividadController extends Controller
     {
         $actividades = Actividad::all();
 
+        session(['ubicacion' => 'actividades.index']);
+
         return view('actividades.index', compact('actividades'));
     }
 
@@ -38,7 +40,9 @@ class ActividadController extends Controller
     {
         $actividades = Actividad::where('plantilla', true)->get();
 
-        return view('actividades.index', compact('actividades'));
+        session(['ubicacion' => 'actividades.plantillas']);
+
+        return view('actividades.plantillas', compact('actividades'));
     }
 
     /**
@@ -85,7 +89,12 @@ class ActividadController extends Controller
             $actividad->siguiente()->save($siguiente);
         }
 
-        return redirect(route('actividades.index'));
+        switch (session('ubicacion')) {
+            case 'actividades.index':
+                return redirect(route('actividades.index'));
+            case 'actividades.plantillas':
+                return redirect(route('actividades.plantillas'));
+        }
     }
 
     protected $table = 'actividades';
@@ -166,7 +175,12 @@ class ActividadController extends Controller
 
         $actividad->save();
 
-        return redirect(route('actividades.index'));
+        switch (session('ubicacion')) {
+            case 'actividades.index':
+                return redirect(route('actividades.index'));
+            case 'actividades.plantillas':
+                return redirect(route('actividades.plantillas'));
+        }
     }
 
     /**

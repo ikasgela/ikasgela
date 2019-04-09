@@ -23,7 +23,7 @@
             {{ Form::campoTexto('nombre', __('Name')) }}
             {{ Form::campoTexto('descripcion', __('Description')) }}
             {{ Form::campoTexto('slug', __('Slug')) }}
-            {{ Form::campoTexto('puntuacion', __('Score')) }}
+            {{ Form::campoTexto('puntuacion', __('Score'), 10) }}
             {{ Form::campoCheck('plantilla', __('Template'), true) }}
 
             <div class="form-group row">
@@ -38,6 +38,7 @@
                 </div>
             </div>
             {{ Form::campoCheck('final', __('Final')) }}
+            {{ Form::campoCheck('auto_avance', __('Auto advance')) }}
 
             @include('partials.guardar_cancelar')
 

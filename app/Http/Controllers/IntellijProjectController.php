@@ -164,9 +164,18 @@ class IntellijProjectController extends Controller
 
     public function duplicar(Request $request)
     {
+        $origen = $request->input('origen');
+        $destino = $request->input('destino');
+
+        // Guardar en la sesión los datos para prerellenar el formulario
+        session([
+            'intellij_origen' => $origen,
+            'intellij_destino' => $destino
+        ]);
+
         $this->clonar_repositorio(
-            $request->input('origen'),
-            $request->input('destino'),
+            $origen,
+            $destino,
             $request->input('ruta'),
             $request->input('nombre')
         );

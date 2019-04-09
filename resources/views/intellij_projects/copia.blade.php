@@ -9,13 +9,12 @@
 
             {!! Form::open(['route' => 'intellij_projects.duplicar']) !!}
 
-            {{ Form::campoTexto('origen', __('Project'), 'programacion/plantillas/proyecto-intellij-java', ['placeholder' => 'programacion/plantillas/proyecto-intellij-java']) }}
-            {{ Form::campoTexto('destino', __('Group'), '', ['placeholder' => 'programacion/introduccion (opcional, copia en root/hola-mundo)']) }}
-            {{ Form::campoTexto('ruta', __('New project'), '', ['placeholder' => 'hola-mundo']) }}
+            {{ Form::campoTexto('origen', __('Project'), session('intellij_origen', 'programacion/plantillas/proyecto-intellij-java'), ['placeholder' => 'programacion/plantillas/proyecto-intellij-java']) }}
+            {{ Form::campoTexto('destino', __('Group'), session('intellij_destino'), ['placeholder' => 'programacion/introduccion (opcional, por defecto copia en root/hola-mundo)']) }}
+            {{ Form::campoTexto('ruta', __('New project'), '', ['placeholder' => 'hola-mundo (opcional, mantiene el original)']) }}
             {{ Form::campoTexto('nombre', __('New project name'), '', ['placeholder' => 'Hola Mundo (opcional, mantiene el original)']) }}
 
             <button type="submit" class="btn btn-primary">{{ __('Clone') }}</button>
-            <a href="{{ url()->previous() }}" class="btn btn-link text-secondary">{{ __('Cancel') }}</a>
 
             {!! Form::close() !!}
 
@@ -23,20 +22,22 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table">
+        <table class="table table-hover">
             <thead class="thead-dark">
             <tr>
                 <th>#</th>
                 <th>{{ __('Name') }}</th>
+                <th>{{ __('Description') }}</th>
                 <th>{{ __('GitLab') }}</th>
             </tr>
             </thead>
             <tbody>
             @foreach($proyectos as $proyecto)
-                <tr>
-                    <td class="py-3">{{ $proyecto['id'] }}</td>
-                    <td class="py-3">{{ $proyecto['name'] }}</td>
-                    <td class="py-3">@include('partials.link_gitlab', ['proyecto' => $proyecto ])</td>
+                <tr class="table-row-blank" data-href="{{ $proyecto['http_url_to_repo'] }}">
+                    <td>{{ $proyecto['id'] }}</td>
+                    <td>{{ $proyecto['name'] }}</td>
+                    <td>{{ $proyecto['description'] }}</td>
+                    <td>{{ $proyecto['path_with_namespace'] }}</td>
                 </tr>
             @endforeach
             </tbody>
