@@ -45,7 +45,11 @@
                                 {!! '<i class="fas fa-check"></i>' !!}
                             @endswitch
                         @else
-                            {!! '<i class="fas fa-times text-danger"></i>' !!}
+                            @if(!$actividad->auto_avance)
+                                {!! '<i class="fas fa-times text-danger"></i>' !!}
+                            @else
+                                {!! '<i class="fas fa-times text-secondary"></i>' !!}
+                            @endif
                         @endif
                     </td>
                     <td class="text-center">{!! !is_null($actividad->tarea->terminada) || !is_null($actividad->tarea->archivada) ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
