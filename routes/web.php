@@ -37,9 +37,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/archivo', 'ArchivoController@index')
             ->name('archivo.index');
 
-        // IntellijProject
+        // Fork de un proyecto de Intellij
         Route::get('/intellij_projects/{actividad}/fork/{intellij_project}', 'IntellijProjectController@fork')
             ->name('intellij_projects.fork');
+
     });
 
     // Profesor
@@ -68,13 +69,39 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Borrar una tarea
         Route::delete('/tareas/{user}/destroy/{tarea}', 'TareaController@destroy')
             ->name('tareas.destroy');
+
+        // Gestionar plantillas de actividades
+        Route::get('/actividades/plantillas', 'ActividadController@plantillas')
+            ->name('actividades.plantillas');
+
+        // YoutubeVideo
+        Route::resource('youtube_videos', 'YoutubeVideoController');
+        Route::get('/youtube_videos/{actividad}/actividad', 'YoutubeVideoController@actividad')
+            ->name('youtube_videos.actividad');
+        Route::post('/youtube_videos/{actividad}/asociar', 'YoutubeVideoController@asociar')
+            ->name('youtube_videos.asociar');
+        Route::delete('/youtube_videos/{actividad}/desasociar/{youtube_video}', 'YoutubeVideoController@desasociar')
+            ->name('youtube_videos.desasociar');
+
+        // Clonador de IntellijProject
+        Route::get('/intellij_projects/copia', 'IntellijProjectController@copia')
+            ->name('intellij_projects.copia');
+        Route::post('/intellij_projects/duplicar', 'IntellijProjectController@duplicar')
+            ->name('intellij_projects.duplicar');
+
+        // IntellijProject
+        Route::resource('intellij_projects', 'IntellijProjectController');
+        Route::get('/intellij_projects/{actividad}/actividad', 'IntellijProjectController@actividad')
+            ->name('intellij_projects.actividad');
+        Route::post('/intellij_projects/{actividad}/asociar', 'IntellijProjectController@asociar')
+            ->name('intellij_projects.asociar');
+        Route::delete('/intellij_projects/{actividad}/desasociar/{intellij_project}', 'IntellijProjectController@desasociar')
+            ->name('intellij_projects.desasociar');
+
     });
 
     // Administrador
     Route::middleware(['role:admin'])->group(function () {
-
-        Route::get('/actividades/plantillas', 'ActividadController@plantillas')
-            ->name('actividades.plantillas');
 
         // Borrar un usuario
         Route::delete('/users/{user}', 'UserController@destroy')
@@ -86,29 +113,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->parameters(['unidades' => 'unidad']);
         Route::resource('actividades', 'ActividadController')
             ->parameters(['actividades' => 'actividad']);
-
-        // YoutubeVideo
-        Route::resource('youtube_videos', 'YoutubeVideoController');
-        Route::get('/youtube_videos/{actividad}/actividad', 'YoutubeVideoController@actividad')
-            ->name('youtube_videos.actividad');
-        Route::post('/youtube_videos/{actividad}/asociar', 'YoutubeVideoController@asociar')
-            ->name('youtube_videos.asociar');
-        Route::delete('/youtube_videos/{actividad}/desasociar/{youtube_video}', 'YoutubeVideoController@desasociar')
-            ->name('youtube_videos.desasociar');
-
-        // IntellijProject
-        Route::get('/intellij_projects/copia', 'IntellijProjectController@copia')
-            ->name('intellij_projects.copia');
-        Route::post('/intellij_projects/duplicar', 'IntellijProjectController@duplicar')
-            ->name('intellij_projects.duplicar');
-
-        Route::resource('intellij_projects', 'IntellijProjectController');
-        Route::get('/intellij_projects/{actividad}/actividad', 'IntellijProjectController@actividad')
-            ->name('intellij_projects.actividad');
-        Route::post('/intellij_projects/{actividad}/asociar', 'IntellijProjectController@asociar')
-            ->name('intellij_projects.asociar');
-        Route::delete('/intellij_projects/{actividad}/desasociar/{intellij_project}', 'IntellijProjectController@desasociar')
-            ->name('intellij_projects.desasociar');
 
     });
 

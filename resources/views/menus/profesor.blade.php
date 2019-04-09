@@ -10,33 +10,25 @@
         <i class="nav-icon fas fa-file"></i> {{ __('Activity templates') }}
     </a>
 </li>
-
-{{--
 <li class="nav-item">
-    <a class="nav-link" href="#">
-        <i class="nav-icon icon-pencil"></i> Actividades
+    <a class="nav-link" href="{{ route('intellij_projects.copia') }}">
+        <i class="nav-icon fas fa-copy"></i> {{ __('Project cloner') }}
     </a>
 </li>
-<li class="nav-item">
-    <a class="nav-link" href="#">
-        <i class="nav-icon icon-lock"></i> Repositorios
+<li class="nav-item nav-dropdown">
+    <a class="nav-link nav-dropdown-toggle" href="#">
+        <i class="nav-icon fas fa-database"></i> {{ __('Resources') }}
     </a>
+    <ul class="nav-dropdown-items">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('youtube_videos.index') }}">
+                {{ __('YouTube videos') }}
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('intellij_projects.index') }}">
+                {{ __('IntelliJ projects') }}
+            </a>
+        </li>
+    </ul>
 </li>
-<li class="nav-item">
-    <a class="nav-link" href="#">
-        <i class="nav-icon icon-settings"></i> Seguimiento de alumnos
-    </a>
-</li>
-<li class="nav-title">Administrador</li>
-
-<li class="nav-item">
-    <a class="nav-link" href="#">
-        <i class="nav-icon icon-pencil"></i> Estructura de centros
-    </a>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="#">
-        <i class="nav-icon icon-lock"></i> Usuarios
-    </a>
-</li>
---}}
