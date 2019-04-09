@@ -30,7 +30,7 @@
                     <td>{{ $actividad->unidad->nombre }}</td>
                     <td>{{ $actividad->nombre }}</td>
                     <td>{{ $actividad->slug }}</td>
-                    <td class="py-3">{{ $actividad->puntuacion }}</td>
+                    <td>{{ $actividad->puntuacion }}</td>
                     <td class="text-center">{!! $actividad->auto_avance ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
                     <td>
                         {!! !is_null($actividad->siguiente) ? $actividad->final
@@ -54,10 +54,7 @@
                                 <a title="{{ __('Duplicate') }}"
                                    href="{{ route('actividades.edit', [$actividad->id]) }}"
                                    class='btn btn-light btn-sm'><i class="fas fa-copy"></i></a>
-                                <button title="{{ __('Delete') }}"
-                                        type="submit" onclick="return confirm('¿Seguro?')"
-                                        class="btn btn-light btn-sm"><i class="fas fa-trash text-danger"></i>
-                                </button>
+                                @include('partials.boton_borrar')
                             </div>
                         </form>
                     </td>
