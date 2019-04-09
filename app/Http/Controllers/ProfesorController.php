@@ -19,13 +19,7 @@ class ProfesorController extends Controller
 
     public function index()
     {
-        $tareas = Tarea::where('estado', 30)->get();
-
-        $num_enviadas = count($tareas);
-        if ($num_enviadas > 0)
-            session(['num_enviadas' => $num_enviadas]);
-        else
-            session()->forget('num_enviadas');
+        $this->recuento_enviadas();
 
         $usuarios = User::orderBy('id')->whereHas('roles', function ($query) {
             $query->where('name', 'alumno');
@@ -36,6 +30,8 @@ class ProfesorController extends Controller
 
     public function tareas(User $user, Request $request)
     {
+        $this->recuento_enviadas();
+
         $actividades = $user->actividades()->get();
 
         $unidades = Unidad::all();
@@ -96,5 +92,16 @@ class ProfesorController extends Controller
         $actividad = $tarea->actividad;
 
         return view('profesor.revisar', compact(['user', 'tarea', 'actividad']));
+    }
+
+    private function recuento_enviadas(): void
+    {
+        $tareas = Tarea::where('estado', 30)->get();
+
+        $num_enviadas = count($tareas);
+        if ($num_enviadas > 0)
+            session(['num_enviadas' => $num_enviadas]);
+        else
+            session()->forget('num_enviadas');
     }
 }

@@ -25,11 +25,30 @@
                 <tr>
                     <td>{{ $actividad->tarea->id }}</td>
                     <td>{{ $actividad->unidad->slug.'/'.$actividad->slug }}</td>
-                    <td class="text-center">{!! $actividad->tarea->estado == 11 ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
-                    <td class="text-center">{!! !is_null($actividad->tarea->aceptada) ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
-                    <td class="text-center">{!! !is_null($actividad->tarea->enviada) ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
-                    <td class="text-center">{!! !is_null($actividad->tarea->revisada) ? $actividad->tarea->estado == 41 ? '<i class="fas fa-check text-warning"></i>' : '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
-                    <td class="text-center">{!! !is_null($actividad->tarea->terminada) || !is_null($actividad->tarea->archivada) ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                    <td class="text-center">{!! $actividad->tarea->estado == 11 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-secondary"></i>' !!}</td>
+                    <td class="text-center">{!! !is_null($actividad->tarea->aceptada) ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                    <td class="text-center
+                    @if($actividad->tarea->estado == 30)
+                            bg-danger
+                    @endif
+                            ">{!! !is_null($actividad->tarea->enviada) ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                    <td class="text-center">
+                        @if(!is_null($actividad->tarea->revisada))
+                            @switch($actividad->tarea->estado)
+                                @case(40)
+                                {!! '<i class="fas fa-check text-success"></i>' !!}
+                                @break
+                                @case(41)
+                                {!! '<i class="fas fa-check text-warning"></i>' !!}
+                                @break
+                                @default
+                                {!! '<i class="fas fa-check"></i>' !!}
+                            @endswitch
+                        @else
+                            {!! '<i class="fas fa-times text-danger"></i>' !!}
+                        @endif
+                    </td>
+                    <td class="text-center">{!! !is_null($actividad->tarea->terminada) || !is_null($actividad->tarea->archivada) ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
                     @include('partials.botones_recursos')
                     <td>
                         <form method="POST"
