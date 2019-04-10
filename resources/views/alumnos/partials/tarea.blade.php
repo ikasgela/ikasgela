@@ -56,7 +56,8 @@
                                     class="btn btn-primary">{{ __('Accept activity') }}</button>
                             @break
                             @case(20)   {{-- Aceptada --}}
-                            @if($actividad->intellij_projects()->whereNull('fork')->count() == 0)
+                            @if(!($actividad->intellij_projects()->get()->count() > 0
+                                && $actividad->intellij_projects()->wherePivot('fork',null)->get()->count() > 0))
                                 <button type="submit" name="nuevoestado" value="30"
                                         class="btn btn-primary">{{ __('Submit for review') }}</button>
                             @endif
