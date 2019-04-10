@@ -11727,7 +11727,12 @@ a.text-dark:focus {
   }
 }
 
-.table-row td {
+.table-row,
+.table-row-blank td {
+  cursor: pointer;
+}
+
+.table-cell-click .clickable {
   cursor: pointer;
 }
 

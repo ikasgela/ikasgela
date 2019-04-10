@@ -39,4 +39,8 @@ $(document).ready(function ($) {
     $(".table-row-blank").click(function () {
         window.open($(this).data("href"));
     });
+
+    $(".table-cell-click .clickable").click(function () {
+        window.location = $(this).parent().data("href");
+    });
 });
