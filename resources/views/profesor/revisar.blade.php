@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => 'Revisar tarea'])
+    @include('partials.titular', ['titular' => __('Assigment review')])
 
     @include('profesor.partials.tarea')
 

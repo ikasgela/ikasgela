@@ -17,7 +17,7 @@ class ProfesorController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $this->recuento_enviadas();
 
@@ -25,7 +25,19 @@ class ProfesorController extends Controller
             $query->where('name', 'alumno');
         })->get();
 
-        return view('profesor.index', compact('usuarios'));
+        $unidades = Unidad::all();
+
+        if ($request->has('unidad_id')) {
+            session(['grupo_unidad_actual' => $request->input('unidad_id')]);
+        }
+
+        if (session('grupo_unidad_actual')) {
+            $disponibles = Actividad::where('plantilla', true)->where('unidad_id', session('grupo_unidad_actual'))->get();
+        } else {
+            $disponibles = Actividad::where('plantilla', true)->get();
+        }
+
+        return view('profesor.index', compact(['usuarios', 'unidades', 'disponibles']));
     }
 
     public function tareas(User $user, Request $request)
@@ -66,6 +78,51 @@ class ProfesorController extends Controller
             'seleccionadas' => 'required',
         ]);
 
+        $this->asignarTareasUsuario($user);
+
+        return redirect(route('profesor.tareas', ['user' => $user->id]));
+    }
+
+    public function asignarTareasGrupo(Request $request)
+    {
+        $this->validate($request, [
+            'usuarios_seleccionados' => 'required',
+            'seleccionadas' => 'required',
+        ]);
+
+        foreach (request('usuarios_seleccionados') as $user_id) {
+
+            $user = User::find($user_id);
+
+            $this->asignarTareasUsuario($user);
+        }
+
+        return redirect(route('profesor.index'));
+    }
+
+    public function revisar(User $user, Tarea $tarea)
+    {
+        $actividad = $tarea->actividad;
+
+        return view('profesor . revisar', compact(['user', 'tarea', 'actividad']));
+    }
+
+    private function recuento_enviadas(): void
+    {
+        $tareas = Tarea::where('estado', 30)->get();
+
+        $num_enviadas = count($tareas);
+        if ($num_enviadas > 0)
+            session(['num_enviadas' => $num_enviadas]);
+        else
+            session()->forget('num_enviadas');
+    }
+
+    /**
+     * @param $user
+     */
+    private function asignarTareasUsuario($user): void
+    {
         $asignadas = '';
 
         foreach (request('seleccionadas') as $actividad_id) {
@@ -83,25 +140,5 @@ class ProfesorController extends Controller
         }
 
         Mail::to($user->email)->queue(new ActividadAsignada($user->name, $asignadas));
-
-        return redirect(route('profesor.tareas', ['user' => $user->id]));
-    }
-
-    public function revisar(User $user, Tarea $tarea)
-    {
-        $actividad = $tarea->actividad;
-
-        return view('profesor.revisar', compact(['user', 'tarea', 'actividad']));
-    }
-
-    private function recuento_enviadas(): void
-    {
-        $tareas = Tarea::where('estado', 30)->get();
-
-        $num_enviadas = count($tareas);
-        if ($num_enviadas > 0)
-            session(['num_enviadas' => $num_enviadas]);
-        else
-            session()->forget('num_enviadas');
     }
 }
