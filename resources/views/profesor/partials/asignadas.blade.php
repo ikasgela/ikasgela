@@ -1,8 +1,4 @@
-<div class="row mb-3">
-    <div class="col-md">
-        <h2>Actividades asignadas</h2>
-    </div>
-</div>
+@include('partials.subtitulo', ['subtitulo' => __('Assigned activities')])
 
 @if(count($actividades) > 0 )
     <div class="table-responsive">

@@ -50,6 +50,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/alumnos', 'ProfesorController@index')
             ->name('profesor.index');
 
+        // Selector de unidad
+        Route::post('/alumnos', 'ProfesorController@index')
+            ->name('profesor.index');
+
+        // Asignar una tarea a un alumno
+        Route::post('/alumnos/asignar_tareas', 'ProfesorController@asignarTareasGrupo')
+            ->name('profesor.asignar_tareas_grupo');
+
         // Tareas actuales de un alumno
         Route::get('/alumnos/{user}/tareas', 'ProfesorController@tareas')
             ->name('profesor.tareas');
