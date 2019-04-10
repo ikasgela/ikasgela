@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\NuevoUsuario;
 use App\Role;
 use App\User;
 use GitLab;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -96,6 +98,8 @@ class RegisterController extends Controller
         activity()
             ->causedBy($laravel)
             ->log('Nuevo usuario');
+
+        Mail::to('info@ikasgela.com')->queue(new NuevoUsuario($laravel));
 
         return $laravel;
     }
