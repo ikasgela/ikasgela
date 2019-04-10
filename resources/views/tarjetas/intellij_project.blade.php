@@ -6,6 +6,11 @@
         @if(!$intellij_project->isForked())
             <a href="{{ route('intellij_projects.fork', ['actividad' => $actividad->id, 'intellij_project'=>$intellij_project->id]) }}"
                class="btn btn-primary">{{ __('Clone the project') }}</a>
+            @if(session('status'))
+                <div class="alert alert-danger mb-0 mt-3" role="alert">
+                    <span>{{ session('status') }}</span>
+                </div>
+            @endif
         @else
             <a href="jetbrains://idea/checkout/git?checkout.repo={{ str_replace('https://',"https://".Auth::user()->username."@",$repositorio['http_url_to_repo']) }}&idea.required.plugins.id=Git4Idea"
                class="btn btn-primary">{{ __('Open in IntelliJ IDEA') }}</a>

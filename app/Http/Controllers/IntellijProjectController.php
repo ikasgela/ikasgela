@@ -97,7 +97,7 @@ class IntellijProjectController extends Controller
         return redirect(route('intellij_projects.actividad', ['actividad' => $actividad->id]));
     }
 
-    public function fork(Actividad $actividad, IntellijProject $intellij_project)
+    public function fork(Actividad $actividad, IntellijProject $intellij_project, Request $request)
     {
         $username = Auth::user()->username;
 
@@ -106,9 +106,15 @@ class IntellijProjectController extends Controller
             . '-' . $actividad->unidad->slug
             . '-' . $actividad->slug
             . '-' . $proyecto['path'];
+
         $fork = $this->clonar_repositorio($proyecto['path_with_namespace'], $username, $ruta);
-        $actividad->intellij_projects()
-            ->updateExistingPivot($intellij_project->id, ['fork' => $fork['path_with_namespace']]);
+
+        if ($fork) {
+            $actividad->intellij_projects()
+                ->updateExistingPivot($intellij_project->id, ['fork' => $fork['path_with_namespace']]);
+        } else {
+            $request->session()->flash('status', 'Error al clonar el repositorio, contacta con el administrador.');
+        }
 
         return redirect(route('users.home'));
     }
@@ -131,25 +137,22 @@ class IntellijProjectController extends Controller
 
     private function clonar_repositorio($origen, $destino, $ruta, $nombre = null)
     {
-        // Obtener el id del repositorio de origen
-        $original = GitLab::projects()->show($origen);
-
-        // Hacer el fork
-        $fork = GitLab::projects()->fork($original['id'], [
-            'namespace' => $destino,
-            'name' => $nombre,
-            'path' => $ruta
-        ]);
-
-        // Desconectarlo del repositorio original
-        GitLab::projects()->removeForkRelation($fork['id']);
-
-        // Convertirlo en privado
-        $fork = GitLab::projects()->update($fork['id'], [
-            'visibility' => 'private'
-        ]);
-
-        return $fork;
+        try {
+            // Obtener el id del repositorio de origen
+            $original = GitLab::projects()->show($origen);// Hacer el fork
+            $fork = GitLab::projects()->fork($original['id'], [
+                'namespace' => $destino,
+                'name' => $nombre,
+                'path' => $ruta
+            ]);// Desconectarlo del repositorio original
+            GitLab::projects()->removeForkRelation($fork['id']);// Convertirlo en privado
+            $fork = GitLab::projects()->update($fork['id'], [
+                'visibility' => 'private'
+            ]);
+            return $fork;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     public function copia()
