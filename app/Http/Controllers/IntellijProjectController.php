@@ -113,7 +113,8 @@ class IntellijProjectController extends Controller
             $actividad->intellij_projects()
                 ->updateExistingPivot($intellij_project->id, ['fork' => $fork['path_with_namespace']]);
         } else {
-            $request->session()->flash('status', 'Error al clonar el repositorio, contacta con el administrador.');
+            $request->session()->flash('clone_error_id', $actividad->id);
+            $request->session()->flash('clone_error_status', 'Error al clonar el repositorio, contacta con el administrador.');
         }
 
         return redirect(route('users.home'));

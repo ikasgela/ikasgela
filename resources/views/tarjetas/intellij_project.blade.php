@@ -6,9 +6,9 @@
         @if(!$intellij_project->isForked())
             <a href="{{ route('intellij_projects.fork', ['actividad' => $actividad->id, 'intellij_project'=>$intellij_project->id]) }}"
                class="btn btn-primary">{{ __('Clone the project') }}</a>
-            @if(session('status'))
+            @if(session('clone_error_id') == $actividad->id)
                 <div class="alert alert-danger mb-0 mt-3" role="alert">
-                    <span>{{ session('status') }}</span>
+                    <span>{{ session('clone_error_status') }}</span>
                 </div>
             @endif
         @else
