@@ -2,7 +2,9 @@
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
-            <th></th>
+            <th>
+                <input type="checkbox" id="seleccionar_actividades">
+            </th>
             <th>#</th>
             <th>{{ __('Name') }}</th>
             <th>{{ __('Description') }}</th>

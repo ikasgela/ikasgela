@@ -53097,6 +53097,12 @@ $(document).ready(function ($) {
   $(".table-cell-click .clickable").click(function () {
     window.location = $(this).parent().data("href");
   });
+  $('#seleccionar_usuarios').change(function () {
+    $("input[name='usuarios_seleccionados[]']").not(this).prop('checked', this.checked);
+  });
+  $('#seleccionar_actividades').change(function () {
+    $("input[name='seleccionadas[]']").not(this).prop('checked', this.checked);
+  });
 });
 
 /***/ }),

@@ -2,7 +2,9 @@
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
-            <th></th>
+            <th>
+                <input type="checkbox" id="seleccionar_usuarios">
+            </th>
             <th></th>
             <th>{{ __('Name') }}</th>
             <th class="text-center">Ocultas</th>
