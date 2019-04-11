@@ -18,6 +18,8 @@ class TareaController extends Controller
 
     public function destroy(User $user, Tarea $tarea)
     {
+        $tarea->actividad->delete();
+
         $tarea->delete();
 
         return redirect(route('profesor.tareas', ['user' => $user->id]));
