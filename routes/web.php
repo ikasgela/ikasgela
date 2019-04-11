@@ -135,4 +135,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('/tarjeta_respuesta_corta', 'tarjetas.respuesta_corta');
     Route::get('/tarjeta_texto_markdown', 'TarjetaController@texto_markdown');
     Route::view('/tarjeta_pdf', 'tarjetas.pdf');
+
+    // Mensaje
+    Route::group(['prefix' => 'messages'], function () {
+        Route::get('/', ['as' => 'messages', 'uses' => 'MessagesController@index']);
+        Route::get('create', ['as' => 'messages.create', 'uses' => 'MessagesController@create']);
+        Route::post('/', ['as' => 'messages.store', 'uses' => 'MessagesController@store']);
+        Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
+        Route::put('{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
+    });
+
 });

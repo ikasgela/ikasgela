@@ -12,13 +12,15 @@
     </button>
     @if(Auth::check())
         <ul class="nav navbar-nav ml-auto mr-3">
-            @if(config('app.debug'))
+            <li class="nav-item">
+                <a class="nav-link" href="/messages">
+                    <i class="fas fa-envelope"></i>
+                    <span class="badge badge-pill badge-danger">@include('messenger.unread-count')</span>
+                </a>
+            </li>
+            @if(false)
                 {{-- Mensajes --}}
                 <li class="nav-item dropdown pt-1">
-                    <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true">
-                        <i class="fas fa-envelope"></i>
-                        <span class="badge badge-pill badge-danger">7</span>
-                    </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg">
                         <div class="dropdown-header text-center">
                             <strong>You have 4 messages</strong>

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,6 +12,7 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
     use LogsActivity;
+    use Messagable;
 
     /**
      * The attributes that are mass assignable.
