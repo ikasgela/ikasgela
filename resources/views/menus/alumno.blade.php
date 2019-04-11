@@ -5,13 +5,16 @@
         <span class="badge badge-danger">{{ session('num_actividades') }}</span>
     </a>
 </li>
+{{--
 @if(config('app.debug'))
     <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="/messages">
             <i class="nav-icon fas fa-comment"></i> {{ __('Tutorship') }}
+            <span class="badge badge-danger">@include('messenger.unread-count')</span>
         </a>
     </li>
 @endif
+--}}
 <li class="nav-item">
     <a class="nav-link" href="{{ route('archivo.index') }}">
         <i class="nav-icon fas fa-archive"></i> {{ __('Archived') }}

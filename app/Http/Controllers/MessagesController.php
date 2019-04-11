@@ -70,7 +70,9 @@ class MessagesController extends Controller
     {
         $users = User::where('id', '!=', Auth::id())->get();
 
-        return view('messenger.create', compact('users'));
+        $profesor = User::where('email', 'profe@ikasgela.com')->first();
+
+        return view('messenger.create', compact(['users', 'profesor']));
     }
 
     /**

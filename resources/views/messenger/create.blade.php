@@ -18,16 +18,23 @@
                 <textarea name="message" class="form-control">{{ old('message') }}</textarea>
             </div>
 
-            @if($users->count() > 0)
+            @if(Auth::user()->hasRole('profesor'))
+                @if($users->count() > 0)
+                    <div class="checkbox">
+                        @foreach($users as $user)
+                            <label title="{{ $user->name }}">
+                                <input type="checkbox" name="recipients[]"
+                                       value="{{ $user->id }}">{!!$user->name!!}</label>
+                        @endforeach
+                    </div>
+                @endif
+            @else
                 <div class="checkbox">
-                    @foreach($users as $user)
-                        <label title="{{ $user->name }}"><input type="checkbox" name="recipients[]"
-                                                                value="{{ $user->id }}">{!!$user->name!!}</label>
-                    @endforeach
+                    <select name="recipients[]">
+                        <option value="{{ $profesor->id }}">{!!$profesor->name!!}</option>
+                    </select>
                 </div>
             @endif
-    
-            <!-- Submit Form Input -->
             <div class="form-group">
                 <button type="submit" class="btn btn-primary form-control">Submit</button>
             </div>
