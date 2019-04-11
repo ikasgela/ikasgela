@@ -20,10 +20,21 @@ class IntellijProject extends Model
 
     public function gitlab()
     {
-        if (!$this->isForked())
-            return GitLab::projects()->show($this->repositorio);
-        else
-            return GitLab::projects()->show($this->pivot->fork);
+        try {
+            if (!$this->isForked())
+                return GitLab::projects()->show($this->repositorio);
+            else
+                return GitLab::projects()->show($this->pivot->fork);
+        } catch (\Exception $e) {
+            $fake = [
+                'id' => '?',
+                'name' => '?',
+                'description' => '?',
+                'http_url_to_repo' => '',
+                'path_with_namespace' => $this->repositorio
+            ];
+            return $fake;
+        }
     }
 
     public function isForked()
