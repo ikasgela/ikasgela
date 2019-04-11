@@ -4,6 +4,9 @@
     <div class="col-md-6">
         <div class="card mx-4">
             <div class="card-body p-4">
+                <div class="text-center">
+                    <img src="/svg/logo.svg" class="mb-5" width="200" alt="Ikasgela Logo">
+                </div>
                 <h1>{{ __('Reset Password') }}</h1>
                 <p class="text-muted">{{ __('Reset you password') }}</p>
 
