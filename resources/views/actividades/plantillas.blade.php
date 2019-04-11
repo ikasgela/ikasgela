@@ -17,7 +17,7 @@
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Slug') }}</th>
                 <th>{{ __('Score') }}</th>
-                <th class="text-center">{{ __('Auto advance') }}</th>
+                <th class="text-center">{{ __('Auto') }}</th>
                 <th>{{ __('Next') }}</th>
                 <th>{{ __('Resources') }}</th>
                 <th>{{ __('Actions') }}</th>
