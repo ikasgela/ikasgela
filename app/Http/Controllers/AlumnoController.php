@@ -26,13 +26,15 @@ class AlumnoController extends Controller
 
         $user = Auth::user();
 
-        $actividades = $user->actividades_asignadas();
+        // Recuento de asignadas
+        $num_actividades = $user->actividades_asignadas()->count();
 
-        $num_actividades = count($actividades);
         if ($num_actividades > 0)
             session(['num_actividades' => $num_actividades]);
         else
             session()->forget('num_actividades');
+
+        $actividades = $user->actividades_asignadas();
 
         return view('alumnos.tareas', compact(['actividades', 'user']));
     }

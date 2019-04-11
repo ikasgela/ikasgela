@@ -17,6 +17,14 @@ class ArchivoController extends Controller
         $user = Auth::user();
         $actividades = $user->actividades_archivadas();
 
+        // Recuento de asignadas
+        $num_actividades = $user->actividades_asignadas()->count();
+
+        if ($num_actividades > 0)
+            session(['num_actividades' => $num_actividades]);
+        else
+            session()->forget('num_actividades');
+
         return view('archivo.index', compact('actividades'));
     }
 
