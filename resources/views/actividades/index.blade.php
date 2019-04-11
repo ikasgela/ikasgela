@@ -24,7 +24,8 @@
                 <th>{{ __('Unit') }}</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Slug') }}</th>
-                {{-- <th>{{ __('Score') }}</th> --}}
+                <th>{{ __('Score') }}</th>
+                <th class="text-center">{{ __('Auto') }}</th>
                 <th>{{ __('Next') }}</th>
                 <th>{{ __('Resources') }}</th>
                 <th>{{ __('Actions') }}</th>
@@ -33,13 +34,14 @@
             <tbody>
             @foreach($actividades as $actividad)
                 <tr>
-                    <td class="py-3">{{ $actividad->id }}</td>
-                    <td class="py-3">{!! $actividad->plantilla ? '<i class="far fa-copy"></i>' : '' !!}</td>
-                    <td class="py-3">{{ $actividad->unidad->nombre }}</td>
-                    <td class="py-3">{{ $actividad->nombre }}</td>
-                    <td class="py-3">{{ $actividad->slug }}</td>
-                    {{-- <td class="py-3">{{ $actividad->puntuacion }}</td> --}}
-                    <td class="py-3">
+                    <td>{{ $actividad->id }}</td>
+                    <td>{!! $actividad->plantilla ? '<i class="fas fa-file"></i>' : '' !!}</td>
+                    <td>{{ $actividad->unidad->nombre }}</td>
+                    <td>{{ $actividad->nombre }}</td>
+                    <td>{{ $actividad->slug }}</td>
+                    <td>{{ $actividad->puntuacion }}</td>
+                    <td class="text-center">{!! $actividad->auto_avance ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                    <td>
                         {!! !is_null($actividad->siguiente) ? $actividad->final
                         ? '<i class="fas fa-times text-danger"></i>'
                         : '<i class="fas fa-arrow-right text-success"></i>'
@@ -49,12 +51,7 @@
                             {{ $actividad->siguiente->slug . ' ('.$actividad->siguiente->id.')' }}
                         @endif
                     </td>
-                    <td>
-                        <a href="{{ route('youtube_videos.actividad', [$actividad->id]) }}"
-                           class='btn btn-outline-dark'>Youtube</a>
-                        <a href="{{ route('intellij_projects.actividad', [$actividad->id]) }}"
-                           class='btn btn-outline-dark'>IntelliJ</a>
-                    </td>
+                    @include('partials.botones_recursos')
                     <td>
                         <form method="POST" action="{{ route('actividades.destroy', [$actividad->id]) }}">
                             @csrf
