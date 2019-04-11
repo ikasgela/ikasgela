@@ -104,7 +104,7 @@ class ProfesorController extends Controller
     {
         $actividad = $tarea->actividad;
 
-        return view('profesor . revisar', compact(['user', 'tarea', 'actividad']));
+        return view('profesor.revisar', compact(['user', 'tarea', 'actividad']));
     }
 
     private function recuento_enviadas(): void
