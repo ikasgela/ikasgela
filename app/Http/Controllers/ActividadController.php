@@ -36,13 +36,23 @@ class ActividadController extends Controller
         return view('actividades.index', compact('actividades'));
     }
 
-    public function plantillas()
+    public function plantillas(Request $request)
     {
-        $actividades = Actividad::where('plantilla', true)->get();
-
         session(['ubicacion' => 'actividades.plantillas']);
 
-        return view('actividades.plantillas', compact('actividades'));
+        $unidades = Unidad::all();
+
+        if ($request->has('unidad_id')) {
+            session(['profesor_unidad_actual' => $request->input('unidad_id')]);
+        }
+
+        if (session('profesor_unidad_actual')) {
+            $actividades = Actividad::where('plantilla', true)->where('unidad_id', session('profesor_unidad_actual'))->get();
+        } else {
+            $actividades = Actividad::where('plantilla', true)->get();
+        }
+
+        return view('actividades.plantillas', compact(['actividades', 'unidades']));
     }
 
     /**

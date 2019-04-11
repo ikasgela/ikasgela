@@ -14,7 +14,7 @@
                 <div class="col-sm-10">
                     <select class="form-control" id="unidad_id" name="unidad_id">
                         @foreach($unidades as $unidad)
-                            <option value="{{ $unidad->id }}">{{ $unidad->nombre }}</option>
+                            <option value="{{ $unidad->id }}" {{ session('profesor_unidad_actual') == $unidad->id ? 'selected' : '' }}>{{ $unidad->nombre }}</option>
                         @endforeach
                     </select>
                 </div>

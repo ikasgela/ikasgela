@@ -82,6 +82,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/actividades/plantillas', 'ActividadController@plantillas')
             ->name('actividades.plantillas');
 
+        // Gestionar plantillas de actividades - Selector de unidad
+        Route::post('/actividades/plantillas', 'ActividadController@plantillas')
+            ->name('actividades.plantillas');
+
         // YoutubeVideo
         Route::resource('youtube_videos', 'YoutubeVideoController');
         Route::get('/youtube_videos/{actividad}/actividad', 'YoutubeVideoController@actividad')
