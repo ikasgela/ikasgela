@@ -28,6 +28,9 @@
                         <button type="submit" name="nuevoestado" value="41"
                                 class="btn btn-warning"> {{ __('Send again') }}
                         </button>
+                        <button type="submit" name="nuevoestado" value="31"
+                                class="btn btn-secondary"> {{ __('Reset') }}
+                        </button>
                     </div>
                     <i class="fas fa-bullhorn mt-3"></i>
                     <label class="m-0" for="feedback">{{ __('Feedback') }}</label>

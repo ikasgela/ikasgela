@@ -226,6 +226,9 @@ class ActividadController extends Controller
                     Mail::to('info@ikasgela.com')->queue(new TareaEnviada($tarea));
                 }
                 break;
+            case 31:
+                $tarea->estado = 20;    // Botón de reset, para cuando se confunden
+                break;
             case 40:
             case 41:
                 if ($tarea->actividad->auto_avance) {
