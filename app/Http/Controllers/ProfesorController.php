@@ -28,11 +28,11 @@ class ProfesorController extends Controller
         $unidades = Unidad::all();
 
         if ($request->has('unidad_id')) {
-            session(['grupo_unidad_actual' => $request->input('unidad_id')]);
+            session(['profesor_unidad_actual' => $request->input('unidad_id')]);
         }
 
-        if (session('grupo_unidad_actual')) {
-            $disponibles = Actividad::where('plantilla', true)->where('unidad_id', session('grupo_unidad_actual'))->get();
+        if (session('profesor_unidad_actual')) {
+            $disponibles = Actividad::where('plantilla', true)->where('unidad_id', session('profesor_unidad_actual'))->get();
         } else {
             $disponibles = Actividad::where('plantilla', true)->get();
         }
