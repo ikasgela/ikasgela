@@ -3,7 +3,7 @@
     <div class="card-body">
         <h5 class="card-title">{{ $repositorio['name'] }}</h5>
         <p class="card-text">{{ $repositorio['description'] }}</p>
-        @if(!$intellij_project->isForked())
+        @if(!$intellij_project->isForked() && Auth::user()->hasRole('alumno'))
             <a href="{{ route('intellij_projects.fork', ['actividad' => $actividad->id, 'intellij_project'=>$intellij_project->id]) }}"
                class="btn btn-primary">{{ __('Clone the project') }}</a>
             @if(session('clone_error_id') == $actividad->id)
