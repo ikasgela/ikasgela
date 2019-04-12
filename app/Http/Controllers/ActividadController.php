@@ -120,6 +120,11 @@ class ActividadController extends Controller
         return view('actividades.show', compact('actividad'));
     }
 
+    public function preview(Actividad $actividad)
+    {
+        return view('actividades.preview', compact('actividad'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

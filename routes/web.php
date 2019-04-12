@@ -86,6 +86,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/actividades/plantillas', 'ActividadController@plantillas')
             ->name('actividades.plantillas');
 
+        // Previsualizar una actividad
+        Route::get('/actividades/{actividad}/preview', 'ActividadController@preview')
+            ->name('actividades.preview');
+
         // YoutubeVideo
         Route::resource('youtube_videos', 'YoutubeVideoController');
         Route::get('/youtube_videos/{actividad}/actividad', 'YoutubeVideoController@actividad')

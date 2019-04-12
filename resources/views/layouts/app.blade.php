@@ -19,7 +19,7 @@
             <div class="container-fluid py-md-4">
                 @yield('content')
                 @if(session('tutorial'))
-                    <div class="callout callout-danger b-t-1 b-r-1 b-b-1 mt-auto">
+                    <div class="callout callout-danger b-t-1 b-r-1 b-b-1">
                         <small class="text-muted">{{ __('Tutorial') }}</small>
                         <p>Puedes desactivar el tutorial en tu perfil de usuario.</p>
                     </div>
