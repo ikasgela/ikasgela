@@ -133,6 +133,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/users/{user}', 'UserController@destroy')
             ->name('users.destroy');
 
+        // Roles
+        Route::resource('roles', 'RoleController');
+
         // Estructura del curso
         Route::resource('cursos', 'CursoController');
         Route::resource('unidades', 'UnidadController')
