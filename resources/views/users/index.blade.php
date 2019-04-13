@@ -8,6 +8,7 @@
         <table class="table table-hover">
             <thead class="thead-dark">
             <tr>
+                <th>#</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Email') }}</th>
                 <th>{{ __('Username') }}</th>
@@ -20,6 +21,7 @@
             <tbody>
             @foreach($users as $user)
                 <tr>
+                    <td>{{ $user->id }}</td>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->username }}</td>

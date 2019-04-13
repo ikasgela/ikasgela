@@ -16,6 +16,7 @@
         <table class="table table-hover">
             <thead class="thead-dark">
             <tr>
+                <th>#</th>
                 <th>Nombre</th>
                 <th>Descripción</th>
                 <th>Slug</th>
@@ -25,6 +26,7 @@
             <tbody>
             @foreach($cursos as $curso)
                 <tr>
+                    <td class="py-3">{{ $curso->id }}</td>
                     <td class="py-3">{{ $curso->nombre }}</td>
                     <td class="py-3">{{ $curso->descripcion }}</td>
                     <td class="py-3">{{ $curso->slug }}</td>
