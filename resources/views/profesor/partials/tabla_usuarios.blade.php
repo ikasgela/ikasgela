@@ -13,7 +13,6 @@
             <th class="text-center">Enviadas</th>
             <th class="text-center">Revisadas</th>
             <th class="text-center">Archivadas</th>
-            <th>{{ __('Actions') }}</th>
         </tr>
         </thead>
         <tbody>
@@ -31,16 +30,6 @@
                 <td class="clickable text-center {{ count($usuario->actividades_enviadas())>0 ? 'bg-danger' : '' }}">{{ count($usuario->actividades_enviadas()) }}</td>
                 <td class="clickable text-center">{{ count($usuario->actividades_revisadas()) }}</td>
                 <td class="clickable text-center">{{ count($usuario->actividades_archivadas()) }}</td>
-                <td>
-                    <form method="POST"
-                          action="{{ route('users.destroy', ['user' => $usuario->id]) }}">
-                        @csrf
-                        @method('DELETE')
-                        <div class="btn-group">
-                            @include('partials.boton_borrar')
-                        </div>
-                    </form>
-                </td>
             </tr>
         @endforeach
         </tbody>
