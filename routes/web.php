@@ -119,9 +119,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Administrador
     Route::middleware(['role:admin'])->group(function () {
 
+        // Lista de usuarios
+        Route::get('/users', 'UserController@index')
+            ->name('users.index');
+
+        // Editar usuario
+        Route::get('/users/{user}/edit', 'UserController@edit')
+            ->name('users.edit');
+        Route::put('/users/{user}', 'UserController@update')
+            ->name('users.update');
+
         // Borrar un usuario
         Route::delete('/users/{user}', 'UserController@destroy')
             ->name('users.destroy');
+
+        // Roles
+        Route::resource('roles', 'RoleController');
 
         // Estructura del curso
         Route::resource('cursos', 'CursoController');
