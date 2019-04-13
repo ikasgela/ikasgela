@@ -29,7 +29,8 @@
                             @csrf
                             @method('DELETE')
                             <div class='btn-group'>
-                                <a href="{{ route('roles.edit', [$rol->id]) }}"
+                                <a title="{{ __('Edit') }}"
+                                   href="{{ route('roles.edit', [$rol->id]) }}"
                                    class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
                                 @include('partials.boton_borrar')
                             </div>
