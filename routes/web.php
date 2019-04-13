@@ -78,6 +78,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/tareas/{user}/destroy/{tarea}', 'TareaController@destroy')
             ->name('tareas.destroy');
 
+        // Editar una tarea
+        Route::get('/tareas/{tarea}/edit', 'TareaController@edit')
+            ->name('tareas.edit');
+        Route::put('/tareas/{tarea}', 'TareaController@update')
+            ->name('tareas.update');
+
         // Gestionar plantillas de actividades
         Route::get('/actividades/plantillas', 'ActividadController@plantillas')
             ->name('actividades.plantillas');
