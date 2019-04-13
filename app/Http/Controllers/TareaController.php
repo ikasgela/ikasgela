@@ -27,9 +27,7 @@ class TareaController extends Controller
             'estado' => 'required',
         ]);
 
-        $tarea->update([
-            'estado' => $request->input('estado'),
-        ]);
+        $tarea->update($request->input());
 
         return redirect(route('profesor.tareas', ['user' => $tarea->user->id]));
     }
