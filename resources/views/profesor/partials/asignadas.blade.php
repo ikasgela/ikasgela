@@ -58,7 +58,7 @@
                             <div class='btn-group'>
                                 <a href="{{ route('profesor.revisar', ['user' => $user->id, 'actividad'=>$actividad->tarea->id]) }}"
                                    class="btn btn-light btn-sm"><i class="fas fa-bullhorn"></i></a>
-                                <a href="#"
+                                <a href="{{ route('tareas.edit', [$actividad->tarea->id]) }}"
                                    class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
                                 @include('partials.boton_borrar')
                             </div>
