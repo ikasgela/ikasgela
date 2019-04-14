@@ -2,14 +2,11 @@
 
 @section('content')
 
-    <div class="row mb-3">
-        <div class="col-md">
-            <h1>Recursos: Vídeos en YouTube</h1>
-        </div>
-    </div>
+    @include('partials.titular', ['titular' => __('Resources: YouTube videos')])
 
     <div class="mb-3">
-        <a class="btn btn-primary" href="{{ route('youtube_videos.create') }}">Nuevo vídeo en YouTube</a>
+        <a class="btn btn-primary"
+           href="{{ route('youtube_videos.create') }}">{{ __('New YouTube video') }}</a>
     </div>
 
     <div class="table-responsive">
@@ -29,19 +26,20 @@
                     <td>{{ $youtube_video->id }}</td>
                     <td>{{ $youtube_video->titulo }}</td>
                     <td>{{ $youtube_video->descripcion }}</td>
-                    <td><a target="_blank" href="https://youtu.be/{{ $youtube_video->codigo }}">{{ $youtube_video->codigo }}</a></td>
+                    <td>{{ $youtube_video->codigo }}</td>
                     <td>
                         <form method="POST" action="{{ route('youtube_videos.destroy', [$youtube_video->id]) }}">
                             @csrf
                             @method('DELETE')
                             <div class='btn-group'>
-                                <a href="{{ route('youtube_videos.show', [$youtube_video->id]) }}"
+                                <a title="{{ __('Preview') }}"
+                                   target="_blank"
+                                   href="https://youtu.be/{{ $youtube_video->codigo }}"
                                    class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
-                                <a href="{{ route('youtube_videos.edit', [$youtube_video->id]) }}"
+                                <a title="{{ __('Edit') }}"
+                                   href="{{ route('youtube_videos.edit', [$youtube_video->id]) }}"
                                    class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                                <button type="submit" onclick="return confirm('¿Seguro?')"
-                                        class="btn btn-light btn-sm"><i class="fas fa-trash text-danger"></i>
-                                </button>
+                                @include('partials.boton_borrar')
                             </div>
                         </form>
                     </td>
