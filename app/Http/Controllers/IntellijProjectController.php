@@ -72,7 +72,8 @@ class IntellijProjectController extends Controller
     {
         $intellij_projects = $actividad->intellij_projects()->get();
 
-        $disponibles = IntellijProject::all();
+        $subset = $intellij_projects->pluck('id')->unique()->flatten()->toArray();
+        $disponibles = IntellijProject::whereNotIn('id', $subset)->get();
 
         return view('intellij_projects.actividad', compact(['intellij_projects', 'disponibles', 'actividad']));
     }
