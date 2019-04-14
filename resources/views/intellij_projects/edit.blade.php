@@ -2,31 +2,19 @@
 
 @section('content')
 
-    <div class="row mb-3">
-        <div class="col-md">
-            <h1>Editar repositorio de IntelliJ</h1>
-        </div>
-    </div>
+    @include('partials.titular', ['titular' => __('Edit IntelliJ project')])
 
     <div class="card">
         <div class="card-body">
 
-            <form method="POST" action="{{ route('intellij_projects.update', [$intellij_project->id]) }}">
-                @csrf
-                @method('PUT')
+            {!! Form::model($intellij_project, ['route' => ['intellij_projects.update', $intellij_project->id], 'method' => 'PUT']) !!}
 
-                <div class="form-group">
-                    <label for="repositorio">Repositorio</label>
-                    <input type="text" class="form-control" id="repositorio" name="repositorio"
-                           value="{{ $intellij_project->repositorio }}">
-                </div>
-                <div class=" form-group">
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                    <a href="{{ route('intellij_projects.index') }}" class="btn btn-link text-secondary">Cancelar</a>
-                </div>
+            {{ Form::campoTexto('repositorio', __('Repository')) }}
 
-                @include('layouts.errors')
-            </form>
+            @include('partials.guardar_cancelar')
+
+            @include('layouts.errors')
+            {!! Form::close() !!}
 
         </div>
     </div>

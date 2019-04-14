@@ -2,30 +2,18 @@
 
 @section('content')
 
-    <div class="row mb-3">
-        <div class="col-md">
-            <h1>Nuevo curso</h1>
-        </div>
-    </div>
+    @include('partials.titular', ['titular' => __('New course')])
 
     <div class="card">
         <div class="card-body">
 
-            {!! Form::open(['route' => 'cursos.store']) !!}
+            {!! Form::open(['route' => ['cursos.store']]) !!}
 
-            <div class="form-group">
-                {!! Form::label('nombre', 'Nombre:') !!}
-                {!! Form::text('nombre', '', ['class' => 'form-control']) !!}
-            </div>
-            <div class="form-group">
-                {!! Form::label('descripcion', 'Descripción:') !!}
-                {!! Form::text('descripcion', '', ['class' => 'form-control']) !!}
-            </div>
-            <div class="form-group">
-                {!! Form::button('Guardar', ['class' => 'btn btn-primary', 'type' => 'submit']) !!}
-                {!! link_to_route('cursos.index', $title = 'Cancelar', $parameters = [],
-                        $attributes = ['class' => 'btn btn-link text-secondary']); !!}
-            </div>
+            {{ Form::campoTexto('nombre', __('Name')) }}
+            {{ Form::campoTexto('descripcion', __('Description')) }}
+            {{ Form::campoTexto('slug', __('Slug')) }}
+
+            @include('partials.guardar_cancelar')
 
             @include('layouts.errors')
             {!! Form::close() !!}

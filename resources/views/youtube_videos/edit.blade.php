@@ -2,41 +2,21 @@
 
 @section('content')
 
-    <div class="row mb-3">
-        <div class="col-md">
-            <h1>Editar vídeo en YouTube</h1>
-        </div>
-    </div>
+    @include('partials.titular', ['titular' => __('Edit YouTube video')])
 
     <div class="card">
         <div class="card-body">
 
-            <form method="POST" action="{{ route('youtube_videos.update', [$youtube_video->id]) }}">
-                @csrf
-                @method('PUT')
+            {!! Form::model($youtube_video, ['route' => ['youtube_videos.update', $youtube_video->id], 'method' => 'PUT']) !!}
 
-                <div class="form-group">
-                    <label for="titulo">Título:</label>
-                    <input type="text" class="form-control" id="titulo" name="titulo"
-                           value="{{ $youtube_video->titulo }}">
-                </div>
-                <div class="form-group">
-                    <label for="descripcion">Descripción:</label>
-                    <input type="text" class="form-control" id="descripcion" name="descripcion"
-                           value="{{ $youtube_video->descripcion }}">
-                </div>
-                <div class="form-group">
-                    <label for="codigo">Código:</label>
-                    <input type="text" class="form-control" id="codigo" name="codigo"
-                           value="{{ $youtube_video->codigo }}">
-                </div>
-                <div class=" form-group">
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                    <a href="{{ route('youtube_videos.index') }}" class="btn btn-link text-secondary">Cancelar</a>
-                </div>
+            {{ Form::campoTexto('titulo', __('Title')) }}
+            {{ Form::campoTexto('descripcion', __('Description')) }}
+            {{ Form::campoTexto('codigo', __('Code')) }}
 
-                @include('layouts.errors')
-            </form>
+            @include('partials.guardar_cancelar')
+
+            @include('layouts.errors')
+            {!! Form::close() !!}
 
         </div>
     </div>

@@ -120,6 +120,11 @@ class ActividadController extends Controller
         return view('actividades.show', compact('actividad'));
     }
 
+    public function preview(Actividad $actividad)
+    {
+        return view('actividades.preview', compact('actividad'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -131,8 +136,9 @@ class ActividadController extends Controller
         $unidades = Unidad::all();
         $siguiente = !is_null($actividad->siguiente) ? $actividad->siguiente->id : null;
         $actividades = Actividad::where('id', '!=', $actividad->id)->whereNull('siguiente_id')->orWhere('id', $siguiente)->get();
+        $plantillas = Actividad::where('plantilla', true)->where('id', '!=', $actividad->id)->whereNull('siguiente_id')->orWhere('id', $siguiente)->get();
 
-        return view('actividades.edit', compact(['actividad', 'unidades', 'actividades']));
+        return view('actividades.edit', compact(['actividad', 'unidades', 'actividades', 'plantillas']));
     }
 
     /**

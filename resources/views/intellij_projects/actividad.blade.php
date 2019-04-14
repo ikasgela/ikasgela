@@ -2,11 +2,7 @@
 
 @section('content')
 
-    <div class="row mb-3">
-        <div class="col-md">
-            <h1>Recursos: IntelliJ</h1>
-        </div>
-    </div>
+    @include('partials.titular', ['titular' => __('Resources: IntelliJ projects')])
 
     <div class="row">
         <div class="col-md-12">
@@ -22,94 +18,94 @@
         </div>
     </div>
 
-    <div class="row mb-3">
-        <div class="col-md">
-            <h2>Recursos asignados</h2>
-        </div>
-    </div>
+    @include('partials.subtitulo', ['subtitulo' => __('Assigned resources')])
 
-    <?php if (count($intellij_projects) > 0 ) { ?>
-    <div class="table-responsive">
-        <table class="table">
-            <thead class="thead-dark">
-            <tr>
-                <th>Repositorio</th>
-                <th>Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($intellij_projects as $intellij_project)
-                <tr>
-                    <td class="py-3">{{ $intellij_project->repositorio }}</td>
-                    <td>
-                        <form method="POST"
-                              action="{{ route('intellij_projects.desasociar', ['actividad' => $actividad->id, '$intellij_project'=>$intellij_project->id]) }}">
-                            @csrf
-                            @method('DELETE')
-                            <div class='btn-group'>
-                                <button type="submit" onclick="return confirm('¿Seguro?')"
-                                        class="btn btn-light btn-sm"><i class="fas fa-trash text-danger"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
-    </div>
-    <?php } else { ?>
-    <div class="row">
-        <div class="col-md">
-            <p>No hay elementos.</p>
-        </div>
-    </div>
-    <?php } ?>
-
-    <div class="row mb-3">
-        <div class="col-md">
-            <h2>Recursos disponibles</h2>
-        </div>
-    </div>
-
-    <?php if (count($disponibles) > 0 ) { ?>
-    <form method="POST" action="{{ route('intellij_projects.asociar', ['actividad' => $actividad->id]) }}">
-        @csrf
-
+    @if(count($intellij_projects) > 0 )
         <div class="table-responsive">
             <table class="table">
                 <thead class="thead-dark">
                 <tr>
-                    <th>Seleccionar</th>
-                    <th>Repositorio</th>
+                    <th>#</th>
+                    <th>{{ __('Name') }}</th>
+                    <th>{{ __('Description') }}</th>
+                    <th>{{ __('GitLab') }}</th>
+                    <th>{{ __('Actions') }}</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($disponibles as $intellij_project)
+                @foreach($intellij_projects as $intellij_project)
                     <tr>
-                        <td class="py-3"><input type="checkbox" name="seleccionadas[]"
-                                                value="{{ $intellij_project->id }}">
+                        <td>{{ $intellij_project->gitlab()['id'] }}</td>
+                        <td>{{ $intellij_project->gitlab()['name'] }}</td>
+                        <td>{{ $intellij_project->gitlab()['description'] }}</td>
+                        <td>@include('partials.link_gitlab', ['proyecto' => $intellij_project->gitlab() ])</td>
+                        <td>
+                            <form method="POST"
+                                  action="{{ route('intellij_projects.desasociar', ['actividad' => $actividad->id, '$intellij_project'=>$intellij_project->id]) }}">
+                                @csrf
+                                @method('DELETE')
+                                <div class='btn-group'>
+                                    @include('partials.boton_borrar')
+                                </div>
+                            </form>
                         </td>
-                        <td class="py-3">@include('partials.link_gitlab', ['proyecto' => $intellij_project->gitlab() ])</td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
         </div>
-        @include('layouts.errors')
-
-        <div>
-            <button type="submit" class="btn btn-primary mb-4">Guardar asignación</button>
+    @else
+        <div class="row">
+            <div class="col-md">
+                <p>No hay elementos.</p>
+            </div>
         </div>
+    @endif
 
-    </form>
-    <?php } else { ?>
-    <div class="row">
-        <div class="col-md">
-            <p>No hay elementos.</p>
+    @include('partials.subtitulo', ['subtitulo' => __('Available resources')])
+
+    @if(count($disponibles) > 0 )
+        <form method="POST" action="{{ route('intellij_projects.asociar', ['actividad' => $actividad->id]) }}">
+            @csrf
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th></th>
+                        <th>#</th>
+                        <th>{{ __('Name') }}</th>
+                        <th>{{ __('Description') }}</th>
+                        <th>{{ __('GitLab') }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($disponibles as $intellij_project)
+                        <tr>
+                            <td><input type="checkbox" name="seleccionadas[]" value="{{ $intellij_project->id }}"></td>
+                            <td>{{ $intellij_project->gitlab()['id'] }}</td>
+                            <td>{{ $intellij_project->gitlab()['name'] }}</td>
+                            <td>{{ $intellij_project->gitlab()['description'] }}</td>
+                            <td>@include('partials.link_gitlab', ['proyecto' => $intellij_project->gitlab() ])</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+            @include('layouts.errors')
+
+            <div>
+                <button type="submit" class="btn btn-primary mb-4">{{ __('Save assigment') }}</button>
+            </div>
+
+        </form>
+    @else
+        <div class="row">
+            <div class="col-md">
+                <p>No hay elementos.</p>
+            </div>
         </div>
-    </div>
-    <?php } ?>
+    @endif
 
     <div>
         @include('partials.backbutton')

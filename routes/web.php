@@ -78,6 +78,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/tareas/{user}/destroy/{tarea}', 'TareaController@destroy')
             ->name('tareas.destroy');
 
+        // Editar una tarea
+        Route::get('/tareas/{tarea}/edit', 'TareaController@edit')
+            ->name('tareas.edit');
+        Route::put('/tareas/{tarea}', 'TareaController@update')
+            ->name('tareas.update');
+
         // Gestionar plantillas de actividades
         Route::get('/actividades/plantillas', 'ActividadController@plantillas')
             ->name('actividades.plantillas');
@@ -85,6 +91,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Gestionar plantillas de actividades - Selector de unidad
         Route::post('/actividades/plantillas', 'ActividadController@plantillas')
             ->name('actividades.plantillas');
+
+        // Previsualizar una actividad
+        Route::get('/actividades/{actividad}/preview', 'ActividadController@preview')
+            ->name('actividades.preview');
 
         // YoutubeVideo
         Route::resource('youtube_videos', 'YoutubeVideoController');
@@ -115,9 +125,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Administrador
     Route::middleware(['role:admin'])->group(function () {
 
+        // Lista de usuarios
+        Route::get('/users', 'UserController@index')
+            ->name('users.index');
+
+        // Editar usuario
+        Route::get('/users/{user}/edit', 'UserController@edit')
+            ->name('users.edit');
+        Route::put('/users/{user}', 'UserController@update')
+            ->name('users.update');
+
         // Borrar un usuario
         Route::delete('/users/{user}', 'UserController@destroy')
             ->name('users.destroy');
+
+        // Roles
+        Route::resource('roles', 'RoleController');
 
         // Estructura del curso
         Route::resource('cursos', 'CursoController');

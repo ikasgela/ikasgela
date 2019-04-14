@@ -2,14 +2,10 @@
 
 @section('content')
 
-    <div class="row mb-3">
-        <div class="col-md">
-            <h1>{{ __('Courses') }}</h1>
-        </div>
-    </div>
+    @include('partials.titular', ['titular' => __('Roles')])
 
     <div class="mb-3">
-        <a class="btn btn-primary" href="{{ route('cursos.create') }}">{{ __('New course') }}</a>
+        <a class="btn btn-primary" href="{{ route('roles.create') }}">{{ __('New role') }}</a>
     </div>
 
     <div class="table-responsive">
@@ -19,24 +15,22 @@
                 <th>#</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Description') }}</th>
-                <th>{{ __('Slug') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
             <tbody>
-            @foreach($cursos as $curso)
+            @foreach($roles as $rol)
                 <tr>
-                    <td>{{ $curso->id }}</td>
-                    <td>{{ $curso->nombre }}</td>
-                    <td>{{ $curso->descripcion }}</td>
-                    <td>{{ $curso->slug }}</td>
+                    <td>{{ $rol->id }}</td>
+                    <td>{{ $rol->name }}</td>
+                    <td>{{ $rol->description }}</td>
                     <td>
-                        <form method="POST" action="{{ route('cursos.destroy', [$curso->id]) }}">
+                        <form method="POST" action="{{ route('roles.destroy', [$rol->id]) }}">
                             @csrf
                             @method('DELETE')
                             <div class='btn-group'>
                                 <a title="{{ __('Edit') }}"
-                                   href="{{ route('cursos.edit', [$curso->id]) }}"
+                                   href="{{ route('roles.edit', [$rol->id]) }}"
                                    class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
                                 @include('partials.boton_borrar')
                             </div>

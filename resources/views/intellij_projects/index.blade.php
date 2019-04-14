@@ -2,14 +2,10 @@
 
 @section('content')
 
-    <div class="row mb-3">
-        <div class="col-md">
-            <h1>Recursos: Proyectos de IntelliJ</h1>
-        </div>
-    </div>
+    @include('partials.titular', ['titular' => __('Resources: IntelliJ projects')])
 
     <div class="mb-3">
-        <a class="btn btn-primary" href="{{ route('intellij_projects.create') }}">Nuevo proyecto de IntelliJ</a>
+        <a class="btn btn-primary" href="{{ route('intellij_projects.create') }}">{{ __('New IntelliJ project') }}</a>
     </div>
 
     <div class="table-responsive">
@@ -35,13 +31,10 @@
                             @csrf
                             @method('DELETE')
                             <div class='btn-group'>
-                                <a href="{{ route('intellij_projects.show', [$intellij_project->id]) }}"
-                                   class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
-                                <a href="{{ route('intellij_projects.edit', [$intellij_project->id]) }}"
+                                <a title="{{ __('Edit') }}"
+                                   href="{{ route('intellij_projects.edit', [$intellij_project->id]) }}"
                                    class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                                <button type="submit" onclick="return confirm('¿Seguro?')"
-                                        class="btn btn-light btn-sm"><i class="fas fa-trash text-danger"></i>
-                                </button>
+                                @include('partials.boton_borrar')
                             </div>
                         </form>
                     </td>

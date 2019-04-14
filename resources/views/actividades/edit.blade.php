@@ -31,9 +31,15 @@
                 <div class="col-sm-10">
                     <select class="form-control" id="siguiente_id" name="siguiente_id">
                         <option value="">{{ __('--- None ---') }}</option>
-                        @foreach($actividades as $temp)
-                            <option value="{{ $temp->id }}" {{ !is_null($actividad->siguiente) && $actividad->siguiente->id == $temp->id ? 'selected' : '' }}>{{ $temp->slug . ' ('. $temp->id . ')' }}</option>
-                        @endforeach
+                        @if($actividad->plantilla)
+                            @foreach($plantillas as $temp)
+                                <option value="{{ $temp->id }}" {{ !is_null($actividad->siguiente) && $actividad->siguiente->id == $temp->id ? 'selected' : '' }}>{{ $temp->slug . ' ('. $temp->id . ')' }}</option>
+                            @endforeach
+                        @else
+                            @foreach($actividades as $temp)
+                                <option value="{{ $temp->id }}" {{ !is_null($actividad->siguiente) && $actividad->siguiente->id == $temp->id ? 'selected' : '' }}>{{ $temp->slug . ' ('. $temp->id . ')' }}</option>
+                            @endforeach
+                        @endif
                     </select>
                 </div>
             </div>

@@ -50,12 +50,19 @@
                             @csrf
                             @method('DELETE')
                             <div class='btn-group'>
+                                <a title="{{ __('Preview') }}"
+                                   href="{{ route('actividades.preview', [$actividad->id]) }}"
+                                   class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
                                 <a title="{{ __('Edit') }}"
                                    href="{{ route('actividades.edit', [$actividad->id]) }}"
                                    class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                                <a title="{{ __('Duplicate') }}"
-                                   href="#"
-                                   class='btn btn-light btn-sm'><i class="fas fa-copy"></i></a>
+                                {{--
+                                                                @if(config('app.debug'))
+                                                                    <a title="{{ __('Duplicate') }}"
+                                                                       href="#"
+                                                                       class='btn btn-light btn-sm'><i class="fas fa-copy"></i></a>
+                                                                @endif
+                                --}}
                                 @include('partials.boton_borrar')
                             </div>
                         </form>

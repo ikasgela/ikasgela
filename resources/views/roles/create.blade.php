@@ -2,14 +2,15 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('New IntelliJ project')])
+    @include('partials.titular', ['titular' => __('New role')])
 
     <div class="card">
         <div class="card-body">
 
-            {!! Form::open(['route' => ['intellij_projects.store']]) !!}
+            {!! Form::open(['route' => 'roles.store']) !!}
 
-            {{ Form::campoTexto('repositorio', __('Repository')) }}
+            {{ Form::campoTexto('name', __('Name')) }}
+            {{ Form::campoTexto('description', __('Description')) }}
 
             @include('partials.guardar_cancelar')
 

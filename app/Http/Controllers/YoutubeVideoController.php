@@ -71,7 +71,8 @@ class YoutubeVideoController extends Controller
     {
         $youtube_videos = $actividad->youtube_videos()->get();
 
-        $disponibles = YoutubeVideo::all();
+        $subset = $youtube_videos->pluck('id')->unique()->flatten()->toArray();
+        $disponibles = YoutubeVideo::whereNotIn('id', $subset)->get();
 
         return view('youtube_videos.actividad', compact(['youtube_videos', 'disponibles', 'actividad']));
     }

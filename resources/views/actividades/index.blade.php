@@ -57,13 +57,13 @@
                             @csrf
                             @method('DELETE')
                             <div class='btn-group'>
-                                <a href="{{ route('actividades.show', [$actividad->id]) }}"
+                                <a title="{{ __('Preview') }}"
+                                   href="{{ route('actividades.preview', [$actividad->id]) }}"
                                    class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
-                                <a href="{{ route('actividades.edit', [$actividad->id]) }}"
+                                <a title="{{ __('Edit') }}"
+                                   href="{{ route('actividades.edit', [$actividad->id]) }}"
                                    class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                                <button type="submit" onclick="return confirm('¿Seguro?')"
-                                        class="btn btn-light btn-sm"><i class="fas fa-trash text-danger"></i>
-                                </button>
+                                @include('partials.boton_borrar')
                             </div>
                         </form>
                     </td>
