@@ -1,16 +1,13 @@
-<?php $class = $thread->isUnread(Auth::id()) ? 'alert-info' : ''; ?>
+@php( $class = $thread->isUnread(Auth::id()) ? 'alert-success' : '' )
 
-<div class="media alert {{ $class }}">
-    <h4 class="media-heading">
-        <a href="{{ route('messages.show', $thread->id) }}">{{ $thread->subject }}</a>
-        ({{ $thread->userUnreadMessagesCount(Auth::id()) }} unread)</h4>
-    <p>
-        {{ $thread->latestMessage->body }}
-    </p>
-    <p>
-        <small><strong>Creator:</strong> {{ $thread->creator()->name }}</small>
-    </p>
-    <p>
-        <small><strong>Participants:</strong> {{ $thread->participantsString(Auth::id()) }}</small>
-    </p>
+<div class="card {{ $class }}">
+    <div class="card-header d-flex justify-content-between">
+        <span><i class="fas fa-comment"></i> {{ $thread->participantsString(Auth::id()) }}</span>
+        <span>{{ $thread->userUnreadMessagesCount(Auth::id()) }} {{ __('unread') }}</span>
+    </div>
+    <div class="card-body pb-1">
+        <h5 class="card-title"><a href="{{ route('messages.show', $thread->id) }}">{{ $thread->subject }}</a></h5>
+        <small class="text-muted">{{ __('Latest message') }}</small>
+        <p class="bg-light p-2 rounded">{{ $thread->latestMessage->body }}</p>
+    </div>
 </div>
