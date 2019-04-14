@@ -38,7 +38,10 @@
                         <td>{{ $youtube_video->id }}</td>
                         <td>{{ $youtube_video->titulo }}</td>
                         <td>{{ $youtube_video->descripcion }}</td>
-                        <td>{{ $youtube_video->codigo }}</td>
+                        <td>
+                            <a target="_blank"
+                               href="https://youtu.be/{{ $youtube_video->codigo }}">{{ $youtube_video->codigo }}</a>
+                        </td>
                         <td>
                             <form method="POST"
                                   action="{{ route('youtube_videos.desasociar', ['actividad' => $actividad->id, '$youtube_video'=>$youtube_video->id]) }}">
@@ -86,7 +89,10 @@
                             <td>{{ $youtube_video->id }}</td>
                             <td>{{ $youtube_video->titulo }}</td>
                             <td>{{ $youtube_video->descripcion }}</td>
-                            <td>{{ $youtube_video->codigo }}</td>
+                            <td>
+                                <a target="_blank"
+                                   href="https://youtu.be/{{ $youtube_video->codigo }}">{{ $youtube_video->codigo }}</a>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>
