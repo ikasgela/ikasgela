@@ -28,7 +28,7 @@ class NuevoMensaje extends Mailable
     public function build()
     {
         return $this
-            ->subject(__('New message received'))
+            ->subject(__('New message'))
             ->markdown('emails.nuevo_mensaje');
     }
 }

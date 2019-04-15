@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\NuevoMensaje;
+use App\Role;
 use App\User;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
@@ -64,6 +65,19 @@ class MessagesController extends Controller
         return view('messenger.show', compact('thread', 'users'));
     }
 
+    private function enviarEmails($thread)
+    {
+        $userId = Auth::id();
+
+        $users = User::whereNotIn('id', [$userId])
+            ->whereIn('id', $thread->participantsUserIds())
+            ->get();
+
+        foreach ($users as $user) {
+            Mail::to($user->email)->queue(new NuevoMensaje());
+        }
+    }
+
     /**
      * Creates a new message thread.
      *
@@ -73,9 +87,9 @@ class MessagesController extends Controller
     {
         $users = User::where('id', '!=', Auth::id())->get();
 
-        $profesor = User::where('email', 'profe@ikasgela.com')->first();
+        $profesores = Role::where('name', 'profesor')->first()->users()->get();
 
-        return view('messenger.create', compact(['users', 'profesor']));
+        return view('messenger.create', compact(['users', 'profesores']));
     }
 
     /**
@@ -114,12 +128,9 @@ class MessagesController extends Controller
         // Recipients
         if (Input::has('recipients')) {
             $thread->addParticipant($input['recipients']);
-
-            foreach ($input['recipients'] as $recipient) {
-                $user = User::find($recipient)->first();
-                Mail::to($user->email)->queue(new NuevoMensaje());
-            }
         }
+
+        $this->enviarEmails($thread, Auth::id());
 
         return redirect()->route('messages');
     }
@@ -165,6 +176,8 @@ class MessagesController extends Controller
         if (Input::has('recipients')) {
             $thread->addParticipant(Input::get('recipients'));
         }
+
+        $this->enviarEmails($thread, Auth::id());
 
         return redirect()->route('messages.show', $id);
     }

@@ -34,7 +34,9 @@
                     {!! Form::label('recipients', __('Recipient'), ['class' => 'col-sm-2 col-form-label']) !!}
                     <div class="col-sm-10">
                         <select class="form-control" id="recipients" name="recipients[]">
-                            <option value="{{ $profesor->id }}">{{ $profesor->name }}</option>
+                            @foreach($profesores as $profesor)
+                                <option value="{{ $profesor->id }}">{{ $profesor->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>

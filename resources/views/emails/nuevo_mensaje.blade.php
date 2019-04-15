@@ -1,5 +1,5 @@
 @component('mail::message')
-# {{ __('New message received') }}
+# {{ __('New message') }}
 
 Has recibido un nuevo mensaje.
 
