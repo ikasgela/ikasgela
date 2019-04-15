@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NuevoMensaje;
 use App\User;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class MessagesController extends Controller
@@ -86,6 +88,7 @@ class MessagesController extends Controller
         $this->validate($request, [
             'subject' => 'required',
             'message' => 'required',
+            'recipients' => 'required',
         ]);
 
         $input = Input::all();
@@ -111,6 +114,11 @@ class MessagesController extends Controller
         // Recipients
         if (Input::has('recipients')) {
             $thread->addParticipant($input['recipients']);
+
+            foreach ($input['recipients'] as $recipient) {
+                $user = User::find($recipient)->first();
+                Mail::to($user->email)->queue(new NuevoMensaje());
+            }
         }
 
         return redirect()->route('messages');
