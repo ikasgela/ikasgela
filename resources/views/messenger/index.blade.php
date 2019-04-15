@@ -13,7 +13,7 @@
                 @if($count == 1)
                     <h2 class="text-muted font-xl">Un mensaje nuevo</h2>
                 @else
-                    <h2 class="text-muted font-xl">{{ session('num_actividades') }} mensajes nuevos</h2>
+                    <h2 class="text-muted font-xl">{{ $count }} mensajes nuevos</h2>
                 @endif
             @else
                 <h2 class="text-muted font-xl">No hay mensajes nuevos</h2>

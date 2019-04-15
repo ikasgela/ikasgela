@@ -1,3 +1,7 @@
+<div class="form-group">
+    <a href="{{ route('messages') }}" class="btn btn-secondary">{{ __('Back') }}</a>
+</div>
+
 <h3>{{ __('New reply') }}</h3>
 
 {!! Form::open(['route' => ['messages.update', $thread->id], 'method' => 'PUT']) !!}
@@ -8,7 +12,7 @@
 
 <div class="form-group">
     <button type="submit" class="btn btn-primary">{{ __('Send') }}</button>
-    <a href="{{ route('messages') }}" class="btn btn-link text-secondary">{{ __('Cancel') }}</a>
 </div>
 
+@include('layouts.errors')
 {!! Form::close() !!}

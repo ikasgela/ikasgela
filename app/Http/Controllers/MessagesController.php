@@ -122,8 +122,12 @@ class MessagesController extends Controller
      * @param $id
      * @return mixed
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
+        $this->validate($request, [
+            'message' => 'required',
+        ]);
+
         try {
             $thread = Thread::findOrFail($id);
         } catch (ModelNotFoundException $e) {
