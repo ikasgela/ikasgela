@@ -1684,12 +1684,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/m4tthumphrey/php-gitlab-api.git",
-                "reference": "899e88df0ef2411c1efa1b51ddff65988839c54b"
+                "reference": "35c1719c9b0a87a14c76ebe7c540d7d07cdfff9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/m4tthumphrey/php-gitlab-api/zipball/899e88df0ef2411c1efa1b51ddff65988839c54b",
-                "reference": "899e88df0ef2411c1efa1b51ddff65988839c54b",
+                "url": "https://api.github.com/repos/m4tthumphrey/php-gitlab-api/zipball/35c1719c9b0a87a14c76ebe7c540d7d07cdfff9e",
+                "reference": "35c1719c9b0a87a14c76ebe7c540d7d07cdfff9e",
                 "shasum": ""
             },
             "require": {
@@ -1749,10 +1749,10 @@
                 "gitlab"
             ],
             "support": {
-                "source": "https://github.com/m4tthumphrey/php-gitlab-api/tree/master",
+                "source": "https://github.com/m4tthumphrey/php-gitlab-api/tree/9.13.0",
                 "issues": "https://github.com/m4tthumphrey/php-gitlab-api/issues"
             },
-            "time": "2019-04-01T14:09:57+00:00"
+            "time": "2019-04-15T07:38:13+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -3172,16 +3172,16 @@
         },
         {
             "name": "spatie/laravel-activitylog",
-            "version": "3.4.0",
+            "version": "3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-activitylog.git",
-                "reference": "3d7cb418148a80d5c1afe07657c1771965851d1c"
+                "reference": "3bee85adf8e19e3bc0cafab56599a442014a9169"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-activitylog/zipball/3d7cb418148a80d5c1afe07657c1771965851d1c",
-                "reference": "3d7cb418148a80d5c1afe07657c1771965851d1c",
+                "url": "https://api.github.com/repos/spatie/laravel-activitylog/zipball/3bee85adf8e19e3bc0cafab56599a442014a9169",
+                "reference": "3bee85adf8e19e3bc0cafab56599a442014a9169",
                 "shasum": ""
             },
             "require": {
@@ -3240,7 +3240,7 @@
                 "spatie",
                 "user"
             ],
-            "time": "2019-04-09T14:53:05+00:00"
+            "time": "2019-04-15T11:01:50+00:00"
         },
         {
             "name": "spatie/string",
