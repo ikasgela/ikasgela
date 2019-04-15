@@ -1,0 +1,1 @@
+<p>{{ __('Sorry, no threads.') }}</p>
