@@ -1,25 +1,14 @@
-<h2>Add a new message</h2>
-<form action="{{ route('messages.update', $thread->id) }}" method="post">
-    {{ method_field('put') }}
-    {{ csrf_field() }}
-        
-    <!-- Message Form Input -->
-    <div class="form-group">
-        <textarea name="message" class="form-control">{{ old('message') }}</textarea>
-    </div>
+<h3>{{ __('New reply') }}</h3>
 
-    @if($users->count() > 0)
-        <div class="checkbox">
-            @foreach($users as $user)
-                <label title="{{ $user->name }}">
-                    <input type="checkbox" name="recipients[]" value="{{ $user->id }}">{{ $user->name }}
-                </label>
-            @endforeach
-        </div>
-    @endif
+{!! Form::open(['route' => ['messages.update', $thread->id], 'method' => 'PUT']) !!}
 
-    <!-- Submit Form Input -->
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary form-control">Submit</button>
-    </div>
-</form>
+<div class="form-group">
+    <textarea name="message" class="form-control" rows="5">{{ old('message') }}</textarea>
+</div>
+
+<div class="form-group">
+    <button type="submit" class="btn btn-primary">{{ __('Send') }}</button>
+    <a href="{{ route('messages') }}" class="btn btn-link text-secondary">{{ __('Cancel') }}</a>
+</div>
+
+{!! Form::close() !!}

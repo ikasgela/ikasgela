@@ -42,7 +42,7 @@
 
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">{{ __('Send') }}</button>
-                <a href="{{ url()->previous() }}" class="btn btn-link text-secondary">{{ __('Cancel') }}</a>
+                <a href="{{ route('messages') }}" class="btn btn-link text-secondary">{{ __('Cancel') }}</a>
             </div>
 
             @include('layouts.errors')
