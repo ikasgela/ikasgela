@@ -90,6 +90,7 @@ class ActividadController extends Controller
 
             'plantilla' => $request->has('plantilla'),
             'final' => $request->has('final'),
+            'auto_avance' => $request->has('auto_avance'),
 
             'slug' => Str::slug(request('nombre')),
         ]);
@@ -164,6 +165,8 @@ class ActividadController extends Controller
 
             'plantilla' => $request->has('plantilla'),
             'final' => $request->has('final'),
+            'auto_avance' => $request->has('auto_avance'),
+
             'siguiente_id' => $request->input('siguiente_id'),
 
             'slug' => strlen($request->input('slug')) > 0
