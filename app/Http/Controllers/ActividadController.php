@@ -40,7 +40,7 @@ class ActividadController extends Controller
     {
         session(['ubicacion' => 'actividades.plantillas']);
 
-        $unidades = Unidad::all();
+        $unidades = Unidad::orderBy('nombre')->get();
 
         if ($request->has('unidad_id')) {
             session(['profesor_unidad_actual' => $request->input('unidad_id')]);
@@ -62,8 +62,8 @@ class ActividadController extends Controller
      */
     public function create()
     {
-        $unidades = Unidad::all();
-        $actividades = Actividad::whereNull('siguiente_id')->get();
+        $unidades = Unidad::orderBy('nombre')->get();
+        $actividades = Actividad::whereNull('siguiente_id')->orderBy('nombre')->get();
 
         return view('actividades.create', compact(['unidades', 'actividades']));
     }
@@ -133,10 +133,10 @@ class ActividadController extends Controller
      */
     public function edit(Actividad $actividad)
     {
-        $unidades = Unidad::all();
+        $unidades = Unidad::orderBy('nombre')->get();
         $siguiente = !is_null($actividad->siguiente) ? $actividad->siguiente->id : null;
-        $actividades = Actividad::where('id', '!=', $actividad->id)->whereNull('siguiente_id')->orWhere('id', $siguiente)->get();
-        $plantillas = Actividad::where('plantilla', true)->where('id', '!=', $actividad->id)->whereNull('siguiente_id')->orWhere('id', $siguiente)->get();
+        $actividades = Actividad::where('id', '!=', $actividad->id)->whereNull('siguiente_id')->orWhere('id', $siguiente)->orderBy('nombre')->get();
+        $plantillas = Actividad::where('plantilla', true)->where('id', '!=', $actividad->id)->whereNull('siguiente_id')->orWhere('id', $siguiente)->orderBy('nombre')->get();
 
         return view('actividades.edit', compact(['actividad', 'unidades', 'actividades', 'plantillas']));
     }

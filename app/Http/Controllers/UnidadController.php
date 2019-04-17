@@ -35,7 +35,7 @@ class UnidadController extends Controller
      */
     public function create()
     {
-        $cursos = Curso::all();
+        $cursos = Curso::orderBy('nombre')->get();
 
         return view('unidades.create', compact('cursos'));
     }
@@ -86,7 +86,7 @@ class UnidadController extends Controller
      */
     public function edit(Unidad $unidad)
     {
-        $cursos = Curso::all();
+        $cursos = Curso::orderBy('nombre')->get();
 
         return view('unidades.edit', compact(['unidad', 'cursos']));
     }
