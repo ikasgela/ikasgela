@@ -26,7 +26,7 @@
                 <thead class="thead-dark">
                 <tr>
                     <th>#</th>
-                    <th>{{ __('Name') }}</th>
+                    <th>{{ __('Title') }}</th>
                     <th>{{ __('Description') }}</th>
                     <th>{{ __('GitLab') }}</th>
                     <th>{{ __('Actions') }}</th>
@@ -35,9 +35,9 @@
                 <tbody>
                 @foreach($intellij_projects as $intellij_project)
                     <tr>
-                        <td>{{ $intellij_project->gitlab()['id'] }}</td>
-                        <td>{{ $intellij_project->gitlab()['name'] }}</td>
-                        <td>{{ $intellij_project->gitlab()['description'] }}</td>
+                        <td>{{ $intellij_project->id }}</td>
+                        <td>{{ $intellij_project->titulo }}</td>
+                        <td>{{ $intellij_project->descripcion }}</td>
                         <td>@include('partials.link_gitlab', ['proyecto' => $intellij_project->gitlab() ])</td>
                         <td>
                             <form method="POST"
@@ -74,7 +74,7 @@
                     <tr>
                         <th></th>
                         <th>#</th>
-                        <th>{{ __('Name') }}</th>
+                        <th>{{ __('Title') }}</th>
                         <th>{{ __('Description') }}</th>
                         <th>{{ __('GitLab') }}</th>
                     </tr>
@@ -83,9 +83,9 @@
                     @foreach($disponibles as $intellij_project)
                         <tr>
                             <td><input type="checkbox" name="seleccionadas[]" value="{{ $intellij_project->id }}"></td>
-                            <td>{{ $intellij_project->gitlab()['id'] }}</td>
-                            <td>{{ $intellij_project->gitlab()['name'] }}</td>
-                            <td>{{ $intellij_project->gitlab()['description'] }}</td>
+                            <td>{{ $intellij_project->id }}</td>
+                            <td>{{ $intellij_project->titulo }}</td>
+                            <td>{{ $intellij_project->descripcion }}</td>
                             <td>@include('partials.link_gitlab', ['proyecto' => $intellij_project->gitlab() ])</td>
                         </tr>
                     @endforeach

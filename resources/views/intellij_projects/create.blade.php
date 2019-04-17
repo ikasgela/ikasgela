@@ -9,6 +9,8 @@
 
             {!! Form::open(['route' => ['intellij_projects.store']]) !!}
 
+            {{ Form::campoTexto('titulo', __('Title')) }}
+            {{ Form::campoTexto('descripcion', __('Description')) }}
             {{ Form::campoTexto('repositorio', __('Repository')) }}
 
             @include('partials.guardar_cancelar')

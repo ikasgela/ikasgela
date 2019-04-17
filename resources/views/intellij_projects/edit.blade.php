@@ -9,6 +9,8 @@
 
             {!! Form::model($intellij_project, ['route' => ['intellij_projects.update', $intellij_project->id], 'method' => 'PUT']) !!}
 
+            {{ Form::campoTexto('titulo', __('Title')) }}
+            {{ Form::campoTexto('descripcion', __('Description')) }}
             {{ Form::campoTexto('repositorio', __('Repository')) }}
 
             @include('partials.guardar_cancelar')
