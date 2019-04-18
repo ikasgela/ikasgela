@@ -62,7 +62,7 @@
                         </div>
                         <div class="row d-flex align-items-center">
                             <div class="col-12 col-md-6 m-0">
-                                <button type="submit" class="btn btn-primary btn-block">
+                                <button dusk="boton-submit" type="submit" class="btn btn-primary btn-block">
                                     {{ __('Login') }}
                                 </button>
                             </div>
