@@ -24,6 +24,10 @@ class AppServiceProvider extends ServiceProvider
 
         if (config('app.env', 'local') !== 'production') {
             \Debugbar::disable();
+
+            $this->app->singleton(\Faker\Generator::class, function () {
+                return \Faker\Factory::create('es_ES');
+            });
         }
     }
 

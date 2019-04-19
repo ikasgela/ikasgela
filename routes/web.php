@@ -149,6 +149,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('actividades', 'ActividadController')
             ->parameters(['actividades' => 'actividad']);
 
+        // CRUD - Organizaciones
+        Route::resource('organizations', 'OrganizationController');
+
     });
 
     // Pruebas
