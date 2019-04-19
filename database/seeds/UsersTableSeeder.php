@@ -35,8 +35,6 @@ class UsersTableSeeder extends Seeder
         $password = App::environment('local') ? '12345Abcde' : bin2hex(openssl_random_pseudo_bytes(16));;   // REF: https://stackoverflow.com/a/21498316
         $fecha = Carbon::now();
 
-        echo "  INFO: Usuario generado: $nombre - $email - $password\n";
-
         $user = new User();
         $user->name = $nombre;
         $user->email = $email;
@@ -50,28 +48,33 @@ class UsersTableSeeder extends Seeder
             $user->roles()->attach($rol);
         }
 
-        try {
-            $usuarios = GitLab::users()->all([
-                'search' => $email
-            ]);
-            foreach ($usuarios as $borrar) {
-                GitLab::users()->remove($borrar['id']);
+        if (config('app.env', 'local') != 'testing') {
+
+            echo "  INFO: Usuario generado: $nombre - $email - $password\n";
+
+            try {
+                $usuarios = GitLab::users()->all([
+                    'search' => $email
+                ]);
+                foreach ($usuarios as $borrar) {
+                    GitLab::users()->remove($borrar['id']);
+                }
+            } catch (\Exception $e) {
             }
-        } catch (\Exception $e) {
-        }
 
-        sleep(2);   // Si no, no de la tiempo a borrar y da error
+            sleep(2);   // Si no, no de la tiempo a borrar y da error
 
-        // Crear el usuario de GitLab
-        try {
-            GitLab::users()->create($email, $password, [
-                'name' => $nombre,
-                'username' => $usuario,
-                'skip_confirmation' => true
-            ]);
-            echo "  INFO: Usuario de GitLab creado.\n";
-        } catch (\Exception $e) {
-            echo "  ERROR: No se ha podido crear el usuario de GitLab asociado...\n";
+            // Crear el usuario de GitLab
+            try {
+                GitLab::users()->create($email, $password, [
+                    'name' => $nombre,
+                    'username' => $usuario,
+                    'skip_confirmation' => true
+                ]);
+                echo "  INFO: Usuario de GitLab creado.\n";
+            } catch (\Exception $e) {
+                echo "  ERROR: No se ha podido crear el usuario de GitLab asociado...\n";
+            }
         }
     }
 }
