@@ -5,6 +5,11 @@
     </a>
     <ul class="nav-dropdown-items">
         <li class="nav-item">
+            <a class="nav-link" href="{{ route('organizations.index') }}">
+                {{ __('Organizations') }}
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="{{ route('cursos.index') }}">
                 {{ __('Courses') }}
             </a>
