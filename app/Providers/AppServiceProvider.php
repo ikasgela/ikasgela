@@ -22,7 +22,9 @@ class AppServiceProvider extends ServiceProvider
         Form::component('campoCheckLabel', 'components.form.check_label', ['name', 'label' => null, 'value' => null, 'attributes' => []]);
         Form::component('campoTextArea', 'components.form.text_area', ['name', 'label' => null, 'value' => null, 'attributes' => []]);
 
-        \Debugbar::disable();
+        if (config('app.env', 'local') !== 'production') {
+            \Debugbar::disable();
+        }
     }
 
     /**
