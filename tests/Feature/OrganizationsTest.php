@@ -29,7 +29,59 @@ class OrganizationsTest extends TestCase
         $response->assertSee($organization->name);
     }
 
+    public function testNotAdminNotIndex()
+    {
+        // Given
+        $this->actingAs($this->not_admin);
+
+        // When
+        // Then
+        $this->get(route('organizations.index'))
+            ->assertForbidden();
+    }
+
+    public function testNotAuthNotIndex()
+    {
+        // Given
+        // When
+        // Then
+        $this->get(route('organizations.index'))
+            ->assertRedirect(route('login'));
+    }
+
     public function testCreate()
+    {
+        // Given
+        $this->actingAs($this->admin);
+
+        // When
+        $response = $this->get(route('organizations.create'));
+
+        // Then
+        $response->assertSee(__('New organization'));
+    }
+
+    public function testNotAdminNotCreate()
+    {
+        // Given
+        $this->actingAs($this->not_admin);
+
+        // When
+        // Then
+        $this->get(route('organizations.create'))
+            ->assertForbidden();
+    }
+
+    public function testNotAuthNotCreate()
+    {
+        // Given
+        // When
+        // Then
+        $this->get(route('organizations.create'))
+            ->assertRedirect(route('login'));
+    }
+
+    public function testStore()
     {
         // Given
         $this->actingAs($this->admin);
@@ -42,18 +94,7 @@ class OrganizationsTest extends TestCase
         $this->assertEquals(1, Organization::all()->count());
     }
 
-    public function testNotAuthNotCreate()
-    {
-        // Given
-        $organization = factory(Organization::class)->make();
-
-        // When
-        // Then
-        $this->post(route('organizations.store'), $organization->toArray())
-            ->assertRedirect(route('login'));
-    }
-
-    public function testNotAdminNotCreate()
+    public function testNotAdminNotStore()
     {
         // Given
         $this->actingAs($this->not_admin);
@@ -65,7 +106,18 @@ class OrganizationsTest extends TestCase
             ->assertForbidden();
     }
 
-    public function testRequiredName()
+    public function testNotAuthNotStore()
+    {
+        // Given
+        $organization = factory(Organization::class)->make();
+
+        // When
+        // Then
+        $this->post(route('organizations.store'), $organization->toArray())
+            ->assertRedirect(route('login'));
+    }
+
+    public function testStoreRequiresName()
     {
         // Given
         $this->actingAs($this->admin);
@@ -75,6 +127,78 @@ class OrganizationsTest extends TestCase
         // Then
         $this->post(route('organizations.store'), $organization->toArray())
             ->assertSessionHasErrors('name');
+    }
+
+    public function testShow()
+    {
+        // Given
+        $this->actingAs($this->admin);
+        $organization = factory(Organization::class)->create();
+
+        // When
+        $response = $this->get(route('organizations.show', ['id' => $organization->id]));
+
+        // Then
+        $response->assertSee(__('Not implemented.'));
+    }
+
+    public function testNotAdminNotShow()
+    {
+        // Given
+        $this->actingAs($this->not_admin);
+        $organization = factory(Organization::class)->create();
+
+        // When
+        // Then
+        $this->get(route('organizations.show', ['id' => $organization->id]))
+            ->assertForbidden();
+    }
+
+    public function testNotAuthNotShow()
+    {
+        // Given
+        $organization = factory(Organization::class)->create();
+
+        // When
+        // Then
+        $this->get(route('organizations.show', ['id' => $organization->id]))
+            ->assertRedirect(route('login'));
+    }
+
+    public function testEdit()
+    {
+        // Given
+        $this->actingAs($this->admin);
+        $organization = factory(Organization::class)->create();
+
+        // When
+        $response = $this->get(route('organizations.edit', ['id' => $organization->id]), $organization->toArray());
+
+        // Then
+        $response->assertSeeInOrder([$organization->name, $organization->slug]);
+    }
+
+    public function testNotAdminNotEdit()
+    {
+        // Given
+        $this->actingAs($this->not_admin);
+        $organization = factory(Organization::class)->create();
+
+        // When
+        // Then
+        $this->get(route('organizations.edit', ['id' => $organization->id]), $organization->toArray())
+            ->assertForbidden();
+    }
+
+    public function testNotAuthNotEdit()
+    {
+        // Given
+        $organization = factory(Organization::class)->create();
+
+        // When
+        // Then
+        $this->get(route('organizations.edit', ['id' => $organization->id]), $organization->toArray())
+            ->assertRedirect(route('login'));
     }
 
     public function testUpdate()
@@ -104,6 +228,18 @@ class OrganizationsTest extends TestCase
             ->assertForbidden();
     }
 
+    public function testNotAuthNotUpdate()
+    {
+        // Given
+        $organization = factory(Organization::class)->create();
+        $organization->name = "Updated";
+
+        // When
+        // Then
+        $this->put(route('organizations.update', ['id' => $organization->id]), $organization->toArray())
+            ->assertRedirect(route('login'));
+    }
+
     public function testDelete()
     {
         // Given
@@ -127,5 +263,16 @@ class OrganizationsTest extends TestCase
         // Then
         $this->delete(route('organizations.destroy', ['id' => $organization->id]))
             ->assertForbidden();
+    }
+
+    public function testNotAuthNotDelete()
+    {
+        // Given
+        $organization = factory(Organization::class)->create();
+
+        // When
+        // Then
+        $this->delete(route('organizations.destroy', ['id' => $organization->id]))
+            ->assertRedirect(route('login'));
     }
 }

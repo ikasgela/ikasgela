@@ -9,8 +9,7 @@
 
             {!! Form::model($organization, ['route' => ['organizations.update', $organization->id], 'method' => 'PUT']) !!}
 
-            {{ Form::campoTexto('nombre', __('Name')) }}
-            {{ Form::campoTexto('descripcion', __('Description')) }}
+            {{ Form::campoTexto('name', __('Name')) }}
             {{ Form::campoTexto('slug', __('Slug')) }}
 
             @include('partials.guardar_cancelar')
