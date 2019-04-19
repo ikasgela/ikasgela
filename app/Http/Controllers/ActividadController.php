@@ -19,7 +19,7 @@ class ActividadController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:admin')->except('actualizarEstado');
+        $this->middleware('role:admin')->except(['actualizarEstado', 'preview']);
     }
 
     /**

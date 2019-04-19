@@ -2,12 +2,12 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Edit course')])
+    @include('partials.titular', ['titular' => __('Edit organization')])
 
     <div class="card">
         <div class="card-body">
 
-            {!! Form::model($curso, ['route' => ['cursos.update', $curso->id], 'method' => 'PUT']) !!}
+            {!! Form::model($organization, ['route' => ['organizations.update', $organization->id], 'method' => 'PUT']) !!}
 
             {{ Form::campoTexto('nombre', __('Name')) }}
             {{ Form::campoTexto('descripcion', __('Description')) }}

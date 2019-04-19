@@ -3,10 +3,6 @@
 namespace Tests\Feature;
 
 use App\Organization;
-use App\Role;
-use App\User;
-use Carbon\Carbon;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -14,28 +10,20 @@ class OrganizationsTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $user;
-
     public function setUp(): void
     {
         parent::setUp();
-
-        $fecha = Carbon::now();
-        $this->user = factory(User::class)->create();
-        $this->user->email_verified_at = $fecha;
-        $rol = Role::create(['name' => 'admin', 'description' => 'Administrador']);
-        $this->user->roles()->attach($rol);
+        parent::crearUsuarios();
     }
 
     public function testIndex()
     {
         // Given
+        $this->actingAs($this->admin);
         $organization = factory(Organization::class)->create();
 
         // When
-        $response = $this
-            ->actingAs($this->user)
-            ->get('/organizations');
+        $response = $this->get(route('organizations.index'));
 
         // Then
         $response->assertSee($organization->name);
@@ -44,11 +32,11 @@ class OrganizationsTest extends TestCase
     public function testCreate()
     {
         // Given
+        $this->actingAs($this->admin);
         $organization = factory(Organization::class)->make();
-        $this->actingAs($this->user);
 
         // When
-        $this->post('/organizations', $organization->toArray());
+        $this->post(route('organizations.store'), $organization->toArray());
 
         // Then
         $this->assertEquals(1, Organization::all()->count());
@@ -61,19 +49,83 @@ class OrganizationsTest extends TestCase
 
         // When
         // Then
-        $this
-            ->post('/organizations', $organization->toArray())
-            ->assertRedirect('/login');
+        $this->post(route('organizations.store'), $organization->toArray())
+            ->assertRedirect(route('login'));
+    }
+
+    public function testNotAdminNotCreate()
+    {
+        // Given
+        $this->actingAs($this->not_admin);
+        $organization = factory(Organization::class)->make();
+
+        // When
+        // Then
+        $this->post(route('organizations.store'), $organization->toArray())
+            ->assertForbidden();
     }
 
     public function testRequiredName()
     {
-        $this->actingAs($this->user);
-
+        // Given
+        $this->actingAs($this->admin);
         $organization = factory(Organization::class)->make(['name' => null]);
 
-        $this->post('/organizations', $organization->toArray())
+        // When
+        // Then
+        $this->post(route('organizations.store'), $organization->toArray())
             ->assertSessionHasErrors('name');
     }
 
+    public function testUpdate()
+    {
+        // Given
+        $this->actingAs($this->admin);
+        $organization = factory(Organization::class)->create();
+        $organization->name = "Updated";
+
+        // When
+        $this->put(route('organizations.update', ['id' => $organization->id]), $organization->toArray());
+
+        // Then
+        $this->assertDatabaseHas('organizations', $organization->toArray());
+    }
+
+    public function testNotAdminNotUpdate()
+    {
+        // Given
+        $this->actingAs($this->not_admin);
+        $organization = factory(Organization::class)->create();
+        $organization->name = "Updated";
+
+        // When
+        // Then
+        $this->put(route('organizations.update', ['id' => $organization->id]), $organization->toArray())
+            ->assertForbidden();
+    }
+
+    public function testDelete()
+    {
+        // Given
+        $this->actingAs($this->admin);
+        $organization = factory(Organization::class)->create();
+
+        // When
+        $this->delete(route('organizations.destroy', ['id' => $organization->id]));
+
+        // Then
+        $this->assertDatabaseMissing('organizations', ['id' => $organization->id]);
+    }
+
+    public function testNotAdminNotDelete()
+    {
+        // Given
+        $this->actingAs($this->not_admin);
+        $organization = factory(Organization::class)->create();
+
+        // When
+        // Then
+        $this->delete(route('organizations.destroy', ['id' => $organization->id]))
+            ->assertForbidden();
+    }
 }
