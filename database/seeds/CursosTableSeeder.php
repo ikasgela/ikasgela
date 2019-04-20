@@ -1,5 +1,6 @@
 <?php
 
+use App\Curso;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -14,7 +15,7 @@ class CursosTableSeeder extends Seeder
     {
         $nombre = 'Programación';
 
-        DB::table('cursos')->insert([
+        factory(Curso::class)->create([
             'nombre' => $nombre,
             'descripcion' => 'Fundamentos de Programación en Java.',
             'slug' => Str::slug($nombre)
