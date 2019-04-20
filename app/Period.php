@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Organization extends Model
+class Period extends Model
 {
     protected $fillable = [
         'name', 'slug'
     ];
 
-    public function periods()
+    public function organization()
     {
-        return $this->hasMany(Period::class);
+        return $this->belongsTo(Organization::class);
     }
 }
