@@ -240,6 +240,20 @@ class OrganizationsTest extends TestCase
             ->assertRedirect(route('login'));
     }
 
+    public function testUpdateRequiresName()
+    {
+        // Given
+        $this->actingAs($this->admin);
+        $organization = factory(Organization::class)->create();
+
+        // When
+        $organization->name = null;
+
+        // Then
+        $this->put(route('organizations.update', ['id' => $organization->id]), $organization->toArray())
+            ->assertSessionHasErrors('name');
+    }
+
     public function testDelete()
     {
         // Given

@@ -2,10 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Organization;
 use App\Period;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class PeriodsTest extends TestCase
@@ -252,6 +250,34 @@ class PeriodsTest extends TestCase
         // Then
         $this->put(route('periods.update', ['id' => $period->id]), $period->toArray())
             ->assertRedirect(route('login'));
+    }
+
+    public function testUpdateRequiresName()
+    {
+        // Given
+        $this->actingAs($this->admin);
+        $period = factory(Period::class)->create();
+
+        // When
+        $period->name = null;
+
+        // Then
+        $this->put(route('periods.update', ['id' => $period->id]), $period->toArray())
+            ->assertSessionHasErrors('name');
+    }
+
+    public function testUpdateRequiresOrganization()
+    {
+        // Given
+        $this->actingAs($this->admin);
+        $period = factory(Period::class)->create();
+
+        // When
+        $period->organization_id = null;
+
+        // Then
+        $this->put(route('periods.update', ['id' => $period->id]), $period->toArray())
+            ->assertSessionHasErrors('organization_id');
     }
 
     public function testDelete()
