@@ -152,6 +152,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // CRUD - Organizaciones
         Route::resource('organizations', 'OrganizationController');
 
+        // CRUD - Periodos
+        Route::resource('periods', 'PeriodController');
+
     });
 
     // Pruebas

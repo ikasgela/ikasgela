@@ -2,84 +2,92 @@
 
 namespace App\Http\Controllers;
 
+use App\Organization;
 use App\Period;
+use BadMethodCallException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PeriodController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:admin');
+    }
+
     public function index()
     {
-        //
+        $periods = Period::all();
+
+        return view('periods.index', compact('periods'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        $organizations = Organization::orderBy('name')->get();
+
+        return view('periods.create', compact('organizations'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'organization_id' => 'required',
+            'name' => 'required',
+        ]);
+
+        try {
+            Period::create([
+                'organization_id' => request('organization_id'),
+                'name' => request('name'),
+                'slug' => Str::slug(request('name'))
+            ]);
+        } catch (\Exception $e) {
+            // Slug repetido
+        }
+
+        return redirect(route('periods.index'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Period  $period
-     * @return \Illuminate\Http\Response
-     */
     public function show(Period $period)
     {
-        //
+        throw new BadMethodCallException(__('Not implemented.'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Period  $period
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Period $period)
     {
-        //
+        $organizations = Organization::orderBy('name')->get();
+
+        return view('periods.edit', compact(['period', 'organizations']));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Period  $period
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Period $period)
     {
-        //
+        $this->validate($request, [
+            'organization_id' => 'required',
+            'name' => 'required',
+        ]);
+
+        try {
+            $period->update([
+                'organization_id' => request('organization_id'),
+                'name' => request('name'),
+                'slug' => strlen(request('slug')) > 0
+                    ? Str::slug(request('slug'))
+                    : Str::slug(request('name'))
+            ]);
+        } catch (\Exception $e) {
+            // Slug repetido
+        }
+
+        return redirect(route('periods.index'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Period  $period
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Period $period)
     {
-        //
+        $period->delete();
+
+        return redirect(route('periods.index'));
     }
 }

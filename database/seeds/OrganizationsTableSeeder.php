@@ -30,7 +30,5 @@ class OrganizationsTableSeeder extends Seeder
             'name' => $name,
             'slug' => Str::slug($name)
         ]);
-
-        factory(Organization::class, 3)->create();
     }
 }

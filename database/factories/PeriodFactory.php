@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 $factory->define(Period::class, function (Faker $faker) {
 
-    $organization = Organization::where('name', 'www')->first();
+    $organization = factory(Organization::class)->create();
 
     $name = $faker->year;
 

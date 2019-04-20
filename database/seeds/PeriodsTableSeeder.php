@@ -1,6 +1,5 @@
 <?php
 
-use App\Organization;
 use App\Period;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -25,7 +24,5 @@ class PeriodsTableSeeder extends Seeder
             'name' => $name,
             'slug' => Str::slug($name)
         ]);
-
-        factory(Period::class, 3)->create();
     }
 }
