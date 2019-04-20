@@ -155,6 +155,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // CRUD - Periodos
         Route::resource('periods', 'PeriodController');
 
+        // CRUD - Categorías
+        Route::resource('categories', 'CategoryController');
     });
 
     // Pruebas

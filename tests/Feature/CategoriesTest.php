@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Period;
+use App\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class PeriodsTest extends TestCase
+class CategoriesTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -20,13 +20,13 @@ class PeriodsTest extends TestCase
     {
         // Given
         $this->actingAs($this->admin);
-        $period = factory(Period::class)->create();
+        $category = factory(Category::class)->create();
 
         // When
-        $response = $this->get(route('periods.index'));
+        $response = $this->get(route('categories.index'));
 
         // Then
-        $response->assertSee($period->name);
+        $response->assertSee($category->name);
     }
 
     public function testNotAdminNotIndex()
@@ -36,7 +36,7 @@ class PeriodsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('periods.index'))
+        $this->get(route('categories.index'))
             ->assertForbidden();
     }
 
@@ -45,7 +45,7 @@ class PeriodsTest extends TestCase
         // Given
         // When
         // Then
-        $this->get(route('periods.index'))
+        $this->get(route('categories.index'))
             ->assertRedirect(route('login'));
     }
 
@@ -55,10 +55,10 @@ class PeriodsTest extends TestCase
         $this->actingAs($this->admin);
 
         // When
-        $response = $this->get(route('periods.create'));
+        $response = $this->get(route('categories.create'));
 
         // Then
-        $response->assertSeeInOrder([__('New period'), __('Save')]);
+        $response->assertSeeInOrder([__('New category'), __('Save')]);
     }
 
     public function testNotAdminNotCreate()
@@ -68,7 +68,7 @@ class PeriodsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('periods.create'))
+        $this->get(route('categories.create'))
             ->assertForbidden();
     }
 
@@ -77,7 +77,7 @@ class PeriodsTest extends TestCase
         // Given
         // When
         // Then
-        $this->get(route('periods.create'))
+        $this->get(route('categories.create'))
             ->assertRedirect(route('login'));
     }
 
@@ -85,35 +85,35 @@ class PeriodsTest extends TestCase
     {
         // Given
         $this->actingAs($this->admin);
-        $period = factory(Period::class)->make();
+        $category = factory(Category::class)->make();
 
         // When
-        $this->post(route('periods.store'), $period->toArray());
+        $this->post(route('categories.store'), $category->toArray());
 
         // Then
-        $this->assertEquals(1, Period::all()->count());
+        $this->assertEquals(1, Category::all()->count());
     }
 
     public function testNotAdminNotStore()
     {
         // Given
         $this->actingAs($this->not_admin);
-        $period = factory(Period::class)->make();
+        $category = factory(Category::class)->make();
 
         // When
         // Then
-        $this->post(route('periods.store'), $period->toArray())
+        $this->post(route('categories.store'), $category->toArray())
             ->assertForbidden();
     }
 
     public function testNotAuthNotStore()
     {
         // Given
-        $period = factory(Period::class)->make();
+        $category = factory(Category::class)->make();
 
         // When
         // Then
-        $this->post(route('periods.store'), $period->toArray())
+        $this->post(route('categories.store'), $category->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -121,34 +121,34 @@ class PeriodsTest extends TestCase
     {
         // Given
         $this->actingAs($this->admin);
-        $period = factory(Period::class)->make(['name' => null]);
+        $category = factory(Category::class)->make(['name' => null]);
 
         // When
         // Then
-        $this->post(route('periods.store'), $period->toArray())
+        $this->post(route('categories.store'), $category->toArray())
             ->assertSessionHasErrors('name');
     }
 
-    public function testStoreRequiresOrganization()
+    public function testStoreRequiresPeriod()
     {
         // Given
         $this->actingAs($this->admin);
-        $period = factory(Period::class)->make(['organization_id' => null]);
+        $category = factory(Category::class)->make(['period_id' => null]);
 
         // When
         // Then
-        $this->post(route('periods.store'), $period->toArray())
-            ->assertSessionHasErrors('organization_id');
+        $this->post(route('categories.store'), $category->toArray())
+            ->assertSessionHasErrors('period_id');
     }
 
     public function testShow()
     {
         // Given
         $this->actingAs($this->admin);
-        $period = factory(Period::class)->create();
+        $category = factory(Category::class)->create();
 
         // When
-        $response = $this->get(route('periods.show', ['id' => $period->id]));
+        $response = $this->get(route('categories.show', ['id' => $category->id]));
 
         // Then
         $response->assertSee(__('Not implemented.'));
@@ -158,22 +158,22 @@ class PeriodsTest extends TestCase
     {
         // Given
         $this->actingAs($this->not_admin);
-        $period = factory(Period::class)->create();
+        $category = factory(Category::class)->create();
 
         // When
         // Then
-        $this->get(route('periods.show', ['id' => $period->id]))
+        $this->get(route('categories.show', ['id' => $category->id]))
             ->assertForbidden();
     }
 
     public function testNotAuthNotShow()
     {
         // Given
-        $period = factory(Period::class)->create();
+        $category = factory(Category::class)->create();
 
         // When
         // Then
-        $this->get(route('periods.show', ['id' => $period->id]))
+        $this->get(route('categories.show', ['id' => $category->id]))
             ->assertRedirect(route('login'));
     }
 
@@ -181,35 +181,35 @@ class PeriodsTest extends TestCase
     {
         // Given
         $this->actingAs($this->admin);
-        $period = factory(Period::class)->create();
+        $category = factory(Category::class)->create();
 
         // When
-        $response = $this->get(route('periods.edit', ['id' => $period->id]), $period->toArray());
+        $response = $this->get(route('categories.edit', ['id' => $category->id]), $category->toArray());
 
         // Then
-        $response->assertSeeInOrder([$period->name, $period->slug, __('Save')]);
+        $response->assertSeeInOrder([$category->name, $category->slug, __('Save')]);
     }
 
     public function testNotAdminNotEdit()
     {
         // Given
         $this->actingAs($this->not_admin);
-        $period = factory(Period::class)->create();
+        $category = factory(Category::class)->create();
 
         // When
         // Then
-        $this->get(route('periods.edit', ['id' => $period->id]), $period->toArray())
+        $this->get(route('categories.edit', ['id' => $category->id]), $category->toArray())
             ->assertForbidden();
     }
 
     public function testNotAuthNotEdit()
     {
         // Given
-        $period = factory(Period::class)->create();
+        $category = factory(Category::class)->create();
 
         // When
         // Then
-        $this->get(route('periods.edit', ['id' => $period->id]), $period->toArray())
+        $this->get(route('categories.edit', ['id' => $category->id]), $category->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -217,38 +217,38 @@ class PeriodsTest extends TestCase
     {
         // Given
         $this->actingAs($this->admin);
-        $period = factory(Period::class)->create();
-        $period->name = "Updated";
+        $category = factory(Category::class)->create();
+        $category->name = "Updated";
 
         // When
-        $this->put(route('periods.update', ['id' => $period->id]), $period->toArray());
+        $this->put(route('categories.update', ['id' => $category->id]), $category->toArray());
 
         // Then
-        $this->assertDatabaseHas('periods', ['id' => $period->id, 'name' => $period->name]);
+        $this->assertDatabaseHas('categories', ['id' => $category->id, 'name' => $category->name]);
     }
 
     public function testNotAdminNotUpdate()
     {
         // Given
         $this->actingAs($this->not_admin);
-        $period = factory(Period::class)->create();
-        $period->name = "Updated";
+        $category = factory(Category::class)->create();
+        $category->name = "Updated";
 
         // When
         // Then
-        $this->put(route('periods.update', ['id' => $period->id]), $period->toArray())
+        $this->put(route('categories.update', ['id' => $category->id]), $category->toArray())
             ->assertForbidden();
     }
 
     public function testNotAuthNotUpdate()
     {
         // Given
-        $period = factory(Period::class)->create();
-        $period->name = "Updated";
+        $category = factory(Category::class)->create();
+        $category->name = "Updated";
 
         // When
         // Then
-        $this->put(route('periods.update', ['id' => $period->id]), $period->toArray())
+        $this->put(route('categories.update', ['id' => $category->id]), $category->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -256,63 +256,63 @@ class PeriodsTest extends TestCase
     {
         // Given
         $this->actingAs($this->admin);
-        $period = factory(Period::class)->create();
+        $category = factory(Category::class)->create();
 
         // When
-        $period->name = null;
+        $category->name = null;
 
         // Then
-        $this->put(route('periods.update', ['id' => $period->id]), $period->toArray())
+        $this->put(route('categories.update', ['id' => $category->id]), $category->toArray())
             ->assertSessionHasErrors('name');
     }
 
-    public function testUpdateRequiresOrganization()
+    public function testUpdateRequiresPeriod()
     {
         // Given
         $this->actingAs($this->admin);
-        $period = factory(Period::class)->create();
+        $category = factory(Category::class)->create();
 
         // When
-        $period->organization_id = null;
+        $category->period_id = null;
 
         // Then
-        $this->put(route('periods.update', ['id' => $period->id]), $period->toArray())
-            ->assertSessionHasErrors('organization_id');
+        $this->put(route('categories.update', ['id' => $category->id]), $category->toArray())
+            ->assertSessionHasErrors('period_id');
     }
 
     public function testDelete()
     {
         // Given
         $this->actingAs($this->admin);
-        $period = factory(Period::class)->create();
+        $category = factory(Category::class)->create();
 
         // When
-        $this->delete(route('periods.destroy', ['id' => $period->id]));
+        $this->delete(route('categories.destroy', ['id' => $category->id]));
 
         // Then
-        $this->assertDatabaseMissing('periods', ['id' => $period->id]);
+        $this->assertDatabaseMissing('categories', ['id' => $category->id]);
     }
 
     public function testNotAdminNotDelete()
     {
         // Given
         $this->actingAs($this->not_admin);
-        $period = factory(Period::class)->create();
+        $category = factory(Category::class)->create();
 
         // When
         // Then
-        $this->delete(route('periods.destroy', ['id' => $period->id]))
+        $this->delete(route('categories.destroy', ['id' => $category->id]))
             ->assertForbidden();
     }
 
     public function testNotAuthNotDelete()
     {
         // Given
-        $period = factory(Period::class)->create();
+        $category = factory(Category::class)->create();
 
         // When
         // Then
-        $this->delete(route('periods.destroy', ['id' => $period->id]))
+        $this->delete(route('categories.destroy', ['id' => $category->id]))
             ->assertRedirect(route('login'));
     }
 }

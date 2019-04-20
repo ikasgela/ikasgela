@@ -58,7 +58,7 @@ class OrganizationsTest extends TestCase
         $response = $this->get(route('organizations.create'));
 
         // Then
-        $response->assertSee(__('New organization'));
+        $response->assertSeeInOrder([__('New organization'), __('Save')]);
     }
 
     public function testNotAdminNotCreate()
@@ -175,7 +175,7 @@ class OrganizationsTest extends TestCase
         $response = $this->get(route('organizations.edit', ['id' => $organization->id]), $organization->toArray());
 
         // Then
-        $response->assertSeeInOrder([$organization->name, $organization->slug]);
+        $response->assertSeeInOrder([$organization->name, $organization->slug, __('Save')]);
     }
 
     public function testNotAdminNotEdit()
