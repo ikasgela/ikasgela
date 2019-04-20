@@ -14,11 +14,6 @@ class MakeCategoryIdNotNullInCursos extends Migration
     public function up()
     {
         Schema::table('cursos', function (Blueprint $table) {
-            $table->dropForeign('cursos_category_id_foreign');
-            $table->dropIndex('cursos_category_id_index');
-        });
-
-        Schema::table('cursos', function (Blueprint $table) {
             $table->bigInteger('category_id')->unsigned()->index()->nullable(false)->change();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
@@ -32,7 +27,9 @@ class MakeCategoryIdNotNullInCursos extends Migration
     public function down()
     {
         Schema::table('cursos', function (Blueprint $table) {
-            //
+            $table->dropForeign('cursos_category_id_foreign');
+            $table->dropIndex('cursos_category_id_index');
+            $table->bigInteger('category_id')->unsigned()->nullable()->change();
         });
     }
 }
