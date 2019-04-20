@@ -17,6 +17,7 @@
             <thead class="thead-dark">
             <tr>
                 <th>#</th>
+                <th>{{ __('Category') }}</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Description') }}</th>
                 <th>{{ __('Slug') }}</th>
@@ -27,6 +28,7 @@
             @foreach($cursos as $curso)
                 <tr>
                     <td>{{ $curso->id }}</td>
+                    <td>{{ $curso->category->name }}</td>
                     <td>{{ $curso->nombre }}</td>
                     <td>{{ $curso->descripcion }}</td>
                     <td>{{ $curso->slug }}</td>

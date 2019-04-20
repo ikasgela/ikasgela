@@ -14,4 +14,9 @@ class Period extends Model
     {
         return $this->belongsTo(Organization::class);
     }
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
+    }
 }

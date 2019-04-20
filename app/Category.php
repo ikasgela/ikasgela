@@ -14,4 +14,9 @@ class Category extends Model
     {
         return $this->belongsTo(Period::class);
     }
+
+    public function cursos()
+    {
+        return $this->hasMany(Curso::class);
+    }
 }
