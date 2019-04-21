@@ -12,7 +12,7 @@ $factory->define(Category::class, function (Faker $faker) {
     $name = $faker->sentence(3, true);
 
     return [
-        'period_id' => factory(Period::class)->create(),
+        'period_id' => factory(Period::class),
         'name' => $name,
         'slug' => Str::slug($name)
     ];

@@ -12,7 +12,7 @@ $factory->define(Period::class, function (Faker $faker) {
     $name = $faker->unique()->year;
 
     return [
-        'organization_id' => factory(Organization::class)->create(),
+        'organization_id' => factory(Organization::class),
         'name' => $name,
         'slug' => Str::slug($name)
     ];
