@@ -9,7 +9,7 @@
 
             {!! Form::model($team, ['route' => ['teams.update', $team->id], 'method' => 'PUT']) !!}
 
-            <div class="form-team row">
+            <div class="form-group row">
                 {!! Form::label('group_id', __('Group'), ['class' => 'col-sm-2 col-form-label']) !!}
                 <div class="col-sm-10">
                     <select class="form-control" id="group_id" name="group_id">

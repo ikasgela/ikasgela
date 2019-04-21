@@ -28,7 +28,7 @@
                     <td>{{ $team->slug }}</td>
                     <td>
                         {!! Form::open(['route' => ['teams.destroy', $team->id], 'method' => 'DELETE']) !!}
-                        <div class='btn-team'>
+                        <div class='btn-group'>
                             <a title="{{ __('Edit') }}"
                                href="{{ route('teams.edit', [$team->id]) }}"
                                class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
