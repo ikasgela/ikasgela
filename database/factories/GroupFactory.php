@@ -2,17 +2,17 @@
 
 /* @var $factory \Illuminate\Database\Eloquent\Factory */
 
-use App\Organization;
+use App\Group;
 use App\Period;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 
-$factory->define(Period::class, function (Faker $faker) {
+$factory->define(Group::class, function (Faker $faker) {
 
-    $name = $faker->year;
+    $name = $faker->sentence(3, true);
 
     return [
-        'organization_id' => factory(Organization::class)->create(),
+        'period_id' => factory(Period::class)->create(),
         'name' => $name,
         'slug' => Str::slug($name)
     ];

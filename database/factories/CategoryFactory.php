@@ -9,12 +9,10 @@ use Illuminate\Support\Str;
 
 $factory->define(Category::class, function (Faker $faker) {
 
-    $period = factory(Period::class)->create();
-
     $name = $faker->sentence(3, true);
 
     return [
-        'period_id' => $period->id,
+        'period_id' => factory(Period::class)->create(),
         'name' => $name,
         'slug' => Str::slug($name)
     ];
