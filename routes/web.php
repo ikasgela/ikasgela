@@ -160,6 +160,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // CRUD - Grupos
         Route::resource('groups', 'GroupController');
+
+        // CRUD - Equipos
+        Route::resource('teams', 'TeamController');
     });
 
     // Pruebas

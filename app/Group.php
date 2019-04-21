@@ -14,4 +14,9 @@ class Group extends Model
     {
         return $this->belongsTo(Period::class);
     }
+
+    public function teams()
+    {
+        return $this->hasMany(Team::class);
+    }
 }

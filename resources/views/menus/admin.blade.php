@@ -40,6 +40,11 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="{{ route('teams.index') }}">
+                {{ __('Teams') }}
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="{{ route('users.index') }}">
                 {{ __('Users') }}
             </a>
