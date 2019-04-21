@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 $factory->define(Period::class, function (Faker $faker) {
 
-    $name = $faker->year;
+    $name = $faker->unique()->year;
 
     return [
         'organization_id' => factory(Organization::class)->create(),
