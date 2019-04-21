@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
+use App\Group;
 use App\Period;
 use BadMethodCallException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class CategoryController extends Controller
+class GroupController extends Controller
 {
     public function __construct()
     {
@@ -18,16 +18,16 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categories = Category::all();
+        $groups = Group::all();
 
-        return view('categories.index', compact('categories'));
+        return view('groups.index', compact('groups'));
     }
 
     public function create()
     {
         $periods = Period::orderBy('name')->get();
 
-        return view('categories.create', compact('periods'));
+        return view('groups.create', compact('periods'));
     }
 
     public function store(Request $request)
@@ -38,7 +38,7 @@ class CategoryController extends Controller
         ]);
 
         try {
-            Category::create([
+            Group::create([
                 'period_id' => request('period_id'),
                 'name' => request('name'),
                 'slug' => Str::slug(request('name'))
@@ -47,22 +47,22 @@ class CategoryController extends Controller
             // Slug repetido
         }
 
-        return redirect(route('categories.index'));
+        return redirect(route('groups.index'));
     }
 
-    public function show(Category $category)
+    public function show(Group $group)
     {
         throw new BadMethodCallException(__('Not implemented.'));
     }
 
-    public function edit(Category $category)
+    public function edit(Group $group)
     {
         $periods = Period::orderBy('name')->get();
 
-        return view('categories.edit', compact(['category', 'periods']));
+        return view('groups.edit', compact(['group', 'periods']));
     }
 
-    public function update(Request $request, Category $category)
+    public function update(Request $request, Group $group)
     {
         $this->validate($request, [
             'period_id' => 'required',
@@ -70,7 +70,7 @@ class CategoryController extends Controller
         ]);
 
         try {
-            $category->update([
+            $group->update([
                 'period_id' => request('period_id'),
                 'name' => request('name'),
                 'slug' => strlen(request('slug')) > 0
@@ -81,13 +81,13 @@ class CategoryController extends Controller
             // Slug repetido
         }
 
-        return redirect(route('categories.index'));
+        return redirect(route('groups.index'));
     }
 
-    public function destroy(Category $category)
+    public function destroy(Group $group)
     {
-        $category->delete();
+        $group->delete();
 
-        return redirect(route('categories.index'));
+        return redirect(route('groups.index'));
     }
 }

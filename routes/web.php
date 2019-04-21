@@ -157,6 +157,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // CRUD - Categorías
         Route::resource('categories', 'CategoryController');
+
+        // CRUD - Grupos
+        Route::resource('groups', 'GroupController');
     });
 
     // Pruebas

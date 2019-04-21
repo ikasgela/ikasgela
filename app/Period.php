@@ -19,4 +19,9 @@ class Period extends Model
     {
         return $this->hasMany(Category::class);
     }
+
+    public function groups()
+    {
+        return $this->hasMany(Group::class);
+    }
 }

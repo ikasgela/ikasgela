@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(OrganizationsTableSeeder::class);
         $this->call(PeriodsTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
+        $this->call(GroupsTableSeeder::class);
 
         $this->call(YoutubeVideosTableSeeder::class);
         $this->call(IntellijProjectsTableSeeder::class);
