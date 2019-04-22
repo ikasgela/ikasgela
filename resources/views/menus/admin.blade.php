@@ -5,6 +5,21 @@
     </a>
     <ul class="nav-dropdown-items">
         <li class="nav-item">
+            <a class="nav-link" href="{{ route('organizations.index') }}">
+                {{ __('Organizations') }}
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('periods.index') }}">
+                {{ __('Periods') }}
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('categories.index') }}">
+                {{ __('Categories') }}
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="{{ route('cursos.index') }}">
                 {{ __('Courses') }}
             </a>
@@ -17,6 +32,16 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ route('actividades.index') }}">
                 {{ __('Activities') }}
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('groups.index') }}">
+                {{ __('Groups') }}
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('teams.index') }}">
+                {{ __('Teams') }}
             </a>
         </li>
         <li class="nav-item">

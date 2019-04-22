@@ -1,5 +1,7 @@
 <?php
 
+use App\Category;
+use App\Curso;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -12,9 +14,12 @@ class CursosTableSeeder extends Seeder
      */
     public function run()
     {
+        $category = Category::where('name', 'Programación')->first();
+
         $nombre = 'Programación';
 
-        DB::table('cursos')->insert([
+        factory(Curso::class)->create([
+            'category_id' => $category->id,
             'nombre' => $nombre,
             'descripcion' => 'Fundamentos de Programación en Java.',
             'slug' => Str::slug($nombre)

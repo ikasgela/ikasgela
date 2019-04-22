@@ -149,6 +149,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('actividades', 'ActividadController')
             ->parameters(['actividades' => 'actividad']);
 
+        // CRUD - Organizaciones
+        Route::resource('organizations', 'OrganizationController');
+
+        // CRUD - Periodos
+        Route::resource('periods', 'PeriodController');
+
+        // CRUD - Categorías
+        Route::resource('categories', 'CategoryController');
+
+        // CRUD - Grupos
+        Route::resource('groups', 'GroupController');
+
+        // CRUD - Equipos
+        Route::resource('teams', 'TeamController');
     });
 
     // Pruebas

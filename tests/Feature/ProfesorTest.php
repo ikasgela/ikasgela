@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -14,44 +13,33 @@ class ProfesorTest extends TestCase
     {
         parent::setUp();
         $this->artisan('db:seed');
+        parent::crearUsuarios();
     }
 
     public function testPanelControl()
     {
-        $user = User::find(3);  // Profesor
-
-        $response = $this
-            ->actingAs($user)
+        $this->actingAs($this->profesor)
             ->get('/alumnos')
             ->assertStatus(200);
     }
 
     public function testTareasAlumno()
     {
-        $user = User::find(3);
-
-        $response = $this
-            ->actingAs($user)
+        $this->actingAs($this->profesor)
             ->get('/alumnos/1/tareas')
             ->assertStatus(200);
     }
 
     public function testRevisarActividad()
     {
-        $user = User::find(3);
-
-        $response = $this
-            ->actingAs($user)
+        $this->actingAs($this->profesor)
             ->get('/profesor/1/revisar/1')
             ->assertStatus(200);
     }
 
     public function testPrevisualizarActividad()
     {
-        $user = User::find(3);
-
-        $response = $this
-            ->actingAs($user)
+        $this->actingAs($this->profesor)
             ->get('/actividades/1/preview')
             ->assertStatus(200);
     }

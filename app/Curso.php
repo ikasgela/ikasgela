@@ -7,8 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Curso extends Model
 {
     protected $fillable = [
-        'nombre', 'descripcion', 'slug'
+        'category_id', 'nombre', 'descripcion', 'slug'
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 
     public function unidades()
     {

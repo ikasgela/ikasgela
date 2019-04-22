@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Curso;
+use BadMethodCallException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -14,11 +16,6 @@ class CursoController extends Controller
         $this->middleware('role:admin');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $cursos = Curso::all();
@@ -26,30 +23,23 @@ class CursoController extends Controller
         return view('cursos.index', compact('cursos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        return view('cursos.create');
+        $categories = Category::orderBy('name')->get();
+
+        return view('cursos.create', compact('categories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $this->validate($request, [
+            'category_id' => 'required',
             'nombre' => 'required',
         ]);
 
         try {
             Curso::create([
+                'category_id' => request('category_id'),
                 'nombre' => request('nombre'),
                 'descripcion' => request('descripcion'),
                 'slug' => Str::slug(request('nombre'))
@@ -61,42 +51,33 @@ class CursoController extends Controller
         return redirect(route('cursos.index'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Curso $curso
-     * @return \Illuminate\Http\Response
-     */
     public function show(Curso $curso)
     {
-        return view('cursos.show', compact('curso'));
+        throw new BadMethodCallException(__('Not implemented.'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Curso $curso
+     * @param \App\Curso $curso
      * @return \Illuminate\Http\Response
      */
     public function edit(Curso $curso)
     {
-        return view('cursos.edit', compact('curso'));
+        $categories = Category::orderBy('name')->get();
+
+        return view('cursos.edit', compact(['curso', 'categories']));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Curso $curso
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Curso $curso)
     {
         $this->validate($request, [
             'nombre' => 'required',
+            'category_id' => 'required',
         ]);
 
         $curso->update([
+            'category_id' => request('category_id'),
             'nombre' => request('nombre'),
             'descripcion' => request('descripcion'),
             'slug' => strlen(request('slug')) > 0
@@ -107,12 +88,6 @@ class CursoController extends Controller
         return redirect(route('cursos.index'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Curso $curso
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Curso $curso)
     {
         $curso->delete();
