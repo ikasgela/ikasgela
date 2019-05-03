@@ -197,6 +197,10 @@
                 </div>
             </div>
         @endif
+    @endif
+    @switch($actividad->tarea->estado)
+        @case(20)   {{-- Aceptada --}}
+        @case(60)   {{-- Archivada --}}
         @foreach($actividad->youtube_videos()->get() as $youtube_video)
             <div class="col-md-6">
                 @include('tarjetas.youtube_video')
@@ -208,5 +212,7 @@
                 @include('tarjetas.intellij_project')
             </div>
         @endforeach
-    @endif
+        @break
+        @default
+    @endswitch
 </div>
