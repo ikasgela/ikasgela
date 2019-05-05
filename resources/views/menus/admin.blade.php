@@ -34,6 +34,13 @@
                 {{ __('Activities') }}
             </a>
         </li>
+    </ul>
+</li>
+<li class="nav-item nav-dropdown">
+    <a class="nav-link nav-dropdown-toggle" href="#">
+        <i class="nav-icon fas fa-database"></i> {{ __('Users') }}
+    </a>
+    <ul class="nav-dropdown-items">
         <li class="nav-item">
             <a class="nav-link" href="{{ route('groups.index') }}">
                 {{ __('Groups') }}
