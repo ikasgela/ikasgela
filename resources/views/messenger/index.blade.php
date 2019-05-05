@@ -6,7 +6,7 @@
 
     <div class="d-flex flex-row justify-content-between align-items-baseline mb-3">
         <div>
-            <h1>{{ __('Messages') }}</h1>
+            <h1>{{ __('Tutorship') }}</h1>
         </div>
         <div>
             @if($count > 0)
@@ -20,6 +20,13 @@
             @endif
         </div>
     </div>
+
+    @if(session('tutorial'))
+        <div class="callout callout-success b-t-1 b-r-1 b-b-1">
+            <small class="text-muted">{{ __('Tutorial') }}</small>
+            <p>Aquí puedes iniciar conversaciones para ayudarte a resolver tus dudas sobre las actividades.</p>
+        </div>
+    @endif
 
     @include('messenger.partials.flash')
 

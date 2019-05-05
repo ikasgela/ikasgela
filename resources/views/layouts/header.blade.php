@@ -12,12 +12,14 @@
     </button>
     @if(Auth::check())
         <ul class="nav navbar-nav ml-auto mr-3">
-            <li class="nav-item">
-                <a title="{{ __('Messages') }}" class="nav-link" href="/messages">
-                    <i class="fas fa-envelope"></i>
-                    <span class="badge badge-pill badge-danger">@include('messenger.unread-count')</span>
-                </a>
-            </li>
+            {{--
+                        <li class="nav-item">
+                            <a title="{{ __('Messages') }}" class="nav-link" href="/messages">
+                                <i class="fas fa-envelope"></i>
+                                <span class="badge badge-pill badge-danger">@include('messenger.unread-count')</span>
+                            </a>
+                        </li>
+            --}}
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#" role="button" title="{{ __('Settings') }}"
                    aria-haspopup="true"
