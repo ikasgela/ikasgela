@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Actividad;
-use App\Unidad;
+use App\Role;
 use App\User;
 use GrahamCampbell\GitLab\Facades\GitLab;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -38,7 +36,9 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        $roles_disponibles = Role::all();
+
+        return view('users.edit', compact(['user', 'roles_disponibles']));
     }
 
     public function update(Request $request, User $user)
@@ -47,6 +47,7 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required',
             'username' => 'required',
+            'roles_seleccionados' => 'required'
         ]);
 
         $user->update([
@@ -54,6 +55,8 @@ class UserController extends Controller
             'email' => $request->input('email'),
             'username' => $request->input('username'),
         ]);
+
+        $user->roles()->sync($request->input('roles_seleccionados'));
 
         return redirect(route('users.index'));
     }

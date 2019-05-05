@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Role;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -221,11 +222,23 @@ class UsersTest extends TestCase
         $user = factory(User::class)->create();
         $user->name = "Updated";
 
+        $rol_admin = Role::where('name', 'admin')->first();
+        $rol_profesor = Role::where('name', 'profesor')->first();
+        $rol_alumno = Role::where('name', 'alumno')->first();
+
         // When
-        $this->put(route('users.update', ['id' => $user->id]), $user->toArray());
+        $this->put(route('users.update', [
+            'id' => $user->id
+        ]), array_merge(
+            $user->toArray(),
+            ['roles_seleccionados' => [$rol_alumno->id]]
+        ));
 
         // Then
         $this->assertDatabaseHas('users', ['id' => $user->id, 'name' => $user->name]);
+        $this->assertDatabaseHas('role_user', ['user_id' => $user->id, 'role_id' => $rol_alumno->id]);
+        $this->assertDatabaseMissing('role_user', ['user_id' => $user->id, 'role_id' => $rol_admin->id]);
+        $this->assertDatabaseMissing('role_user', ['user_id' => $user->id, 'role_id' => $rol_profesor->id]);
     }
 
     public function testNotAdminNotUpdate()
@@ -293,6 +306,18 @@ class UsersTest extends TestCase
         // Then
         $this->put(route('users.update', ['id' => $user->id]), $user->toArray())
             ->assertSessionHasErrors('username');
+    }
+
+    public function testUpdateRequiresRolesSeleccionados()
+    {
+        // Given
+        $this->actingAs($this->admin);
+        $user = factory(User::class)->create();
+
+        // When
+        // Then
+        $this->put(route('users.update', ['id' => $user->id]), $user->toArray())
+            ->assertSessionHasErrors('roles_seleccionados');
     }
 
     public function testDelete()
