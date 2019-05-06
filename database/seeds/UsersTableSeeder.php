@@ -1,5 +1,6 @@
 <?php
 
+use App\Curso;
 use App\Role;
 use App\Team;
 use App\User;
@@ -17,13 +18,15 @@ class UsersTableSeeder extends Seeder
 
         $equipo = Team::find(1);
 
-        $this->generarUsuario('Marc', 'test@ikasgela.com', [$rol_alumno], [$equipo]);
-        $this->generarUsuario('Noa', 'test2@ikasgela.com', [$rol_alumno], [$equipo]);
-        $this->generarUsuario('Lucía', 'profe@ikasgela.com', [$rol_profesor, $rol_admin], []);
-        $this->generarUsuario('Administrador', 'admin@ikasgela.com', [$rol_admin], []);
+        $curso = Curso::find(1);
+
+        $this->generarUsuario('Marc', 'test@ikasgela.com', [$rol_alumno], [$equipo], [$curso]);
+        $this->generarUsuario('Noa', 'test2@ikasgela.com', [$rol_alumno], [$equipo], [$curso]);
+        $this->generarUsuario('Lucía', 'profe@ikasgela.com', [$rol_profesor, $rol_admin], [], [$curso]);
+        $this->generarUsuario('Administrador', 'admin@ikasgela.com', [$rol_admin], [], [$curso]);
     }
 
-    private function generarUsuario(string $nombre, string $email, $roles, $equipos): void
+    private function generarUsuario(string $nombre, string $email, $roles, $equipos, $cursos): void
     {
         $usuario = User::generar_username($email);
         $password = App::environment('local') ? '12345Abcde' : bin2hex(openssl_random_pseudo_bytes(16));;   // REF: https://stackoverflow.com/a/21498316
@@ -44,6 +47,10 @@ class UsersTableSeeder extends Seeder
 
         foreach ($equipos as $equipo) {
             $user->teams()->attach($equipo);
+        }
+
+        foreach ($cursos as $curso) {
+            $user->cursos()->attach($curso);
         }
 
         if (config('app.env', 'local') != 'testing') {

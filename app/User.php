@@ -144,4 +144,11 @@ class User extends Authenticatable implements MustVerifyEmail
             ->belongsToMany(Team::class)
             ->withTimestamps();
     }
+
+    public function cursos()
+    {
+        return $this
+            ->belongsToMany(Curso::class)
+            ->withTimestamps();
+    }
 }
