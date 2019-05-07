@@ -51,5 +51,18 @@ $(document).ready(function ($) {
     $('#seleccionar_actividades').change(function () {
         $("input[name='seleccionadas[]']").not(this).prop('checked', this.checked);
     });
-});
 
+    $('#add').click(function () {
+        return !$('#select1 option:selected').remove().appendTo('#select2');
+    });
+
+    $('#remove').click(function () {
+        return !$('#select2 option:selected').remove().appendTo('#select1');
+    });
+
+    $('#boton_guardar_cursos').click(function () {
+        $('#select1 option').each(function () {
+            $(this).attr('selected', true);
+        });
+    });
+});

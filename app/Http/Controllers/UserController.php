@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Curso;
 use App\Role;
 use App\User;
 use GrahamCampbell\GitLab\Facades\GitLab;
@@ -38,7 +39,12 @@ class UserController extends Controller
     {
         $roles_disponibles = Role::all();
 
-        return view('users.edit', compact(['user', 'roles_disponibles']));
+        $cursos_seleccionados = $user->cursos()->orderBy('nombre')->get();
+
+        $filtro = $user->cursos()->pluck('curso_id')->unique()->flatten()->toArray();
+        $cursos_disponibles = Curso::whereNotIn('id', $filtro)->orderBy('nombre')->get();
+
+        return view('users.edit', compact(['user', 'roles_disponibles', 'cursos_disponibles', 'cursos_seleccionados']));
     }
 
     public function update(Request $request, User $user)
@@ -47,7 +53,7 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required',
             'username' => 'required',
-            'roles_seleccionados' => 'required'
+            'roles_seleccionados' => 'required',
         ]);
 
         $user->update([
@@ -57,6 +63,8 @@ class UserController extends Controller
         ]);
 
         $user->roles()->sync($request->input('roles_seleccionados'));
+
+        $user->cursos()->sync($request->input('cursos_seleccionados'));
 
         return redirect(route('users.index'));
     }
