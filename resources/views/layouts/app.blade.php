@@ -10,13 +10,13 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
-<body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show footer-fixed">
+<body class="app header-fixed sidebar-fixed sidebar-lg-show footer-fixed">
 <div id="app">
     @include('layouts.header')
     <div class="app-body">
         @include('layouts.sidebar')
         <main class="main">
-            <div class="container-fluid py-md-4">
+            <div class="container-fluid py-4">
                 @yield('content')
                 @if(session('tutorial'))
                     <div class="callout callout-danger b-t-1 b-r-1 b-b-1">

@@ -4,16 +4,9 @@
 @import 'variables';
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
-
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-}
-
 // Icons
 @import '~simple-line-icons/css/simple-line-icons.css';
 @import '~@fortawesome/fontawesome-free/css/all.min.css';
-
 // Coreui
 @import '~@coreui/coreui/dist/css/coreui.min.css';
 
@@ -50,4 +43,16 @@
 // https://stackoverflow.com/a/27747130
 .table > tbody > tr > td {
   vertical-align: middle;
+}
+
+@media (max-width: 991.98px) {
+  .app-body {
+    margin-top: 0;
+  }
+}
+
+@media (min-width: 991.98px) {
+  .app-body {
+    margin-top: 55px;
+  }
 }

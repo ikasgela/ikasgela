@@ -11448,11 +11448,6 @@ a.text-dark:focus {
   }
 }
 
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-}
-
 .card-body h1,
 .h1 {
   font-size: 1.8rem;
@@ -11738,5 +11733,17 @@ a.text-dark:focus {
 
 .table > tbody > tr > td {
   vertical-align: middle;
+}
+
+@media (max-width: 991.98px) {
+  .app-body {
+    margin-top: 0;
+  }
+}
+
+@media (min-width: 991.98px) {
+  .app-body {
+    margin-top: 55px;
+  }
 }
 
