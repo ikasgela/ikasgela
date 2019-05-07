@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="d-flex flex-row justify-content-between align-items-baseline mb-3">
+    <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
         <div>
             <h1>{{ __('Desktop') }}</h1>
         </div>

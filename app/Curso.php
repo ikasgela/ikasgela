@@ -19,4 +19,11 @@ class Curso extends Model
     {
         return $this->hasMany(Unidad::class);
     }
+
+    public function users()
+    {
+        return $this
+            ->belongsToMany(User::class)
+            ->withTimestamps();
+    }
 }

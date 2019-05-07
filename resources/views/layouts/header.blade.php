@@ -1,25 +1,13 @@
-<header class="app-header navbar p-0 {{ config('app.debug') ? 'bg-warning' : '' }}">
+<header class="app-header navbar {{ config('app.debug') ? 'bg-warning' : '' }}">
     <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
         <span class="navbar-toggler-icon"></span>
     </button>
-    @if(Auth::check())
-        <a class="navbar-brand" href="{{ url('/') }}">@include('partials.logos')</a>
-    @else
-        <a class="navbar-brand" href="{{ url('/') }}">@include('partials.logos')</a>
-    @endif
+    <a class="navbar-brand" href="{{ url('/') }}">@include('partials.logos')</a>
     <button class="navbar-toggler sidebar-toggler d-md-down-none mr-auto" type="button" data-toggle="sidebar-lg-show">
         <span class="navbar-toggler-icon"></span>
     </button>
     @if(Auth::check())
         <ul class="nav navbar-nav ml-auto mr-3">
-            {{--
-                        <li class="nav-item">
-                            <a title="{{ __('Messages') }}" class="nav-link" href="/messages">
-                                <i class="fas fa-envelope"></i>
-                                <span class="badge badge-pill badge-danger">@include('messenger.unread-count')</span>
-                            </a>
-                        </li>
-            --}}
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#" role="button" title="{{ __('Settings') }}"
                    aria-haspopup="true"

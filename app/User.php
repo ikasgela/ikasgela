@@ -137,4 +137,18 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->actividades()->wherePivotIn('estado', [60, 11], 'and', 'notin')->get();
     }
+
+    public function teams()
+    {
+        return $this
+            ->belongsToMany(Team::class)
+            ->withTimestamps();
+    }
+
+    public function cursos()
+    {
+        return $this
+            ->belongsToMany(Curso::class)
+            ->withTimestamps();
+    }
 }

@@ -1,6 +1,8 @@
 <?php
 
+use App\Curso;
 use App\Role;
+use App\Team;
 use App\User;
 use Carbon\Carbon;
 use GrahamCampbell\GitLab\Facades\GitLab;
@@ -8,28 +10,23 @@ use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         $rol_admin = Role::where('name', 'admin')->first();
         $rol_profesor = Role::where('name', 'profesor')->first();
         $rol_alumno = Role::where('name', 'alumno')->first();
 
-        $this->generarUsuario('Marc', 'test@ikasgela.com', [$rol_alumno]);
-        $this->generarUsuario('Noa', 'test2@ikasgela.com', [$rol_alumno]);
-        $this->generarUsuario('Lucía', 'profe@ikasgela.com', [$rol_profesor, $rol_admin]);
-        $this->generarUsuario('Administrador', 'admin@ikasgela.com', [$rol_admin]);
+        $equipo = Team::find(1);
+
+        $curso = Curso::find(1);
+
+        $this->generarUsuario('Marc', 'test@ikasgela.com', [$rol_alumno], [$equipo], [$curso]);
+        $this->generarUsuario('Noa', 'test2@ikasgela.com', [$rol_alumno], [$equipo], [$curso]);
+        $this->generarUsuario('Lucía', 'profe@ikasgela.com', [$rol_profesor, $rol_admin], [], [$curso]);
+        $this->generarUsuario('Administrador', 'admin@ikasgela.com', [$rol_admin], [], [$curso]);
     }
 
-    /**
-     * @param string $email
-     * @param string $nombre
-     */
-    private function generarUsuario(string $nombre, string $email, $roles): void
+    private function generarUsuario(string $nombre, string $email, $roles, $equipos, $cursos): void
     {
         $usuario = User::generar_username($email);
         $password = App::environment('local') ? '12345Abcde' : bin2hex(openssl_random_pseudo_bytes(16));;   // REF: https://stackoverflow.com/a/21498316
@@ -46,6 +43,14 @@ class UsersTableSeeder extends Seeder
 
         foreach ($roles as $rol) {
             $user->roles()->attach($rol);
+        }
+
+        foreach ($equipos as $equipo) {
+            $user->teams()->attach($equipo);
+        }
+
+        foreach ($cursos as $curso) {
+            $user->cursos()->attach($curso);
         }
 
         if (config('app.env', 'local') != 'testing') {
