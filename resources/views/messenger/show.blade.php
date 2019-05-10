@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('tinymce')
+    @include('messenger.partials.tinymce')
+@endsection
+
 @section('content')
     <h1>{{ $thread->subject }}</h1>
     <div>

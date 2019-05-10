@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('tinymce')
+    @include('messenger.partials.tinymce')
+@endsection
+
 @section('content')
 
     @include('partials.titular', ['titular' => __('Create new conversation')])
@@ -10,8 +14,13 @@
             {!! Form::open(['route' => ['messages.store']]) !!}
 
             {{ Form::campoTexto('subject', __('Subject'), old('subject')) }}
-            {{ Form::campoTextArea('message', __('Message'), old('message')) }}
 
+            <div class="form-group row">
+                {!! Form::label('message', __('Message'), ['class' => 'col-sm-2 col-form-label']) !!}
+                <div class="col-sm-10">
+                    <textarea rows="10" class="form-control" id="message" name="message">{!! old('message') !!}</textarea>
+                </div>
+            </div>
             @if(Auth::user()->hasRole('profesor'))
                 @if($users->count() > 0)
                     <div class="form-group row">
