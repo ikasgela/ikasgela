@@ -107,6 +107,8 @@ class MessagesController extends Controller
 
         $input = Input::all();
 
+        $mensaje_filtrado = $this->filtrarParrafosVacios($input['message']);
+
         $thread = Thread::create([
             'subject' => $input['subject'],
         ]);
@@ -115,7 +117,7 @@ class MessagesController extends Controller
         Message::create([
             'thread_id' => $thread->id,
             'user_id' => Auth::id(),
-            'body' => $input['message'],
+            'body' => $mensaje_filtrado,
         ]);
 
         // Sender
@@ -157,11 +159,13 @@ class MessagesController extends Controller
 
         $thread->activateAllParticipants();
 
+        $mensaje_filtrado = $this->filtrarParrafosVacios(Input::get('message'));
+
         // Message
         Message::create([
             'thread_id' => $thread->id,
             'user_id' => Auth::id(),
-            'body' => Input::get('message'),
+            'body' => $mensaje_filtrado
         ]);
 
         // Add replier as a participant
@@ -180,5 +184,10 @@ class MessagesController extends Controller
         $this->enviarEmails($thread, Auth::id());
 
         return redirect()->route('messages.show', $id);
+    }
+
+    private function filtrarParrafosVacios($mensaje)
+    {
+        return preg_replace('/<p[^>]*>&nbsp;<\\/p[^>]*>/', '', $mensaje);
     }
 }
