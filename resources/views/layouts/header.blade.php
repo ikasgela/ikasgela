@@ -1,4 +1,4 @@
-<header class="app-header navbar {{ config('app.debug') ? 'bg-warning' : '' }}">
+<header class="app-header navbar p-0 {{ config('app.debug') ? 'bg-warning' : '' }}">
     <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
         <span class="navbar-toggler-icon"></span>
     </button>
