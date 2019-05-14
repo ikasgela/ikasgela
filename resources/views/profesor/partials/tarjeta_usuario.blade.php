@@ -8,7 +8,7 @@
                     <a href="mailto:{{ $user->email }}" class="card-link">{{ $user->email }}</a>
                 </div>
                 <div class="col-12 col-sm-6 text-center text-sm-right">
-                    <img style="width:100px" src="{{ $user->avatar_url()}}">
+                    <img style="width:100px" src="{{ $user->avatar_url(200)}}">
                 </div>
             </div>
         </div>

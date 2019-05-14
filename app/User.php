@@ -32,10 +32,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'password', 'remember_token',
     ];
 
-    public function avatar_url()
+    public function avatar_url($width = 64)
     {
         $hash = md5(strtolower(trim($this->email)));
-        return "https://www.gravatar.com/avatar/$hash?s=200&d=identicon";
+        return "https://www.gravatar.com/avatar/$hash?s=$width&d=identicon";
     }
 
     public static function generar_username($email)

@@ -22,7 +22,7 @@
                     <input form="asignar" type="checkbox"
                            name="usuarios_seleccionados[]" value="{{ $usuario->id }}">
                 </td>
-                <td class="clickable"><img style="height:35px;" src="{{ $usuario->avatar_url()}}"/></td>
+                <td class="clickable"><img style="height:35px;" src="{{ $usuario->avatar_url(70)}}"/></td>
                 <td class="clickable">{{ $usuario->name }}</td>
                 <td class="clickable text-center">{{ count($usuario->actividades_ocultas()) }}</td>
                 <td class="clickable text-center">{{ count($usuario->actividades_nuevas()) }}</td>
