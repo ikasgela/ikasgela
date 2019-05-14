@@ -172,6 +172,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('/tarjeta_respuesta_corta', 'tarjetas.respuesta_corta');
     Route::get('/tarjeta_texto_markdown', 'TarjetaController@texto_markdown');
     Route::view('/tarjeta_pdf', 'tarjetas.pdf');
+    Route::view('/results', 'results.index')->name('results.index');;
 
     // Mensaje
     Route::group(['prefix' => 'messages'], function () {
