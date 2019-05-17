@@ -225,10 +225,6 @@ class ActividadController extends Controller
         $actividad = $tarea->actividad;
         $usuario = $tarea->user;
 
-        $logger = activity()
-            ->causedBy(Auth::user())
-            ->performedOn($tarea);
-
         $registro = new Registro();
         $registro->user_id = $usuario->id;
         $registro->tarea_id = $tarea->id;
@@ -239,19 +235,14 @@ class ActividadController extends Controller
             case 10:
                 break;
             case 20:
-                $registro->detalles = 'Tarea aceptada';
                 break;
             case 30:
                 if (!$tarea->actividad->auto_avance) {
                     Mail::to('info@ikasgela.com')->queue(new TareaEnviada($tarea));
                 }
-
-                $registro->detalles = 'Tarea enviada';
                 break;
             case 31:
                 $tarea->estado = 20;    // Botón de reset, para cuando se confunden
-
-                $registro->detalles = 'Tarea reiniciada';
                 break;
             case 40:
             case 41:
@@ -265,31 +256,16 @@ class ActividadController extends Controller
                 }
                 break;
             case 50:
-                $registro->detalles = 'Tarea terminada';
                 break;
             case 60:
-                // Archivar
-                $registro->detalles = 'Tarea archivada';
-
                 // Pasar a la siguiente si no es final
                 if (!is_null($actividad->siguiente)) {
                     if (!$actividad->final) {
                         $usuario->actividades()->attach($actividad->siguiente);
-                        activity()
-                            ->causedBy(Auth::user())
-                            ->performedOn($actividad->siguiente)
-                            ->withProperties(['visible' => true])
-                            ->log('Tarea siguiente asignada automáticamente');
-
                         $asignada = "- " . $actividad->siguiente->unidad->nombre . " - " . $actividad->siguiente->nombre . ".\n\n";
                         Mail::to($usuario->email)->queue(new ActividadAsignada($usuario->name, $asignada));
                     } else {
                         $usuario->actividades()->attach($actividad->siguiente, ['estado' => 11]);
-                        activity()
-                            ->causedBy(Auth::user())
-                            ->performedOn($actividad->siguiente)
-                            ->withProperties(['visible' => false])
-                            ->log('Tarea siguiente asignada automáticamente');
                     }
                 }
                 break;
