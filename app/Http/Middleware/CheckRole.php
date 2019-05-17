@@ -6,17 +6,10 @@ use Closure;
 
 class CheckRole
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
-     * @return mixed
-     */
-    public function handle($request, Closure $next, $role)
+    public function handle($request, Closure $next, $roles)
     {
-        if (!is_null($request->user()) && !$request->user()->hasRole($role)) {
-            abort(403, "No tienes autorización.");
+        if (!is_null($request->user()) && !$request->user()->hasAnyRole(explode('|', $roles))) {
+            abort(403, __("Sorry, you are not authorized to access this page."));
         }
 
         return $next($request);
