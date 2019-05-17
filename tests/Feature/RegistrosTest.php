@@ -19,7 +19,7 @@ class RegistrosTest extends TestCase
     public function testIndex()
     {
         // Given
-        $this->actingAs($this->profesor);
+        $this->actingAs($this->alumno);
         $registro = factory(Registro::class)->create();
 
         // When
@@ -27,17 +27,6 @@ class RegistrosTest extends TestCase
 
         // Then
         $response->assertSee($registro->timestamp);
-    }
-
-    public function testNotAdminNotIndex()
-    {
-        // Given
-        $this->actingAs($this->not_admin);
-
-        // When
-        // Then
-        $this->get(route('registros.index'))
-            ->assertForbidden();
     }
 
     public function testNotAuthNotIndex()
@@ -49,42 +38,10 @@ class RegistrosTest extends TestCase
             ->assertRedirect(route('login'));
     }
 
-    public function testCreate()
-    {
-        // Given
-        $this->actingAs($this->admin);
-
-        // When
-        $response = $this->get(route('registros.create'));
-
-        // Then
-        $response->assertSeeInOrder([__('New registro'), __('Save')]);
-    }
-
-    public function testNotAdminNotCreate()
-    {
-        // Given
-        $this->actingAs($this->not_admin);
-
-        // When
-        // Then
-        $this->get(route('registros.create'))
-            ->assertForbidden();
-    }
-
-    public function testNotAuthNotCreate()
-    {
-        // Given
-        // When
-        // Then
-        $this->get(route('registros.create'))
-            ->assertRedirect(route('login'));
-    }
-
     public function testStore()
     {
         // Given
-        $this->actingAs($this->admin);
+        $this->actingAs($this->alumno);
         $registro = factory(Registro::class)->make();
 
         // When
@@ -92,18 +49,6 @@ class RegistrosTest extends TestCase
 
         // Then
         $this->assertEquals(1, Registro::all()->count());
-    }
-
-    public function testNotAdminNotStore()
-    {
-        // Given
-        $this->actingAs($this->not_admin);
-        $registro = factory(Registro::class)->make();
-
-        // When
-        // Then
-        $this->post(route('registros.store'), $registro->toArray())
-            ->assertForbidden();
     }
 
     public function testNotAuthNotStore()
@@ -117,167 +62,40 @@ class RegistrosTest extends TestCase
             ->assertRedirect(route('login'));
     }
 
-    public function testStoreRequiresName()
+    public function testStoreRequiresUser()
     {
         // Given
-        $this->actingAs($this->admin);
-        $registro = factory(Registro::class)->make(['name' => null]);
+        $this->actingAs($this->alumno);
+        $registro = factory(Registro::class)->make(['user_id' => null]);
 
         // When
         // Then
         $this->post(route('registros.store'), $registro->toArray())
-            ->assertSessionHasErrors('name');
+            ->assertSessionHasErrors('user_id');
     }
 
-    public function testStoreRequiresGroup()
+    public function testStoreRequiresTarea()
     {
         // Given
-        $this->actingAs($this->admin);
-        $registro = factory(Registro::class)->make(['group_id' => null]);
+        $this->actingAs($this->alumno);
+        $registro = factory(Registro::class)->make(['tarea_id' => null]);
 
         // When
         // Then
         $this->post(route('registros.store'), $registro->toArray())
-            ->assertSessionHasErrors('group_id');
+            ->assertSessionHasErrors('tarea_id');
     }
 
-    public function testShow()
+    public function testStoreRequireEstado()
     {
         // Given
-        $this->actingAs($this->admin);
-        $registro = factory(Registro::class)->create();
-
-        // When
-        $response = $this->get(route('registros.show', ['id' => $registro->id]));
-
-        // Then
-        $response->assertSee(__('Not implemented.'));
-    }
-
-    public function testNotAdminNotShow()
-    {
-        // Given
-        $this->actingAs($this->not_admin);
-        $registro = factory(Registro::class)->create();
+        $this->actingAs($this->alumno);
+        $registro = factory(Registro::class)->make(['estado' => null]);
 
         // When
         // Then
-        $this->get(route('registros.show', ['id' => $registro->id]))
-            ->assertForbidden();
-    }
-
-    public function testNotAuthNotShow()
-    {
-        // Given
-        $registro = factory(Registro::class)->create();
-
-        // When
-        // Then
-        $this->get(route('registros.show', ['id' => $registro->id]))
-            ->assertRedirect(route('login'));
-    }
-
-    public function testEdit()
-    {
-        // Given
-        $this->actingAs($this->admin);
-        $registro = factory(Registro::class)->create();
-
-        // When
-        $response = $this->get(route('registros.edit', ['id' => $registro->id]), $registro->toArray());
-
-        // Then
-        $response->assertSeeInOrder([$registro->name, $registro->slug, __('Save')]);
-    }
-
-    public function testNotAdminNotEdit()
-    {
-        // Given
-        $this->actingAs($this->not_admin);
-        $registro = factory(Registro::class)->create();
-
-        // When
-        // Then
-        $this->get(route('registros.edit', ['id' => $registro->id]), $registro->toArray())
-            ->assertForbidden();
-    }
-
-    public function testNotAuthNotEdit()
-    {
-        // Given
-        $registro = factory(Registro::class)->create();
-
-        // When
-        // Then
-        $this->get(route('registros.edit', ['id' => $registro->id]), $registro->toArray())
-            ->assertRedirect(route('login'));
-    }
-
-    public function testUpdate()
-    {
-        // Given
-        $this->actingAs($this->admin);
-        $registro = factory(Registro::class)->create();
-        $registro->name = "Updated";
-
-        // When
-        $this->put(route('registros.update', ['id' => $registro->id]), $registro->toArray());
-
-        // Then
-        $this->assertDatabaseHas('registros', ['id' => $registro->id, 'name' => $registro->name]);
-    }
-
-    public function testNotAdminNotUpdate()
-    {
-        // Given
-        $this->actingAs($this->not_admin);
-        $registro = factory(Registro::class)->create();
-        $registro->name = "Updated";
-
-        // When
-        // Then
-        $this->put(route('registros.update', ['id' => $registro->id]), $registro->toArray())
-            ->assertForbidden();
-    }
-
-    public function testNotAuthNotUpdate()
-    {
-        // Given
-        $registro = factory(Registro::class)->create();
-        $registro->name = "Updated";
-
-        // When
-        // Then
-        $this->put(route('registros.update', ['id' => $registro->id]), $registro->toArray())
-            ->assertRedirect(route('login'));
-    }
-
-    public function testUpdateRequiresName()
-    {
-        // Given
-        $this->actingAs($this->admin);
-        $registro = factory(Registro::class)->create();
-
-        // When
-        $registro->name = null;
-
-        // Then
-        $this->put(route('registros.update', ['id' => $registro->id]), $registro->toArray())
-            ->assertSessionHasErrors('name');
-    }
-
-    public function testUpdateRequiresGroup()
-    {
-        // Given
-        $this->actingAs($this->admin);
-        $registro = factory(Registro::class)->create();
-
-        // When
-        $registro->group_id = null;
-
-        // Then
-        $this->put(route('registros.update', ['id' => $registro->id]), $registro->toArray())
-            ->assertSessionHasErrors('group_id');
+        $this->post(route('registros.store'), $registro->toArray())
+            ->assertSessionHasErrors('estado');
     }
 
     public function testDelete()

@@ -24,9 +24,7 @@ class RegistrosTableSeeder extends Seeder
         $registro = new Registro();
         $registro->user_id = $usuario->id;
         $registro->tarea_id = $tarea->id;
-
-        $registro->estado_inicial = 40;
-        $registro->estado_final = 60;
+        $registro->estado = 60;
         $registro->timestamp = Carbon::now();
         $registro->detalles = 'Tarea archivada.';
 

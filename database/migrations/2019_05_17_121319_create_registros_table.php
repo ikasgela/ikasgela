@@ -21,8 +21,7 @@ class CreateRegistrosTable extends Migration
             $table->bigInteger('tarea_id')->unsigned()->index();
             $table->foreign('tarea_id')->references('id')->on('tareas')->onDelete('cascade');
 
-            $table->integer('estado_inicial')->nullable()->index()->default(10);
-            $table->integer('estado_final')->nullable()->index()->default(10);
+            $table->integer('estado')->nullable()->index()->default(10);
             $table->dateTimeTz('timestamp')->nullable();
             $table->text('detalles')->nullable();
         });

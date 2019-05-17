@@ -163,6 +163,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // CRUD - Equipos
         Route::resource('teams', 'TeamController');
+
+        // Borrar entradas del registro
+        Route::delete('registros/{registro}', 'RegistroController@destroy')
+            ->name('registros.destroy');
+    });
+
+    // Alumnos y profesores
+    Route::middleware(['role:alumno|profesor'])->group(function () {
+
+        // Ver y crear entradas en el registro
+        Route::get('/registros', 'RegistroController@index')
+            ->name('registros.index');
+        Route::post('/registros', 'RegistroController@store')
+            ->name('registros.store');
     });
 
     // Pruebas
@@ -181,11 +195,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/', ['as' => 'messages.store', 'uses' => 'MessagesController@store']);
         Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
         Route::put('{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
-    });
-
-    Route::middleware(['role:alumno|profesor'])->group(function () {
-
-        // CRUD - Registros
-        Route::resource('registros', 'RegistroController');
     });
 });

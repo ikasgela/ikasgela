@@ -7,79 +7,36 @@ use Illuminate\Http\Request;
 
 class RegistroController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:alumno|profesor|admin');
+    }
+
     public function index()
     {
-        //
+        $registros = Registro::all();
+
+        return view('registros.index', compact('registros'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'user_id' => 'required',
+            'tarea_id' => 'required',
+            'estado' => 'required',
+        ]);
+
+        Registro::create($request->all());
+
+        return redirect(route('registros.index'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Registro  $registro
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Registro $registro)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Registro  $registro
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Registro $registro)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Registro  $registro
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Registro $registro)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Registro  $registro
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Registro $registro)
     {
-        //
+        $registro->delete();
+
+        return redirect(route('registros.index'));
     }
 }

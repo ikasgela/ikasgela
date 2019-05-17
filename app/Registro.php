@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Registro extends Model
 {
     protected $fillable = [
-        'user_is', 'tarea_id', 'estado_inicial', 'estado_final', 'timestamp', 'detalles'
+        'user_id', 'tarea_id', 'estado', 'timestamp', 'detalles'
     ];
 
     public $timestamps = false;
@@ -17,8 +17,8 @@ class Registro extends Model
         return $this->belongsTo(Tarea::class);
     }
 
-    public function usuario()
+    public function user()
     {
-        return $this->belongsTo(Usuario::class);
+        return $this->belongsTo(User::class);
     }
 }
