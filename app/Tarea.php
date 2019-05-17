@@ -35,4 +35,9 @@ class Tarea extends Pivot
     {
         return $this->belongsTo('App\User');
     }
+
+    public function registros()
+    {
+        return $this->hasMany(Registro::class);
+    }
 }

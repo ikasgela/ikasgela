@@ -151,4 +151,9 @@ class User extends Authenticatable implements MustVerifyEmail
             ->belongsToMany(Curso::class)
             ->withTimestamps();
     }
+
+    public function registros()
+    {
+        return $this->hasMany(Registro::class);
+    }
 }
