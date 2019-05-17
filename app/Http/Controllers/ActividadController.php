@@ -220,8 +220,6 @@ class ActividadController extends Controller
     {
         $nuevoestado = $request->input('nuevoestado');
 
-        $ahora = Carbon::now();
-
         $tarea->estado = $nuevoestado;
 
         $actividad = $tarea->actividad;
@@ -234,7 +232,7 @@ class ActividadController extends Controller
         $registro = new Registro();
         $registro->user_id = $usuario->id;
         $registro->tarea_id = $tarea->id;
-        $registro->timestamp = $ahora;
+        $registro->timestamp = Carbon::now();
         $registro->estado = $nuevoestado;
 
         switch ($nuevoestado) {
@@ -267,12 +265,10 @@ class ActividadController extends Controller
                 }
                 break;
             case 50:
-                $tarea->terminada = $ahora;
                 $registro->detalles = 'Tarea terminada';
                 break;
             case 60:
                 // Archivar
-                $tarea->archivada = $ahora;
                 $registro->detalles = 'Tarea archivada';
 
                 // Pasar a la siguiente si no es final
