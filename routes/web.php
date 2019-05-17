@@ -183,4 +183,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
     });
 
+    Route::middleware(['role:alumno|profesor'])->group(function () {
+
+        // CRUD - Registros
+        Route::resource('registros', 'RegistroController');
+    });
 });
