@@ -25,7 +25,7 @@
                     <td>{{ $registro->tarea->actividad->nombre }}</td>
                     <td>{{ $registro->estado }}</td>
                     <td>{{ $registro->timestamp }}</td>
-                    <td>{{ $registro->details }}</td>
+                    <td>{{ $registro->detalles }}</td>
                     <td>
                         {!! Form::open(['route' => ['registros.destroy', $registro->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>

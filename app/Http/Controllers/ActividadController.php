@@ -6,6 +6,7 @@ use App\Actividad;
 use App\Mail\ActividadAsignada;
 use App\Mail\FeedbackRecibido;
 use App\Mail\TareaEnviada;
+use App\Registro;
 use App\Tarea;
 use App\Unidad;
 use Carbon\Carbon;
@@ -230,45 +231,49 @@ class ActividadController extends Controller
             ->causedBy(Auth::user())
             ->performedOn($tarea);
 
+        $registro = new Registro();
+        $registro->user_id = $usuario->id;
+        $registro->tarea_id = $tarea->id;
+        $registro->timestamp = $ahora;
+        $registro->estado = $nuevoestado;
+
         switch ($nuevoestado) {
             case 10:
                 break;
             case 20:
-                $tarea->aceptada = $ahora;
-                $logger->log('Tarea aceptada');
+                $registro->detalles = 'Tarea aceptada';
                 break;
             case 30:
-                $tarea->enviada = $ahora;
-                $logger->log('Tarea enviada');
-
                 if (!$tarea->actividad->auto_avance) {
                     Mail::to('info@ikasgela.com')->queue(new TareaEnviada($tarea));
                 }
+
+                $registro->detalles = 'Tarea enviada';
                 break;
             case 31:
                 $tarea->estado = 20;    // Botón de reset, para cuando se confunden
+
+                $registro->detalles = 'Tarea reiniciada';
                 break;
             case 40:
             case 41:
                 if ($tarea->actividad->auto_avance) {
                     $tarea->feedback = 'Tarea completada automáticamente, no revisada por ningún profesor.';
-                    $logger->log('Avance automático de tarea');
+                    $registro->detalles = 'Avance automático';
                 } else {
                     $tarea->feedback = $request->input('feedback');
-                    $tarea->revisada = $ahora;
-                    $logger->log('Tarea revisada y feedback enviado');
+                    $registro->detalles = $tarea->feedback;
+                    Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea));
                 }
-
-                Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea));
                 break;
             case 50:
                 $tarea->terminada = $ahora;
-                $logger->log('Tarea terminada');
+                $registro->detalles = 'Tarea terminada';
                 break;
             case 60:
                 // Archivar
                 $tarea->archivada = $ahora;
-                $logger->log('Tarea archivada');
+                $registro->detalles = 'Tarea archivada';
 
                 // Pasar a la siguiente si no es final
                 if (!is_null($actividad->siguiente)) {
@@ -296,6 +301,8 @@ class ActividadController extends Controller
         }
 
         $tarea->save();
+
+        $registro->save();
 
         if (Auth::user()->hasRole('alumno')) {
             return redirect(route('users.home'));
