@@ -2,13 +2,22 @@
 <li class="nav-item">
     <a class="nav-link" href="{{ route('profesor.index') }}">
         <i class="nav-icon fas fa-tasks"></i> {{ __('Control panel') }}
-        <span class="badge badge-danger">{{ session('num_enviadas') }}</span>
+        @if( session('num_enviadas') > 0 )
+            <span class="badge badge-danger">{{ session('num_enviadas') }}</span>
+        @endif
     </a>
 </li>
 <li class="nav-item">
     <a class="nav-link" href="{{ route('messages') }}">
         <i class="nav-icon fas fa-comment"></i> {{ __('Tutorship') }}
-        <span class="badge badge-danger">@include('messenger.unread-count')</span>
+        @if( Auth::user()->newThreadsCount() > 0 )
+            <span class="badge badge-danger">@include('messenger.unread-count')</span>
+        @endif
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('registros.index') }}">
+        <i class="nav-icon fas fa-graduation-cap"></i> {{ __('Records') }}
     </a>
 </li>
 <li class="nav-item nav-dropdown">
