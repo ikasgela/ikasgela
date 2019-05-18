@@ -53,14 +53,9 @@ class User extends Authenticatable implements MustVerifyEmail
                 'id',
 
                 'estado',
-                'aceptada',
                 'fecha_limite',
-                'enviada',
-                'revisada',
                 'feedback',
                 'puntuacion',
-                'terminada',
-                'archivada'
             ]);
     }
 
