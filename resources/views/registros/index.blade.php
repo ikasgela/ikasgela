@@ -11,7 +11,7 @@
                 <th>#</th>
                 <th>{{ __('User') }}</th>
                 <th>{{ __('Task') }}</th>
-                <th>{{ __('Status') }}</th>
+                <th colspan="2">{{ __('Status') }}</th>
                 <th>{{ __('Timestamp') }}</th>
                 <th>{{ __('Details') }}</th>
                 <th>{{ __('Actions') }}</th>
@@ -24,7 +24,6 @@
                     <td>{{ $registro->user->name }}</td>
                     <td>{{ $registro->tarea->actividad->nombre }}</td>
                     <td>{{ $registro->estado }}</td>
-                    <td>{{ $registro->timestamp }}</td>
                     <td>
                         @switch($registro->estado)
                             @case(10)   {{-- Nueva --}}
@@ -54,6 +53,8 @@
                             @default
                         @endswitch
                     </td>
+                    <td>{{ Carbon\Carbon::parse($registro->timestamp)->isoFormat('L HH:mm:ss') }}</td>
+                    <td>{{ $registro->detalles }}</td>
                     <td>
                         {!! Form::open(['route' => ['registros.destroy', $registro->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>
