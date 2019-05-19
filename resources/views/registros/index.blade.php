@@ -40,8 +40,10 @@
                             Reiniciada
                             @break
                             @case(40)   {{-- Revisada: OK --}}
+                            Revisada: OK
+                            @break;
                             @case(41)   {{-- Revisada: ERROR --}}
-                            {{ $registro->detalles }}
+                            Revisada: ERROR
                             @break;
                             @case(50)   {{-- Terminada --}}
                             Terminada

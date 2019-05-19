@@ -261,12 +261,26 @@ class ActividadController extends Controller
                 // Pasar a la siguiente si no es final
                 if (!is_null($actividad->siguiente)) {
                     if (!$actividad->final) {
+                        // Visible
                         $usuario->actividades()->attach($actividad->siguiente);
+
+                        // Notificar
                         $asignada = "- " . $actividad->siguiente->unidad->nombre . " - " . $actividad->siguiente->nombre . ".\n\n";
                         Mail::to($usuario->email)->queue(new ActividadAsignada($usuario->name, $asignada));
                     } else {
+                        // Oculta
                         $usuario->actividades()->attach($actividad->siguiente, ['estado' => 11]);
                     }
+
+                    // Registrar la nueva tarea
+                    $nueva_tarea = Tarea::where('user_id', $usuario->id)->where('actividad_id', $actividad->siguiente->id)->first();
+
+                    Registro::create([
+                        'user_id' => $usuario->id,
+                        'tarea_id' => $nueva_tarea->id,
+                        'estado' => !$actividad->final ? 10 : 11,
+                        'timestamp' => Carbon::now(),
+                    ]);
                 }
                 break;
             default:
