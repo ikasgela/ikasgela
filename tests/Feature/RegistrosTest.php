@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Registro;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -26,7 +27,7 @@ class RegistrosTest extends TestCase
         $response = $this->get(route('registros.index'));
 
         // Then
-        $response->assertSee($registro->timestamp);
+        $response->assertSee(Carbon::parse($registro->timestamp)->isoFormat('L HH:mm:ss'));
     }
 
     public function testNotAuthNotIndex()
