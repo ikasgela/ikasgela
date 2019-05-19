@@ -163,6 +163,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // CRUD - Equipos
         Route::resource('teams', 'TeamController');
+
+        // Borrar entradas del registro
+        Route::delete('registros/{registro}', 'RegistroController@destroy')
+            ->name('registros.destroy');
+    });
+
+    // Alumnos y profesores
+    Route::middleware(['role:alumno|profesor'])->group(function () {
+
+        // Ver y crear entradas en el registro
+        Route::get('/registros', 'RegistroController@index')
+            ->name('registros.index');
+        Route::post('/registros', 'RegistroController@store')
+            ->name('registros.store');
     });
 
     // Pruebas
@@ -172,6 +186,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('/tarjeta_respuesta_corta', 'tarjetas.respuesta_corta');
     Route::get('/tarjeta_texto_markdown', 'TarjetaController@texto_markdown');
     Route::view('/tarjeta_pdf', 'tarjetas.pdf');
+    Route::view('/results', 'results.index')->name('results.index');;
 
     // Mensaje
     Route::group(['prefix' => 'messages'], function () {
@@ -181,5 +196,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
         Route::put('{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
     });
-
 });

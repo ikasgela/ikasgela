@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Actividad;
 use App\Mail\ActividadAsignada;
+use App\Registro;
 use App\Tarea;
 use App\Unidad;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -137,6 +139,15 @@ class ProfesorController extends Controller
             $asignadas .= "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n\n";
 
             $user->actividades()->attach($clon);
+
+            $tarea = Tarea::where('user_id', $user->id)->where('actividad_id', $clon->id)->first();
+
+            Registro::create([
+                'user_id' => $user->id,
+                'tarea_id' => $tarea->id,
+                'estado' => 10,
+                'timestamp' => Carbon::now(),
+            ]);
         }
 
         Mail::to($user->email)->queue(new ActividadAsignada($user->name, $asignadas));

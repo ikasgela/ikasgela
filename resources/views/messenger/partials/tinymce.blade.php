@@ -3,8 +3,9 @@
     tinymce.init({
         selector: 'textarea#message',
         language: 'es_ES',
-        plugins: "link image autolink",
+        plugins: "link image autolink emoticons lists hr",
         default_link_target: "_blank",
+        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image link emoticons hr',
         link_assume_external_targets: true
     });
 </script>

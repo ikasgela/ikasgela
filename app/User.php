@@ -53,14 +53,9 @@ class User extends Authenticatable implements MustVerifyEmail
                 'id',
 
                 'estado',
-                'aceptada',
                 'fecha_limite',
-                'enviada',
-                'revisada',
                 'feedback',
                 'puntuacion',
-                'terminada',
-                'archivada'
             ]);
     }
 
@@ -150,5 +145,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this
             ->belongsToMany(Curso::class)
             ->withTimestamps();
+    }
+
+    public function registros()
+    {
+        return $this->hasMany(Registro::class);
     }
 }
