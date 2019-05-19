@@ -30,6 +30,6 @@
         "perfect-scrollbar": "^1.4.0",
         "simple-line-icons": "^2.4.1",
         "vue-template-compiler": "^2.6.10",
-        "vue-toasted": "^1.1.26"
+        "vue-toasted": "^1.1.27"
     }
 }
