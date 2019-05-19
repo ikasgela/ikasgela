@@ -23,11 +23,9 @@
                     <td>{{ $actividad->unidad->slug.'/'.$actividad->slug }}</td>
                     <td class="text-center">{!! $actividad->tarea->estado == 11 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-secondary"></i>' !!}</td>
                     <td class="text-center">{!! $actividad->tarea->estado >= 20 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
-                    <td class="text-center
-                    @if($actividad->tarea->estado == 30)
-                            bg-danger
-                    @endif
-                            ">{!! $actividad->tarea->estado >= 30 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                    <td class="text-center {!! $actividad->tarea->estado == 30 ? 'bg-danger' : '' !!}">
+                        {!! $actividad->tarea->estado >= 30 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-danger"></i>' !!}
+                    </td>
                     <td class="text-center">
                         @switch($actividad->tarea->estado)
                             @case(40)
