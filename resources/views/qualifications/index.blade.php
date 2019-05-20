@@ -15,6 +15,7 @@
                 <th>#</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Description') }}</th>
+                <th class="text-center">{{ __('Template') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -24,6 +25,7 @@
                     <td>{{ $qualification->id }}</td>
                     <td>{{ $qualification->name }}</td>
                     <td>{{ $qualification->description }}</td>
+                    <td class="text-center">{!! $qualification->template ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
                     <td class="text-nowrap">
                         {!! Form::open(['route' => ['qualifications.destroy', $qualification->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>

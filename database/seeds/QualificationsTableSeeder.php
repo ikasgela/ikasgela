@@ -15,17 +15,17 @@ class QualificationsTableSeeder extends Seeder
     public function run()
     {
         $ce1 = factory(Skill::class)->create([
-            'name' => 'CE1',
+            'name' => 'CE1 - Diseño de algoritmos',
             'description' => 'Especificar, diseñar e implementar algoritmos en un lenguaje de programación, utilizando métodos eficientes, sistemáticos y organizados de resolución de problemas.',
         ]);
 
         $ce2 = factory(Skill::class)->create([
-            'name' => 'CE2',
+            'name' => 'CE2 - Sintáxis del lenguaje',
             'description' => 'Escribir correctamente, compilar y ejecutar programas en un lenguaje de alto nivel.',
         ]);
 
         $ce3 = factory(Skill::class)->create([
-            'name' => 'CE3',
+            'name' => 'CE3 - Estructuras de datos y de control',
             'description' => 'Conocer y dominar estructuras básicas fundamentales utilizadas en la programación, tanto estructuras de datos como estructuras de control del flujo del programa.',
         ]);
 
