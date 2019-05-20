@@ -20,10 +20,8 @@
         <i class="nav-icon fas fa-archive"></i> {{ __('Archived') }}
     </a>
 </li>
-@if(config('app.debug'))
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('results.index') }}">
-            <i class="nav-icon fas fa-graduation-cap"></i> {{ __('Results') }}
-        </a>
-    </li>
-@endif
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('results.index') }}">
+        <i class="nav-icon fas fa-graduation-cap"></i> {{ __('Results') }}
+    </a>
+</li>
