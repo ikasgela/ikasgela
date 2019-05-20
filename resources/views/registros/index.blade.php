@@ -32,6 +32,9 @@
                             @case(20)   {{-- Aceptada --}}
                             Aceptada
                             @break
+                            @case(21)   {{-- Feedback leído --}}
+                            Feedback leído
+                            @break
                             @case(30)   {{-- Enviada --}}
                             Enviada
                             @break

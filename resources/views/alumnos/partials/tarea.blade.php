@@ -7,6 +7,7 @@
                 recursos.</p>
             @break
             @case(20)   {{-- Aceptada --}}
+            @case(21)   {{-- Feedback leído --}}
             <p>Completa la actividad y, cuando esté lista, envíala para revisar.</p>
             @break
             @case(30)   {{-- Enviada --}}
@@ -44,7 +45,6 @@
             <div class="card-body pb-1">
                 <h2>{{ $actividad->nombre }}</h2>
                 <p>{{ $actividad->descripcion }}</p>
-
                 <div class="mb-3">
                     <form method="POST"
                           action="{{ route('actividades.estado', [$actividad->tarea->id]) }}">
@@ -56,6 +56,7 @@
                                     class="btn btn-primary">{{ __('Accept activity') }}</button>
                             @break
                             @case(20)   {{-- Aceptada --}}
+                            @case(21)   {{-- Feedback leído --}}
                             @if(!($actividad->intellij_projects()->get()->count() > 0
                                 && $actividad->intellij_projects()->wherePivot('fork',null)->get()->count() > 0))
                                 <button type="submit" name="nuevoestado" value="30"
@@ -66,7 +67,7 @@
                             @if($actividad->auto_avance)
                                 <div class="alert alert-success" role="alert">
                                     <p>Esta actividad es de avance automático, no hay revisión del profesor.</p>
-                                    <button type="submit" name="nuevoestado" value="40"
+                                    <button type="submit" name="nuevoestado" value="42"
                                             class="btn btn-success"> {{ __('Next step') }}
                                     </button>
                                 </div>
@@ -85,7 +86,7 @@
                                     class="btn btn-primary">{{ __('Archive') }}</button>
                             @break;
                             @case(41)   {{-- Revisada: ERROR --}}
-                            <button type="submit" name="nuevoestado" value="20"
+                            <button type="submit" name="nuevoestado" value="21"
                                     class="btn btn-primary">{{ __('Feedback read') }}</button>
                             @break
                             @case(50)   {{-- Terminada --}}
@@ -102,6 +103,7 @@
             @switch($actividad->tarea->estado)
                 @case(10)   {{-- Nueva --}}
                 @case(20)   {{-- Aceptada --}}
+                @case(21)   {{-- Feedback leído --}}
                 @case(30)   {{-- Enviada --}}
                 @case(40)   {{-- Revisada: OK --}}
                 @case(41)   {{-- Revisada: ERROR --}}
@@ -119,6 +121,7 @@
                         {{ __('Not yet accepted') }}
                         @break
                         @case(20)   {{-- Aceptada --}}
+                        @case(21)   {{-- Feedback leído --}}
                         {{ __('Preparing for submission') }}
                         @break
                         @case(30)   {{-- Enviada --}}
@@ -145,6 +148,7 @@
                         <li><span class="bubble"></span>{{ __('Finished') }}</li>
                         @break
                         @case(20)   {{-- Aceptada --}}
+                        @case(21)   {{-- Feedback leído --}}
                         <li class="completed"><span class="bubble"></span>{{ __('Accepted') }}</li>
                         <li><span class="bubble"></span>{{ __('Submitted') }}</li>
                         <li><span class="bubble"></span>{{ __('Feedback available') }}</li>
@@ -191,8 +195,12 @@
                     {{ $actividad->tarea->estado == 41 ? 'bg-warning' : '' }}">
                         <i class="fas fa-bullhorn"></i></i> {{ __('Feedback') }}
                     </div>
-                    <div class="card-body">
+                    <div class="card-body pb-0">
                         <p>{{ $actividad->tarea->feedback }}</p>
+                        <hr class="mt-0 mb-2">
+                        <p class="text-muted small">
+                            {{ __('Score') }}: {{ $actividad->tarea->puntuacion }}/{{ $actividad->puntuacion }}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -200,6 +208,7 @@
     @endif
     @switch($actividad->tarea->estado)
         @case(20)   {{-- Aceptada --}}
+        @case(21)   {{-- Feedback leído --}}
         @case(60)   {{-- Archivada --}}
         @foreach($actividad->youtube_videos()->get() as $youtube_video)
             <div class="col-md-6">

@@ -21,15 +21,18 @@
                 <div class="card-body">
                     <h2>{{ $actividad->nombre }}</h2>
                     <p>{{ $actividad->descripcion }}</p>
-                    <div>
-                        <button type="submit" name="nuevoestado" value="40"
-                                class="btn btn-primary"> {{ __('Finished') }}
+                    <div class="form-inline">
+                        <button type="submit" name="nuevoestado" value="31"
+                                class="mr-1 btn btn-secondary"> {{ __('Reset') }}
                         </button>
                         <button type="submit" name="nuevoestado" value="41"
-                                class="btn btn-warning"> {{ __('Send again') }}
+                                class="mr-3 btn btn-warning"> {{ __('Send again') }}
                         </button>
-                        <button type="submit" name="nuevoestado" value="31"
-                                class="btn btn-secondary"> {{ __('Reset') }}
+                        <input class="mr-1 form-control" type="number" min="0" max="100" step="1"
+                               name="puntuacion"
+                               value="100"/>
+                        <button type="submit" name="nuevoestado" value="40"
+                                class="btn btn-primary"> {{ __('Finished') }}
                         </button>
                     </div>
                     <i class="fas fa-bullhorn mt-3"></i>

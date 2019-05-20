@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Curso extends Model
 {
     protected $fillable = [
-        'category_id', 'nombre', 'descripcion', 'slug'
+        'category_id', 'nombre', 'descripcion', 'slug', 'qualification_id'
     ];
 
     public function category()
@@ -25,5 +25,10 @@ class Curso extends Model
         return $this
             ->belongsToMany(User::class)
             ->withTimestamps();
+    }
+
+    public function qualification()
+    {
+        return $this->belongsTo(Qualification::class);
     }
 }

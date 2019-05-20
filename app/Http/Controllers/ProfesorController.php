@@ -135,7 +135,12 @@ class ProfesorController extends Controller
 
             $clon = $actividad->duplicate();
             $clon->save();
-
+            if (!is_null($actividad->qualification)) {
+                $cualificacion = $actividad->qualification->duplicate();
+                $cualificacion->name .= " - " . $actividad->nombre . ' (' . $actividad->id . ')';
+                $cualificacion->save();
+                $clon->save(['qualification_id' => $cualificacion]);
+            }
             $asignadas .= "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n\n";
 
             $user->actividades()->attach($clon);

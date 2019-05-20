@@ -63,3 +63,20 @@
         </li>
     </ul>
 </li>
+<li class="nav-item nav-dropdown">
+    <a class="nav-link nav-dropdown-toggle" href="#">
+        <i class="nav-icon fas fa-database"></i> {{ __('Evaluation') }}
+    </a>
+    <ul class="nav-dropdown-items">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('qualifications.index') }}">
+                {{ __('Qualifications') }}
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('skills.index') }}">
+                {{ __('Skills') }}
+            </a>
+        </li>
+    </ul>
+</li>

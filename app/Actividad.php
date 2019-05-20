@@ -17,7 +17,7 @@ class Actividad extends Model
     protected $table = 'actividades';
 
     protected $fillable = [
-        'unidad_id', 'nombre', 'descripcion', 'puntuacion', 'plantilla', 'slug', 'final', 'siguiente', 'auto_avance'
+        'unidad_id', 'nombre', 'descripcion', 'puntuacion', 'plantilla', 'slug', 'final', 'siguiente', 'auto_avance', 'qualification_id'
     ];
 
     public function unidad()
@@ -65,5 +65,10 @@ class Actividad extends Model
     public function anterior()
     {
         return $this->belongsTo(Actividad::class, 'siguiente_id');
+    }
+
+    public function qualification()
+    {
+        return $this->belongsTo(Qualification::class);
     }
 }

@@ -1,0 +1,39 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateQualificationSkillTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('qualification_skill', function (Blueprint $table) {
+            $table->bigIncrements('id');
+
+            $table->bigInteger('qualification_id')->unsigned()->index();
+            $table->foreign('qualification_id')->references('id')->on('qualifications')->onDelete('cascade');
+            $table->bigInteger('skill_id')->unsigned()->index();
+            $table->foreign('skill_id')->references('id')->on('skills')->onDelete('cascade');
+
+            $table->integer('percentage')->nullable()->default(0);
+
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('qualification_skill');
+    }
+}

@@ -24,7 +24,7 @@ class ActividadesTableSeeder extends Seeder
         $actividad = new Actividad();
         $actividad->nombre = $nombre;
         $actividad->descripcion = 'Actividad de ejemplo que explica el flujo de trabajo.';
-        $actividad->puntuacion = 10;
+        $actividad->puntuacion = 100;
         $actividad->slug = Str::slug($nombre);
         $actividad->plantilla = true;
         $actividad->auto_avance = true;
@@ -44,7 +44,7 @@ class ActividadesTableSeeder extends Seeder
         $actividad = new Actividad();
         $actividad->nombre = $nombre;
         $actividad->descripcion = 'Agenda de contactos con varias ventanas que comparten datos.';
-        $actividad->puntuacion = 10;
+        $actividad->puntuacion = 100;
         $actividad->slug = Str::slug($nombre);
         $actividad->plantilla = true;
         $unidad->actividades()->save($actividad);
@@ -62,7 +62,7 @@ class ActividadesTableSeeder extends Seeder
         $actividad = new Actividad();
         $actividad->nombre = $nombre;
         $actividad->descripcion = 'Juego de tres en raya con GUI.';
-        $actividad->puntuacion = 10;
+        $actividad->puntuacion = 100;
         $actividad->slug = Str::slug($nombre);
         $actividad->plantilla = true;
         $unidad->actividades()->save($actividad);
@@ -80,7 +80,7 @@ class ActividadesTableSeeder extends Seeder
         $actividad = new Actividad();
         $actividad->nombre = $nombre;
         $actividad->descripcion = 'Reservas, huéspedes y hoteles.';
-        $actividad->puntuacion = 10;
+        $actividad->puntuacion = 100;
         $actividad->slug = Str::slug($nombre);
         $actividad->plantilla = true;
         $unidad->actividades()->save($actividad);
