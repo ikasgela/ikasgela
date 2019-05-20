@@ -11,7 +11,7 @@
 
             {{ Form::campoTexto('name', __('Name')) }}
             {{ Form::campoTexto('description', __('Description')) }}
-            {{ Form::campoCheck('template', __('Template'), false) }}
+            {{ Form::campoCheck('template', __('Template'), true) }}
 
             <div class="form-group row">
                 {!! Form::label('skills_seleccionados', __('Skills'), ['class' => 'col-sm-2 col-form-label pt-0']) !!}

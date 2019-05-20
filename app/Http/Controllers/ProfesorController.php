@@ -134,11 +134,13 @@ class ProfesorController extends Controller
             // REF: https://github.com/BKWLD/cloner
 
             $clon = $actividad->duplicate();
-            $cualificacion = $actividad->qualification->duplicate();
-            $cualificacion->name .= " - " . $actividad->nombre . ' (' . $actividad->id . ')';
-            $cualificacion->save();
-            $clon->save(['qualification_id' => $cualificacion]);
-
+            $clon->save();
+            if (!is_null($actividad->qualification)) {
+                $cualificacion = $actividad->qualification->duplicate();
+                $cualificacion->name .= " - " . $actividad->nombre . ' (' . $actividad->id . ')';
+                $cualificacion->save();
+                $clon->save(['qualification_id' => $cualificacion]);
+            }
             $asignadas .= "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n\n";
 
             $user->actividades()->attach($clon);
