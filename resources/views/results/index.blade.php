@@ -28,7 +28,7 @@
                          style="width: {{ $porcentaje }}%;"
                          aria-valuenow="{{ $porcentaje }}"
                          aria-valuemin="0"
-                         aria-valuemax="100">{{ $porcentaje }}%
+                         aria-valuemax="100">@if($porcentaje>0){{ $porcentaje }}%@endif
                     </div>
                 </div>
                 <div class="text-muted small text-right">
