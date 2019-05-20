@@ -28,6 +28,7 @@
                 {!! Form::label('qualification_id', __('Qualification'), ['class' => 'col-sm-2 col-form-label']) !!}
                 <div class="col-sm-10">
                     <select class="form-control" id="qualification_id" name="qualification_id">
+                        <option value="">{{ __('--- None ---') }}</option>
                         @foreach($qualifications as $qualification)
                             <option value="{{ $qualification->id }}">{{ $qualification->name }}</option>
                         @endforeach
