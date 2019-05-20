@@ -15,7 +15,10 @@ class IntellijProject extends Model
     {
         return $this
             ->belongsToMany(Actividad::class)
-            ->withTimestamps();
+            ->withTimestamps()
+            ->withPivot([
+                'fork'
+            ]);
     }
 
     public function gitlab()

@@ -11,13 +11,13 @@ class Actividad extends Model
     use Cloneable;
     use LogsActivity;
 
-    protected $cloneable_relations = ['intellij_projects', 'youtube_videos', 'siguiente'];
-    protected $clone_exempt_attributes = ['plantilla'];
+    protected $cloneable_relations = ['intellij_projects', 'youtube_videos', 'siguiente', 'qualification'];
+    protected $clone_exempt_attributes = ['plantilla', 'template'];
 
     protected $table = 'actividades';
 
     protected $fillable = [
-        'unidad_id', 'nombre', 'descripcion', 'puntuacion', 'plantilla', 'slug', 'final', 'siguiente', 'auto_avance'
+        'unidad_id', 'nombre', 'descripcion', 'puntuacion', 'plantilla', 'slug', 'final', 'siguiente', 'auto_avance', 'qualification_id'
     ];
 
     public function unidad()
@@ -65,5 +65,10 @@ class Actividad extends Model
     public function anterior()
     {
         return $this->belongsTo(Actividad::class, 'siguiente_id');
+    }
+
+    public function qualification()
+    {
+        return $this->belongsTo(Qualification::class);
     }
 }
