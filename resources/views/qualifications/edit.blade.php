@@ -24,12 +24,12 @@
                                        id="skill_{{ $skill->id }}" value="{{ $skill->id }}">
                                 <label class="form-check-label" for="skill_{{ $skill->id }}">{{ $skill->name }}</label>
                             </div>
-                            <input class="ml-3" maxlength="3" type="text"
+                            <input class="ml-3 form-control" type="number" min="0" max="100" step="1"
                                    name="percentage_{{ $skill->id }}"
                                    @if($qualification->skills()->find($skill->id))
                                    value="{{ $qualification->skills()->find($skill->id)->pivot->percentage }}"/>
                             @else
-                                value=""/>
+                                value="0"/>
                             @endif
                         </div>
                     @endforeach
