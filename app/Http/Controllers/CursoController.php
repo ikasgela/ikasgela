@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Curso;
+use App\Qualification;
 use BadMethodCallException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -26,8 +27,9 @@ class CursoController extends Controller
     public function create()
     {
         $categories = Category::orderBy('name')->get();
+        $qualifications = Qualification::orderBy('name')->get();
 
-        return view('cursos.create', compact('categories'));
+        return view('cursos.create', compact(['categories', 'qualifications']));
     }
 
     public function store(Request $request)
@@ -42,7 +44,8 @@ class CursoController extends Controller
                 'category_id' => request('category_id'),
                 'nombre' => request('nombre'),
                 'descripcion' => request('descripcion'),
-                'slug' => Str::slug(request('nombre'))
+                'slug' => Str::slug(request('nombre')),
+                'qualification_id' => request('qualification_id'),
             ]);
         } catch (\Exception $e) {
             // Slug repetido
@@ -65,8 +68,9 @@ class CursoController extends Controller
     public function edit(Curso $curso)
     {
         $categories = Category::orderBy('name')->get();
+        $qualifications = Qualification::orderBy('name')->get();
 
-        return view('cursos.edit', compact(['curso', 'categories']));
+        return view('cursos.edit', compact(['curso', 'categories', 'qualifications']));
     }
 
     public function update(Request $request, Curso $curso)
@@ -82,7 +86,8 @@ class CursoController extends Controller
             'descripcion' => request('descripcion'),
             'slug' => strlen(request('slug')) > 0
                 ? Str::slug(request('slug'))
-                : Str::slug(request('nombre'))
+                : Str::slug(request('nombre')),
+            'qualification_id' => request('qualification_id'),
         ]);
 
         return redirect(route('cursos.index'));

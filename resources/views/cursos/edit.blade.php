@@ -24,6 +24,17 @@
             {{ Form::campoTexto('descripcion', __('Description')) }}
             {{ Form::campoTexto('slug', __('Slug')) }}
 
+            <div class="form-group row">
+                {!! Form::label('qualification_id', __('Qualification'), ['class' => 'col-sm-2 col-form-label']) !!}
+                <div class="col-sm-10">
+                    <select class="form-control" id="qualification_id" name="qualification_id">
+                        @foreach($qualifications as $qualification)
+                            <option value="{{ $qualification->id }}" <?php if ($curso->qualification_id == $qualification->id) echo 'selected'; ?>>{{ $qualification->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
             @include('partials.guardar_cancelar')
 
             @include('layouts.errors')
