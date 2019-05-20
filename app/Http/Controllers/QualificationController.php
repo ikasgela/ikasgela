@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Curso;
 use App\Qualification;
 use App\Skill;
 use BadMethodCallException;
@@ -25,7 +24,9 @@ class QualificationController extends Controller
 
     public function create()
     {
-        return view('qualifications.create');
+        $skills_disponibles = Skill::all();
+
+        return view('qualifications.create', compact('skills_disponibles'));
     }
 
     public function store(Request $request)
@@ -34,7 +35,17 @@ class QualificationController extends Controller
             'name' => 'required',
         ]);
 
-        Qualification::create($request->all());
+        $qualification = Qualification::create([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'template' => $request->has('template'),
+        ]);
+
+        if ($request->input('skills_seleccionados')) {
+            foreach ($request->input('skills_seleccionados') as $skill) {
+                $qualification->skills()->attach($skill, ['percentage' => $request->input('percentage_' . $skill)]);
+            }
+        }
 
         return redirect(route('qualifications.index'));
     }
@@ -46,12 +57,9 @@ class QualificationController extends Controller
 
     public function edit(Qualification $qualification)
     {
-        $skills_seleccionados = $qualification->skills()->orderBy('name')->get();
+        $skills_disponibles = Skill::all();
 
-        $filtro = $qualification->skills()->pluck('skill_id')->unique()->flatten()->toArray();
-        $skills_disponibles = Skill::whereNotIn('id', $filtro)->orderBy('name')->get();
-
-        return view('qualifications.edit', compact(['qualification', 'skills_seleccionados', 'skills_disponibles']));
+        return view('qualifications.edit', compact(['qualification', 'skills_disponibles']));
     }
 
     public function update(Request $request, Qualification $qualification)
@@ -66,7 +74,13 @@ class QualificationController extends Controller
             'template' => $request->has('template'),
         ]);
 
-        $qualification->skills()->sync($request->input('skills_seleccionados'));
+        $qualification->skills()->detach();
+
+        if ($request->input('skills_seleccionados')) {
+            foreach ($request->input('skills_seleccionados') as $skill) {
+                $qualification->skills()->attach($skill, ['percentage' => $request->input('percentage_' . $skill)]);
+            }
+        }
 
         return redirect(route('qualifications.index'));
     }
