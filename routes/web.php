@@ -167,6 +167,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Borrar entradas del registro
         Route::delete('registros/{registro}', 'RegistroController@destroy')
             ->name('registros.destroy');
+
+        // CRUD - Cualificaciones
+        Route::resource('qualifications', 'QualificationController');
+
+        // CRUD - Competencias
+        Route::resource('skills', 'SkillController');
     });
 
     // Alumnos y profesores

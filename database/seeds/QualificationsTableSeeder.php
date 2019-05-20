@@ -29,17 +29,17 @@ class QualificationsTableSeeder extends Seeder
             'description' => 'Conocer y dominar estructuras básicas fundamentales utilizadas en la programación, tanto estructuras de datos como estructuras de control del flujo del programa.',
         ]);
 
-        $calificacion = factory(Qualification::class)->create([
+        $cualificacion = factory(Qualification::class)->create([
             'name' => 'General',
-            'description' => 'Calificación predeterminada para el curso.',
+            'description' => 'Cualificación predeterminada para el curso.',
         ]);
 
-        $calificacion->skills()->attach($ce1, ['percentage' => 20]);
-        $calificacion->skills()->attach($ce2, ['percentage' => 40]);
-        $calificacion->skills()->attach($ce3, ['percentage' => 40]);
+        $cualificacion->skills()->attach($ce1, ['percentage' => 20]);
+        $cualificacion->skills()->attach($ce2, ['percentage' => 40]);
+        $cualificacion->skills()->attach($ce3, ['percentage' => 40]);
 
         $curso = Curso::find(1);
-        $curso->qualification()->associate($calificacion);
+        $curso->qualification()->associate($cualificacion);
         $curso->save();
     }
 }

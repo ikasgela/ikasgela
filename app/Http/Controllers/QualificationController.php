@@ -3,83 +3,65 @@
 namespace App\Http\Controllers;
 
 use App\Qualification;
+use BadMethodCallException;
 use Illuminate\Http\Request;
 
 class QualificationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:admin');
+    }
+
     public function index()
     {
-        //
+        $qualifications = Qualification::all();
+
+        return view('qualifications.index', compact('qualifications'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('qualifications.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+        ]);
+
+        Qualification::create($request->all());
+
+        return redirect(route('qualifications.index'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Qualification  $qualification
-     * @return \Illuminate\Http\Response
-     */
     public function show(Qualification $qualification)
     {
-        //
+        throw new BadMethodCallException(__('Not implemented.'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Qualification  $qualification
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Qualification $qualification)
     {
-        //
+        return view('qualifications.edit', compact('qualification'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Qualification  $qualification
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Qualification $qualification)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+        ]);
+
+        $qualification->update($request->all());
+
+        return redirect(route('qualifications.index'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Qualification  $qualification
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Qualification $qualification)
     {
-        //
+        $qualification->delete();
+
+        return redirect(route('qualifications.index'));
     }
 }
