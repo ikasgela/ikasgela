@@ -2,10 +2,17 @@
 
 namespace App;
 
+use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Model;
 
 class Qualification extends Model
 {
+    use Cloneable;
+
+    protected $cloneable_relations = ['skills'];
+
+    protected $clone_exempt_attributes = ['template'];
+
     protected $fillable = [
         'name', 'description', 'template'
     ];

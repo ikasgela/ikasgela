@@ -11,8 +11,8 @@ class Actividad extends Model
     use Cloneable;
     use LogsActivity;
 
-    protected $cloneable_relations = ['intellij_projects', 'youtube_videos', 'siguiente', 'qualification'];
-    protected $clone_exempt_attributes = ['plantilla', 'template'];
+    protected $cloneable_relations = ['intellij_projects', 'youtube_videos', 'siguiente'];
+    protected $clone_exempt_attributes = ['plantilla'];
 
     protected $table = 'actividades';
 
