@@ -19,6 +19,6 @@ class TareasTableSeeder extends Seeder
         $clon = $actividad->duplicate();
         $clon->final = true;
         $clon->save();
-        $usuario->actividades()->attach($clon, ['puntuacion' => $actividad->puntuacion]);
+        $usuario->actividades()->attach($clon, ['puntuacion' => 0]);
     }
 }

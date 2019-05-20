@@ -252,15 +252,16 @@ class ActividadController extends Controller
                 $tarea->estado = 20;    // Botón de reset, para cuando se confunden
                 break;
             case 40:
+                $tarea->puntuacion = $request->input('puntuacion');
             case 41:
-                if ($tarea->actividad->auto_avance) {
-                    $tarea->feedback = 'Tarea completada automáticamente, no revisada por ningún profesor.';
-                    $registro->detalles = 'Avance automático';
-                } else {
-                    $tarea->feedback = $request->input('feedback');
-                    $registro->detalles = $tarea->feedback;
-                    Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea));
-                }
+                $tarea->feedback = $request->input('feedback');
+                $registro->detalles = $tarea->feedback;
+                Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea));
+                break;
+            case 42:
+                $tarea->feedback = 'Tarea completada automáticamente, no revisada por ningún profesor.';
+                $tarea->puntuacion = $actividad->puntuacion;
+                $registro->detalles = 'Avance automático';
                 break;
             case 50:
                 break;
