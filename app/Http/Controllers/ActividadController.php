@@ -6,6 +6,7 @@ use App\Actividad;
 use App\Mail\ActividadAsignada;
 use App\Mail\FeedbackRecibido;
 use App\Mail\TareaEnviada;
+use App\Qualification;
 use App\Registro;
 use App\Tarea;
 use App\Unidad;
@@ -65,8 +66,9 @@ class ActividadController extends Controller
     {
         $unidades = Unidad::orderBy('nombre')->get();
         $actividades = Actividad::whereNull('siguiente_id')->orderBy('nombre')->get();
+        $qualifications = Qualification::orderBy('name')->get();
 
-        return view('actividades.create', compact(['unidades', 'actividades']));
+        return view('actividades.create', compact(['unidades', 'actividades', 'qualifications']));
     }
 
     /**
@@ -94,6 +96,8 @@ class ActividadController extends Controller
             'auto_avance' => $request->has('auto_avance'),
 
             'slug' => Str::slug(request('nombre')),
+
+            'qualification_id' => request('qualification_id'),
         ]);
 
         if (!is_null($request->input('siguiente_id'))) {
@@ -139,8 +143,9 @@ class ActividadController extends Controller
         $siguiente = !is_null($actividad->siguiente) ? $actividad->siguiente->id : null;
         $actividades = Actividad::where('id', '!=', $actividad->id)->whereNull('siguiente_id')->orWhere('id', $siguiente)->orderBy('nombre')->get();
         $plantillas = Actividad::where('plantilla', true)->where('id', '!=', $actividad->id)->whereNull('siguiente_id')->orWhere('id', $siguiente)->orderBy('nombre')->get();
+        $qualifications = Qualification::orderBy('name')->get();
 
-        return view('actividades.edit', compact(['actividad', 'unidades', 'actividades', 'plantillas']));
+        return view('actividades.edit', compact(['actividad', 'unidades', 'actividades', 'plantillas', 'qualifications']));
     }
 
     /**
@@ -172,7 +177,9 @@ class ActividadController extends Controller
 
             'slug' => strlen($request->input('slug')) > 0
                 ? Str::slug($request->input('slug'))
-                : Str::slug($request->input('nombre'))
+                : Str::slug($request->input('nombre')),
+
+            'qualification_id' => request('qualification_id'),
         ]);
 
         if (!is_null($request->input('siguiente_id'))) {
