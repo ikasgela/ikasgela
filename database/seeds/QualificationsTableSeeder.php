@@ -32,6 +32,7 @@ class QualificationsTableSeeder extends Seeder
         $cualificacion = factory(Qualification::class)->create([
             'name' => 'General',
             'description' => 'Cualificación predeterminada para el curso.',
+            'template' => true,
         ]);
 
         $cualificacion->skills()->attach($ce1, ['percentage' => 20]);
