@@ -23,7 +23,7 @@
             {{ Form::campoTexto('nombre', __('Name')) }}
             {{ Form::campoTexto('descripcion', __('Description')) }}
             {{ Form::campoTexto('slug', __('Slug')) }}
-            {{ Form::campoTexto('puntuacion', __('Score'), 10) }}
+            {{ Form::campoTexto('puntuacion', __('Score'), 100) }}
             {{ Form::campoCheck('plantilla', __('Template'), true) }}
 
             <div class="form-group row">
