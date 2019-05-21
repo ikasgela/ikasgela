@@ -261,7 +261,6 @@ class ActividadController extends Controller
             case 42:
                 $tarea->feedback = 'Tarea completada automáticamente, no revisada por ningún profesor.';
                 $tarea->puntuacion = $actividad->puntuacion;
-                $registro->detalles = 'Avance automático';
                 break;
             case 50:
                 break;

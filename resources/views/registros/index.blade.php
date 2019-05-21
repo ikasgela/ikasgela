@@ -47,6 +47,9 @@
                             @case(41)   {{-- Revisada: ERROR --}}
                             Revisada: ERROR
                             @break;
+                            @case(42)   {{-- Avance automático --}}
+                            Avance automático
+                            @break;
                             @case(50)   {{-- Terminada --}}
                             Terminada
                             @break

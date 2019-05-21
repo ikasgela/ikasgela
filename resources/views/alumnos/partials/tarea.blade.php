@@ -82,6 +82,7 @@
                             @endif
                             @break
                             @case(40)   {{-- Revisada: OK --}}
+                            @case(42)   {{-- Avance automático --}}
                             <button type="submit" name="nuevoestado" value="60"
                                     class="btn btn-primary">{{ __('Archive') }}</button>
                             @break;
