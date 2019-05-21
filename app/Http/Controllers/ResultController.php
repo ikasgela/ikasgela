@@ -15,7 +15,7 @@ class ResultController extends Controller
 {
     public function index()
     {
-        $curso = Curso::find(1);
+        $curso = Curso::find(1);    // TODO: Seleccionar el curso actual
         $usuario = Auth::user();
 
         $skills_curso = $curso->qualification->skills;
@@ -27,24 +27,24 @@ class ResultController extends Controller
             $resultados[$skill->id] = new Resultado();
         }
 
-        $actividades = $usuario->actividades;
+        foreach ($usuario->actividades as $actividad) {
 
-        foreach ($actividades as $actividad) {
-            if (!is_null($actividad->qualification_id)) {
-                $skills = $actividad->qualification->skills;
-            }
+            if ($actividad->puntuacion > 0) {
 
-            $total = $actividad->puntuacion;
-            $tarea = $actividad->tarea->puntuacion;
+                if (!is_null($actividad->qualification_id)) {
+                    $skills = $actividad->qualification->skills;
+                }
 
-            foreach ($skills as $skill) {
-                $porcentaje = $skill->pivot->percentage;
-                $resultados[$skill->id]->actividad += $total * $porcentaje / 100;
-                $resultados[$skill->id]->tarea += $tarea * $porcentaje / 100;
+                $total = $actividad->puntuacion;
+                $tarea = $actividad->tarea->puntuacion;
+
+                foreach ($skills as $skill) {
+                    $porcentaje = $skill->pivot->percentage;
+                    $resultados[$skill->id]->actividad += $total * $porcentaje / 100;
+                    $resultados[$skill->id]->tarea += $tarea * $porcentaje / 100;
+                }
             }
         }
-
-        //dd($resultados);
 
         return view('results.index', compact(['curso', 'skills_curso', 'resultados']));
     }

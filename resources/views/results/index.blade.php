@@ -17,7 +17,7 @@
                 <h5 class="card-title">{{ $skill->name }}</h5>
                 <p class="ml-5">{{ $skill->description }}</p>
                 <div class="ml-5 progress" style="height: 24px;">
-                    @php($porcentaje = round($resultados[$skill->id]->tarea/$resultados[$skill->id]->actividad*100))
+                    @php($porcentaje = $resultados[$skill->id]->actividad > 0 ? round($resultados[$skill->id]->tarea/$resultados[$skill->id]->actividad*100) : 0)
                     <div class="progress-bar
                     @if($porcentaje<50)
                             bg-warning text-dark
@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="text-muted small text-right">
-                    {{ $resultados[$skill->id]->tarea }}/{{ $resultados[$skill->id]->actividad }}
+                    {{ $resultados[$skill->id]->tarea + 0 }}/{{ $resultados[$skill->id]->actividad + 0 }}
                 </div>
             </div>
             @if(!$loop->last)

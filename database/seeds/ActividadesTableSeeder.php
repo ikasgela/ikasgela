@@ -24,7 +24,7 @@ class ActividadesTableSeeder extends Seeder
         $actividad = new Actividad();
         $actividad->nombre = $nombre;
         $actividad->descripcion = 'Actividad de ejemplo que explica el flujo de trabajo.';
-        $actividad->puntuacion = 100;
+        $actividad->puntuacion = 0;
         $actividad->slug = Str::slug($nombre);
         $actividad->plantilla = true;
         $actividad->auto_avance = true;
