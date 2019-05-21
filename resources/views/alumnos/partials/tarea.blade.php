@@ -200,7 +200,7 @@
                         <p>{{ $actividad->tarea->feedback }}</p>
                         <hr class="mt-0 mb-2">
                         <p class="text-muted small">
-                            {{ __('Score') }}: {{ $actividad->tarea->puntuacion }}/{{ $actividad->puntuacion }}
+                            {{ __('Score') }}: {{ $actividad->tarea->puntuacion + 0 }}/{{ $actividad->puntuacion + 0 }}
                         </p>
                     </div>
                 </div>
