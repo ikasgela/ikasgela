@@ -17,9 +17,12 @@ class AlumnoController extends Controller
          * 10 -> Nueva
          * 11 -> Oculta
          * 20 -> Aceptada
+         * 21 -> Feedback leído
          * 30 -> Enviada
+         * 31 -> Reiniciada
          * 40 -> Revisada: OK
          * 41 -> Revisada: ERROR
+         * 42 -> Avance automático
          * 50 -> Terminada
          * 60 -> Archivada
          * */
