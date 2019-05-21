@@ -28,9 +28,11 @@
                         <button type="submit" name="nuevoestado" value="41"
                                 class="mr-3 btn btn-warning"> {{ __('Send again') }}
                         </button>
-                        <input class="mr-1 form-control" type="number" min="0" max="100" step="1"
+                        <label class="mr-2">{{ __('Score') }}</label>
+                        <input class="mr-2 form-control" type="number" min="0" max="100" step="1"
                                name="puntuacion"
-                               value="100"/>
+                               value="{{ $actividad->puntuacion }}"/>
+                        <label class="mr-3"> {{ __('over') }} {{ $actividad->puntuacion }}</label>
                         <button type="submit" name="nuevoestado" value="40"
                                 class="btn btn-primary"> {{ __('Finished') }}
                         </button>
