@@ -22,7 +22,7 @@ class ResultController extends Controller
         $skills_curso = [];
         $resultados = [];
 
-        if (!is_null($curso->qualification)) {
+        if (!is_null($curso) && !is_null($curso->qualification)) {
             $skills_curso = $curso->qualification->skills;
 
             foreach ($skills_curso as $skill) {
