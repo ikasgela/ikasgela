@@ -36,4 +36,9 @@ class Qualification extends Model
     {
         return $this->hasMany(Curso::class);
     }
+
+    public function unidades()
+    {
+        return $this->hasMany(Unidad::class);
+    }
 }

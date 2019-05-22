@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Curso;
+use App\Qualification;
 use App\Unidad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -25,8 +26,9 @@ class UnidadController extends Controller
     public function create()
     {
         $cursos = Curso::orderBy('nombre')->get();
+        $qualifications = Qualification::orderBy('name')->get();
 
-        return view('unidades.create', compact('cursos'));
+        return view('unidades.create', compact(['cursos', 'qualifications']));
     }
 
     public function store(Request $request)
@@ -41,7 +43,8 @@ class UnidadController extends Controller
                 'curso_id' => request('curso_id'),
                 'nombre' => request('nombre'),
                 'descripcion' => request('descripcion'),
-                'slug' => Str::slug(request('nombre'))
+                'slug' => Str::slug(request('nombre')),
+                'qualification_id' => request('qualification_id'),
             ]);
         } catch (\Exception $e) {
             // Slug repetido
@@ -58,8 +61,9 @@ class UnidadController extends Controller
     public function edit(Unidad $unidad)
     {
         $cursos = Curso::orderBy('nombre')->get();
+        $qualifications = Qualification::orderBy('name')->get();
 
-        return view('unidades.edit', compact(['unidad', 'cursos']));
+        return view('unidades.edit', compact(['unidad', 'cursos', 'qualifications']));
     }
 
     public function update(Request $request, Unidad $unidad)
@@ -76,7 +80,8 @@ class UnidadController extends Controller
                 'descripcion' => request('descripcion'),
                 'slug' => strlen(request('slug')) > 0
                     ? Str::slug(request('slug'))
-                    : Str::slug(request('nombre'))
+                    : Str::slug(request('nombre')),
+                'qualification_id' => request('qualification_id'),
             ]);
         } catch (\Exception $e) {
             // Slug repetido

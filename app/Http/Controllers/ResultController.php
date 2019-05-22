@@ -20,28 +20,30 @@ class ResultController extends Controller
 
         $skills_curso = $curso->qualification->skills;
 
-        $skills = $curso->qualification->skills;
-
         $resultados = [];
-        foreach ($skills as $skill) {
+        foreach ($skills_curso as $skill) {
             $resultados[$skill->id] = new Resultado();
         }
 
         foreach ($usuario->actividades as $actividad) {
 
-            if ($actividad->puntuacion > 0) {
+            $puntuacion_actividad = $actividad->puntuacion;
+            $puntuacion_tarea = $actividad->tarea->puntuacion;
+
+            if ($puntuacion_actividad > 0) {
 
                 if (!is_null($actividad->qualification_id)) {
                     $skills = $actividad->qualification->skills;
+                } else if (!is_null($actividad->unidad->qualification_id)) {
+                    $skills = $actividad->unidad->qualification->skills;
+                } else {
+                    $skills = $skills_curso;
                 }
-
-                $total = $actividad->puntuacion;
-                $tarea = $actividad->tarea->puntuacion;
 
                 foreach ($skills as $skill) {
                     $porcentaje = $skill->pivot->percentage;
-                    $resultados[$skill->id]->actividad += $total * $porcentaje / 100;
-                    $resultados[$skill->id]->tarea += $tarea * $porcentaje / 100;
+                    $resultados[$skill->id]->actividad += $puntuacion_actividad * $porcentaje / 100;
+                    $resultados[$skill->id]->tarea += $puntuacion_tarea * $porcentaje / 100;
                 }
             }
         }
