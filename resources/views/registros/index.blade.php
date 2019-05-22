@@ -13,7 +13,6 @@
                 <th>{{ __('Task') }}</th>
                 <th colspan="2">{{ __('Status') }}</th>
                 <th>{{ __('Timestamp') }}</th>
-                <th>{{ __('Details') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -60,7 +59,6 @@
                         @endswitch
                     </td>
                     <td>{{ Carbon\Carbon::parse($registro->timestamp)->isoFormat('L HH:mm:ss') }}</td>
-                    <td>{{ $registro->detalles }}</td>
                     <td>
                         {!! Form::open(['route' => ['registros.destroy', $registro->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>
