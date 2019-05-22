@@ -11,9 +11,8 @@
     {{-- Tarjeta --}}
     <div class="card">
         <div class="card-header">{{ $curso->nombre }}</div>
-
-        @foreach($skills_curso as $skill)
-            <div class="card-body">
+        <div class="card-body">
+            @forelse ($skills_curso as $skill)
                 <h5 class="card-title">{{ $skill->name }}</h5>
                 <p class="ml-5">{{ $skill->description }}</p>
                 <div class="ml-5 progress" style="height: 24px;">
@@ -34,11 +33,13 @@
                 <div class="text-muted small text-right">
                     {{ $resultados[$skill->id]->tarea + 0 }}/{{ $resultados[$skill->id]->actividad + 0 }}
                 </div>
-            </div>
-            @if(!$loop->last)
-                <hr class="mt-0 mb-2">
-            @endif
-        @endforeach
+                @if(!$loop->last)
+                    <hr>
+                @endif
+            @empty
+                <p>{{ __('No skills assigned.') }}</p>
+            @endforelse
+        </div>
     </div>
     {{-- Fin tarjeta--}}
 
