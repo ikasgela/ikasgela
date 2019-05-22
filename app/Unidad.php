@@ -21,4 +21,9 @@ class Unidad extends Model
     {
         return $this->hasMany(Actividad::class);
     }
+
+    public function qualification()
+    {
+        return $this->belongsTo(Qualification::class);
+    }
 }
