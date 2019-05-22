@@ -2,12 +2,14 @@
 
 @section('content')
 
-    <div class="row mb-3">
-        <div class="col-md">
-            <h1>{{ __('Results') }}</h1>
-        </div>
-    </div>
+    @include('partials.titular', ['titular' => __('Results')])
 
+    @if(session('tutorial'))
+        <div class="callout callout-success b-t-1 b-r-1 b-b-1">
+            <small class="text-muted">{{ __('Tutorial') }}</small>
+            <p>Aquí aparecerán los resultados de las competencias asociadas al curso.</p>
+        </div>
+    @endif
     @if(count($skills_curso) > 0)
         {{-- Tarjeta --}}
         <div class="card">
