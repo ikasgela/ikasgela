@@ -38,12 +38,12 @@
                                             </a>
                                         </li>
                     --}}
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="nav-icon fas fa-cog"></i> {{ __('Settings') }}
-                        </a>
-                    </li>
                 @endif
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('settings.editar') }}">
+                        <i class="nav-icon fas fa-cog"></i> {{ __('Settings') }}
+                    </a>
+                </li>
             @endauth
         </ul>
     </nav>

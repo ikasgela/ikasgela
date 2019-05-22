@@ -24,6 +24,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/actividades/{tarea}/estado', 'ActividadController@actualizarEstado')
         ->name('actividades.estado');
 
+    // Guardar ajustes
+    Route::get('/settings', 'SettingController@editar')
+        ->name('settings.editar');
+    Route::post('/settings', 'SettingController@guardar')
+        ->name('settings.guardar');
+
     // Alumno
     Route::middleware(['role:alumno'])->group(function () {
 
