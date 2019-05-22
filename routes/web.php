@@ -47,6 +47,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/intellij_projects/{actividad}/fork/{intellij_project}', 'IntellijProjectController@fork')
             ->name('intellij_projects.fork');
 
+        // Results
+        Route::get('/results', 'ResultController@index')
+            ->name('results.index');
     });
 
     // Profesor
@@ -198,8 +201,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('/tarjeta_respuesta_corta', 'tarjetas.respuesta_corta');
     Route::get('/tarjeta_texto_markdown', 'TarjetaController@texto_markdown');
     Route::view('/tarjeta_pdf', 'tarjetas.pdf');
-    Route::get('/results', 'ResultController@index')
-        ->name('results.index');
 
     // Mensaje
     Route::group(['prefix' => 'messages'], function () {
