@@ -24,11 +24,6 @@ class ActividadController extends Controller
         $this->middleware('role:admin')->except(['actualizarEstado', 'preview']);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $actividades = Actividad::all();
@@ -57,11 +52,6 @@ class ActividadController extends Controller
         return view('actividades.plantillas', compact(['actividades', 'unidades']));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $unidades = Unidad::orderBy('nombre')->get();
@@ -71,12 +61,6 @@ class ActividadController extends Controller
         return view('actividades.create', compact(['unidades', 'actividades', 'qualifications']));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -131,12 +115,6 @@ class ActividadController extends Controller
         return view('actividades.preview', compact('actividad'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Actividad $actividad
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Actividad $actividad)
     {
         $unidades = Unidad::orderBy('nombre')->get();
@@ -148,13 +126,6 @@ class ActividadController extends Controller
         return view('actividades.edit', compact(['actividad', 'unidades', 'actividades', 'plantillas', 'qualifications']));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Actividad $actividad
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Actividad $actividad)
     {
         $this->validate($request, [
@@ -210,12 +181,6 @@ class ActividadController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Actividad $actividad
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Actividad $actividad)
     {
         $actividad->delete();
@@ -305,5 +270,4 @@ class ActividadController extends Controller
             return redirect(route('home'));
         }
     }
-
 }
