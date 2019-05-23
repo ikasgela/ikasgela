@@ -29,7 +29,9 @@
                     <td>{{ $markdown_text->descripcion }}</td>
                     <td>{{ $markdown_text->repositorio }}</td>
                     <td>{{ $markdown_text->rama }}</td>
-                    <td>{{ $markdown_text->archivo }}</td>
+                    <td>
+                        <a href="https://gitlab.ikasgela.{{ config('app.debug') ? 'test' : 'com' }}/{{ $markdown_text->repositorio }}/blob/{{ isset($markdown_text->rama) ? $markdown_text->rama : 'master' }}/{{ $markdown_text->archivo }}">{{ $markdown_text->archivo }}</a>
+                    </td>
                     <td class="text-nowrap">
                         {!! Form::open(['route' => ['markdown_texts.destroy', $markdown_text->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>
