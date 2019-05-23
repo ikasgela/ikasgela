@@ -3,6 +3,7 @@
 use App\Curso;
 use App\Qualification;
 use App\Skill;
+use App\Unidad;
 use Illuminate\Database\Seeder;
 
 class QualificationsTableSeeder extends Seeder
@@ -42,5 +43,17 @@ class QualificationsTableSeeder extends Seeder
         $curso = Curso::find(1);
         $curso->qualification()->associate($cualificacion);
         $curso->save();
+
+        $cualificacion = factory(Qualification::class)->create([
+            'name' => 'Unidad 2 - Diseño de algoritmos',
+            'description' => 'Cualificación para una unidad didáctica.',
+            'template' => true,
+        ]);
+
+        $cualificacion->skills()->attach($ce1, ['percentage' => 100]);
+
+        $unidad = Unidad::find(2);
+        $unidad->qualification()->associate($cualificacion);
+        $unidad->save();
     }
 }

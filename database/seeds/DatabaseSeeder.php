@@ -30,6 +30,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RegistrosTableSeeder::class);
 
         $this->call(QualificationsTableSeeder::class);
-        $this->call(SkillsTableSeeder::class);
+        //$this->call(SkillsTableSeeder::class);
     }
 }
