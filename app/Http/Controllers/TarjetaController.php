@@ -11,16 +11,18 @@ class TarjetaController extends Controller
     {
         try {
             $username = Auth::user()->username;
-            $proyecto = GitLab::projects()->show($username . '/prog-2019-ud6-colecciones-ejercicio-11');
-            $readme = GitLab::repositoryfiles()->getRawFile($proyecto['id'], "README.md", 'master');
-            $readme = preg_replace('/(!\[.*\]\()/', '${1}' . 'http://gitlab.ikasgela.test:8989/'
+            $ruta = '/apuntes';
+            $proyecto = GitLab::projects()->show($username . $ruta);
+//            $readme = GitLab::repositoryfiles()->getRawFile($proyecto['id'], "/README.md", 'master');
+            $readme = GitLab::repositoryfiles()->getRawFile($proyecto['id'], "/subcarpeta/prueba.md", 'master');
+            $readme = preg_replace('/(!\[.*\]\((?!http))/', '${1}' . 'http://gitlab.ikasgela.test/'
                 . $username
-                . '/prog-2019-ud6-colecciones-ejercicio-11'
+                . $ruta
                 . '/raw/master/'
                 , $readme);
-            $readme = preg_replace('/(\s+\[.*\]\()/', '${1}' . 'http://gitlab.ikasgela.test:8989/'
+            $readme = preg_replace('/(\s+\[.*\]\((?!http))/', '${1}' . 'http://gitlab.ikasgela.test/'
                 . $username
-                . '/prog-2019-ud6-colecciones-ejercicio-11'
+                . $ruta
                 . '/blob/master/'
                 , $readme);
         } catch (\Exception $e) {
