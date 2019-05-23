@@ -27,8 +27,8 @@ class AddQualificationToUnidades extends Migration
     public function down()
     {
         Schema::table('unidades', function (Blueprint $table) {
-            $table->dropForeign('actividades_qualification_id_foreign');
-            $table->dropIndex('actividades_qualification_id_index');
+            $table->dropForeign('unidades_qualification_id_foreign');
+            $table->dropIndex('unidades_qualification_id_index');
             $table->dropColumn('qualification_id');
         });
     }
