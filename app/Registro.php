@@ -14,7 +14,7 @@ class Registro extends Model
 
     public function tarea()
     {
-        return $this->belongsTo(Tarea::class);
+        return $this->belongsTo(Tarea::class)->withTrashed();
     }
 
     public function user()

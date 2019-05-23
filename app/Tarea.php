@@ -3,11 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Tarea extends Pivot
 {
     use LogsActivity;
+    use SoftDeletes;
 
     protected $table = 'tareas';
 
@@ -23,7 +25,7 @@ class Tarea extends Pivot
 
     public function actividad()
     {
-        return $this->belongsTo('App\Actividad');
+        return $this->belongsTo('App\Actividad')->withTrashed();
     }
 
     public function user()

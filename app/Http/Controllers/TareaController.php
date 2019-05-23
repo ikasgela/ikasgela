@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
+use App\Registro;
 use App\Unidad;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\User;
@@ -34,6 +36,13 @@ class TareaController extends Controller
 
     public function destroy(User $user, Tarea $tarea)
     {
+        $registro = new Registro();
+        $registro->user_id = $tarea->user->id;
+        $registro->tarea_id = $tarea->id;
+        $registro->timestamp = Carbon::now();
+        $registro->estado = 61;
+        $registro->save();
+
         $tarea->actividad->delete();
 
         $tarea->delete();

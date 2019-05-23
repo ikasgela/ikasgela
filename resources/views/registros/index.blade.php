@@ -13,7 +13,7 @@
                 <th>{{ __('Task') }}</th>
                 <th colspan="2">{{ __('Status') }}</th>
                 <th>{{ __('Timestamp') }}</th>
-                <th>{{ __('Actions') }}</th>
+                {{--                <th>{{ __('Actions') }}</th>--}}
             </tr>
             </thead>
             <tbody>
@@ -55,17 +55,22 @@
                             @case(60)   {{-- Archivada --}}
                             Archivada
                             @break
+                            @case(61)   {{-- Borrada --}}
+                            Borrada
+                            @break
                             @default
                         @endswitch
                     </td>
                     <td>{{ Carbon\Carbon::parse($registro->timestamp)->isoFormat('L HH:mm:ss') }}</td>
-                    <td>
-                        {!! Form::open(['route' => ['registros.destroy', $registro->id], 'method' => 'DELETE']) !!}
-                        <div class='btn-group'>
-                            @include('partials.boton_borrar')
-                        </div>
-                        {!! Form::close() !!}
-                    </td>
+                    {{--
+                                        <td>
+                                            {!! Form::open(['route' => ['registros.destroy', $registro->id], 'method' => 'DELETE']) !!}
+                                            <div class='btn-group'>
+                                                @include('partials.boton_borrar')
+                                            </div>
+                                            {!! Form::close() !!}
+                                        </td>
+                    --}}
                 </tr>
             @endforeach
             </tbody>
