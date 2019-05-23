@@ -3,83 +3,69 @@
 namespace App\Http\Controllers;
 
 use App\MarkdownText;
+use BadMethodCallException;
 use Illuminate\Http\Request;
 
 class MarkdownTextController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:profesor');
+    }
+
     public function index()
     {
-        //
+        $markdown_texts = MarkdownText::all();
+
+        return view('markdown_texts.index', compact('markdown_texts'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('markdown_texts.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'titulo' => 'required',
+            'repositorio' => 'required',
+            'archivo' => 'required',
+        ]);
+
+        MarkdownText::create($request->all());
+
+        return redirect(route('markdown_texts.index'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\MarkdownText  $markdownText
-     * @return \Illuminate\Http\Response
-     */
-    public function show(MarkdownText $markdownText)
+    public function show(MarkdownText $markdown_text)
     {
-        //
+        throw new BadMethodCallException(__('Not implemented.'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\MarkdownText  $markdownText
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(MarkdownText $markdownText)
+    public function edit(MarkdownText $markdown_text)
     {
-        //
+        return view('markdown_texts.edit', compact('markdown_text'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\MarkdownText  $markdownText
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, MarkdownText $markdownText)
+    public function update(Request $request, MarkdownText $markdown_text)
     {
-        //
+        $this->validate($request, [
+            'titulo' => 'required',
+            'repositorio' => 'required',
+            'archivo' => 'required',
+        ]);
+
+        $markdown_text->update($request->all());
+
+        return redirect(route('markdown_texts.index'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\MarkdownText  $markdownText
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(MarkdownText $markdownText)
+    public function destroy(MarkdownText $markdown_text)
     {
-        //
+        $markdown_text->delete();
+
+        return redirect(route('markdown_texts.index'));
     }
 }

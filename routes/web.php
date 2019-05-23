@@ -129,6 +129,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/intellij_projects/{actividad}/desasociar/{intellij_project}', 'IntellijProjectController@desasociar')
             ->name('intellij_projects.desasociar');
 
+        // MarkdownText
+        Route::resource('markdown_texts', 'MarkdownTextController');
     });
 
     // Administrador
