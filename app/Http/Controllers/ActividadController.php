@@ -247,7 +247,7 @@ class ActividadController extends Controller
                     // Registrar la nueva tarea
                     $nueva_tarea = Tarea::where('user_id', $usuario->id)->where('actividad_id', $actividad->siguiente->id)->first();
 
-                    Registro::create([
+                    $registro_nueva_tarea = Registro::make([
                         'user_id' => $usuario->id,
                         'tarea_id' => $nueva_tarea->id,
                         'estado' => !$actividad->final ? 10 : 11,
@@ -261,6 +261,9 @@ class ActividadController extends Controller
         $tarea->save();
 
         $registro->save();
+
+        if (isset($registro_nueva_tarea))
+            $registro_nueva_tarea->save();
 
         if (Auth::user()->hasRole('alumno')) {
             return redirect(route('users.home'));

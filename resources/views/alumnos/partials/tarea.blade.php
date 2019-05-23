@@ -72,14 +72,16 @@
                                     </button>
                                 </div>
                             @endif
-                            @if(config('app.debug'))
-                                <button type="submit" name="nuevoestado" value="40"
-                                        class="btn btn-success"> {{ __('Ok') }}
-                                </button>
-                                <button type="submit" name="nuevoestado" value="41"
-                                        class="btn btn-danger"> {{ __('Error') }}
-                                </button>
-                            @endif
+                            {{--
+                                                        @if(config('app.debug'))
+                                                            <button type="submit" name="nuevoestado" value="40"
+                                                                    class="btn btn-success"> {{ __('Ok') }}
+                                                            </button>
+                                                            <button type="submit" name="nuevoestado" value="41"
+                                                                    class="btn btn-danger"> {{ __('Error') }}
+                                                            </button>
+                                                        @endif
+                            --}}
                             @break
                             @case(40)   {{-- Revisada: OK --}}
                             @case(42)   {{-- Avance automático --}}
