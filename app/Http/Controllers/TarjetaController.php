@@ -10,21 +10,31 @@ class TarjetaController extends Controller
     public function texto_markdown()
     {
         try {
+
             $username = Auth::user()->username;
-            $ruta = '/apuntes';
-            $proyecto = GitLab::projects()->show($username . $ruta);
-//            $readme = GitLab::repositoryfiles()->getRawFile($proyecto['id'], "/README.md", 'master');
-            $readme = GitLab::repositoryfiles()->getRawFile($proyecto['id'], "/subcarpeta/prueba.md", 'master');
-            $readme = preg_replace('/(!\[.*\]\((?!http))/', '${1}' . 'http://gitlab.ikasgela.test/'
+            $repositorio = '/apuntes';
+            $rama = 'master';
+            $archivo = '/subcarpeta/prueba.md';
+            $servidor = 'http://gitlab.ikasgela.test/';
+
+            $proyecto = GitLab::projects()->show($username . $repositorio);
+
+            $readme = GitLab::repositoryfiles()->getRawFile($proyecto['id'], $archivo, $rama);
+
+            // Imagen
+            $readme = preg_replace('/(!\[.*\]\((?!http))/', '${1}' . $servidor
                 . $username
-                . $ruta
-                . '/raw/master/'
+                . $repositorio
+                . "/raw/$rama//"
                 , $readme);
-            $readme = preg_replace('/(\s+\[.*\]\((?!http))/', '${1}' . 'http://gitlab.ikasgela.test/'
+
+            // Link
+            $readme = preg_replace('/(\s+\[.*\]\((?!http))/', '${1}' . $servidor
                 . $username
-                . $ruta
-                . '/blob/master/'
+                . $repositorio
+                . "/blob/$rama//"
                 , $readme);
+
         } catch (\Exception $e) {
             $readme = "# Error\n\nRepositorio inexistente.";
         }
