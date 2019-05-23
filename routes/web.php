@@ -131,6 +131,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // MarkdownText
         Route::resource('markdown_texts', 'MarkdownTextController');
+        Route::get('/markdown_texts/{actividad}/actividad', 'MarkdownTextController@actividad')
+            ->name('markdown_texts.actividad');
+        Route::post('/markdown_texts/{actividad}/asociar', 'MarkdownTextController@asociar')
+            ->name('markdown_texts.asociar');
+        Route::delete('/markdown_texts/{actividad}/desasociar/{markdown_text}', 'MarkdownTextController@desasociar')
+            ->name('markdown_texts.desasociar');
     });
 
     // Administrador
