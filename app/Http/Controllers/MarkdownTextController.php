@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\MarkdownText;
-use BadMethodCallException;
+use GitLab;
 use Illuminate\Http\Request;
 
 class MarkdownTextController extends Controller
@@ -41,7 +41,33 @@ class MarkdownTextController extends Controller
 
     public function show(MarkdownText $markdown_text)
     {
-        throw new BadMethodCallException(__('Not implemented.'));
+        try {
+            $repositorio = $markdown_text->repositorio;
+            $rama = isset($markdown_text->rama) ? $markdown_text->rama : 'master';
+            $archivo = $markdown_text->archivo;
+            $servidor = config('app.debug') ? 'https://gitlab.ikasgela.test/' : 'https://gitlab.ikasgela.com/';
+
+            $proyecto = GitLab::projects()->show($repositorio);
+
+            $texto = GitLab::repositoryfiles()->getRawFile($proyecto['id'], $archivo, $rama);
+
+            // Imagen
+            $texto = preg_replace('/(!\[.*\]\((?!http))/', '${1}' . $servidor
+                . $repositorio
+                . "/raw/$rama//"
+                , $texto);
+
+            // Link
+            $texto = preg_replace('/(\s+\[.*\]\((?!http))/', '${1}' . $servidor
+                . $repositorio
+                . "/blob/$rama//"
+                , $texto);
+
+        } catch (\Exception $e) {
+            $texto = "# " . __('Error') . "\n\n" . __('Repository not found.');
+        }
+
+        return view('markdown_texts.show', compact(['markdown_text', 'texto']));
     }
 
     public function edit(MarkdownText $markdown_text)

@@ -163,7 +163,7 @@ class MarkdownTextsTest extends TestCase
         $response = $this->get(route('markdown_texts.show', ['id' => $markdown_text->id]));
 
         // Then
-        $response->assertSee(__('Not implemented.'));
+        $response->assertSeeInOrder([__('Markdown text'), $markdown_text->titulo]);
     }
 
     public function testNotProfesorNotShow()
