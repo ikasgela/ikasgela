@@ -73,4 +73,11 @@ class Actividad extends Model
     {
         return $this->belongsTo(Qualification::class);
     }
+
+    public function markdown_texts()
+    {
+        return $this
+            ->belongsToMany(MarkdownText::class)
+            ->withTimestamps();
+    }
 }
