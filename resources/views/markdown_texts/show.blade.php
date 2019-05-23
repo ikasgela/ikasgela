@@ -18,4 +18,7 @@
 
         </div>
     </div>
+
+    @include('partials.backbutton')
+
 @endsection
