@@ -17,6 +17,7 @@
                 <tr>
                     <th>{{ __('Unit') }}</th>
                     <th>{{ __('Name') }}</th>
+                    <th>{{ __('Score') }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -24,6 +25,7 @@
                     <tr class="table-row" data-href="{{ route('archivo.show', $actividad->id) }}">
                         <td class="align-middle">{{ $actividad->unidad->nombre }}</td>
                         <td class="align-middle">{{ $actividad->nombre }}</td>
+                        <td>{{ $actividad->tarea->puntuacion + 0 }}/{{ $actividad->puntuacion + 0 }}</td>
                     </tr>
                 @endforeach
                 </tbody>
