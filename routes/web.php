@@ -137,6 +137,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('markdown_texts.asociar');
         Route::delete('/markdown_texts/{actividad}/desasociar/{markdown_text}', 'MarkdownTextController@desasociar')
             ->name('markdown_texts.desasociar');
+
+        // Cuestionario
+        Route::resource('cuestionarios', 'CuestionarioController');
+        Route::get('/cuestionarios/{actividad}/actividad', 'CuestionarioController@actividad')
+            ->name('cuestionarios.actividad');
+        Route::post('/cuestionarios/{actividad}/asociar', 'CuestionarioController@asociar')
+            ->name('cuestionarios.asociar');
+        Route::delete('/cuestionarios/{actividad}/desasociar/{cuestionario}', 'CuestionarioController@desasociar')
+            ->name('cuestionarios.desasociar');
+        Route::resource('preguntas', 'PreguntaController');
+        Route::resource('items', 'ItemController');
     });
 
     // Administrador
