@@ -17,7 +17,7 @@ class CreateItemsTable extends Migration
             $table->bigIncrements('id');
 
             $table->string('texto');
-            $table->boolean('correcto')->nullable()->default('false');
+            $table->boolean('correcto')->nullable()->default(false);
             $table->string('feedback_ok')->nullable();
             $table->string('feedback_error')->nullable();
             $table->integer('orden')->nullable();
