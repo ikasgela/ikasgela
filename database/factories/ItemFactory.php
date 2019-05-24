@@ -2,7 +2,6 @@
 
 /* @var $factory \Illuminate\Database\Eloquent\Factory */
 
-use App\Cuestionario;
 use App\Item;
 use App\Pregunta;
 use Faker\Generator as Faker;

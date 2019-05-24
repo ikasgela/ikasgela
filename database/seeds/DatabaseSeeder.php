@@ -33,5 +33,9 @@ class DatabaseSeeder extends Seeder
         //$this->call(SkillsTableSeeder::class);
 
         $this->call(MarkdownTextsTableSeeder::class);
+
+        $this->call(CuestionariosTableSeeder::class);
+        $this->call(PreguntasTableSeeder::class);
+        $this->call(ItemsTableSeeder::class);
     }
 }

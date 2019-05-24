@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Item extends Model
 {
     protected $fillable = [
-        'texto', 'correcto', 'feedback_ok', 'feedback_error', 'orden'
+        'texto', 'correcto', 'seleccionado', 'feedback', 'orden'
     ];
 
     public function pregunta()

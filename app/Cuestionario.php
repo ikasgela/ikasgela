@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Cuestionario extends Model
 {
     protected $fillable = [
-        'titulo', 'descripcion'
+        'titulo', 'descripcion', 'plantilla'
     ];
 
     public function actividades()
