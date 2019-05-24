@@ -6,16 +6,7 @@
 
     <div class="row">
         <div class="col-md-6">
-
-            {{-- Tarjeta --}}
-            <div class="card">
-                <div class="card-header">{{ $markdown_text->titulo }}</div>
-                <div class="card-body">
-                    @markdown($texto)
-                </div>
-            </div>
-            {{-- Fin tarjeta--}}
-
+            @include('markdown_texts.tarjeta')
         </div>
     </div>
 

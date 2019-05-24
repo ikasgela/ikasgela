@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Actividad;
 use App\MarkdownText;
-use GitLab;
 use Illuminate\Http\Request;
 
 class MarkdownTextController extends Controller
@@ -41,32 +41,7 @@ class MarkdownTextController extends Controller
 
     public function show(MarkdownText $markdown_text)
     {
-        try {
-            $repositorio = $markdown_text->repositorio;
-            $rama = isset($markdown_text->rama) ? $markdown_text->rama : 'master';
-            $archivo = $markdown_text->archivo;
-            $servidor = config('app.debug') ? 'https://gitlab.ikasgela.test/' : 'https://gitlab.ikasgela.com/';
-
-            $proyecto = GitLab::projects()->show($repositorio);
-
-            $texto = GitLab::repositoryfiles()->getRawFile($proyecto['id'], $archivo, $rama);
-
-            // Imagen
-            $texto = preg_replace('/(!\[.*\]\((?!http))/', '${1}' . $servidor
-                . $repositorio
-                . "/raw/$rama//"
-                , $texto);
-
-            // Link
-            $texto = preg_replace('/(\s+\[.*\]\((?!http))/', '${1}' . $servidor
-                . $repositorio
-                . "/blob/$rama//"
-                , $texto);
-
-        } catch (\Exception $e) {
-            $texto = "# " . __('Error') . "\n\n" . __('Repository not found.');
-        }
-
+        $texto = $markdown_text->markdown();
         return view('markdown_texts.show', compact(['markdown_text', 'texto']));
     }
 
@@ -93,5 +68,35 @@ class MarkdownTextController extends Controller
         $markdown_text->delete();
 
         return redirect(route('markdown_texts.index'));
+    }
+
+    public function actividad(Actividad $actividad)
+    {
+        $markdown_texts = $actividad->markdown_texts()->get();
+
+        $subset = $markdown_texts->pluck('id')->unique()->flatten()->toArray();
+        $disponibles = MarkdownText::whereNotIn('id', $subset)->get();
+
+        return view('markdown_texts.actividad', compact(['markdown_texts', 'disponibles', 'actividad']));
+    }
+
+    public function asociar(Actividad $actividad, Request $request)
+    {
+        $this->validate($request, [
+            'seleccionadas' => 'required',
+        ]);
+
+        foreach (request('seleccionadas') as $recurso_id) {
+            $recurso = MarkdownText::find($recurso_id);
+            $actividad->markdown_texts()->attach($recurso);
+        }
+
+        return redirect(route('markdown_texts.actividad', ['actividad' => $actividad->id]));
+    }
+
+    public function desasociar(Actividad $actividad, MarkdownText $markdown_text)
+    {
+        $actividad->markdown_texts()->detach($markdown_text);
+        return redirect(route('markdown_texts.actividad', ['actividad' => $actividad->id]));
     }
 }
