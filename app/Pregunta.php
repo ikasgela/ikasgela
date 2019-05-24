@@ -2,10 +2,16 @@
 
 namespace App;
 
+use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Model;
 
 class Pregunta extends Model
 {
+    use Cloneable;
+
+    protected $cloneable_relations = ['items'];
+    protected $clone_exempt_attributes = ['plantilla'];
+
     protected $fillable = [
         'titulo', 'texto', 'multiple', 'imagen'
     ];
