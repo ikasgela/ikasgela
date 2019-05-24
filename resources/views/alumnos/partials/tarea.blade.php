@@ -213,17 +213,7 @@
         @case(20)   {{-- Aceptada --}}
         @case(21)   {{-- Feedback leído --}}
         @case(60)   {{-- Archivada --}}
-        @foreach($actividad->youtube_videos()->get() as $youtube_video)
-            <div class="col-md-6">
-                @include('tarjetas.youtube_video')
-            </div>
-        @endforeach
-        @foreach($actividad->intellij_projects()->get() as $intellij_project)
-            <div class="col-md-6">
-                @php($repositorio = $intellij_project->gitlab())
-                @include('tarjetas.intellij_project')
-            </div>
-        @endforeach
+        @include('partials.tarjetas_actividad')
         @break
         @default
     @endswitch

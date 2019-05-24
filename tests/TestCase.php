@@ -33,5 +33,9 @@ abstract class TestCase extends BaseTestCase
         $this->not_admin = factory(User::class)->create();
         $this->not_admin->roles()->attach($rol_alumno);
         $this->not_admin->roles()->attach($rol_profesor);
+
+        $this->not_profesor = factory(User::class)->create();
+        $this->not_profesor->roles()->attach($rol_alumno);
+        $this->not_profesor->roles()->attach($rol_admin);
     }
 }

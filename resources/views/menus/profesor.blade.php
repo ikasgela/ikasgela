@@ -43,6 +43,11 @@
     </a>
     <ul class="nav-dropdown-items">
         <li class="nav-item">
+            <a class="nav-link" href="{{ route('markdown_texts.index') }}">
+                <i class="fab fa-markdown"></i> {{ __('Markdown texts') }}
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="{{ route('youtube_videos.index') }}">
                 <i class="fab fa-youtube"></i> {{ __('YouTube videos') }}
             </a>

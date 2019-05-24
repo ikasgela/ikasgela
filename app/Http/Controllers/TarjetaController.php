@@ -10,19 +10,31 @@ class TarjetaController extends Controller
     public function texto_markdown()
     {
         try {
+
             $username = Auth::user()->username;
-            $proyecto = GitLab::projects()->show($username . '/prog-2019-ud6-colecciones-ejercicio-11');
-            $readme = GitLab::repositoryfiles()->getRawFile($proyecto['id'], "README.md", 'master');
-            $readme = preg_replace('/(!\[.*\]\()/', '${1}' . 'http://gitlab.ikasgela.test:8989/'
+            $repositorio = '/apuntes';
+            $rama = 'master';
+            $archivo = '/subcarpeta/prueba.md';
+            $servidor = 'http://gitlab.ikasgela.test/';
+
+            $proyecto = GitLab::projects()->show($username . $repositorio);
+
+            $readme = GitLab::repositoryfiles()->getRawFile($proyecto['id'], $archivo, $rama);
+
+            // Imagen
+            $readme = preg_replace('/(!\[.*\]\((?!http))/', '${1}' . $servidor
                 . $username
-                . '/prog-2019-ud6-colecciones-ejercicio-11'
-                . '/raw/master/'
+                . $repositorio
+                . "/raw/$rama//"
                 , $readme);
-            $readme = preg_replace('/(\s+\[.*\]\()/', '${1}' . 'http://gitlab.ikasgela.test:8989/'
+
+            // Link
+            $readme = preg_replace('/(\s+\[.*\]\((?!http))/', '${1}' . $servidor
                 . $username
-                . '/prog-2019-ud6-colecciones-ejercicio-11'
-                . '/blob/master/'
+                . $repositorio
+                . "/blob/$rama//"
                 , $readme);
+
         } catch (\Exception $e) {
             $readme = "# Error\n\nRepositorio inexistente.";
         }

@@ -32,5 +32,10 @@ class IntellijProjectsTableSeeder extends Seeder
         $proyecto->titulo = 'Reservas';
         $proyecto->repositorio = 'programacion/colecciones/reservas';
         $proyecto->save();
+
+        $proyecto = new IntellijProject();
+        $proyecto->titulo = 'Alternativa simple';
+        $proyecto->repositorio = 'programacion/diseno-de-algoritmos/alternativa-simple';
+        $proyecto->save();
     }
 }

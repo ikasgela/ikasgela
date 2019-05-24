@@ -87,5 +87,21 @@ class ActividadesTableSeeder extends Seeder
 
         $proyecto = IntellijProject::where('repositorio', 'programacion/colecciones/reservas')->first();
         $actividad->intellij_projects()->attach($proyecto);
+
+        // --- Diseño de algoritmos - Alternativa simple
+
+        $unidad = Unidad::where('nombre', 'Diseño de algoritmos')->first();
+
+        $nombre = 'Alternativa simple';
+        $actividad = new Actividad();
+        $actividad->nombre = $nombre;
+        $actividad->descripcion = 'Instrucción if-else.';
+        $actividad->puntuacion = 100;
+        $actividad->slug = Str::slug($nombre);
+        $actividad->plantilla = true;
+        $unidad->actividades()->save($actividad);
+
+        $proyecto = IntellijProject::where('repositorio', 'programacion/diseno-de-algoritmos/alternativa-simple')->first();
+        $actividad->intellij_projects()->attach($proyecto);
     }
 }
