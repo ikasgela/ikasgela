@@ -80,4 +80,11 @@ class Actividad extends Model
             ->belongsToMany(MarkdownText::class)
             ->withTimestamps();
     }
+
+    public function cuestionarios()
+    {
+        return $this
+            ->belongsToMany(Cuestionario::class)
+            ->withTimestamps();
+    }
 }
