@@ -57,5 +57,10 @@
                 <i class="fab fa-java"></i> {{ __('IntelliJ projects') }}
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('cuestionarios.index') }}">
+                <i class="fas fa-question-circle"></i> {{ __('Questionnaires') }}
+            </a>
+        </li>
     </ul>
 </li>

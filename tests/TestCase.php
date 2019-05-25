@@ -14,6 +14,7 @@ abstract class TestCase extends BaseTestCase
     protected $alumno;
     protected $profesor;
     protected $not_admin;
+    protected $not_profesor;
 
     public function crearUsuarios(): void
     {
