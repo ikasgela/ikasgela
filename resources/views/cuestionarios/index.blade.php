@@ -25,7 +25,7 @@
                     <td>{{ $cuestionario->id }}</td>
                     <td>{{ $cuestionario->titulo }}</td>
                     <td>{{ $cuestionario->descripcion }}</td>
-                    <td>{{ $cuestionario->plantilla }}</td>
+                    <td>{!! $cuestionario->plantilla ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
                     <td class="text-nowrap">
                         {!! Form::open(['route' => ['cuestionarios.destroy', $cuestionario->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>

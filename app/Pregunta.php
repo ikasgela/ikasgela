@@ -13,7 +13,7 @@ class Pregunta extends Model
     protected $clone_exempt_attributes = ['plantilla'];
 
     protected $fillable = [
-        'titulo', 'texto', 'multiple', 'imagen'
+        'titulo', 'texto', 'multiple', 'imagen', 'cuestionario_id'
     ];
 
     public function cuestionario()

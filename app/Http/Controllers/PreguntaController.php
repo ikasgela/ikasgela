@@ -2,84 +2,87 @@
 
 namespace App\Http\Controllers;
 
+use App\Cuestionario;
 use App\Pregunta;
+use BadMethodCallException;
 use Illuminate\Http\Request;
 
 class PreguntaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:profesor');
+    }
+
     public function index()
     {
-        //
+        $preguntas = Pregunta::all();
+
+        return view('preguntas.index', compact('preguntas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        $cuestionarios = Cuestionario::orderBy('titulo')->get();
+
+        return view('preguntas.create', compact('cuestionarios'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'titulo' => 'required',
+            'texto' => 'required',
+            'cuestionario_id' => 'required',
+        ]);
+
+        Pregunta::create([
+            'cuestionario_id' => $request->input('cuestionario_id'),
+            'titulo' => $request->input('titulo'),
+            'texto' => $request->input('texto'),
+            'multiple' => $request->has('multiple'),
+            'imagen' => $request->input('imagen'),
+        ]);
+
+        return redirect(route('preguntas.index'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Pregunta  $pregunta
-     * @return \Illuminate\Http\Response
-     */
     public function show(Pregunta $pregunta)
     {
-        //
+        throw new BadMethodCallException(__('Not implemented.'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Pregunta  $pregunta
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Pregunta $pregunta)
     {
-        //
+        $cuestionarios = Cuestionario::orderBy('titulo')->get();
+
+        return view('preguntas.edit', compact(['pregunta', 'cuestionarios']));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Pregunta  $pregunta
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Pregunta $pregunta)
     {
-        //
+        $this->validate($request, [
+            'titulo' => 'required',
+            'texto' => 'required',
+            'cuestionario_id' => 'required',
+        ]);
+
+        $pregunta->update([
+            'cuestionario_id' => $request->input('cuestionario_id'),
+            'titulo' => $request->input('titulo'),
+            'texto' => $request->input('texto'),
+            'multiple' => $request->has('multiple'),
+            'imagen' => $request->input('imagen'),
+        ]);
+
+        return redirect(route('preguntas.index'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Pregunta  $pregunta
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Pregunta $pregunta)
     {
-        //
+        $pregunta->delete();
+
+        return redirect(route('preguntas.index'));
     }
 }
