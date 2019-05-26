@@ -1,51 +1,45 @@
 <div class="card">
-    <div class="card-header"><i class="fas fa-question-circle"></i> {{ __('Questionnaire') }}</div>
+    <div class="card-header"><i class="fas fa-question-circle"></i> {{ $cuestionario->titulo }}</div>
+
+    @foreach($cuestionario->preguntas as $pregunta)
+        <div class="card-body">
+            <h5 class="card-title">{{ $pregunta->titulo }}</h5>
+            <p class="card-text">{{ $pregunta->texto }}</p>
+            <form>
+                <div class="form-group">
+                    @foreach($pregunta->items as $item)
+                        <div class="form-check">
+                            <input class="form-check-input {{
+                        $item->seleccionado && $item->correcto ? 'is-valid' : ''
+                        }}{{
+                        $item->seleccionado && !$item->correcto ? 'is-invalid' : ''
+                        }}" type="{{
+                        $pregunta->multiple ? 'checkbox' : 'radio'
+                        }}"
+                                   name="pregunta_{{ $pregunta->id }}" id="pregunta_{{ $pregunta->id }}"
+                                   value="item_{{ $item->id }}" {{
+                               $item->seleccionado ? 'checked' : ''
+                               }}{{
+                               $pregunta->respondida ? 'disabled' : ''
+                               }}>
+                            <label class="form-check-label" for="pregunta_{{ $pregunta->id }}">
+                                {{ $item->texto }}
+                            </label>
+                            <div class="{{
+                        $item->seleccionado && $item->correcto ? 'valid-feedback' : 'invalid-feedback'
+                        }}">
+                                {{ $item->feedback }}
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </form>
+        </div>
+        <hr class="my-0">
+    @endforeach
     <div class="card-body">
-        <h5 class="card-title">¿Correcto?</h5>
-        <p class="card-text">Un bucle while puede no ejecutarse
-            nunca.</p>
         <form>
-            <div class="form-group">
-                <div class="form-check">
-                    <input class="form-check-input is-valid" type="radio"
-                           name="exampleRadios" id="exampleRadios1"
-                           value="option1" disabled checked>
-                    <label class="form-check-label" for="exampleRadios1">
-                        Sí
-                    </label>
-                    <div class="valid-feedback">
-                        Correcto, es un bucle de 0 a N.
-                    </div>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input"
-                           type="radio"
-                           name="exampleRadios" id="exampleRadios1"
-                           value="option1" disabled>
-                    <label class="form-check-label" for="exampleRadios1">
-                        No
-                    </label>
-                    <div class="invalid-feedback">
-                        El bucle while es un bucle de 0 a N. La condición
-                        se evalua antes de entrar en el bucle y puede que
-                        nunca lleguen a ejecutarse las instrucciones del
-                        cuerpo del bucle si la primera vez se evalua a
-                        false.
-                    </div>
-                </div>
-            </div>
+            <button type="submit" class="btn btn-primary">{{ __('Answer') }}</button>
         </form>
-        <p class="card-text text-right">
-            <small class="text-muted">Respondida el 24/02/2019 a las 12:34
-                CET
-            </small>
-        </p>
-        <form>
-            <button type="submit" class="btn btn-secondary mb-2">Archivar
-            </button>
-        </form>
-    </div>
-    <div class="card-footer d-flex flex-row justify-content-between">
-        <div>10 puntos</div>
     </div>
 </div>
