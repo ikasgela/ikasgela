@@ -5,6 +5,11 @@
            class="btn btn-sm {{ $actividad->markdown_texts()->count() > 0 ? 'btn-primary' : 'btn-light' }}">
             <i class="fab fa-markdown"></i>
         </a>
+        <a title="{{ __('Question') }}"
+           href="{{ route('cuestionarios.actividad', [$actividad->id]) }}"
+           class="btn btn-sm {{ $actividad->cuestionarios()->count() > 0 ? 'btn-primary' : 'btn-light' }}">
+            <i class="fas fa-question-circle"></i>
+        </a>
         <a title="{{ __('YouTube video') }}"
            href="{{ route('youtube_videos.actividad', [$actividad->id]) }}"
            class="btn btn-sm {{ $actividad->youtube_videos()->count() > 0 ? 'btn-primary' : 'btn-light' }}">

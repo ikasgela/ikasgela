@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Actividad;
 use App\Cuestionario;
+use App\MarkdownText;
 use BadMethodCallException;
 use Illuminate\Http\Request;
 
@@ -71,5 +73,35 @@ class CuestionarioController extends Controller
         $cuestionario->delete();
 
         return redirect(route('cuestionarios.index'));
+    }
+
+    public function actividad(Actividad $actividad)
+    {
+        $cuestionarios = $actividad->cuestionarios()->get();
+
+        $subset = $cuestionarios->pluck('id')->unique()->flatten()->toArray();
+        $disponibles = Cuestionario::whereNotIn('id', $subset)->get();
+
+        return view('cuestionarios.actividad', compact(['cuestionarios', 'disponibles', 'actividad']));
+    }
+
+    public function asociar(Actividad $actividad, Request $request)
+    {
+        $this->validate($request, [
+            'seleccionadas' => 'required',
+        ]);
+
+        foreach (request('seleccionadas') as $recurso_id) {
+            $recurso = Cuestionario::find($recurso_id);
+            $actividad->cuestionarios()->attach($recurso);
+        }
+
+        return redirect(route('cuestionarios.actividad', ['actividad' => $actividad->id]));
+    }
+
+    public function desasociar(Actividad $actividad, Cuestionario $cuestionario)
+    {
+        $actividad->cuestionarios()->detach($cuestionario);
+        return redirect(route('cuestionarios.actividad', ['actividad' => $actividad->id]));
     }
 }
