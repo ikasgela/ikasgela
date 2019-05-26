@@ -10,16 +10,14 @@
                     @foreach($pregunta->items as $item)
                         <div class="form-check">
                             <input class="form-check-input {{
-                        $item->seleccionado && $item->correcto ? 'is-valid' : ''
-                        }}{{
-                        $item->seleccionado && !$item->correcto ? 'is-invalid' : ''
+                        $item->seleccionado ? $item->correcto ? 'is-valid' : 'is-invalid' : ''
                         }}" type="{{
                         $pregunta->multiple ? 'checkbox' : 'radio'
                         }}"
                                    name="pregunta_{{ $pregunta->id }}" id="pregunta_{{ $pregunta->id }}"
                                    value="item_{{ $item->id }}" {{
                                $item->seleccionado ? 'checked' : ''
-                               }}{{
+                               }} {{
                                $pregunta->respondida ? 'disabled' : ''
                                }}>
                             <label class="form-check-label" for="pregunta_{{ $pregunta->id }}">

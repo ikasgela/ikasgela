@@ -22,5 +22,12 @@ class PreguntasTableSeeder extends Seeder
             'texto' => 'Un bucle while puede no ejecutarse nunca.',
             'multiple' => false,
         ]);
+
+        factory(Pregunta::class)->create([
+            'cuestionario_id' => $cuestionario->id,
+            'titulo' => '¿Son lenguajes de programación?',
+            'texto' => 'Selecciona los nombres que corresponden a lenguajes de programación actuales.',
+            'multiple' => true,
+        ]);
     }
 }

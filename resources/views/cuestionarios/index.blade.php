@@ -29,6 +29,9 @@
                     <td class="text-nowrap">
                         {!! Form::open(['route' => ['cuestionarios.destroy', $cuestionario->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>
+                            <a title="{{ __('Show') }}"
+                               href="{{ route('cuestionarios.show', [$cuestionario->id]) }}"
+                               class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
                             <a title="{{ __('Edit') }}"
                                href="{{ route('cuestionarios.edit', [$cuestionario->id]) }}"
                                class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>

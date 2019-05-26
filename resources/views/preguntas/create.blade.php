@@ -23,6 +23,7 @@
             {{ Form::campoTexto('titulo', __('Title')) }}
             {{ Form::campoTexto('texto', __('Text')) }}
             {{ Form::campoCheck('multiple', __('Multiple')) }}
+            {{ Form::campoCheck('respondida', __('Answered')) }}
             {{ Form::campoTexto('imagen', __('Image')) }}
 
             @include('partials.guardar_cancelar')

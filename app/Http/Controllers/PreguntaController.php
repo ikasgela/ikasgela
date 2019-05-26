@@ -42,6 +42,7 @@ class PreguntaController extends Controller
             'titulo' => $request->input('titulo'),
             'texto' => $request->input('texto'),
             'multiple' => $request->has('multiple'),
+            'respondida' => $request->has('respondida'),
             'imagen' => $request->input('imagen'),
         ]);
 
@@ -73,6 +74,7 @@ class PreguntaController extends Controller
             'titulo' => $request->input('titulo'),
             'texto' => $request->input('texto'),
             'multiple' => $request->has('multiple'),
+            'respondida' => $request->has('respondida'),
             'imagen' => $request->input('imagen'),
         ]);
 

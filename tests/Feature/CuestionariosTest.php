@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Cuestionario;
+use App\MarkdownText;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -128,7 +129,7 @@ class CuestionariosTest extends TestCase
         $this->post(route('cuestionarios.store'), $cuestionario->toArray())
             ->assertSessionHasErrors('titulo');
     }
-
+    
     public function testShow()
     {
         // Given
@@ -139,7 +140,7 @@ class CuestionariosTest extends TestCase
         $response = $this->get(route('cuestionarios.show', ['id' => $cuestionario->id]));
 
         // Then
-        $response->assertSee(__('Not implemented.'));
+        $response->assertSeeInOrder([__('Questionnaire'), $cuestionario->titulo]);
     }
 
     public function testNotProfesorNotShow()

@@ -45,7 +45,7 @@ class CuestionarioController extends Controller
 
     public function show(Cuestionario $cuestionario)
     {
-        throw new BadMethodCallException(__('Not implemented.'));
+        return view('cuestionarios.show', compact(['cuestionario']));
     }
 
     public function edit(Cuestionario $cuestionario)
