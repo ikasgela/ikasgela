@@ -3,83 +3,86 @@
 namespace App\Http\Controllers;
 
 use App\Item;
+use App\Pregunta;
+use BadMethodCallException;
 use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:profesor');
+    }
+
     public function index()
     {
-        //
+        $items = Item::all();
+
+        return view('items.index', compact('items'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        $preguntas = Pregunta::orderBy('titulo')->get();
+
+        return view('items.create', compact('preguntas'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'texto' => 'required',
+            'pregunta_id' => 'required',
+        ]);
+
+        Item::create([
+            'pregunta_id' => $request->input('pregunta_id'),
+            'texto' => $request->input('texto'),
+            'correcto' => $request->has('correcto'),
+            'seleccionado' => $request->has('seleccionado'),
+            'feedback' => $request->input('feedback'),
+            'orden' => $request->input('orden'),
+        ]);
+
+        return redirect(route('items.index'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Item  $item
-     * @return \Illuminate\Http\Response
-     */
     public function show(Item $item)
     {
-        //
+        throw new BadMethodCallException(__('Not implemented.'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Item  $item
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Item $item)
     {
-        //
+        $preguntas = Pregunta::orderBy('titulo')->get();
+
+        return view('items.edit', compact(['item', 'preguntas']));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Item  $item
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Item $item)
     {
-        //
+        $this->validate($request, [
+            'texto' => 'required',
+            'pregunta_id' => 'required',
+        ]);
+
+        $item->update([
+            'pregunta_id' => $request->input('pregunta_id'),
+            'texto' => $request->input('texto'),
+            'correcto' => $request->has('correcto'),
+            'seleccionado' => $request->has('seleccionado'),
+            'feedback' => $request->input('feedback'),
+            'orden' => $request->input('orden'),
+        ]);
+
+        return redirect(route('items.index'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Item  $item
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Item $item)
     {
-        //
+        $item->delete();
+
+        return redirect(route('items.index'));
     }
 }

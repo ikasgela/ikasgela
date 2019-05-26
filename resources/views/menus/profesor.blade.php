@@ -67,5 +67,10 @@
                 <i class="fas fa-question-circle"></i> {{ __('Questions') }}
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('items.index') }}">
+                <i class="fas fa-question-circle"></i> {{ __('Items') }}
+            </a>
+        </li>
     </ul>
 </li>

@@ -12,7 +12,7 @@ class Item extends Model
     protected $clone_exempt_attributes = ['seleccionado'];
 
     protected $fillable = [
-        'texto', 'correcto', 'seleccionado', 'feedback', 'orden'
+        'texto', 'correcto', 'seleccionado', 'feedback', 'orden', 'pregunta_id'
     ];
 
     public function pregunta()
