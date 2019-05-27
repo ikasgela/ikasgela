@@ -18,6 +18,7 @@
                 <th>{{ __('Text') }}</th>
                 <th>{{ __('Multiple') }}</th>
                 <th>{{ __('Answered') }}</th>
+                <th>{{ __('Correct') }}</th>
                 <th>{{ __('Image') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
@@ -31,6 +32,7 @@
                     <td>{{ $pregunta->texto }}</td>
                     <td>{!! $pregunta->multiple ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
                     <td>{!! $pregunta->respondida ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                    <td>{!! $pregunta->correcta ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
                     <td>{{ $pregunta->imagen }}</td>
                     <td>
                         {!! Form::open(['route' => ['preguntas.destroy', $pregunta->id], 'method' => 'DELETE']) !!}

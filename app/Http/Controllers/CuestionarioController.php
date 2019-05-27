@@ -107,22 +107,31 @@ class CuestionarioController extends Controller
 
     public function respuesta(Request $request, Cuestionario $cuestionario)
     {
-        foreach ($request->input('preguntas') as $pregunta_id => $value) {
-            foreach ($value as $item_id) {
-                $pregunta = Pregunta::find($pregunta_id);
-                $item = Item::find($item_id);
+        $this->validate($request, [
+            'respuestas' => 'required',
+        ]);
 
-                if (!$pregunta->multiple) {
-                    foreach ($pregunta->items() as $temp) {
-                        $temp->seleccionado = false;
-                        $temp->save();
-                    }
+        foreach ($request->input('respuestas') as $pregunta_id => $values) {
+
+            $correcta = true;
+
+            $pregunta = Pregunta::find($pregunta_id);
+
+            foreach ($pregunta->items as $item) {
+
+                if (in_array($item->id, $values)) {
+                    if (!$item->correcto)
+                        $correcta = false;
+                    $item->seleccionado = true;
+                    $item->save();
+                } else {
+                    if ($item->correcto)
+                        $correcta = false;
                 }
-
-                $item->seleccionado = true;
-                $item->save();
             }
+
             $pregunta->respondida = true;
+            $pregunta->correcta = $correcta;
             $pregunta->save();
         }
 

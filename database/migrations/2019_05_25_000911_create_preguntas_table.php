@@ -20,6 +20,7 @@ class CreatePreguntasTable extends Migration
             $table->string('texto');
             $table->boolean('multiple')->nullable()->default(false);
             $table->boolean('respondida')->nullable()->default(false);
+            $table->boolean('correcta')->nullable()->default(false);
             $table->string('imagen')->nullable();
 
             $table->bigInteger('cuestionario_id')->unsigned()->index();

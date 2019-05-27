@@ -1,3 +1,9 @@
+<?php
+$total = $cuestionario->preguntas()->count();
+$correctas = $cuestionario->preguntas()->where('correcta', true)->count();
+$respondidas = $cuestionario->preguntas()->where('respondida', true)->count();
+?>
+
 <div class="card">
     <div class="card-header"><i class="fas fa-question-circle"></i> {{ $cuestionario->titulo }}</div>
 
@@ -23,13 +29,13 @@
                                 " type="{{
                         $pregunta->multiple ? 'checkbox' : 'radio'
                         }}"
-                               name="preguntas[{{ $pregunta->id }}][]" id="preguntas[{{ $pregunta->id }}]"
+                               name="respuestas[{{ $pregunta->id }}][]" id="respuestas[{{ $pregunta->id }}]"
                                value="{{ $item->id }}" {{
                                $item->seleccionado ? 'checked' : ''
                                }} {{
                                $pregunta->respondida ? 'disabled' : ''
                                }}>
-                        <label class="form-check-label" for="preguntas[{{ $pregunta->id }}]">
+                        <label class="form-check-label text-dark" for="respuestas[{{ $pregunta->id }}]">
                             {{ $item->texto }}
                         </label>
                         <div class="{{
@@ -41,12 +47,23 @@
                 @endforeach
             </div>
         </div>
-        <hr class="my-0">
+        @if(!$loop->last)
+            <hr class="my-0">
+        @endif
     @endforeach
-    <div class="card-body">
-        <button type="submit" class="btn btn-primary">{{ __('Answer') }}</button>
-    </div>
+    @if($respondidas > 0)
+        <div class="card-footer d-flex flex-row justify-content-between">
+            <span>{{ __('Right answers') }}: {{ $correctas }} {{ __('of') }} {{ $total }}</span>
+        </div>
+    @else
+        <hr class="my-0">
+        <div class="card-body">
+            <button type="submit" class="btn btn-primary">{{ __('Check answers') }}</button>
+        </div>
+    @endif
 
     {!! Form::close() !!}
 
 </div>
+
+@include('layouts.errors')
