@@ -43,6 +43,10 @@ class TareaController extends Controller
         $registro->estado = 61;
         $registro->save();
 
+        foreach ($tarea->actividad->cuestionarios as $cuestionario) {
+            $cuestionario->delete();
+        }
+
         $tarea->actividad->delete();
 
         $tarea->delete();

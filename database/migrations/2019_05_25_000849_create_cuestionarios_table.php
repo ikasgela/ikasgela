@@ -19,6 +19,7 @@ class CreateCuestionariosTable extends Migration
             $table->string('titulo');
             $table->string('descripcion')->nullable();
             $table->boolean('plantilla')->nullable()->default(false);
+            $table->boolean('respondido')->nullable()->default(false);
 
             $table->timestamps();
         });

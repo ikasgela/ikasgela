@@ -12,6 +12,7 @@
             {{ Form::campoTexto('titulo', __('Title')) }}
             {{ Form::campoTexto('descripcion', __('Description')) }}
             {{ Form::campoCheck('plantilla', __('Template')) }}
+            {{ Form::campoCheck('respondido', __('Answered')) }}
 
             @include('partials.guardar_cancelar')
 

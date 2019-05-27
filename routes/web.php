@@ -211,6 +211,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('registros.index');
         Route::post('/registros', 'RegistroController@store')
             ->name('registros.store');
+
+        // Responder a cuestionarios
+        Route::put('/cuestionarios/{cuestionario}/respuesta', 'CuestionarioController@respuesta')
+            ->name('cuestionarios.respuesta');
     });
 
     // Pruebas

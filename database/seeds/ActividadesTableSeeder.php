@@ -1,6 +1,7 @@
 <?php
 
 use App\Actividad;
+use App\Cuestionario;
 use App\IntellijProject;
 use App\Unidad;
 use App\YoutubeVideo;
@@ -101,7 +102,10 @@ class ActividadesTableSeeder extends Seeder
         $actividad->plantilla = true;
         $unidad->actividades()->save($actividad);
 
-        $proyecto = IntellijProject::where('repositorio', 'programacion/diseno-de-algoritmos/alternativa-simple')->first();
-        $actividad->intellij_projects()->attach($proyecto);
+        $cuestionario = Cuestionario::where('titulo', 'Cuestionario de ejemplo')->first();
+        $actividad->cuestionarios()->attach($cuestionario);
+
+        $video = YoutubeVideo::where('codigo', 'bvim4rsNHkQ')->first();
+        $actividad->youtube_videos()->attach($video);
     }
 }

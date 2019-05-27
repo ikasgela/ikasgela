@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actividad;
 use App\Cuestionario;
-use App\MarkdownText;
-use BadMethodCallException;
+use App\Pregunta;
 use Illuminate\Http\Request;
 
 class CuestionarioController extends Controller
@@ -13,7 +12,7 @@ class CuestionarioController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:profesor');
+        $this->middleware('role:profesor')->except(['respuesta']);
     }
 
     public function index()
@@ -38,6 +37,7 @@ class CuestionarioController extends Controller
             'titulo' => $request->input('titulo'),
             'descripcion' => $request->input('descripcion'),
             'plantilla' => $request->has('plantilla'),
+            'respondido' => $request->has('respondido'),
         ]);
 
         return redirect(route('cuestionarios.index'));
@@ -63,6 +63,7 @@ class CuestionarioController extends Controller
             'titulo' => $request->input('titulo'),
             'descripcion' => $request->input('descripcion'),
             'plantilla' => $request->has('plantilla'),
+            'respondido' => $request->has('respondido'),
         ]);
 
         return redirect(route('cuestionarios.index'));
@@ -80,7 +81,7 @@ class CuestionarioController extends Controller
         $cuestionarios = $actividad->cuestionarios()->get();
 
         $subset = $cuestionarios->pluck('id')->unique()->flatten()->toArray();
-        $disponibles = Cuestionario::whereNotIn('id', $subset)->get();
+        $disponibles = Cuestionario::where('plantilla', true)->whereNotIn('id', $subset)->get();
 
         return view('cuestionarios.actividad', compact(['cuestionarios', 'disponibles', 'actividad']));
     }
@@ -103,5 +104,41 @@ class CuestionarioController extends Controller
     {
         $actividad->cuestionarios()->detach($cuestionario);
         return redirect(route('cuestionarios.actividad', ['actividad' => $actividad->id]));
+    }
+
+    public function respuesta(Request $request, Cuestionario $cuestionario)
+    {
+        $this->validate($request, [
+            'respuestas' => 'required',
+        ]);
+
+        foreach ($request->input('respuestas') as $pregunta_id => $values) {
+
+            $correcta = true;
+
+            $pregunta = Pregunta::find($pregunta_id);
+
+            foreach ($pregunta->items as $item) {
+
+                if (in_array($item->id, $values)) {
+                    if (!$item->correcto)
+                        $correcta = false;
+                    $item->seleccionado = true;
+                    $item->save();
+                } else {
+                    if ($item->correcto)
+                        $correcta = false;
+                }
+            }
+
+            $pregunta->respondida = true;
+            $pregunta->correcta = $correcta;
+            $pregunta->save();
+        }
+
+        $cuestionario->respondido = true;
+        $cuestionario->save();
+
+        return redirect()->back();
     }
 }

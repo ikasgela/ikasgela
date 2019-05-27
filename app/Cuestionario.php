@@ -10,10 +10,10 @@ class Cuestionario extends Model
     use Cloneable;
 
     protected $cloneable_relations = ['preguntas'];
-    protected $clone_exempt_attributes = ['plantilla'];
+    protected $clone_exempt_attributes = ['plantilla', 'respondido'];
 
     protected $fillable = [
-        'titulo', 'descripcion', 'plantilla'
+        'titulo', 'descripcion', 'plantilla', 'respondido'
     ];
 
     public function actividades()
