@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Actividad;
 use App\Cuestionario;
-use App\MarkdownText;
-use BadMethodCallException;
+use App\Item;
+use App\Pregunta;
 use Illuminate\Http\Request;
 
 class CuestionarioController extends Controller
@@ -103,5 +103,29 @@ class CuestionarioController extends Controller
     {
         $actividad->cuestionarios()->detach($cuestionario);
         return redirect(route('cuestionarios.actividad', ['actividad' => $actividad->id]));
+    }
+
+    public function respuesta(Request $request, Cuestionario $cuestionario)
+    {
+        foreach ($request->input('preguntas') as $pregunta_id => $value) {
+            foreach ($value as $item_id) {
+                $pregunta = Pregunta::find($pregunta_id);
+                $item = Item::find($item_id);
+
+                if (!$pregunta->multiple) {
+                    foreach ($pregunta->items() as $temp) {
+                        $temp->seleccionado = false;
+                        $temp->save();
+                    }
+                }
+
+                $item->seleccionado = true;
+                $item->save();
+            }
+            $pregunta->respondida = true;
+            $pregunta->save();
+        }
+
+        return redirect()->back();
     }
 }

@@ -148,6 +148,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('cuestionarios.desasociar');
         Route::resource('preguntas', 'PreguntaController');
         Route::resource('items', 'ItemController');
+        Route::put('/cuestionarios/{cuestionario}/respuesta', 'CuestionarioController@respuesta')
+            ->name('cuestionarios.respuesta');
     });
 
     // Administrador
