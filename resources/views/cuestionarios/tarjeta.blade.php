@@ -2,6 +2,7 @@
 $total = $cuestionario->preguntas()->count();
 $correctas = $cuestionario->preguntas()->where('correcta', true)->count();
 $respondidas = $cuestionario->preguntas()->where('respondida', true)->count();
+$en_blanco = $total - $respondidas;
 ?>
 
 <div class="card">
@@ -33,7 +34,7 @@ $respondidas = $cuestionario->preguntas()->where('respondida', true)->count();
                                value="{{ $item->id }}" {{
                                $item->seleccionado ? 'checked' : ''
                                }} {{
-                               $pregunta->respondida ? 'disabled' : ''
+                               $cuestionario->respondido ? 'disabled' : ''
                                }}>
                         <label class="form-check-label text-dark" for="respuestas[{{ $pregunta->id }}]">
                             {{ $item->texto }}
@@ -51,9 +52,13 @@ $respondidas = $cuestionario->preguntas()->where('respondida', true)->count();
             <hr class="my-0">
         @endif
     @endforeach
-    @if($respondidas > 0)
+    @if($cuestionario->respondido)
         <div class="card-footer d-flex flex-row justify-content-between">
-            <span>{{ __('Right answers') }}: {{ $correctas }} {{ __('of') }} {{ $total }}</span>
+            <span>{{ __('Right answers') }}: {{ $correctas }} {{ __('of') }} {{ $total }}
+                @if($en_blanco > 0)
+                    ({{ $en_blanco }} {{ __('without answer') }})
+                @endif
+            </span>
         </div>
     @else
         <hr class="my-0">

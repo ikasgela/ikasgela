@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Actividad;
 use App\Cuestionario;
-use App\Item;
 use App\Pregunta;
 use Illuminate\Http\Request;
 
@@ -38,6 +37,7 @@ class CuestionarioController extends Controller
             'titulo' => $request->input('titulo'),
             'descripcion' => $request->input('descripcion'),
             'plantilla' => $request->has('plantilla'),
+            'respondido' => $request->has('respondido'),
         ]);
 
         return redirect(route('cuestionarios.index'));
@@ -63,6 +63,7 @@ class CuestionarioController extends Controller
             'titulo' => $request->input('titulo'),
             'descripcion' => $request->input('descripcion'),
             'plantilla' => $request->has('plantilla'),
+            'respondido' => $request->has('respondido'),
         ]);
 
         return redirect(route('cuestionarios.index'));
@@ -134,6 +135,9 @@ class CuestionarioController extends Controller
             $pregunta->correcta = $correcta;
             $pregunta->save();
         }
+
+        $cuestionario->respondido = true;
+        $cuestionario->save();
 
         return redirect()->back();
     }
