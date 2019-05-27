@@ -24,6 +24,10 @@ class DatabaseSeeder extends Seeder
 
         $this->call(YoutubeVideosTableSeeder::class);
         $this->call(IntellijProjectsTableSeeder::class);
+        $this->call(MarkdownTextsTableSeeder::class);
+        $this->call(CuestionariosTableSeeder::class);
+        $this->call(PreguntasTableSeeder::class);
+        $this->call(ItemsTableSeeder::class);
 
         $this->call(ActividadesTableSeeder::class);
         $this->call(TareasTableSeeder::class);
@@ -31,11 +35,5 @@ class DatabaseSeeder extends Seeder
 
         $this->call(QualificationsTableSeeder::class);
         //$this->call(SkillsTableSeeder::class);
-
-        $this->call(MarkdownTextsTableSeeder::class);
-
-        $this->call(CuestionariosTableSeeder::class);
-        $this->call(PreguntasTableSeeder::class);
-        $this->call(ItemsTableSeeder::class);
     }
 }
