@@ -34,4 +34,12 @@
 
         </div>
     </div>
+
+    @include('partials.subtitulo', ['subtitulo' => __('Items')])
+
+    @include('items.tabla')
+
+    <a class="btn btn-primary"
+       href="{{ route('items.anyadir', ['pregunta_id'=>$pregunta->id]) }}">{{ __('Add item') }}</a>
+
 @endsection

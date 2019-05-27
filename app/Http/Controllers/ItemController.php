@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Cuestionario;
 use App\Item;
 use App\Pregunta;
 use BadMethodCallException;
@@ -45,6 +46,12 @@ class ItemController extends Controller
             'orden' => $request->input('orden'),
         ]);
 
+        if (!is_null($request->input('accion'))) {
+            switch ($request->input('accion')) {
+                case 'items.anyadir':
+                    return redirect(route('preguntas.edit', ['pregunta_id' => $request->input('pregunta_id')]));
+            }
+        }
         return redirect(route('items.index'));
     }
 
@@ -84,5 +91,10 @@ class ItemController extends Controller
         $item->delete();
 
         return redirect(route('items.index'));
+    }
+
+    public function anyadir(Pregunta $pregunta)
+    {
+        return view('items.anyadir', compact('pregunta'));
     }
 }

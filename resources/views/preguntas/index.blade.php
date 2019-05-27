@@ -8,8 +8,6 @@
         <a class="btn btn-primary" href="{{ route('preguntas.create') }}">{{ __('New question') }}</a>
     </div>
 
-    @include('partials.subtitulo', ['subtitulo' => __('Questions')])
-
     @include('preguntas.tabla')
 
 @endsection

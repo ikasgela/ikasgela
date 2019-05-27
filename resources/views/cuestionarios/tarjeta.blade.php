@@ -36,7 +36,7 @@ $en_blanco = $total - $respondidas;
                                }} {{
                                $cuestionario->respondido ? 'disabled' : ''
                                }}>
-                        <label class="form-check-label text-dark" for="respuestas[{{ $pregunta->id }}]">
+                        <label class="form-check-label" for="respuestas[{{ $pregunta->id }}]">
                             {{ $item->texto }}
                         </label>
                         <div class="{{

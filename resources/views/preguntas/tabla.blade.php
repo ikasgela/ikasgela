@@ -3,7 +3,6 @@
         <thead class="thead-dark">
         <tr>
             <th>#</th>
-            <th>{{ __('Questionnaire') }}</th>
             <th>{{ __('Title') }}</th>
             <th>{{ __('Text') }}</th>
             <th>{{ __('Multiple') }}</th>
@@ -17,7 +16,6 @@
         @foreach($preguntas as $pregunta)
             <tr>
                 <td>{{ $pregunta->id }}</td>
-                <td>{{ $pregunta->cuestionario->titulo }}</td>
                 <td>{{ $pregunta->titulo }}</td>
                 <td>{{ $pregunta->texto }}</td>
                 <td>{!! $pregunta->multiple ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>

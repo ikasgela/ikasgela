@@ -65,7 +65,9 @@ class PreguntaController extends Controller
     {
         $cuestionarios = Cuestionario::orderBy('titulo')->get();
 
-        return view('preguntas.edit', compact(['pregunta', 'cuestionarios']));
+        $items = $pregunta->items;
+
+        return view('preguntas.edit', compact(['pregunta', 'cuestionarios', 'items']));
     }
 
     public function update(Request $request, Pregunta $pregunta)

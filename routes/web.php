@@ -150,6 +150,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/preguntas/{cuestionario}/anyadir', 'PreguntaController@anyadir')
             ->name('preguntas.anyadir');
         Route::resource('items', 'ItemController');
+        Route::get('/items/{pregunta}/anyadir', 'ItemController@anyadir')
+            ->name('items.anyadir');
     });
 
     // Administrador
