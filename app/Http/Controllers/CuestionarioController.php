@@ -12,7 +12,7 @@ class CuestionarioController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:profesor');
+        $this->middleware('role:profesor')->except(['respuesta']);
     }
 
     public function index()
