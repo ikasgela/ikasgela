@@ -16,8 +16,8 @@
                 <th>{{ __('Title') }}</th>
                 <th>{{ __('Description') }}</th>
                 <th>{{ __('Template') }}</th>
-                <th>{{ __('Actions') }}</th>
                 <th>{{ __('Answered') }}</th>
+                <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
             <tbody>

@@ -135,6 +135,7 @@ class ProfesorController extends Controller
 
             $clon = $actividad->duplicate();
             $clon->save();
+
             if (!is_null($actividad->qualification)) {
                 $cualificacion = $actividad->qualification->duplicate();
                 $cualificacion->name .= " - " . $actividad->nombre . ' (' . $actividad->id . ')';
@@ -144,6 +145,12 @@ class ProfesorController extends Controller
             $asignadas .= "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n\n";
 
             $user->actividades()->attach($clon);
+
+            foreach ($clon->cuestionarios as $cuestionario) {
+                $copia = $cuestionario->duplicate();
+                $clon->cuestionarios()->detach($cuestionario);
+                $clon->cuestionarios()->attach($copia);
+            }
 
             $tarea = Tarea::where('user_id', $user->id)->where('actividad_id', $clon->id)->first();
 

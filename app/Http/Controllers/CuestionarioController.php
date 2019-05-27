@@ -81,7 +81,7 @@ class CuestionarioController extends Controller
         $cuestionarios = $actividad->cuestionarios()->get();
 
         $subset = $cuestionarios->pluck('id')->unique()->flatten()->toArray();
-        $disponibles = Cuestionario::whereNotIn('id', $subset)->get();
+        $disponibles = Cuestionario::where('plantilla', true)->whereNotIn('id', $subset)->get();
 
         return view('cuestionarios.actividad', compact(['cuestionarios', 'disponibles', 'actividad']));
     }
