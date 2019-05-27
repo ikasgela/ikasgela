@@ -2,21 +2,20 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Edit question')])
+    @include('partials.titular', ['titular' => __('New question')])
 
     <div class="card">
         <div class="card-body">
 
-            {!! Form::model($pregunta, ['route' => ['preguntas.update', $pregunta->id], 'method' => 'PUT']) !!}
+            {!! Form::open(['route' => ['preguntas.store']]) !!}
+
+            <input type="hidden" name="accion" value="preguntas.anyadir"/>
 
             <div class="form-group row">
                 {!! Form::label('cuestionario_id', __('Questionnaire'), ['class' => 'col-sm-2 col-form-label']) !!}
                 <div class="col-sm-10">
-                    <select class="form-control" id="cuestionario_id" name="cuestionario_id">
-                        @foreach($cuestionarios as $cuestionario)
-                            <option value="{{ $cuestionario->id }}" <?php if ($pregunta->cuestionario_id == $cuestionario->id) echo 'selected'; ?>>{{ $cuestionario->titulo }}</option>
-                        @endforeach
-                    </select>
+                    <input type="hidden" name="cuestionario_id" value="{{ $cuestionario->id }}"/>
+                    <label class="col-form-label">{{ $cuestionario->titulo }}</label>
                 </div>
             </div>
 
@@ -34,12 +33,4 @@
 
         </div>
     </div>
-
-    @include('partials.subtitulo', ['subtitulo' => __('Items')])
-
-    @include('items.tabla')
-
-    <a class="btn btn-primary"
-       href="{{ route('items.anyadir', ['pregunta_id'=>$pregunta->id]) }}">{{ __('Add item') }}</a>
-
 @endsection

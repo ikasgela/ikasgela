@@ -47,6 +47,12 @@ class PreguntaController extends Controller
             'imagen' => $request->input('imagen'),
         ]);
 
+        if (!is_null($request->input('accion'))) {
+            switch ($request->input('accion')) {
+                case 'preguntas.anyadir':
+                    return redirect(route('cuestionarios.edit', ['cuestionario_id' => $request->input('cuestionario_id')]));
+            }
+        }
         return redirect(route('preguntas.index'));
     }
 
@@ -59,7 +65,9 @@ class PreguntaController extends Controller
     {
         $cuestionarios = Cuestionario::orderBy('titulo')->get();
 
-        return view('preguntas.edit', compact(['pregunta', 'cuestionarios']));
+        $items = $pregunta->items;
+
+        return view('preguntas.edit', compact(['pregunta', 'cuestionarios', 'items']));
     }
 
     public function update(Request $request, Pregunta $pregunta)
@@ -87,6 +95,11 @@ class PreguntaController extends Controller
     {
         $pregunta->delete();
 
-        return redirect(route('preguntas.index'));
+        return redirect()->back();
+    }
+
+    public function anyadir(Cuestionario $cuestionario)
+    {
+        return view('preguntas.anyadir', compact('cuestionario'));
     }
 }

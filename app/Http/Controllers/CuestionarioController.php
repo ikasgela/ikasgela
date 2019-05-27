@@ -50,7 +50,8 @@ class CuestionarioController extends Controller
 
     public function edit(Cuestionario $cuestionario)
     {
-        return view('cuestionarios.edit', compact('cuestionario'));
+        $preguntas = $cuestionario->preguntas;
+        return view('cuestionarios.edit', compact(['cuestionario', 'preguntas']));
     }
 
     public function update(Request $request, Cuestionario $cuestionario)
