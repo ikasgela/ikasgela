@@ -147,6 +147,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/cuestionarios/{actividad}/desasociar/{cuestionario}', 'CuestionarioController@desasociar')
             ->name('cuestionarios.desasociar');
         Route::resource('preguntas', 'PreguntaController');
+        Route::get('/preguntas/{cuestionario}/anyadir', 'PreguntaController@anyadir')
+            ->name('preguntas.anyadir');
         Route::resource('items', 'ItemController');
     });
 

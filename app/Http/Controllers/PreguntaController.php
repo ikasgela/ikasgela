@@ -47,6 +47,12 @@ class PreguntaController extends Controller
             'imagen' => $request->input('imagen'),
         ]);
 
+        if (!is_null($request->input('accion'))) {
+            switch ($request->input('accion')) {
+                case 'preguntas.anyadir':
+                    return redirect(route('cuestionarios.edit', ['cuestionario_id' => $request->input('cuestionario_id')]));
+            }
+        }
         return redirect(route('preguntas.index'));
     }
 
@@ -87,6 +93,11 @@ class PreguntaController extends Controller
     {
         $pregunta->delete();
 
-        return redirect(route('preguntas.index'));
+        return redirect()->back();
+    }
+
+    public function anyadir(Cuestionario $cuestionario)
+    {
+        return view('preguntas.anyadir', compact('cuestionario'));
     }
 }
