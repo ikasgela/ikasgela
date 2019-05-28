@@ -31,4 +31,9 @@ class Curso extends Model
     {
         return $this->belongsTo(Qualification::class);
     }
+
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class);
+    }
 }
