@@ -37,12 +37,31 @@
                                 class="btn btn-primary"> {{ __('Finished') }}
                         </button>
                     </div>
-                    <i class="fas fa-bullhorn mt-3"></i>
-                    <label class="m-0" for="feedback">{{ __('Feedback') }}</label>
-                    <textarea class="form-control"
-                              id="feedback"
-                              name="feedback"
-                              rows="10">{{ !is_null($tarea->feedback) ? $tarea->feedback : 'Buen trabajo, sigue así.' }}</textarea>
+                    <div class="mt-2">
+                        <i class="fas fa-bullhorn mt-3"></i>
+                        <label class="m-0" for="feedback">{{ __('Feedback') }}</label>
+                    </div>
+                    <div class="border rounded p-3">
+                        <div class="form-group d-flex flex-row justify-content-between">
+                            {!! Form::label('unidad', __('Message'), ['class' => 'col-form-label']) !!}
+                            <div class="flex-fill mx-3">
+                                <select class="form-control" id="feedback_id" name="feedback_id">
+                                    {{--                                <option value="">{{ __('--- None ---') }}</option>--}}
+                                    @foreach($feedbacks as $feedback)
+                                        <option value="{{ $feedback->id }}" {{ session('profesor_feedback_actual') == $feedback->id ? 'selected' : '' }}>{{ $feedback->mensaje }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div>
+                                <button type="button" id="boton_feedback"
+                                        class="btn btn-primary">{{ __('Add') }}</button>
+                            </div>
+                        </div>
+                        <textarea class="form-control"
+                                  id="feedback"
+                                  name="feedback"
+                                  rows="10">{{ !is_null($tarea->feedback) ? $tarea->feedback : '' }}</textarea>
+                    </div>
                 </div>
             </form>
             {{-- Fin tarjeta--}}

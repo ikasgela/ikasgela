@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
+use App\Feedback;
 use App\Mail\ActividadAsignada;
 use App\Registro;
 use App\Tarea;
@@ -105,8 +106,9 @@ class ProfesorController extends Controller
     public function revisar(User $user, Tarea $tarea)
     {
         $actividad = $tarea->actividad;
+        $feedbacks = Feedback::orderBy('mensaje')->get();
 
-        return view('profesor.revisar', compact(['user', 'tarea', 'actividad']));
+        return view('profesor.revisar', compact(['user', 'tarea', 'actividad', 'feedbacks']));
     }
 
     private function recuento_enviadas(): void

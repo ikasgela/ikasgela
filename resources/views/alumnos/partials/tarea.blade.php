@@ -199,7 +199,7 @@
                         <i class="fas fa-bullhorn"></i></i> {{ __('Feedback') }}
                     </div>
                     <div class="card-body pb-0">
-                        <p>{{ $actividad->tarea->feedback }}</p>
+                        <div>{!! $actividad->tarea->feedback !!}</div>
                         <hr class="mt-0 mb-2">
                         <p class="text-muted small">
                             {{ __('Score') }}: {{ $actividad->tarea->puntuacion + 0 }}/{{ $actividad->puntuacion + 0 }}

@@ -53348,6 +53348,17 @@ $(document).ready(function ($) {
       $(this).attr('selected', true);
     });
   });
+  $('#boton_feedback').click(function () {
+    var extra = '';
+
+    if (tinyMCE.activeEditor.getContent().length > 0) {
+      extra = '\n';
+    }
+
+    var texto = tinyMCE.activeEditor.getContent();
+    extra = extra + $('#feedback_id option:selected').text();
+    tinyMCE.activeEditor.setContent(texto + extra);
+  });
 });
 
 /***/ }),

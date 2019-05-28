@@ -78,5 +78,10 @@
                 {{ __('Skills') }}
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('feedbacks.index') }}">
+                {{ __('Feedback') }}
+            </a>
+        </li>
     </ul>
 </li>
