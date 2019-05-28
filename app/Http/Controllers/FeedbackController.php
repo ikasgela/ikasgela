@@ -2,84 +2,73 @@
 
 namespace App\Http\Controllers;
 
+use App\Curso;
 use App\Feedback;
+use BadMethodCallException;
 use Illuminate\Http\Request;
 
 class FeedbackController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:admin');
+    }
+
     public function index()
     {
-        //
+        $feedbacks = Feedback::all();
+
+        return view('feedbacks.index', compact('feedbacks'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        $cursos = Curso::orderBy('nombre')->get();
+
+        return view('feedbacks.create', compact('cursos'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'curso_id' => 'required',
+            'mensaje' => 'required',
+        ]);
+
+        Feedback::create($request->all());
+
+        return redirect(route('feedbacks.index'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Feedback  $feedback
-     * @return \Illuminate\Http\Response
-     */
     public function show(Feedback $feedback)
     {
-        //
+        throw new BadMethodCallException(__('Not implemented.'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Feedback  $feedback
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Feedback $feedback)
     {
-        //
+        $cursos = Curso::orderBy('nombre')->get();
+
+        return view('feedbacks.edit', compact(['feedback', 'cursos']));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Feedback  $feedback
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Feedback $feedback)
     {
-        //
+        $this->validate($request, [
+            'curso_id' => 'required',
+            'mensaje' => 'required',
+        ]);
+
+        $feedback->update($request->all());
+
+        return redirect(route('feedbacks.index'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Feedback  $feedback
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Feedback $feedback)
     {
-        //
+        $feedback->delete();
+
+        return redirect(route('feedbacks.index'));
     }
 }

@@ -205,6 +205,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // CRUD - Competencias
         Route::resource('skills', 'SkillController');
+
+        // CRUD - Feedbacks
+        Route::resource('feedbacks', 'FeedbackController');
     });
 
     // Alumnos y profesores

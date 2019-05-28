@@ -10,7 +10,7 @@ class Feedback extends Model
         'curso_id', 'mensaje'
     ];
 
-    public function feedback()
+    public function curso()
     {
         return $this->belongsTo(Curso::class);
     }
