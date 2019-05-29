@@ -151,4 +151,11 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Registro::class);
     }
+
+    public function organizations()
+    {
+        return $this
+            ->belongsToMany(Organization::class)
+            ->withTimestamps();
+    }
 }
