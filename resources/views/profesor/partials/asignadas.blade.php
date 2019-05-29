@@ -5,6 +5,7 @@
         <table class="table table-hover">
             <thead class="thead-dark">
             <tr>
+                <th class="p-0"></th>
                 <th>#</th>
                 <th>Actividad</th>
                 <th class="text-center">Oculta</th>
@@ -19,6 +20,7 @@
             <tbody>
             @foreach($actividades as $actividad)
                 <tr>
+                    <td style="width:5px;" class="p-0 {{ $actividad->tarea->estado == 30 ? 'bg-danger' : '' }}"></td>
                     <td>{{ $actividad->tarea->id }}</td>
                     <td>{{ $actividad->unidad->slug.'/'.$actividad->slug }}</td>
                     <td class="text-center">{!! $actividad->tarea->estado == 11 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-secondary"></i>' !!}</td>

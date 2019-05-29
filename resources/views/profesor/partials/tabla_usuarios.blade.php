@@ -2,6 +2,7 @@
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
+            <th class="p-0"></th>
             <th>
                 <input type="checkbox" id="seleccionar_usuarios">
             </th>
@@ -18,6 +19,8 @@
         <tbody>
         @foreach($usuarios as $usuario)
             <tr class="table-cell-click" data-href="{{ route('profesor.tareas', [$usuario->id]) }}">
+                <td style="width:5px;"
+                    class="p-0 {{ count($usuario->actividades_enviadas())>0 ? 'bg-danger' : '' }}"></td>
                 <td>
                     <input form="asignar" type="checkbox"
                            name="usuarios_seleccionados[]" value="{{ $usuario->id }}">
