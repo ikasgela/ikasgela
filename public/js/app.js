@@ -53337,14 +53337,16 @@ $(document).ready(function ($) {
   $('#seleccionar_actividades').change(function () {
     $("input[name='seleccionadas[]']").not(this).prop('checked', this.checked);
   });
-  $('#add').click(function () {
-    return !$('#select1 option:selected').remove().appendTo('#select2');
+  $('.add').click(function () {
+    var prefijo = $(this).data("selector");
+    return !$('#' + prefijo + '-select2 option:selected').remove().appendTo('#' + prefijo + '-select1');
   });
-  $('#remove').click(function () {
-    return !$('#select2 option:selected').remove().appendTo('#select1');
+  $('.remove').click(function () {
+    var prefijo = $(this).data("selector");
+    return !$('#' + prefijo + '-select1 option:selected').remove().appendTo('#' + prefijo + '-select2');
   });
   $('#boton_guardar').click(function () {
-    $('#select1 option').each(function () {
+    $('select option').each(function () {
       $(this).attr('selected', true);
     });
   });
