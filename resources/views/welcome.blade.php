@@ -2,9 +2,10 @@
 
 @section('content')
 
+    {{ Request::route('organization') ?: 'www' }}
+
     <div class="row">
         <div class="col-12 col-lg-6 mx-auto">
-
             {{-- Tarjeta --}}
             <div class="card">
                 <div class="card-header">{{ __('Welcome') }}</div>
