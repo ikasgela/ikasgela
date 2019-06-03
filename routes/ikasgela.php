@@ -15,8 +15,6 @@ require __DIR__ . '/profile/profile.php';
 Route::middleware(['auth', 'verified'])->group(function () {
 
     // Perfil de usuario
-    Route::get('/home', 'HomeController@home')
-        ->name('users.home');
     Route::post('/users/toggle_help', 'UserController@toggle_help')
         ->name('users.toggle_help');
 
@@ -36,6 +34,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Mostrar el escritorio del alumno
         Route::get('/home', 'AlumnoController@tareas')
             ->name('users.home');
+        Route::get('/portada', 'AlumnoController@portada')
+            ->name('users.portada');
 
         // Archivo
         Route::get('/archivo/{actividad}', 'ArchivoController@show')
