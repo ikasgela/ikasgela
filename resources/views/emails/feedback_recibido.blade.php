@@ -5,7 +5,7 @@
 
 @component('mail::panel')
 ### Feedback
-{{ $tarea->feedback }}
+{!! $tarea->feedback !!}
 @endcomponent
 
 @component('mail::button', ['url' => route('users.home')])
