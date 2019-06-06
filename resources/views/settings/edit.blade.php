@@ -13,7 +13,7 @@
                 <div class="col-sm-10">
                     <select class="form-control" id="curso_id" name="curso_id">
                         @foreach($cursos as $curso)
-                            <option value="{{ $curso->id }}" <?php if (Setting::get($user->id . '.curso_actual') == $curso->id) echo 'selected'; ?>>{{ $curso->nombre }}</option>
+                            <option value="{{ $curso->id }}" <?php if (@setting('curso_actual') == $curso->id) echo 'selected'; ?>>{{ $curso->nombre }}</option>
                         @endforeach
                     </select>
                 </div>

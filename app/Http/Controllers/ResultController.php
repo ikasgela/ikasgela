@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Curso;
 use Auth;
-use Setting;
 
 class Resultado
 {
@@ -17,7 +16,9 @@ class ResultController extends Controller
     public function index()
     {
         $usuario = Auth::user();
-        $curso = Curso::find(Setting::get($usuario->id . '.curso_actual'));
+
+        setting()->setExtraColumns(['user_id' => $usuario->id]);
+        $curso = Curso::find(setting('curso_actual'));
 
         $skills_curso = [];
         $resultados = [];
