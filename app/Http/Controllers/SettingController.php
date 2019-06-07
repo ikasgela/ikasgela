@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Setting;
 
 class SettingController extends Controller
 {
@@ -12,6 +11,8 @@ class SettingController extends Controller
     {
         $user = Auth::user();
         $cursos = $user->cursos;
+
+        setting()->setExtraColumns(['user_id' => $user->id]);
 
         return view('settings.edit', compact(['cursos', 'user']));
     }
@@ -22,10 +23,9 @@ class SettingController extends Controller
             'curso_id' => 'required',
         ]);
 
-        $user = Auth::user();
-
-        Setting::set($user->id . '.curso_actual', $request->input('curso_id'));
-        Setting::save();
+        setting()->setExtraColumns(['user_id' => Auth::user()->id]);
+        setting(['curso_actual' => $request->input('curso_id')]);
+        setting()->save();
 
         return redirect(route('settings.editar'));
     }

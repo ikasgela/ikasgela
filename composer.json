@@ -7,7 +7,7 @@
     "require": {
         "php": "^7.1.3",
         "ext-intl": "^7.3",
-        "anlutro/l4-settings": "^0.8.1",
+        "akaunting/setting": "^1.0",
         "bkwld/cloner": "^3.4",
         "cmgmyr/messenger": "^2.17",
         "doctrine/dbal": "^2.9",
