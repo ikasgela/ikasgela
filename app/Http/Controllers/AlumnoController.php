@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Curso;
+use App\Organization;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Setting;
 
 class AlumnoController extends Controller
 {
@@ -40,5 +44,23 @@ class AlumnoController extends Controller
         $actividades = $user->actividades_asignadas();
 
         return view('alumnos.tareas', compact(['actividades', 'user']));
+    }
+
+    public function portada(Request $request)
+    {
+        $org = $request->route('organization') ?: 'www';
+        $organization = Organization::where('slug', $org)->first();
+        $period = $organization->periods()->where('slug', '2018')->first();
+        return view('alumnos.portada', compact(['organization', 'period']));
+    }
+
+    public function setCurso(Curso $curso)
+    {
+        $user = Auth::user();
+        $cursos = Curso::all();
+
+        Setting::set($user->id . '.curso_actual', $request->input('curso_id'));
+
+        return view('alumnos.portada', compact(['cursos']));
     }
 }
