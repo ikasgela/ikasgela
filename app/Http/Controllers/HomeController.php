@@ -22,11 +22,11 @@ class HomeController extends Controller
         $this->middleware('auth')->except('index');
     }
 
-    public function index($organization = 'www')
+    public function index()
     {
         if (!is_null($this->getAuthUser())) {
 
-            $organization_id = Organization::where('slug', $organization)->first()->id;
+            $organization_id = Organization::where('slug', subdominio())->first()->id;
 
             setting()->setExtraColumns(['user_id' => Auth::user()->id]);
 

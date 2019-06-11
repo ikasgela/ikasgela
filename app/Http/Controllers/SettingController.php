@@ -29,8 +29,10 @@ class SettingController extends Controller
     {
         setting()->setExtraColumns(['user_id' => Auth::user()->id]);
 
-        setting(['organization_actual' => $request->input('organization_id')]);
-        setting(['period_actual' => $request->input('period_id')]);
+        if (!is_null($request->input('organization_actual')))
+            setting(['organization_actual' => $request->input('organization_id')]);
+        if (!is_null($request->input('period_actual')))
+            setting(['period_actual' => $request->input('period_id')]);
         if (!is_null($request->input('curso_id')))
             setting(['curso_actual' => $request->input('curso_id')]);
 

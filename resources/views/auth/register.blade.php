@@ -12,7 +12,7 @@
 
                 <form method="POST" action="{{ route('register') }}">
                     @csrf
-                    <input type="hidden" name="_organization" value="{{ Request::route('organization') ?: 'www' }}"/>
+                    <input type="hidden" name="_organization" value="{{ subdominio() }}"/>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">
