@@ -22,7 +22,7 @@
         <main class="main">
             <div class="container-fluid py-4">
                 @yield('content')
-                @if(session('tutorial'))
+                @if(Auth::user()->isVerified() && session('tutorial'))
                     <div class="callout callout-danger b-t-1 b-r-1 b-b-1">
                         <small class="text-muted">{{ __('Tutorial') }}</small>
                         <p>Puedes desactivar el tutorial en tu perfil de usuario.</p>
