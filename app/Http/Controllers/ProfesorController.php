@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actividad;
 use App\Feedback;
 use App\Mail\ActividadAsignada;
+use App\Organization;
 use App\Registro;
 use App\Tarea;
 use App\Unidad;
@@ -50,13 +51,15 @@ class ProfesorController extends Controller
                 $query->where('cursos.id', setting('curso_actual'));
             });
 
+        $organization = Organization::find(setting('organization_actual'));
+
         if (session('profesor_unidad_actual')) {
             $disponibles = $actividades_curso->where('unidad_id', session('profesor_unidad_actual'))->get();
         } else {
             $disponibles = $actividades_curso->get();
         }
 
-        return view('profesor.index', compact(['usuarios', 'unidades', 'disponibles']));
+        return view('profesor.index', compact(['usuarios', 'unidades', 'disponibles', 'organization']));
     }
 
     public function tareas(User $user, Request $request)
