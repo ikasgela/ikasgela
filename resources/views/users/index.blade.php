@@ -12,7 +12,6 @@
                 <th></th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Email') }}</th>
-                <th>{{ __('Username') }}</th>
                 <th class="text-center">{{ __('Verified') }}</th>
                 <th class="text-center">{{ __('Tutorial') }}</th>
                 <th>{{ __('Roles') }}</th>
@@ -25,8 +24,7 @@
                     <td>{{ $user->id }}</td>
                     <td><img style="height:35px;" src="{{ $user->avatar_url(70) }}"/></td>
                     <td>{{ $user->name }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>{{ $user->username }}</td>
+                    <td><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
                     <td class="text-center">{!! $user->email_verified_at ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
                     <td class="text-center">{!! $user->tutorial ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
                     <td>

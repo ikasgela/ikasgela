@@ -158,4 +158,9 @@ class User extends Authenticatable implements MustVerifyEmail
             ->belongsToMany(Organization::class)
             ->withTimestamps();
     }
+
+    public function isVerified()
+    {
+        return $this->email_verified_at != null;
+    }
 }

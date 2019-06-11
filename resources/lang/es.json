@@ -21,7 +21,9 @@
     "Auto advance": "Auto avance",
     "Available": "Disponibles",
     "Available activities": "Actividades disponibles",
+    "Available courses": "Cursos disponibles",
     "Available resources": "Recursos disponibles",
+    "Avatar": "Avatar",
     "Back": "Volver",
     "Before proceeding, please check your email for a verification link.": "Te hemos enviado un enlace de verificación por email, comprueba tu bandeja de entrada.",
     "Branch": "Rama",
@@ -43,7 +45,6 @@
     "Create new conversation": "Crear nueva conversación",
     "Create your account": "Crea tu cuenta",
     "Current course": "Curso actual",
-    "Dashboard": "Panel de control",
     "Deadline": "Fecha límite",
     "Delete": "Borrar",
     "Description": "Descripción",
@@ -100,6 +101,7 @@
     "Image": "Imagen",
     "IntelliJ project": "Proyecto de IntelliJ",
     "IntelliJ projects": "Proyectos de IntelliJ",
+    "Invalid email address.": "Dirección de correo no válida.",
     "Items": "Items",
     "Latest message": "Último mensaje",
     "Login": "Entrar",
@@ -254,7 +256,6 @@
     "Yes": "Sí",
     "You are receiving this email because we received a password reset request for your account.": "Has recibido este email porque se ha hecho una petición de cambio de contraseña para tu cuenta.",
     "You need a user account to use ikasgela.": "Para utilizar ikasgela necesitas una cuenta de usuario.",
-    "Your progress": "Tu progreso",
     "YouTube video": "Vídeo en YouTube",
     "YouTube videos": "Vídeos en YouTube"
 }

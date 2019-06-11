@@ -9,6 +9,13 @@
 
             {!! Form::model($user, ['route' => ['users.update', $user->id], 'method' => 'PUT']) !!}
 
+            <div class="form-group row">
+                {!! Form::label('avatar', __('Avatar'), ['class' => 'col-sm-2 col-form-label']) !!}
+                <div class="col-sm-10">
+                    <img style="width:100px" src="{{ $user->avatar_url(200)}}">
+                </div>
+            </div>
+
             {{ Form::campoTexto('name', __('Name')) }}
             {{ Form::campoTexto('email', __('Email')) }}
             {{ Form::campoTexto('username', __('Username')) }}
@@ -33,7 +40,8 @@
                     <label>{{ __('Selected') }}</label>
                     <select name="cursos_seleccionados[]" multiple class="form-control" id="cursos-select1">
                         @foreach($cursos_seleccionados as $curso)
-                            <option value="{{ $curso->id }}">{{ $curso->nombre }}</option>
+                            <option value="{{ $curso->id }}">{{ $curso->nombre }}
+                                - {{ $curso->category->period->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -45,7 +53,8 @@
                     <label>{{ __('Available') }}</label>
                     <select multiple class="form-control" id="cursos-select2">
                         @foreach($cursos_disponibles as $curso)
-                            <option value="{{ $curso->id }}">{{ $curso->nombre }}</option>
+                            <option value="{{ $curso->id }}">{{ $curso->nombre }}
+                                - {{ $curso->category->period->name }}</option>
                         @endforeach
                     </select>
                 </div>
