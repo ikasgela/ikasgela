@@ -11,6 +11,7 @@ use App\Unidad;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class ProfesorController extends Controller
@@ -24,20 +25,35 @@ class ProfesorController extends Controller
     {
         $this->recuento_enviadas();
 
-        $usuarios = User::orderBy('id')->whereHas('roles', function ($query) {
-            $query->where('name', 'alumno');
-        })->get();
+        setting()->setExtraColumns(['user_id' => Auth::user()->id]);
 
-        $unidades = Unidad::orderBy('nombre')->get();
+        $usuarios = User::whereHas('organizations', function ($query) {
+            $query->where('organizations.id', setting('organization_actual'));
+        })
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'alumno');
+            })
+            ->orderBy('id')->get();
+
+        $unidades = Unidad::whereHas('curso.category.period.organization', function ($query) {
+            $query->where('organizations.id', setting('organization_actual'));
+        })
+            ->where('curso_id', setting('curso_actual'))
+            ->orderBy('nombre')->get();
 
         if ($request->has('unidad_id')) {
             session(['profesor_unidad_actual' => $request->input('unidad_id')]);
         }
 
+        $actividades_curso = Actividad::where('plantilla', true)
+            ->whereHas('unidad.curso', function ($query) {
+                $query->where('cursos.id', setting('curso_actual'));
+            });
+
         if (session('profesor_unidad_actual')) {
-            $disponibles = Actividad::where('plantilla', true)->where('unidad_id', session('profesor_unidad_actual'))->get();
+            $disponibles = $actividades_curso->where('unidad_id', session('profesor_unidad_actual'))->get();
         } else {
-            $disponibles = Actividad::where('plantilla', true)->get();
+            $disponibles = $actividades_curso->get();
         }
 
         return view('profesor.index', compact(['usuarios', 'unidades', 'disponibles']));
@@ -49,7 +65,11 @@ class ProfesorController extends Controller
 
         $actividades = $user->actividades()->get();
 
-        $unidades = Unidad::orderBy('nombre')->get();
+        setting()->setExtraColumns(['user_id' => Auth::user()->id]);
+
+        $unidades = Unidad::whereHas('curso.category.period.organization', function ($query) {
+            $query->where('organizations.id', setting('organization_actual'));
+        })->orderBy('nombre')->get();
 
         // https://gist.github.com/ermand/5458012
 
