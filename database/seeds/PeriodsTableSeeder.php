@@ -14,7 +14,7 @@ class PeriodsTableSeeder extends Seeder
      */
     public function run()
     {
-        $organization = Organization::where('name', 'www')->first();
+        $organization = Organization::where('slug', 'ikasgela')->first();
 
         $name = '2018';
         factory(Period::class)->create([

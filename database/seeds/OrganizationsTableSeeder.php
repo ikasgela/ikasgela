@@ -13,7 +13,7 @@ class OrganizationsTableSeeder extends Seeder
      */
     public function run()
     {
-        $name = 'www';
+        $name = 'ikasgela';
         factory(Organization::class)->create([
             'name' => $name,
             'slug' => Str::slug($name)
