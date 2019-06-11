@@ -27,15 +27,12 @@ class SettingController extends Controller
 
     public function guardar(Request $request)
     {
-        $this->validate($request, [
-            'curso_id' => 'required',
-        ]);
-
         setting()->setExtraColumns(['user_id' => Auth::user()->id]);
 
         setting(['organization_actual' => $request->input('organization_id')]);
         setting(['period_actual' => $request->input('period_id')]);
-        setting(['curso_actual' => $request->input('curso_id')]);
+        if (!is_null($request->input('curso_id')))
+            setting(['curso_actual' => $request->input('curso_id')]);
 
         setting()->save();
 
