@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Organization;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -21,9 +22,17 @@ class HomeController extends Controller
         $this->middleware('auth')->except('index');
     }
 
-    public function index()
+    public function index($organization = 'www')
     {
         if (!is_null($this->getAuthUser())) {
+
+            $organization_id = Organization::where('slug', $organization)->first()->id;
+
+            setting()->setExtraColumns(['user_id' => Auth::user()->id]);
+
+            setting(['organization_actual' => $organization_id]);
+            setting()->save();
+
             if ($this->getAuthUser()->hasRole('profesor')) {
                 return redirect(route('profesor.index'));
             } else {
