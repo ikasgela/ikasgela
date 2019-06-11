@@ -9,6 +9,7 @@
         "ext-intl": "^7.3",
         "akaunting/setting": "^1.0",
         "bkwld/cloner": "^3.4",
+        "browner12/helpers": "^2.1",
         "cmgmyr/messenger": "^2.17",
         "doctrine/dbal": "^2.9",
         "fideloper/proxy": "^4.0",
