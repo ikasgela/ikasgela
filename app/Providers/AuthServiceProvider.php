@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Validator;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,6 +26,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Validator::extend('allowed_domains', function ($attribute, $value, $parameters, $validator) {
+            return in_array('*', $parameters) || in_array(explode('@', $value)[1], $parameters);
+        }, __('Invalid email address.'));
     }
 }
