@@ -36,5 +36,10 @@
             </tr>
         @endforeach
         </tbody>
+        <tfoot class="thead-dark">
+        <tr>
+            <th class="text-right" colspan="10">Total de alumnos: {{ count($usuarios) }}</th>
+        </tr>
+        </tfoot>
     </table>
 </div>
