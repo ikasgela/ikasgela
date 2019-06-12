@@ -23,7 +23,7 @@
         "vue": "^2.6.10"
     },
     "dependencies": {
-        "@coreui/coreui": "^2.1.11",
+        "@coreui/coreui": "^2.1.12",
         "@fortawesome/fontawesome-free": "^5.9.0",
         "ajv": "^6.10.0",
         "imagemin": "^6.1.0",
