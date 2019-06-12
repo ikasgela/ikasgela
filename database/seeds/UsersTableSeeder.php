@@ -62,6 +62,10 @@ class UsersTableSeeder extends Seeder
             $user->organizations()->attach($organization);
         }
 
+        setting()->setExtraColumns(['user_id' => $user->id]);
+        setting(['organization_actual' => $organizations[0]->id]);
+        setting()->save();
+
         if (config('app.env', 'local') != 'testing') {
 
             echo "  INFO: Usuario generado: $nombre - $email - $password\n";
