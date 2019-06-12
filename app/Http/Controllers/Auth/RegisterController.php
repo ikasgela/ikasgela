@@ -55,7 +55,7 @@ class RegisterController extends Controller
     {
         // https://stackoverflow.com/a/52444480
 
-        switch ($data['_organization']) {
+        switch (subdominio()) {
             case 'egibide':
                 $dominios = 'egibide.org,ikasle.egibide.org';
                 break;
