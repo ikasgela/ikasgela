@@ -41,7 +41,9 @@
                     <select name="cursos_seleccionados[]" multiple class="form-control" id="cursos-select1">
                         @foreach($cursos_seleccionados as $curso)
                             <option value="{{ $curso->id }}">{{ $curso->nombre }}
-                                - {{ $curso->category->period->name }} ({{ $curso->category->period->organization->name }})</option>
+                                - {{ $curso->category->period->name }}
+                                ({{ $curso->category->period->organization->name }})
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -54,7 +56,9 @@
                     <select multiple class="form-control" id="cursos-select2">
                         @foreach($cursos_disponibles as $curso)
                             <option value="{{ $curso->id }}">{{ $curso->nombre }}
-                                - {{ $curso->category->period->name }}</option>
+                                - {{ $curso->category->period->name }}
+                                ({{ $curso->category->period->organization->name }})
+                            </option>
                         @endforeach
                     </select>
                 </div>
