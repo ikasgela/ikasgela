@@ -19,6 +19,7 @@
                 podrás darla por terminada y trasladarla al <a href="{{ route('archivo.index') }}">archivo</a>. Si no,
                 tendrás que mejorarla y volver a enviarla. </p>
             @break
+            @case(42)   {{-- Avance automático --}}
             @case(50)   {{-- Terminada --}}
             <p>La actividad está terminada y puedes archivarla para que desaparezca del escritorio. Podrás
                 verla en el <a href="{{ route('archivo.index') }}">archivo</a>.</p>
