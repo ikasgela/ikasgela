@@ -26,12 +26,13 @@ class HomeController extends Controller
     {
         if (!is_null($this->getAuthUser())) {
 
-            $organization_id = Organization::where('slug', subdominio())->first()->id;
-
             setting()->setExtraColumns(['user_id' => Auth::user()->id]);
 
-            setting(['organization_actual' => $organization_id]);
-            setting()->save();
+            if (setting('organization_actual') == null) {
+                $organization_id = Organization::where('slug', subdominio())->first()->id;
+                setting(['organization_actual' => $organization_id]);
+                setting()->save();
+            }
 
             if ($this->getAuthUser()->hasRole('profesor')) {
                 return redirect(route('profesor.index'));
