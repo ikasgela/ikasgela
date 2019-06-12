@@ -140,18 +140,45 @@ class IntellijProjectController extends Controller
     private function clonar_repositorio($origen, $destino, $ruta, $nombre = null)
     {
         try {
+
             // Obtener el id del repositorio de origen
-            $original = GitLab::projects()->show($origen);// Hacer el fork
-            $fork = GitLab::projects()->fork($original['id'], [
-                'namespace' => $destino,
-                'name' => $nombre,
-                'path' => $ruta
-            ]);// Desconectarlo del repositorio original
-            GitLab::projects()->removeForkRelation($fork['id']);// Convertirlo en privado
-            $fork = GitLab::projects()->update($fork['id'], [
-                'visibility' => 'private'
-            ]);
+            $original = GitLab::projects()->show($origen);
+
+            $fork = null;
+            $error_code = 0;
+            $n = 2;
+            $ruta_temp = $ruta;
+
+            do {
+
+                try {
+                    // Hacer el fork
+                    $fork = GitLab::projects()->fork($original['id'], [
+                        'namespace' => $destino,
+                        'name' => $nombre,
+                        'path' => $ruta
+                    ]);
+
+                    // Desconectarlo del repositorio original
+                    GitLab::projects()->removeForkRelation($fork['id']);
+
+                    // Convertirlo en privado
+                    $fork = GitLab::projects()->update($fork['id'], [
+                        'visibility' => 'private'
+                    ]);
+
+                } catch (\RuntimeException $e) {
+                    $error_code = $e->getCode();
+
+                    $ruta = $ruta_temp . "-$n";
+                    $nombre = $original['name'] . " - $n";
+                    $n += 1;
+                }
+
+            } while ($fork == null && $error_code == 409);
+
             return $fork;
+
         } catch (\Exception $e) {
             return false;
         }
