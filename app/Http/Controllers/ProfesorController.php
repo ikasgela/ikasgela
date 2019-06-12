@@ -76,13 +76,23 @@ class ProfesorController extends Controller
 
         // https://gist.github.com/ermand/5458012
 
-        $user_anterior = User::orderBy('id')->whereHas('roles', function ($query) {
-            $query->where('name', 'alumno');
-        })->where('id', '<', $user->id)->get()->max('id');
+        $user_anterior = User::whereHas('organizations', function ($query) {
+            $query->where('organizations.id', setting('organization_actual'));
+        })
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'alumno');
+            })
+            ->orderBy('id')
+            ->where('id', '<', $user->id)->get()->max('id');
 
-        $user_siguiente = User::orderBy('id')->whereHas('roles', function ($query) {
-            $query->where('name', 'alumno');
-        })->where('id', '>', $user->id)->get()->min('id');
+        $user_siguiente = User::whereHas('organizations', function ($query) {
+            $query->where('organizations.id', setting('organization_actual'));
+        })
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'alumno');
+            })
+            ->orderBy('id')
+            ->where('id', '>', $user->id)->get()->min('id');
 
         if ($request->has('unidad_id')) {
             session(['profesor_unidad_actual' => $request->input('unidad_id')]);
