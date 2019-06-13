@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Skill extends Model
 {
     protected $fillable = [
-        'name', 'description'
+        'name', 'description', 'organization_id'
     ];
 
     public function qualifications()
@@ -18,5 +18,10 @@ class Skill extends Model
             ->withPivot([
                 'percentage'
             ]);
+    }
+
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
     }
 }

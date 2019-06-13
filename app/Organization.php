@@ -26,4 +26,9 @@ class Organization extends Model
     {
         return $this->hasMany(Qualification::class);
     }
+
+    public function skills()
+    {
+        return $this->hasMany(Skill::class);
+    }
 }
