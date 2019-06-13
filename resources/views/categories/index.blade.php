@@ -13,6 +13,7 @@
             <thead class="thead-dark">
             <tr>
                 <th>#</th>
+                <th>{{ __('Organization') }}</th>
                 <th>{{ __('Period') }}</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Slug') }}</th>
@@ -23,6 +24,7 @@
             @foreach($categories as $category)
                 <tr>
                     <td>{{ $category->id }}</td>
+                    <td>{{ $category->period->organization->name }}</td>
                     <td>{{ $category->period->name }}</td>
                     <td>{{ $category->name }}</td>
                     <td>{{ $category->slug }}</td>
