@@ -21,4 +21,9 @@ class Organization extends Model
             ->belongsToMany(User::class)
             ->withTimestamps();
     }
+
+    public function qualifications()
+    {
+        return $this->hasMany(Qualification::class);
+    }
 }

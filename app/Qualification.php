@@ -41,4 +41,9 @@ class Qualification extends Model
     {
         return $this->hasMany(Unidad::class);
     }
+
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
+    }
 }
