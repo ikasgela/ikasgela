@@ -13,6 +13,7 @@
             <thead class="thead-dark">
             <tr>
                 <th>#</th>
+                <th>{{ __('Organization') }}</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Description') }}</th>
                 <th>{{ __('Actions') }}</th>
@@ -22,6 +23,7 @@
             @foreach($skills as $skill)
                 <tr>
                     <td>{{ $skill->id }}</td>
+                    <td>{{ $skill->organization->name }}</td>
                     <td>{{ $skill->name }}</td>
                     <td>{{ $skill->description }}</td>
                     <td class="text-nowrap">

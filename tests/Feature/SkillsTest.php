@@ -129,6 +129,18 @@ class SkillsTest extends TestCase
             ->assertSessionHasErrors('name');
     }
 
+    public function testStoreRequiresOrganization()
+    {
+        // Given
+        $this->actingAs($this->admin);
+        $skill = factory(Skill::class)->make(['organization_id' => null]);
+
+        // When
+        // Then
+        $this->post(route('skills.store'), $skill->toArray())
+            ->assertSessionHasErrors('organization_id');
+    }
+
     public function testShow()
     {
         // Given
@@ -252,6 +264,20 @@ class SkillsTest extends TestCase
         // Then
         $this->put(route('skills.update', ['id' => $skill->id]), $skill->toArray())
             ->assertSessionHasErrors('name');
+    }
+
+    public function testUpdateRequiresOrganization()
+    {
+        // Given
+        $this->actingAs($this->admin);
+        $skill = factory(Skill::class)->create();
+
+        // When
+        $skill->organization_id = null;
+
+        // Then
+        $this->put(route('skills.update', ['id' => $skill->id]), $skill->toArray())
+            ->assertSessionHasErrors('organization_id');
     }
 
     public function testDelete()

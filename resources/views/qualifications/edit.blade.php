@@ -38,7 +38,8 @@
                                                    {{ $qualification->skills()->find($skill->id) ? 'checked' : '' }}
                                                    id="skill_{{ $skill->id }}" value="{{ $skill->id }}">
                                             <label class="form-check-label"
-                                                   for="skill_{{ $skill->id }}">{{ $skill->name }}</label>
+                                                   for="skill_{{ $skill->id }}">{{ $skill->organization->name }}
+                                                - {{ $skill->name }}</label>
                                         </div>
                                     </div>
                                     <div class="col-3 d-flex justify-content-end">
