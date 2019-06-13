@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Organization;
 use App\Qualification;
 use App\Skill;
 use BadMethodCallException;
@@ -26,16 +27,20 @@ class QualificationController extends Controller
     {
         $skills_disponibles = Skill::all();
 
-        return view('qualifications.create', compact('skills_disponibles'));
+        $organizations = Organization::orderBy('name')->get();
+
+        return view('qualifications.create', compact(['skills_disponibles', 'organizations']));
     }
 
     public function store(Request $request)
     {
         $this->validate($request, [
+            'organization_id' => 'required',
             'name' => 'required',
         ]);
 
         $qualification = Qualification::create([
+            'organization_id' => $request->input('organization_id'),
             'name' => $request->input('name'),
             'description' => $request->input('description'),
             'template' => $request->has('template'),
@@ -59,16 +64,20 @@ class QualificationController extends Controller
     {
         $skills_disponibles = Skill::all();
 
-        return view('qualifications.edit', compact(['qualification', 'skills_disponibles']));
+        $organizations = Organization::orderBy('name')->get();
+
+        return view('qualifications.edit', compact(['qualification', 'skills_disponibles', 'organizations']));
     }
 
     public function update(Request $request, Qualification $qualification)
     {
         $this->validate($request, [
+            'organization_id' => 'required',
             'name' => 'required',
         ]);
 
         $qualification->update([
+            'organization_id' => $request->input('organization_id'),
             'name' => $request->input('name'),
             'description' => $request->input('description'),
             'template' => $request->has('template'),

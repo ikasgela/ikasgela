@@ -14,7 +14,7 @@ class Qualification extends Model
     protected $clone_exempt_attributes = ['template'];
 
     protected $fillable = [
-        'name', 'description', 'template'
+        'name', 'description', 'template', 'organization_id'
     ];
 
     public function skills()

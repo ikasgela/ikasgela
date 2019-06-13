@@ -129,6 +129,18 @@ class QualificationsTest extends TestCase
             ->assertSessionHasErrors('name');
     }
 
+    public function testStoreRequiresOrganization()
+    {
+        // Given
+        $this->actingAs($this->admin);
+        $qualification = factory(Qualification::class)->make(['organization_id' => null]);
+
+        // When
+        // Then
+        $this->post(route('qualifications.store'), $qualification->toArray())
+            ->assertSessionHasErrors('organization_id');
+    }
+
     public function testShow()
     {
         // Given
@@ -252,6 +264,20 @@ class QualificationsTest extends TestCase
         // Then
         $this->put(route('qualifications.update', ['id' => $qualification->id]), $qualification->toArray())
             ->assertSessionHasErrors('name');
+    }
+
+    public function testUpdateRequiresOrganization()
+    {
+        // Given
+        $this->actingAs($this->admin);
+        $qualification = factory(Qualification::class)->create();
+
+        // When
+        $qualification->organization_id = null;
+
+        // Then
+        $this->put(route('qualifications.update', ['id' => $qualification->id]), $qualification->toArray())
+            ->assertSessionHasErrors('organization_id');
     }
 
     public function testDelete()
