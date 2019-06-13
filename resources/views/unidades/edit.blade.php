@@ -14,7 +14,8 @@
                 <div class="col-sm-10">
                     <select class="form-control" id="curso_id" name="curso_id">
                         @foreach($cursos as $curso)
-                            <option value="{{ $curso->id }}" <?php if ($unidad->curso_id == $curso->id) echo 'selected'; ?>>{{ $curso->nombre }}</option>
+                            <option value="{{ $curso->id }}" <?php if ($unidad->curso_id == $curso->id) echo 'selected'; ?>>{{ $curso->category->period->organization->name }}
+                                - {{ $curso->category->period->name }} - {{ $curso->nombre }}</option>
                         @endforeach
                     </select>
                 </div>

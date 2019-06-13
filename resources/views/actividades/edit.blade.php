@@ -14,7 +14,10 @@
                 <div class="col-sm-10">
                     <select class="form-control" id="unidad_id" name="unidad_id">
                         @foreach($unidades as $unidad)
-                            <option value="{{ $unidad->id }}" {{ $actividad->unidad_id == $unidad->id ? 'selected' : '' }}>{{ $unidad->nombre }}</option>
+                            <option value="{{ $unidad->id }}" {{ $actividad->unidad_id == $unidad->id ? 'selected' : '' }}>
+                                {{ $unidad->curso->category->period->organization->name }}
+                                - {{ $unidad->curso->category->period->name }}
+                                - {{ $unidad->curso->nombre }} - {{ $unidad->nombre }}</option>
                         @endforeach
                     </select>
                 </div>
