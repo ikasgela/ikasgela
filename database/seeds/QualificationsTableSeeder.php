@@ -1,6 +1,7 @@
 <?php
 
 use App\Curso;
+use App\Organization;
 use App\Qualification;
 use App\Skill;
 use App\Unidad;
@@ -15,22 +16,28 @@ class QualificationsTableSeeder extends Seeder
      */
     public function run()
     {
+        $organization = Organization::where('slug', 'ikasgela')->first();
+
         $ce1 = factory(Skill::class)->create([
+            'organization_id' => $organization->id,
             'name' => 'CE1 - Diseño de algoritmos',
             'description' => 'Especificar, diseñar e implementar algoritmos en un lenguaje de programación, utilizando métodos eficientes, sistemáticos y organizados de resolución de problemas.',
         ]);
 
         $ce2 = factory(Skill::class)->create([
+            'organization_id' => $organization->id,
             'name' => 'CE2 - Sintáxis del lenguaje',
             'description' => 'Escribir correctamente, compilar y ejecutar programas en un lenguaje de alto nivel.',
         ]);
 
         $ce3 = factory(Skill::class)->create([
+            'organization_id' => $organization->id,
             'name' => 'CE3 - Estructuras de datos y de control',
             'description' => 'Conocer y dominar estructuras básicas fundamentales utilizadas en la programación, tanto estructuras de datos como estructuras de control del flujo del programa.',
         ]);
 
         $cualificacion = factory(Qualification::class)->create([
+            'organization_id' => $organization->id,
             'name' => 'General',
             'description' => 'Cualificación predeterminada para el curso.',
             'template' => true,
@@ -45,6 +52,7 @@ class QualificationsTableSeeder extends Seeder
         $curso->save();
 
         $cualificacion = factory(Qualification::class)->create([
+            'organization_id' => $organization->id,
             'name' => 'Unidad 2 - Diseño de algoritmos',
             'description' => 'Cualificación para una unidad didáctica.',
             'template' => true,
