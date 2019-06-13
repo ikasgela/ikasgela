@@ -14,7 +14,11 @@ class GroupsTableSeeder extends Seeder
      */
     public function run()
     {
-        $period = Period::where('name', '2018')->first();
+        $period = Period::whereHas('organization', function ($query) {
+            $query->where('organizations.slug', 'egibide');
+        })
+            ->where('slug', '2019')
+            ->first();
 
         $name = '147FA';
         factory(Group::class)->create([

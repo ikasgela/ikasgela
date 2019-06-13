@@ -14,7 +14,11 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        $period = Period::where('name', '2018')->first();
+        $period = Period::whereHas('organization', function ($query) {
+            $query->where('organizations.slug', 'egibide');
+        })
+            ->where('slug', '2019')
+            ->first();
 
         $name = 'Programación';
         factory(Category::class)->create([
@@ -24,6 +28,32 @@ class CategoriesTableSeeder extends Seeder
         ]);
 
         $name = 'Sistemas';
+        factory(Category::class)->create([
+            'period_id' => $period->id,
+            'name' => $name,
+            'slug' => Str::slug($name)
+        ]);
+
+        $period = Period::whereHas('organization', function ($query) {
+            $query->where('organizations.slug', 'deusto');
+        })
+            ->where('slug', '2019')
+            ->first();
+
+        $name = 'Programación';
+        factory(Category::class)->create([
+            'period_id' => $period->id,
+            'name' => $name,
+            'slug' => Str::slug($name)
+        ]);
+
+        $period = Period::whereHas('organization', function ($query) {
+            $query->where('organizations.slug', 'ikasgela');
+        })
+            ->where('slug', '2019')
+            ->first();
+
+        $name = 'Programación';
         factory(Category::class)->create([
             'period_id' => $period->id,
             'name' => $name,
