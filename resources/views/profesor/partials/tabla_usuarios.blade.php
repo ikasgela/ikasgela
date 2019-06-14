@@ -38,7 +38,8 @@
         </tbody>
         <tfoot class="thead-dark">
         <tr>
-            <th class="text-right" colspan="10">Total de alumnos: {{ count($usuarios) }}</th>
+            <th class="p-0"></th>
+            <th colspan="9">Total de alumnos: {{ count($usuarios) }}</th>
         </tr>
         </tfoot>
     </table>
