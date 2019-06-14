@@ -75,5 +75,18 @@ class UnidadesTableSeeder extends Seeder
         $unidad->nombre = $nombre;
         $unidad->slug = Str::slug($nombre);
         $curso->unidades()->save($unidad);
+
+        $nombre = 'Programación orientada a objetos - Repaso';
+        $unidad = new Unidad();
+        $unidad->nombre = $nombre;
+        $unidad->slug = 'poo-repaso';
+        $curso->unidades()->save($unidad);
+
+        $nombre = 'GUI - Soluciones';
+        $unidad = new Unidad();
+        $unidad->nombre = $nombre;
+        $unidad->descripcion = 'Ejercicios solucionados.';
+        $unidad->slug = Str::slug($nombre);
+        $curso->unidades()->save($unidad);
     }
 }
