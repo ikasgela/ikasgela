@@ -8,6 +8,8 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+require('jquery-countdown');
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -79,5 +81,13 @@ $(document).ready(function ($) {
         extra = extra + $('#feedback_id option:selected').text();
 
         tinyMCE.activeEditor.setContent(texto + extra);
+    });
+
+    $('[data-countdown]').each(function () {
+        var $this = $(this);
+        var finalDate = $(this).data('countdown');
+        $this.countdown(finalDate, function (event) {
+            $(this).html(event.strftime('%D días %H:%M:%S'));
+        });
     });
 });
