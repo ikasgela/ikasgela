@@ -63,7 +63,7 @@ class UsersTableSeeder extends Seeder
         }
 
         setting()->setExtraColumns(['user_id' => $user->id]);
-        setting(['organization_actual' => $organizations[0]->id]);
+        setting(['_organization_id' => $organizations[0]->id]);
         setting()->save();
 
         if (config('app.env', 'local') != 'testing') {

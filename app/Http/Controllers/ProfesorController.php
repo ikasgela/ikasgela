@@ -26,10 +26,8 @@ class ProfesorController extends Controller
     {
         $this->recuento_enviadas();
 
-        setting()->setExtraColumns(['user_id' => Auth::user()->id]);
-
         $usuarios = User::whereHas('organizations', function ($query) {
-            $query->where('organizations.id', setting('organization_actual'));
+            $query->where('organizations.id', setting_usuario('_organization_id'));
         })
             ->whereHas('roles', function ($query) {
                 $query->where('name', 'alumno');
@@ -37,9 +35,9 @@ class ProfesorController extends Controller
             ->orderBy('id')->get();
 
         $unidades = Unidad::whereHas('curso.category.period.organization', function ($query) {
-            $query->where('organizations.id', setting('organization_actual'));
+            $query->where('organizations.id', setting_usuario('_organization_id'));
         })
-            ->where('curso_id', setting('curso_actual'))
+            ->where('curso_id', setting_usuario('curso_actual'))
             ->orderBy('nombre')->get();
 
         if ($request->has('unidad_id')) {
@@ -48,10 +46,10 @@ class ProfesorController extends Controller
 
         $actividades_curso = Actividad::where('plantilla', true)
             ->whereHas('unidad.curso', function ($query) {
-                $query->where('cursos.id', setting('curso_actual'));
+                $query->where('cursos.id', setting_usuario('curso_actual'));
             });
 
-        $organization = Organization::find(setting('organization_actual'));
+        $organization = Organization::find(setting_usuario('_organization_id'));
 
         if (session('profesor_unidad_actual')) {
             $disponibles = $actividades_curso->where('unidad_id', session('profesor_unidad_actual'))->get();
@@ -68,16 +66,14 @@ class ProfesorController extends Controller
 
         $actividades = $user->actividades()->get();
 
-        setting()->setExtraColumns(['user_id' => Auth::user()->id]);
-
         $unidades = Unidad::whereHas('curso.category.period.organization', function ($query) {
-            $query->where('organizations.id', setting('organization_actual'));
+            $query->where('organizations.id', setting_usuario('_organization_id'));
         })->orderBy('nombre')->get();
 
         // https://gist.github.com/ermand/5458012
 
         $user_anterior = User::whereHas('organizations', function ($query) {
-            $query->where('organizations.id', setting('organization_actual'));
+            $query->where('organizations.id', setting_usuario('_organization_id'));
         })
             ->whereHas('roles', function ($query) {
                 $query->where('name', 'alumno');
@@ -86,7 +82,7 @@ class ProfesorController extends Controller
             ->where('id', '<', $user->id)->get()->max('id');
 
         $user_siguiente = User::whereHas('organizations', function ($query) {
-            $query->where('organizations.id', setting('organization_actual'));
+            $query->where('organizations.id', setting_usuario('_organization_id'));
         })
             ->whereHas('roles', function ($query) {
                 $query->where('name', 'alumno');

@@ -26,12 +26,9 @@ class HomeController extends Controller
     {
         if (!is_null($this->getAuthUser())) {
 
-            setting()->setExtraColumns(['user_id' => Auth::user()->id]);
-
-            if (setting('organization_actual') == null) {
+            if (setting_usuario('_organization_id') == null) {
                 $organization_id = Organization::where('slug', subdominio())->first()->id;
-                setting(['organization_actual' => $organization_id]);
-                setting()->save();
+                setting_usuario(['_organization_id' => $organization_id]);
             }
 
             if ($this->getAuthUser()->hasRole('profesor')) {

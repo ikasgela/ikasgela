@@ -17,8 +17,7 @@ class ResultController extends Controller
     {
         $usuario = Auth::user();
 
-        setting()->setExtraColumns(['user_id' => $usuario->id]);
-        $curso = Curso::find(setting('curso_actual'));
+        $curso = Curso::find(setting_usuario('curso_actual'));
 
         $skills_curso = [];
         $resultados = [];

@@ -27,16 +27,12 @@ class SettingController extends Controller
 
     public function guardar(Request $request)
     {
-        setting()->setExtraColumns(['user_id' => Auth::user()->id]);
-
         if (!is_null($request->input('organization_id')))
-            setting(['organization_actual' => $request->input('organization_id')]);
+            setting_usuario(['_organization_id' => $request->input('organization_id')]);
         if (!is_null($request->input('period_id')))
-            setting(['period_actual' => $request->input('period_id')]);
+            setting_usuario(['period_actual' => $request->input('period_id')]);
         if (!is_null($request->input('curso_id')))
-            setting(['curso_actual' => $request->input('curso_id')]);
-
-        setting()->save();
+            setting_usuario(['curso_actual' => $request->input('curso_id')]);
 
         return redirect(route('settings.editar'));
     }
