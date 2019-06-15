@@ -5,7 +5,7 @@ Route::get('/', 'HomeController@index')
     ->name('portada');
 
 // Páginas públicas
-Route::view('/documentacion', 'documentacion.index');
+//Route::view('/documentacion', 'documentacion.index');
 
 // Gestión de usuarios
 Auth::routes(['verify' => true]);
@@ -224,16 +224,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('cuestionarios.respuesta');
     });
 
-    // Pruebas
-    Route::view('/tarjeta_si_no', 'tarjetas.si_no');
-    Route::view('/tarjeta_video', 'tarjetas.video');
-    Route::view('/tarjeta_respuesta_multiple', 'tarjetas.respuesta_multiple');
-    Route::view('/tarjeta_respuesta_corta', 'tarjetas.respuesta_corta');
-    Route::get('/tarjeta_texto_markdown', 'TarjetaController@texto_markdown');
-    Route::view('/tarjeta_pdf', 'tarjetas.pdf');
-    Route::view('/reloj', 'tarjetas.reloj');
-
-    // Mensaje
+    // Mensajes
     Route::group(['prefix' => 'messages'], function () {
         Route::get('/', ['as' => 'messages', 'uses' => 'MessagesController@index']);
         Route::get('all', ['as' => 'messages.all', 'uses' => 'MessagesController@all']);
@@ -243,4 +234,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
         Route::delete('{id}', ['as' => 'messages.destroy', 'uses' => 'MessagesController@destroy']);
     });
+
+    // Pruebas
+    if (config('app.debug')) {
+        Route::view('/tarjeta_si_no', 'tarjetas.si_no');
+        Route::view('/tarjeta_video', 'tarjetas.video');
+        Route::view('/tarjeta_respuesta_multiple', 'tarjetas.respuesta_multiple');
+        Route::view('/tarjeta_respuesta_corta', 'tarjetas.respuesta_corta');
+        Route::get('/tarjeta_texto_markdown', 'TarjetaController@texto_markdown');
+        Route::view('/tarjeta_pdf', 'tarjetas.pdf');
+        Route::view('/reloj', 'tarjetas.reloj');
+    }
 });
