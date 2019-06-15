@@ -26,13 +26,7 @@ class ProfesorController extends Controller
     {
         $this->recuento_enviadas();
 
-        $usuarios = User::whereHas('organizations', function ($query) {
-            $query->where('organizations.id', setting_usuario('_organization_id'));
-        })
-            ->whereHas('roles', function ($query) {
-                $query->where('name', 'alumno');
-            })
-            ->orderBy('id')->get();
+        $usuarios = User::organizacion()->rolAlumno()->orderBy('id')->get();
 
         $unidades = Unidad::whereHas('curso.category.period.organization', function ($query) {
             $query->where('organizations.id', setting_usuario('_organization_id'));
@@ -72,22 +66,10 @@ class ProfesorController extends Controller
 
         // https://gist.github.com/ermand/5458012
 
-        $user_anterior = User::whereHas('organizations', function ($query) {
-            $query->where('organizations.id', setting_usuario('_organization_id'));
-        })
-            ->whereHas('roles', function ($query) {
-                $query->where('name', 'alumno');
-            })
-            ->orderBy('id')
+        $user_anterior = User::organizacion()->rolAlumno()->orderBy('id')
             ->where('id', '<', $user->id)->get()->max('id');
 
-        $user_siguiente = User::whereHas('organizations', function ($query) {
-            $query->where('organizations.id', setting_usuario('_organization_id'));
-        })
-            ->whereHas('roles', function ($query) {
-                $query->where('name', 'alumno');
-            })
-            ->orderBy('id')
+        $user_siguiente = User::organizacion()->rolAlumno()->orderBy('id')
             ->where('id', '>', $user->id)->get()->min('id');
 
         if ($request->has('unidad_id')) {
