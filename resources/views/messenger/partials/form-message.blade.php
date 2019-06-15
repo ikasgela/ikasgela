@@ -14,5 +14,5 @@
 {!! Form::close() !!}
 
 <div class="form-group">
-    <a href="{{ route('messages') }}" class="btn btn-secondary">{{ __('Back') }}</a>
+    @include('partials.backbutton')
 </div>

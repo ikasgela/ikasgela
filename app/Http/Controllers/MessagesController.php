@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\NuevoMensaje;
+use App\Organization;
 use App\Role;
 use App\User;
 use Carbon\Carbon;
@@ -25,14 +26,16 @@ class MessagesController extends Controller
      */
     public function index()
     {
-        // All threads, ignore deleted/archived participants
-        //$threads = Thread::getAllLatest()->get();
+        // All threads that user is participating in, with new messages
+        $threads = Thread::forUserWithNewMessages(Auth::id())->latest('updated_at')->get();
 
+        return view('messenger.index', compact('threads'));
+    }
+
+    public function all()
+    {
         // All threads that user is participating in
         $threads = Thread::forUser(Auth::id())->latest('updated_at')->get();
-
-        // All threads that user is participating in, with new messages
-        // $threads = Thread::forUserWithNewMessages(Auth::id())->latest('updated_at')->get();
 
         return view('messenger.index', compact('threads'));
     }
@@ -184,6 +187,14 @@ class MessagesController extends Controller
         $this->enviarEmails($thread, Auth::id());
 
         return redirect()->route('messages.show', $id);
+    }
+
+    public function destroy($id)
+    {
+        $thread = Thread::findOrFail($id);
+        $thread->delete();
+
+        return redirect(route('messages'));
     }
 
     private function filtrarParrafosVacios($mensaje)
