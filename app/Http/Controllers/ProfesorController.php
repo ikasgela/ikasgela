@@ -12,7 +12,6 @@ use App\Unidad;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class ProfesorController extends Controller
@@ -26,30 +25,17 @@ class ProfesorController extends Controller
     {
         $this->recuento_enviadas();
 
-        $usuarios = User::organizacion()->rolAlumno()->orderBy('id')->get();
+        $organization = Organization::find(setting_usuario('_organization_id'));
 
-        $unidades = Unidad::whereHas('curso.category.period.organization', function ($query) {
-            $query->where('organizations.id', setting_usuario('_organization_id'));
-        })
-            ->where('curso_id', setting_usuario('curso_actual'))
-            ->orderBy('nombre')->get();
+        $usuarios = User::organizacionActual()->rolAlumno()->orderBy('id')->get();
+
+        $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('nombre')->get();
 
         if ($request->has('unidad_id')) {
             session(['profesor_unidad_actual' => $request->input('unidad_id')]);
         }
 
-        $actividades_curso = Actividad::where('plantilla', true)
-            ->whereHas('unidad.curso', function ($query) {
-                $query->where('cursos.id', setting_usuario('curso_actual'));
-            });
-
-        $organization = Organization::find(setting_usuario('_organization_id'));
-
-        if (session('profesor_unidad_actual')) {
-            $disponibles = $actividades_curso->where('unidad_id', session('profesor_unidad_actual'))->get();
-        } else {
-            $disponibles = $actividades_curso->get();
-        }
+        $disponibles = $this->actividadesDisponibles();
 
         return view('profesor.index', compact(['usuarios', 'unidades', 'disponibles', 'organization']));
     }
@@ -60,28 +46,21 @@ class ProfesorController extends Controller
 
         $actividades = $user->actividades()->get();
 
-        $unidades = Unidad::whereHas('curso.category.period.organization', function ($query) {
-            $query->where('organizations.id', setting_usuario('_organization_id'));
-        })->orderBy('nombre')->get();
+        $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('nombre')->get();
 
         // https://gist.github.com/ermand/5458012
 
-        $user_anterior = User::organizacion()->rolAlumno()->orderBy('id')
+        $user_anterior = User::organizacionActual()->rolAlumno()->orderBy('id')
             ->where('id', '<', $user->id)->get()->max('id');
 
-        $user_siguiente = User::organizacion()->rolAlumno()->orderBy('id')
+        $user_siguiente = User::organizacionActual()->rolAlumno()->orderBy('id')
             ->where('id', '>', $user->id)->get()->min('id');
 
         if ($request->has('unidad_id')) {
             session(['profesor_unidad_actual' => $request->input('unidad_id')]);
         }
 
-        if (session('profesor_unidad_actual')) {
-            // ->whereNotIn('id', $actividades)
-            $disponibles = Actividad::where('plantilla', true)->where('unidad_id', session('profesor_unidad_actual'))->get();
-        } else {
-            $disponibles = Actividad::where('plantilla', true)->get();
-        }
+        $disponibles = $this->actividadesDisponibles();
 
         return view('profesor.tareas', compact(['actividades', 'disponibles', 'user', 'unidades', 'user_anterior', 'user_siguiente']));
     }
@@ -133,9 +112,6 @@ class ProfesorController extends Controller
             session()->forget('num_enviadas');
     }
 
-    /**
-     * @param $user
-     */
     private function asignarTareasUsuario($user): void
     {
         $asignadas = '';
@@ -176,5 +152,18 @@ class ProfesorController extends Controller
         }
 
         Mail::to($user->email)->queue(new ActividadAsignada($user->name, $asignadas));
+    }
+
+    private function actividadesDisponibles()
+    {
+        $actividades_curso = Actividad::plantilla()->cursoActual();
+
+        if (session('profesor_unidad_actual')) {
+            $disponibles = $actividades_curso->where('unidad_id', session('profesor_unidad_actual'))->get();
+        } else {
+            $disponibles = $actividades_curso->get();
+        }
+
+        return $disponibles;
     }
 }

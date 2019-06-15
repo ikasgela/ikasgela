@@ -164,7 +164,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->email_verified_at != null;
     }
 
-    public function scopeOrganizacion($query)
+    public function scopeOrganizacionActual($query)
     {
         return $query->whereHas('organizations', function ($query) {
             $query->where('organizations.id', setting_usuario('_organization_id'));

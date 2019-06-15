@@ -26,4 +26,16 @@ class Unidad extends Model
     {
         return $this->belongsTo(Qualification::class);
     }
+
+    public function scopeOrganizacionActual($query)
+    {
+        return $query->whereHas('curso.category.period.organization', function ($query) {
+            $query->where('organizations.id', setting_usuario('_organization_id'));
+        });
+    }
+
+    public function scopeCursoActual($query)
+    {
+        return $query->where('curso_id', setting_usuario('curso_actual'));
+    }
 }

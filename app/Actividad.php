@@ -87,4 +87,16 @@ class Actividad extends Model
             ->belongsToMany(Cuestionario::class)
             ->withTimestamps();
     }
+
+    public function scopePlantilla($query)
+    {
+        return $query->where('plantilla', true);
+    }
+
+    public function scopeCursoActual($query)
+    {
+        return $query->whereHas('unidad.curso', function ($query) {
+            $query->where('cursos.id', setting_usuario('curso_actual'));
+        });
+    }
 }
