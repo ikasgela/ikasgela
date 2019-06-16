@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Organization extends Model
 {
     protected $fillable = [
-        'name', 'slug'
+        'name', 'slug', 'current_period_id'
     ];
 
     public function periods()
@@ -30,5 +30,10 @@ class Organization extends Model
     public function skills()
     {
         return $this->hasMany(Skill::class);
+    }
+
+    public function current_period()
+    {
+        return Period::find($this->current_period_id);
     }
 }

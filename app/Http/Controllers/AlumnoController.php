@@ -49,7 +49,7 @@ class AlumnoController extends Controller
     public function portada(Request $request)
     {
         $organization = Organization::where('slug', subdominio())->first();
-        $period = $organization->periods()->where('slug', '2018')->first();
+        $period = $organization->periods()->where('slug', '2019')->first();
         return view('alumnos.portada', compact(['organization', 'period']));
     }
 

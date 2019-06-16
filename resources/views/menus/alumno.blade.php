@@ -25,3 +25,10 @@
         <i class="nav-icon fas fa-graduation-cap"></i> {{ __('Results') }}
     </a>
 </li>
+@if(config('app.debug'))
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('users.portada') }}">
+            <i class="nav-icon fas fa-clipboard-list"></i> {{ __('Portada') }}
+        </a>
+    </li>
+@endif

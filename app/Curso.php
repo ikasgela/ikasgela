@@ -36,4 +36,18 @@ class Curso extends Model
     {
         return $this->hasMany(Feedback::class);
     }
+
+    public function scopeOrganizacionActual($query)
+    {
+        return $query->whereHas('category.period.organization', function ($query) {
+            $query->where('organizations.id', setting_usuario('_organization_id'));
+        });
+    }
+
+    public function scopePeriodoActual($query)
+    {
+        return $query->whereHas('category.period', function ($query) {
+            $query->where('periods.id', setting_usuario('_period_id'));
+        });
+    }
 }
