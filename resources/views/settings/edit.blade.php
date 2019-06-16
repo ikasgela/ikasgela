@@ -13,7 +13,7 @@
                 {!! Form::label('curso_id', __('Current course'), ['class' => 'col-sm-2 col-form-label']) !!}
                 <div class="col-sm-10">
                     <select class="form-control" id="curso_id" name="curso_id">
-                        <option value="">{{ __('--- None ---') }}</option>
+                        <option value="">{{ __('--- None --- ') }}</option>
                         @foreach($cursos as $curso)
                             <option value="{{ $curso->id }}" <?php if (@setting('curso_actual') == $curso->id) echo 'selected'; ?>>{{ $curso->category->period->organization->name }}
                                 - {{ $curso->nombre }}
