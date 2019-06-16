@@ -4,6 +4,13 @@
 
     @include('partials.titular', ['titular' => __('Settings')])
 
+    @if(session('tutorial'))
+        <div class="callout callout-success b-t-1 b-r-1 b-b-1">
+            <small class="text-muted">{{ __('Tutorial') }}</small>
+            <p>Si estás matriculado en más de un curso, aquí puedes cambiar de uno a otro.</p>
+        </div>
+    @endif
+
     <div class="card">
         <div class="card-body">
 
