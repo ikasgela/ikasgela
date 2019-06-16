@@ -15,7 +15,7 @@ class SettingController extends Controller
 
         setting()->setExtraColumns(['user_id' => $user->id]);
 
-        $cursos = $user->cursos()->orderBy('nombre')->get();
+        $cursos = $user->cursos()->organizacionActual()->periodoActual()->orderBy('nombre')->get();
 
         $organizations = $user->organizations()->orderBy('name')->get();
 
@@ -34,13 +34,19 @@ class SettingController extends Controller
             $organization = Organization::find($request->input('organization_id'));
             setting_usuario(['_organization_id' => $organization->id]);
             setting_usuario(['_period_id' => $organization->current_period_id]);
-            setting_usuario(['curso_actual' => null]);
+
+            $user = Auth::user();
+            $primer_curso = $user->cursos()->organizacionActual()->periodoActual()->first();
+            setting_usuario(['curso_actual' => $primer_curso ? $primer_curso->id : null]);
         }
 
         if (!is_null($request->input('period_id'))) {
             setting_usuario(['_period_id' => $request->input('period_id')]);
             setting_usuario(['_organization_id' => setting_usuario('_organization_id')]);
-            setting_usuario(['curso_actual' => null]);
+
+            $user = Auth::user();
+            $primer_curso = $user->cursos()->organizacionActual()->periodoActual()->first();
+            setting_usuario(['curso_actual' => $primer_curso ? $primer_curso->id : null]);
         }
 
         return redirect(route('settings.editar'));

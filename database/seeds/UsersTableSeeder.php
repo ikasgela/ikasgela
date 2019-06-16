@@ -19,16 +19,18 @@ class UsersTableSeeder extends Seeder
 
         $equipo = Team::find(1);
 
-        $curso = Curso::find(1);
+        $curso_ikasgela = Curso::find(1);
+        $curso_deusto = Curso::find(2);
+        $curso_egibide = Curso::find(3);
 
         $www = Organization::find(1);
         $egibide = Organization::find(2);
         $deusto = Organization::find(3);
 
-        $this->generarUsuario('Marc', 'test@ikasgela.com', [$rol_alumno], [$equipo], [$curso], [$egibide]);
-        $this->generarUsuario('Noa', 'test2@ikasgela.com', [$rol_alumno], [$equipo], [$curso], [$www]);
-        $this->generarUsuario('Lucía', 'profe@ikasgela.com', [$rol_profesor, $rol_admin], [], [$curso], [$www, $egibide, $deusto]);
-        $this->generarUsuario('Administrador', 'admin@ikasgela.com', [$rol_admin], [], [$curso], [$www, $egibide, $deusto]);
+        $this->generarUsuario('Marc', 'test@ikasgela.com', [$rol_alumno], [$equipo], [$curso_egibide], [$egibide]);
+        $this->generarUsuario('Noa', 'test2@ikasgela.com', [$rol_alumno], [$equipo], [$curso_ikasgela], [$www]);
+        $this->generarUsuario('Lucía', 'profe@ikasgela.com', [$rol_profesor, $rol_admin], [], [], [$www, $egibide, $deusto]);
+        $this->generarUsuario('Administrador', 'admin@ikasgela.com', [$rol_admin], [], [], [$www, $egibide, $deusto]);
     }
 
     private function generarUsuario(string $nombre, string $email, $roles, $equipos, $cursos, $organizations): void
