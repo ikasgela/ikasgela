@@ -13,26 +13,41 @@ class SettingController extends Controller
     {
         $user = Auth::user();
 
+        setting()->setExtraColumns(['user_id' => $user->id]);
+
+        $cursos = $user->cursos()->organizacionActual()->periodoActual()->orderBy('nombre')->get();
+
         $organizations = $user->organizations()->orderBy('name')->get();
 
-        $filtro = $user->organizations()->pluck('organization_id')->unique()->flatten()->toArray();
-        $periods = Period::whereIn('id', $filtro)->orderBy('name')->get();
-
-        $cursos = $user->cursos()->orderBy('nombre')->get();
-
-        setting()->setExtraColumns(['user_id' => $user->id]);
+        $periods = Period::where('organization_id', setting_usuario('_organization_id'))->orderBy('name')->get();
 
         return view('settings.edit', compact(['user', 'cursos', 'organizations', 'periods']));
     }
 
     public function guardar(Request $request)
     {
-        if (!is_null($request->input('organization_id')))
-            setting_usuario(['_organization_id' => $request->input('organization_id')]);
-        if (!is_null($request->input('period_id')))
-            setting_usuario(['period_actual' => $request->input('period_id')]);
-        if (!is_null($request->input('curso_id')))
+        if (!is_null($request->input('curso_id'))) {
             setting_usuario(['curso_actual' => $request->input('curso_id')]);
+        }
+
+        if (!is_null($request->input('organization_id'))) {
+            $organization = Organization::find($request->input('organization_id'));
+            setting_usuario(['_organization_id' => $organization->id]);
+            setting_usuario(['_period_id' => $organization->current_period_id]);
+
+            $user = Auth::user();
+            $primer_curso = $user->cursos()->organizacionActual()->periodoActual()->first();
+            setting_usuario(['curso_actual' => $primer_curso ? $primer_curso->id : null]);
+        }
+
+        if (!is_null($request->input('period_id'))) {
+            setting_usuario(['_period_id' => $request->input('period_id')]);
+            setting_usuario(['_organization_id' => setting_usuario('_organization_id')]);
+
+            $user = Auth::user();
+            $primer_curso = $user->cursos()->organizacionActual()->periodoActual()->first();
+            setting_usuario(['curso_actual' => $primer_curso ? $primer_curso->id : null]);
+        }
 
         return redirect(route('settings.editar'));
     }

@@ -1,5 +1,6 @@
 {
     "--- None ---": "--- Ninguna ---",
+    "--- None --- ": "--- Ninguno --- ",
     "A fresh verification link has been sent to your email address.": "Se ha enviado un nuevo enlace de verificación a tu dirección de email.",
     "Accept activity": "Aceptar actividad",
     "Accepted": "Aceptada",
@@ -30,6 +31,7 @@
     "Cancel": "Cancelar",
     "Categories": "Categorías",
     "Category": "Categoría",
+    "Change": "Cambiar",
     "Check answers": "Comprobar respuestas",
     "click here to request another": "haz click aquí para que te enviemos otro",
     "Clone": "Clonar",

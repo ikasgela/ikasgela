@@ -14,8 +14,17 @@ if (!function_exists('setting_usuario')) {
             setting()->setExtraColumns(['user_id' => Auth::user()->id]);
         }
 
+        return setting_sitio($key);
+    }
+
+    function setting_sitio($key)
+    {
         if (is_array($key)) {
-            setting($key);
+            if (!is_null(array_values($key)[0])) {
+                setting($key);
+            } else {
+                setting()->forget(array_key_first($key));
+            }
             setting()->save();
         } else {
             return setting($key);
