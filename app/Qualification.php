@@ -46,4 +46,9 @@ class Qualification extends Model
     {
         return $this->belongsTo(Organization::class);
     }
+
+    public function scopeOrganizacionActual($query)
+    {
+        return $query->where('organization_id', setting_usuario('_organization_id'));
+    }
 }
