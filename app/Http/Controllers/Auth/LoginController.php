@@ -54,7 +54,8 @@ class LoginController extends Controller
         }
 
         $request->validate([
-            $this->username() => "required|string|email|allowed_domains:$dominios",
+            $this->username() => "required|string|email",
+            //$this->username() => "required|string|email|allowed_domains:$dominios",
             'password' => 'required|string',
         ]);
     }
