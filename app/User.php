@@ -177,4 +177,11 @@ class User extends Authenticatable implements MustVerifyEmail
             $query->where('name', 'alumno');
         });
     }
+
+    public function scopeRolProfesor($query)
+    {
+        return $query->whereHas('roles', function ($query) {
+            $query->where('name', 'profesor');
+        });
+    }
 }

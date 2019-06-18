@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Curso;
 use App\Mail\NuevoMensaje;
 use App\Organization;
 use App\Role;
@@ -88,9 +89,11 @@ class MessagesController extends Controller
      */
     public function create()
     {
-        $users = User::where('id', '!=', Auth::id())->get();
+        $curso_actual = Curso::find(setting_usuario('curso_actual'));
 
-        $profesores = Role::where('name', 'profesor')->first()->users()->get();
+        $users = $curso_actual->users()->where('users.id', '!=', Auth::id())->get();
+
+        $profesores = $curso_actual->users()->rolProfesor()->get();
 
         return view('messenger.create', compact(['users', 'profesores']));
     }
