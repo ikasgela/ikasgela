@@ -66,7 +66,8 @@ class OrganizationController extends Controller
                 'name' => request('name'),
                 'slug' => strlen(request('slug')) > 0
                     ? Str::slug(request('slug'))
-                    : Str::slug(request('name'))
+                    : Str::slug(request('name')),
+                'current_period_id' => request('current_period_id')
             ]);
         } catch (\Exception $e) {
             // Slug repetido
