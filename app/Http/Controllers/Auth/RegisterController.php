@@ -112,7 +112,7 @@ class RegisterController extends Controller
 
         $laravel
             ->organizations()
-            ->attach(Organization::where('slug', $data['_organization'])->first());
+            ->attach(Organization::where('slug', subdominio())->first());
 
         activity()
             ->causedBy($laravel)
