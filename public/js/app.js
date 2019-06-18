@@ -53967,7 +53967,7 @@ $(document).ready(function ($) {
     return !$('#' + prefijo + '-select1 option:selected').remove().appendTo('#' + prefijo + '-select2');
   });
   $('#boton_guardar').click(function () {
-    $('select option').each(function () {
+    $('.multi-select option').each(function () {
       $(this).attr('selected', true);
     });
   });
