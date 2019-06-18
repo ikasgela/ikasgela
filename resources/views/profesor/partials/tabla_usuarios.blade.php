@@ -14,6 +14,9 @@
             <th class="text-center">Enviadas</th>
             <th class="text-center">Revisadas</th>
             <th class="text-center">Archivadas</th>
+            @if(Auth::user()->hasRole('admin'))
+                <th>Acciones</th>
+            @endif
         </tr>
         </thead>
         <tbody>
@@ -33,6 +36,15 @@
                 <td class="clickable text-center {{ count($usuario->actividades_enviadas())>0 ? 'bg-danger' : '' }}">{{ count($usuario->actividades_enviadas()) }}</td>
                 <td class="clickable text-center">{{ count($usuario->actividades_revisadas()) }}</td>
                 <td class="clickable text-center">{{ count($usuario->actividades_archivadas()) }}</td>
+                @if(Auth::user()->hasRole('admin'))
+                    <td>
+                        <div class='btn-group'>
+                            <a title="{{ __('Edit') }}"
+                               href="{{ route('users.edit', [$usuario->id]) }}"
+                               class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                        </div>
+                    </td>
+                @endif
             </tr>
         @endforeach
         </tbody>
@@ -40,6 +52,9 @@
         <tr>
             <th class="p-0"></th>
             <th colspan="9">Total de alumnos: {{ count($usuarios) }}</th>
+            @if(Auth::user()->hasRole('admin'))
+                <th></th>
+            @endif
         </tr>
         </tfoot>
     </table>

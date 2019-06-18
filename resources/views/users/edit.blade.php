@@ -35,10 +35,25 @@
             </div>
 
             <div class="form-group row">
+                {!! Form::label('curso_id', __('Current course'), ['class' => 'col-sm-2 col-form-label']) !!}
+                <div class="col-sm-10">
+                    <select class="form-control" id="curso_id" name="curso_id">
+                        <option value="">{{ __('--- None --- ') }}</option>
+                        @foreach($cursos_seleccionados as $curso)
+                            <option value="{{ $curso->id }}" <?php if ($curso_actual == $curso->id) echo 'selected'; ?>>{{ $curso->category->period->organization->name }}
+                                - {{ $curso->nombre }}
+                                - {{ $curso->category->period->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
                 {!! Form::label('cursos_seleccionados', __('Courses'), ['class' => 'col-sm-2 col-form-label pt-0']) !!}
                 <div class="col">
                     <label>{{ __('Selected') }}</label>
-                    <select name="cursos_seleccionados[]" multiple class="form-control" id="cursos-select1">
+                    <select name="cursos_seleccionados[]" multiple class="form-control multi-select"
+                            id="cursos-select1">
                         @foreach($cursos_seleccionados as $curso)
                             <option value="{{ $curso->id }}">{{ $curso->nombre }}
                                 - {{ $curso->category->period->name }}
@@ -53,7 +68,7 @@
                 </div>
                 <div class="col">
                     <label>{{ __('Available') }}</label>
-                    <select multiple class="form-control" id="cursos-select2">
+                    <select multiple class="form-control multi-select" id="cursos-select2">
                         @foreach($cursos_disponibles as $curso)
                             <option value="{{ $curso->id }}">{{ $curso->nombre }}
                                 - {{ $curso->category->period->name }}
@@ -68,7 +83,7 @@
                 {!! Form::label('organizations_seleccionados', __('Organizations'), ['class' => 'col-sm-2 col-form-label pt-0']) !!}
                 <div class="col">
                     <label>{{ __('Selected') }}</label>
-                    <select name="organizations_seleccionados[]" multiple class="form-control"
+                    <select name="organizations_seleccionados[]" multiple class="form-control multi-select"
                             id="organizations-select1">
                         @foreach($organizations_seleccionados as $organization)
                             <option value="{{ $organization->id }}">{{ $organization->name }}</option>
@@ -82,7 +97,7 @@
                 </div>
                 <div class="col">
                     <label>{{ __('Available') }}</label>
-                    <select multiple class="form-control" id="organizations-select2">
+                    <select multiple class="form-control multi-select" id="organizations-select2">
                         @foreach($organizations_disponibles as $organization)
                             <option value="{{ $organization->id }}">{{ $organization->name }}</option>
                         @endforeach

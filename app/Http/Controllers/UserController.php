@@ -42,6 +42,9 @@ class UserController extends Controller
 
         $cursos_seleccionados = $user->cursos()->orderBy('nombre')->get();
 
+        setting()->setExtraColumns(['user_id' => $user->id]);
+        $curso_actual = setting('curso_actual');
+
         $filtro = $user->cursos()->pluck('curso_id')->unique()->flatten()->toArray();
         $cursos_disponibles = Curso::whereNotIn('id', $filtro)->orderBy('nombre')->get();
 
@@ -51,7 +54,7 @@ class UserController extends Controller
         $organizations_disponibles = Organization::whereNotIn('id', $filtro)->orderBy('name')->get();
 
         return view('users.edit', compact(['user', 'roles_disponibles',
-            'cursos_disponibles', 'cursos_seleccionados',
+            'cursos_disponibles', 'cursos_seleccionados', 'curso_actual',
             'organizations_disponibles', 'organizations_seleccionados'
         ]));
     }
@@ -76,6 +79,14 @@ class UserController extends Controller
         $user->cursos()->sync($request->input('cursos_seleccionados'));
 
         $user->organizations()->sync($request->input('organizations_seleccionados'));
+
+        setting()->setExtraColumns(['user_id' => $user->id]);
+        if (!is_null($request->input('curso_id')) && $request->has('cursos_seleccionados')) {
+            setting(['curso_actual' => $request->input('curso_id')]);
+        } else {
+            setting()->forget('curso_actual');
+        }
+        setting()->save();
 
         return redirect(route('users.index'));
     }

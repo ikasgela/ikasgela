@@ -65,7 +65,7 @@ $(document).ready(function ($) {
     });
 
     $('#boton_guardar').click(function () {
-        $('select option').each(function () {
+        $('.multi-select option').each(function () {
             $(this).attr('selected', true);
         });
     });
