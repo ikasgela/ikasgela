@@ -273,4 +273,20 @@ class ActividadController extends Controller
             return redirect(route('home'));
         }
     }
+
+    public function duplicar(Actividad $actividad)
+    {
+        $actividad->setCloneableRelations(['intellij_projects', 'youtube_videos', 'cuestionarios', 'markdown_texts']);
+
+        $copia = $actividad->duplicate();
+        $copia->plantilla = $actividad->plantilla;
+        $copia->save();
+
+        switch (session('ubicacion')) {
+            case 'actividades.index':
+                return redirect(route('actividades.index'));
+            case 'actividades.plantillas':
+                return redirect(route('actividades.plantillas'));
+        }
+    }
 }

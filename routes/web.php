@@ -178,6 +178,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('cursos', 'CursoController');
         Route::resource('unidades', 'UnidadController')
             ->parameters(['unidades' => 'unidad']);
+        Route::post('/actividades/{actividad}/duplicar', 'ActividadController@duplicar')
+            ->name('actividades.duplicar');
         Route::resource('actividades', 'ActividadController')
             ->parameters(['actividades' => 'actividad']);
 

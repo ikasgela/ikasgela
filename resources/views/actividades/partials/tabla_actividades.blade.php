@@ -44,26 +44,23 @@
                 </td>
                 @include('partials.botones_recursos')
                 <td>
-                    <form method="POST" action="{{ route('actividades.destroy', [$actividad->id]) }}">
-                        @csrf
-                        @method('DELETE')
-                        <div class='btn-group'>
-                            <a title="{{ __('Preview') }}"
-                               href="{{ route('actividades.preview', [$actividad->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
-                            <a title="{{ __('Edit') }}"
-                               href="{{ route('actividades.edit', [$actividad->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                            {{--
-                            @if(config('app.debug'))
-                                <a title="{{ __('Duplicate') }}"
-                                   href="#"
-                                   class='btn btn-light btn-sm'><i class="fas fa-copy"></i></a>
-                            @endif
-                            --}}
-                            @include('partials.boton_borrar')
-                        </div>
-                    </form>
+                    <div class='btn-group'>
+                        <a title="{{ __('Preview') }}"
+                           href="{{ route('actividades.preview', [$actividad->id]) }}"
+                           class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
+                        <a title="{{ __('Edit') }}"
+                           href="{{ route('actividades.edit', [$actividad->id]) }}"
+                           class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                        {!! Form::open(['route' => ['actividades.duplicar', $actividad->id], 'method' => 'POST']) !!}
+                        <button title="{{ __('Duplicate') }}"
+                                type="submit"
+                                class="btn btn-light btn-sm"><i class="fas fa-copy"></i>
+                        </button>
+                        {!! Form::close() !!}
+                        {!! Form::open(['route' => ['actividades.destroy', $actividad->id], 'method' => 'DELETE']) !!}
+                        @include('partials.boton_borrar')
+                        {!! Form::close() !!}
+                    </div>
                 </td>
             </tr>
         @endforeach

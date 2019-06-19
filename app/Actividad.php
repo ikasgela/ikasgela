@@ -13,7 +13,7 @@ class Actividad extends Model
     use LogsActivity;
     use SoftDeletes;
 
-    protected $cloneable_relations = ['intellij_projects', 'youtube_videos', 'siguiente', 'cuestionarios'];
+    protected $cloneable_relations = ['intellij_projects', 'youtube_videos', 'siguiente', 'cuestionarios', 'markdown_texts'];
     protected $clone_exempt_attributes = ['plantilla'];
 
     protected $table = 'actividades';
@@ -21,6 +21,11 @@ class Actividad extends Model
     protected $fillable = [
         'unidad_id', 'nombre', 'descripcion', 'puntuacion', 'plantilla', 'slug', 'final', 'siguiente', 'auto_avance', 'qualification_id'
     ];
+
+    public function setCloneableRelations($relations)
+    {
+        $this->cloneable_relations = $relations;
+    }
 
     public function unidad()
     {
