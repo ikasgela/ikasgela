@@ -104,4 +104,11 @@ class Actividad extends Model
             $query->where('cursos.id', setting_usuario('curso_actual'));
         });
     }
+
+    public function file_uploads()
+    {
+        return $this
+            ->belongsToMany(FileUpload::class)
+            ->withTimestamps();
+    }
 }

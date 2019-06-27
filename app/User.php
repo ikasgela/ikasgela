@@ -184,4 +184,9 @@ class User extends Authenticatable implements MustVerifyEmail
             $query->where('name', 'profesor');
         });
     }
+
+    public function files()
+    {
+        return $this->hasMany(File::class);
+    }
 }
