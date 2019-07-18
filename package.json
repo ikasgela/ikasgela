@@ -18,14 +18,14 @@
         "lodash": "^4.17.14",
         "popper.js": "^1.15.0",
         "resolve-url-loader": "^2.3.2",
-        "sass": "^1.22.4",
+        "sass": "^1.22.6",
         "sass-loader": "7.*",
         "vue": "^2.6.10"
     },
     "dependencies": {
         "@coreui/coreui": "^2.1.12",
         "@fortawesome/fontawesome-free": "^5.9.0",
-        "ajv": "^6.10.1",
+        "ajv": "^6.10.2",
         "imagemin": "^6.1.0",
         "jquery-countdown": "^2.2.0",
         "perfect-scrollbar": "^1.4.0",
