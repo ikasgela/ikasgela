@@ -2,84 +2,98 @@
 
 namespace App\Http\Controllers;
 
+use App\Actividad;
 use App\FileUpload;
 use Illuminate\Http\Request;
 
 class FileUploadController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:profesor');
+    }
+
     public function index()
     {
-        //
+        $file_uploads = FileUpload::all();
+
+        return view('file_uploads.index', compact('file_uploads'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('file_uploads.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'titulo' => 'required',
+            'max_files' => 'required',
+        ]);
+
+        FileUpload::create($request->all());
+
+        return redirect(route('file_uploads.index'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\FileUpload  $fileUpload
-     * @return \Illuminate\Http\Response
-     */
-    public function show(FileUpload $fileUpload)
+    public function show(FileUpload $file_upload)
     {
-        //
+        return view('file_uploads.show', compact(['file_upload']));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\FileUpload  $fileUpload
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(FileUpload $fileUpload)
+    public function edit(FileUpload $file_upload)
     {
-        //
+        return view('file_uploads.edit', compact('file_upload'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\FileUpload  $fileUpload
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, FileUpload $fileUpload)
+    public function update(Request $request, FileUpload $file_upload)
     {
-        //
+        $this->validate($request, [
+            'titulo' => 'required',
+            'max_files' => 'required',
+        ]);
+
+        $file_upload->update($request->all());
+
+        return redirect(route('file_uploads.index'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\FileUpload  $fileUpload
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(FileUpload $fileUpload)
+    public function destroy(FileUpload $file_upload)
     {
-        //
+        $file_upload->delete();
+
+        return redirect(route('file_uploads.index'));
+    }
+
+    public function actividad(Actividad $actividad)
+    {
+        $file_uploads = $actividad->file_uploads()->get();
+
+        $subset = $file_uploads->pluck('id')->unique()->flatten()->toArray();
+        $disponibles = FileUpload::whereNotIn('id', $subset)->get();
+
+        return view('file_uploads.actividad', compact(['file_uploads', 'disponibles', 'actividad']));
+    }
+
+    public function asociar(Actividad $actividad, Request $request)
+    {
+        $this->validate($request, [
+            'seleccionadas' => 'required',
+        ]);
+
+        foreach (request('seleccionadas') as $recurso_id) {
+            $recurso = FileUpload::find($recurso_id);
+            $actividad->file_uploads()->attach($recurso);
+        }
+
+        return redirect(route('file_uploads.actividad', ['actividad' => $actividad->id]));
+    }
+
+    public function desasociar(Actividad $actividad, FileUpload $file_upload)
+    {
+        $actividad->file_uploads()->detach($file_upload);
+        return redirect(route('file_uploads.actividad', ['actividad' => $actividad->id]));
     }
 }

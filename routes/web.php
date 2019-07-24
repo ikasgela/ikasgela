@@ -152,6 +152,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('items', 'ItemController');
         Route::get('/items/{pregunta}/anyadir', 'ItemController@anyadir')
             ->name('items.anyadir');
+
+        // FileUpload
+        Route::resource('file_uploads', 'FileUploadController');
+        Route::get('/file_uploads/{actividad}/actividad', 'FileUploadController@actividad')
+            ->name('file_uploads.actividad');
+        Route::post('/file_uploads/{actividad}/asociar', 'FileUploadController@asociar')
+            ->name('file_uploads.asociar');
+        Route::delete('/file_uploads/{actividad}/desasociar/{markdown_text}', 'FileUploadController@desasociar')
+            ->name('file_uploads.desasociar');
     });
 
     // Administrador

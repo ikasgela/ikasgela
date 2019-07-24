@@ -6,6 +6,7 @@ use App\FileUpload;
 use Faker\Generator as Faker;
 
 $factory->define(FileUpload::class, function (Faker $faker) {
+
     return [
         'titulo' => $faker->words(3, true),
         'descripcion' => $faker->sentence(6),

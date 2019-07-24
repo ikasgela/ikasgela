@@ -2,6 +2,7 @@
 
 use App\Actividad;
 use App\Cuestionario;
+use App\FileUpload;
 use App\IntellijProject;
 use App\Unidad;
 use App\YoutubeVideo;
@@ -107,5 +108,8 @@ class ActividadesTableSeeder extends Seeder
 
         $video = YoutubeVideo::where('codigo', 'bvim4rsNHkQ')->first();
         $actividad->youtube_videos()->attach($video);
+
+        $file_upload = FileUpload::where('titulo', 'Diagrama de flujo')->first();
+        $actividad->file_uploads()->attach($file_upload);
     }
 }
