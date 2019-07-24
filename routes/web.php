@@ -28,6 +28,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/settings', 'SettingController@guardar')
         ->name('settings.guardar');
 
+    // FileUpload
+    Route::post('/upload', 'FileController@postUpload')->name('uploadfile');
+
     // Alumno
     Route::middleware(['role:alumno'])->group(function () {
 
@@ -257,7 +260,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::view('/reloj', 'tarjetas.reloj');
 
         Route::get('/files', 'FileController@getFiles')->name('files');
-        Route::post('/upload', 'FileController@postUpload')->name('uploadfile');
-
     }
 });
