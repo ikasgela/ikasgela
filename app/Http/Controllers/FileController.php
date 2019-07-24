@@ -30,7 +30,7 @@ class FileController extends Controller
 
         $this->file->create([
             'path' => $path,
-            'title' => request('title'),
+            'title' => $request->file->getClientOriginalName(),
             'size' => $request->file->getClientSize(),
             'user_id' => Auth::user()->id,
             'file_upload_id' => $file_upload->id

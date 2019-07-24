@@ -38,5 +38,10 @@
                 Reloj
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('/files') }}">
+                Ficheros
+            </a>
+        </li>
     </ul>
 </li>

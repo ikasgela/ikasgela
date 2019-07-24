@@ -4,7 +4,7 @@
 
     <div class="row mb-3">
         <div class="col-md">
-            <h1>Tarjeta: Reloj</h1>
+            <h1>Tarjeta: Ficheros de usuario</h1>
         </div>
     </div>
 
@@ -24,7 +24,7 @@
                         </tr>
                         @foreach ($files as $file)
                             <tr>
-                                <th><img width="100px" src="{{$file->url}}"></th>
+                                <th><img style="width:100px" src="{{$file->url}}"></th>
                                 <td>{{$file->title}}</td>
                                 <td>{{$file->size_in_kb}} KB</td>
                                 <td>{{$file->uploaded_time}}</td>
