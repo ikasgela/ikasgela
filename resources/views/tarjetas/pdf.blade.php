@@ -17,7 +17,7 @@
                 <div class="card-body">
                     <p class="card-text">Sube aquí una imagen con tu solución.</p>
 
-                    <form action="#" enctype="multipart/form-data" method="post">
+                    <form action="{{ route('uploadfile') }}" enctype="multipart/form-data" method="post">
                         @csrf
                         <div class="form-group">
                             <input type="file" name="file" id="">

@@ -3,83 +3,39 @@
 namespace App\Http\Controllers;
 
 use App\File;
-use Illuminate\Http\Request;
+use App\FileUpload;
+use App\Http\Requests\StoreFile;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    private $file;
+
+    public function __construct(File $file)
     {
-        //
+        $this->file = $file;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function getFiles()
     {
-        //
+        return view('tarjetas.ficheros')->with('files', auth()->user()->files);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function postUpload(StoreFile $request)
     {
-        //
-    }
+        $path = Storage::disk('s3')->put('files', $request->file);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\File  $file
-     * @return \Illuminate\Http\Response
-     */
-    public function show(File $file)
-    {
-        //
-    }
+        $file_upload = factory(FileUpload::class)->create();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\File  $file
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(File $file)
-    {
-        //
-    }
+        $this->file->create([
+            'path' => $path,
+            'title' => request('title'),
+            'size' => $request->file->getClientSize(),
+            'user_id' => Auth::user()->id,
+            'file_upload_id' => $file_upload->id
+        ]);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\File  $file
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, File $file)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\File  $file
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(File $file)
-    {
-        //
+        return back()->with('success', 'File Successfully Saved');
     }
 }

@@ -246,5 +246,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/tarjeta_texto_markdown', 'TarjetaController@texto_markdown');
         Route::view('/tarjeta_pdf', 'tarjetas.pdf');
         Route::view('/reloj', 'tarjetas.reloj');
+
+
+        Route::get('/files', 'FileController@getFiles')->name('files');
+        Route::post('/upload', 'FileController@postUpload')->name('uploadfile');
+
     }
 });
