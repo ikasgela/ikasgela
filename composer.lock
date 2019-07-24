@@ -804,16 +804,16 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "2.1.9",
+            "version": "2.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "128cc721d771ec2c46ce59698f4ca42b73f71b25"
+                "reference": "a6c8d7101b19a451c1707b1b79bbbc56e4bdb7ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/128cc721d771ec2c46ce59698f4ca42b73f71b25",
-                "reference": "128cc721d771ec2c46ce59698f4ca42b73f71b25",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/a6c8d7101b19a451c1707b1b79bbbc56e4bdb7ec",
+                "reference": "a6c8d7101b19a451c1707b1b79bbbc56e4bdb7ec",
                 "shasum": ""
             },
             "require": {
@@ -823,7 +823,8 @@
             "require-dev": {
                 "dominicsayers/isemail": "dev-master",
                 "phpunit/phpunit": "^4.8.35||^5.7||^6.0",
-                "satooshi/php-coveralls": "^1.0.1"
+                "satooshi/php-coveralls": "^1.0.1",
+                "symfony/phpunit-bridge": "^4.4@dev"
             },
             "suggest": {
                 "ext-intl": "PHP Internationalization Libraries are required to use the SpoofChecking validation"
@@ -857,7 +858,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2019-06-23T10:14:27+00:00"
+            "time": "2019-07-19T20:52:08+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -1496,16 +1497,16 @@
         },
         {
             "name": "kkomelin/laravel-translatable-string-exporter",
-            "version": "1.2.0",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kkomelin/laravel-translatable-string-exporter.git",
-                "reference": "be3b0718cc3ba0340c2659e9f7bb9e7ae8b70f17"
+                "reference": "70bc6a1c8c63ae5a2768842b4d9c78b3f2ba4c7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kkomelin/laravel-translatable-string-exporter/zipball/be3b0718cc3ba0340c2659e9f7bb9e7ae8b70f17",
-                "reference": "be3b0718cc3ba0340c2659e9f7bb9e7ae8b70f17",
+                "url": "https://api.github.com/repos/kkomelin/laravel-translatable-string-exporter/zipball/70bc6a1c8c63ae5a2768842b4d9c78b3f2ba4c7d",
+                "reference": "70bc6a1c8c63ae5a2768842b4d9c78b3f2ba4c7d",
                 "shasum": ""
             },
             "require": {
@@ -1550,7 +1551,7 @@
                 "laravel",
                 "translations"
             ],
-            "time": "2019-02-27T05:10:52+00:00"
+            "time": "2019-07-19T07:39:12+00:00"
         },
         {
             "name": "laravel/framework",
@@ -2193,16 +2194,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.21.2",
+            "version": "2.21.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "a8bfb6631e3bc982427406d13ad817fc45d47b61"
+                "reference": "58bdbbfab17ccd2ec7347b99e997f18232def4dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/a8bfb6631e3bc982427406d13ad817fc45d47b61",
-                "reference": "a8bfb6631e3bc982427406d13ad817fc45d47b61",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/58bdbbfab17ccd2ec7347b99e997f18232def4dc",
+                "reference": "58bdbbfab17ccd2ec7347b99e997f18232def4dc",
                 "shasum": ""
             },
             "require": {
@@ -2256,7 +2257,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2019-07-17T07:49:05+00:00"
+            "time": "2019-07-18T18:47:28+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -3539,16 +3540,16 @@
         },
         {
             "name": "spatie/laravel-activitylog",
-            "version": "3.6.2",
+            "version": "3.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-activitylog.git",
-                "reference": "d5fd05eb9edcb2416ada4f1e026d47ee9f8706a3"
+                "reference": "84072ceb7406913aaf783dcebe173ce1681d25ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-activitylog/zipball/d5fd05eb9edcb2416ada4f1e026d47ee9f8706a3",
-                "reference": "d5fd05eb9edcb2416ada4f1e026d47ee9f8706a3",
+                "url": "https://api.github.com/repos/spatie/laravel-activitylog/zipball/84072ceb7406913aaf783dcebe173ce1681d25ed",
+                "reference": "84072ceb7406913aaf783dcebe173ce1681d25ed",
                 "shasum": ""
             },
             "require": {
@@ -3586,16 +3587,16 @@
             ],
             "authors": [
                 {
-                    "name": "Sebastian De Deyne",
-                    "email": "sebastian@spatie.be",
-                    "homepage": "https://spatie.be",
-                    "role": "Developer"
+                    "name": "Freek Van der Herten",
+                    "role": "Developer",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be"
                 },
                 {
-                    "name": "Freek Van der Herten",
-                    "email": "freek@spatie.be",
-                    "homepage": "https://spatie.be",
-                    "role": "Developer"
+                    "name": "Sebastian De Deyne",
+                    "role": "Developer",
+                    "email": "sebastian@spatie.be",
+                    "homepage": "https://spatie.be"
                 }
             ],
             "description": "A very simple activity logger to monitor the users of your website or application",
@@ -3607,7 +3608,7 @@
                 "spatie",
                 "user"
             ],
-            "time": "2019-07-16T14:13:01+00:00"
+            "time": "2019-07-24T07:41:20+00:00"
         },
         {
             "name": "spatie/string",
