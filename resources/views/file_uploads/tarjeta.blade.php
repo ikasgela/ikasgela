@@ -13,20 +13,24 @@
             <button class="btn btn-primary">{{ __('Upload') }}</button>
             <hr>
             <table class="table table-bordered">
+                <thead class="thead-dark">
                 <tr>
-                    <th>File</th>
-                    <th>Caption</th>
-                    <th>Size</th>
-                    <th>Uploaded</th>
+                    <th>{{ __('File') }}</th>
+                    <th>{{ __('Title') }}</th>
+                    <th>{{ __('Size') }}</th>
+                    <th>{{ __('Uploaded') }}</th>
                 </tr>
+                </thead>
+                <tbody>
                 @foreach ($file_upload->files as $file)
                     <tr>
-                        <th><img style="width:100px" src="{{$file->url}}"></th>
-                        <td>{{$file->title}}</td>
-                        <td>{{$file->size_in_kb}} KB</td>
-                        <td>{{$file->uploaded_time}}</td>
+                        <th><img style="width:64px" src="{{ $file->url }}"></th>
+                        <td><a href="{{ $file->url }}" target="_blank">{{ $file->title }}</a></td>
+                        <td>{{ $file->size_in_kb }} KB</td>
+                        <td>{{ $file->uploaded_time }}</td>
                     </tr>
                 @endforeach
+                </tbody>
             </table>
         </form>
     </div>
