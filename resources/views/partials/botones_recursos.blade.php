@@ -15,6 +15,11 @@
            class="btn btn-sm {{ $actividad->cuestionarios()->count() > 0 ? 'btn-primary' : 'btn-light' }}">
             <i class="fas fa-question-circle"></i>
         </a>
+        <a title="{{ __('File upload') }}"
+           href="{{ route('file_uploads.actividad', [$actividad->id]) }}"
+           class="btn btn-sm {{ $actividad->file_uploads()->count() > 0 ? 'btn-primary' : 'btn-light' }}">
+            <i class="fas fa-file-upload"></i>
+        </a>
         <a title="{{ __('IntelliJ project') }}"
            href="{{ route('intellij_projects.actividad', [$actividad->id]) }}"
            class="btn btn-sm {{ $actividad->intellij_projects()->count() > 0 ? 'btn-primary' : 'btn-light' }}">

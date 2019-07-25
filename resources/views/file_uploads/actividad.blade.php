@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Resources: Markdown texts')])
+    @include('partials.titular', ['titular' => __('Resources: File uploads')])
 
     <div class="row">
         <div class="col-md-12">
@@ -20,7 +20,7 @@
 
     @include('partials.subtitulo', ['subtitulo' => __('Assigned resources')])
 
-    @if(count($markdown_texts) > 0 )
+    @if(count($file_uploads) > 0 )
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead class="thead-dark">
@@ -28,27 +28,20 @@
                     <th>#</th>
                     <th>{{ __('Title') }}</th>
                     <th>{{ __('Description') }}</th>
-                    <th>{{ __('Repository') }}</th>
-                    <th>{{ __('Branch') }}</th>
-                    <th>{{ __('File') }}</th>
+                    <th>{{ __('Maximum') }}</th>
                     <th>{{ __('Actions') }}</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($markdown_texts as $markdown_text)
+                @foreach($file_uploads as $file_upload)
                     <tr>
-                        <td>{{ $markdown_text->id }}</td>
-                        <td>{{ $markdown_text->titulo }}</td>
-                        <td>{{ $markdown_text->descripcion }}</td>
-                        <td>{{ $markdown_text->repositorio }}</td>
-                        <td>{{ $markdown_text->rama }}</td>
-                        <td>
-                            <a target="_blank"
-                               href="https://gitlab.ikasgela.{{ config('app.debug') ? 'test' : 'com' }}/{{ $markdown_text->repositorio }}/blob/{{ isset($markdown_text->rama) ? $markdown_text->rama : 'master' }}/{{ $markdown_text->archivo }}">{{ $markdown_text->archivo }}</a>
-                        </td>
+                        <td>{{ $file_upload->id }}</td>
+                        <td>{{ $file_upload->titulo }}</td>
+                        <td>{{ $file_upload->descripcion }}</td>
+                        <td>{{ $file_upload->max_files }}</td>
                         <td>
                             <form method="POST"
-                                  action="{{ route('markdown_texts.desasociar', ['actividad' => $actividad->id, '$markdown_text'=>$markdown_text->id]) }}">
+                                  action="{{ route('file_uploads.desasociar', ['actividad' => $actividad->id, '$file_upload'=>$file_upload->id]) }}">
                                 @csrf
                                 @method('DELETE')
                                 <div class='btn-group'>
@@ -72,7 +65,7 @@
     @include('partials.subtitulo', ['subtitulo' => __('Available resources')])
 
     @if(count($disponibles) > 0)
-        <form method="POST" action="{{ route('markdown_texts.asociar', ['actividad' => $actividad->id]) }}">
+        <form method="POST" action="{{ route('file_uploads.asociar', ['actividad' => $actividad->id]) }}">
             @csrf
 
             <div class="table-responsive">
@@ -83,25 +76,17 @@
                         <th>#</th>
                         <th>{{ __('Title') }}</th>
                         <th>{{ __('Description') }}</th>
-                        <th>{{ __('Repository') }}</th>
-                        <th>{{ __('Branch') }}</th>
-                        <th>{{ __('File') }}</th>
-                        <th>{{ __('Actions') }}</th>
+                        <th>{{ __('Maximum') }}</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($disponibles as $markdown_text)
+                    @foreach($disponibles as $file_upload)
                         <tr>
-                            <td><input type="checkbox" name="seleccionadas[]" value="{{ $markdown_text->id }}"></td>
-                            <td>{{ $markdown_text->id }}</td>
-                            <td>{{ $markdown_text->titulo }}</td>
-                            <td>{{ $markdown_text->descripcion }}</td>
-                            <td>{{ $markdown_text->repositorio }}</td>
-                            <td>{{ $markdown_text->rama }}</td>
-                            <td>
-                                <a target="_blank"
-                                   href="https://gitlab.ikasgela.{{ config('app.debug') ? 'test' : 'com' }}/{{ $markdown_text->repositorio }}/blob/{{ isset($markdown_text->rama) ? $markdown_text->rama : 'master' }}/{{ $markdown_text->archivo }}">{{ $markdown_text->archivo }}</a>
-                            </td>
+                            <td><input type="checkbox" name="seleccionadas[]" value="{{ $file_upload->id }}"></td>
+                            <td>{{ $file_upload->id }}</td>
+                            <td>{{ $file_upload->titulo }}</td>
+                            <td>{{ $file_upload->descripcion }}</td>
+                            <td>{{ $file_upload->max_files }}</td>
                         </tr>
                     @endforeach
                     </tbody>

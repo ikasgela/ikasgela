@@ -162,7 +162,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('file_uploads.actividad');
         Route::post('/file_uploads/{actividad}/asociar', 'FileUploadController@asociar')
             ->name('file_uploads.asociar');
-        Route::delete('/file_uploads/{actividad}/desasociar/{markdown_text}', 'FileUploadController@desasociar')
+        Route::delete('/file_uploads/{actividad}/desasociar/{file_upload}', 'FileUploadController@desasociar')
             ->name('file_uploads.desasociar');
     });
 
