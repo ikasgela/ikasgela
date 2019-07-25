@@ -276,7 +276,16 @@ class ActividadController extends Controller
 
     public function duplicar(Actividad $actividad)
     {
-        $actividad->setCloneableRelations(['intellij_projects', 'youtube_videos', 'cuestionarios', 'markdown_texts']);
+        // Excluir siguiente
+        $cloneable_relations = [
+            'intellij_projects',
+            'youtube_videos',
+            'cuestionarios',
+            'markdown_texts',
+            'file_uploads'
+        ];
+
+        $actividad->setCloneableRelations($cloneable_relations);
 
         $copia = $actividad->duplicate();
         $copia->plantilla = $actividad->plantilla;
