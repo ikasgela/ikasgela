@@ -13,7 +13,15 @@ class Actividad extends Model
     use LogsActivity;
     use SoftDeletes;
 
-    protected $cloneable_relations = ['intellij_projects', 'youtube_videos', 'siguiente', 'cuestionarios', 'markdown_texts'];
+    protected $cloneable_relations = [
+        'intellij_projects',
+        'youtube_videos',
+        'siguiente',
+        'cuestionarios',
+        'markdown_texts',
+        'file_uploads'
+    ];
+
     protected $clone_exempt_attributes = ['plantilla'];
 
     protected $table = 'actividades';
@@ -103,5 +111,12 @@ class Actividad extends Model
         return $query->whereHas('unidad.curso', function ($query) {
             $query->where('cursos.id', setting_usuario('curso_actual'));
         });
+    }
+
+    public function file_uploads()
+    {
+        return $this
+            ->belongsToMany(FileUpload::class)
+            ->withTimestamps();
     }
 }

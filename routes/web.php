@@ -28,6 +28,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/settings', 'SettingController@guardar')
         ->name('settings.guardar');
 
+    // FileUpload
+    Route::post('/upload', 'FileController@postUpload')->name('uploadfile');
+
     // Alumno
     Route::middleware(['role:alumno'])->group(function () {
 
@@ -152,6 +155,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('items', 'ItemController');
         Route::get('/items/{pregunta}/anyadir', 'ItemController@anyadir')
             ->name('items.anyadir');
+
+        // FileUpload
+        Route::resource('file_uploads', 'FileUploadController');
+        Route::get('/file_uploads/{actividad}/actividad', 'FileUploadController@actividad')
+            ->name('file_uploads.actividad');
+        Route::post('/file_uploads/{actividad}/asociar', 'FileUploadController@asociar')
+            ->name('file_uploads.asociar');
+        Route::delete('/file_uploads/{actividad}/desasociar/{file_upload}', 'FileUploadController@desasociar')
+            ->name('file_uploads.desasociar');
     });
 
     // Administrador
@@ -246,5 +258,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/tarjeta_texto_markdown', 'TarjetaController@texto_markdown');
         Route::view('/tarjeta_pdf', 'tarjetas.pdf');
         Route::view('/reloj', 'tarjetas.reloj');
+
+        Route::get('/files', 'FileController@getFiles')->name('files');
     }
 });

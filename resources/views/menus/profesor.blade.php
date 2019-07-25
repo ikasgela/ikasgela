@@ -63,13 +63,8 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('preguntas.index') }}">
-                <i class="fas fa-question-circle"></i> {{ __('Questions') }}
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('items.index') }}">
-                <i class="fas fa-question-circle"></i> {{ __('Items') }}
+            <a class="nav-link" href="{{ route('file_uploads.index') }}">
+                <i class="fas fa-file-upload"></i> {{ __('File uploads') }}
             </a>
         </li>
     </ul>

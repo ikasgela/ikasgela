@@ -29,7 +29,7 @@ class UsersTableSeeder extends Seeder
 
         $this->generarUsuario('Marc', 'test@ikasgela.com', [$rol_alumno], [$equipo], [$curso_egibide], [$egibide]);
         $this->generarUsuario('Noa', 'test2@ikasgela.com', [$rol_alumno], [$equipo], [$curso_ikasgela], [$www]);
-        $this->generarUsuario('Lucía', 'profe@ikasgela.com', [$rol_profesor, $rol_admin], [], [], [$www, $egibide, $deusto]);
+        $this->generarUsuario('Lucía', 'profe@ikasgela.com', [$rol_profesor, $rol_admin], [], [$curso_ikasgela], [$www, $egibide, $deusto]);
         $this->generarUsuario('Administrador', 'admin@ikasgela.com', [$rol_admin], [], [], [$www, $egibide, $deusto]);
     }
 
