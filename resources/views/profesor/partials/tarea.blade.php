@@ -67,7 +67,7 @@
             {{-- Fin tarjeta--}}
         </div>
     </div>
-    @if($tarea->estado > 10)
+    @if($tarea->estado >= 10)
         @include('partials.tarjetas_actividad')
     @endif
 </div>

@@ -13,6 +13,11 @@
         @include('cuestionarios.tarjeta')
     </div>
 @endforeach
+@foreach($actividad->file_uploads()->get() as $file_upload)
+    <div class="col-md-6">
+        @include('file_uploads.tarjeta')
+    </div>
+@endforeach
 @foreach($actividad->intellij_projects()->get() as $intellij_project)
     <div class="col-md-6">
         @include('tarjetas.intellij_project', ['repositorio' => $intellij_project->gitlab()])
