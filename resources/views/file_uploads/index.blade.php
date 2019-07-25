@@ -16,6 +16,7 @@
                 <th>{{ __('Title') }}</th>
                 <th>{{ __('Description') }}</th>
                 <th>{{ __('Maximum') }}</th>
+                <th>{{ __('Template') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -26,6 +27,7 @@
                     <td>{{ $file_upload->titulo }}</td>
                     <td>{{ $file_upload->descripcion }}</td>
                     <td>{{ $file_upload->max_files }}</td>
+                    <td>{!! $file_upload->plantilla ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
                     <td class="text-nowrap">
                         {!! Form::open(['route' => ['file_uploads.destroy', $file_upload->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>

@@ -12,6 +12,7 @@
             {{ Form::campoTexto('titulo', __('Title')) }}
             {{ Form::campoTexto('descripcion', __('Description')) }}
             {{ Form::campoTexto('max_files', __('Maximum')) }}
+            {{ Form::campoCheck('plantilla', __('Template')) }}
 
             @include('partials.guardar_cancelar')
 

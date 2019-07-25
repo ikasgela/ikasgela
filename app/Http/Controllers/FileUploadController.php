@@ -55,6 +55,13 @@ class FileUploadController extends Controller
             'max_files' => 'required',
         ]);
 
+        $file_upload->update([
+            'titulo' => $request->input('titulo'),
+            'descripcion' => $request->input('descripcion'),
+            'max_files' => $request->input('max_files'),
+            'plantilla' => $request->has('plantilla'),
+        ]);
+
         $file_upload->update($request->all());
 
         return redirect(route('file_uploads.index'));
@@ -72,7 +79,7 @@ class FileUploadController extends Controller
         $file_uploads = $actividad->file_uploads()->get();
 
         $subset = $file_uploads->pluck('id')->unique()->flatten()->toArray();
-        $disponibles = FileUpload::whereNotIn('id', $subset)->get();
+        $disponibles = FileUpload::where('plantilla', true)->whereNotIn('id', $subset)->get();
 
         return view('file_uploads.actividad', compact(['file_uploads', 'disponibles', 'actividad']));
     }
