@@ -141,6 +141,12 @@ class ProfesorController extends Controller
                 $clon->cuestionarios()->attach($copia);
             }
 
+            foreach ($clon->file_uploads as $file_upload) {
+                $copia = $file_upload->duplicate();
+                $clon->file_uploads()->detach($file_upload);
+                $clon->file_uploads()->attach($copia);
+            }
+
             $tarea = Tarea::where('user_id', $user->id)->where('actividad_id', $clon->id)->first();
 
             Registro::create([
