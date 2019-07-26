@@ -29,5 +29,9 @@ class AuthServiceProvider extends ServiceProvider
         Validator::extend('allowed_domains', function ($attribute, $value, $parameters, $validator) {
             return in_array('*', $parameters) || in_array(explode('@', $value)[1], $parameters);
         }, __('Invalid email address.'));
+
+        Validator::extend('forbidden_domains', function ($attribute, $value, $parameters, $validator) {
+            return !in_array(explode('@', $value)[1], $parameters);
+        }, __('Invalid email address.'));
     }
 }

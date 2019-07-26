@@ -53,23 +53,24 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        // https://stackoverflow.com/a/52444480
-
         switch (subdominio()) {
             case 'egibide':
                 $dominios = 'egibide.org,ikasle.egibide.org';
+                $validator = 'allowed_domains';
                 break;
             case 'deusto':
                 $dominios = 'deusto.es,opendeusto.es';
+                $validator = 'allowed_domains';
                 break;
             default:
-                $dominios = '*';
+                $dominios = 'egibide.org,ikasle.egibide.org,deusto.es,opendeusto.es';
+                $validator = 'forbidden_domains';
                 break;
         }
 
         return Validator::make($data, [
             'name' => 'required|string|max:255',
-            'email' => "required|string|email|allowed_domains:$dominios|max:255|unique:users",
+            'email' => "required|string|email|$validator:$dominios|max:255|unique:users",
             'password' => 'required|string|min:8|confirmed',
         ]);
     }

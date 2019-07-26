@@ -44,18 +44,20 @@ class LoginController extends Controller
         switch (subdominio()) {
             case 'egibide':
                 $dominios = 'egibide.org,ikasle.egibide.org';
+                $validator = 'allowed_domains';
                 break;
             case 'deusto':
                 $dominios = 'deusto.es,opendeusto.es';
+                $validator = 'allowed_domains';
                 break;
             default:
-                $dominios = '*';
+                $dominios = 'egibide.org,ikasle.egibide.org,deusto.es,opendeusto.es';
+                $validator = 'forbidden_domains';
                 break;
         }
 
         $request->validate([
-            $this->username() => "required|string|email",
-            //$this->username() => "required|string|email|allowed_domains:$dominios",
+            $this->username() => "required|string|email|$validator:$dominios",
             'password' => 'required|string',
         ]);
     }
