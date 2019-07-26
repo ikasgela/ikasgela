@@ -58,8 +58,7 @@
                             @break
                             @case(20)   {{-- Aceptada --}}
                             @case(21)   {{-- Feedback leído --}}
-                            @if(!($actividad->intellij_projects()->get()->count() > 0
-                                && $actividad->intellij_projects()->wherePivot('fork',null)->get()->count() > 0))
+                            @if($actividad->envioPermitido())
                                 <button type="submit" name="nuevoestado" value="30"
                                         class="btn btn-primary">{{ __('Submit for review') }}</button>
                             @endif
@@ -172,6 +171,7 @@
                         </li>
                         <li><span class="bubble"></span>{{ __('Finished') }}</li>
                         @break
+                        @case(42)   {{-- Avance automático --}}
                         @case(50)   {{-- Terminada --}}
                         <li class="completed"><span class="bubble"></span>{{ __('Accepted') }}</li>
                         <li class="completed"><span class="bubble"></span>{{ __('Submitted') }}</li>

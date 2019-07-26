@@ -119,4 +119,28 @@ class Actividad extends Model
             ->belongsToMany(FileUpload::class)
             ->withTimestamps();
     }
+
+    public function envioPermitido()
+    {
+        $enviar = true;
+
+        if ($this->intellij_projects()->count() > 0) {
+            if ($this->intellij_projects()->wherePivot('fork', null)->count() > 0)
+                $enviar = false;
+        }
+
+        if ($this->cuestionarios()->count() > 0) {
+            if (!($this->cuestionarios()->where('respondido', true)->count() == $this->cuestionarios()->count()))
+                $enviar = false;
+        }
+
+        if ($this->file_uploads()->count() > 0) {
+            foreach ($this->file_uploads()->get() as $file_upload) {
+                if (!($file_upload->files()->count() > 0))
+                    $enviar = false;
+            }
+        }
+
+        return $enviar;
+    }
 }
