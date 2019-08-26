@@ -11,7 +11,9 @@
             <th>{{ __('Score') }}</th>
             <th class="text-center">{{ __('Auto') }}</th>
             <th>{{ __('Next') }}</th>
-            <th>{{ __('Resources') }}</th>
+            @if(Auth::user()->hasRole('admin'))
+                <th>{{ __('Resources') }}</th>
+            @endif
             <th>{{ __('Actions') }}</th>
         </tr>
         </thead>
@@ -36,7 +38,9 @@
                         {{ $actividad->siguiente->slug . ' ('.$actividad->siguiente->id.')' }}
                     @endif
                 </td>
-                @include('partials.botones_recursos')
+                @if(Auth::user()->hasRole('admin'))
+                    @include('partials.botones_recursos')
+                @endif
                 <td>
                     <div class='btn-group'>
                         <a title="{{ __('Preview') }}"
