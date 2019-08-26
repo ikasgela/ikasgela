@@ -72,6 +72,7 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'email' => "required|string|email|$validator:$dominios|max:255|unique:users",
             'password' => 'required|string|min:8|confirmed',
+            'g-recaptcha-response' => 'required|recaptchav3:register,0.5',
         ]);
     }
 
