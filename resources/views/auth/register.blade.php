@@ -12,6 +12,7 @@
 
                 <form method="POST" action="{{ route('register') }}">
                     @csrf
+                    {!! RecaptchaV3::field('register') !!}
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">
@@ -73,6 +74,11 @@
                                name="password_confirmation"
                                placeholder="{{ __('Confirm Password') }}" required>
                     </div>
+                    @if ($errors->has('g-recaptcha-response'))
+                        <div class="alert alert-danger" role="alert">
+                            <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+                        </div>
+                    @endif
                     <button type="submit" class="btn btn-block btn-success btn-primary">
                         {{ __('Create Account') }}
                     </button>
@@ -88,4 +94,8 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('recaptcha')
+    {!! RecaptchaV3::initJs() !!}
 @endsection

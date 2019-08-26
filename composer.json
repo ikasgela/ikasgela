@@ -16,6 +16,7 @@
         "graham-campbell/gitlab": "^1.8",
         "graham-campbell/markdown": "^10.3",
         "guzzlehttp/guzzle": "^6.3",
+        "josiasmontag/laravel-recaptchav3": "^0.2.0",
         "kkomelin/laravel-translatable-string-exporter": "^1.2",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
