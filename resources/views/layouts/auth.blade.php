@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
     @include('layouts.icons')
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('recaptcha')
 </head>
 <body>
 <div id="app" class="app flex-row align-items-center">
@@ -23,6 +24,5 @@
         </div>
     </div>
 </div>
-@yield('recaptcha')
 </body>
 </html>
