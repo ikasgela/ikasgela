@@ -1,4 +1,58 @@
 <li class="nav-title">{{ __('Admin') }}</li>
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('registros.index') }}">
+        <i class="nav-icon fas fa-graduation-cap"></i> {{ __('Records') }}
+    </a>
+</li>
+<li class="nav-item nav-dropdown">
+    <a class="nav-link nav-dropdown-toggle" href="#">
+        <i class="nav-icon fas fa-database"></i> {{ __('Activities') }}
+    </a>
+    <ul class="nav-dropdown-items">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('actividades.plantillas') }}">
+                <i class="nav-icon fas fa-file"></i> {{ __('Activity templates') }}
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('intellij_projects.copia') }}">
+                <i class="nav-icon fas fa-copy"></i> {{ __('Project cloner') }}
+            </a>
+        </li>
+    </ul>
+</li>
+<li class="nav-item nav-dropdown">
+    <a class="nav-link nav-dropdown-toggle" href="#">
+        <i class="nav-icon fas fa-database"></i> {{ __('Resources') }}
+    </a>
+    <ul class="nav-dropdown-items">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('markdown_texts.index') }}">
+                <i class="fab fa-markdown"></i> {{ __('Markdown texts') }}
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('youtube_videos.index') }}">
+                <i class="fab fa-youtube"></i> {{ __('YouTube videos') }}
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('intellij_projects.index') }}">
+                <i class="fab fa-java"></i> {{ __('IntelliJ projects') }}
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('cuestionarios.index') }}">
+                <i class="fas fa-question-circle"></i> {{ __('Questionnaires') }}
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('file_uploads.index') }}">
+                <i class="fas fa-file-upload"></i> {{ __('File uploads') }}
+            </a>
+        </li>
+    </ul>
+</li>
 <li class="nav-item nav-dropdown">
     <a class="nav-link nav-dropdown-toggle" href="#">
         <i class="nav-icon fas fa-database"></i> {{ __('Structure') }}
