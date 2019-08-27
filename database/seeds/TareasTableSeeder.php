@@ -13,7 +13,7 @@ class TareasTableSeeder extends Seeder
      */
     public function run()
     {
-        $usuario = User::where('email', 'test@ikasgela.com')->first();
+        $usuario = User::where('email', 'marc@ikasgela.com')->first();
         $actividad = Actividad::where('nombre', 'Tarea de bienvenida')->first();
 
         $clon = $actividad->duplicate();

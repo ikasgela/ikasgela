@@ -23,16 +23,16 @@ class UsersTableSeeder extends Seeder
         $curso_deusto = Curso::find(2);
         $curso_egibide = Curso::find(3);
 
-        $www = Organization::find(1);
-        $egibide = Organization::find(2);
-        $deusto = Organization::find(3);
+        $ikasgela = Organization::where('slug', 'ikasgela')->first();
+        $egibide = Organization::where('slug', 'egibide')->first();
+        $deusto = Organization::where('slug', 'deusto')->first();
 
-        $this->generarUsuario('Marc', 'test@ikasgela.com', [$rol_alumno], [$equipo], [$curso_ikasgela], [$www]);
-        $this->generarUsuario('Noa', 'test2@ikasgela.com', [$rol_alumno], [$equipo], [$curso_ikasgela], [$www]);
-        $this->generarUsuario('Lucía', 'profe@ikasgela.com', [$rol_profesor, $rol_admin], [], [$curso_ikasgela], [$www]);
-        $this->generarUsuario('Administrador', 'admin@ikasgela.com', [$rol_admin], [], [], [$www]);
+        $this->generarUsuario('Marc', 'marc@ikasgela.com', [$rol_alumno], [$equipo], [$curso_ikasgela], [$ikasgela]);
+        $this->generarUsuario('Noa', 'noa@ikasgela.com', [$rol_alumno], [$equipo], [$curso_ikasgela], [$ikasgela]);
+        $this->generarUsuario('Lucía', 'lucia@ikasgela.com', [$rol_profesor, $rol_admin], [], [$curso_ikasgela], [$ikasgela]);
+        $this->generarUsuario('Administrador', 'admin@ikasgela.com', [$rol_admin], [], [], [$ikasgela]);
 
-        $this->generarUsuario('Ion Jaureguialzo Sarasola', 'ijaureguialzo@ikasgela.com', [$rol_profesor, $rol_admin], [], [$curso_ikasgela], [$www]);
+        $this->generarUsuario('Ion Jaureguialzo Sarasola', 'ijaureguialzo@ikasgela.com', [$rol_profesor, $rol_admin], [], [$curso_ikasgela], [$ikasgela]);
         $this->generarUsuario('Ion Jaureguialzo Sarasola', 'ijaureguialzo@egibide.org', [$rol_profesor], [], [$curso_egibide], [$egibide]);
         $this->generarUsuario('Ion Jaureguialzo Sarasola', 'ijaureguialzo@deusto.es', [$rol_profesor, $rol_admin], [], [$curso_deusto], [$deusto]);
     }

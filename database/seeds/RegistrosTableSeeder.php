@@ -18,7 +18,7 @@ class RegistrosTableSeeder extends Seeder
      */
     public function run()
     {
-        $usuario = User::where('email', 'test@ikasgela.com')->first();
+        $usuario = User::where('email', 'marc@ikasgela.com')->first();
         $tarea = Tarea::find(1);
 
         $registro = new Registro();
