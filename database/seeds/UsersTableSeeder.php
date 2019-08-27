@@ -4,6 +4,7 @@ use App\Curso;
 use App\Organization;
 use App\Role;
 use App\Team;
+use App\Unidad;
 use App\User;
 use Carbon\Carbon;
 use GrahamCampbell\GitLab\Facades\GitLab;
@@ -17,7 +18,11 @@ class UsersTableSeeder extends Seeder
         $rol_profesor = Role::where('name', 'profesor')->first();
         $rol_alumno = Role::where('name', 'alumno')->first();
 
-        $equipo = Team::find(1);
+        $equipo = Team::whereHas('group.period.organization', function ($query) {
+            $query->where('organizations.slug', 'egibide');
+        })
+            ->where('slug', 'todos')
+            ->first();
 
         $curso_ikasgela = Curso::find(1);
         $curso_deusto = Curso::find(2);
@@ -27,8 +32,8 @@ class UsersTableSeeder extends Seeder
         $egibide = Organization::where('slug', 'egibide')->first();
         $deusto = Organization::where('slug', 'deusto')->first();
 
-        $this->generarUsuario('Marc', 'marc@ikasgela.com', [$rol_alumno], [$equipo], [$curso_ikasgela], [$ikasgela]);
-        $this->generarUsuario('Noa', 'noa@ikasgela.com', [$rol_alumno], [$equipo], [$curso_ikasgela], [$ikasgela]);
+        $this->generarUsuario('Marc', 'marc@ikasgela.com', [$rol_alumno], [], [$curso_ikasgela], [$ikasgela]);
+        $this->generarUsuario('Noa', 'noa@ikasgela.com', [$rol_alumno], [], [$curso_ikasgela], [$ikasgela]);
         $this->generarUsuario('Lucía', 'lucia@ikasgela.com', [$rol_profesor, $rol_admin], [], [$curso_ikasgela], [$ikasgela]);
         $this->generarUsuario('Administrador', 'admin@ikasgela.com', [$rol_admin], [], [], [$ikasgela]);
 
