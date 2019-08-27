@@ -31,7 +31,7 @@ class ActividadesTableSeeder extends Seeder
         $actividad = new Actividad();
         $actividad->nombre = $nombre;
         $actividad->descripcion = 'Actividad de ejemplo que explica el flujo de trabajo.';
-        $actividad->puntuacion = 0;
+        $actividad->puntuacion = 10;
         $actividad->slug = Str::slug($nombre);
         $actividad->plantilla = true;
         $actividad->auto_avance = true;
@@ -40,8 +40,8 @@ class ActividadesTableSeeder extends Seeder
         $video = YoutubeVideo::where('titulo', 'Primeros pasos')->first();
         $actividad->youtube_videos()->attach($video);
 
-        $proyecto = IntellijProject::where('repositorio', 'programacion/introduccion/hola-mundo')->first();
-        $actividad->intellij_projects()->attach($proyecto);
+//        $proyecto = IntellijProject::where('repositorio', 'programacion/introduccion/hola-mundo')->first();
+//        $actividad->intellij_projects()->attach($proyecto);
 
         // --- GUI - Agenda
 

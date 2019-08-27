@@ -64,11 +64,121 @@ class QualificationsTableSeeder extends Seeder
         $curso->qualification()->associate($cualificacion);
         $curso->save();
 
+        // Primera unidad
+
+        $cualificacion = factory(Qualification::class)->create([
+            'organization_id' => $organization->id,
+            'name' => 'Introducción',
+            'description' => 'Presentación del curso, conceptos básicos y uso de las herramientas.',
+            'template' => true,
+        ]);
+
+        $cualificacion->skills()->attach($ce1, ['percentage' => 100]);
+
+        $unidad = Unidad::whereHas('curso.category.period.organization', function ($query) use ($organization) {
+            $query->where('organizations.slug', $organization->slug);
+        })
+            ->where('nombre', 'Introducción')
+            ->first();
+
+        $unidad->qualification()->associate($cualificacion);
+        $unidad->save();
+
         // Ikasgela
 
-        $organization = Organization::where('slug', 'ikasgela')->first();
+        $this->generarEstructuraCentro('ikasgela');
 
-        // Curso
+        // Egibide
+
+        $this->generarEstructuraCentro('egibide');
+    }
+
+    /**
+     * @param $organization
+     * @param $skill
+     */
+    private function generarCualificacionUnidad($organization, $skill): void
+    {
+        $cualificacion = factory(Qualification::class)->create([
+            'organization_id' => $organization->id,
+            'name' => $skill->name,
+            'description' => $skill->description,
+            'template' => true,
+        ]);
+
+        $cualificacion->skills()->attach($skill, ['percentage' => 100]);
+
+        $unidad = Unidad::whereHas('curso.category.period.organization', function ($query) use ($organization) {
+            $query->where('organizations.slug', $organization->slug);
+        })
+            ->where('nombre', $skill->name)
+            ->first();
+
+        $unidad->qualification()->associate($cualificacion);
+        $unidad->save();
+    }
+
+    private function generarEstructuraCentro($slug)
+    {
+        $organization = Organization::where('slug', $slug)->first();
+
+        // Skills
+
+        $skill1 = factory(Skill::class)->create([
+            'organization_id' => $organization->id,
+            'name' => 'Introducción',
+            'description' => 'Presentación del curso, conceptos básicos y uso de las herramientas.',
+        ]);
+
+        $skill2 = factory(Skill::class)->create([
+            'organization_id' => $organization->id,
+            'name' => 'Programación estructurada',
+            'description' => 'Desarrollo de aplicaciones mediante programación estructurada.',
+        ]);
+
+        $skill3 = factory(Skill::class)->create([
+            'organization_id' => $organization->id,
+            'name' => 'Programación modular',
+            'description' => 'Desarrollo de aplicaciones mediante programación modular.',
+        ]);
+
+        $skill4 = factory(Skill::class)->create([
+            'organization_id' => $organization->id,
+            'name' => 'Estructuras de datos I',
+            'description' => 'Estructuras estáticias: arrays y matrices.',
+        ]);
+
+        $skill5 = factory(Skill::class)->create([
+            'organization_id' => $organization->id,
+            'name' => 'Programación orientada a objetos',
+            'description' => 'Conceptos básicos de programación orientada a objetos.',
+        ]);
+
+        $skill6 = factory(Skill::class)->create([
+            'organization_id' => $organization->id,
+            'name' => 'Estructuras de datos II',
+            'description' => 'Estructuras dinámicas: listas, conjuntos y diccionarios.',
+        ]);
+
+        $skill7 = factory(Skill::class)->create([
+            'organization_id' => $organization->id,
+            'name' => 'Programación funcional',
+            'description' => 'Conceptos básicos de programación funcional.',
+        ]);
+
+        $skill8 = factory(Skill::class)->create([
+            'organization_id' => $organization->id,
+            'name' => 'GUI',
+            'description' => 'Desarrollo de aplicaciones con interfaz gráfica de usuario.',
+        ]);
+
+        $skill9 = factory(Skill::class)->create([
+            'organization_id' => $organization->id,
+            'name' => 'Persistencia',
+            'description' => 'Almacenamiento de información en ficheros y bases de datos.',
+        ]);
+
+        // General
 
         $cualificacion = factory(Qualification::class)->create([
             'organization_id' => $organization->id,
@@ -77,30 +187,18 @@ class QualificationsTableSeeder extends Seeder
             'template' => true,
         ]);
 
-        $ud1 = factory(Skill::class)->create([
-            'organization_id' => $organization->id,
-            'name' => 'UD1 - Introducción',
-            'description' => 'Presentación del curso, conceptos básicos y uso de las herramientas.',
-        ]);
+        $cualificacion->skills()->attach($skill1, ['percentage' => 100]);
+        $cualificacion->skills()->attach($skill2, ['percentage' => 100]);
+        $cualificacion->skills()->attach($skill3, ['percentage' => 100]);
+        $cualificacion->skills()->attach($skill4, ['percentage' => 100]);
+        $cualificacion->skills()->attach($skill5, ['percentage' => 100]);
+        $cualificacion->skills()->attach($skill6, ['percentage' => 100]);
+        $cualificacion->skills()->attach($skill7, ['percentage' => 100]);
+        $cualificacion->skills()->attach($skill8, ['percentage' => 100]);
+        $cualificacion->skills()->attach($skill9, ['percentage' => 100]);
 
-        $ud2 = factory(Skill::class)->create([
-            'organization_id' => $organization->id,
-            'name' => 'UD2 - Programación estructurada',
-            'description' => 'Desarrollo de aplicaciones mediante programación estructurada.',
-        ]);
-
-        $ud3 = factory(Skill::class)->create([
-            'organization_id' => $organization->id,
-            'name' => 'UD3 - Programación modular',
-            'description' => 'Desarrollo de aplicaciones mediante programación modular.',
-        ]);
-
-        $cualificacion->skills()->attach($ud1, ['percentage' => 100]);
-        $cualificacion->skills()->attach($ud2, ['percentage' => 100]);
-        $cualificacion->skills()->attach($ud3, ['percentage' => 100]);
-
-        $curso = Curso::whereHas('category.period.organization', function ($query) {
-            $query->where('organizations.slug', 'ikasgela');
+        $curso = Curso::whereHas('category.period.organization', function ($query) use ($slug) {
+            $query->where('organizations.slug', $slug);
         })
             ->where('slug', 'programacion')
             ->first();
@@ -108,24 +206,16 @@ class QualificationsTableSeeder extends Seeder
         $curso->qualification()->associate($cualificacion);
         $curso->save();
 
-        // Unidad
+        // Unidades
 
-        $cualificacion = factory(Qualification::class)->create([
-            'organization_id' => $organization->id,
-            'name' => 'Colecciones',
-            'description' => 'Cualificación para una unidad didáctica.',
-            'template' => true,
-        ]);
-
-        $cualificacion->skills()->attach($ud2, ['percentage' => 100]);
-
-        $unidad = Unidad::whereHas('curso.category.period.organization', function ($query) {
-            $query->where('organizations.slug', 'ikasgela');
-        })
-            ->where('slug', 'gui')
-            ->first();
-
-        $unidad->qualification()->associate($cualificacion);
-        $unidad->save();
+        $this->generarCualificacionUnidad($organization, $skill1);
+        $this->generarCualificacionUnidad($organization, $skill2);
+        $this->generarCualificacionUnidad($organization, $skill3);
+        $this->generarCualificacionUnidad($organization, $skill4);
+        $this->generarCualificacionUnidad($organization, $skill5);
+        $this->generarCualificacionUnidad($organization, $skill6);
+        $this->generarCualificacionUnidad($organization, $skill7);
+        $this->generarCualificacionUnidad($organization, $skill8);
+        $this->generarCualificacionUnidad($organization, $skill9);
     }
 }

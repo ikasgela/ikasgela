@@ -24,68 +24,7 @@ class UnidadesTableSeeder extends Seeder
             ->where('slug', 'programacion')
             ->first();
 
-        $nombre = 'Introducción';
-        factory(Unidad::class)->create([
-            'curso_id' => $curso->id,
-            'nombre' => $nombre,
-            'slug' => Str::slug($nombre)
-        ]);
-
-        $nombre = 'Programación estructurada';
-        factory(Unidad::class)->create([
-            'curso_id' => $curso->id,
-            'nombre' => $nombre,
-            'slug' => Str::slug($nombre)
-        ]);
-
-        $nombre = 'Programación modular';
-        factory(Unidad::class)->create([
-            'curso_id' => $curso->id,
-            'nombre' => $nombre,
-            'slug' => Str::slug($nombre)
-        ]);
-
-        $nombre = 'Estructuras de datos I';
-        factory(Unidad::class)->create([
-            'curso_id' => $curso->id,
-            'nombre' => $nombre,
-            'slug' => 'arrays'
-        ]);
-
-        $nombre = 'Programación orientada a objetos';
-        factory(Unidad::class)->create([
-            'curso_id' => $curso->id,
-            'nombre' => $nombre,
-            'slug' => 'poo'
-        ]);
-
-        $nombre = 'Estructuras de datos II';
-        factory(Unidad::class)->create([
-            'curso_id' => $curso->id,
-            'nombre' => $nombre,
-            'slug' => 'colecciones'
-        ]);
-
-        $nombre = 'Programación funcional';
-        factory(Unidad::class)->create([
-            'curso_id' => $curso->id,
-            'nombre' => $nombre,
-            'slug' => Str::slug($nombre)
-        ]);
-
-        $nombre = 'GUI';
-        factory(Unidad::class)->create([
-            'curso_id' => $curso->id,
-            'nombre' => $nombre,
-            'slug' => Str::slug($nombre)
-        ]);
-
-        $nombre = 'Persistencia';
-        factory(Unidad::class)->create([
-            'curso_id' => $curso->id,
-            'nombre' => $nombre,
-            'slug' => Str::slug($nombre)
-        ]);
+        $this->generarUnidades($curso);
 
         // Deusto
 
@@ -131,6 +70,12 @@ class UnidadesTableSeeder extends Seeder
             ->where('slug', 'programacion')
             ->first();
 
+        $this->generarUnidades($curso);
+
+    }
+
+    private function generarUnidades($curso): void
+    {
         $nombre = 'Introducción';
         factory(Unidad::class)->create([
             'curso_id' => $curso->id,
@@ -193,6 +138,5 @@ class UnidadesTableSeeder extends Seeder
             'nombre' => $nombre,
             'slug' => Str::slug($nombre)
         ]);
-
     }
 }
