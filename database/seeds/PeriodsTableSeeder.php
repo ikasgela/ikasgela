@@ -18,16 +18,6 @@ class PeriodsTableSeeder extends Seeder
         $egibide = Organization::where('slug', 'egibide')->first();
         $deusto = Organization::where('slug', 'deusto')->first();
 
-        $name = '2018';
-        $periodo = factory(Period::class)->create([
-            'organization_id' => $ikasgela->id,
-            'name' => $name,
-            'slug' => Str::slug($name)
-        ]);
-
-        $ikasgela->current_period_id = $periodo->id;
-        $ikasgela->save();
-
         $name = '2019';
         $periodo = factory(Period::class)->create([
             'organization_id' => $ikasgela->id,

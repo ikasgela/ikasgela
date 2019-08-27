@@ -1,6 +1,8 @@
 <?php
 
+use App\Category;
 use App\Curso;
+use App\Period;
 use App\Unidad;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -14,79 +16,183 @@ class UnidadesTableSeeder extends Seeder
      */
     public function run()
     {
-        $curso = Curso::where('nombre', 'Programación')->first();
+        // Egibide
+
+        $curso = Curso::whereHas('category.period.organization', function ($query) {
+            $query->where('organizations.slug', 'egibide');
+        })
+            ->where('slug', 'programacion')
+            ->first();
 
         $nombre = 'Introducción';
-        $unidad = new Unidad();
-        $unidad->nombre = $nombre;
-        $unidad->slug = Str::slug($nombre);
-        $curso->unidades()->save($unidad);
-
-        $nombre = 'Diseño de algoritmos';
-        $unidad = new Unidad();
-        $unidad->nombre = $nombre;
-        $unidad->slug = Str::slug($nombre);
-        $curso->unidades()->save($unidad);
+        factory(Unidad::class)->create([
+            'curso_id' => $curso->id,
+            'nombre' => $nombre,
+            'slug' => Str::slug($nombre)
+        ]);
 
         $nombre = 'Programación estructurada';
-        $unidad = new Unidad();
-        $unidad->nombre = $nombre;
-        $unidad->slug = Str::slug($nombre);
-        $curso->unidades()->save($unidad);
+        factory(Unidad::class)->create([
+            'curso_id' => $curso->id,
+            'nombre' => $nombre,
+            'slug' => Str::slug($nombre)
+        ]);
 
-        $nombre = 'Funciones';
-        $unidad = new Unidad();
-        $unidad->nombre = $nombre;
-        $unidad->slug = Str::slug($nombre);
-        $curso->unidades()->save($unidad);
+        $nombre = 'Programación modular';
+        factory(Unidad::class)->create([
+            'curso_id' => $curso->id,
+            'nombre' => $nombre,
+            'slug' => Str::slug($nombre)
+        ]);
 
-        $nombre = 'Arrays';
-        $unidad = new Unidad();
-        $unidad->nombre = $nombre;
-        $unidad->slug = Str::slug($nombre);
-        $curso->unidades()->save($unidad);
+        $nombre = 'Estructuras de datos I';
+        factory(Unidad::class)->create([
+            'curso_id' => $curso->id,
+            'nombre' => $nombre,
+            'slug' => 'arrays'
+        ]);
 
         $nombre = 'Programación orientada a objetos';
-        $unidad = new Unidad();
-        $unidad->nombre = $nombre;
-        $unidad->slug = 'poo';
-        $curso->unidades()->save($unidad);
+        factory(Unidad::class)->create([
+            'curso_id' => $curso->id,
+            'nombre' => $nombre,
+            'slug' => 'poo'
+        ]);
 
-        $nombre = 'Colecciones';
-        $unidad = new Unidad();
-        $unidad->nombre = $nombre;
-        $unidad->slug = Str::slug($nombre);
-        $curso->unidades()->save($unidad);
+        $nombre = 'Estructuras de datos II';
+        factory(Unidad::class)->create([
+            'curso_id' => $curso->id,
+            'nombre' => $nombre,
+            'slug' => 'colecciones'
+        ]);
 
         $nombre = 'Programación funcional';
-        $unidad = new Unidad();
-        $unidad->nombre = $nombre;
-        $unidad->slug = Str::slug($nombre);
-        $curso->unidades()->save($unidad);
+        factory(Unidad::class)->create([
+            'curso_id' => $curso->id,
+            'nombre' => $nombre,
+            'slug' => Str::slug($nombre)
+        ]);
 
         $nombre = 'GUI';
-        $unidad = new Unidad();
-        $unidad->nombre = $nombre;
-        $unidad->slug = Str::slug($nombre);
-        $curso->unidades()->save($unidad);
+        factory(Unidad::class)->create([
+            'curso_id' => $curso->id,
+            'nombre' => $nombre,
+            'slug' => Str::slug($nombre)
+        ]);
 
         $nombre = 'Persistencia';
-        $unidad = new Unidad();
-        $unidad->nombre = $nombre;
-        $unidad->slug = Str::slug($nombre);
-        $curso->unidades()->save($unidad);
+        factory(Unidad::class)->create([
+            'curso_id' => $curso->id,
+            'nombre' => $nombre,
+            'slug' => Str::slug($nombre)
+        ]);
 
-        $nombre = 'Programación orientada a objetos - Repaso';
-        $unidad = new Unidad();
-        $unidad->nombre = $nombre;
-        $unidad->slug = 'poo-repaso';
-        $curso->unidades()->save($unidad);
+        // Deusto
 
-        $nombre = 'GUI - Soluciones';
-        $unidad = new Unidad();
-        $unidad->nombre = $nombre;
-        $unidad->descripcion = 'Ejercicios solucionados.';
-        $unidad->slug = Str::slug($nombre);
-        $curso->unidades()->save($unidad);
+        $curso = Curso::whereHas('category.period.organization', function ($query) {
+            $query->where('organizations.slug', 'deusto');
+        })
+            ->where('slug', 'programacion-i')
+            ->first();
+
+        $nombre = 'Introducción';
+        factory(Unidad::class)->create([
+            'curso_id' => $curso->id,
+            'nombre' => $nombre,
+            'slug' => Str::slug($nombre)
+        ]);
+
+        $nombre = 'Programación estructurada';
+        factory(Unidad::class)->create([
+            'curso_id' => $curso->id,
+            'nombre' => $nombre,
+            'slug' => Str::slug($nombre)
+        ]);
+
+        $nombre = 'Programación modular';
+        factory(Unidad::class)->create([
+            'curso_id' => $curso->id,
+            'nombre' => $nombre,
+            'slug' => Str::slug($nombre)
+        ]);
+
+        $nombre = 'Estructuras de datos';
+        factory(Unidad::class)->create([
+            'curso_id' => $curso->id,
+            'nombre' => $nombre,
+            'slug' => 'estructuras-datos'
+        ]);
+
+        // Ikasgela
+
+        $curso = Curso::whereHas('category.period.organization', function ($query) {
+            $query->where('organizations.slug', 'ikasgela');
+        })
+            ->where('slug', 'programacion')
+            ->first();
+
+        $nombre = 'Introducción';
+        factory(Unidad::class)->create([
+            'curso_id' => $curso->id,
+            'nombre' => $nombre,
+            'slug' => Str::slug($nombre)
+        ]);
+
+        $nombre = 'Programación estructurada';
+        factory(Unidad::class)->create([
+            'curso_id' => $curso->id,
+            'nombre' => $nombre,
+            'slug' => Str::slug($nombre)
+        ]);
+
+        $nombre = 'Programación modular';
+        factory(Unidad::class)->create([
+            'curso_id' => $curso->id,
+            'nombre' => $nombre,
+            'slug' => Str::slug($nombre)
+        ]);
+
+        $nombre = 'Estructuras de datos I';
+        factory(Unidad::class)->create([
+            'curso_id' => $curso->id,
+            'nombre' => $nombre,
+            'slug' => 'arrays'
+        ]);
+
+        $nombre = 'Programación orientada a objetos';
+        factory(Unidad::class)->create([
+            'curso_id' => $curso->id,
+            'nombre' => $nombre,
+            'slug' => 'poo'
+        ]);
+
+        $nombre = 'Estructuras de datos II';
+        factory(Unidad::class)->create([
+            'curso_id' => $curso->id,
+            'nombre' => $nombre,
+            'slug' => 'colecciones'
+        ]);
+
+        $nombre = 'Programación funcional';
+        factory(Unidad::class)->create([
+            'curso_id' => $curso->id,
+            'nombre' => $nombre,
+            'slug' => Str::slug($nombre)
+        ]);
+
+        $nombre = 'GUI';
+        factory(Unidad::class)->create([
+            'curso_id' => $curso->id,
+            'nombre' => $nombre,
+            'slug' => Str::slug($nombre)
+        ]);
+
+        $nombre = 'Persistencia';
+        factory(Unidad::class)->create([
+            'curso_id' => $curso->id,
+            'nombre' => $nombre,
+            'slug' => Str::slug($nombre)
+        ]);
+
     }
 }
