@@ -2,6 +2,7 @@
 
 use App\Actividad;
 use App\Cuestionario;
+use App\Curso;
 use App\FileUpload;
 use App\IntellijProject;
 use App\Unidad;
@@ -20,7 +21,11 @@ class ActividadesTableSeeder extends Seeder
     {
         // --- Tarea de bienvenida
 
-        $unidad = Unidad::where('nombre', 'Introducción')->first();
+        $unidad = Unidad::whereHas('curso.category.period.organization', function ($query) {
+            $query->where('organizations.slug', 'ikasgela');
+        })
+            ->where('slug', 'introduccion')
+            ->first();
 
         $nombre = 'Tarea de bienvenida';
         $actividad = new Actividad();
@@ -40,7 +45,11 @@ class ActividadesTableSeeder extends Seeder
 
         // --- GUI - Agenda
 
-        $unidad = Unidad::where('nombre', 'GUI')->first();
+        $unidad = Unidad::whereHas('curso.category.period.organization', function ($query) {
+            $query->where('organizations.slug', 'ikasgela');
+        })
+            ->where('slug', 'gui')
+            ->first();
 
         $nombre = 'Agenda';
         $actividad = new Actividad();
@@ -58,7 +67,11 @@ class ActividadesTableSeeder extends Seeder
 
         // --- GUI - Tres en raya
 
-        $unidad = Unidad::where('nombre', 'GUI')->first();
+        $unidad = Unidad::whereHas('curso.category.period.organization', function ($query) {
+            $query->where('organizations.slug', 'ikasgela');
+        })
+            ->where('slug', 'gui')
+            ->first();
 
         $nombre = 'Tres en raya';
         $actividad = new Actividad();
@@ -76,7 +89,11 @@ class ActividadesTableSeeder extends Seeder
 
         // --- Colecciones - Reservas
 
-        $unidad = Unidad::where('nombre', 'Colecciones')->first();
+        $unidad = Unidad::whereHas('curso.category.period.organization', function ($query) {
+            $query->where('organizations.slug', 'ikasgela');
+        })
+            ->where('slug', 'colecciones')
+            ->first();
 
         $nombre = 'Reservas';
         $actividad = new Actividad();
@@ -92,7 +109,11 @@ class ActividadesTableSeeder extends Seeder
 
         // --- Diseño de algoritmos - Alternativa simple
 
-        $unidad = Unidad::where('nombre', 'Diseño de algoritmos')->first();
+        $unidad = Unidad::whereHas('curso.category.period.organization', function ($query) {
+            $query->where('organizations.slug', 'ikasgela');
+        })
+            ->where('slug', 'programacion-estructurada')
+            ->first();
 
         $nombre = 'Alternativa simple';
         $actividad = new Actividad();
