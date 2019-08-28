@@ -18,6 +18,7 @@
             <tr>
                 <th>#</th>
                 <th>{{ __('Course') }}</th>
+                <th>{{ __('Code') }}</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Description') }}</th>
                 <th>{{ __('Slug') }}</th>
@@ -30,6 +31,7 @@
                     <td>{{ $unidad->id }}</td>
                     <td>{{ $unidad->curso->category->period->organization->name }}
                         - {{ $unidad->curso->category->period->name }} - {{ $unidad->curso->nombre }}</td>
+                    <td>{{ $unidad->codigo }}</td>
                     <td>{{ $unidad->nombre }}</td>
                     <td>{{ $unidad->descripcion }}</td>
                     <td>{{ $unidad->slug }}</td>

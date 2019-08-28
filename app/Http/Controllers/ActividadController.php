@@ -37,7 +37,7 @@ class ActividadController extends Controller
     {
         session(['ubicacion' => 'actividades.plantillas']);
 
-        $unidades = Unidad::cursoActual()->orderBy('nombre')->get();
+        $unidades = Unidad::cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
 
         if ($request->has('unidad_id')) {
             session(['profesor_unidad_actual' => $request->input('unidad_id')]);

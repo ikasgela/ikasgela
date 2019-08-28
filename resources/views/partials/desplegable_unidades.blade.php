@@ -4,7 +4,13 @@
         <select class="form-control" id="unidad_id" name="unidad_id">
             <option value="">{{ __('--- None ---') }}</option>
             @foreach($unidades as $unidad)
-                <option value="{{ $unidad->id }}" {{ session('profesor_unidad_actual') == $unidad->id ? 'selected' : '' }}>{{ $unidad->nombre }}</option>
+                <option
+                    value="{{ $unidad->id }}" {{ session('profesor_unidad_actual') == $unidad->id ? 'selected' : '' }}>
+                    @isset($unidad->codigo)
+                        {{ $unidad->codigo }} -
+                    @endisset
+                    {{ $unidad->nombre }}
+                </option>
             @endforeach
         </select>
     </div>

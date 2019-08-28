@@ -34,30 +34,38 @@ class UnidadesTableSeeder extends Seeder
             ->where('slug', 'programacion-i')
             ->first();
 
-        $nombre = 'Introducción';
+        $codigo = 'Unidad 1';
+        $nombre = 'Introducción a la programación';
         factory(Unidad::class)->create([
             'curso_id' => $curso->id,
+            'codigo' => $codigo,
             'nombre' => $nombre,
-            'slug' => Str::slug($nombre)
+            'slug' => 'introduccion'
         ]);
 
+        $codigo = 'Unidad 2';
         $nombre = 'Programación estructurada';
         factory(Unidad::class)->create([
             'curso_id' => $curso->id,
+            'codigo' => $codigo,
             'nombre' => $nombre,
             'slug' => Str::slug($nombre)
         ]);
 
+        $codigo = 'Unidad 3';
         $nombre = 'Programación modular';
         factory(Unidad::class)->create([
             'curso_id' => $curso->id,
+            'codigo' => $codigo,
             'nombre' => $nombre,
             'slug' => Str::slug($nombre)
         ]);
 
+        $codigo = 'Unidad 4';
         $nombre = 'Estructuras de datos';
         factory(Unidad::class)->create([
             'curso_id' => $curso->id,
+            'codigo' => $codigo,
             'nombre' => $nombre,
             'slug' => 'estructuras-datos'
         ]);
@@ -76,65 +84,83 @@ class UnidadesTableSeeder extends Seeder
 
     private function generarUnidades($curso): void
     {
-        $nombre = 'Introducción';
+        $codigo = 'UD1';
+        $nombre = 'Introducción a la programación';
         factory(Unidad::class)->create([
             'curso_id' => $curso->id,
+            'codigo' => $codigo,
             'nombre' => $nombre,
-            'slug' => Str::slug($nombre)
+            'slug' => 'introduccion'
         ]);
 
+        $codigo = 'UD2';
         $nombre = 'Programación estructurada';
         factory(Unidad::class)->create([
             'curso_id' => $curso->id,
+            'codigo' => $codigo,
             'nombre' => $nombre,
             'slug' => Str::slug($nombre)
         ]);
 
+        $codigo = 'UD3';
         $nombre = 'Programación modular';
         factory(Unidad::class)->create([
             'curso_id' => $curso->id,
+            'codigo' => $codigo,
             'nombre' => $nombre,
             'slug' => Str::slug($nombre)
         ]);
 
+        $codigo = 'UD4';
         $nombre = 'Estructuras de datos I';
         factory(Unidad::class)->create([
             'curso_id' => $curso->id,
+            'codigo' => $codigo,
             'nombre' => $nombre,
             'slug' => 'arrays'
         ]);
 
+        $codigo = 'UD5';
         $nombre = 'Programación orientada a objetos';
         factory(Unidad::class)->create([
             'curso_id' => $curso->id,
+            'codigo' => $codigo,
             'nombre' => $nombre,
             'slug' => 'poo'
         ]);
 
+        $codigo = 'UD6';
         $nombre = 'Estructuras de datos II';
         factory(Unidad::class)->create([
             'curso_id' => $curso->id,
+            'codigo' => $codigo,
             'nombre' => $nombre,
             'slug' => 'colecciones'
         ]);
 
+        $codigo = 'UD7';
         $nombre = 'Programación funcional';
         factory(Unidad::class)->create([
             'curso_id' => $curso->id,
+            'codigo' => $codigo,
             'nombre' => $nombre,
             'slug' => Str::slug($nombre)
         ]);
 
+        $codigo = 'UD8';
         $nombre = 'GUI';
         factory(Unidad::class)->create([
             'curso_id' => $curso->id,
+            'codigo' => $codigo,
             'nombre' => $nombre,
             'slug' => Str::slug($nombre)
         ]);
 
+        $codigo = 'UD9';
         $nombre = 'Persistencia';
         factory(Unidad::class)->create([
             'curso_id' => $curso->id,
+            'codigo' => $codigo,
             'nombre' => $nombre,
             'slug' => Str::slug($nombre)
         ]);

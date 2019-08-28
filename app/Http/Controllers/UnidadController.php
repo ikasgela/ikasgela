@@ -41,6 +41,7 @@ class UnidadController extends Controller
         try {
             Unidad::create([
                 'curso_id' => request('curso_id'),
+                'codigo' => request('codigo'),
                 'nombre' => request('nombre'),
                 'descripcion' => request('descripcion'),
                 'slug' => Str::slug(request('nombre')),
@@ -76,6 +77,7 @@ class UnidadController extends Controller
         try {
             $unidad->update([
                 'curso_id' => request('curso_id'),
+                'codigo' => request('codigo'),
                 'nombre' => request('nombre'),
                 'descripcion' => request('descripcion'),
                 'slug' => strlen(request('slug')) > 0

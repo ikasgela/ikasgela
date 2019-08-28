@@ -21,6 +21,7 @@
                 </div>
             </div>
 
+            {{ Form::campoTexto('codigo', __('Code')) }}
             {{ Form::campoTexto('nombre', __('Name')) }}
             {{ Form::campoTexto('descripcion', __('Description')) }}
             {{ Form::campoTexto('slug', __('Slug')) }}
