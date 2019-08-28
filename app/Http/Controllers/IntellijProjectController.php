@@ -102,6 +102,10 @@ class IntellijProjectController extends Controller
     {
         $username = Auth::user()->username;
 
+        // Si la actividad no está asociada a este usuario, no hacer el fork
+        if (!$actividad->users()->where('username', $username)->exists())
+            abort(403, __('Sorry, you are not authorized to access this page.'));
+
         $proyecto = $intellij_project->gitlab();
         $ruta = $actividad->unidad->curso->slug
             . '-' . $actividad->unidad->slug
