@@ -5,22 +5,32 @@
         <p class="card-text">{{ $file_upload->descripcion }}</p>
         @if(count($file_upload->files) > 0)
             <div class="table-responsive">
-                <table class="table table-bordered">
+                <table class="table table-bordered small">
                     <thead class="thead-dark">
                     <tr>
                         <th>{{ __('File') }}</th>
                         <th>{{ __('Title') }}</th>
                         <th>{{ __('Size') }}</th>
                         <th>{{ __('Uploaded') }}</th>
+                        <th class="text-center">{{ __('Actions') }}</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach ($file_upload->files as $file)
                         <tr>
-                            <th><img style="width:64px" src="{{ $file->url }}"></th>
+                            <td class="align-middle"><img style="width:64px" src="{{ $file->url }}"></td>
                             <td><a href="{{ $file->url }}" target="_blank">{{ $file->title }}</a></td>
                             <td>{{ $file->size_in_kb }} KB</td>
                             <td>{{ $file->uploaded_time }}</td>
+                            <td class="text-center">
+                                <form method="POST" action="{{ route('deletefile', [$file->id]) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <div class='btn-group'>
+                                        @include('partials.boton_borrar')
+                                    </div>
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

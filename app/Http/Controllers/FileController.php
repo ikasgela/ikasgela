@@ -36,4 +36,17 @@ class FileController extends Controller
 
         return back()->with('success', 'File Successfully Saved');
     }
+
+    public function postDelete(File $file)
+    {
+        // Si es un fichero del usuario o tenemos el rol admin, borrarlo
+        if ($file->user()->where('id', Auth::user()->id)->exists() || Auth::user()->hasRole('admin')) {
+            Storage::disk('s3')->delete($file->path);
+            $file->delete();
+        } else {
+            abort(403, __('Sorry, you are not authorized to access this page.'));
+        }
+
+        return back()->with('success', 'File Successfully Deleted');
+    }
 }

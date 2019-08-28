@@ -29,7 +29,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('settings.guardar');
 
     // FileUpload
-    Route::post('/upload', 'FileController@postUpload')->name('uploadfile');
+    Route::post('/uploads', 'FileController@postUpload')->name('uploadfile');
+    Route::delete('/uploads/{file}', 'FileController@postDelete')->name('deletefile');
 
     // Alumno
     Route::middleware(['role:alumno'])->group(function () {
