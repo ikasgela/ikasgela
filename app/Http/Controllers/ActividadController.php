@@ -37,16 +37,16 @@ class ActividadController extends Controller
     {
         session(['ubicacion' => 'actividades.plantillas']);
 
-        $unidades = Unidad::orderBy('nombre')->get();
+        $unidades = Unidad::cursoActual()->orderBy('nombre')->get();
 
         if ($request->has('unidad_id')) {
             session(['profesor_unidad_actual' => $request->input('unidad_id')]);
         }
 
         if (session('profesor_unidad_actual')) {
-            $actividades = Actividad::where('plantilla', true)->where('unidad_id', session('profesor_unidad_actual'))->get();
+            $actividades = Actividad::cursoActual()->plantilla()->where('unidad_id', session('profesor_unidad_actual'))->get();
         } else {
-            $actividades = Actividad::where('plantilla', true)->get();
+            $actividades = Actividad::cursoActual()->plantilla()->where('plantilla', true)->get();
         }
 
         return view('actividades.plantillas', compact(['actividades', 'unidades']));
