@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Actividad;
+use App\Curso;
 use Exception;
 use GitLab;
 use Illuminate\Auth\Events\Verified;
@@ -27,27 +28,40 @@ class ActivarUsuarioGitLab
      */
     public function handle(Verified $event)
     {
-        try {
+        // Activar el usuario de GitLab
+        $desactivados = GitLab::users()->all([
+            'search' => $event->user['email']
+        ]);
 
-            $desactivados = GitLab::users()->all([
-                'search' => $event->user['email']
-            ]);
-
-            foreach ($desactivados as $usuario) {
-                GitLab::users()->unblock($usuario['id']);
-            }
-
-            $actividad = Actividad::where('nombre', 'Tarea de bienvenida')->first();
-            $clon = $actividad->duplicate();
-            $clon->plantilla = false;
-            $clon->save();
-            $event->user->actividades()->attach($clon, ['puntuacion' => $actividad->puntuacion]);
-
-            activity()
-                ->causedBy($event->user)
-                ->log('Usuario verificado');
-
-        } catch (Exception $e) {
+        foreach ($desactivados as $usuario) {
+            GitLab::users()->unblock($usuario['id']);
         }
+
+        // Asociamos al usuario el curso más nuevo que haya en la organización
+        // TODO: Cuando dispongamos de portada, eliminar esto y matricular al usuario en un curso de ejemplo
+        $curso = Curso::whereHas('category.period.organization', function ($query) {
+            $query->where('organizations.slug', organizacion());
+        })
+            ->latest()->first();
+
+        $event->user->cursos()->attach($curso);
+        setting_usuario(['curso_actual' => $curso->id], $event->user);
+
+        // Asignar la tarea de bienvenida
+        $actividad = Actividad::whereHas('unidad.curso.category.period.organization', function ($query) {
+            $query->where('organizations.slug', organizacion());
+        })
+            ->where('nombre', 'Tarea de bienvenida')
+            ->where('plantilla', true)
+            ->first();
+
+        $clon = $actividad->duplicate();
+        $clon->save();
+        $event->user->actividades()->attach($clon, ['puntuacion' => $actividad->puntuacion]);
+
+        // Log
+        activity()
+            ->causedBy($event->user)
+            ->log('Usuario verificado');
     }
 }
