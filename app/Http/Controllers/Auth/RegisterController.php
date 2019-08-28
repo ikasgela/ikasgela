@@ -68,12 +68,19 @@ class RegisterController extends Controller
                 break;
         }
 
-        return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => "required|string|email|$validator:$dominios|max:255|unique:users",
-            'password' => 'required|string|min:8|confirmed',
-            'g-recaptcha-response' => 'required|recaptchav3:register,0.5',
-        ]);
+        if (config('app.debug'))
+            return Validator::make($data, [
+                'name' => 'required|string|max:255',
+                'email' => "required|string|email|$validator:$dominios|max:255|unique:users",
+                'password' => 'required|string|min:8|confirmed',
+            ]);
+        else
+            return Validator::make($data, [
+                'name' => 'required|string|max:255',
+                'email' => "required|string|email|$validator:$dominios|max:255|unique:users",
+                'password' => 'required|string|min:8|confirmed',
+                'g-recaptcha-response' => 'required|recaptchav3:register,0.5',
+            ]);
     }
 
     /**

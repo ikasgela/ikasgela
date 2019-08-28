@@ -2,15 +2,11 @@
 
 if (!function_exists('setting_usuario')) {
 
-    /**
-     * description
-     *
-     * @param
-     * @return
-     */
-    function setting_usuario($key)
+    function setting_usuario($key, $user = null)
     {
-        if (!is_null(Auth::user())) {
+        if (!is_null($user)) {
+            setting()->setExtraColumns(['user_id' => $user->id]);
+        } else if (!is_null(Auth::user())) {
             setting()->setExtraColumns(['user_id' => Auth::user()->id]);
         }
 
