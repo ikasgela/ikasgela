@@ -37,8 +37,8 @@ class UsersTableSeeder extends Seeder
         $this->generarUsuario('Lucía', 'lucia@ikasgela.com', [$rol_profesor, $rol_admin], [], [$curso_ikasgela], [$ikasgela]);
         $this->generarUsuario('Administrador', 'admin@ikasgela.com', [$rol_admin], [], [], [$ikasgela]);
 
-        $this->generarUsuario('Deusto', 'deusto@ikasgela.com', [$rol_alumno], [], [$curso_deusto], [$deusto]);
-        $this->generarUsuario('Egibide', 'egibide@ikasgela.com', [$rol_alumno], [], [$curso_egibide], [$egibide]);
+        $this->generarUsuario('Deusto', 'ikasgela@deusto.es', [$rol_alumno], [], [$curso_deusto], [$deusto]);
+        $this->generarUsuario('Egibide', 'ikasgela@egibide.org', [$rol_alumno], [], [$curso_egibide], [$egibide]);
 
         $this->generarUsuario('Ion Jaureguialzo Sarasola', 'ijaureguialzo@ikasgela.com', [$rol_profesor, $rol_admin], [], [$curso_ikasgela], [$ikasgela]);
         $this->generarUsuario('Ion Jaureguialzo Sarasola', 'ijaureguialzo@egibide.org', [$rol_profesor], [], [$curso_egibide], [$egibide]);
