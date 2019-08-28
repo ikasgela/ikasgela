@@ -39,11 +39,13 @@
                                         </li>
                     --}}
                 @endif
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('settings.editar') }}">
-                        <i class="nav-icon fas fa-cog"></i> {{ __('Settings') }}
-                    </a>
-                </li>
+                @if(Auth::user()->hasAnyRole(['admin','profesor']) || config('app.debug'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('settings.editar') }}">
+                            <i class="nav-icon fas fa-cog"></i> {{ __('Settings') }}
+                        </a>
+                    </li>
+                @endif
             @endauth
         </ul>
     </nav>
