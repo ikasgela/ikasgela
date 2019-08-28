@@ -21,27 +21,29 @@ class ActividadesTableSeeder extends Seeder
     {
         // --- Tarea de bienvenida
 
-        $unidad = Unidad::whereHas('curso.category.period.organization', function ($query) {
-            $query->where('organizations.slug', 'ikasgela');
-        })
-            ->where('slug', 'introduccion')
-            ->first();
+        foreach (['ikasgela', 'egibide', 'deusto'] as $organizacion) {
 
-        $nombre = 'Tarea de bienvenida';
-        $actividad = new Actividad();
-        $actividad->nombre = $nombre;
-        $actividad->descripcion = 'Actividad de ejemplo que explica el flujo de trabajo.';
-        $actividad->puntuacion = 10;
-        $actividad->slug = Str::slug($nombre);
-        $actividad->plantilla = true;
-        $actividad->auto_avance = true;
-        $unidad->actividades()->save($actividad);
+            $unidad = Unidad::whereHas('curso.category.period.organization', function ($query) use ($organizacion) {
+                $query->where('organizations.slug', $organizacion);
+            })
+                ->where('slug', 'introduccion')
+                ->first();
 
-        $video = YoutubeVideo::where('titulo', 'Primeros pasos')->first();
-        $actividad->youtube_videos()->attach($video);
+            $nombre = 'Tarea de bienvenida';
+            $actividad = new Actividad();
+            $actividad->nombre = $nombre;
+            $actividad->descripcion = 'Actividad de ejemplo que explica el flujo de trabajo.';
+            $actividad->puntuacion = 10;
+            $actividad->slug = Str::slug($nombre);
+            $actividad->plantilla = true;
+            $actividad->auto_avance = true;
+            $unidad->actividades()->save($actividad);
 
-//        $proyecto = IntellijProject::where('repositorio', 'programacion/introduccion/hola-mundo')->first();
-//        $actividad->intellij_projects()->attach($proyecto);
+            $video = YoutubeVideo::where('titulo', 'Primeros pasos')->first();
+            $actividad->youtube_videos()->attach($video);
+            //$proyecto = IntellijProject::where('repositorio', 'programacion/introduccion/hola-mundo')->first();
+            //$actividad->intellij_projects()->attach($proyecto);
+        }
 
         // --- GUI - Agenda
 

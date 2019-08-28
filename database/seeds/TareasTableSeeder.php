@@ -14,7 +14,13 @@ class TareasTableSeeder extends Seeder
     public function run()
     {
         $usuario = User::where('email', 'marc@ikasgela.com')->first();
-        $actividad = Actividad::where('nombre', 'Tarea de bienvenida')->first();
+
+        $actividad = Actividad::whereHas('unidad.curso.category.period.organization', function ($query) {
+            $query->where('organizations.slug', 'ikasgela');
+        })
+            ->where('nombre', 'Tarea de bienvenida')
+            ->where('plantilla', true)
+            ->first();
 
         $clon = $actividad->duplicate();
         $clon->final = true;
