@@ -117,7 +117,7 @@ class ActividadController extends Controller
 
     public function edit(Actividad $actividad)
     {
-        $unidades = Unidad::cursoActual()->orderBy('nombre')->get();
+        $unidades = Unidad::orderBy('curso_id')->orderBy('codigo')->orderBy('nombre')->get();
         $siguiente = !is_null($actividad->siguiente) ? $actividad->siguiente->id : null;
         $actividades = Actividad::cursoActual()->where('id', '!=', $actividad->id)->whereNull('siguiente_id')->orWhere('id', $siguiente)->orderBy('nombre')->get();
         $plantillas = Actividad::cursoActual()->where('plantilla', true)->where('id', '!=', $actividad->id)->whereNull('siguiente_id')->orWhere('id', $siguiente)->orderBy('nombre')->get();

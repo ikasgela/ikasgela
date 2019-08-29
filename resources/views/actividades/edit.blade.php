@@ -14,10 +14,15 @@
                 <div class="col-sm-10">
                     <select class="form-control" id="unidad_id" name="unidad_id">
                         @foreach($unidades as $unidad)
-                            <option value="{{ $unidad->id }}" {{ $actividad->unidad_id == $unidad->id ? 'selected' : '' }}>
+                            <option
+                                value="{{ $unidad->id }}" {{ $actividad->unidad_id == $unidad->id ? 'selected' : '' }}>
                                 {{ $unidad->curso->category->period->organization->name }}
                                 - {{ $unidad->curso->category->period->name }}
-                                - {{ $unidad->curso->nombre }} - {{ $unidad->nombre }}</option>
+                                - {{ $unidad->curso->nombre }} -
+                                @isset($unidad->codigo)
+                                    {{ $unidad->codigo }} -
+                                @endisset
+                                {{ $unidad->nombre }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -36,11 +41,17 @@
                         <option value="">{{ __('--- None ---') }}</option>
                         @if($actividad->plantilla)
                             @foreach($plantillas as $temp)
-                                <option value="{{ $temp->id }}" {{ !is_null($actividad->siguiente) && $actividad->siguiente->id == $temp->id ? 'selected' : '' }}>{{ $temp->slug . ' ('. $temp->id . ')' }}</option>
+                                <option
+                                    value="{{ $temp->id }}" {{ !is_null($actividad->siguiente) && $actividad->siguiente->id == $temp->id ? 'selected' : '' }}>
+                                    {{ $temp->slug . ' ('. $temp->id . ')' }}
+                                </option>
                             @endforeach
                         @else
                             @foreach($actividades as $temp)
-                                <option value="{{ $temp->id }}" {{ !is_null($actividad->siguiente) && $actividad->siguiente->id == $temp->id ? 'selected' : '' }}>{{ $temp->slug . ' ('. $temp->id . ')' }}</option>
+                                <option
+                                    value="{{ $temp->id }}" {{ !is_null($actividad->siguiente) && $actividad->siguiente->id == $temp->id ? 'selected' : '' }}>
+                                    {{ $temp->slug . ' ('. $temp->id . ')' }}
+                                </option>
                             @endforeach
                         @endif
                     </select>
@@ -55,7 +66,10 @@
                     <select class="form-control" id="qualification_id" name="qualification_id">
                         <option value="">{{ __('--- None ---') }}</option>
                         @foreach($qualifications as $qualification)
-                            <option value="{{ $qualification->id }}" <?php if ($actividad->qualification_id == $qualification->id) echo 'selected'; ?>>{{ $qualification->name }}</option>
+                            <option
+                                value="{{ $qualification->id }}" <?php if ($actividad->qualification_id == $qualification->id) echo 'selected'; ?>>
+                                {{ $qualification->name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
