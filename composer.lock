@@ -121,16 +121,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.110.4",
+            "version": "3.110.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "784750852cb940e44de46b748d528123729edf99"
+                "reference": "e0c217851369efd42382c44b8c003db0b58abbdd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/784750852cb940e44de46b748d528123729edf99",
-                "reference": "784750852cb940e44de46b748d528123729edf99",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e0c217851369efd42382c44b8c003db0b58abbdd",
+                "reference": "e0c217851369efd42382c44b8c003db0b58abbdd",
                 "shasum": ""
             },
             "require": {
@@ -200,7 +200,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-08-27T18:10:37+00:00"
+            "time": "2019-08-28T18:33:29+00:00"
         },
         {
             "name": "bkwld/cloner",
@@ -3889,16 +3889,16 @@
         },
         {
             "name": "spatie/laravel-activitylog",
-            "version": "3.7.1",
+            "version": "3.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-activitylog.git",
-                "reference": "84072ceb7406913aaf783dcebe173ce1681d25ed"
+                "reference": "171454362805d6b50b95dbc79136172abfc3c732"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-activitylog/zipball/84072ceb7406913aaf783dcebe173ce1681d25ed",
-                "reference": "84072ceb7406913aaf783dcebe173ce1681d25ed",
+                "url": "https://api.github.com/repos/spatie/laravel-activitylog/zipball/171454362805d6b50b95dbc79136172abfc3c732",
+                "reference": "171454362805d6b50b95dbc79136172abfc3c732",
                 "shasum": ""
             },
             "require": {
@@ -3957,7 +3957,7 @@
                 "spatie",
                 "user"
             ],
-            "time": "2019-07-24T07:41:20+00:00"
+            "time": "2019-08-28T13:00:32+00:00"
         },
         {
             "name": "spatie/string",
