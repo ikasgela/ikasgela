@@ -29,7 +29,7 @@ class ProfesorController extends Controller
 
         $usuarios = User::organizacionActual()->rolAlumno()->orderBy('id')->get();
 
-        $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('nombre')->get();
+        $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
 
         if ($request->has('unidad_id')) {
             session(['profesor_unidad_actual' => $request->input('unidad_id')]);
@@ -46,7 +46,7 @@ class ProfesorController extends Controller
 
         $actividades = $user->actividades()->get();
 
-        $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('nombre')->get();
+        $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
 
         // https://gist.github.com/ermand/5458012
 
