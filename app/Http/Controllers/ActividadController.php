@@ -255,6 +255,11 @@ class ActividadController extends Controller
                     ]);
                 }
                 break;
+            case 70:
+                $actividad->final = !$actividad->final;
+                $actividad->save();
+                return back();
+                break;
             default:
         }
 

@@ -22,9 +22,15 @@
                     <h2>{{ $actividad->nombre }}</h2>
                     <p>{{ $actividad->descripcion }}</p>
                     <div class="form-inline">
-                        <button type="submit" name="nuevoestado" value="31"
-                                class="mr-1 btn btn-secondary"> {{ __('Reset') }}
-                        </button>
+                        @if($tarea->estado == 11)
+                            <button type="submit" name="nuevoestado" value="10"
+                                    class="mr-1 btn btn-secondary"> {{ __('Show') }}
+                            </button>
+                        @else
+                            <button type="submit" name="nuevoestado" value="31"
+                                    class="mr-1 btn btn-secondary"> {{ __('Reset') }}
+                            </button>
+                        @endif
                         <button type="submit" name="nuevoestado" value="41"
                                 class="mr-3 btn btn-warning"> {{ __('Send again') }}
                         </button>
@@ -34,8 +40,14 @@
                                value="{{ !is_null($tarea->puntuacion) ? $tarea->puntuacion : $actividad->puntuacion }}"/>
                         <label class="mr-3"> {{ __('over') }} {{ $actividad->puntuacion }}</label>
                         <button type="submit" name="nuevoestado" value="40"
-                                class="btn btn-primary"> {{ __('Finished') }}
+                                class="btn btn-primary mr-3"> {{ __('Finished') }}
                         </button>
+                        @if(!is_null($actividad->siguiente))
+                            <label>{{ __('Next') }}: @include('actividades.partials.siguiente')</label>
+                            <button type="submit" name="nuevoestado" value="70"
+                                    class="mx-3 btn btn-light"> {{ __('Pause') }}
+                            </button>
+                        @endif()
                     </div>
                     <div class="mt-2">
                         <i class="fas fa-bullhorn mt-3"></i>
@@ -48,7 +60,10 @@
                                 <select class="form-control" id="feedback_id" name="feedback_id">
                                     {{--                                <option value="">{{ __('--- None ---') }}</option>--}}
                                     @foreach($feedbacks as $feedback)
-                                        <option value="{{ $feedback->id }}" {{ session('profesor_feedback_actual') == $feedback->id ? 'selected' : '' }}>{{ $feedback->mensaje }}</option>
+                                        <option
+                                            value="{{ $feedback->id }}" {{ session('profesor_feedback_actual') == $feedback->id ? 'selected' : '' }}>
+                                            {{ $feedback->mensaje }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
