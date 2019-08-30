@@ -22,9 +22,15 @@
                     <h2>{{ $actividad->nombre }}</h2>
                     <p>{{ $actividad->descripcion }}</p>
                     <div class="form-inline">
-                        <button type="submit" name="nuevoestado" value="31"
-                                class="mr-1 btn btn-secondary"> {{ __('Reset') }}
-                        </button>
+                        @if($tarea->estado == 11)
+                            <button type="submit" name="nuevoestado" value="10"
+                                    class="mr-1 btn btn-secondary"> {{ __('Show') }}
+                            </button>
+                        @else
+                            <button type="submit" name="nuevoestado" value="31"
+                                    class="mr-1 btn btn-secondary"> {{ __('Reset') }}
+                            </button>
+                        @endif
                         <button type="submit" name="nuevoestado" value="41"
                                 class="mr-3 btn btn-warning"> {{ __('Send again') }}
                         </button>
