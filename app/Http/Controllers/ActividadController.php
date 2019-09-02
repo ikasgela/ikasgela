@@ -214,6 +214,7 @@ class ActividadController extends Controller
                     Mail::to('info@ikasgela.com')->queue(new TareaEnviada($tarea));
                 }
 
+                $tarea->save();
                 $this->mostrarSiguienteActividad($actividad, $usuario);
                 break;
             case 31:
@@ -233,6 +234,7 @@ class ActividadController extends Controller
             case 50:
                 break;
             case 60:
+                $tarea->save();
                 $this->mostrarSiguienteActividad($actividad, $usuario);
                 break;
             case 70:
@@ -302,6 +304,10 @@ class ActividadController extends Controller
 
             // Registrar la nueva tarea
             $nueva_tarea = Tarea::where('user_id', $usuario->id)->where('actividad_id', $actividad->siguiente->id)->first();
+
+            // Anular el enlace, para no volver a crear una copia si la tarea no se corrige a la primera
+            $actividad->siguiente->siguiente_id = null;
+            $actividad->siguiente->save();
 
             $registro_nueva_tarea = Registro::make([
                 'user_id' => $usuario->id,
