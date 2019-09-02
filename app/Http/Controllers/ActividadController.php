@@ -209,9 +209,12 @@ class ActividadController extends Controller
             case 20:
                 break;
             case 30:
+                // Notificar que hay una actividad para corregir
                 if (!$tarea->actividad->auto_avance) {
                     Mail::to('info@ikasgela.com')->queue(new TareaEnviada($tarea));
                 }
+
+                $this->mostrarSiguienteActividad($actividad, $usuario);
                 break;
             case 31:
                 $tarea->estado = 20;    // Botón de reset, para cuando se confunden
@@ -230,30 +233,7 @@ class ActividadController extends Controller
             case 50:
                 break;
             case 60:
-                // Pasar a la siguiente si no es final
-                if (!is_null($actividad->siguiente)) {
-                    if (!$actividad->final) {
-                        // Visible
-                        $usuario->actividades()->attach($actividad->siguiente);
-
-                        // Notificar
-                        $asignada = "- " . $actividad->siguiente->unidad->nombre . " - " . $actividad->siguiente->nombre . ".\n\n";
-                        Mail::to($usuario->email)->queue(new ActividadAsignada($usuario->name, $asignada));
-                    } else {
-                        // Oculta
-                        $usuario->actividades()->attach($actividad->siguiente, ['estado' => 11]);
-                    }
-
-                    // Registrar la nueva tarea
-                    $nueva_tarea = Tarea::where('user_id', $usuario->id)->where('actividad_id', $actividad->siguiente->id)->first();
-
-                    $registro_nueva_tarea = Registro::make([
-                        'user_id' => $usuario->id,
-                        'tarea_id' => $nueva_tarea->id,
-                        'estado' => !$actividad->final ? 10 : 11,
-                        'timestamp' => Carbon::now(),
-                    ]);
-                }
+                $this->mostrarSiguienteActividad($actividad, $usuario);
                 break;
             case 70:
                 $actividad->final = !$actividad->final;
@@ -301,6 +281,34 @@ class ActividadController extends Controller
                 return redirect(route('actividades.index'));
             case 'actividades.plantillas':
                 return redirect(route('actividades.plantillas'));
+        }
+    }
+
+    private function mostrarSiguienteActividad($actividad, $usuario)
+    {
+        // Pasar a la siguiente si no es final y no hay otra activa
+        if (!is_null($actividad->siguiente) && $usuario->actividades_asignadas()->count() < 2) {
+            if (!$actividad->final) {
+                // Visible
+                $usuario->actividades()->attach($actividad->siguiente);
+
+                // Notificar
+                $asignada = "- " . $actividad->siguiente->unidad->nombre . " - " . $actividad->siguiente->nombre . ".\n\n";
+                Mail::to($usuario->email)->queue(new ActividadAsignada($usuario->name, $asignada));
+            } else {
+                // Oculta
+                $usuario->actividades()->attach($actividad->siguiente, ['estado' => 11]);
+            }
+
+            // Registrar la nueva tarea
+            $nueva_tarea = Tarea::where('user_id', $usuario->id)->where('actividad_id', $actividad->siguiente->id)->first();
+
+            $registro_nueva_tarea = Registro::make([
+                'user_id' => $usuario->id,
+                'tarea_id' => $nueva_tarea->id,
+                'estado' => !$actividad->final ? 10 : 11,
+                'timestamp' => Carbon::now(),
+            ]);
         }
     }
 }
