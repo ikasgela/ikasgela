@@ -79,10 +79,11 @@
                     </div>
                 </div>
             </form>
+            @if($tarea->estado >= 10)
+                <hr class="my-2">
+                @include('partials.tarjetas_actividad')
+            @endif
             {{-- Fin tarjeta--}}
         </div>
     </div>
-    @if($tarea->estado >= 10)
-        @include('partials.tarjetas_actividad')
-    @endif
 </div>
