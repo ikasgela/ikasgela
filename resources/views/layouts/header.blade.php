@@ -12,7 +12,7 @@
                 <a class="nav-link" data-toggle="dropdown" href="#" role="button" title="{{ __('Settings') }}"
                    aria-haspopup="true"
                    aria-expanded="false">
-                    <img style="width:35px;" class="mx-1" src="{{Auth::user()->avatar_url(70)}}">
+                    <img alt="Avatar" style="width:35px;" class="mx-1" src="{{Auth::user()->avatar_url(70)}}">
                 </a>
                 <div class="dropdown-menu dropdown-menu-right shadow mt-2 pb-2">
                     <div class="dropdown-item-text">
