@@ -20,22 +20,22 @@ class IntellijProjectsTableSeeder extends Seeder
 
         $proyecto = new IntellijProject();
         $proyecto->titulo = 'Agenda';
-        $proyecto->repositorio = 'programacion/gui/agenda';
+        $proyecto->repositorio = 'programacion/introduccion/hola-mundo';
         $proyecto->save();
 
         $proyecto = new IntellijProject();
         $proyecto->titulo = 'Tres en raya';
-        $proyecto->repositorio = 'programacion/gui/tres-en-raya';
+        $proyecto->repositorio = 'programacion/introduccion/hola-mundo';
         $proyecto->save();
 
         $proyecto = new IntellijProject();
         $proyecto->titulo = 'Reservas';
-        $proyecto->repositorio = 'programacion/colecciones/reservas';
+        $proyecto->repositorio = 'programacion/introduccion/hola-mundo';
         $proyecto->save();
 
         $proyecto = new IntellijProject();
         $proyecto->titulo = 'Alternativa simple';
-        $proyecto->repositorio = 'programacion/diseno-de-algoritmos/alternativa-simple';
+        $proyecto->repositorio = 'programacion/introduccion/hola-mundo';
         $proyecto->save();
     }
 }

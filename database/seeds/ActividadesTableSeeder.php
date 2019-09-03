@@ -62,7 +62,7 @@ class ActividadesTableSeeder extends Seeder
         $actividad->plantilla = true;
         $unidad->actividades()->save($actividad);
 
-        $proyecto = IntellijProject::where('repositorio', 'programacion/gui/agenda')->first();
+        $proyecto = IntellijProject::where('repositorio', 'programacion/introduccion/hola-mundo')->first();
         $actividad->intellij_projects()->attach($proyecto);
 
         $siguiente = $actividad;
@@ -84,7 +84,7 @@ class ActividadesTableSeeder extends Seeder
         $actividad->plantilla = true;
         $unidad->actividades()->save($actividad);
 
-        $proyecto = IntellijProject::where('repositorio', 'programacion/gui/tres-en-raya')->first();
+        $proyecto = IntellijProject::where('repositorio', 'programacion/introduccion/hola-mundo')->first();
         $actividad->intellij_projects()->attach($proyecto);
 
         $actividad->siguiente()->save($siguiente);
@@ -106,7 +106,7 @@ class ActividadesTableSeeder extends Seeder
         $actividad->plantilla = true;
         $unidad->actividades()->save($actividad);
 
-        $proyecto = IntellijProject::where('repositorio', 'programacion/colecciones/reservas')->first();
+        $proyecto = IntellijProject::where('repositorio', 'programacion/introduccion/hola-mundo')->first();
         $actividad->intellij_projects()->attach($proyecto);
 
         // --- Diseño de algoritmos - Alternativa simple
