@@ -21,10 +21,10 @@
                     <h2>{{ $actividad->nombre }}</h2>
                     <p>{{ $actividad->descripcion }}</p>
                 </div>
+                @include('partials.tarjetas_actividad')
             </div>
             {{-- Fin tarjeta--}}
         </div>
-        @include('partials.tarjetas_actividad')
     </div>
     @include('partials.backbutton')
 @endsection
