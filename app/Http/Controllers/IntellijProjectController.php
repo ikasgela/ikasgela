@@ -107,19 +107,23 @@ class IntellijProjectController extends Controller
             abort(403, __('Sorry, you are not authorized to access this page.'));
 
         $proyecto = $intellij_project->gitlab();
-        $ruta = $actividad->unidad->curso->slug
-            . '-' . $actividad->unidad->slug
-            . '-' . $actividad->slug
-            . '-' . $proyecto['path'];
 
-        $fork = $this->clonar_repositorio($proyecto['path_with_namespace'], $username, $ruta);
+        $fork = null;
+        if (isset($proyecto['path'])) {
+            $ruta = $actividad->unidad->curso->slug
+                . '-' . $actividad->unidad->slug
+                . '-' . $actividad->slug
+                . '-' . $proyecto['path'];
+
+            $fork = $this->clonar_repositorio($proyecto['path_with_namespace'], $username, $ruta);
+        }
 
         if ($fork) {
             $actividad->intellij_projects()
                 ->updateExistingPivot($intellij_project->id, ['fork' => $fork['path_with_namespace']]);
         } else {
             $request->session()->flash('clone_error_id', $actividad->id);
-            $request->session()->flash('clone_error_status', 'Error al clonar el repositorio, contacta con el administrador.');
+            $request->session()->flash('clone_error_status', __('Error cloning the repository, contact your administrator.'));
         }
 
         return redirect(route('users.home'));

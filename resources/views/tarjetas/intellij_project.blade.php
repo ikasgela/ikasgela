@@ -11,11 +11,15 @@
                     <span>{{ session('clone_error_status') }}</span>
                 </div>
             @endif
-        @else
+        @elseif(isset($repositorio['web_url']))
             <a href="jetbrains://idea/checkout/git?checkout.repo={{ str_replace('https://',"https://".Auth::user()->username."@",$repositorio['http_url_to_repo']) }}&idea.required.plugins.id=Git4Idea"
                class="btn btn-primary">{{ __('Open in IntelliJ IDEA') }}</a>
             <a href="{{ $repositorio['web_url']  }}" target="_blank"
                class="btn btn-secondary">{{ __('Open in GitLab') }}</a>
+        @else
+            <div class="alert alert-danger mb-0 mt-3" role="alert">
+                <span>{{ __('GitLab error, contact with your administrator.') }}</span>
+            </div>
         @endif
     </div>
 </div>
