@@ -123,6 +123,7 @@ class ProfesorController extends Controller
             // REF: https://github.com/BKWLD/cloner
 
             $primero = true;
+            $anterior = null;
 
             while ($actividad != null) {
 
@@ -140,6 +141,9 @@ class ProfesorController extends Controller
                     $asignadas .= "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n\n";
                     $user->actividades()->attach($clon);
                     $tarea = Tarea::where('user_id', $user->id)->where('actividad_id', $clon->id)->first();
+                } else {
+                    $clon->siguiente_id = $anterior->id;
+                    $clon->save();
                 }
 
                 foreach ($actividad->cuestionarios as $cuestionario) {
@@ -153,6 +157,7 @@ class ProfesorController extends Controller
                 }
 
                 $actividad = $actividad->siguiente;
+                $anterior = $clon;
                 $primero = false;
             }
 
