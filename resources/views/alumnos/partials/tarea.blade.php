@@ -185,37 +185,43 @@
                     @endswitch
                 </ul>
             </div>
+            @switch($actividad->tarea->estado)
+                @case(20)   {{-- Aceptada --}}
+                @case(21)   {{-- Feedback leído --}}
+                @case(60)   {{-- Archivada --}}
+                <hr class="mt-0 mb-2">
+                @include('partials.tarjetas_actividad')
+                @break
+                @default
+            @endswitch
+            @if($actividad->tarea->estado > 10 && $actividad->tarea->estado != 30)
+                @if(!is_null($actividad->tarea->feedback))
+                    <hr class="mt-0 mb-2">
+                    <div class="row mt-3 mb-0 mx-2">
+                        <div class="col-md-12">
+                            <div class="card
+                            {{ $actividad->tarea->estado == 40 ? 'border-success' : '' }}
+                            {{ $actividad->tarea->estado == 41 ? 'border-warning' : '' }}">
+                                <div class="card-header
+                                {{ $actividad->tarea->estado == 40 ? 'bg-success' : '' }}
+                                {{ $actividad->tarea->estado == 41 ? 'bg-warning text-dark' : '' }}">
+                                    <i class="fas fa-bullhorn"></i></i> {{ __('Feedback') }}
+                                </div>
+                                <div class="card-body pb-0">
+                                    <div>{!! $actividad->tarea->feedback !!}</div>
+                                    <hr class="mt-0 mb-2">
+                                    <p class="text-muted small">
+                                        {{ __('Score') }}: {{ $actividad->tarea->puntuacion + 0 }}/{{
+                                        $actividad->puntuacion + 0 }}
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            @endif
         </div>
         {{-- Fin tarjeta--}}
     </div>
-    @if($actividad->tarea->estado > 10)
-        @if(!is_null($actividad->tarea->feedback))
-            <div class="col-md-12">
-                <div class="card
-                            {{ $actividad->tarea->estado == 40 ? 'border-success' : '' }}
-                {{ $actividad->tarea->estado == 41 ? 'border-warning' : '' }}">
-                    <div class="card-header
-                                {{ $actividad->tarea->estado == 40 ? 'bg-success' : '' }}
-                    {{ $actividad->tarea->estado == 41 ? 'bg-warning text-dark' : '' }}">
-                        <i class="fas fa-bullhorn"></i></i> {{ __('Feedback') }}
-                    </div>
-                    <div class="card-body pb-0">
-                        <div>{!! $actividad->tarea->feedback !!}</div>
-                        <hr class="mt-0 mb-2">
-                        <p class="text-muted small">
-                            {{ __('Score') }}: {{ $actividad->tarea->puntuacion + 0 }}/{{ $actividad->puntuacion + 0 }}
-                        </p>
-                    </div>
-                </div>
-            </div>
-        @endif
-    @endif
-    @switch($actividad->tarea->estado)
-        @case(20)   {{-- Aceptada --}}
-        @case(21)   {{-- Feedback leído --}}
-        @case(60)   {{-- Archivada --}}
-        @include('partials.tarjetas_actividad')
-        @break
-        @default
-    @endswitch
 </div>

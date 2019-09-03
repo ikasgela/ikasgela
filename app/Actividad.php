@@ -16,10 +16,7 @@ class Actividad extends Model
     protected $cloneable_relations = [
         'intellij_projects',
         'youtube_videos',
-        'siguiente',
-        'cuestionarios',
         'markdown_texts',
-        'file_uploads'
     ];
 
     protected $clone_exempt_attributes = ['plantilla'];

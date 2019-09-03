@@ -122,32 +122,44 @@ class ProfesorController extends Controller
             // Sacar un duplicado de la actividad y poner el campo plantilla a false
             // REF: https://github.com/BKWLD/cloner
 
-            $clon = $actividad->duplicate();
-            $clon->save();
+            $primero = true;
+            $anterior = null;
 
-            if (!is_null($actividad->qualification)) {
-                $cualificacion = $actividad->qualification->duplicate();
-                $cualificacion->name .= " - " . $actividad->nombre . ' (' . $actividad->id . ')';
-                $cualificacion->save();
-                $clon->save(['qualification_id' => $cualificacion]);
+            while ($actividad != null) {
+
+                $clon = $actividad->duplicate();
+                $clon->save();
+
+                if (!is_null($actividad->qualification)) {
+                    $cualificacion = $actividad->qualification->duplicate();
+                    $cualificacion->name .= " - " . $actividad->nombre . ' (' . $actividad->id . ')';
+                    $cualificacion->save();
+                    $clon->save(['qualification_id' => $cualificacion]);
+                }
+
+                if ($primero) {
+                    $asignadas .= "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n\n";
+                    $user->actividades()->attach($clon);
+                    $tarea = Tarea::where('user_id', $user->id)->where('actividad_id', $clon->id)->first();
+                } else {
+                    $clon->siguiente_id = $anterior->id;
+                    $clon->save();
+                }
+
+                foreach ($actividad->cuestionarios as $cuestionario) {
+                    $copia = $cuestionario->duplicate();
+                    $clon->cuestionarios()->attach($copia);
+                }
+
+                foreach ($actividad->file_uploads as $file_upload) {
+                    $copia = $file_upload->duplicate();
+                    $clon->file_uploads()->attach($copia);
+                }
+
+                $actividad = $actividad->siguiente;
+                $anterior = $clon;
+                $primero = false;
             }
-            $asignadas .= "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n\n";
-
-            $user->actividades()->attach($clon);
-
-            foreach ($clon->cuestionarios as $cuestionario) {
-                $copia = $cuestionario->duplicate();
-                $clon->cuestionarios()->detach($cuestionario);
-                $clon->cuestionarios()->attach($copia);
-            }
-
-            foreach ($clon->file_uploads as $file_upload) {
-                $copia = $file_upload->duplicate();
-                $clon->file_uploads()->detach($file_upload);
-                $clon->file_uploads()->attach($copia);
-            }
-
-            $tarea = Tarea::where('user_id', $user->id)->where('actividad_id', $clon->id)->first();
 
             Registro::create([
                 'user_id' => $user->id,

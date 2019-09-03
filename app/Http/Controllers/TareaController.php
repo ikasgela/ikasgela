@@ -47,6 +47,10 @@ class TareaController extends Controller
             $cuestionario->delete();
         }
 
+        foreach ($tarea->actividad->file_uploads as $file_upload) {
+            $file_upload->delete();
+        }
+
         $tarea->actividad->delete();
 
         $tarea->delete();
