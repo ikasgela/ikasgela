@@ -263,20 +263,27 @@ class ActividadController extends Controller
 
     public function duplicar(Actividad $actividad)
     {
-        // Excluir siguiente
-        $cloneable_relations = [
-            'intellij_projects',
-            'youtube_videos',
-            'cuestionarios',
-            'markdown_texts',
-            'file_uploads'
-        ];
+        $clon = $actividad->duplicate();
+        $clon->plantilla = $actividad->plantilla;
+        $clon->siguiente_id = null;
+        $clon->save();
 
-        $actividad->setCloneableRelations($cloneable_relations);
+        if (!is_null($actividad->qualification)) {
+            $cualificacion = $actividad->qualification->duplicate();
+            $cualificacion->name .= " - " . $actividad->nombre . ' (' . $actividad->id . ')';
+            $cualificacion->save();
+            $clon->save(['qualification_id' => $cualificacion]);
+        }
 
-        $copia = $actividad->duplicate();
-        $copia->plantilla = $actividad->plantilla;
-        $copia->save();
+        foreach ($actividad->cuestionarios as $cuestionario) {
+            $copia = $cuestionario->duplicate();
+            $clon->cuestionarios()->attach($copia);
+        }
+
+        foreach ($actividad->file_uploads as $file_upload) {
+            $copia = $file_upload->duplicate();
+            $clon->file_uploads()->attach($copia);
+        }
 
         switch (session('ubicacion')) {
             case 'actividades.index':

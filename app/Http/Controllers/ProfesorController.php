@@ -130,13 +130,6 @@ class ProfesorController extends Controller
                 $clon = $actividad->duplicate();
                 $clon->save();
 
-                if (!is_null($actividad->qualification)) {
-                    $cualificacion = $actividad->qualification->duplicate();
-                    $cualificacion->name .= " - " . $actividad->nombre . ' (' . $actividad->id . ')';
-                    $cualificacion->save();
-                    $clon->save(['qualification_id' => $cualificacion]);
-                }
-
                 if ($primero) {
                     $asignadas .= "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n\n";
                     $user->actividades()->attach($clon);
@@ -144,6 +137,13 @@ class ProfesorController extends Controller
                 } else {
                     $clon->siguiente_id = $anterior->id;
                     $clon->save();
+                }
+
+                if (!is_null($actividad->qualification)) {
+                    $cualificacion = $actividad->qualification->duplicate();
+                    $cualificacion->name .= " - " . $actividad->nombre . ' (' . $actividad->id . ')';
+                    $cualificacion->save();
+                    $clon->save(['qualification_id' => $cualificacion]);
                 }
 
                 foreach ($actividad->cuestionarios as $cuestionario) {
