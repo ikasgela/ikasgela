@@ -224,7 +224,10 @@ class ActividadController extends Controller
                 $tarea->puntuacion = $request->input('puntuacion');
             case 41:
                 $tarea->feedback = $request->input('feedback');
+                $tarea->increment('intentos');
+
                 $registro->detalles = $tarea->feedback;
+
                 Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea));
                 break;
             case 42:

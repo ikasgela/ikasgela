@@ -21,6 +21,7 @@ class Tarea extends Pivot
         'fecha_limite',
         'feedback',
         'puntuacion',
+        'intentos',
     ];
 
     public function actividad()

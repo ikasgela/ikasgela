@@ -24,29 +24,34 @@
                     <div class="form-inline">
                         @if($tarea->estado == 11)
                             <button type="submit" name="nuevoestado" value="10"
-                                    class="mr-1 btn btn-secondary"> {{ __('Show') }}
+                                    class="btn btn-secondary"> {{ __('Show') }}
                             </button>
                         @else
                             <button type="submit" name="nuevoestado" value="31"
-                                    class="mr-1 btn btn-secondary"> {{ __('Reset') }}
+                                    class="btn btn-secondary"> {{ __('Reset') }}
                             </button>
                         @endif
-                        <button type="submit" name="nuevoestado" value="41"
-                                class="mr-3 btn btn-warning"> {{ __('Send again') }}
-                        </button>
-                        <label class="mr-2">{{ __('Score') }}</label>
-                        <input class="mr-2 form-control" type="number" min="0" max="100" step="1"
-                               name="puntuacion"
-                               value="{{ !is_null($tarea->puntuacion) ? $tarea->puntuacion : $actividad->puntuacion }}"/>
-                        <label class="mr-3"> {{ __('over') }} {{ $actividad->puntuacion }}</label>
-                        <button type="submit" name="nuevoestado" value="40"
-                                class="btn btn-primary mr-3"> {{ __('Finished') }}
-                        </button>
-                        @if(!is_null($actividad->siguiente))
-                            <label>{{ __('Next') }}: @include('actividades.partials.siguiente')</label>
-                            <button type="submit" name="nuevoestado" value="70"
-                                    class="mx-3 btn btn-light"> {{ __('Pause') }}
+                        <label class="mx-3">{{ __('Attempts') }}: {{ $tarea->intentos }}</label>
+                        <div class="form-inline">
+                            <button type="submit" name="nuevoestado" value="41"
+                                    class="mr-3 btn btn-warning"> {{ __('Send again') }}
                             </button>
+                            <label class="mr-2">{{ __('Score') }}</label>
+                            <input class="mr-2 form-control" type="number" min="0" max="100" step="1"
+                                   name="puntuacion"
+                                   value="{{ !is_null($tarea->puntuacion) ? $tarea->puntuacion : $actividad->puntuacion }}"/>
+                            <label class="mr-3"> {{ __('over') }} {{ $actividad->puntuacion }}</label>
+                            <button type="submit" name="nuevoestado" value="40"
+                                    class="btn btn-primary mr-3"> {{ __('Finished') }}
+                            </button>
+                        </div>
+                        @if(!is_null($actividad->siguiente))
+                            <div class="form-inline">
+                                <label>{{ __('Next') }}: @include('actividades.partials.siguiente')</label>
+                                <button type="submit" name="nuevoestado" value="70"
+                                        class="mx-3 btn btn-light"> {{ __('Pause') }}
+                                </button>
+                            </div>
                         @endif()
                     </div>
                     <div class="mt-2">
