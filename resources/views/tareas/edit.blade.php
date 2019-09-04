@@ -13,6 +13,7 @@
             {{ Form::campoTexto('fecha_limite', __('Deadline')) }}
             {{ Form::campoTextArea('feedback', __('Feedback')) }}
             {{ Form::campoTexto('puntuacion', __('Score')) }}
+            {{ Form::campoTexto('intentos', __('Attempts')) }}
 
             @include('partials.guardar_cancelar')
 
