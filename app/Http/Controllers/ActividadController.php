@@ -269,14 +269,12 @@ class ActividadController extends Controller
         $clon = $actividad->duplicate();
         $clon->plantilla = $actividad->plantilla;
         $clon->siguiente_id = null;
+        $clon->nombre = $clon->nombre . " - " . __("Copy");
+        $clon->slug = Str::slug($clon->nombre);
+
         $clon->save();
 
-        switch (session('ubicacion')) {
-            case 'actividades.index':
-                return redirect(route('actividades.index'));
-            case 'actividades.plantillas':
-                return redirect(route('actividades.plantillas'));
-        }
+        return back();
     }
 
     private function mostrarSiguienteActividad($actividad, $usuario)
