@@ -148,11 +148,13 @@ class ProfesorController extends Controller
 
                 foreach ($actividad->cuestionarios as $cuestionario) {
                     $copia = $cuestionario->duplicate();
+                    $clon->cuestionarios()->detach($cuestionario);
                     $clon->cuestionarios()->attach($copia);
                 }
 
                 foreach ($actividad->file_uploads as $file_upload) {
                     $copia = $file_upload->duplicate();
+                    $clon->file_uploads()->detach($file_upload);
                     $clon->file_uploads()->attach($copia);
                 }
 
