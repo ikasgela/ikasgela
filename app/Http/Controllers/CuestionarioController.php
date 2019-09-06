@@ -116,6 +116,7 @@ class CuestionarioController extends Controller
         foreach ($request->input('respuestas') as $pregunta_id => $values) {
 
             $correcta = true;
+            $num_correctas = 0;
 
             $pregunta = Pregunta::find($pregunta_id);
 
@@ -124,12 +125,18 @@ class CuestionarioController extends Controller
                 if (in_array($item->id, $values)) {
                     if (!$item->correcto)
                         $correcta = false;
+                    else
+                        $num_correctas += 1;
                     $item->seleccionado = true;
                     $item->save();
                 } else {
                     if ($item->correcto)
                         $correcta = false;
                 }
+            }
+
+            if (!$pregunta->multiple && $num_correctas > 0) {
+                $correcta = true;
             }
 
             $pregunta->respondida = true;
