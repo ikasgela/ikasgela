@@ -6,12 +6,14 @@ use App\Tarea;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Request;
 
 class FeedbackRecibido extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $tarea;
+    public $hostName;
 
     /**
      * Create a new message instance.
@@ -21,6 +23,7 @@ class FeedbackRecibido extends Mailable
     public function __construct(Tarea $tarea)
     {
         $this->tarea = $tarea;
+        $this->hostName = Request::getHost();
     }
 
     /**
