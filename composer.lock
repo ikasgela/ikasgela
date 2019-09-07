@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "akaunting/setting",
-            "version": "1.0.11",
+            "version": "1.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/akaunting/setting.git",
-                "reference": "49a47a6de0c97d7a52d970ec71443a833d501a9d"
+                "reference": "7217f56eebd8848dab53bc5ca791f3e3edf721f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/akaunting/setting/zipball/49a47a6de0c97d7a52d970ec71443a833d501a9d",
-                "reference": "49a47a6de0c97d7a52d970ec71443a833d501a9d",
+                "url": "https://api.github.com/repos/akaunting/setting/zipball/7217f56eebd8848dab53bc5ca791f3e3edf721f6",
+                "reference": "7217f56eebd8848dab53bc5ca791f3e3edf721f6",
                 "shasum": ""
             },
             "require": {
@@ -67,7 +67,7 @@
                 "laravel",
                 "persistent"
             ],
-            "time": "2019-09-05T10:37:55+00:00"
+            "time": "2019-09-06T18:13:47+00:00"
         },
         {
             "name": "anahkiasen/underscore-php",
@@ -121,16 +121,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.110.10",
+            "version": "3.110.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "705fc1ffe05747e6789b19480764ebcd06995911"
+                "reference": "3f222649634fa039c59f58082e60159a6bb59bbf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/705fc1ffe05747e6789b19480764ebcd06995911",
-                "reference": "705fc1ffe05747e6789b19480764ebcd06995911",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3f222649634fa039c59f58082e60159a6bb59bbf",
+                "reference": "3f222649634fa039c59f58082e60159a6bb59bbf",
                 "shasum": ""
             },
             "require": {
@@ -200,7 +200,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-09-05T18:11:21+00:00"
+            "time": "2019-09-06T18:21:14+00:00"
         },
         {
             "name": "bkwld/cloner",
@@ -1644,22 +1644,22 @@
         },
         {
             "name": "kkomelin/laravel-translatable-string-exporter",
-            "version": "1.3.0",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kkomelin/laravel-translatable-string-exporter.git",
-                "reference": "70bc6a1c8c63ae5a2768842b4d9c78b3f2ba4c7d"
+                "reference": "751e4204de4e91b34b5fca8e9672e86035cad770"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kkomelin/laravel-translatable-string-exporter/zipball/70bc6a1c8c63ae5a2768842b4d9c78b3f2ba4c7d",
-                "reference": "70bc6a1c8c63ae5a2768842b4d9c78b3f2ba4c7d",
+                "url": "https://api.github.com/repos/kkomelin/laravel-translatable-string-exporter/zipball/751e4204de4e91b34b5fca8e9672e86035cad770",
+                "reference": "751e4204de4e91b34b5fca8e9672e86035cad770",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "illuminate/support": "5.4.*|5.5.*|5.6.*|5.7.*|5.8.*",
-                "illuminate/translation": "5.4.*|5.5.*|5.6.*|5.7.*|5.8.*",
+                "illuminate/support": "5.4.*|5.5.*|5.6.*|5.7.*|5.8.*|6.0.*",
+                "illuminate/translation": "5.4.*|5.5.*|5.6.*|5.7.*|5.8.*|6.0.*",
                 "php": ">=5.4.0",
                 "symfony/finder": "^3.2|^4.0"
             },
@@ -1698,7 +1698,7 @@
                 "laravel",
                 "translations"
             ],
-            "time": "2019-07-19T07:39:12+00:00"
+            "time": "2019-09-06T14:07:31+00:00"
         },
         {
             "name": "laravel/framework",
@@ -2358,16 +2358,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.24.0",
+            "version": "1.25.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "bfc9ebb28f97e7a24c45bdc3f0ff482e47bb0266"
+                "reference": "70e65a5470a42cfec1a7da00d30edb6e617e8dcf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/bfc9ebb28f97e7a24c45bdc3f0ff482e47bb0266",
-                "reference": "bfc9ebb28f97e7a24c45bdc3f0ff482e47bb0266",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/70e65a5470a42cfec1a7da00d30edb6e617e8dcf",
+                "reference": "70e65a5470a42cfec1a7da00d30edb6e617e8dcf",
                 "shasum": ""
             },
             "require": {
@@ -2432,7 +2432,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2018-11-05T09:00:11+00:00"
+            "time": "2019-09-06T13:49:17+00:00"
         },
         {
             "name": "mtdowling/jmespath.php",
