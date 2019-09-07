@@ -50,4 +50,11 @@ class Curso extends Model
             $query->where('periods.id', setting_usuario('_period_id'));
         });
     }
+
+    public function profesores()
+    {
+        return $this->users()->whereHas('roles', function ($query) {
+            $query->where('name', 'profesor');
+        });
+    }
 }

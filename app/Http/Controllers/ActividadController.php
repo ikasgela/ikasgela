@@ -211,7 +211,9 @@ class ActividadController extends Controller
             case 30:
                 // Notificar que hay una actividad para corregir
                 if (!$tarea->actividad->auto_avance) {
-                    Mail::to('info@ikasgela.com')->queue(new TareaEnviada($tarea));
+                    foreach ($tarea->actividad->unidad->curso->profesores as $profesor) {
+                        Mail::to($profesor)->queue(new TareaEnviada($tarea));
+                    }
                 }
 
                 $tarea->save();
