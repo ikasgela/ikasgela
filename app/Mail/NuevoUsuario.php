@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Request;
 
 class NuevoUsuario extends Mailable
 {
@@ -19,10 +20,10 @@ class NuevoUsuario extends Mailable
      *
      * @return void
      */
-    public function __construct(User $usuario, $hostName)
+    public function __construct(User $usuario)
     {
         $this->usuario = $usuario;
-        $this->hostName = $hostName;
+        $this->hostName = Request::getHost();
     }
 
     /**

@@ -11,7 +11,6 @@ use GitLab;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -128,7 +127,7 @@ class RegisterController extends Controller
             ->causedBy($laravel)
             ->log('Nuevo usuario');
 
-        Mail::to('info@ikasgela.com')->queue(new NuevoUsuario($laravel, Request::getHost()));
+        Mail::to('info@ikasgela.com')->queue(new NuevoUsuario($laravel));
 
         return $laravel;
     }
