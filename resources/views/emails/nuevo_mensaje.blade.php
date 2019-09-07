@@ -3,7 +3,7 @@
 
 Has recibido un nuevo mensaje.
 
-@component('mail::button', ['url' => route('messages')])
+@component('mail::button', ['url' => "https://$hostName/messages"])
     {{ __('Open messages') }}
 @endcomponent
 

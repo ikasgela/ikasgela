@@ -5,7 +5,7 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Request;
 
 class ActividadAsignada extends Mailable
 {
@@ -13,6 +13,7 @@ class ActividadAsignada extends Mailable
 
     public $usuario;
     public $asignadas;
+    public $hostName;
 
     /**
      * Create a new message instance.
@@ -23,6 +24,7 @@ class ActividadAsignada extends Mailable
     {
         $this->usuario = $usuario;
         $this->asignadas = $asignadas;
+        $this->hostName = Request::getHost();
     }
 
     /**

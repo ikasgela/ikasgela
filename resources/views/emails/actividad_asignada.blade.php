@@ -8,7 +8,7 @@
 {{ $asignadas }}
 @endcomponent
 
-@component('mail::button', ['url' => route('users.home')])
+@component('mail::button', ['url' => "https://$hostName/home"])
 {{ __('Go to desktop') }}
 @endcomponent
 

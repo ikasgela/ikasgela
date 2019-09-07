@@ -5,10 +5,13 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Request;
 
 class NuevoMensaje extends Mailable
 {
     use Queueable, SerializesModels;
+
+    public $hostName;
 
     /**
      * Create a new message instance.
@@ -17,7 +20,7 @@ class NuevoMensaje extends Mailable
      */
     public function __construct()
     {
-        //
+        $this->hostName = Request::getHost();
     }
 
     /**
