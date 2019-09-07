@@ -12,15 +12,17 @@ class NuevoUsuario extends Mailable
     use Queueable, SerializesModels;
 
     public $usuario;
+    public $hostName;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $usuario)
+    public function __construct(User $usuario, $hostName)
     {
         $this->usuario = $usuario;
+        $this->hostName = $hostName;
     }
 
     /**
