@@ -7,6 +7,7 @@ use App\Mail\NuevoUsuario;
 use App\Organization;
 use App\Role;
 use App\User;
+use Carbon\Carbon;
 use GitLab;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -112,7 +113,8 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'username' => $nombre_usuario,
             'password' => Hash::make($data['password']),
-            'tutorial' => true
+            'tutorial' => true,
+            'last_active' => Carbon::now()
         ]);
 
         $laravel

@@ -15,7 +15,7 @@ class AddLastActiveToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dateTimeTz('last_active')->default(Carbon::now());
+            $table->dateTimeTz('last_active')->nullable();
         });
     }
 
