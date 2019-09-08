@@ -41,6 +41,7 @@
     @if(count($file_upload->files) < $file_upload->max_files)
         <hr class="my-0">
         <div class="card-body">
+            <p class="small">{{ __('Upload limit') }}: {{ $file_upload->max_files-count($file_upload->files) }}</p>
             <form action="{{ route('uploadfile') }}" enctype="multipart/form-data" method="post">
                 @csrf
                 <div class="form-group">
