@@ -45,7 +45,7 @@
 @lang("If you’re having trouble clicking the button, copy and paste in your browser the URL below.")
 
 <br><br>
-<a href="{{ $actionUrl }}">{{ url($actionUrl) }}</a>
+<a href="{{ $actionUrl }}">{!! url($actionUrl) !!}</a>
 
 @endcomponent
 @endisset
