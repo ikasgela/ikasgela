@@ -72,6 +72,7 @@ class UserController extends Controller
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'username' => $request->input('username'),
+            'last_active' => $request->input('last_active'),
         ]);
 
         $user->roles()->sync($request->input('roles_seleccionados'));
