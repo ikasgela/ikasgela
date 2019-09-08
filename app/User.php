@@ -32,6 +32,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'password', 'remember_token',
     ];
 
+    public $appends = ['last_active_time'];
+
+    protected $dates = ['created_at', 'updated_at', 'last_active'];
+
     public function avatar_url($width = 64)
     {
         $hash = md5(strtolower(trim($this->email)));
@@ -188,5 +192,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function files()
     {
         return $this->hasMany(File::class);
+    }
+
+    public function getLastActiveTimeAttribute()
+    {
+        return $this->last_active ? $this->last_active->diffForHumans() : __('Never');
     }
 }

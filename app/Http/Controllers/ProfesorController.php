@@ -27,7 +27,7 @@ class ProfesorController extends Controller
 
         $organization = Organization::find(setting_usuario('_organization_id'));
 
-        $usuarios = User::organizacionActual()->rolAlumno()->orderBy('id')->get();
+        $usuarios = User::organizacionActual()->rolAlumno()->orderBy('last_active')->get();
 
         $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
 

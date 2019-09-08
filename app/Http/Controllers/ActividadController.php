@@ -216,6 +216,9 @@ class ActividadController extends Controller
                     }
                 }
 
+                $tarea->user->last_active = Carbon::now();
+                $tarea->user->save();
+
                 $tarea->save();
                 $this->mostrarSiguienteActividad($actividad, $usuario);
                 break;
@@ -229,6 +232,9 @@ class ActividadController extends Controller
                 $tarea->increment('intentos');
 
                 $registro->detalles = $tarea->feedback;
+
+                $tarea->user->last_active = Carbon::now();
+                $tarea->user->save();
 
                 Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea));
                 break;
