@@ -33,7 +33,12 @@ class FileUploadController extends Controller
             'max_files' => 'required',
         ]);
 
-        FileUpload::create($request->all());
+        FileUpload::create([
+            'titulo' => $request->input('titulo'),
+            'descripcion' => $request->input('descripcion'),
+            'max_files' => $request->input('max_files'),
+            'plantilla' => $request->has('plantilla'),
+        ]);
 
         return redirect(route('file_uploads.index'));
     }
@@ -61,8 +66,6 @@ class FileUploadController extends Controller
             'max_files' => $request->input('max_files'),
             'plantilla' => $request->has('plantilla'),
         ]);
-
-        $file_upload->update($request->all());
 
         return redirect(route('file_uploads.index'));
     }
