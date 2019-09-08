@@ -17,6 +17,7 @@ $factory->define(User::class, function (Faker $faker) {
         'username' => User::generar_username($email),
         'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
         'remember_token' => Str::random(10),
-        'email_verified_at' => Carbon::now()
+        'email_verified_at' => Carbon::now(),
+        'last_active' => Carbon::now()
     ];
 });
