@@ -121,16 +121,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.110.11",
+            "version": "3.111.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "3f222649634fa039c59f58082e60159a6bb59bbf"
+                "reference": "a31376012346118b2b88df6d2f0c185af71e3096"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3f222649634fa039c59f58082e60159a6bb59bbf",
-                "reference": "3f222649634fa039c59f58082e60159a6bb59bbf",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a31376012346118b2b88df6d2f0c185af71e3096",
+                "reference": "a31376012346118b2b88df6d2f0c185af71e3096",
                 "shasum": ""
             },
             "require": {
@@ -200,7 +200,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-09-06T18:21:14+00:00"
+            "time": "2019-09-09T18:13:28+00:00"
         },
         {
             "name": "bkwld/cloner",
@@ -6748,27 +6748,27 @@
         },
         {
             "name": "orangehill/iseed",
-            "version": "v2.6.1",
+            "version": "v2.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orangehill/iseed.git",
-                "reference": "360ba1314e1dc950438bbb8006fc220de47dca00"
+                "reference": "fe8fbf51ab57bcc28282c6b1109e610c4a44fad9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orangehill/iseed/zipball/360ba1314e1dc950438bbb8006fc220de47dca00",
-                "reference": "360ba1314e1dc950438bbb8006fc220de47dca00",
+                "url": "https://api.github.com/repos/orangehill/iseed/zipball/fe8fbf51ab57bcc28282c6b1109e610c4a44fad9",
+                "reference": "fe8fbf51ab57bcc28282c6b1109e610c4a44fad9",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "^5.3.8",
-                "php": ">=5.4.0"
+                "illuminate/support": "~5.5.0|~5.6.0|~5.7.0|~5.8.0|^6.0",
+                "php": "^7.2"
             },
             "require-dev": {
-                "illuminate/filesystem": "5.x",
-                "laravel/framework": "^5.3.8",
-                "mockery/mockery": "dev-master",
-                "phpunit/phpunit": "^5.7"
+                "illuminate/filesystem": "~5.5.0|~5.6.0|~5.7.0|~5.8.0|^6.0",
+                "laravel/framework": "~5.5.0|~5.6.0|~5.7.0|~5.8.0|^6.0",
+                "mockery/mockery": "^1.0.0",
+                "phpunit/phpunit": "^8.0"
             },
             "type": "library",
             "extra": {
@@ -6803,7 +6803,7 @@
                 "laravel",
                 "seed"
             ],
-            "time": "2018-12-07T08:06:29+00:00"
+            "time": "2019-09-09T13:18:41+00:00"
         },
         {
             "name": "phar-io/manifest",
