@@ -43,11 +43,16 @@
                 <td>{{ $user->last_active_time }}</td>
                 @if(Auth::user()->hasRole('admin'))
                     <td class="text-center">
-                        <div class='btn-group'>
-                            <a title="{{ __('Edit') }}"
-                               href="{{ route('users.edit', [$user->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                        </div>
+                        <form method="POST" action="{{ route('users.destroy', [$user->id]) }}">
+                            @csrf
+                            @method('DELETE')
+                            <div class='btn-group'>
+                                <a title="{{ __('Edit') }}"
+                                   href="{{ route('users.edit', [$user->id]) }}"
+                                   class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                                @include('partials.boton_borrar')
+                            </div>
+                        </form>
                     </td>
                 @endif
             </tr>
