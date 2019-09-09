@@ -32,7 +32,7 @@
                 <td class="clickable"><img style="height:35px;" src="{{ $usuario->avatar_url(70)}}"/></td>
                 <td class="clickable">
                     {{ $usuario->name }}
-                    {!! is_null($usuario->email_verified_at) ? '<span class="badge badge-secondary mx-2">'.__('Unverified').'</span>' : '' !!}
+                    {!! !$usuario->isVerified() ? '<span class="badge badge-secondary mx-2">'.__('Unverified').'</span>' : '' !!}
                 </td>
                 <td class="clickable text-center">{{ count($usuario->actividades_ocultas()) }}</td>
                 <td class="clickable text-center">{{ count($usuario->actividades_nuevas()) }}</td>
