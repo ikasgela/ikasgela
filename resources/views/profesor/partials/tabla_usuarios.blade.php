@@ -21,32 +21,31 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($usuarios as $usuario)
-            <tr class="table-cell-click" data-href="{{ route('profesor.tareas', [$usuario->id]) }}">
+        @foreach($usuarios as $user)
+            <tr class="table-cell-click" data-href="{{ route('profesor.tareas', [$user->id]) }}">
                 <td style="width:5px;"
-                    class="p-0 {{ count($usuario->actividades_enviadas())>0 ? 'bg-danger' : '' }}"></td>
+                    class="p-0 {{ count($user->actividades_enviadas())>0 ? 'bg-danger' : '' }}"></td>
                 <td>
                     <input form="asignar" type="checkbox"
-                           name="usuarios_seleccionados[]" value="{{ $usuario->id }}">
+                           name="usuarios_seleccionados[]" value="{{ $user->id }}">
                 </td>
-                <td class="clickable"><img style="height:35px;" src="{{ $usuario->avatar_url(70)}}"/></td>
+                <td class="clickable"><img style="height:35px;" src="{{ $user->avatar_url(70)}}"/></td>
                 <td class="clickable">
-                    {{ $usuario->name }}
-                    {!! $usuario->isBlocked() ? '<span class="badge badge-secondary ml-2">'.__('Blocked').'</span>' : '' !!}
-                    {!! !$usuario->isVerified() ? '<span class="badge badge-secondary ml-2">'.__('Unverified').'</span>' : '' !!}
+                    {{ $user->name }}
+                    @include('profesor.partials.status_usuario')
                 </td>
-                <td class="clickable text-center">{{ count($usuario->actividades_ocultas()) }}</td>
-                <td class="clickable text-center">{{ count($usuario->actividades_nuevas()) }}</td>
-                <td class="clickable text-center">{{ count($usuario->actividades_aceptadas()) }}</td>
-                <td class="clickable text-center {{ count($usuario->actividades_enviadas())>0 ? 'bg-danger' : '' }}">{{ count($usuario->actividades_enviadas()) }}</td>
-                <td class="clickable text-center">{{ count($usuario->actividades_revisadas()) }}</td>
-                <td class="clickable text-center">{{ count($usuario->actividades_archivadas()) }}</td>
-                <td>{{ $usuario->last_active_time }}</td>
+                <td class="clickable text-center">{{ count($user->actividades_ocultas()) }}</td>
+                <td class="clickable text-center">{{ count($user->actividades_nuevas()) }}</td>
+                <td class="clickable text-center">{{ count($user->actividades_aceptadas()) }}</td>
+                <td class="clickable text-center {{ count($user->actividades_enviadas())>0 ? 'bg-danger' : '' }}">{{ count($user->actividades_enviadas()) }}</td>
+                <td class="clickable text-center">{{ count($user->actividades_revisadas()) }}</td>
+                <td class="clickable text-center">{{ count($user->actividades_archivadas()) }}</td>
+                <td>{{ $user->last_active_time }}</td>
                 @if(Auth::user()->hasRole('admin'))
                     <td class="text-center">
                         <div class='btn-group'>
                             <a title="{{ __('Edit') }}"
-                               href="{{ route('users.edit', [$usuario->id]) }}"
+                               href="{{ route('users.edit', [$user->id]) }}"
                                class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
                         </div>
                     </td>

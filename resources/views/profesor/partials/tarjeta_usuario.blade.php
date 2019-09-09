@@ -4,7 +4,10 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-12 col-sm-6 p-3">
-                    <h5 class="card-title">{{ $user->name }}</h5>
+                    <h5 class="card-title">
+                        {{ $user->name }}
+                        @include('profesor.partials.status_usuario')
+                    </h5>
                     <a href="mailto:{{ $user->email }}" class="card-link">{{ $user->email }}</a>
                 </div>
                 <div class="col-12 col-sm-6 text-center text-sm-right">
