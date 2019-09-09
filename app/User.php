@@ -168,6 +168,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->email_verified_at != null;
     }
 
+    public function isBlocked()
+    {
+        return $this->blocked_date != null;
+    }
+
     public function scopeOrganizacionActual($query)
     {
         return $query->whereHas('organizations', function ($query) {

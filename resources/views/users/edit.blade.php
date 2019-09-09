@@ -20,6 +20,7 @@
             {{ Form::campoTexto('email', __('Email')) }}
             {{ Form::campoTexto('username', __('Username')) }}
             {{ Form::campoTexto('last_active', __('Last active')) }}
+            {{ Form::campoTexto('blocked_date', __('Blocked')) }}
 
             <div class="form-group row">
                 {!! Form::label('roles_seleccionados', __('Roles'), ['class' => 'col-sm-2 col-form-label pt-0']) !!}
