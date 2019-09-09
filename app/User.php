@@ -20,7 +20,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'username', 'tutorial', 'last_active'
+        'name', 'email', 'password', 'username', 'tutorial', 'last_active', 'blocked_date'
     ];
 
     /**
@@ -166,6 +166,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isVerified()
     {
         return $this->email_verified_at != null;
+    }
+
+    public function isBlocked()
+    {
+        return $this->blocked_date != null;
     }
 
     public function scopeOrganizacionActual($query)
