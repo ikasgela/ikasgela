@@ -1,3 +1,8 @@
+@section('fancybox')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+@endsection
+
 <div class="card">
     <div class="card-header"><i class="fas fa-file-upload"></i> {{ __('File upload') }}</div>
     <div class="card-body">
@@ -18,8 +23,12 @@
                     <tbody>
                     @foreach ($file_upload->files as $file)
                         <tr>
-                            <td class="align-middle"><img style="width:64px" src="{{ $file->url }}"></td>
-                            <td><a href="{{ $file->url }}" target="_blank">{{ $file->title }}</a></td>
+                            <td>
+                                <a data-fancybox="gallery" href="{{ $file->imageUrl('images') }}">
+                                    <img style="width:64px" src="{{ $file->imageUrl('thumbnails') }}">
+                                </a>
+                            </td>
+                            <td>{{ $file->title }}</td>
                             <td>{{ $file->size_in_kb }} KB</td>
                             <td>{{ $file->uploaded_time }}</td>
                             <td class="text-center">

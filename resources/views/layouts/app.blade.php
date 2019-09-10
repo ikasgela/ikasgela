@@ -12,6 +12,7 @@
     @include('layouts.icons')
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <script src="{{ asset('js/app.js') }}" defer></script>
+    @yield('fancybox')
 </head>
 <body class="app header-fixed sidebar-fixed sidebar-lg-show footer-fixed">
 <div id="app">
