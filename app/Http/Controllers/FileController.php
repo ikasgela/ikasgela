@@ -31,7 +31,12 @@ class FileController extends Controller
         $extension = $fichero->getClientOriginalExtension();
 
         $imagen = Image::make($fichero)->orientate()->stream();
-        $thumbnail = Image::make($fichero)->orientate()->resize(128, 128)->stream();
+        $thumbnail = Image::make($fichero)->orientate()
+            ->resize(128, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })->crop(128, 128)
+            ->stream();
 
         Storage::disk('s3')->put('images/' . $filename, $imagen->__toString());
         Storage::disk('s3')->put('thumbnails/' . $filename, $thumbnail->__toString());
