@@ -25,14 +25,15 @@ class FileController extends Controller
 
     public function postUpload(StoreFile $request)
     {
-        $imagen = $request->file;
+        $fichero = $request->file;
 
-        $filename = md5(time()) . '_' . $imagen->getClientOriginalName();
-        $extension = $imagen->getClientOriginalExtension();
+        $filename = md5(time()) . '_' . $fichero->getClientOriginalName();
+        $extension = $fichero->getClientOriginalExtension();
 
-        $thumbnail = Image::make($imagen)->resize(128, 128)->stream();
+        $imagen = Image::make($fichero)->orientate()->stream();
+        $thumbnail = Image::make($fichero)->orientate()->resize(128, 128)->stream();
 
-        Storage::disk('s3')->putFileAs('images', $imagen, $filename);
+        Storage::disk('s3')->put('images/' . $filename, $imagen->__toString());
         Storage::disk('s3')->put('thumbnails/' . $filename, $thumbnail->__toString());
 
         $this->file->create([
