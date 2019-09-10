@@ -23,8 +23,11 @@
                     <tbody>
                     @foreach ($file_upload->files as $file)
                         <tr>
-                            <td><a data-fancybox="gallery" href="{{ $file->url }}"><img style="width:64px"
-                                                                                        src="{{ $file->url }}"></a></td>
+                            <td>
+                                <a data-fancybox="gallery" href="{{ $file->imageUrl('images') }}">
+                                    <img style="width:64px" src="{{ $file->imageUrl('thumbnails') }}">
+                                </a>
+                            </td>
                             <td>{{ $file->title }}</td>
                             <td>{{ $file->size_in_kb }} KB</td>
                             <td>{{ $file->uploaded_time }}</td>

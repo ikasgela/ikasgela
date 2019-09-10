@@ -7,6 +7,7 @@ use App\FileUpload;
 use App\Http\Requests\StoreFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class FileController extends Controller
 {
@@ -24,10 +25,18 @@ class FileController extends Controller
 
     public function postUpload(StoreFile $request)
     {
-        $path = Storage::disk('s3')->put('files', $request->file);
+        $imagen = $request->file;
+
+        $filename = md5(time()) . '_' . $imagen->getClientOriginalName();
+        $extension = $imagen->getClientOriginalExtension();
+
+        $thumbnail = Image::make($imagen)->resize(128, 128)->stream();
+
+        Storage::disk('s3')->putFileAs('images', $imagen, $filename);
+        Storage::disk('s3')->put('thumbnails/' . $filename, $thumbnail->__toString());
 
         $this->file->create([
-            'path' => $path,
+            'path' => $filename,
             'title' => $request->file->getClientOriginalName(),
             'size' => $request->file->getClientSize(),
             'user_id' => Auth::user()->id,
@@ -41,7 +50,8 @@ class FileController extends Controller
     {
         // Si es un fichero del usuario o tenemos el rol admin, borrarlo
         if ($file->user()->where('id', Auth::user()->id)->exists() || Auth::user()->hasRole('admin')) {
-            Storage::disk('s3')->delete($file->path);
+            Storage::disk('s3')->delete('images/' . $file->path);
+            Storage::disk('s3')->delete('thumbnails/' . $file->path);
             $file->delete();
         } else {
             abort(403, __('Sorry, you are not authorized to access this page.'));

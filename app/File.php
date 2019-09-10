@@ -19,6 +19,11 @@ class File extends Model
         return Storage::disk('s3')->temporaryUrl($this->path, Carbon::now()->addMinutes(5));
     }
 
+    public function imageUrl($path = '')
+    {
+        return Storage::disk('s3')->temporaryUrl($path . '/' . $this->path, Carbon::now()->addMinutes(5));
+    }
+
     public function getUploadedTimeAttribute()
     {
         return $this->created_at->diffForHumans();
