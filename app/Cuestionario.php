@@ -27,4 +27,9 @@ class Cuestionario extends Model
     {
         return $this->hasMany(Pregunta::class);
     }
+
+    public function scopePlantilla($query)
+    {
+        return $query->where('plantilla', true);
+    }
 }

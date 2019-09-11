@@ -26,4 +26,9 @@ class FileUpload extends Model
     {
         return $this->hasMany(File::class);
     }
+
+    public function scopePlantilla($query)
+    {
+        return $query->where('plantilla', true);
+    }
 }

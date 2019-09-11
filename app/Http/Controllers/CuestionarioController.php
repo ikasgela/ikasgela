@@ -17,7 +17,7 @@ class CuestionarioController extends Controller
 
     public function index()
     {
-        $cuestionarios = Cuestionario::all();
+        $cuestionarios = Cuestionario::plantilla()->get();
 
         return view('cuestionarios.index', compact('cuestionarios'));
     }
