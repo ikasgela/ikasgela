@@ -223,6 +223,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // CRUD - Feedbacks
         Route::resource('feedbacks', 'FeedbackController');
+
+        // Visor de logs: https://github.com/rap2hpoutre/laravel-log-viewer
+        Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
     });
 
     // Alumnos y profesores
