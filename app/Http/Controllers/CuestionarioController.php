@@ -67,7 +67,7 @@ class CuestionarioController extends Controller
             'respondido' => $request->has('respondido'),
         ]);
 
-        return redirect(route('cuestionarios.index'));
+        return back();
     }
 
     public function destroy(Cuestionario $cuestionario)

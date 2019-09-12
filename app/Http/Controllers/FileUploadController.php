@@ -67,7 +67,7 @@ class FileUploadController extends Controller
             'plantilla' => $request->has('plantilla'),
         ]);
 
-        return redirect(route('file_uploads.index'));
+        return back();
     }
 
     public function destroy(FileUpload $file_upload)
