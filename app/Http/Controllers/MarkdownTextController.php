@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actividad;
 use App\MarkdownText;
+use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Http\Request;
 
 class MarkdownTextController extends Controller
@@ -42,6 +43,7 @@ class MarkdownTextController extends Controller
     public function show(MarkdownText $markdown_text)
     {
         $texto = $markdown_text->markdown();
+
         return view('markdown_texts.show', compact(['markdown_text', 'texto']));
     }
 

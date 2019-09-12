@@ -3,6 +3,7 @@
 namespace App;
 
 use GitLab;
+use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 
 class MarkdownText extends Model
@@ -33,14 +34,20 @@ class MarkdownText extends Model
             // Imagen
             $texto = preg_replace('/(!\[.*\]\((?!http))/', '${1}' . $servidor
                 . $repositorio
-                . "/raw/$rama//"
+                . "/raw/$rama/"
                 , $texto);
 
             // Link
             $texto = preg_replace('/(\s+\[.*\]\((?!http))/', '${1}' . $servidor
                 . $repositorio
-                . "/blob/$rama//"
+                . "/blob/$rama/"
                 , $texto);
+
+            // Convertir el Markdown a HTML
+            $texto = Markdown::convertToHtml($texto);
+
+            // Añadir target="_blank" a los enlaces
+            $texto = preg_replace('/(<a href="[^"]+")>/is', '\\1 target="_blank">', $texto);
 
         } catch (\Exception $e) {
             $texto = "# " . __('Error') . "\n\n" . __('Repository not found.');
