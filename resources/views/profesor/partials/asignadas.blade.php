@@ -27,7 +27,7 @@
                     <td>{{ $actividad->unidad->slug.'/'.$actividad->slug }}</td>
                     <td class="text-center">{!! $actividad->tarea->estado == 11 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-secondary"></i>' !!}</td>
                     <td class="text-center">{!! $actividad->tarea->estado >= 20 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
-                    <td class="text-center {!! $actividad->tarea->estado == 30 ? 'bg-danger' : '' !!}">
+                    <td class="text-center {!! $actividad->tarea->estado == 30 && $actividad->auto_avance == false ? 'bg-danger' : '' !!}">
                         {!! $actividad->tarea->estado >= 30 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-danger"></i>' !!}
                     </td>
                     <td class="text-center">

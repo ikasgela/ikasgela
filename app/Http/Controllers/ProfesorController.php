@@ -107,7 +107,7 @@ class ProfesorController extends Controller
 
     private function recuento_enviadas(): void
     {
-        $tareas = Tarea::where('estado', 30)->get();
+        $tareas = Tarea::cursoActual()->noAutoAvance()->where('estado', 30)->get();
 
         $num_enviadas = count($tareas);
         if ($num_enviadas > 0)

@@ -38,4 +38,18 @@ class Tarea extends Pivot
     {
         return $this->hasMany(Registro::class);
     }
+
+    public function scopeCursoActual($query)
+    {
+        return $query->whereHas('actividad.unidad.curso', function ($query) {
+            $query->where('cursos.id', setting_usuario('curso_actual'));
+        });
+    }
+
+    public function scopeNoAutoAvance($query)
+    {
+        return $query->whereHas('actividad', function ($query) {
+            $query->where('actividades.auto_avance', false);
+        });
+    }
 }
