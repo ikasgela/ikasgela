@@ -26,6 +26,8 @@ class ActividadController extends Controller
 
     public function index()
     {
+        memorizar_ruta();
+
         $actividades = Actividad::all();
 
         session(['ubicacion' => 'actividades.index']);
@@ -35,6 +37,8 @@ class ActividadController extends Controller
 
     public function plantillas(Request $request)
     {
+        memorizar_ruta();
+
         session(['ubicacion' => 'actividades.plantillas']);
 
         $unidades = Unidad::cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
