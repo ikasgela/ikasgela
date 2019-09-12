@@ -104,37 +104,37 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function actividades_nuevas()
     {
-        return $this->actividades()->wherePivot('estado', 10)->get();
+        return $this->actividades()->wherePivot('estado', 10);
     }
 
     public function actividades_ocultas()
     {
-        return $this->actividades()->wherePivot('estado', 11)->get();
+        return $this->actividades()->wherePivot('estado', 11);
     }
 
     public function actividades_aceptadas()
     {
-        return $this->actividades()->wherePivotIn('estado', [20, 21])->get();
+        return $this->actividades()->wherePivotIn('estado', [20, 21]);
     }
 
     public function actividades_enviadas()
     {
-        return $this->actividades()->where('auto_avance', false)->wherePivot('estado', 30)->get();
+        return $this->actividades()->where('auto_avance', false)->wherePivot('estado', 30);
     }
 
     public function actividades_revisadas()
     {
-        return $this->actividades()->where('auto_avance', false)->wherePivotIn('estado', [40, 41])->get();
+        return $this->actividades()->where('auto_avance', false)->wherePivotIn('estado', [40, 41]);
     }
 
     public function actividades_archivadas()
     {
-        return $this->actividades()->wherePivot('estado', 60)->get();
+        return $this->actividades()->wherePivot('estado', 60);
     }
 
     public function actividades_asignadas()
     {
-        return $this->actividades()->wherePivotIn('estado', [60, 11], 'and', 'notin')->get();
+        return $this->actividades()->wherePivotIn('estado', [60, 11], 'and', 'notin');
     }
 
     public function teams()

@@ -15,7 +15,7 @@ class ArchivoController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $actividades = $user->actividades_archivadas();
+        $actividades = $user->actividades_archivadas()->get();
 
         // Recuento de asignadas
         $num_actividades = $user->actividades_asignadas()->count();

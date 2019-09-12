@@ -41,7 +41,7 @@ class AlumnoController extends Controller
         else
             session()->forget('num_actividades');
 
-        $actividades = $user->actividades_asignadas();
+        $actividades = $user->actividades_asignadas()->get();
 
         return view('alumnos.tareas', compact(['actividades', 'user']));
     }

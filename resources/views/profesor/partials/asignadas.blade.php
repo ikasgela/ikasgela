@@ -1,6 +1,6 @@
 @include('partials.subtitulo', ['subtitulo' => __('Assigned activities')])
 
-@if(count($actividades) > 0 )
+@if($actividades->count() > 0 )
     <div class="table-responsive">
         <table class="table table-hover">
             <thead class="thead-dark">

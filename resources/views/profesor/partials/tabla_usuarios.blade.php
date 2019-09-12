@@ -37,12 +37,12 @@
                     {{ $user->name }}
                     @include('profesor.partials.status_usuario')
                 </td>
-                <td class="clickable text-center">{{ count($user->actividades_ocultas()) }}</td>
-                <td class="clickable text-center">{{ count($user->actividades_nuevas()) }}</td>
-                <td class="clickable text-center">{{ count($user->actividades_aceptadas()) }}</td>
-                <td class="clickable text-center {{ count($user->actividades_enviadas())>0 ? 'bg-danger' : '' }}">{{ count($user->actividades_enviadas()) }}</td>
-                <td class="clickable text-center">{{ count($user->actividades_revisadas()) }}</td>
-                <td class="clickable text-center">{{ count($user->actividades_archivadas()) }}</td>
+                <td class="clickable text-center">{{ $user->actividades_ocultas()->count() }}</td>
+                <td class="clickable text-center">{{ $user->actividades_nuevas()->count() }}</td>
+                <td class="clickable text-center">{{ $user->actividades_aceptadas()->count() }}</td>
+                <td class="clickable text-center {{ $user->actividades_enviadas()->count() > 0 ? 'bg-danger' : '' }}">{{ $user->actividades_enviadas()->count() }}</td>
+                <td class="clickable text-center">{{ $user->actividades_revisadas()->count() }}</td>
+                <td class="clickable text-center">{{ $user->actividades_archivadas()->count() }}</td>
                 <td>{{ $user->last_active_time }}</td>
                 @if(Auth::user()->hasRole('admin'))
                     <td class="text-center">
@@ -64,7 +64,7 @@
         <tfoot class="thead-dark">
         <tr>
             <th class="p-0"></th>
-            <th colspan="10">Total de alumnos: {{ count($usuarios) }}</th>
+            <th colspan="10">Total de alumnos: {{ $usuarios->count() }}</th>
             @if(Auth::user()->hasRole('admin'))
                 <th></th>
             @endif
