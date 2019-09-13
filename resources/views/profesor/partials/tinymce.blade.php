@@ -8,4 +8,11 @@
         toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image link emoticons hr',
         link_assume_external_targets: true
     });
+
+    function validate_feedback() {
+        if ((tinymce.EditorManager.get('feedback').getContent()) === '') {
+            alert('{{ __('Feedback cannot be empty.') }}');
+            return false;
+        }
+    }
 </script>

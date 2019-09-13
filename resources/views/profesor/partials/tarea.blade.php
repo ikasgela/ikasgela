@@ -34,7 +34,8 @@
                         <label class="mx-3">{{ __('Attempts') }}: {{ $tarea->intentos }}</label>
                         <div class="form-inline">
                             <button type="submit" name="nuevoestado" value="41"
-                                    class="mr-3 btn btn-warning"> {{ __('Send again') }}
+                                    class="mr-3 btn btn-warning"
+                                    onclick="return validate_feedback();"> {{ __('Send again') }}
                             </button>
                             <label class="mr-2">{{ __('Score') }}</label>
                             <input class="mr-2 form-control" type="number" min="0" max="100" step="1"
@@ -42,7 +43,8 @@
                                    value="{{ !is_null($tarea->puntuacion) ? $tarea->puntuacion : $actividad->puntuacion }}"/>
                             <label class="mr-3"> {{ __('over') }} {{ $actividad->puntuacion }}</label>
                             <button type="submit" name="nuevoestado" value="40"
-                                    class="btn btn-primary mr-3"> {{ __('Finished') }}
+                                    class="btn btn-primary mr-3"
+                                    onclick="return validate_feedback();"> {{ __('Finished') }}
                             </button>
                         </div>
                         @if(!is_null($actividad->siguiente))
