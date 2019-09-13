@@ -201,7 +201,7 @@ class MessagesController extends Controller
         $thread = Hilo::findOrFail($id);
         $thread->delete();
 
-        return redirect(route('messages'));
+        return back();
     }
 
     private function filtrarParrafosVacios($mensaje)
