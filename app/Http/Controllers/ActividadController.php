@@ -230,8 +230,8 @@ class ActividadController extends Controller
                 $tarea->estado = 20;    // Botón de reset, para cuando se confunden
                 break;
             case 40:
-                $tarea->puntuacion = $request->input('puntuacion');
             case 41:
+                $tarea->puntuacion = $request->input('puntuacion');
                 $tarea->feedback = $request->input('feedback');
                 $tarea->increment('intentos');
 
