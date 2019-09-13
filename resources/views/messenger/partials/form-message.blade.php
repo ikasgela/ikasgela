@@ -7,12 +7,9 @@
 </div>
 
 <div class="form-group">
-    <button type="submit" class="btn btn-primary">{{ __('Send') }}</button>
+    @include('partials.enviar_cancelar')
 </div>
 
 @include('layouts.errors')
 {!! Form::close() !!}
 
-<div class="form-group">
-    @include('partials.backbutton')
-</div>

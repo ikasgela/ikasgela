@@ -18,7 +18,8 @@
             <div class="form-group row">
                 {!! Form::label('message', __('Message'), ['class' => 'col-sm-2 col-form-label']) !!}
                 <div class="col-sm-10">
-                    <textarea rows="10" class="form-control" id="message" name="message">{!! old('message') !!}</textarea>
+                    <textarea rows="10" class="form-control" id="message"
+                              name="message">{!! old('message') !!}</textarea>
                 </div>
             </div>
             @if(Auth::user()->hasRole('profesor'))
@@ -38,6 +39,7 @@
                         </div>
                     </div>
                 @endif
+                {{ Form::campoCheck('noreply', __('No reply'), false) }}
             @else
                 <div class="form-group row">
                     {!! Form::label('recipients', __('Recipient'), ['class' => 'col-sm-2 col-form-label']) !!}

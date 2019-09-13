@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Curso;
+use App\Hilo;
 use App\Mail\NuevoMensaje;
-use App\Organization;
-use App\Role;
 use App\User;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
-use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,16 +25,20 @@ class MessagesController extends Controller
      */
     public function index()
     {
+        memorizar_ruta();
+
         // All threads that user is participating in, with new messages
-        $threads = Thread::forUserWithNewMessages(Auth::id())->latest('updated_at')->get();
+        $threads = Hilo::forUserWithNewMessages(Auth::id())->latest('updated_at')->get();
 
         return view('messenger.index', compact('threads'));
     }
 
     public function all()
     {
+        memorizar_ruta();
+
         // All threads that user is participating in
-        $threads = Thread::forUser(Auth::id())->latest('updated_at')->get();
+        $threads = Hilo::forUser(Auth::id())->latest('updated_at')->get();
 
         return view('messenger.index', compact('threads'));
     }
@@ -50,7 +52,7 @@ class MessagesController extends Controller
     public function show($id)
     {
         try {
-            $thread = Thread::forUser(Auth::id())->findOrFail($id);
+            $thread = Hilo::forUser(Auth::id())->findOrFail($id);
         } catch (ModelNotFoundException $e) {
             Session::flash('error_message', __('Thread not found.'));
 
@@ -115,8 +117,10 @@ class MessagesController extends Controller
 
         $mensaje_filtrado = $this->filtrarParrafosVacios($input['message']);
 
-        $thread = Thread::create([
+        $thread = Hilo::create([
             'subject' => $input['subject'],
+            'owner_id' => Auth::id(),
+            'noreply' => Input::has('noreply')
         ]);
 
         // Message
@@ -156,7 +160,7 @@ class MessagesController extends Controller
         ]);
 
         try {
-            $thread = Thread::forUser(Auth::id())->findOrFail($id);
+            $thread = Hilo::forUser(Auth::id())->findOrFail($id);
         } catch (ModelNotFoundException $e) {
             Session::flash('error_message', __('Thread not found.'));
 
@@ -194,7 +198,7 @@ class MessagesController extends Controller
 
     public function destroy($id)
     {
-        $thread = Thread::findOrFail($id);
+        $thread = Hilo::findOrFail($id);
         $thread->delete();
 
         return redirect(route('messages'));
