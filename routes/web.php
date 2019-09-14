@@ -109,6 +109,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/actividades/{actividad}/preview', 'ActividadController@preview')
             ->name('actividades.preview');
 
+        // Reordenar actividades
+        Route::post('/actividades/reordenar/{a1}/{a2}', 'ActividadController@reordenar')
+            ->name('actividades.reordenar');
+
         // YoutubeVideo
         Route::resource('youtube_videos', 'YoutubeVideoController');
         Route::get('/youtube_videos/{actividad}/actividad', 'YoutubeVideoController@actividad')

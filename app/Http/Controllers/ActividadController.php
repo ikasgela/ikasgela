@@ -28,11 +28,13 @@ class ActividadController extends Controller
     {
         memorizar_ruta();
 
-        $actividades = Actividad::all();
+        $actividades = Actividad::orderBy('orden')->get();
 
         session(['ubicacion' => 'actividades.index']);
 
-        return view('actividades.index', compact('actividades'));
+        $ids = $actividades->pluck('id')->toArray();
+
+        return view('actividades.index', compact(['actividades', 'ids']));
     }
 
     public function plantillas(Request $request)
@@ -48,12 +50,14 @@ class ActividadController extends Controller
         }
 
         if (session('profesor_unidad_actual')) {
-            $actividades = Actividad::cursoActual()->plantilla()->where('unidad_id', session('profesor_unidad_actual'))->get();
+            $actividades = Actividad::cursoActual()->plantilla()->where('unidad_id', session('profesor_unidad_actual'))->orderBy('orden')->get();
         } else {
-            $actividades = Actividad::cursoActual()->plantilla()->where('plantilla', true)->get();
+            $actividades = Actividad::cursoActual()->plantilla()->where('plantilla', true)->orderBy('orden')->get();
         }
 
-        return view('actividades.plantillas', compact(['actividades', 'unidades']));
+        $ids = $actividades->pluck('id')->toArray();
+
+        return view('actividades.plantillas', compact(['actividades', 'unidades', 'ids']));
     }
 
     public function create()
@@ -87,6 +91,9 @@ class ActividadController extends Controller
 
             'qualification_id' => request('qualification_id'),
         ]);
+
+        $actividad->orden = $actividad->id;
+        $actividad->save();
 
         if (!is_null($request->input('siguiente_id'))) {
             $siguiente = Actividad::find($request->input('siguiente_id'));
@@ -150,6 +157,8 @@ class ActividadController extends Controller
                 : Str::slug($request->input('nombre')),
 
             'qualification_id' => request('qualification_id'),
+
+            'orden' => request('orden'),
         ]);
 
         if (!is_null($request->input('siguiente_id'))) {
@@ -275,6 +284,9 @@ class ActividadController extends Controller
         $clon->slug = Str::slug($clon->nombre);
 
         $clon->save();
+        $clon->orden = $clon->id;
+
+        $clon->save();
 
         return back();
     }
@@ -309,5 +321,17 @@ class ActividadController extends Controller
                 'timestamp' => Carbon::now(),
             ]);
         }
+    }
+
+    public function reordenar(Actividad $a1, Actividad $a2)
+    {
+        $temp = $a1->orden;
+        $a1->orden = $a2->orden;
+        $a2->orden = $temp;
+
+        $a1->save();
+        $a2->save();
+
+        return back();
     }
 }

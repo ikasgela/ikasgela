@@ -8,6 +8,7 @@
             @endif
             <th>{{ __('Course') }}</th>
             <th>{{ __('Unit') }}</th>
+            <th>{{ __('Order') }}</th>
             <th>{{ __('Name') }}</th>
             <th>{{ __('Slug') }}</th>
             <th>{{ __('Score') }}</th>
@@ -28,6 +29,26 @@
                     - {{ $actividad->unidad->curso->category->period->name }}
                     - {{ $actividad->unidad->curso->nombre }}</td>
                 <td>{{ $actividad->unidad->nombre }}</td>
+                <td>
+                    <div class='btn-group'>
+                        {!! Form::open(['route' => ['actividades.reordenar', $ids[$loop->index], $ids[$loop->index-1] ?? -1], 'method' => 'POST']) !!}
+                        <button title="{{ __('Up') }}"
+                                type="submit"
+                                {{ !isset($ids[$loop->index-1]) ? 'disabled' : '' }}
+                                class="btn btn-light btn-sm">
+                            <i class="fas fa-arrow-up"></i></i>
+                        </button>
+                        {!! Form::close() !!}
+                        {!! Form::open(['route' => ['actividades.reordenar', $ids[$loop->index], $ids[$loop->index+1] ?? -1], 'method' => 'POST']) !!}
+                        <button title="{{ __('Down') }}"
+                                type="submit"
+                                {{ !isset($ids[$loop->index+1]) ? 'disabled' : '' }}
+                                class="btn btn-light btn-sm">
+                            <i class="fas fa-arrow-down"></i></i>
+                        </button>
+                        {!! Form::close() !!}
+                    </div>
+                </td>
                 <td>{{ $actividad->nombre }}</td>
                 <td>{{ $actividad->slug }}</td>
                 <td>{{ $actividad->puntuacion }}</td>

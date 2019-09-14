@@ -26,7 +26,7 @@ class Actividad extends Model
     protected $table = 'actividades';
 
     protected $fillable = [
-        'unidad_id', 'nombre', 'descripcion', 'puntuacion', 'plantilla', 'slug', 'final', 'siguiente', 'auto_avance', 'qualification_id'
+        'unidad_id', 'nombre', 'descripcion', 'puntuacion', 'plantilla', 'slug', 'final', 'siguiente', 'auto_avance', 'qualification_id', 'orden'
     ];
 
     public function setCloneableRelations($relations)

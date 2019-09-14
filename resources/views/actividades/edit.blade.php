@@ -33,6 +33,7 @@
             {{ Form::campoTexto('slug', __('Slug')) }}
             {{ Form::campoTexto('puntuacion', __('Score')) }}
             {{ Form::campoCheck('plantilla', __('Template')) }}
+            {{ Form::campoTexto('orden', __('Order')) }}
 
             <div class="form-group row">
                 {!! Form::label('siguiente_id', __('Next'), ['class' => 'col-sm-2 col-form-label']) !!}
