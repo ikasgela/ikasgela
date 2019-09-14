@@ -44,7 +44,7 @@
                 <td class="clickable text-center">{{ $user->actividades_revisadas()->count() }}</td>
                 <td class="clickable text-center">{{ $user->actividades_archivadas()->count() }}</td>
                 <td>{{ $user->last_active_time }}</td>
-                <td class="clickable">{{ $user->actividades_asignadas()->orderBy('created_at', 'desc')->first()->slug ?? '' }}</td>
+                <td class="clickable">{{ $user->actividades_asignadas()->orderBy('id', 'desc')->first()->slug ?? '' }}</td>
                 @if(Auth::user()->hasRole('admin'))
                     <td class="text-center">
                         <form method="POST" action="{{ route('users.destroy', [$user->id]) }}">
