@@ -44,7 +44,7 @@
                 <td class="clickable text-center {{ $user->actividades_enviadas()->count() > 0 ? 'bg-danger' : '' }}">{{ $user->actividades_enviadas()->count() }}</td>
                 <td class="clickable text-center">{{ $user->actividades_revisadas()->count() }}</td>
                 <td class="clickable text-center">{{ $user->actividades_archivadas()->count() }}</td>
-                <td>{{ $user->last_active_time }}</td>
+                <td class="clickable">{{ $user->last_active_time }}</td>
                 <td class="clickable">{{ $user->actividades_asignadas()->orderBy('id', 'desc')->first()->slug ?? '' }}</td>
                 @include('profesor.partials.siguiente_actividad', ['actividad' => $user->actividades_asignadas()->orderBy('id', 'desc')->first()])
                 @if(Auth::user()->hasRole('admin'))
