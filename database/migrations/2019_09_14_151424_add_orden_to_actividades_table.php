@@ -14,7 +14,7 @@ class AddOrdenToActividadesTable extends Migration
     public function up()
     {
         Schema::table('actividades', function (Blueprint $table) {
-            $table->bigInteger('orden')->unsigned()->index();
+            $table->bigInteger('orden')->unsigned()->default(0)->index();
         });
     }
 
