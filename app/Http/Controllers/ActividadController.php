@@ -93,12 +93,7 @@ class ActividadController extends Controller
             $actividad->siguiente()->save($siguiente);
         }
 
-        switch (session('ubicacion')) {
-            case 'actividades.index':
-                return redirect(route('actividades.index'));
-            case 'actividades.plantillas':
-                return redirect(route('actividades.plantillas'));
-        }
+        return redirect(ruta_memorizada());
     }
 
     protected $table = 'actividades';
@@ -177,19 +172,14 @@ class ActividadController extends Controller
 
         $actividad->save();
 
-        switch (session('ubicacion')) {
-            case 'actividades.index':
-                return redirect(route('actividades.index'));
-            case 'actividades.plantillas':
-                return redirect(route('actividades.plantillas'));
-        }
+        return redirect(ruta_memorizada());
     }
 
     public function destroy(Actividad $actividad)
     {
         $actividad->delete();
 
-        return redirect(route('actividades.index'));
+        return back();
     }
 
     public function actualizarEstado(Tarea $tarea, Request $request)
