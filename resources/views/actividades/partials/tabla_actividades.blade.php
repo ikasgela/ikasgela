@@ -8,8 +8,8 @@
             @endif
             <th>{{ __('Course') }}</th>
             <th>{{ __('Unit') }}</th>
-            <th>{{ __('Name') }}</th>
             <th>{{ __('Order') }}</th>
+            <th>{{ __('Name') }}</th>
             <th>{{ __('Slug') }}</th>
             <th>{{ __('Score') }}</th>
             <th class="text-center">{{ __('Auto') }}</th>
@@ -29,7 +29,6 @@
                     - {{ $actividad->unidad->curso->category->period->name }}
                     - {{ $actividad->unidad->curso->nombre }}</td>
                 <td>{{ $actividad->unidad->nombre }}</td>
-                <td>{{ $actividad->nombre }}</td>
                 <td>
                     <div class='btn-group'>
                         {!! Form::open(['route' => ['actividades.reordenar', $ids[$loop->index], $ids[$loop->index-1] ?? -1], 'method' => 'POST']) !!}
@@ -50,6 +49,7 @@
                         {!! Form::close() !!}
                     </div>
                 </td>
+                <td>{{ $actividad->nombre }}</td>
                 <td>{{ $actividad->slug }}</td>
                 <td>{{ $actividad->puntuacion }}</td>
                 <td class="text-center">{!! $actividad->auto_avance ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
