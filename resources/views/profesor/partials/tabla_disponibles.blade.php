@@ -28,16 +28,7 @@
                 <td>{{ $actividad->slug }}</td>
                 <td>{{ $actividad->puntuacion }}</td>
                 <td class="text-center">{!! $actividad->auto_avance ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
-                <td>
-                    {!! !is_null($actividad->siguiente) ? $actividad->final
-                    ? '<i class="fas fa-times text-danger"></i>'
-                    : '<i class="fas fa-arrow-right text-success"></i>'
-                    : '' !!}
-                    &nbsp;
-                    @if( !is_null($actividad->siguiente) )
-                        {{ $actividad->siguiente->slug . ' ('.$actividad->siguiente->id.')' }}
-                    @endif
-                </td>
+                @include('profesor.partials.siguiente_actividad')
                 @if(Auth::user()->hasRole('admin'))
                     @include('partials.botones_recursos')
                 @endif
