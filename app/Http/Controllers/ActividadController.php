@@ -157,6 +157,8 @@ class ActividadController extends Controller
                 : Str::slug($request->input('nombre')),
 
             'qualification_id' => request('qualification_id'),
+
+            'orden' => request('orden'),
         ]);
 
         if (!is_null($request->input('siguiente_id'))) {
