@@ -180,7 +180,7 @@ class ProfesorController extends Controller
 
     private function actividadesDisponibles()
     {
-        $actividades_curso = Actividad::plantilla()->cursoActual();
+        $actividades_curso = Actividad::plantilla()->cursoActual()->orderBy('orden');
 
         if (session('profesor_unidad_actual')) {
             $disponibles = $actividades_curso->where('unidad_id', session('profesor_unidad_actual'))->get();
