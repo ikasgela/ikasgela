@@ -8,16 +8,16 @@
             </th>
             <th></th>
             <th>{{ __('Name') }}</th>
-            <th class="text-center">Ocultas</th>
-            <th class="text-center">Nuevas</th>
-            <th class="text-center">Aceptadas</th>
-            <th class="text-center">Enviadas</th>
-            <th class="text-center">Revisadas</th>
-            <th class="text-center">Archivadas</th>
+            <th class="text-center">{{ trans_choice('tasks.hidden', 2) }}</th>
+            <th class="text-center">{{ trans_choice('tasks.new', 2) }}</th>
+            <th class="text-center">{{ trans_choice('tasks.accepted', 2) }}</th>
+            <th class="text-center">{{ trans_choice('tasks.sent', 2) }}</th>
+            <th class="text-center">{{ trans_choice('tasks.reviewed', 2) }}</th>
+            <th class="text-center">{{ trans_choice('tasks.archived', 2) }}</th>
             <th>{{ __('Activity') }}</th>
-            <th>{{ __('Last') }}</th>
+            <th>{{ trans_choice('tasks.last', 1) }}</th>
             @if(Auth::user()->hasRole('admin'))
-                <th class="text-center">Acciones</th>
+                <th class="text-center">{{ __('Actions') }}</th>
             @endif
         </tr>
         </thead>
@@ -65,7 +65,7 @@
         <tfoot class="thead-dark">
         <tr>
             <th class="p-0"></th>
-            <th colspan="11">Total de alumnos: {{ $usuarios->count() }}</th>
+            <th colspan="11">{{ __('Student total') }}: {{ $usuarios->count() }}</th>
             @if(Auth::user()->hasRole('admin'))
                 <th></th>
             @endif

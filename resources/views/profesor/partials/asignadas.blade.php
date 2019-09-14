@@ -7,16 +7,16 @@
             <tr>
                 <th class="p-0"></th>
                 <th>#</th>
-                <th>Actividad</th>
-                <th class="text-center">Oculta</th>
-                <th class="text-center">Aceptada</th>
-                <th class="text-center">Enviada</th>
-                <th class="text-center">Revisada</th>
-                <th class="text-center">Terminada</th>
+                <th>{{ __('Activity') }}</th>
+                <th class="text-center">{{ trans_choice('tasks.hidden', 1) }}</th>
+                <th class="text-center">{{ trans_choice('tasks.accepted', 1) }}</th>
+                <th class="text-center">{{ trans_choice('tasks.sent', 1) }}</th>
+                <th class="text-center">{{ trans_choice('tasks.reviewed', 1) }}</th>
+                <th class="text-center">{{ trans_choice('tasks.finished', 1) }}</th>
                 @if(Auth::user()->hasRole('admin'))
-                    <th>Recursos</th>
+                    <th>{{ __('Resources') }}</th>
                 @endif
-                <th>Acciones</th>
+                <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -83,7 +83,7 @@
 @else
     <div class="row">
         <div class="col-md">
-            <p>El usuario no tiene actividades asignadas.</p>
+            <p>{{ __("The user doesn't have any assigned activities.") }}</p>
         </div>
     </div>
 @endif
