@@ -16,6 +16,7 @@
             <th class="text-center">{{ trans_choice('tasks.archived', 2) }}</th>
             <th>{{ __('Activity') }}</th>
             <th>{{ trans_choice('tasks.last', 1) }}</th>
+            <th>{{ __('Next') }}</th>
             @if(Auth::user()->hasRole('admin'))
                 <th class="text-center">{{ __('Actions') }}</th>
             @endif
@@ -45,6 +46,7 @@
                 <td class="clickable text-center">{{ $user->actividades_archivadas()->count() }}</td>
                 <td>{{ $user->last_active_time }}</td>
                 <td class="clickable">{{ $user->actividades_asignadas()->orderBy('id', 'desc')->first()->slug ?? '' }}</td>
+                @include('profesor.partials.siguiente_actividad', ['actividad' => $user->actividades_asignadas()->orderBy('id', 'desc')->first()])
                 @if(Auth::user()->hasRole('admin'))
                     <td class="text-center">
                         <form method="POST" action="{{ route('users.destroy', [$user->id]) }}">
@@ -65,7 +67,7 @@
         <tfoot class="thead-dark">
         <tr>
             <th class="p-0"></th>
-            <th colspan="11">{{ __('Student total') }}: {{ $usuarios->count() }}</th>
+            <th colspan="12">{{ __('Student total') }}: {{ $usuarios->count() }}</th>
             @if(Auth::user()->hasRole('admin'))
                 <th></th>
             @endif
