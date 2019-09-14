@@ -32,7 +32,9 @@ class ActividadController extends Controller
 
         session(['ubicacion' => 'actividades.index']);
 
-        return view('actividades.index', compact('actividades'));
+        $ids = $actividades->pluck('id')->toArray();
+
+        return view('actividades.index', compact(['actividades', 'ids']));
     }
 
     public function plantillas(Request $request)
