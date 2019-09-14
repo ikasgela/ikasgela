@@ -15,6 +15,7 @@
             <th class="text-center">Revisadas</th>
             <th class="text-center">Archivadas</th>
             <th>{{ __('Activity') }}</th>
+            <th>{{ __('Last') }}</th>
             @if(Auth::user()->hasRole('admin'))
                 <th class="text-center">Acciones</th>
             @endif
@@ -43,6 +44,7 @@
                 <td class="clickable text-center">{{ $user->actividades_revisadas()->count() }}</td>
                 <td class="clickable text-center">{{ $user->actividades_archivadas()->count() }}</td>
                 <td>{{ $user->last_active_time }}</td>
+                <td class="clickable">{{ $user->actividades_asignadas()->orderBy('created_at', 'desc')->first()->slug ?? '' }}</td>
                 @if(Auth::user()->hasRole('admin'))
                     <td class="text-center">
                         <form method="POST" action="{{ route('users.destroy', [$user->id]) }}">
@@ -63,7 +65,7 @@
         <tfoot class="thead-dark">
         <tr>
             <th class="p-0"></th>
-            <th colspan="10">Total de alumnos: {{ $usuarios->count() }}</th>
+            <th colspan="11">Total de alumnos: {{ $usuarios->count() }}</th>
             @if(Auth::user()->hasRole('admin'))
                 <th></th>
             @endif
