@@ -25,8 +25,7 @@
             <tr class="table-cell-click" data-href="{{ route('profesor.tareas', [$user->id]) }}">
                 <td style="width:5px;"
                     class="p-0 {{ $user->actividades_enviadas()->count() > 0 ? 'bg-danger' : '' }}
-                    {{ $user->actividades_asignadas()->count() == 0 ? 'bg-secondary' : '' }}">
-                    &nbsp;
+                    {{ $user->actividades_asignadas()->count() == 0 ? 'bg-secondary' : '' }}">&nbsp;
                 </td>
                 <td>
                     <input form="asignar" type="checkbox"
