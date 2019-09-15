@@ -11,6 +11,7 @@ use App\Registro;
 use App\Tarea;
 use App\Unidad;
 use Carbon\Carbon;
+use GrahamCampbell\GitLab\Facades\GitLab;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -224,12 +225,23 @@ class ActividadController extends Controller
 
                 $tarea->save();
                 $this->mostrarSiguienteActividad($actividad, $usuario);
+
+                // Archivar los posibles repositorios para que no se pueda hacer push
+                foreach ($tarea->actividad->intellij_projects as $intellij_project) {
+                    $proyecto_gitlab = $intellij_project->gitlab();
+                    GitLab::projects()->archive($proyecto_gitlab['id']);
+                }
                 break;
             case 31:
                 $tarea->estado = 20;    // Botón de reset, para cuando se confunden
                 break;
-            case 40:
             case 41:
+                // Deshacer el archivado para que se pueda hacer push
+                foreach ($tarea->actividad->intellij_projects as $intellij_project) {
+                    $proyecto_gitlab = $intellij_project->gitlab();
+                    GitLab::projects()->unarchive($proyecto_gitlab['id']);
+                }
+            case 40:
                 $tarea->puntuacion = $request->input('puntuacion');
                 $tarea->feedback = $request->input('feedback');
                 $tarea->increment('intentos');
