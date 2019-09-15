@@ -6,7 +6,7 @@
 @endforeach
 @foreach($actividad->youtube_videos()->get() as $youtube_video)
     <div class="col-md-6">
-        @include('tarjetas.youtube_video')
+        @include('youtube_videos.tarjeta')
     </div>
 @endforeach
 @foreach($actividad->cuestionarios()->get() as $cuestionario)
@@ -21,7 +21,7 @@
 @endforeach
 @foreach($actividad->intellij_projects()->get() as $intellij_project)
     <div class="col-md-6">
-        @include('tarjetas.intellij_project', ['repositorio' => $intellij_project->gitlab()])
+        @include('intellij_projects.tarjeta', ['repositorio' => $intellij_project->gitlab()])
     </div>
 @endforeach
 </div>
