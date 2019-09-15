@@ -205,7 +205,7 @@
                                 <div class="card-header
                                 {{ $actividad->tarea->estado == 40 ? 'bg-success' : '' }}
                                 {{ $actividad->tarea->estado == 41 ? 'bg-warning text-dark' : '' }}">
-                                    <i class="fas fa-bullhorn"></i></i> {{ __('Feedback') }}
+                                    <i class="fas fa-bullhorn"></i> {{ __('Feedback') }}
                                 </div>
                                 <div class="card-body pb-0">
                                     <div>{!! $actividad->tarea->feedback !!}</div>

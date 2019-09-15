@@ -222,4 +222,18 @@ class IntellijProjectController extends Controller
 
         return redirect(route('intellij_projects.copia'));
     }
+
+    public function lock($repositorio)
+    {
+        GitLab::projects()->archive($repositorio);
+
+        return back();
+    }
+
+    public function unlock($repositorio)
+    {
+        GitLab::projects()->unarchive($repositorio);
+
+        return back();
+    }
 }

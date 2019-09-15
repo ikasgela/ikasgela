@@ -16,6 +16,27 @@
                class="btn btn-primary">{{ __('Open in IntelliJ IDEA') }}</a>
             <a href="{{ $repositorio['web_url']  }}" target="_blank"
                class="btn btn-secondary">{{ __('Open in GitLab') }}</a>
+            <div class='btn-group'>
+                @if(Auth::user()->hasRole('profesor'))
+                    @if($repositorio['archived'])
+                        {!! Form::open(['route' => ['intellij_projects.unlock', $repositorio['id']], 'method' => 'POST']) !!}
+                        <button title="{{ __('Unlock') }}"
+                                type="submit"
+                                class="btn btn-light">
+                            <i class="fas fa-lock"></i>
+                        </button>
+                        {!! Form::close() !!}
+                    @else
+                        {!! Form::open(['route' => ['intellij_projects.lock', $repositorio['id']], 'method' => 'POST']) !!}
+                        <button title="{{ __('Lock') }}"
+                                type="submit"
+                                class="btn btn-light">
+                            <i class="fas fa-unlock"></i>
+                        </button>
+                        {!! Form::close() !!}
+                    @endif
+                @endif
+            </div>
         @else
             <div class="alert alert-danger mb-0 mt-3" role="alert">
                 <span>{{ __('GitLab error, contact with your administrator.') }}</span>
