@@ -137,6 +137,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/intellij_projects/{actividad}/desasociar/{intellij_project}', 'IntellijProjectController@desasociar')
             ->name('intellij_projects.desasociar');
 
+        // Bloquear y desbloquear repositorios
+        Route::post('/intellij_projects/{repositorio}/lock', 'IntellijProjectController@lock')
+            ->name('intellij_projects.lock');
+        Route::post('/intellij_projects/{repositorio}/unlock', 'IntellijProjectController@unlock')
+            ->name('intellij_projects.unlock');
+
         // MarkdownText
         Route::resource('markdown_texts', 'MarkdownTextController');
         Route::get('/markdown_texts/{actividad}/actividad', 'MarkdownTextController@actividad')
