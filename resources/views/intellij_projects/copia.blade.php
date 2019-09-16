@@ -10,7 +10,7 @@
             {!! Form::open(['route' => 'intellij_projects.duplicar']) !!}
 
             {{ Form::campoTexto('origen', __('Project'), session('intellij_origen', 'programacion/plantillas/proyecto-intellij-java'), ['placeholder' => 'programacion/plantillas/proyecto-intellij-java']) }}
-            {{ Form::campoTexto('destino', __('Group'), session('intellij_destino'), ['placeholder' => 'programacion/introduccion (opcional, por defecto copia en root/hola-mundo)']) }}
+            {{ Form::campoTexto('destino', __('Group'), session('intellij_destino'), ['placeholder' => 'programacion/introduccion (opcional, por defecto copia en root)']) }}
             {{ Form::campoTexto('ruta', __('New project'), '', ['placeholder' => 'hola-mundo (opcional, mantiene el original)']) }}
             {{ Form::campoTexto('nombre', __('New project name'), '', ['placeholder' => 'Hola Mundo (opcional, mantiene el original)']) }}
 
