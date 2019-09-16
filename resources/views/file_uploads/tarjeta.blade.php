@@ -17,7 +17,9 @@
                         <th>{{ __('Title') }}</th>
                         <th>{{ __('Size') }}</th>
                         <th>{{ __('Uploaded') }}</th>
-                        <th class="text-center">{{ __('Actions') }}</th>
+                        @if(Route::currentRouteName() != 'archivo.show')
+                            <th class="text-center">{{ __('Actions') }}</th>
+                        @endif
                     </tr>
                     </thead>
                     <tbody>
@@ -31,15 +33,17 @@
                             <td>{{ $file->title }}</td>
                             <td>{{ $file->size_in_kb }} KB</td>
                             <td>{{ $file->uploaded_time }}</td>
-                            <td class="text-center">
-                                <form method="POST" action="{{ route('deletefile', [$file->id]) }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <div class='btn-group'>
-                                        @include('partials.boton_borrar')
-                                    </div>
-                                </form>
-                            </td>
+                            @if(Route::currentRouteName() != 'archivo.show')
+                                <td class="text-center">
+                                    <form method="POST" action="{{ route('deletefile', [$file->id]) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <div class='btn-group'>
+                                            @include('partials.boton_borrar')
+                                        </div>
+                                    </form>
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
                     </tbody>
@@ -47,7 +51,7 @@
             </div>
         @endif
     </div>
-    @if(count($file_upload->files) < $file_upload->max_files)
+    @if(count($file_upload->files) < $file_upload->max_files && Route::currentRouteName() != 'archivo.show')
         <hr class="my-0">
         <div class="card-body">
             <p class="small">{{ __('Upload limit') }}: {{ $file_upload->max_files-count($file_upload->files) }}</p>
