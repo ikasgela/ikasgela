@@ -53991,7 +53991,13 @@ $(document).ready(function ($) {
     var $this = $(this);
     var finalDate = $(this).data('countdown');
     $this.countdown(finalDate, function (event) {
-      $(this).html(event.strftime('%D días %H:%M:%S'));
+      var dias = event.strftime('%-D');
+
+      if (dias > 0) {
+        $(this).html(event.strftime('%-D día%!D:s;, %H:%M:%S'));
+      } else {
+        $(this).html(event.strftime('%H:%M:%S'));
+      }
     });
   });
 });

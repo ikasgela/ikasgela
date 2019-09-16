@@ -91,6 +91,10 @@ class ActividadController extends Controller
             'slug' => Str::slug(request('nombre')),
 
             'qualification_id' => request('qualification_id'),
+
+            'fecha_disponibilidad' => request('fecha_disponibilidad'),
+            'fecha_entrega' => request('fecha_entrega'),
+            'fecha_limite' => request('fecha_limite'),
         ]);
 
         $actividad->orden = $actividad->id;
@@ -160,6 +164,10 @@ class ActividadController extends Controller
             'qualification_id' => request('qualification_id'),
 
             'orden' => request('orden'),
+
+            'fecha_disponibilidad' => request('fecha_disponibilidad'),
+            'fecha_entrega' => request('fecha_entrega'),
+            'fecha_limite' => request('fecha_limite'),
         ]);
 
         if (!is_null($request->input('siguiente_id'))) {

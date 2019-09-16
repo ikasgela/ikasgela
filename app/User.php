@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -34,7 +35,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public $appends = ['last_active_time'];
 
-    protected $dates = ['created_at', 'updated_at', 'last_active'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'last_active'];
 
     public function avatar_url($width = 64)
     {
@@ -55,11 +56,10 @@ class User extends Authenticatable implements MustVerifyEmail
             ->as('tarea')
             ->withPivot([
                 'id',
-
                 'estado',
-                'fecha_limite',
                 'feedback',
                 'puntuacion',
+                'intentos'
             ]);
     }
 
@@ -134,7 +134,16 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function actividades_asignadas()
     {
-        return $this->actividades()->wherePivotIn('estado', [60, 11], 'and', 'notin');
+        return $this->actividades()
+            ->wherePivotIn('estado', [60, 11], 'and', 'notin')
+            ->where(function ($query) {
+                $query->where('fecha_disponibilidad', '<=', Carbon::now())
+                    ->orWhereNull('fecha_disponibilidad');
+            })
+            ->where(function ($query) {
+                $query->where('fecha_limite', '>=', Carbon::now())
+                    ->orWhereNull('fecha_limite');
+            });
     }
 
     public function teams()

@@ -39,6 +39,15 @@
         <div class="card border-dark">
             <div class="card-header text-white bg-dark d-flex justify-content-between">
                 <span>{{ $actividad->unidad->curso->nombre }} » {{ $actividad->unidad->nombre }}</span>
+                @if(isset($actividad->fecha_entrega))
+                    @if($actividad->fecha_entrega->gt(\Carbon\Carbon::now()))
+                        <div>{{ __('Remaining time') }}:
+                            <span data-countdown="{{ $actividad->fecha_entrega }}"></span>
+                        </div>
+                    @else
+                        <span>- {{ __('Task expired') }} -</span>
+                    @endif
+                @endif
                 @if(isset($num_actividad))
                     <span>{{ $num_actividad }} {{ __('of') }} {{count($actividades)}}</span>
                 @endif

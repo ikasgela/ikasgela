@@ -66,11 +66,11 @@
                                    href="{{ route('profesor.revisar', ['user' => $user->id, 'actividad'=>$actividad->tarea->id]) }}"
                                    class="btn btn-light btn-sm"><i class="fas fa-bullhorn"></i></a>
                                 @if(Auth::user()->hasRole('admin'))
-                                    <a title="{{ __('Edit task') }}"
-                                       href="{{ route('tareas.edit', [$actividad->tarea->id]) }}"
-                                       class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
                                     <a title="{{ __('Edit activity') }}"
                                        href="{{ route('actividades.edit', [$actividad->id]) }}"
+                                       class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                                    <a title="{{ __('Edit task') }}"
+                                       href="{{ route('tareas.edit', [$actividad->tarea->id]) }}"
                                        class='btn btn-light btn-sm'><i class="fas fa-link"></i></a>
                                 @endif
                                 @include('partials.boton_borrar')
