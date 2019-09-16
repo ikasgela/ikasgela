@@ -57,7 +57,6 @@ class User extends Authenticatable implements MustVerifyEmail
                 'id',
 
                 'estado',
-                'fecha_limite',
                 'feedback',
                 'puntuacion',
             ]);

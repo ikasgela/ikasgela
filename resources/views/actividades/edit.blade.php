@@ -76,6 +76,10 @@
                 </div>
             </div>
 
+            {{ Form::campoTexto('fecha_disponibilidad', __('Availability date')) }}
+            {{ Form::campoTexto('fecha_entrega', __('Due date')) }}
+            {{ Form::campoTexto('fecha_limite', __('Deadline')) }}
+
             @include('partials.guardar_cancelar')
 
             @include('layouts.errors')

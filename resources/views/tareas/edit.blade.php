@@ -10,7 +10,6 @@
             {!! Form::model($tarea, ['route' => ['tareas.update', $tarea->id], 'method' => 'PUT']) !!}
 
             {{ Form::campoTexto('estado', __('Status')) }}
-            {{ Form::campoTexto('fecha_limite', __('Deadline')) }}
             {{ Form::campoTextArea('feedback', __('Feedback')) }}
             {{ Form::campoTexto('puntuacion', __('Score')) }}
             {{ Form::campoTexto('intentos', __('Attempts')) }}
