@@ -8,6 +8,7 @@ use App\IntellijProject;
 use Auth;
 use GitLab;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class IntellijProjectController extends Controller
 {
@@ -162,9 +163,9 @@ class IntellijProjectController extends Controller
                 try {
                     // Hacer el fork
                     $fork = GitLab::projects()->fork($original['id'], [
-                        'namespace' => $destino,
+                        'namespace' => trim($destino, '/'),
                         'name' => $nombre,
-                        'path' => $ruta
+                        'path' => Str::slug($ruta)
                     ]);
 
                     // Desconectarlo del repositorio original
