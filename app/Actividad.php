@@ -30,6 +30,11 @@ class Actividad extends Model
         'fecha_disponibilidad', 'fecha_entrega', 'fecha_limite'
     ];
 
+    protected $dates = [
+        'created_at', 'updated_at', 'deleted_at',
+        'fecha_disponibilidad', 'fecha_entrega', 'fecha_limite'
+    ];
+
     public function setCloneableRelations($relations)
     {
         $this->cloneable_relations = $relations;
