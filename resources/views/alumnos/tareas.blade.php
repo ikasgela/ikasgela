@@ -4,7 +4,9 @@
 
     <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
         <div>
-            <h1>{{ __('Desktop') }}</h1>
+            <h1>{{ __('Desktop') }}
+                @include('partials.boton_recargar')
+            </h1>
         </div>
         <div>
             @if(session('num_actividades') > 0)
