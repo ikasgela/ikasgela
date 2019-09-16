@@ -41,8 +41,8 @@
                 <span>{{ $actividad->unidad->curso->nombre }} » {{ $actividad->unidad->nombre }}</span>
                 @if(isset($actividad->fecha_entrega))
                     @if($actividad->fecha_entrega->gt(\Carbon\Carbon::now()))
-                        <div>- {{ __('Remaining time') }}: <span
-                                data-countdown="{{ $actividad->fecha_entrega }}"></span> -
+                        <div>{{ __('Remaining time') }}:
+                            <span data-countdown="{{ $actividad->fecha_entrega }}"></span>
                         </div>
                     @else
                         <span>- {{ __('Task expired') }} -</span>

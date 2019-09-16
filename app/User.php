@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -133,7 +134,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function actividades_asignadas()
     {
-        return $this->actividades()->wherePivotIn('estado', [60, 11], 'and', 'notin');
+        return $this->actividades()
+            ->where('fecha_disponibilidad', '<=', Carbon::now())
+            ->wherePivotIn('estado', [60, 11], 'and', 'notin');
     }
 
     public function teams()
