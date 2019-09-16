@@ -45,7 +45,7 @@
                             <span data-countdown="{{ $actividad->fecha_entrega }}"></span>
                         </div>
                     @else
-                        <span>- {{ __('Task expired') }} -</span>
+                        <span>{{ __('Task expired') }}</span>
                     @endif
                 @endif
                 @if(isset($num_actividad))
