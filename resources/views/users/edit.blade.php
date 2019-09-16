@@ -42,7 +42,8 @@
                     <select class="form-control" id="curso_id" name="curso_id">
                         <option value="">{{ __('--- None --- ') }}</option>
                         @foreach($cursos_seleccionados as $curso)
-                            <option value="{{ $curso->id }}" <?php if ($curso_actual == $curso->id) echo 'selected'; ?>>{{ $curso->category->period->organization->name }}
+                            <option value="{{ $curso->id }}" <?php if ($curso_actual == $curso->id) echo 'selected'; ?>>
+                                {{ $curso->category->period->organization->name }}
                                 - {{ $curso->nombre }}
                                 - {{ $curso->category->period->name }}</option>
                         @endforeach
@@ -65,8 +66,12 @@
                     </select>
                 </div>
                 <div class="col-sm-1 d-flex flex-row justify-content-center align-items-center mt-3">
-                    <button data-selector="cursos" type="button" class="btn btn-primary mx-1 add">&lt;</button>
-                    <button data-selector="cursos" type="button" class="btn btn-primary mx-1 remove">&gt;</button>
+                    <button data-selector="cursos" type="button" class="btn btn-primary btn-sm add">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <button data-selector="cursos" type="button" class="btn btn-primary btn-sm ml-1 remove">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
                 </div>
                 <div class="col">
                     <label>{{ __('Available') }}</label>
@@ -93,8 +98,11 @@
                     </select>
                 </div>
                 <div class="col-sm-1 d-flex flex-row justify-content-center align-items-center mt-3">
-                    <button data-selector="organizations" type="button" class="btn btn-primary mx-1 add">&lt;</button>
-                    <button data-selector="organizations" type="button" class="btn btn-primary mx-1 remove">&gt;
+                    <button data-selector="organizations" type="button" class="btn btn-primary btn-sm add">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <button data-selector="organizations" type="button" class="btn btn-primary btn-sm ml-1 remove">
+                        <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
                 <div class="col">
