@@ -4,6 +4,8 @@
 
     @include('partials.titular', ['titular' => __('Preview')])
 
+    @include('actividades.partials.preview_siguiente')
+
     @if(session('tutorial'))
         <div class="callout callout-success b-t-1 b-r-1 b-b-1">
             <small class="text-muted">{{ __('Tutorial') }}</small>
