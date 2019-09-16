@@ -14,6 +14,8 @@ class ArchivoController extends Controller
 
     public function index()
     {
+        memorizar_ruta();
+        
         $user = Auth::user();
         $actividades = $user->actividades_archivadas()->get();
 
