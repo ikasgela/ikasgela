@@ -136,6 +136,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->actividades()
             ->where('fecha_disponibilidad', '<=', Carbon::now())
+            ->where('fecha_limite', '>=', Carbon::now())
             ->wherePivotIn('estado', [60, 11], 'and', 'notin');
     }
 
