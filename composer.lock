@@ -382,28 +382,28 @@
         },
         {
             "name": "cmgmyr/messenger",
-            "version": "2.18",
+            "version": "2.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cmgmyr/laravel-messenger.git",
-                "reference": "7272f507cf94a8db36ae78f926847807a488a039"
+                "reference": "3bdffe231308eaa2dfcf00d91200c9417e02fe83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cmgmyr/laravel-messenger/zipball/7272f507cf94a8db36ae78f926847807a488a039",
-                "reference": "7272f507cf94a8db36ae78f926847807a488a039",
+                "url": "https://api.github.com/repos/cmgmyr/laravel-messenger/zipball/3bdffe231308eaa2dfcf00d91200c9417e02fe83",
+                "reference": "3bdffe231308eaa2dfcf00d91200c9417e02fe83",
                 "shasum": ""
             },
             "require": {
-                "illuminate/config": ">=5.5 <6.0",
-                "illuminate/database": ">=5.5 <6.0",
-                "illuminate/support": ">=5.5 <6.0",
+                "illuminate/config": "^5.5|^6.0",
+                "illuminate/database": "^5.5|^6.0",
+                "illuminate/support": "^5.5|^6.0",
                 "php": "^7.1.3"
             },
             "require-dev": {
                 "adamwathan/faktory": "0.3.*",
                 "friendsofphp/php-cs-fixer": "^2.5",
-                "orchestra/testbench": "~3.0",
+                "orchestra/testbench": "^3.0|^4.0",
                 "phpunit/phpunit": "^7.0"
             },
             "type": "library",
@@ -438,7 +438,7 @@
                 "messaging",
                 "user messaging"
             ],
-            "time": "2019-06-13T20:38:21+00:00"
+            "time": "2019-09-16T12:32:06+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -7503,16 +7503,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "7.5.15",
+            "version": "7.5.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "d79c053d972856b8b941bb233e39dc521a5093f0"
+                "reference": "316afa6888d2562e04aeb67ea7f2017a0eb41661"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d79c053d972856b8b941bb233e39dc521a5093f0",
-                "reference": "d79c053d972856b8b941bb233e39dc521a5093f0",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/316afa6888d2562e04aeb67ea7f2017a0eb41661",
+                "reference": "316afa6888d2562e04aeb67ea7f2017a0eb41661",
                 "shasum": ""
             },
             "require": {
@@ -7572,8 +7572,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "role": "lead",
-                    "email": "sebastian@phpunit.de"
+                    "email": "sebastian@phpunit.de",
+                    "role": "lead"
                 }
             ],
             "description": "The PHP Unit Testing framework.",
@@ -7583,7 +7583,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-08-21T07:05:16+00:00"
+            "time": "2019-09-14T09:08:39+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -7805,16 +7805,16 @@
         },
         {
             "name": "sebastian/exporter",
-            "version": "3.1.1",
+            "version": "3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "06a9a5947f47b3029d76118eb5c22802e5869687"
+                "reference": "68609e1261d215ea5b21b7987539cbfbe156ec3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/06a9a5947f47b3029d76118eb5c22802e5869687",
-                "reference": "06a9a5947f47b3029d76118eb5c22802e5869687",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/68609e1261d215ea5b21b7987539cbfbe156ec3e",
+                "reference": "68609e1261d215ea5b21b7987539cbfbe156ec3e",
                 "shasum": ""
             },
             "require": {
@@ -7868,7 +7868,7 @@
                 "export",
                 "exporter"
             ],
-            "time": "2019-08-11T12:43:14+00:00"
+            "time": "2019-09-14T09:02:43+00:00"
         },
         {
             "name": "sebastian/global-state",
