@@ -143,7 +143,7 @@ class User extends Authenticatable implements MustVerifyEmail
             ->where(function ($query) {
                 $query->where('fecha_limite', '>=', Carbon::now())
                     ->orWhereNull('fecha_limite');
-            });
+            })->orWhere('estado', 40);
     }
 
     public function teams()
