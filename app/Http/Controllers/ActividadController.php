@@ -46,6 +46,8 @@ class ActividadController extends Controller
 
         $unidades = Unidad::cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
 
+        $todas_unidades = Unidad::orderBy('curso_id')->orderBy('codigo')->orderBy('nombre')->get();
+
         if ($request->has('unidad_id')) {
             session(['profesor_unidad_actual' => $request->input('unidad_id')]);
         }
@@ -58,7 +60,7 @@ class ActividadController extends Controller
 
         $ids = $actividades->pluck('id')->toArray();
 
-        return view('actividades.plantillas', compact(['actividades', 'unidades', 'ids']));
+        return view('actividades.plantillas', compact(['actividades', 'unidades', 'ids', 'todas_unidades']));
     }
 
     public function create()
@@ -301,16 +303,38 @@ class ActividadController extends Controller
 
     public function duplicar(Actividad $actividad)
     {
+        $this->crear_duplicado($actividad);
+
+        return back();
+    }
+
+    private function crear_duplicado(Actividad $actividad, $unidad_id = null)
+    {
         $clon = $actividad->duplicate();
         $clon->plantilla = $actividad->plantilla;
         $clon->siguiente_id = null;
-        $clon->nombre = $clon->nombre . " - " . __("Copy");
+        $clon->nombre = $clon->nombre . " (" . __("Copy") . ')';
         $clon->slug = Str::slug($clon->nombre);
 
         $clon->save();
         $clon->orden = $clon->id;
 
+        if (!is_null($unidad_id))
+            $clon->unidad_id = $unidad_id;
+
         $clon->save();
+    }
+
+    public function duplicar_grupo(Request $request)
+    {
+        $this->validate($request, [
+            'seleccionadas' => 'required',
+        ]);
+
+        foreach ($request->input('seleccionadas') as $id) {
+            $actividad = Actividad::where('id', $id)->first();
+            $this->crear_duplicado($actividad, $request->input('unidad_id'));
+        }
 
         return back();
     }
