@@ -46,6 +46,8 @@ class ActividadController extends Controller
 
         $unidades = Unidad::cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
 
+        $todas_unidades = Unidad::orderBy('curso_id')->orderBy('codigo')->orderBy('nombre')->get();
+
         if ($request->has('unidad_id')) {
             session(['profesor_unidad_actual' => $request->input('unidad_id')]);
         }
@@ -58,7 +60,7 @@ class ActividadController extends Controller
 
         $ids = $actividades->pluck('id')->toArray();
 
-        return view('actividades.plantillas', compact(['actividades', 'unidades', 'ids']));
+        return view('actividades.plantillas', compact(['actividades', 'unidades', 'ids', 'todas_unidades']));
     }
 
     public function create()

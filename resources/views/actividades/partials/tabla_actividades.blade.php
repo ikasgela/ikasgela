@@ -104,13 +104,16 @@
                     {{ __('to unit') }}
                     <select class="form-control ml-2" id="unidad_id" name="unidad_id">
                         <option value="">{{ __('--- None ---') }}</option>
-                        @foreach($unidades as $unidad)
+                        @foreach($todas_unidades as $unidad)
                             <option
-                                value="{{ $unidad->id }}" {{ session('profesor_unidad_actual') == $unidad->id ? 'selected' : '' }}>
+                                value="{{ $unidad->id }}">
+                                {{ $unidad->curso->category->period->organization->name }}
+                                - {{ $unidad->curso->category->period->name }}
+                                - {{ $unidad->curso->nombre }} -
                                 @isset($unidad->codigo)
                                     {{ $unidad->codigo }} -
                                 @endisset
-                                {{ $unidad->nombre }}
+                                {{ $unidad->nombre }}</option>
                             </option>
                         @endforeach
                     </select>
