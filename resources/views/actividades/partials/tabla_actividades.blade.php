@@ -2,6 +2,7 @@
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
+            <th class="p-0"></th>
             <th>#</th>
             @if(Route::currentRouteName() == 'actividades.index')
                 <th></th>
@@ -21,6 +22,9 @@
         <tbody>
         @foreach($actividades as $actividad)
             <tr>
+                <td style="width:5px;"
+                    class="p-0 {{ $actividad->destacada ? 'bg-warning' : '' }}">&nbsp;
+                </td>
                 <td>{{ $actividad->id }}</td>
                 @if(Route::currentRouteName() == 'actividades.index')
                     <td>{!! $actividad->plantilla ? '<i class="fas fa-file"></i>' : '' !!}</td>

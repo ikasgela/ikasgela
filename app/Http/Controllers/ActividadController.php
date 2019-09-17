@@ -95,6 +95,8 @@ class ActividadController extends Controller
             'fecha_disponibilidad' => request('fecha_disponibilidad'),
             'fecha_entrega' => request('fecha_entrega'),
             'fecha_limite' => request('fecha_limite'),
+
+            'destacada' => $request->has('destacada'),
         ]);
 
         $actividad->orden = $actividad->id;
@@ -168,6 +170,8 @@ class ActividadController extends Controller
             'fecha_disponibilidad' => request('fecha_disponibilidad'),
             'fecha_entrega' => request('fecha_entrega'),
             'fecha_limite' => request('fecha_limite'),
+
+            'destacada' => $request->has('destacada'),
         ]);
 
         if (!is_null($request->input('siguiente_id'))) {

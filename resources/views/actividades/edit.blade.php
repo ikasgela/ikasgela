@@ -80,6 +80,8 @@
             {{ Form::campoTexto('fecha_entrega', __('Due date')) }}
             {{ Form::campoTexto('fecha_limite', __('Deadline')) }}
 
+            {{ Form::campoCheck('destacada', __('Highlighted')) }}
+
             @include('partials.guardar_cancelar')
 
             @include('layouts.errors')
