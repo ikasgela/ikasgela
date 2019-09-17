@@ -29,7 +29,7 @@
                     class="p-0 {{ $actividad->destacada ? 'bg-warning' : '' }}">&nbsp;
                 </td>
                 <td>
-                    <input type="checkbox" name="seleccionadas[]" value="{{ $actividad->id }}">
+                    <input form="multiple" type="checkbox" name="seleccionadas[]" value="{{ $actividad->id }}">
                 </td>
                 <td>{{ $actividad->id }}</td>
                 @if(Route::currentRouteName() == 'actividades.index')
@@ -96,13 +96,10 @@
         <tr>
             <td colspan="13">
                 <div class="form-inline">
-                    {!! Form::open(['route' => ['actividades.destroy', $actividad->id], 'method' => 'DELETE']) !!}
-                    @include('partials.boton_borrar')
-                    {!! Form::close() !!}
-                    {!! Form::open(['route' => ['actividades.duplicar', $actividad->id], 'method' => 'POST']) !!}
+                    {!! Form::open(['route' => ['actividades.duplicar_grupo'], 'method' => 'POST', 'id' => 'multiple']) !!}
                     <button title="{{ __('Duplicate') }}"
                             type="submit"
-                            class="btn btn-light btn-sm ml-3 mr-2"><i class="fas fa-copy"></i>
+                            class="btn btn-light btn-sm mr-2"><i class="fas fa-copy"></i>
                     </button>
                     {{ __('to unit') }}
                     <select class="form-control ml-2" id="unidad_id" name="unidad_id">

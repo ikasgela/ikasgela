@@ -301,16 +301,38 @@ class ActividadController extends Controller
 
     public function duplicar(Actividad $actividad)
     {
+        $this->crear_duplicado($actividad);
+
+        return back();
+    }
+
+    private function crear_duplicado(Actividad $actividad, $unidad_id = null)
+    {
         $clon = $actividad->duplicate();
         $clon->plantilla = $actividad->plantilla;
         $clon->siguiente_id = null;
-        $clon->nombre = $clon->nombre . " - " . __("Copy");
+        $clon->nombre = $clon->nombre . " (" . __("Copy") . ')';
         $clon->slug = Str::slug($clon->nombre);
 
         $clon->save();
         $clon->orden = $clon->id;
 
+        if (!is_null($unidad_id))
+            $clon->unidad_id = $unidad_id;
+
         $clon->save();
+    }
+
+    public function duplicar_grupo(Request $request)
+    {
+        $this->validate($request, [
+            'seleccionadas' => 'required',
+        ]);
+
+        foreach ($request->input('seleccionadas') as $id) {
+            $actividad = Actividad::where('id', $id)->first();
+            $this->crear_duplicado($actividad, $request->input('unidad_id'));
+        }
 
         return back();
     }
