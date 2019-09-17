@@ -2,6 +2,7 @@
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
+            <th class="p-0"></th>
             <th>
                 <input type="checkbox" id="seleccionar_actividades">
             </th>
@@ -20,6 +21,9 @@
         <tbody>
         @foreach($disponibles as $actividad)
             <tr>
+                <td style="width:5px;"
+                    class="p-0 {{ $actividad->destacada ? 'bg-warning' : '' }}">&nbsp;
+                </td>
                 <td>
                     <input type="checkbox" name="seleccionadas[]" value="{{ $actividad->id }}">
                 </td>
