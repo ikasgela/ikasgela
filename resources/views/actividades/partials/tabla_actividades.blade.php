@@ -3,6 +3,9 @@
         <thead class="thead-dark">
         <tr>
             <th class="p-0"></th>
+            <th>
+                <input type="checkbox" id="seleccionar_actividades">
+            </th>
             <th>#</th>
             @if(Route::currentRouteName() == 'actividades.index')
                 <th></th>
@@ -24,6 +27,9 @@
             <tr>
                 <td style="width:5px;"
                     class="p-0 {{ $actividad->destacada ? 'bg-warning' : '' }}">&nbsp;
+                </td>
+                <td>
+                    <input type="checkbox" name="seleccionadas[]" value="{{ $actividad->id }}">
                 </td>
                 <td>{{ $actividad->id }}</td>
                 @if(Route::currentRouteName() == 'actividades.index')
@@ -83,5 +89,38 @@
             </tr>
         @endforeach
         </tbody>
+        <tfoot>
+        <tr class="bg-dark">
+            <th colspan="13" class="m-0 py-1"></th>
+        </tr>
+        <tr>
+            <td colspan="13">
+                <div class="form-inline">
+                    {!! Form::open(['route' => ['actividades.destroy', $actividad->id], 'method' => 'DELETE']) !!}
+                    @include('partials.boton_borrar')
+                    {!! Form::close() !!}
+                    {!! Form::open(['route' => ['actividades.duplicar', $actividad->id], 'method' => 'POST']) !!}
+                    <button title="{{ __('Duplicate') }}"
+                            type="submit"
+                            class="btn btn-light btn-sm ml-3 mr-2"><i class="fas fa-copy"></i>
+                    </button>
+                    {{ __('to unit') }}
+                    <select class="form-control ml-2" id="unidad_id" name="unidad_id">
+                        <option value="">{{ __('--- None ---') }}</option>
+                        @foreach($unidades as $unidad)
+                            <option
+                                value="{{ $unidad->id }}" {{ session('profesor_unidad_actual') == $unidad->id ? 'selected' : '' }}>
+                                @isset($unidad->codigo)
+                                    {{ $unidad->codigo }} -
+                                @endisset
+                                {{ $unidad->nombre }}
+                            </option>
+                        @endforeach
+                    </select>
+                    {!! Form::close() !!}
+                </div>
+            </td>
+        </tr>
+        </tfoot>
     </table>
 </div>
