@@ -21,9 +21,7 @@
         <tbody>
         @foreach($disponibles as $actividad)
             <tr>
-                <td style="width:5px;"
-                    class="p-0 {{ $actividad->destacada ? 'bg-warning' : '' }}">&nbsp;
-                </td>
+                <td class="p-0 pl-1 {{ $actividad->destacada ? 'bg-warning' : '' }}">&nbsp;</td>
                 <td>
                     <input type="checkbox" name="seleccionadas[]" value="{{ $actividad->id }}">
                 </td>
