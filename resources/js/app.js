@@ -54,6 +54,10 @@ $(document).ready(function ($) {
         $("input[name='seleccionadas[]']").not(this).prop('checked', this.checked);
     });
 
+    $('#seleccionar_todos').change(function () {
+        $("input[name='recipients[]']").not(this).prop('checked', this.checked);
+    });
+
     $('.add').click(function () {
         var prefijo = $(this).data("selector");
         return !$('#' + prefijo + '-select2 option:selected').remove().appendTo('#' + prefijo + '-select1');

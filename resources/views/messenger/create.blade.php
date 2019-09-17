@@ -27,6 +27,12 @@
                     <div class="form-group row">
                         {!! Form::label('recipients', __('Recipients'), ['class' => 'col-sm-2 col-form-label']) !!}
                         <div class="col-sm-10">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label col-form-label">
+                                    <input class="form-check-input" type="checkbox"
+                                           id="seleccionar_todos"> {{ __('All') }}
+                                </label>
+                            </div>
                             @foreach($users as $user)
                                 <div class="form-check form-check-inline">
                                     <label class="form-check-label col-form-label">
