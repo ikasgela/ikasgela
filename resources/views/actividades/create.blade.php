@@ -61,6 +61,7 @@
             {{ Form::campoTexto('fecha_limite', __('Deadline')) }}
 
             {{ Form::campoCheck('destacada', __('Highlighted')) }}
+            {{ Form::campoTexto('tags', __('Tags')) }}
 
             @include('partials.guardar_cancelar')
 

@@ -100,6 +100,7 @@ class ActividadController extends Controller
             'fecha_limite' => request('fecha_limite'),
 
             'destacada' => $request->has('destacada'),
+            'tags' => request('tags'),
         ]);
 
         $actividad->orden = $actividad->id;
@@ -175,6 +176,7 @@ class ActividadController extends Controller
             'fecha_limite' => request('fecha_limite'),
 
             'destacada' => $request->has('destacada'),
+            'tags' => request('tags'),
         ]);
 
         if (!is_null($request->input('siguiente_id'))) {
