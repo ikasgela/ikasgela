@@ -21,7 +21,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'username', 'tutorial', 'last_active', 'blocked_date'
+        'name', 'email', 'password', 'username', 'tutorial', 'last_active', 'blocked_date', 'max_simultaneas'
     ];
 
     /**
@@ -213,5 +213,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getLastActiveTimeAttribute()
     {
         return $this->last_active ? $this->last_active->diffForHumans() : __('Never');
+    }
+
+    public function curso_actual()
+    {
+        setting()->setExtraColumns(['user_id' => $this->id]);
+        return Curso::findOrFail(setting('curso_actual'));
     }
 }
