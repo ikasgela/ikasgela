@@ -20,6 +20,12 @@ class ResultController extends Controller
 
         $curso = Curso::find(setting_usuario('curso_actual'));
 
+        // Lista de usuarios
+
+        $users = $curso->users()->get();
+
+        // Resultados por competencias
+
         $skills_curso = [];
         $resultados = [];
 
@@ -54,10 +60,10 @@ class ResultController extends Controller
             }
         }
 
+        // Resultados por unidades
+
         $unidades = Unidad::cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
 
-        $usuario = Auth::user();
-
-        return view('results.index', compact(['curso', 'skills_curso', 'resultados', 'unidades', 'usuario']));
+        return view('results.index', compact(['curso', 'skills_curso', 'resultados', 'unidades', 'usuario', 'users']));
     }
 }

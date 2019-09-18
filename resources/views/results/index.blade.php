@@ -10,6 +10,11 @@
             <p>Aquí aparecerán los resultados de las competencias asociadas al curso.</p>
         </div>
     @endif
+
+    @if(Auth::user()->hasRole('profesor'))
+        @include('partials.desplegable_usuarios')
+    @endif
+
     @if(count($skills_curso) > 0)
         {{-- Tarjeta --}}
         <div class="card">

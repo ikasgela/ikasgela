@@ -50,10 +50,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Fork de un proyecto de Intellij
         Route::get('/intellij_projects/{actividad}/fork/{intellij_project}', 'IntellijProjectController@fork')
             ->name('intellij_projects.fork');
-
-        // Results
-        Route::get('/results', 'ResultController@index')
-            ->name('results.index');
     });
 
     // Profesor
@@ -252,6 +248,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Responder a cuestionarios
         Route::put('/cuestionarios/{cuestionario}/respuesta', 'CuestionarioController@respuesta')
             ->name('cuestionarios.respuesta');
+
+        // Results
+        Route::get('/results', 'ResultController@index')
+            ->name('results.index');
     });
 
     // Mensajes
