@@ -36,7 +36,9 @@ class ActividadController extends Controller
 
         $ids = $actividades->pluck('id')->toArray();
 
-        return view('actividades.index', compact(['actividades', 'ids']));
+        $todas_unidades = Unidad::orderBy('curso_id')->orderBy('codigo')->orderBy('nombre')->get();
+
+        return view('actividades.index', compact(['actividades', 'ids', 'todas_unidades']));
     }
 
     public function plantillas(Request $request)
@@ -100,6 +102,7 @@ class ActividadController extends Controller
             'fecha_limite' => request('fecha_limite'),
 
             'destacada' => $request->has('destacada'),
+            'tags' => request('tags'),
         ]);
 
         $actividad->orden = $actividad->id;
@@ -175,6 +178,7 @@ class ActividadController extends Controller
             'fecha_limite' => request('fecha_limite'),
 
             'destacada' => $request->has('destacada'),
+            'tags' => request('tags'),
         ]);
 
         if (!is_null($request->input('siguiente_id'))) {

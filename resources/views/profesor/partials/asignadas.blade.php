@@ -25,7 +25,12 @@
                 <tr class="table-cell-click">
                     <td class="p-0 pl-1 {{ $actividad->tarea->estado == 30 ? 'bg-danger' : '' }}">&nbsp;</td>
                     <td>{{ $actividad->tarea->id }}</td>
-                    <td>{{ $actividad->unidad->slug.'/'.$actividad->slug }}</td>
+                    <td>
+                        <span class="mr-2">{{ $actividad->unidad->slug.'/'.$actividad->slug }}</span>
+                        @foreach($actividad->etiquetas() as $etiqueta)
+                            {!! '<span class="badge badge-secondary">'.$etiqueta.'</span>' !!}
+                        @endforeach
+                    </td>
                     <td class="text-center">{!! $actividad->tarea->estado == 11 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-secondary"></i>' !!}</td>
                     <td class="text-center">{!! $actividad->tarea->estado >= 20 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
                     <td class="text-center {!! $actividad->tarea->estado == 30 && $actividad->auto_avance == false ? 'bg-danger' : '' !!}">

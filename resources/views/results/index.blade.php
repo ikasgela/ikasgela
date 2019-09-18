@@ -41,4 +41,43 @@
     @else
         <p>{{ __('No skills assigned.') }}</p>
     @endif
+
+    @if(config('app.debug'))
+        @if($unidades->count() > 0)
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>{{ __('Unit') }}</th>
+                        <th class="text-center">{{ __('Base') }}</th>
+                        <th class="text-center">{{ __('Extra') }}</th>
+                        <th class="text-center">Repaso</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($unidades as $unidad)
+                        <tr class="table-row">
+                            <td class="align-middle">{{ $unidad->nombre }}</td>
+                            <td class="align-middle text-center">
+                                {{ $usuario->num_archivadas('base', $unidad->id).'/'. $unidad->num_actividades('base') }}
+                            </td>
+                            <td class="align-middle text-center">
+                                {{ $usuario->num_archivadas('extra', $unidad->id).'/'. $unidad->num_actividades('extra') }}
+                            </td>
+                            <td class="align-middle text-center">
+                                {{ $usuario->num_archivadas('repaso', $unidad->id).'/'. $unidad->num_actividades('repaso') }}
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @else
+            <div class="row">
+                <div class="col-md-12">
+                    <p>No hay unidades.</p>
+                </div>
+            </div>
+        @endif
+    @endif
 @endsection

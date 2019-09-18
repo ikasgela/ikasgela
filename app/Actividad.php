@@ -27,7 +27,7 @@ class Actividad extends Model
 
     protected $fillable = [
         'unidad_id', 'nombre', 'descripcion', 'puntuacion', 'plantilla', 'slug', 'final', 'siguiente', 'auto_avance', 'qualification_id', 'orden',
-        'fecha_disponibilidad', 'fecha_entrega', 'fecha_limite', 'destacada'
+        'fecha_disponibilidad', 'fecha_entrega', 'fecha_limite', 'destacada', 'tags'
     ];
 
     protected $dates = [
@@ -146,5 +146,10 @@ class Actividad extends Model
         }
 
         return $enviar;
+    }
+
+    public function etiquetas()
+    {
+        return array_map('trim', explode(',', $this->tags));
     }
 }
