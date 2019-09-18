@@ -37,6 +37,8 @@
                 </div>
             </div>
 
+            {{ Form::campoTexto('max_simultaneas', __('Simultaneous activities')) }}
+
             @include('partials.guardar_cancelar')
 
             @include('layouts.errors')

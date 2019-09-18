@@ -22,6 +22,8 @@
             {{ Form::campoTexto('last_active', __('Last active')) }}
             {{ Form::campoTexto('blocked_date', __('Blocked')) }}
 
+            {{ Form::campoTexto('max_simultaneas', __('Simultaneous activities')) }}
+
             <div class="form-group row">
                 {!! Form::label('roles_seleccionados', __('Roles'), ['class' => 'col-sm-2 col-form-label pt-0']) !!}
                 <div class="col-sm-10">
