@@ -57,7 +57,9 @@
                         {!! Form::close() !!}
                     </div>
                 </td>
-                <td>{{ $actividad->nombre }}</td>
+                <td>
+                    @include('actividades.partials.nombre_con_etiquetas')
+                </td>
                 <td>{{ $actividad->slug }}</td>
                 <td>{{ $actividad->puntuacion }}</td>
                 <td class="text-center">{!! $actividad->auto_avance ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
@@ -90,6 +92,9 @@
         <tfoot>
         <tr class="bg-dark">
             <th colspan="13" class="m-0 py-1"></th>
+            @if(Route::currentRouteName() == 'actividades.index')
+                <th class="m-0 py-1"></th>
+            @endif
         </tr>
         <tr>
             <td colspan="13">

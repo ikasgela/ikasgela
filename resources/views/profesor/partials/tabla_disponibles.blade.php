@@ -26,7 +26,9 @@
                     <input type="checkbox" name="seleccionadas[]" value="{{ $actividad->id }}">
                 </td>
                 <td>{{ $actividad->id }}</td>
-                <td>{{ $actividad->nombre }}</td>
+                <td>
+                    @include('actividades.partials.nombre_con_etiquetas')
+                </td>
                 <td>{{ $actividad->slug }}</td>
                 <td>{{ $actividad->puntuacion }}</td>
                 <td class="text-center">{!! $actividad->auto_avance ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>

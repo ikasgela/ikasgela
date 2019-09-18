@@ -36,7 +36,9 @@ class ActividadController extends Controller
 
         $ids = $actividades->pluck('id')->toArray();
 
-        return view('actividades.index', compact(['actividades', 'ids']));
+        $todas_unidades = Unidad::orderBy('curso_id')->orderBy('codigo')->orderBy('nombre')->get();
+
+        return view('actividades.index', compact(['actividades', 'ids', 'todas_unidades']));
     }
 
     public function plantillas(Request $request)

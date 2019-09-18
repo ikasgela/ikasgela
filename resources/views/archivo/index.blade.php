@@ -24,7 +24,9 @@
                 @foreach($actividades as $actividad)
                     <tr class="table-row" data-href="{{ route('archivo.show', $actividad->id) }}">
                         <td class="align-middle">{{ $actividad->unidad->nombre }}</td>
-                        <td class="align-middle">{{ $actividad->nombre }}</td>
+                        <td class="align-middle">
+                            @include('actividades.partials.nombre_con_etiquetas')
+                        </td>
                         <td>{{ $actividad->tarea->puntuacion + 0 }}/{{ $actividad->puntuacion + 0 }}</td>
                     </tr>
                 @endforeach

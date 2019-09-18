@@ -147,4 +147,9 @@ class Actividad extends Model
 
         return $enviar;
     }
+
+    public function etiquetas()
+    {
+        return explode(',', $this->tags);
+    }
 }
