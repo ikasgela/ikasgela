@@ -283,6 +283,10 @@ class ActividadController extends Controller
                 $actividad->save();
                 return back();
                 break;
+            case 71:
+                $tarea->estado = 10;    // Botón de forzar siguiente
+                $this->mostrarSiguienteActividad($actividad, $usuario);
+                break;
             default:
         }
 

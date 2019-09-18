@@ -55,9 +55,15 @@
                                             class="mx-3 btn btn-light"> {{ __('Resume') }}
                                     </button>
                                 @else
-                                    <button type="submit" name="nuevoestado" value="70"
-                                            class="mx-3 btn btn-light"> {{ __('Pause') }}
-                                    </button>
+                                    @if($tarea->estado == 60)
+                                        <button type="submit" name="nuevoestado" value="71"
+                                                class="mx-3 btn btn-light"> {{ __('Force next') }}
+                                        </button>
+                                    @else
+                                        <button type="submit" name="nuevoestado" value="70"
+                                                class="mx-3 btn btn-light"> {{ __('Pause') }}
+                                        </button>
+                                    @endif
                                 @endif
                             </div>
                         @endif()
