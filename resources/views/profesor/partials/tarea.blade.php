@@ -50,9 +50,15 @@
                         @if(!is_null($actividad->siguiente))
                             <div class="form-inline">
                                 <label>{{ __('Next') }}: @include('actividades.partials.siguiente')</label>
-                                <button type="submit" name="nuevoestado" value="70"
-                                        class="mx-3 btn btn-light"> {{ __('Pause') }}
-                                </button>
+                                @if($actividad->final)
+                                    <button type="submit" name="nuevoestado" value="70"
+                                            class="mx-3 btn btn-light"> {{ __('Resume') }}
+                                    </button>
+                                @else
+                                    <button type="submit" name="nuevoestado" value="70"
+                                            class="mx-3 btn btn-light"> {{ __('Pause') }}
+                                    </button>
+                                @endif
                             </div>
                         @endif()
                     </div>
