@@ -58,6 +58,9 @@
                             @case(61)   {{-- Borrada --}}
                             Borrada
                             @break
+                            @case(71)   {{-- Mostrar siguiente --}}
+                            Mostrar siguiente
+                            @break
                             @default
                         @endswitch
                     </td>

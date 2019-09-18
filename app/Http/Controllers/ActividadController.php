@@ -284,7 +284,7 @@ class ActividadController extends Controller
                 return back();
                 break;
             case 71:
-                $tarea->estado = 10;    // Botón de forzar siguiente
+                $tarea->estado = 60;    // Botón de mostrar siguiente cuando está archivada
                 $this->mostrarSiguienteActividad($actividad, $usuario);
                 break;
             default:

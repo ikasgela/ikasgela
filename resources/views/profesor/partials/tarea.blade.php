@@ -57,7 +57,7 @@
                                 @else
                                     @if($tarea->estado == 60)
                                         <button type="submit" name="nuevoestado" value="71"
-                                                class="mx-3 btn btn-light"> {{ __('Force next') }}
+                                                class="mx-3 btn btn-light"> {{ __('Show next') }}
                                         </button>
                                     @else
                                         <button type="submit" name="nuevoestado" value="70"
