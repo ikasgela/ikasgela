@@ -283,6 +283,10 @@ class ActividadController extends Controller
                 $actividad->save();
                 return back();
                 break;
+            case 71:
+                $tarea->estado = 60;    // Botón de mostrar siguiente cuando está archivada
+                $this->mostrarSiguienteActividad($actividad, $usuario);
+                break;
             default:
         }
 
