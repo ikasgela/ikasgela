@@ -65,4 +65,9 @@ class FileController extends Controller
 
         return back()->with('success', 'File Successfully Deleted');
     }
+
+    public function rotate(File $file)
+    {
+        return back();
+    }
 }
