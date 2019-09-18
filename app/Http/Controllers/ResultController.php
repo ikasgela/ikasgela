@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Curso;
+use App\Unidad;
 use Auth;
 
 class Resultado
@@ -53,6 +54,10 @@ class ResultController extends Controller
             }
         }
 
-        return view('results.index', compact(['curso', 'skills_curso', 'resultados']));
+        $unidades = Unidad::cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
+
+        $usuario = Auth::user();
+
+        return view('results.index', compact(['curso', 'skills_curso', 'resultados', 'unidades', 'usuario']));
     }
 }

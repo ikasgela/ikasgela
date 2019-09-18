@@ -38,4 +38,16 @@ class Unidad extends Model
     {
         return $query->where('curso_id', setting_usuario('curso_actual'));
     }
+
+    public function num_actividades($etiqueta)
+    {
+        $total = 0;
+
+        foreach ($this->actividades()->where('plantilla', true)->get() as $actividad) {
+            if (in_array($etiqueta, $actividad->etiquetas()))
+                $total += 1;
+        }
+
+        return $total;
+    }
 }

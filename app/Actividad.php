@@ -150,6 +150,6 @@ class Actividad extends Model
 
     public function etiquetas()
     {
-        return explode(',', $this->tags);
+        return array_map('trim', explode(',', $this->tags));
     }
 }

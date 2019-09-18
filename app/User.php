@@ -220,4 +220,16 @@ class User extends Authenticatable implements MustVerifyEmail
         setting()->setExtraColumns(['user_id' => $this->id]);
         return Curso::findOrFail(setting('curso_actual'));
     }
+
+    public function num_archivadas($etiqueta, $unidad)
+    {
+        $total = 0;
+
+        foreach ($this->actividades_archivadas()->where('unidad_id', $unidad)->get() as $actividad) {
+            if (in_array($etiqueta, $actividad->etiquetas()))
+                $total += 1;
+        }
+
+        return $total;
+    }
 }
