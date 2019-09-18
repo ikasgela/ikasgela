@@ -10,6 +10,7 @@ use App\Qualification;
 use App\Registro;
 use App\Tarea;
 use App\Unidad;
+use App\User;
 use Carbon\Carbon;
 use GrahamCampbell\GitLab\Facades\GitLab;
 use Illuminate\Http\Request;
@@ -339,10 +340,13 @@ class ActividadController extends Controller
         return back();
     }
 
-    private function mostrarSiguienteActividad($actividad, $usuario)
+    private function mostrarSiguienteActividad(Actividad $actividad, User $usuario)
     {
+        // Calcular el límite máximo de actividades: Usuario -> Curso -> 2
+        $max_simultaneas = $usuario->max_simultaneas ?? $usuario->curso_actual()->max_simultaneas ?? 2;
+
         // Pasar a la siguiente si no es final y no hay otra activa
-        if (!is_null($actividad->siguiente) && $usuario->actividades_asignadas()->count() < 2) {
+        if (!is_null($actividad->siguiente) && $usuario->actividades_asignadas()->count() < $max_simultaneas) {
             if (!$actividad->final) {
                 // Visible
                 $usuario->actividades()->attach($actividad->siguiente);

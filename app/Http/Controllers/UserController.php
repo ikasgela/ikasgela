@@ -42,8 +42,7 @@ class UserController extends Controller
 
         $cursos_seleccionados = $user->cursos()->orderBy('nombre')->get();
 
-        setting()->setExtraColumns(['user_id' => $user->id]);
-        $curso_actual = setting('curso_actual');
+        $curso_actual = $user->curso_actual()->id;
 
         $filtro = $user->cursos()->pluck('curso_id')->unique()->flatten()->toArray();
         $cursos_disponibles = Curso::whereNotIn('id', $filtro)->orderBy('nombre')->get();
