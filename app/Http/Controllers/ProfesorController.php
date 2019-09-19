@@ -175,7 +175,8 @@ class ProfesorController extends Controller
             ]);
         }
 
-        Mail::to($user->email)->queue(new ActividadAsignada($user->name, $asignadas));
+        if (!in_array($user->email, ['ikasgela@egibide.org', 'ikasgela@deusto.es']))
+            Mail::to($user->email)->queue(new ActividadAsignada($user->name, $asignadas));
     }
 
     private function actividadesDisponibles()

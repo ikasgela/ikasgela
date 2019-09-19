@@ -269,8 +269,8 @@ class ActividadController extends Controller
 
                 $tarea->user->last_active = Carbon::now();
                 $tarea->user->save();
-
-                Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea));
+                if (!in_array($tarea->user->email, ['ikasgela@egibide.org', 'ikasgela@deusto.es']))
+                    Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea));
                 break;
             case 42:
                 $tarea->feedback = 'Tarea completada automáticamente, no revisada por ningún profesor.';
@@ -361,7 +361,8 @@ class ActividadController extends Controller
 
                 // Notificar
                 $asignada = "- " . $actividad->siguiente->unidad->nombre . " - " . $actividad->siguiente->nombre . ".\n\n";
-                Mail::to($usuario->email)->queue(new ActividadAsignada($usuario->name, $asignada));
+                if (!in_array($usuario->email, ['ikasgela@egibide.org', 'ikasgela@deusto.es']))
+                    Mail::to($usuario->email)->queue(new ActividadAsignada($usuario->name, $asignada));
             } else {
                 // Oculta
                 $usuario->actividades()->attach($actividad->siguiente, ['estado' => 11]);
