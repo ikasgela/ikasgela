@@ -31,7 +31,7 @@ class ResultController extends Controller
 
         // Lista de usuarios
 
-        $users = $curso->users()->get();
+        $users = $curso->users()->orderBy('name')->get();
 
         // Resultados por competencias
 
