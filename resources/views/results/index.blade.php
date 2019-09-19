@@ -17,6 +17,8 @@
         {!! Form::close() !!}
     @endif
 
+    @include('partials.subtitulo', ['subtitulo' => __('Skills development')])
+
     @if(count($skills_curso) > 0)
         {{-- Tarjeta --}}
         <div class="card">
@@ -49,42 +51,43 @@
         <p>{{ __('No skills assigned.') }}</p>
     @endif
 
-    @if(config('app.debug'))
-        @if($unidades->count() > 0)
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead class="thead-dark">
+    @include('partials.subtitulo', ['subtitulo' => __('Completed activities')])
+
+    @if($unidades->count() > 0)
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th>{{ __('Unit') }}</th>
+                    <th class="text-center">{{ __('Base') }}</th>
+                    <th class="text-center">{{ __('Extra') }}</th>
+                    <th class="text-center">Repaso</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($unidades as $unidad)
                     <tr>
-                        <th>{{ __('Unit') }}</th>
-                        <th class="text-center">{{ __('Base') }}</th>
-                        <th class="text-center">{{ __('Extra') }}</th>
-                        <th class="text-center">Repaso</th>
+                        <td class="align-middle">{{ $unidad->nombre }}</td>
+                        @php($porcentaje = $unidad->num_actividades('base') > 0 ? round($user->num_archivadas('base', $unidad->id)/$unidad->num_actividades('base')*100) : -1)
+                        <td class="align-middle text-center {{ $porcentaje>=0 ? $porcentaje<50 ? 'bg-warning text-dark' : 'bg-success' : '' }}">
+                            {{ $user->num_archivadas('base', $unidad->id).'/'. $unidad->num_actividades('base') }}
+                        </td>
+                        <td class="align-middle text-center">
+                            {{ $user->num_archivadas('extra', $unidad->id) }}
+                        </td>
+                        <td class="align-middle text-center">
+                            {{ $user->num_archivadas('repaso', $unidad->id) }}
+                        </td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($unidades as $unidad)
-                        <tr class="table-row">
-                            <td class="align-middle">{{ $unidad->nombre }}</td>
-                            <td class="align-middle text-center">
-                                {{ $user->num_archivadas('base', $unidad->id).'/'. $unidad->num_actividades('base') }}
-                            </td>
-                            <td class="align-middle text-center">
-                                {{ $user->num_archivadas('extra', $unidad->id).'/'. $unidad->num_actividades('extra') }}
-                            </td>
-                            <td class="align-middle text-center">
-                                {{ $user->num_archivadas('repaso', $unidad->id).'/'. $unidad->num_actividades('repaso') }}
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+    @else
+        <div class="row">
+            <div class="col-md-12">
+                <p>No hay unidades.</p>
             </div>
-        @else
-            <div class="row">
-                <div class="col-md-12">
-                    <p>No hay unidades.</p>
-                </div>
-            </div>
-        @endif
+        </div>
     @endif
 @endsection
