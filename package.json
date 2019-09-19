@@ -24,7 +24,7 @@
     },
     "dependencies": {
         "@coreui/coreui": "^2.1.12",
-        "@fortawesome/fontawesome-free": "^5.10.2",
+        "@fortawesome/fontawesome-free": "^5.11.1",
         "ajv": "^6.10.2",
         "imagemin": "^6.1.0",
         "jquery-countdown": "^2.2.0",
