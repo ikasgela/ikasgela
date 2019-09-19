@@ -67,7 +67,12 @@
                 <tbody>
                 @foreach($unidades as $unidad)
                     <tr>
-                        <td class="align-middle">{{ $unidad->nombre }}</td>
+                        <td class="align-middle">
+                            @isset($unidad->codigo)
+                                {{ $unidad->codigo }} -
+                            @endisset
+                            {{ $unidad->nombre }}
+                        </td>
                         <td class="align-middle text-center {{ $unidad->num_actividades('base') > 0 ? $user->num_archivadas('base', $unidad->id) < $unidad->num_actividades('base') ? 'bg-warning text-dark' : 'bg-success' : '' }}">
                             {{ $user->num_archivadas('base', $unidad->id).'/'. $unidad->num_actividades('base') }}
                         </td>
