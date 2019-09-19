@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Results')])
+    @include('partials.titular', ['titular' => __('Results'), 'subtitulo' => $curso->category->period->organization->name.' » '.$curso->category->period->name.' » '.$curso->nombre  ?? '' ])
 
     @if(session('tutorial'))
         <div class="callout callout-success b-t-1 b-r-1 b-b-1">
@@ -22,7 +22,6 @@
     @if(count($skills_curso) > 0)
         {{-- Tarjeta --}}
         <div class="card">
-            <div class="card-header">{{ $curso->nombre }}</div>
             <div class="card-body">
                 @foreach ($skills_curso as $skill)
                     <h5 class="card-title">{{ $skill->name }}</h5>
