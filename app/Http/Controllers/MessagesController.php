@@ -145,7 +145,7 @@ class MessagesController extends Controller
 
         $this->enviarEmails($thread, Auth::id());
 
-        return redirect()->route('messages');
+        return redirect(ruta_memorizada());
     }
 
     /**
