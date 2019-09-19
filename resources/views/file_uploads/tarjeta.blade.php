@@ -38,7 +38,7 @@
                                     <div class='btn-group'>
                                         {!! Form::open(['route' => ['files.rotate', $file->id], 'method' => 'POST']) !!}
                                         <button title="{{ __('Rotate') }}"
-                                                type="submit" class="btn btn-light btn-sm">
+                                                type="submit" class="btn btn-light btn-sm mr-1">
                                             <i class="fas fa-undo fa-flip-horizontal"></i>
                                         </button>
                                         {!! Form::close() !!}
