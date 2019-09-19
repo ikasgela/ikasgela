@@ -218,7 +218,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function curso_actual()
     {
         setting()->setExtraColumns(['user_id' => $this->id]);
-        return Curso::findOrFail(setting('curso_actual'));
+        return Curso::find(setting('curso_actual'));
     }
 
     public function num_archivadas($etiqueta, $unidad)
