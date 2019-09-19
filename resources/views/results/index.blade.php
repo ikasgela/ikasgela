@@ -68,8 +68,7 @@
                 @foreach($unidades as $unidad)
                     <tr>
                         <td class="align-middle">{{ $unidad->nombre }}</td>
-                        @php($porcentaje = $unidad->num_actividades('base') > 0 ? round($user->num_archivadas('base', $unidad->id)/$unidad->num_actividades('base')*100) : -1)
-                        <td class="align-middle text-center {{ $porcentaje>=0 ? $porcentaje<50 ? 'bg-warning text-dark' : 'bg-success' : '' }}">
+                        <td class="align-middle text-center {{ $unidad->num_actividades('base') > 0 ? $user->num_archivadas('base', $unidad->id) < $unidad->num_actividades('base') ? 'bg-warning text-dark' : 'bg-success' : '' }}">
                             {{ $user->num_archivadas('base', $unidad->id).'/'. $unidad->num_actividades('base') }}
                         </td>
                         <td class="align-middle text-center">
