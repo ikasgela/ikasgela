@@ -65,4 +65,24 @@ class FileController extends Controller
 
         return back()->with('success', 'File Successfully Deleted');
     }
+
+    public function rotate(File $file)
+    {
+        // Descargar la imagen y la miniatura
+        $ruta_imagen = 'images/' . $file->path;
+        $ruta_thumbnail = 'thumbnails/' . $file->path;
+
+        $fichero_imagen = Storage::disk('s3')->get($ruta_imagen);
+        $fichero_thumbnail = Storage::disk('s3')->get($ruta_thumbnail);
+
+        // Rotar 90º a la derecha
+        $imagen = Image::make($fichero_imagen)->rotate(-90)->stream();
+        $thumbnail = Image::make($fichero_thumbnail)->rotate(-90)->stream();
+
+        // Volver a subir los ficheros en el mismo path
+        Storage::disk('s3')->put($ruta_imagen, $imagen->__toString());
+        Storage::disk('s3')->put($ruta_thumbnail, $thumbnail->__toString());
+
+        return back();
+    }
 }

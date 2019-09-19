@@ -31,6 +31,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // FileUpload
     Route::post('/uploads', 'FileController@postUpload')->name('uploadfile');
     Route::delete('/uploads/{file}', 'FileController@postDelete')->name('deletefile');
+    Route::post('/files/{file}/rotate', 'FileController@rotate')->name('files.rotate');
 
     // Alumno
     Route::middleware(['role:alumno'])->group(function () {

@@ -35,13 +35,17 @@
                             <td>{{ $file->uploaded_time }}</td>
                             @if(Route::currentRouteName() != 'archivo.show')
                                 <td class="text-center">
-                                    <form method="POST" action="{{ route('deletefile', [$file->id]) }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <div class='btn-group'>
-                                            @include('partials.boton_borrar')
-                                        </div>
-                                    </form>
+                                    <div class='btn-group'>
+                                        {!! Form::open(['route' => ['files.rotate', $file->id], 'method' => 'POST']) !!}
+                                        <button title="{{ __('Rotate') }}"
+                                                type="submit" class="btn btn-light btn-sm mr-1">
+                                            <i class="fas fa-undo fa-flip-horizontal"></i>
+                                        </button>
+                                        {!! Form::close() !!}
+                                        {!! Form::open(['route' => ['deletefile', $file->id], 'method' => 'DELETE']) !!}
+                                        @include('partials.boton_borrar')
+                                        {!! Form::close() !!}
+                                    </div>
                                 </td>
                             @endif
                         </tr>
