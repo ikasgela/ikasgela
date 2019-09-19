@@ -5,7 +5,7 @@
             <option value="">{{ __('--- None ---') }}</option>
             @foreach($users as $user)
                 <option
-                    value="{{ $user->id }}" {{ session('resultados_user_actual') == $user->id ? 'selected' : '' }}>
+                    value="{{ $user->id }}" {{ session('filtrar_user_actual') == $user->id ? 'selected' : '' }}>
                     {{ $user->name }}
                 </option>
             @endforeach

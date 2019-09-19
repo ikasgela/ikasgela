@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Curso;
 use App\Unidad;
+use App\User;
 use Auth;
+use Illuminate\Http\Request;
 
 class Resultado
 {
@@ -14,9 +16,16 @@ class Resultado
 
 class ResultController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $usuario = Auth::user();
+        $user = Auth::user();
+
+        if (!empty($request->input('user_id'))) {
+            $user = User::find($request->input('user_id'));
+            session(['filtrar_user_actual' => $request->input('user_id')]);
+        } else {
+            session()->forget('filtrar_user_actual');
+        }
 
         $curso = Curso::find(setting_usuario('curso_actual'));
 
@@ -36,7 +45,7 @@ class ResultController extends Controller
                 $resultados[$skill->id] = new Resultado();
             }
 
-            foreach ($usuario->actividades as $actividad) {
+            foreach ($user->actividades as $actividad) {
 
                 $puntuacion_actividad = $actividad->puntuacion;
                 $puntuacion_tarea = $actividad->tarea->puntuacion;
@@ -64,6 +73,6 @@ class ResultController extends Controller
 
         $unidades = Unidad::cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
 
-        return view('results.index', compact(['curso', 'skills_curso', 'resultados', 'unidades', 'usuario', 'users']));
+        return view('results.index', compact(['curso', 'skills_curso', 'resultados', 'unidades', 'user', 'users']));
     }
 }

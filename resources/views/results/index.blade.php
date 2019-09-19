@@ -12,7 +12,9 @@
     @endif
 
     @if(Auth::user()->hasRole('profesor'))
+        {!! Form::open(['route' => ['results.alumno'], 'method' => 'POST']) !!}
         @include('partials.desplegable_usuarios')
+        {!! Form::close() !!}
     @endif
 
     @if(count($skills_curso) > 0)
@@ -64,13 +66,13 @@
                         <tr class="table-row">
                             <td class="align-middle">{{ $unidad->nombre }}</td>
                             <td class="align-middle text-center">
-                                {{ $usuario->num_archivadas('base', $unidad->id).'/'. $unidad->num_actividades('base') }}
+                                {{ $user->num_archivadas('base', $unidad->id).'/'. $unidad->num_actividades('base') }}
                             </td>
                             <td class="align-middle text-center">
-                                {{ $usuario->num_archivadas('extra', $unidad->id).'/'. $unidad->num_actividades('extra') }}
+                                {{ $user->num_archivadas('extra', $unidad->id).'/'. $unidad->num_actividades('extra') }}
                             </td>
                             <td class="align-middle text-center">
-                                {{ $usuario->num_archivadas('repaso', $unidad->id).'/'. $unidad->num_actividades('repaso') }}
+                                {{ $user->num_archivadas('repaso', $unidad->id).'/'. $unidad->num_actividades('repaso') }}
                             </td>
                         </tr>
                     @endforeach

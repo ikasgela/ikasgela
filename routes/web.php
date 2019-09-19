@@ -252,6 +252,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Results
         Route::get('/results', 'ResultController@index')
             ->name('results.index');
+        Route::post('/results', 'ResultController@index')
+            ->name('results.alumno');
     });
 
     // Mensajes
