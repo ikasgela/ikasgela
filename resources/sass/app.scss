@@ -11,48 +11,78 @@
 @import '~@coreui/coreui/dist/css/coreui.min.css';
 
 .card-body h1, .h1 {
-  @include font-size($h2-font-size);
+    @include font-size($h2-font-size);
 }
 
 .card-body h2, .h2 {
-  @include font-size($h3-font-size);
+    @include font-size($h3-font-size);
 }
 
 .card-body h3, .h3 {
-  @include font-size($h4-font-size*0.8);
+    @include font-size($h4-font-size*0.8);
 }
 
 .card-body h4, .h4 {
-  @include font-size($h5-font-size*0.8);
+    @include font-size($h5-font-size*0.8);
 }
 
 .card-body img {
-  width: 100%;
+    width: 100%;
 }
 
 @import "progress-wizard";
 
 .table-row, .table-row-blank td {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .table-cell-click .clickable {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 // https://stackoverflow.com/a/27747130
 .table > tbody > tr > td {
-  vertical-align: middle;
+    vertical-align: middle;
 }
 
 @media (max-width: 991.98px) {
-  .app-body {
-    margin-top: 0;
-  }
+    .app-body {
+        margin-top: 0;
+    }
 }
 
 @media (min-width: 991.98px) {
-  .app-body {
-    margin-top: 55px;
-  }
+    .app-body {
+        margin-top: 55px;
+    }
+}
+
+// https://stackoverflow.com/a/48559492
+@media print {
+    .table td.bg-success {
+        background-color: $success !important;
+    }
+    .table td.bg-warning {
+        background-color: $warning !important;
+    }
+    .table td.bg-danger {
+        background-color: $danger !important;
+    }
+    .table td.bg-secondary {
+        background-color: $secondary !important;
+    }
+    .thead-dark th {
+        background-color: $dark !important;
+    }
+}
+
+// https://github.com/asyraf9/bootstrap-sidebar/issues/10#issuecomment-69191324
+@media print {
+    .sidebar {
+        display: none;
+    }
+    .main {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
 }

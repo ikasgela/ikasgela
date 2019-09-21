@@ -11638,3 +11638,36 @@ a.text-dark:focus {
   }
 }
 
+@media print {
+  .table td.bg-success {
+    background-color: #4dbd74 !important;
+  }
+
+  .table td.bg-warning {
+    background-color: #ffc107 !important;
+  }
+
+  .table td.bg-danger {
+    background-color: #e3342f !important;
+  }
+
+  .table td.bg-secondary {
+    background-color: #c8ced3 !important;
+  }
+
+  .thead-dark th {
+    background-color: #2f353a !important;
+  }
+}
+
+@media print {
+  .sidebar {
+    display: none;
+  }
+
+  .main {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+}
+
