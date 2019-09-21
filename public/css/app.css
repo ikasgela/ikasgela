@@ -11669,5 +11669,9 @@ a.text-dark:focus {
     margin-left: 0 !important;
     width: 100% !important;
   }
+
+  footer {
+    margin-left: 0 !important;
+  }
 }
 
