@@ -8,11 +8,12 @@
     </button>
     @if(Auth::check())
         <ul class="nav navbar-nav ml-auto mr-3">
+            <li class="text-dark mr-2 d-sm-down-none">{{ Auth::user()->name }}</li>
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#" role="button" title="{{ __('Settings') }}"
                    aria-haspopup="true"
                    aria-expanded="false">
-                    <img alt="Avatar" style="width:35px;" class="mx-1" src="{{Auth::user()->avatar_url(70)}}">
+                    <img alt="Avatar" style="width:35px;" src="{{Auth::user()->avatar_url(70)}}">
                 </a>
                 <div class="dropdown-menu dropdown-menu-right shadow mt-2 pb-2">
                     <div class="dropdown-item-text">
