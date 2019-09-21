@@ -11660,3 +11660,14 @@ a.text-dark:focus {
   }
 }
 
+@media print {
+  .sidebar {
+    display: none;
+  }
+
+  .main {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+}
+

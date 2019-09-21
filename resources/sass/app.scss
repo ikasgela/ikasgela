@@ -75,3 +75,14 @@
         background-color: $dark !important;
     }
 }
+
+// https://github.com/asyraf9/bootstrap-sidebar/issues/10#issuecomment-69191324
+@media print {
+    .sidebar {
+        display: none;
+    }
+    .main {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+}
