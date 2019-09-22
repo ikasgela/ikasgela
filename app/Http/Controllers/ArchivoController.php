@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Actividad;
+use App\Curso;
+use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ArchivoController extends Controller
@@ -12,11 +14,19 @@ class ArchivoController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         memorizar_ruta();
-        
+
         $user = Auth::user();
+
+        if (!empty($request->input('user_id'))) {
+            $user = User::find($request->input('user_id'));
+            session(['filtrar_user_actual' => $request->input('user_id')]);
+        } else {
+            session()->forget('filtrar_user_actual');
+        }
+
         $actividades = $user->actividades_archivadas()->get();
 
         // Recuento de asignadas
@@ -27,7 +37,10 @@ class ArchivoController extends Controller
         else
             session()->forget('num_actividades');
 
-        return view('archivo.index', compact('actividades'));
+        $curso = Curso::find(setting_usuario('curso_actual'));
+        $users = $curso->users()->orderBy('name')->get();
+
+        return view('archivo.index', compact(['actividades', 'user', 'users']));
     }
 
     public function show($id)

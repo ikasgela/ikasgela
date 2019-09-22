@@ -10,6 +10,13 @@
             <p>Aquí aparecerán las tareas una vez que las completes.</p>
         </div>
     @endif
+
+    @if(Auth::user()->hasRole('admin'))
+        {!! Form::open(['route' => ['archivo.alumno'], 'method' => 'POST']) !!}
+        @include('partials.desplegable_usuarios')
+        {!! Form::close() !!}
+    @endif
+
     @if(count($actividades) > 0)
         <div class="table-responsive">
             <table class="table table-hover">

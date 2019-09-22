@@ -42,12 +42,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/portada', 'AlumnoController@portada')
             ->name('users.portada');
 
-        // Archivo
-        Route::get('/archivo/{actividad}', 'ArchivoController@show')
-            ->name('archivo.show');
-        Route::get('/archivo', 'ArchivoController@index')
-            ->name('archivo.index');
-
         // Fork de un proyecto de Intellij
         Route::get('/intellij_projects/{actividad}/fork/{intellij_project}', 'IntellijProjectController@fork')
             ->name('intellij_projects.fork');
@@ -243,6 +237,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Ver resultados de otros alumnos
         Route::post('/results', 'ResultController@index')
             ->name('results.alumno');
+
+        // Ver archivo de otros alumnos
+        Route::post('/archivo', 'ArchivoController@index')
+            ->name('archivo.alumno');
     });
 
     // Alumnos y profesores
@@ -259,6 +257,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Results
         Route::get('/results', 'ResultController@index')
             ->name('results.index');
+
+        // Archivo
+        Route::get('/archivo/{actividad}', 'ArchivoController@show')
+            ->name('archivo.show');
+        Route::get('/archivo', 'ArchivoController@index')
+            ->name('archivo.index');
     });
 
     // Mensajes
