@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -50,5 +51,21 @@ class Tarea extends Pivot
         return $query->whereHas('actividad', function ($query) {
             $query->where('actividades.auto_avance', false);
         });
+    }
+
+    public function tiempoDedicado()
+    {
+        $aceptada = Registro::where('tarea_id', $this->id)->where('estado', 20)->first();
+        $archivada = Registro::where('tarea_id', $this->id)->where('estado', 60)->first();
+
+        if (!is_null($aceptada)) {
+            if (!is_null($archivada)) {
+                return $aceptada->timestamp->diffForHumans($archivada->timestamp, CarbonInterface::DIFF_ABSOLUTE);
+            } else {
+                return $aceptada->timestamp->diffForHumans();
+            }
+        } else {
+            return __('Unknown');
+        }
     }
 }

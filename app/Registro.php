@@ -12,6 +12,11 @@ class Registro extends Model
 
     public $timestamps = false;
 
+    protected $dates = [
+        'created_at', 'updated_at', 'deleted_at',
+        'timestamp'
+    ];
+
     public function tarea()
     {
         return $this->belongsTo(Tarea::class)->withTrashed();

@@ -17,6 +17,7 @@
                 <tr>
                     <th>{{ __('Unit') }}</th>
                     <th>{{ __('Name') }}</th>
+                    <th>{{ __('Time spent') }}</th>
                     <th>{{ __('Score') }}</th>
                 </tr>
                 </thead>
@@ -27,6 +28,7 @@
                         <td class="align-middle">
                             @include('actividades.partials.nombre_con_etiquetas')
                         </td>
+                        <td class="align-middle">{{ $actividad->tarea->tiempoDedicado() }}</td>
                         <td>{{ $actividad->tarea->puntuacion + 0 }}/{{ $actividad->puntuacion + 0 }}</td>
                     </tr>
                 @endforeach
