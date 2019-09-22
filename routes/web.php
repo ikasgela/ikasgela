@@ -235,14 +235,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // Visor de logs: https://github.com/rap2hpoutre/laravel-log-viewer
         Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+
+        // Ver entradas en el registro
+        Route::get('/registros', 'RegistroController@index')
+            ->name('registros.index');
+
+        // Ver resultados de otros alumnos
+        Route::post('/results', 'ResultController@index')
+            ->name('results.alumno');
     });
 
     // Alumnos y profesores
     Route::middleware(['role:alumno|profesor'])->group(function () {
 
-        // Ver y crear entradas en el registro
-        Route::get('/registros', 'RegistroController@index')
-            ->name('registros.index');
+        // Crear entradas en el registro
         Route::post('/registros', 'RegistroController@store')
             ->name('registros.store');
 
@@ -253,8 +259,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Results
         Route::get('/results', 'ResultController@index')
             ->name('results.index');
-        Route::post('/results', 'ResultController@index')
-            ->name('results.alumno');
     });
 
     // Mensajes

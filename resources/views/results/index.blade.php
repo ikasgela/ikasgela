@@ -11,7 +11,7 @@
         </div>
     @endif
 
-    @if(Auth::user()->hasRole('profesor'))
+    @if(Auth::user()->hasRole('admin'))
         {!! Form::open(['route' => ['results.alumno'], 'method' => 'POST']) !!}
         @include('partials.desplegable_usuarios')
         {!! Form::close() !!}

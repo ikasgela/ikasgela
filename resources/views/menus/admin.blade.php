@@ -1,7 +1,7 @@
 <li class="nav-title">{{ __('Admin') }}</li>
 <li class="nav-item">
-    <a class="nav-link" href="{{ route('registros.index') }}">
-        <i class="nav-icon fas fa-graduation-cap"></i> {{ __('Records') }}
+    <a class="nav-link" href="{{ route('results.index') }}">
+        <i class="nav-icon fas fa-graduation-cap"></i> {{ __('Results') }}
     </a>
 </li>
 <li class="nav-item nav-dropdown">
@@ -138,4 +138,9 @@
             </a>
         </li>
     </ul>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('registros.index') }}">
+        <i class="nav-icon fas fa-stream"></i> {{ __('Records') }}
+    </a>
 </li>
