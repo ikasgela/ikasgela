@@ -13,6 +13,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <script src="{{ asset('js/app.js') }}" defer></script>
     @yield('fancybox')
+    @yield('prismjs-css')
 </head>
 <body class="app header-fixed sidebar-fixed sidebar-lg-show footer-fixed">
 <div id="app">
@@ -36,5 +37,6 @@
     @include('layouts.footer')
 </div>
 @yield('tinymce')
+@yield('prismjs-scripts')
 </body>
 </html>
