@@ -245,21 +245,34 @@ class ActividadController extends Controller
                 $tarea->save();
                 $this->mostrarSiguienteActividad($actividad, $usuario);
 
-                // Archivar los posibles repositorios para que no se pueda hacer push
-                foreach ($tarea->actividad->intellij_projects as $intellij_project) {
-                    $proyecto_gitlab = $intellij_project->gitlab();
-                    GitLab::projects()->archive($proyecto_gitlab['id']);
-                }
+                $this->bloquearRepositorios($tarea, true);
                 break;
+
+            // Reiniciada (botón de reset, para cuando se confunden y envian sin querer)
             case 31:
-                $tarea->estado = 20;    // Botón de reset, para cuando se confunden
+                $tarea->estado = 20;
                 break;
+
+            // Reabierta (consume un intento y resta puntuación)
+            case 32:
+                $this->bloquearRepositorios($tarea, false);
+
+                $tarea->decrement('puntuacion', 10);
+                $tarea->feedback = __('Reopened activity');
+                $tarea->increment('intentos');
+
+                $registro->detalles = $tarea->feedback;
+
+                $tarea->user->last_active = Carbon::now();
+                $tarea->user->save();
+
+                break;
+
+            // Revisada: ERROR
             case 41:
-                // Deshacer el archivado para que se pueda hacer push
-                foreach ($tarea->actividad->intellij_projects as $intellij_project) {
-                    $proyecto_gitlab = $intellij_project->gitlab();
-                    GitLab::projects()->unarchive($proyecto_gitlab['id']);
-                }
+                $this->bloquearRepositorios($tarea, false);
+
+            // Revisada: OK
             case 40:
                 $tarea->puntuacion = $request->input('puntuacion');
                 $tarea->feedback = $request->input('feedback');
@@ -272,6 +285,8 @@ class ActividadController extends Controller
                 if (!in_array($tarea->user->email, ['ikasgela@egibide.org', 'ikasgela@deusto.es']))
                     Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea));
                 break;
+
+            // Avance automático
             case 42:
                 $tarea->feedback = 'Tarea completada automáticamente, no revisada por ningún profesor.';
                 $tarea->puntuacion = $actividad->puntuacion;
@@ -394,5 +409,16 @@ class ActividadController extends Controller
         $a2->save();
 
         return back();
+    }
+
+    private function bloquearRepositorios(Tarea $tarea, bool $solo_lectura): void
+    {
+        foreach ($tarea->actividad->intellij_projects as $intellij_project) {
+            $proyecto_gitlab = $intellij_project->gitlab();
+            if ($solo_lectura)
+                GitLab::projects()->archive($proyecto_gitlab['id']);
+            else
+                GitLab::projects()->unarchive($proyecto_gitlab['id']);
+        }
     }
 }
