@@ -25,6 +25,7 @@
                     <th>{{ __('Unit') }}</th>
                     <th>{{ __('Name') }}</th>
                     @if(Auth::user()->hasRole('admin'))
+                        <th class="text-center">{{ __('Attempts') }}</th>
                         <th>{{ __('Time spent') }}</th>
                     @endif
                     <th>{{ __('Score') }}</th>
@@ -38,6 +39,7 @@
                             @include('actividades.partials.nombre_con_etiquetas')
                         </td>
                         @if(Auth::user()->hasRole('admin'))
+                            <td class="align-middle text-center">{{ $actividad->tarea->intentos }}</td>
                             <td class="align-middle">{{ $actividad->tarea->tiempoDedicado() }}</td>
                         @endif
                         <td>{{ $actividad->tarea->puntuacion + 0 }}/{{ $actividad->puntuacion + 0 }}</td>
