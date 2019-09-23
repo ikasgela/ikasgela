@@ -82,7 +82,7 @@
                                 </div>
                             @else
                                 <button type="submit" name="nuevoestado" value="32"
-                                        onclick="return confirm('{{ __('Are you sure?') }}')"
+                                        onclick="return confirm('{{ __('Are you sure?') }}\n\n{{ __('Reopening the activity cancels the submission and allows making corrections, but it has a 5 point penalty.') }}')"
                                         class="btn btn-warning">{{ __('Reopen activity') }}</button>
                             @endif
                             @if(config('app.debug'))
