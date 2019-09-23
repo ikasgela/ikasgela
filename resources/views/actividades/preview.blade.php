@@ -20,7 +20,7 @@
                     <span>{{ $actividad->unidad->curso->nombre }} » {{ $actividad->unidad->nombre }}</span>
                 </div>
                 <div class="card-body">
-                    <h2>{{ $actividad->nombre }}</h2>
+                    @include('actividades.partials.encabezado_con_etiquetas')
                     <p>{{ $actividad->descripcion }}</p>
                 </div>
                 @include('partials.tarjetas_actividad')

@@ -53,7 +53,7 @@
                 @endif
             </div>
             <div class="card-body pb-1">
-                <h2>{{ $actividad->nombre }}</h2>
+                @include('actividades.partials.encabezado_con_etiquetas')
                 <p>{{ $actividad->descripcion }}</p>
                 <div class="mb-3">
                     <form method="POST"
