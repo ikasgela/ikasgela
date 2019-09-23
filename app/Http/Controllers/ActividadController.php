@@ -255,10 +255,16 @@ class ActividadController extends Controller
 
             // Reabierta (consume un intento y resta puntuación)
             case 32:
+                $tarea->estado = 20;
+
                 $this->bloquearRepositorios($tarea, false);
 
-                $tarea->decrement('puntuacion', 10);
-                $tarea->feedback = __('Reopened activity');
+                if (is_null($tarea->puntuacion))
+                    $tarea->puntuacion = $tarea->actividad->puntuacion - 5;
+                else
+                    $tarea->decrement('puntuacion', 5);
+
+                $tarea->feedback = __('Reopened activity.');
                 $tarea->increment('intentos');
 
                 $registro->detalles = $tarea->feedback;
@@ -288,7 +294,7 @@ class ActividadController extends Controller
 
             // Avance automático
             case 42:
-                $tarea->feedback = 'Tarea completada automáticamente, no revisada por ningún profesor.';
+                $tarea->feedback = __('Automatically completed task, not reviewed by any teacher.');
                 $tarea->puntuacion = $actividad->puntuacion;
                 break;
             case 50:

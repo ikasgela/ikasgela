@@ -40,6 +40,9 @@
                             @case(31)   {{-- Reiniciada --}}
                             Reiniciada
                             @break
+                            @case(32)   {{-- Reabierta --}}
+                            Reabierta
+                            @break
                             @case(40)   {{-- Revisada: OK --}}
                             Revisada: OK
                             @break;
