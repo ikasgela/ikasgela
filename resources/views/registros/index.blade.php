@@ -82,4 +82,6 @@
             </tbody>
         </table>
     </div>
+
+    <div class="d-flex justify-content-center">{{ $registros->links() }}</div>
 @endsection
