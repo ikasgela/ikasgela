@@ -20,6 +20,8 @@ class IntellijProjectController extends Controller
 
     public function index()
     {
+        memorizar_ruta();
+        
         $intellij_projects = IntellijProject::all();
 
         return view('intellij_projects.index', compact('intellij_projects'));
