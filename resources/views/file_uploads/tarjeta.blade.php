@@ -36,8 +36,14 @@
                             @if(Route::currentRouteName() != 'archivo.show')
                                 <td class="text-center">
                                     <div class='btn-group'>
-                                        {!! Form::open(['route' => ['files.rotate', $file->id], 'method' => 'POST']) !!}
-                                        <button title="{{ __('Rotate') }}"
+                                        {!! Form::open(['route' => ['files.rotate_left', $file->id], 'method' => 'POST']) !!}
+                                        <button title="{{ __('Rotate left') }}"
+                                                type="submit" class="btn btn-light btn-sm mr-1">
+                                            <i class="fas fa-undo"></i>
+                                        </button>
+                                        {!! Form::close() !!}
+                                        {!! Form::open(['route' => ['files.rotate_right', $file->id], 'method' => 'POST']) !!}
+                                        <button title="{{ __('Rotate right') }}"
                                                 type="submit" class="btn btn-light btn-sm mr-1">
                                             <i class="fas fa-undo fa-flip-horizontal"></i>
                                         </button>
