@@ -16,6 +16,8 @@ class FileUploadController extends Controller
 
     public function index()
     {
+        memorizar_ruta();
+        
         $file_uploads = FileUpload::plantilla()->get();
 
         return view('file_uploads.index', compact('file_uploads'));
