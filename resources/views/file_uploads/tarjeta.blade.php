@@ -14,7 +14,6 @@
                     <thead class="thead-dark">
                     <tr>
                         <th>{{ __('File') }}</th>
-                        <th>{{ __('Title') }}</th>
                         <th>{{ __('Size') }}</th>
                         <th>{{ __('Uploaded') }}</th>
                         @if(Route::currentRouteName() != 'archivo.show')
@@ -27,17 +26,23 @@
                         <tr>
                             <td>
                                 <a data-fancybox="gallery" href="{{ $file->imageUrl('images') }}">
-                                    <img style="width:64px" src="{{ $file->imageUrl('thumbnails') }}">
+                                    <img style="width:64px" src="{{ $file->imageUrl('thumbnails') }}"
+                                         alt="{{ $file->title }}" title="{{ $file->title }}">
                                 </a>
                             </td>
-                            <td>{{ $file->title }}</td>
                             <td>{{ $file->size_in_kb }} KB</td>
                             <td>{{ $file->uploaded_time }}</td>
                             @if(Route::currentRouteName() != 'archivo.show')
                                 <td class="text-center">
                                     <div class='btn-group'>
-                                        {!! Form::open(['route' => ['files.rotate', $file->id], 'method' => 'POST']) !!}
-                                        <button title="{{ __('Rotate') }}"
+                                        {!! Form::open(['route' => ['files.rotate_left', $file->id], 'method' => 'POST']) !!}
+                                        <button title="{{ __('Rotate left') }}"
+                                                type="submit" class="btn btn-light btn-sm mr-1">
+                                            <i class="fas fa-undo"></i>
+                                        </button>
+                                        {!! Form::close() !!}
+                                        {!! Form::open(['route' => ['files.rotate_right', $file->id], 'method' => 'POST']) !!}
+                                        <button title="{{ __('Rotate right') }}"
                                                 type="submit" class="btn btn-light btn-sm mr-1">
                                             <i class="fas fa-undo fa-flip-horizontal"></i>
                                         </button>
