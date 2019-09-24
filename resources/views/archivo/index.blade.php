@@ -33,7 +33,12 @@
                 </thead>
                 <tbody>
                 @foreach($actividades as $actividad)
-                    <tr class="table-row" data-href="{{ route('archivo.show', $actividad->id) }}">
+                    <tr class="table-row"
+                        @if(Auth::user()->hasRole('admin'))
+                        data-href="{{ route('actividades.preview', $actividad->id) }}">
+                        @else
+                            data-href="{{ route('archivo.show', $actividad->id) }}">
+                        @endif
                         <td class="align-middle">{{ $actividad->unidad->nombre }}</td>
                         <td class="align-middle">
                             @include('actividades.partials.nombre_con_etiquetas')
