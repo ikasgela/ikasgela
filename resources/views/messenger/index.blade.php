@@ -31,14 +31,14 @@
     @include('messenger.partials.flash')
 
     <div class="mb-3">
-        <a class="btn btn-primary" href="/messages/create">{{ __('Create new conversation') }}</a>
+        <a class="btn btn-primary mr-2" href="/messages/create">{{ __('Create new conversation') }}</a>
 
         @if(Route::currentRouteName() == 'messages.all')
             {!! link_to_route('messages', $title = 'Ver solo conversaciones no leídas', $parameters = [],
-                    $attributes = ['class' => 'btn btn-link text-secondary']); !!}
+                    $attributes = ['class' => 'btn btn-secondary']); !!}
         @else
             {!! link_to_route('messages.all', $title = 'Ver también conversaciones leídas', $parameters = [],
-                    $attributes = ['class' => 'btn btn-link text-secondary']); !!}
+                    $attributes = ['class' => 'btn btn-secondary']); !!}
         @endif
     </div>
 
