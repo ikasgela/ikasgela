@@ -13,7 +13,7 @@
             {{ Form::campoTexto('descripcion', __('Description')) }}
             {{ Form::campoTexto('repositorio', __('Repository')) }}
             {{ Form::campoTexto('rama', __('Branch')) }}
-            {{ Form::campoTexto('archivo', __('File')) }}
+            {{ Form::campoTexto('archivo', __('File'), 'README.md') }}
 
             @include('partials.guardar_cancelar')
 
