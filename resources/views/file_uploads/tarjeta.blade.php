@@ -14,7 +14,6 @@
                     <thead class="thead-dark">
                     <tr>
                         <th>{{ __('File') }}</th>
-                        <th>{{ __('Title') }}</th>
                         <th>{{ __('Size') }}</th>
                         <th>{{ __('Uploaded') }}</th>
                         @if(Route::currentRouteName() != 'archivo.show')
@@ -27,10 +26,10 @@
                         <tr>
                             <td>
                                 <a data-fancybox="gallery" href="{{ $file->imageUrl('images') }}">
-                                    <img style="width:64px" src="{{ $file->imageUrl('thumbnails') }}">
+                                    <img style="width:64px" src="{{ $file->imageUrl('thumbnails') }}"
+                                         alt="{{ $file->title }}" title="{{ $file->title }}">
                                 </a>
                             </td>
-                            <td>{{ $file->title }}</td>
                             <td>{{ $file->size_in_kb }} KB</td>
                             <td>{{ $file->uploaded_time }}</td>
                             @if(Route::currentRouteName() != 'archivo.show')
