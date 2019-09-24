@@ -56,11 +56,11 @@ class Tarea extends Pivot
     public function tiempoDedicado()
     {
         $aceptada = Registro::where('tarea_id', $this->id)->where('estado', 20)->first();
-        $archivada = Registro::where('tarea_id', $this->id)->where('estado', 60)->first();
+        $enviada = Registro::where('tarea_id', $this->id)->where('estado', 30)->first();
 
         if (!is_null($aceptada)) {
-            if (!is_null($archivada)) {
-                return $aceptada->timestamp->diffForHumans($archivada->timestamp, CarbonInterface::DIFF_ABSOLUTE);
+            if (!is_null($enviada)) {
+                return $aceptada->timestamp->diffForHumans($enviada->timestamp, CarbonInterface::DIFF_ABSOLUTE);
             } else {
                 return $aceptada->timestamp->diffForHumans();
             }
