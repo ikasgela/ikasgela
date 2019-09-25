@@ -11,7 +11,7 @@
     <a class="nav-link" href="{{ route('messages') }}">
         <i class="nav-icon fas fa-comment"></i> {{ __('Tutorship') }}
         @if( Auth::user()->newThreadsCount() > 0 )
-            <span class="badge badge-danger">@include('messenger.unread-count')</span>
+            <span class="badge badge-success">@include('messenger.unread-count')</span>
         @endif
     </a>
 </li>
