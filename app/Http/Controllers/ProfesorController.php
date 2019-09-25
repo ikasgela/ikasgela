@@ -69,10 +69,10 @@ class ProfesorController extends Controller
 
         // https://gist.github.com/ermand/5458012
 
-        $user_anterior = User::organizacionActual()->rolAlumno()
+        $user_anterior = User::organizacionActual()->rolAlumno()->orderBy('name')
             ->where('name', '<', $user->name)->get()->max('id');
 
-        $user_siguiente = User::organizacionActual()->rolAlumno()
+        $user_siguiente = User::organizacionActual()->rolAlumno()->orderBy('name')
             ->where('name', '>', $user->name)->get()->min('id');
 
         if ($request->has('unidad_id')) {
