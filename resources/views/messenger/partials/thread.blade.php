@@ -2,7 +2,7 @@
 
 <div class="card {{ $class }}">
     <div class="card-header d-flex justify-content-between">
-        <span><i class="fas fa-comment"></i> {{ $thread->participantsString(Auth::id()) }}</span>
+        <span><i class="fas fa-comment"></i><span class="ml-2">{{ $thread->creator()->name }}</span></span>
         <span>{{ $thread->userUnreadMessagesCount(Auth::id()) }} {{ __('unread') }}</span>
     </div>
     <div class="card-body pb-1">
