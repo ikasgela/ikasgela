@@ -67,13 +67,21 @@ class ProfesorController extends Controller
 
         $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
 
-        // https://gist.github.com/ermand/5458012
+        // Obtener el id del anterior y el siguiente
 
-        $user_anterior = User::organizacionActual()->rolAlumno()->orderBy('name')
-            ->where('id', '<', $user->id)->get()->max('id');
+        $usuarios = User::organizacionActual()->rolAlumno()->orderBy('name')->pluck('id')->toArray();
 
-        $user_siguiente = User::organizacionActual()->rolAlumno()->orderBy('name')
-            ->where('id', '>', $user->id)->get()->min('id');
+        $pos = array_search($user->id, $usuarios);
+
+        $user_anterior = null;
+        if (isset($usuarios[$pos - 1])) {
+            $user_anterior = $usuarios[$pos - 1];
+        }
+
+        $user_siguiente = null;
+        if (isset($usuarios[$pos + 1])) {
+            $user_siguiente = $usuarios[$pos + 1];
+        }
 
         if ($request->has('unidad_id')) {
             session(['profesor_unidad_actual' => $request->input('unidad_id')]);
