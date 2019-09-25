@@ -29,7 +29,22 @@ class ProfesorController extends Controller
 
         $organization = Organization::find(setting_usuario('_organization_id'));
 
-        $usuarios = User::organizacionActual()->rolAlumno()->orderBy('last_active')->get();
+        if ($request->has('filtro_alumnos')) {
+            session(['profesor_filtro_alumnos' => $request->input('filtro_alumnos')]);
+        }
+
+        switch (session('profesor_filtro_alumnos') == 'R') {
+            case 'R':
+                $usuarios = User::organizacionActual()->rolAlumno()
+                    ->whereHas('actividades', function ($query) {
+                        $query->where('auto_avance', false)->where('estado', 30);
+                    })
+                    ->orderBy('last_active')->get();
+                break;
+            default:
+                $usuarios = User::organizacionActual()->rolAlumno()->orderBy('name')->get();
+                break;
+        }
 
         $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
 
