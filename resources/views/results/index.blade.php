@@ -2,7 +2,11 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Results'), 'subtitulo' => $curso->category->period->organization->name.' » '.$curso->category->period->name.' » '.$curso->nombre  ?? '' ])
+    @if(!is_null($curso))
+        @include('partials.titular', ['titular' => __('Results'), 'subtitulo' => $curso->category->period->organization->name.' » '.$curso->category->period->name.' » '.$curso->nombre  ?? '' ])
+    @else
+        @include('partials.titular', ['titular' => __('Results')])
+    @endif
 
     @if(session('tutorial'))
         <div class="callout callout-success b-t-1 b-r-1 b-b-1">
