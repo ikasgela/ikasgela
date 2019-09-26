@@ -39,7 +39,12 @@
                         @else
                             data-href="{{ route('archivo.show', $actividad->id) }}">
                         @endif
-                        <td class="align-middle">{{ $actividad->unidad->nombre }}</td>
+                        <td class="align-middle">
+                            @isset($actividad->unidad->codigo)
+                                {{ $actividad->unidad->codigo }} -
+                            @endisset
+                            {{ $actividad->unidad->nombre }}
+                        </td>
                         <td class="align-middle">
                             @include('actividades.partials.nombre_con_etiquetas')
                         </td>
