@@ -29,6 +29,18 @@ class UserController extends Controller
         return back();
     }
 
+    public function toggle_notifications()
+    {
+        $user = Auth::user();
+
+        $user->enviar_emails = !$user->enviar_emails;
+        $user->save();
+
+        session(['enviar_emails' => $user->enviar_emails]);
+
+        return back();
+    }
+
     public function index()
     {
         $users = User::all();
