@@ -235,7 +235,8 @@ class ActividadController extends Controller
                 // Notificar que hay una actividad para corregir
                 if (!$tarea->actividad->auto_avance) {
                     foreach ($tarea->actividad->unidad->curso->profesores as $profesor) {
-                        Mail::to($profesor)->queue(new TareaEnviada($tarea));
+                        if ($profesor->enviar_emails)
+                            Mail::to($profesor)->queue(new TareaEnviada($tarea));
                     }
                 }
 
@@ -288,7 +289,8 @@ class ActividadController extends Controller
 
                 $tarea->user->last_active = Carbon::now();
                 $tarea->user->save();
-                if (!in_array($tarea->user->email, ['ikasgela@egibide.org', 'ikasgela@deusto.es']))
+                if (!in_array($tarea->user->email, ['ikasgela@egibide.org', 'ikasgela@deusto.es'])
+                    && $tarea->user->enviar_emails)
                     Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea));
                 break;
 
@@ -382,7 +384,8 @@ class ActividadController extends Controller
 
                 // Notificar
                 $asignada = "- " . $actividad->siguiente->unidad->nombre . " - " . $actividad->siguiente->nombre . ".\n\n";
-                if (!in_array($usuario->email, ['ikasgela@egibide.org', 'ikasgela@deusto.es']))
+                if (!in_array($usuario->email, ['ikasgela@egibide.org', 'ikasgela@deusto.es'])
+                    && $usuario->enviar_emails)
                     Mail::to($usuario->email)->queue(new ActividadAsignada($usuario->name, $asignada));
             } else {
                 // Oculta
