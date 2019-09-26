@@ -198,7 +198,8 @@ class ProfesorController extends Controller
             ]);
         }
 
-        if (!in_array($user->email, ['ikasgela@egibide.org', 'ikasgela@deusto.es']))
+        if (!in_array($user->email, ['ikasgela@egibide.org', 'ikasgela@deusto.es'])
+            && $user->enviar_emails)
             Mail::to($user->email)->queue(new ActividadAsignada($user->name, $asignadas));
     }
 
