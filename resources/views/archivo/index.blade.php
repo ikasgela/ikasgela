@@ -53,6 +53,8 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="d-flex justify-content-center">{{ $actividades->links() }}</div>
     @else
         <div class="row">
             <div class="col-md-12">
