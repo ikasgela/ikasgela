@@ -27,11 +27,11 @@ class ResultController extends Controller
             session()->forget('filtrar_user_actual');
         }
 
-        $curso = Curso::find(setting_usuario('curso_actual'));
-
         // Lista de usuarios
-
-        $users = $curso->users()->orderBy('name')->get();
+        $curso = Curso::find(setting_usuario('curso_actual'));
+        $users = null;
+        if (!is_null($curso))
+            $users = $curso->users()->orderBy('name')->get();
 
         // Resultados por competencias
 
