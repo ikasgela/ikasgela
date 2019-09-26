@@ -24,6 +24,7 @@
                 <tr>
                     <th>{{ __('Unit') }}</th>
                     <th>{{ __('Name') }}</th>
+                    <th>{{ __('Resources') }}</th>
                     @if(Auth::user()->hasRole('admin'))
                         <th class="text-center">{{ __('Attempts') }}</th>
                         <th>{{ __('Time spent') }}</th>
@@ -47,6 +48,9 @@
                         </td>
                         <td class="align-middle">
                             @include('actividades.partials.nombre_con_etiquetas')
+                        </td>
+                        <td class="align-middle">
+                            @include('partials.botones_recursos_readonly')
                         </td>
                         @if(Auth::user()->hasRole('admin'))
                             <td class="align-middle text-center">{{ $actividad->tarea->intentos }}</td>
