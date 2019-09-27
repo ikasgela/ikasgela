@@ -219,11 +219,11 @@ class ProfesorController extends Controller
         $actividades_curso = Actividad::plantilla()->cursoActual()->orderBy('orden');
 
         if (session('profesor_unidad_actual')) {
-            $disponibles = $actividades_curso->where('unidad_id', session('profesor_unidad_actual'))->get();
+            $disponibles = $actividades_curso->where('unidad_id', session('profesor_unidad_actual'));
         } else {
-            $disponibles = $actividades_curso->get();
+            $disponibles = $actividades_curso;
         }
 
-        return $disponibles;
+        return $disponibles->paginate(25);
     }
 }
