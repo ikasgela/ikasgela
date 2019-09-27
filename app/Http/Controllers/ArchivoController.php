@@ -27,7 +27,7 @@ class ArchivoController extends Controller
             session()->forget('filtrar_user_actual');
         }
 
-        $actividades = $user->actividades_archivadas()->paginate(10);
+        $actividades = $user->actividades_archivadas()->paginate(25);
 
         // Recuento de asignadas
         $num_actividades = $user->actividades_asignadas()->count();
