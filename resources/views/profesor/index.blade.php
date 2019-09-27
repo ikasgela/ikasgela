@@ -16,6 +16,11 @@
             {!! Form::button(__('Pending review'), ['type' => 'submit', 'class' => 'btn btn-link text-secondary']) !!}
             {!! Form::hidden('filtro_alumnos','R') !!}
             {!! Form::close() !!}
+
+            {!! Form::open(['route' => ['profesor.index'], 'method' => 'POST']) !!}
+            {!! Form::button(__('Progress'), ['type' => 'submit', 'class' => 'btn btn-link text-secondary']) !!}
+            {!! Form::hidden('filtro_alumnos','P') !!}
+            {!! Form::close() !!}
         </div>
         <h2 class="text-muted font-xl">{{ $organization->name ?? '?' }}</h2>
     </div>

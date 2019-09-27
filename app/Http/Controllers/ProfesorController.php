@@ -33,13 +33,16 @@ class ProfesorController extends Controller
             session(['profesor_filtro_alumnos' => $request->input('filtro_alumnos')]);
         }
 
-        switch (session('profesor_filtro_alumnos') == 'R') {
+        switch (session('profesor_filtro_alumnos')) {
             case 'R':
                 $usuarios = User::organizacionActual()->rolAlumno()
                     ->whereHas('actividades', function ($query) {
                         $query->where('auto_avance', false)->where('estado', 30);
                     })
                     ->orderBy('last_active')->get();
+                break;
+            case 'P':
+                $usuarios = User::organizacionActual()->rolAlumno()->orderBy('name')->get()->sortBy('actividades_archivadas');
                 break;
             default:
                 $usuarios = User::organizacionActual()->rolAlumno()->orderBy('name')->get();
@@ -67,7 +70,7 @@ class ProfesorController extends Controller
             session(['profesor_filtro_alumnos' => $request->input('filtro_alumnos')]);
         }
 
-        switch (session('profesor_filtro_alumnos') == 'R') {
+        switch (session('profesor_filtro_alumnos')) {
             case 'R':
                 $actividades = $user->actividades_enviadas()->get();
                 break;
