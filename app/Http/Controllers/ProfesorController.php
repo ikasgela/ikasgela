@@ -63,7 +63,18 @@ class ProfesorController extends Controller
 
         $this->recuento_enviadas();
 
-        $actividades = $user->actividades()->get();
+        if ($request->has('filtro_alumnos')) {
+            session(['profesor_filtro_alumnos' => $request->input('filtro_alumnos')]);
+        }
+
+        switch (session('profesor_filtro_alumnos') == 'R') {
+            case 'R':
+                $actividades = $user->actividades_enviadas()->get();
+                break;
+            default:
+                $actividades = $user->actividades()->get();
+                break;
+        }
 
         $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
 
