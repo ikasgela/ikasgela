@@ -80,8 +80,7 @@ class MessagesController extends Controller
             ->get();
 
         foreach ($users as $user) {
-            if (!in_array($user->email, ['ikasgela@egibide.org', 'ikasgela@deusto.es'])
-                && $user->enviar_emails)
+            if ($user->enviar_emails)
                 Mail::to($user->email)->queue(new NuevoMensaje());
         }
     }
