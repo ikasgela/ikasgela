@@ -23,6 +23,7 @@
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Description') }}</th>
                 <th>{{ __('Slug') }}</th>
+                <th>{{ __('Simultaneous activities') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -36,6 +37,7 @@
                     <td>{{ $curso->nombre }}</td>
                     <td>{{ $curso->descripcion }}</td>
                     <td>{{ $curso->slug }}</td>
+                    <td>{{ $curso->max_simultaneas ?? __('Undefined') }}</td>
                     <td>
                         <form method="POST" action="{{ route('cursos.destroy', [$curso->id]) }}">
                             @csrf
