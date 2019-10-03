@@ -94,7 +94,9 @@
                         <textarea class="form-control"
                                   id="feedback"
                                   name="feedback"
-                                  rows="10">{{ !is_null($tarea->feedback) ? $tarea->feedback : '' }}</textarea>
+                                  rows="20">{{ !is_null($tarea->feedback) ? $tarea->feedback : '' }}
+                            <p>=== {{ __('Comments').' (v'.($tarea->intentos+1).')' }} ===</p><br>
+                        </textarea>
                     </div>
                 </div>
             </form>

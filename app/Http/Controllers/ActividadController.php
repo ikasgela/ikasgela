@@ -265,7 +265,7 @@ class ActividadController extends Controller
                 else
                     $tarea->decrement('puntuacion', 5);
 
-                $tarea->feedback .= '<p>--- ' . __('Reopened activity.') . ' ---</p>';
+                $tarea->feedback .= '<p>=== ' . __('Reopened activity') . ' (v' . ($tarea->intentos + 1) . ')' . ' ===</p>';
                 $tarea->increment('intentos');
 
                 $registro->detalles = $tarea->feedback;
