@@ -14,7 +14,9 @@
                 <div class="col-sm-10">
                     <select class="form-control" id="curso_id" name="curso_id">
                         @foreach($cursos as $curso)
-                            <option value="{{ $curso->id }}">{{ $curso->nombre }}</option>
+                            <option value="{{ $curso->id }}">
+                                {{ $curso->category->period->organization->name }} - {{ $curso->nombre }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
