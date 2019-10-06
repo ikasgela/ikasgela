@@ -212,7 +212,8 @@ class ProfesorController extends Controller
             ]);
         }
 
-        if ($user->enviar_emails)
+        if ($user->enviar_emails
+            && setting_usuario('notificacion_actividad_asignada', $user))
             Mail::to($user->email)->queue(new ActividadAsignada($user->name, $asignadas));
     }
 
