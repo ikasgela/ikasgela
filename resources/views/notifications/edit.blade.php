@@ -6,13 +6,7 @@
 
     {!! Form::open(['route' => ['notifications.update'], 'method' => 'PUT']) !!}
 
-    <div class="card">
-        <div class="card-body pb-1">
-
-            {{ Form::campoCheck('enviar_emails', __('Global'), $user->enviar_emails) }}
-
-        </div>
-    </div>
+    <p>{{ __('Enable or disable email notifications.') }}</p>
 
     @include('partials.subtitulo', ['subtitulo' => __('Tutorship')])
 
