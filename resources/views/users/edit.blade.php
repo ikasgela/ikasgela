@@ -23,7 +23,6 @@
             {{ Form::campoTexto('blocked_date', __('Blocked')) }}
 
             {{ Form::campoTexto('max_simultaneas', __('Simultaneous activities')) }}
-            {{ Form::campoCheck('enviar_emails', __('Send email notifications')) }}
 
             <div class="form-group row">
                 {!! Form::label('roles_seleccionados', __('Roles'), ['class' => 'col-sm-2 col-form-label pt-0']) !!}

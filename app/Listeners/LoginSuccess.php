@@ -25,7 +25,6 @@ class LoginSuccess
     public function handle(Login $event)
     {
         session(['tutorial' => $event->user->tutorial]);
-        session(['enviar_emails' => $event->user->enviar_emails]);
 
         activity()
             ->causedBy($event->user)

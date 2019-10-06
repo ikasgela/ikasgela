@@ -80,7 +80,7 @@ class MessagesController extends Controller
             ->get();
 
         foreach ($users as $user) {
-            if ($user->enviar_emails)
+            if (setting_usuario('notificacion_mensaje_recibido', $user))
                 Mail::to($user->email)->queue(new NuevoMensaje());
         }
     }

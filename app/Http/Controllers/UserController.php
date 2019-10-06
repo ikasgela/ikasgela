@@ -29,18 +29,6 @@ class UserController extends Controller
         return back();
     }
 
-    public function toggle_notifications()
-    {
-        $user = Auth::user();
-
-        $user->enviar_emails = !$user->enviar_emails;
-        $user->save();
-
-        session(['enviar_emails' => $user->enviar_emails]);
-
-        return back();
-    }
-
     public function index()
     {
         $users = User::all();
@@ -86,7 +74,6 @@ class UserController extends Controller
             'last_active' => $request->input('last_active'),
             'blocked_date' => $request->input('blocked_date'),
             'max_simultaneas' => request('max_simultaneas'),
-            'enviar_emails' => $request->has('enviar_emails'),
         ]);
 
         $user->roles()->sync($request->input('roles_seleccionados'));
