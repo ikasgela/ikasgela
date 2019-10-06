@@ -36,6 +36,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/files/{file}/rotate_left', 'FileController@rotateLeft')->name('files.rotate_left');
     Route::post('/files/{file}/rotate_right', 'FileController@rotateRight')->name('files.rotate_right');
 
+    // Ajustes de notificaciones
+    Route::get('/notifications', 'NotificationController@edit')
+        ->name('notifications.edit');
+    Route::put('/notifications', 'NotificationController@update')
+        ->name('notifications.update');
+
     // Alumno
     Route::middleware(['role:alumno'])->group(function () {
 
