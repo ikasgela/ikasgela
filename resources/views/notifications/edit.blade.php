@@ -31,8 +31,12 @@
     <div class="card">
         <div class="card-body pb-1">
 
-            {{ Form::campoCheck('notificacion_mensaje_recibido', __('Message received'),
-            setting_usuario('notificacion_mensaje_recibido'),
+            {{ Form::campoCheck('notificacion_feedback_recibido', __('Feedback received'),
+            setting_usuario('notificacion_feedback_recibido'),
+            [ !$user->enviar_emails ? 'disabled' : '' ]) }}
+
+            {{ Form::campoCheck('notificacion_actividad_asignada', __('Activity assigned'),
+            setting_usuario('notificacion_actividad_asignada'),
             [ !$user->enviar_emails ? 'disabled' : '' ]) }}
 
         </div>

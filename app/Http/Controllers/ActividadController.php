@@ -289,7 +289,8 @@ class ActividadController extends Controller
 
                 $tarea->user->last_active = Carbon::now();
                 $tarea->user->save();
-                if ($tarea->user->enviar_emails)
+                if ($tarea->user->enviar_emails
+                    && setting_usuario('notificacion_feedback_recibido'))
                     Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea));
                 break;
 
@@ -383,7 +384,8 @@ class ActividadController extends Controller
 
                 // Notificar
                 $asignada = "- " . $actividad->siguiente->unidad->nombre . " - " . $actividad->siguiente->nombre . ".\n\n";
-                if ($usuario->enviar_emails)
+                if ($usuario->enviar_emails
+                    && setting_usuario('notificacion_actividad_asignada'))
                     Mail::to($usuario->email)->queue(new ActividadAsignada($usuario->name, $asignada));
             } else {
                 // Oculta
