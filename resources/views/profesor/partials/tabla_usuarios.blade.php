@@ -27,7 +27,7 @@
             <tr class="table-cell-click" data-href="{{ route('profesor.tareas', [$user->id]) }}">
                 <td class="p-0 pl-1
                     @if($user->actividades_en_curso()->count() == 0)
-                    bg-secondary
+                    bg-success
                     @elseif($user->actividades_enviadas()->count() > 0)
                     bg-danger
                     @endif
