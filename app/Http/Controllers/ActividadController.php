@@ -235,7 +235,8 @@ class ActividadController extends Controller
                 // Notificar que hay una actividad para corregir
                 if (!$tarea->actividad->auto_avance) {
                     foreach ($tarea->actividad->unidad->curso->profesores as $profesor) {
-                        if ($profesor->enviar_emails)
+                        if ($profesor->enviar_emails
+                            && setting_usuario('notificacion_tarea_enviada', $profesor))
                             Mail::to($profesor)->queue(new TareaEnviada($tarea));
                     }
                 }

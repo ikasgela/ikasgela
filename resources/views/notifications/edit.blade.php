@@ -4,10 +4,10 @@
 
     @include('partials.titular', ['titular' => __('Notification settings')])
 
+    {!! Form::open(['route' => ['notifications.update'], 'method' => 'PUT']) !!}
+
     <div class="card">
         <div class="card-body pb-1">
-
-            {!! Form::open(['route' => ['notifications.update'], 'method' => 'PUT']) !!}
 
             {{ Form::campoCheck('enviar_emails', __('Global'), $user->enviar_emails) }}
 
@@ -41,6 +41,22 @@
 
         </div>
     </div>
+
+    @if(Auth::user()->hasRole('profesor'))
+
+        @include('partials.subtitulo', ['subtitulo' => __('Teacher')])
+
+        <div class="card">
+            <div class="card-body pb-1">
+
+                {{ Form::campoCheck('notificacion_tarea_enviada', __('Task for review'),
+                setting_usuario('notificacion_tarea_enviada'),
+                [ !$user->enviar_emails ? 'disabled' : '' ]) }}
+
+            </div>
+        </div>
+
+    @endif
 
     <div class="form-group">
         <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
