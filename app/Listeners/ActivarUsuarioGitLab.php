@@ -72,6 +72,12 @@ class ActivarUsuarioGitLab
             $clon->file_uploads()->attach($copia);
         }
 
+        // Activar todas las notificaciones
+        setting_usuario(['notificacion_mensaje_recibido' => true]);
+        setting_usuario(['notificacion_feedback_recibido' => true]);
+        setting_usuario(['notificacion_actividad_asignada' => true]);
+        setting_usuario(['notificacion_tarea_enviada' => true]);
+
         // Log
         activity()
             ->causedBy($event->user)
