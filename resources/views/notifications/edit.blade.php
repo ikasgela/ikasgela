@@ -26,21 +26,25 @@
         </div>
     </div>
 
-    @include('partials.subtitulo', ['subtitulo' => __('Activities')])
+    @if(Auth::user()->hasRole('alumno'))
 
-    <div class="card">
-        <div class="card-body pb-1">
+        @include('partials.subtitulo', ['subtitulo' => __('Activities')])
 
-            {{ Form::campoCheck('notificacion_feedback_recibido', __('Feedback received'),
-            setting_usuario('notificacion_feedback_recibido'),
-            [ !$user->enviar_emails ? 'disabled' : '' ]) }}
+        <div class="card">
+            <div class="card-body pb-1">
 
-            {{ Form::campoCheck('notificacion_actividad_asignada', __('Activity assigned'),
-            setting_usuario('notificacion_actividad_asignada'),
-            [ !$user->enviar_emails ? 'disabled' : '' ]) }}
+                {{ Form::campoCheck('notificacion_actividad_asignada', __('Activity assigned'),
+                setting_usuario('notificacion_actividad_asignada'),
+                [ !$user->enviar_emails ? 'disabled' : '' ]) }}
 
+                {{ Form::campoCheck('notificacion_feedback_recibido', __('Feedback received'),
+                setting_usuario('notificacion_feedback_recibido'),
+                [ !$user->enviar_emails ? 'disabled' : '' ]) }}
+
+            </div>
         </div>
-    </div>
+
+    @endif
 
     @if(Auth::user()->hasRole('profesor'))
 
