@@ -17,8 +17,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Perfil de usuario
     Route::post('/users/toggle_help', 'UserController@toggle_help')
         ->name('users.toggle_help');
-    Route::post('/users/toggle_notifications', 'UserController@toggle_notifications')
-        ->name('users.toggle_notifications');
 
     // Actualizar estado de una tarea
     Route::put('/actividades/{tarea}/estado', 'ActividadController@actualizarEstado')
