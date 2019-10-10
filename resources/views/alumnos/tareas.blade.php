@@ -19,32 +19,29 @@
         </div>
     </div>
 
-    <ul class="nav nav-tabs mb-3">
+    <ul class="nav nav-tabs" id="pills-tab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" href="#">En curso</a>
+            <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
+               aria-controls="pills-home" aria-selected="true">Examen</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Enviadas</a>
+            <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab"
+               aria-controls="pills-profile" aria-selected="false">En curso</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab"
+               aria-controls="pills-contact" aria-selected="false">Enviadas</a>
         </li>
     </ul>
-
-    @if(count($actividades) > 0)
-        @php($num_actividad = 1)
-        @foreach($actividades as $actividad)
-            @include('alumnos.partials.tarea')
-            @php($num_actividad+=1)
-        @endforeach
-    @else
-        @if(session('tutorial'))
-            <div class="callout callout-success b-t-1 b-r-1 b-b-1">
-                <small class="text-muted">{{ __('Tutorial') }}</small>
-                <p>Aquí aparecerán las actividades que tengas asignadas.</p>
-            </div>
-        @endif
-        <div class="row">
-            <div class="col-md-12">
-                <p>No tienes tareas asignadas.</p>
-            </div>
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+            @include('alumnos.partials.panel_actividades', ['actividades' => []])
         </div>
-    @endif
+        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+            @include('alumnos.partials.panel_actividades', ['actividades' => $actividades])
+        </div>
+        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+            @include('alumnos.partials.panel_actividades', ['actividades' => []])
+        </div>
+    </div>
 @endsection
