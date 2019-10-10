@@ -124,11 +124,13 @@ class User extends Authenticatable implements MustVerifyEmail
             ->wherePivotIn('estado', [10, 20, 21, 40, 41, 42])
             ->where(function ($query) {
                 $query->where('fecha_disponibilidad', '<=', Carbon::now())
-                    ->orWhereNull('fecha_disponibilidad');
+                    ->orWhereNull('fecha_disponibilidad')
+                    ->orWhere('estado', 40);    // Si no, al corregir no se ve la tarea vencida
             })
             ->where(function ($query) {
                 $query->where('fecha_limite', '>=', Carbon::now())
-                    ->orWhereNull('fecha_limite');
+                    ->orWhereNull('fecha_limite')
+                    ->orWhere('estado', 40);
             });
     }
 
