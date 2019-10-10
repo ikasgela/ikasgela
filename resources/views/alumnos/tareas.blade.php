@@ -11,9 +11,9 @@
         <div>
             @if(session('num_actividades') > 0)
                 @if(session('num_actividades') == 1)
-                    <h2 class="text-muted font-xl">Tienes una actividad en curso</h2>
+                    <h2 class="text-muted font-xl">Tienes una actividad asignada</h2>
                 @else
-                    <h2 class="text-muted font-xl">Tienes {{ session('num_actividades') }} actividades en curso</h2>
+                    <h2 class="text-muted font-xl">Tienes {{ session('num_actividades') }} actividades asignadas</h2>
                 @endif
             @endif
         </div>
@@ -21,27 +21,23 @@
 
     <ul class="nav nav-tabs" id="pills-tab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
-               aria-controls="pills-home" aria-selected="true">Examen</a>
+            <a class="nav-link active" id="pills-en-curso-tab" data-toggle="tab" href="#pills-en-curso" role="tab"
+               aria-controls="pills-profile" aria-selected="true">En curso</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab"
-               aria-controls="pills-profile" aria-selected="false">En curso</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab"
+            <a class="nav-link" id="pills-enviadas-tab" data-toggle="tab" href="#pills-enviadas" role="tab"
                aria-controls="pills-contact" aria-selected="false">Enviadas</a>
         </li>
     </ul>
-    <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-            @include('alumnos.partials.panel_actividades', ['actividades' => []])
+    <div class="tab-content" id="pills-tab-content">
+        <div class="tab-pane fade show active" id="pills-en-curso" role="tabpanel" aria-labelledby="pills-en-curso-tab">
+            @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso()->get(),
+            'mensaje_ninguna' => 'No hay actividades en curso.'
+            ])
         </div>
-        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-            @include('alumnos.partials.panel_actividades', ['actividades' => $actividades])
-        </div>
-        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-            @include('alumnos.partials.panel_actividades', ['actividades' => []])
+        <div class="tab-pane fade" id="pills-enviadas" role="tabpanel" aria-labelledby="pills-enviadas-tab">
+            @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_enviadas()->get(),
+            'mensaje_ninguna' => 'No hay actividades enviadas.'])
         </div>
     </div>
 @endsection

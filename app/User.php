@@ -120,12 +120,30 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function actividades_en_curso()
     {
-        return $this->actividades()->wherePivotIn('estado', [10, 20, 21]);
+        return $this->actividades()
+            ->wherePivotIn('estado', [10, 20, 21, 40, 41, 42])
+            ->where(function ($query) {
+                $query->where('fecha_disponibilidad', '<=', Carbon::now())
+                    ->orWhereNull('fecha_disponibilidad');
+            })
+            ->where(function ($query) {
+                $query->where('fecha_limite', '>=', Carbon::now())
+                    ->orWhereNull('fecha_limite');
+            });
     }
 
     public function actividades_enviadas()
     {
-        return $this->actividades()->where('auto_avance', false)->wherePivot('estado', 30);
+        return $this->actividades()
+            ->wherePivotIn('estado', [30])
+            ->where(function ($query) {
+                $query->where('fecha_disponibilidad', '<=', Carbon::now())
+                    ->orWhereNull('fecha_disponibilidad');
+            })
+            ->where(function ($query) {
+                $query->where('fecha_limite', '>=', Carbon::now())
+                    ->orWhereNull('fecha_limite');
+            });
     }
 
     public function actividades_revisadas()
