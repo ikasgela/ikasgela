@@ -65,6 +65,7 @@
                     <th class="text-center">{{ __('Base') }}</th>
                     <th class="text-center">{{ __('Extra') }}</th>
                     <th class="text-center">Repaso</th>
+                    <th class="text-center">{{ __('Exam') }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -84,6 +85,9 @@
                         </td>
                         <td class="align-middle text-center">
                             {{ $user->num_archivadas('repaso', $unidad->id) }}
+                        </td>
+                        <td class="align-middle text-center">
+                            {{ $user->num_archivadas('examen', $unidad->id) }}
                         </td>
                     </tr>
                 @endforeach
