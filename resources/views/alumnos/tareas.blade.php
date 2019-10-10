@@ -19,6 +19,15 @@
         </div>
     </div>
 
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item">
+            <a class="nav-link active" href="#">En curso</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Enviadas</a>
+        </li>
+    </ul>
+
     @if(count($actividades) > 0)
         @php($num_actividad = 1)
         @foreach($actividades as $actividad)
