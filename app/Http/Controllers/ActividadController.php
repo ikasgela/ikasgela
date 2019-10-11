@@ -215,6 +215,8 @@ class ActividadController extends Controller
     {
         $nuevoestado = $request->input('nuevoestado');
 
+        $estado_anterior = $tarea->estado;
+
         $tarea->estado = $nuevoestado;
 
         $actividad = $tarea->actividad;
@@ -310,6 +312,7 @@ class ActividadController extends Controller
                 return back();
                 break;
             case 71:
+                $tarea->estado = $estado_anterior;
                 $this->mostrarSiguienteActividad($actividad, $usuario);
                 break;
             default:
