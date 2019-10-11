@@ -20,7 +20,7 @@ class RegistrosTest extends TestCase
     public function testIndex()
     {
         // Given
-        $this->actingAs($this->alumno);
+        $this->actingAs($this->admin);
         $registro = factory(Registro::class)->create();
 
         // When
@@ -37,6 +37,17 @@ class RegistrosTest extends TestCase
         // Then
         $this->get(route('registros.index'))
             ->assertRedirect(route('login'));
+    }
+
+    public function testNotAdminNotIndex()
+    {
+        // Given
+        $this->actingAs($this->not_admin);
+
+        // When
+        // Then
+        $this->get(route('registros.index'))
+            ->assertForbidden();
     }
 
     public function testStore()
