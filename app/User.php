@@ -258,4 +258,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return $total;
     }
+
+    public function etiquetas()
+    {
+        return array_map('trim', explode(',', $this->tags));
+    }
 }
