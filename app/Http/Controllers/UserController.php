@@ -31,6 +31,8 @@ class UserController extends Controller
 
     public function index()
     {
+        memorizar_ruta();
+
         $users = User::all();
 
         return view('users.index', compact('users'));
@@ -91,7 +93,7 @@ class UserController extends Controller
         }
         setting()->save();
 
-        return redirect(route('users.index'));
+        return redirect(ruta_memorizada());
     }
 
     public function destroy(User $user)
