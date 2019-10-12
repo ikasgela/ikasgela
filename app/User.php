@@ -22,7 +22,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'name', 'email', 'password', 'username', 'tutorial', 'last_active',
-        'blocked_date', 'max_simultaneas'
+        'blocked_date', 'max_simultaneas', 'tags'
     ];
 
     /**
@@ -257,5 +257,10 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         return $total;
+    }
+
+    public function etiquetas()
+    {
+        return array_map('trim', explode(',', $this->tags));
     }
 }
