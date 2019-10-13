@@ -125,6 +125,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('intellij_projects.copia');
         Route::post('/intellij_projects/duplicar', 'IntellijProjectController@duplicar')
             ->name('intellij_projects.duplicar');
+        Route::delete('/intellij_projects/borrar/{id}', 'IntellijProjectController@borrar')
+            ->name('intellij_projects.borrar');
 
         // IntellijProject
         Route::resource('intellij_projects', 'IntellijProjectController');

@@ -205,6 +205,13 @@ class IntellijProjectController extends Controller
         return view('intellij_projects.copia', compact('proyectos'));
     }
 
+    public function borrar($id)
+    {
+        GitLab::projects()->remove($id);
+
+        return back();
+    }
+
     public function duplicar(Request $request)
     {
         $origen = $request->input('origen');
