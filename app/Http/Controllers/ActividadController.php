@@ -313,7 +313,7 @@ class ActividadController extends Controller
                 break;
             case 71:
                 $tarea->estado = $estado_anterior;
-                $this->mostrarSiguienteActividad($actividad, $usuario);
+                $this->mostrarSiguienteActividad($actividad, $usuario, true);
                 break;
             default:
         }
@@ -372,13 +372,13 @@ class ActividadController extends Controller
         return back();
     }
 
-    private function mostrarSiguienteActividad(Actividad $actividad, User $usuario)
+    private function mostrarSiguienteActividad(Actividad $actividad, User $usuario, bool $sin_limite = false)
     {
         // Calcular el límite máximo de actividades: Usuario -> Curso -> 2
         $max_simultaneas = $usuario->max_simultaneas ?? $usuario->curso_actual()->max_simultaneas ?? 2;
 
         // Pasar a la siguiente si no es final y no hay otra activa
-        if (!is_null($actividad->siguiente) && $usuario->actividades_asignadas()->count() < $max_simultaneas) {
+        if (!is_null($actividad->siguiente) && ($usuario->actividades_asignadas()->count() < $max_simultaneas || $sin_limite)) {
             if (!$actividad->final) {
                 // Visible
                 $usuario->actividades()->attach($actividad->siguiente);
