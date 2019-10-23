@@ -1,5 +1,6 @@
 <div class="media border rounded p-3 mb-3 bg-white">
-    <img width="64" src="{{ $message->user->avatar_url(128) }}" alt="{{ $message->user->name }}">
+    <img width="64" src="{{ $message->user->avatar_url(128) }}" alt="{{ $message->user->name }}"
+         onerror="this.onerror=null;this.src='{{ url("/svg/missing_avatar.svg") }}';">
     <div class="media-body pl-3 overflow-auto">
         <h5 class="media-heading">{{ $message->user->name }}</h5>
         <div class="callout callout-primary bg-light py-3">

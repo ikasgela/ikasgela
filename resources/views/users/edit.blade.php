@@ -12,7 +12,8 @@
             <div class="form-group row">
                 {!! Form::label('avatar', __('Avatar'), ['class' => 'col-sm-2 col-form-label']) !!}
                 <div class="col-sm-10">
-                    <img style="width:100px" src="{{ $user->avatar_url(200)}}">
+                    <img style="width:100px" src="{{ $user->avatar_url(200)}}"
+                         onerror="this.onerror=null;this.src='{{ url("/svg/missing_avatar.svg") }}';">
                 </div>
             </div>
 

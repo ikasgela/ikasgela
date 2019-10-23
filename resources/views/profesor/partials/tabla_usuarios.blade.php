@@ -38,7 +38,9 @@
                     <input form="asignar" type="checkbox"
                            name="usuarios_seleccionados[]" value="{{ $user->id }}">
                 </td>
-                <td class="clickable"><img style="height:35px;" src="{{ $user->avatar_url(70)}}"/></td>
+                <td class="clickable"><img style="height:35px;" src="{{ $user->avatar_url(70)}}"
+                                           onerror="this.onerror=null;this.src='{{ url("/svg/missing_avatar.svg") }}';"/>
+                </td>
                 <td class="clickable">
                     {{ $user->name }}
                     @include('profesor.partials.status_usuario')

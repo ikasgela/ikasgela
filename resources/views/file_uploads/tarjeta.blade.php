@@ -27,7 +27,8 @@
                             <td>
                                 <a data-fancybox="gallery" href="{{ $file->imageUrl('images') }}">
                                     <img style="width:64px" src="{{ $file->imageUrl('thumbnails') }}"
-                                         alt="{{ $file->title }}" title="{{ $file->title }}">
+                                         alt="{{ $file->title }}" title="{{ $file->title }}"
+                                         onerror="this.onerror=null;this.src='{{ url("/svg/missing_image.svg") }}';">
                                 </a>
                             </td>
                             <td>{{ $file->size_in_kb }} KB</td>

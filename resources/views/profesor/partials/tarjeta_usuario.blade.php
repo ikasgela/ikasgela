@@ -11,7 +11,8 @@
                     <a href="mailto:{{ $user->email }}" class="card-link">{{ $user->email }}</a>
                 </div>
                 <div class="col-12 col-sm-6 text-center text-sm-right">
-                    <img style="width:100px" src="{{ $user->avatar_url(200)}}">
+                    <img style="width:100px" src="{{ $user->avatar_url(200)}}"
+                         onerror="this.onerror=null;this.src='{{ url("/svg/missing_avatar.svg") }}';">
                 </div>
             </div>
         </div>
