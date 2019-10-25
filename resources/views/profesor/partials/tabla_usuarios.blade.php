@@ -23,7 +23,20 @@
         </tr>
         </thead>
         <tbody>
+        @php($media = false)
         @foreach($usuarios as $user)
+            @if( !$media && session('profesor_filtro_alumnos') == 'P'
+                    && $user->actividades_enviadas()->count() + $user->actividades_archivadas()->count() > $total_actividades_grupo / $usuarios->count() )
+                <tr class="bg-secondary">
+                    <th class="p-0"></th>
+                    <th colspan="12">{{ __('Mean') }}
+                        : {{ number_format ( $total_actividades_grupo / $usuarios->count(),2) }} </th>
+                    @if(Auth::user()->hasRole('admin'))
+                        <th></th>
+                    @endif
+                </tr>
+                @php($media = true)
+            @endif
             <tr class="table-cell-click" data-href="{{ route('profesor.tareas', [$user->id]) }}">
                 <td class="p-0 pl-1
                     @if($user->actividades_en_curso()->count() == 0)
