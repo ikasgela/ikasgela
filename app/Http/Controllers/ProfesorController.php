@@ -57,7 +57,12 @@ class ProfesorController extends Controller
 
         $disponibles = $this->actividadesDisponibles();
 
-        return view('profesor.index', compact(['usuarios', 'unidades', 'disponibles', 'organization']));
+        $total_actividades_grupo = 0;
+        foreach ($usuarios as $usuario) {
+            $total_actividades_grupo += $usuario->actividades_enviadas()->count() + $usuario->actividades_archivadas()->count();
+        }
+
+        return view('profesor.index', compact(['usuarios', 'unidades', 'disponibles', 'organization', 'total_actividades_grupo']));
     }
 
     public function tareas(User $user, Request $request)
