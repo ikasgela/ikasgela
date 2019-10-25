@@ -59,7 +59,7 @@ class ProfesorController extends Controller
 
         $total_actividades_grupo = 0;
         foreach ($usuarios as $usuario) {
-            $total_actividades_grupo += $usuario->actividades_enviadas()->count() + $usuario->actividades_archivadas()->count();
+            $total_actividades_grupo += $usuario->actividades_archivadas()->count();
         }
 
         return view('profesor.index', compact(['usuarios', 'unidades', 'disponibles', 'organization', 'total_actividades_grupo']));
