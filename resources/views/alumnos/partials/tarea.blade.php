@@ -69,8 +69,13 @@
                             @case(21)   {{-- Feedback leído --}}
                             @if($actividad->envioPermitido())
                                 <button type="submit" name="nuevoestado" value="30"
-                                        class="btn btn-primary">{{ __('Submit for review') }}</button>
+                                        class="btn btn-primary mr-2">{{ __('Submit for review') }}</button>
                             @endif
+                            @if($actividad->hasEtiqueta('extra') && !is_null($actividad->siguiente))
+                                <button type="submit" name="nuevoestado" value="71"
+                                        class="btn btn-light"> {{ __('Show next') }}
+                                </button>
+                            @endif()
                             @break
                             @case(30)   {{-- Enviada --}}
                             @if($actividad->auto_avance)
