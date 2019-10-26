@@ -138,6 +138,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->actividades()
             ->wherePivotIn('estado', [30])
+            ->where('auto_avance', false)
             ->where(function ($query) {
                 $query->where('fecha_disponibilidad', '<=', Carbon::now())
                     ->orWhereNull('fecha_disponibilidad');
