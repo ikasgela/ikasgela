@@ -44,7 +44,7 @@ class Unidad extends Model
         $total = 0;
 
         foreach ($this->actividades()->where('plantilla', true)->get() as $actividad) {
-            if (in_array($etiqueta, $actividad->etiquetas()))
+            if ($actividad->hasEtiqueta($etiqueta))
                 $total += 1;
         }
 
