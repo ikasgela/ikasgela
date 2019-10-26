@@ -158,6 +158,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->actividades()->wherePivot('estado', 60);
     }
 
+    public function actividades_completadas()
+    {
+        return $this->actividades()->wherePivotIn('estado', [40, 60]);
+    }
+
     public function actividades_asignadas()
     {
         return $this->actividades()

@@ -74,6 +74,9 @@
     .thead-dark th {
         background-color: $dark !important;
     }
+    .table tr.bg-secondary > th, td {
+        background-color: $secondary !important;
+    }
 }
 
 // https://github.com/asyraf9/bootstrap-sidebar/issues/10#issuecomment-69191324

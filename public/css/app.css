@@ -11658,6 +11658,11 @@ a.text-dark:focus {
   .thead-dark th {
     background-color: #2f353a !important;
   }
+
+  .table tr.bg-secondary > th,
+  td {
+    background-color: #c8ced3 !important;
+  }
 }
 
 @media print {
