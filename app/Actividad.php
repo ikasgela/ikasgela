@@ -152,4 +152,9 @@ class Actividad extends Model
     {
         return array_map('trim', explode(',', $this->tags));
     }
+
+    public function hasEtiqueta($etiqueta)
+    {
+        return in_array($etiqueta, $this->etiquetas());
+    }
 }
