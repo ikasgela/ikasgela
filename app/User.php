@@ -252,7 +252,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $total = 0;
 
         foreach ($this->actividades_archivadas()->where('unidad_id', $unidad)->get() as $actividad) {
-            if (in_array($etiqueta, $actividad->etiquetas()))
+            if ($actividad->hasEtiqueta($etiqueta))
                 $total += 1;
         }
 
