@@ -41,7 +41,7 @@
                 <td class="p-0 pl-1
                     @if($user->actividades_en_curso()->count() == 0)
                     bg-success
-                    @elseif($user->actividades_enviadas()->count() > 0)
+                    @elseif($user->actividades_enviadas_noautoavance()->count() > 0)
                     bg-danger
                     @endif
                     ">
@@ -61,7 +61,7 @@
                 <td class="clickable text-center">{{ $user->actividades_ocultas()->count() }}</td>
                 <td class="clickable text-center">{{ $user->actividades_nuevas()->count() }}</td>
                 <td class="clickable text-center">{{ $user->actividades_aceptadas()->count() }}</td>
-                <td class="clickable text-center {{ $user->actividades_enviadas()->count() > 0 ? 'bg-danger' : '' }}">{{ $user->actividades_enviadas()->count() }}</td>
+                <td class="clickable text-center {{ $user->actividades_enviadas_noautoavance()->count() > 0 ? 'bg-danger' : '' }}">{{ $user->actividades_enviadas_noautoavance()->count() }}</td>
                 <td class="clickable text-center">{{ $user->actividades_revisadas()->count() }}</td>
                 <td class="clickable text-center">{{ $user->actividades_archivadas()->count() }}</td>
                 <td class="clickable">{{ $user->last_active_time }}</td>
