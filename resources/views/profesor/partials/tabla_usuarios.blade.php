@@ -39,7 +39,7 @@
             @endif
             <tr class="table-cell-click" data-href="{{ route('profesor.tareas', [$user->id]) }}">
                 <td class="p-0 pl-1
-                    @if($user->actividades_en_curso()->count() == 0)
+                    @if($user->actividades_sin_completar()->count() == 0)
                     bg-success
                     @elseif($user->actividades_enviadas_noautoavance()->count() > 0)
                     bg-danger
