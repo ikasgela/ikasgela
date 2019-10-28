@@ -23,6 +23,7 @@
         </tr>
         </thead>
         <tbody>
+        @php($total_enviadas = 0)
         @php($media = false)
         @foreach($usuarios as $user)
             @if( !$media && session('profesor_filtro_alumnos') == 'P'
@@ -62,6 +63,7 @@
                 <td class="clickable text-center">{{ $user->actividades_nuevas()->count() }}</td>
                 <td class="clickable text-center">{{ $user->actividades_aceptadas()->count() }}</td>
                 <td class="clickable text-center {{ $user->actividades_enviadas_noautoavance()->count() > 0 ? 'bg-danger' : '' }}">{{ $user->actividades_enviadas_noautoavance()->count() }}</td>
+                @php($total_enviadas += $user->actividades_enviadas_noautoavance()->count())
                 <td class="clickable text-center">{{ $user->actividades_revisadas()->count() }}</td>
                 <td class="clickable text-center">{{ $user->actividades_archivadas()->count() }}</td>
                 <td class="clickable">{{ $user->last_active_time }}</td>
@@ -87,7 +89,9 @@
         <tfoot class="thead-dark">
         <tr>
             <th class="p-0"></th>
-            <th colspan="12">{{ __('Student total') }}: {{ $usuarios->count() }}</th>
+            <th colspan="6">{{ __('Student total') }}: {{ $usuarios->count() }}</th>
+            <th class="text-center">{{ $total_enviadas>0 ? $total_enviadas : '' }}</th>
+            <th colspan="5"></th>
             @if(Auth::user()->hasRole('admin'))
                 <th></th>
             @endif
