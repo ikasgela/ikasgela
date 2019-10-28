@@ -77,7 +77,7 @@ class ProfesorController extends Controller
 
         switch (session('profesor_filtro_alumnos')) {
             case 'R':
-                $actividades = $user->actividades_enviadas()->get();
+                $actividades = $user->actividades_enviadas_noautoavance()->get();
                 break;
             default:
                 $actividades = $user->actividades()->get();
