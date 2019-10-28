@@ -21,10 +21,15 @@ class ArchivoController extends Controller
         $user = Auth::user();
 
         if (!empty($request->input('user_id'))) {
-            $user = User::find($request->input('user_id'));
-            session(['filtrar_user_actual' => $request->input('user_id')]);
-        } else {
-            session()->forget('filtrar_user_actual');
+            $user_id = $request->input('user_id');
+            if ($user_id == -1) {
+                session()->forget('filtrar_user_actual');
+            } else {
+                $user = User::find($user_id);
+                session(['filtrar_user_actual' => $user_id]);
+            }
+        } else if (!empty(session('filtrar_user_actual'))) {
+            $user = User::find(session('filtrar_user_actual'));
         }
 
         $actividades = $user->actividades_archivadas()->paginate(25);
