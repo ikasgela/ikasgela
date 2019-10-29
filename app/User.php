@@ -180,7 +180,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function actividades_sin_completar()
     {
-        return $this->actividades()->wherePivotIn('estado', [40, 60], 'and', 'NotIn');
+        return $this->actividades()
+            ->wherePivotIn('estado', [40, 60], 'and', 'NotIn')
+            ->where('tags', 'LIKE', '%base%');
     }
 
     public function actividades_asignadas()
