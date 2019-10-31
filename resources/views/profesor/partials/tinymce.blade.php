@@ -6,7 +6,14 @@
         plugins: "link image autolink emoticons lists hr",
         default_link_target: "_blank",
         toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image link emoticons hr',
-        link_assume_external_targets: true
+        link_assume_external_targets: true,
+        setup: function (editor) {
+            editor.on('init', function () {
+                editor.focus();
+                editor.selection.select(editor.getBody(), true);
+                editor.selection.collapse(false);
+            });
+        }
     });
 
     function validate_feedback() {

@@ -92,7 +92,7 @@
                                   id="feedback"
                                   name="feedback"
                                   rows="20">{{ !is_null($tarea->feedback) ? $tarea->feedback : '' }}
-                            <p>=== {{ __('Comments').' (v'.($tarea->intentos+1).')' }} ===</p><br>
+                            <p>=== {{ __('Comments').' (v'.($tarea->intentos+1).')' }} ===</p>
                         </textarea>
                     </div>
                 </div>
