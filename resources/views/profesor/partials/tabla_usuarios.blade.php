@@ -31,7 +31,7 @@
                     && $user->actividades_completadas()->count() > $total_actividades_grupo / $usuarios->count() )
                 <tr class="bg-secondary">
                     <th class="p-0"></th>
-                    <th colspan="12">{{ __('Mean') }}:
+                    <th colspan="13">{{ __('Mean') }}:
                         {{ number_format ( $total_actividades_grupo / $usuarios->count(), 2) }} {{ __('completed activities') }}</th>
                     @if(Auth::user()->hasRole('admin'))
                         <th></th>
