@@ -83,6 +83,8 @@
             {{ Form::campoCheck('destacada', __('Highlighted')) }}
             {{ Form::campoTexto('tags', __('Tags')) }}
 
+            {{ Form::campoTexto('multiplicador', __('Multiplier')) }}
+
             @include('partials.guardar_cancelar')
 
             @include('layouts.errors')

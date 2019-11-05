@@ -103,6 +103,8 @@ class ActividadController extends Controller
 
             'destacada' => $request->has('destacada'),
             'tags' => request('tags'),
+
+            'multiplicador' => request('multiplicador'),
         ]);
 
         $actividad->orden = $actividad->id;
@@ -179,6 +181,8 @@ class ActividadController extends Controller
 
             'destacada' => $request->has('destacada'),
             'tags' => request('tags'),
+
+            'multiplicador' => request('multiplicador'),
         ]);
 
         if (!is_null($request->input('siguiente_id'))) {

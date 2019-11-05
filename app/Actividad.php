@@ -27,7 +27,7 @@ class Actividad extends Model
 
     protected $fillable = [
         'unidad_id', 'nombre', 'descripcion', 'puntuacion', 'plantilla', 'slug', 'final', 'siguiente', 'auto_avance', 'qualification_id', 'orden',
-        'fecha_disponibilidad', 'fecha_entrega', 'fecha_limite', 'destacada', 'tags'
+        'fecha_disponibilidad', 'fecha_entrega', 'fecha_limite', 'destacada', 'tags', 'multiplicador'
     ];
 
     protected $dates = [
