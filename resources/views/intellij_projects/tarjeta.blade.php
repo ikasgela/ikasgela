@@ -5,7 +5,8 @@
         <p class="card-text">{{ $intellij_project->descripcion }}</p>
         @if(!$intellij_project->isForked() && Auth::user()->hasRole('alumno'))
             <a href="{{ route('intellij_projects.fork', ['actividad' => $actividad->id, 'intellij_project'=>$intellij_project->id]) }}"
-               class="btn btn-primary">{{ __('Clone the project') }}</a>
+               class="btn btn-primary single_click">
+                <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Clone the project') }}</a>
             @if(session('clone_error_id') == $actividad->id)
                 <div class="alert alert-danger mb-0 mt-3" role="alert">
                     <span>{{ session('clone_error_status') }}</span>
