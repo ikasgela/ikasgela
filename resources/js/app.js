@@ -99,4 +99,12 @@ $(document).ready(function ($) {
             }
         });
     });
+
+    $('.single_click').on('click', function (e) {
+        $(this).children('i').show();
+        if ($(this).hasClass("disabled")) {
+            e.preventDefault();
+        }
+        $(this).addClass("disabled");
+    });
 });
