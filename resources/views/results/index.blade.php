@@ -95,6 +95,8 @@
             </table>
         </div>
 
+        @include('partials.subtitulo', ['subtitulo' => __('Content development')])
+
         {{-- Tarjeta --}}
         <div class="card">
             <div class="card-body">

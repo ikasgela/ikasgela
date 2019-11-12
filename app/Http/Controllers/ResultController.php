@@ -77,13 +77,10 @@ class ResultController extends Controller
 
         $resultados_unidades = [];
 
-        if (!is_null($curso)) {
+        foreach ($unidades as $unidad) {
+            $resultados_unidades[$unidad->id] = new Resultado();
 
-            foreach ($curso->unidades as $unidad) {
-                $resultados_unidades[$unidad->id] = new Resultado();
-            }
-
-            foreach ($user->actividades as $actividad) {
+            foreach ($user->actividades->where('unidad_id', $unidad->id) as $actividad) {
 
                 if ($puntuacion_actividad > 0) {
 
