@@ -9,7 +9,7 @@ class Unidad extends Model
     protected $table = 'unidades';
 
     protected $fillable = [
-        'curso_id', 'codigo', 'nombre', 'descripcion', 'slug', 'qualification_id'
+        'curso_id', 'codigo', 'nombre', 'descripcion', 'slug', 'qualification_id', 'orden'
     ];
 
     public function curso()

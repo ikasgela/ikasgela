@@ -46,6 +46,7 @@ class UnidadController extends Controller
                 'descripcion' => request('descripcion'),
                 'slug' => Str::slug(request('nombre')),
                 'qualification_id' => request('qualification_id'),
+                'orden' => request('orden'),
             ]);
         } catch (\Exception $e) {
             // Slug repetido
@@ -84,6 +85,7 @@ class UnidadController extends Controller
                     ? Str::slug(request('slug'))
                     : Str::slug(request('nombre')),
                 'qualification_id' => request('qualification_id'),
+                'orden' => request('orden'),
             ]);
         } catch (\Exception $e) {
             // Slug repetido

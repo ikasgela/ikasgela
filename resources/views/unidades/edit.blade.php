@@ -14,7 +14,8 @@
                 <div class="col-sm-10">
                     <select class="form-control" id="curso_id" name="curso_id">
                         @foreach($cursos as $curso)
-                            <option value="{{ $curso->id }}" <?php if ($unidad->curso_id == $curso->id) echo 'selected'; ?>>{{ $curso->category->period->organization->name }}
+                            <option
+                                value="{{ $curso->id }}" <?php if ($unidad->curso_id == $curso->id) echo 'selected'; ?>>{{ $curso->category->period->organization->name }}
                                 - {{ $curso->category->period->name }} - {{ $curso->nombre }}</option>
                         @endforeach
                     </select>
@@ -32,11 +33,14 @@
                     <select class="form-control" id="qualification_id" name="qualification_id">
                         <option value="">{{ __('--- None ---') }}</option>
                         @foreach($qualifications as $qualification)
-                            <option value="{{ $qualification->id }}" <?php if ($unidad->qualification_id == $qualification->id) echo 'selected'; ?>>{{ $qualification->name }}</option>
+                            <option
+                                value="{{ $qualification->id }}" <?php if ($unidad->qualification_id == $qualification->id) echo 'selected'; ?>>{{ $qualification->name }}</option>
                         @endforeach
                     </select>
                 </div>
             </div>
+
+            {{ Form::campoTexto('orden', __('Order')) }}
 
             @include('partials.guardar_cancelar')
 

@@ -38,6 +38,8 @@
                 </div>
             </div>
 
+            {{ Form::campoTexto('orden', __('Order')) }}
+
             @include('partials.guardar_cancelar')
 
             @include('layouts.errors')
