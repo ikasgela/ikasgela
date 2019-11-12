@@ -73,6 +73,30 @@ class ResultController extends Controller
 
         $unidades = Unidad::cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
 
-        return view('results.index', compact(['curso', 'skills_curso', 'resultados', 'unidades', 'user', 'users']));
+        // Resultados por competencias
+
+        $resultados_unidades = [];
+
+        if (!is_null($curso)) {
+
+            foreach ($curso->unidades as $unidad) {
+                $resultados_unidades[$unidad->id] = new Resultado();
+            }
+
+            foreach ($user->actividades as $actividad) {
+
+                if ($puntuacion_actividad > 0) {
+
+                    $puntuacion_actividad = $actividad->puntuacion;
+                    $puntuacion_tarea = $actividad->tarea->puntuacion;
+
+                    $resultados_unidades[$unidad->id]->actividad += $puntuacion_actividad;
+                    $resultados_unidades[$unidad->id]->tarea += $puntuacion_tarea;
+
+                }
+            }
+        }
+
+        return view('results.index', compact(['curso', 'skills_curso', 'resultados', 'unidades', 'user', 'users', 'resultados_unidades']));
     }
 }
