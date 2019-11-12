@@ -71,7 +71,7 @@ class ResultController extends Controller
 
         // Resultados por unidades
 
-        $unidades = Unidad::cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
+        $unidades = Unidad::cursoActual()->orderBy('orden')->get();
 
         // Resultados por competencias
 
