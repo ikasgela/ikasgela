@@ -47,8 +47,8 @@ class ResultController extends Controller
 
             foreach ($user->actividades as $actividad) {
 
-                $puntuacion_actividad = $actividad->puntuacion;
-                $puntuacion_tarea = $actividad->tarea->puntuacion;
+                $puntuacion_actividad = $actividad->puntuacion * ($actividad->multiplicador ?: 1);
+                $puntuacion_tarea = $actividad->tarea->puntuacion * ($actividad->multiplicador ?: 1);
 
                 if ($puntuacion_actividad > 0) {
 
@@ -84,8 +84,8 @@ class ResultController extends Controller
 
                 if ($puntuacion_actividad > 0) {
 
-                    $puntuacion_actividad = $actividad->puntuacion;
-                    $puntuacion_tarea = $actividad->tarea->puntuacion;
+                    $puntuacion_actividad = $actividad->puntuacion * ($actividad->multiplicador ?: 1);
+                    $puntuacion_tarea = $actividad->tarea->puntuacion * ($actividad->multiplicador ?: 1);
 
                     $resultados_unidades[$unidad->id]->actividad += $puntuacion_actividad;
                     $resultados_unidades[$unidad->id]->tarea += $puntuacion_tarea;
