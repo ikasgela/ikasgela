@@ -1,77 +1,43 @@
-<div class="table-responsive">
+<div class="table">
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
-            <th class="p-0"></th>
             <th></th>
             <th>{{ __('Name') }}</th>
             @foreach($unidades as $unidad)
-                <th>{{ $unidad->nombre }}</th>
+                <th class="text-center">{{ $unidad->nombre }}</th>
             @endforeach
-            <th class="text-center">{{ trans_choice('tasks.hidden', 2) }}</th>
-            <th class="text-center">{{ trans_choice('tasks.new', 2) }}</th>
-            <th class="text-center">{{ trans_choice('tasks.accepted', 2) }}</th>
-            <th class="text-center">{{ trans_choice('tasks.sent', 2) }}</th>
-            <th class="text-center">{{ trans_choice('tasks.reviewed', 2) }}</th>
-            <th class="text-center">{{ trans_choice('tasks.archived', 2) }}</th>
-            <th class="text-center">{{ __('Simultaneous') }}</th>
+            <th class="text-center">{{ trans_choice('tasks.completed', 2) }}</th>
             <th>{{ __('Activity') }}</th>
         </tr>
         </thead>
         <tbody>
-        @php($total_enviadas = 0)
-        @php($media = false)
         @foreach($usuarios as $user)
-            @if( !$media && session('profesor_filtro_alumnos') == 'P'
-                    && $user->actividades_completadas()->count() > $total_actividades_grupo / $usuarios->count() )
-                <tr class="bg-secondary">
-                    <th class="p-0"></th>
-                    <th colspan="13">{{ __('Mean') }}:
-                        {{ number_format ( $total_actividades_grupo / $usuarios->count(), 2) }} {{ __('completed activities') }}</th>
-                    @if(Auth::user()->hasRole('admin'))
-                        <th></th>
-                    @endif
-                </tr>
-                @php($media = true)
-            @endif
-            <tr class="table-cell-click" data-href="{{ route('profesor.tareas', [$user->id]) }}">
-                <td class="p-0 pl-1
-                    @if($user->actividades_sin_completar()->count() == 0)
-                    bg-success
-                    @elseif($user->actividades_enviadas_noautoavance()->count() > 0)
-                    bg-danger
-                    @endif
-                    ">
-                    &nbsp;
+            <tr>
+                <td><img style="height:35px;" src="{{ $user->avatar_url(70)}}"
+                         onerror="this.onerror=null;this.src='{{ url("/svg/missing_avatar.svg") }}';"/>
                 </td>
-                <td class="clickable"><img style="height:35px;" src="{{ $user->avatar_url(70)}}"
-                                           onerror="this.onerror=null;this.src='{{ url("/svg/missing_avatar.svg") }}';"/>
-                </td>
-                <td class="clickable">
+                <td>
                     {{ $user->name }}
                     @include('profesor.partials.status_usuario')
                 </td>
                 @foreach($unidades as $unidad)
-                    <td>{{ $resultados_usuario_unidades[$user->id][$unidad->id]->actividad }}</td>
+                    <td class="text-center">{{ $resultados_usuario_unidades[$user->id][$unidad->id]->tarea + 0
+                    }}/{{ $resultados_usuario_unidades[$user->id][$unidad->id]->actividad + 0 }}</td>
                 @endforeach
-                <td class="clickable text-center">{{ $user->actividades_ocultas()->count() }}</td>
-                <td class="clickable text-center">{{ $user->actividades_nuevas()->count() }}</td>
-                <td class="clickable text-center">{{ $user->actividades_aceptadas()->count() }}</td>
-                <td class="clickable text-center {{ $user->actividades_enviadas_noautoavance()->count() > 0 ? 'bg-danger' : '' }}">{{ $user->actividades_enviadas_noautoavance()->count() }}</td>
-                @php($total_enviadas += $user->actividades_enviadas_noautoavance()->count())
-                <td class="clickable text-center">{{ $user->actividades_revisadas()->count() }}</td>
-                <td class="clickable text-center">{{ $user->actividades_archivadas()->count() }}</td>
-                <td class="clickable">{{ $user->max_simultaneas }}</td>
+                <td class="clickable text-center">{{ $user->actividades_completadas()->count() }}</td>
                 <td class="clickable">{{ $user->last_active_time }}</td>
             </tr>
         @endforeach
         </tbody>
         <tfoot class="thead-dark">
+        <tr class="bg-secondary">
+            <td colspan="{{ $unidades->count() + 2 }}" class="text-right">{{ __('Mean') }}:</td>
+            <td class="text-center">{{ number_format ( $total_actividades_grupo / $usuarios->count(), 2) }}</td>
+            <td></td>
+        </tr>
         <tr>
-            <th class="p-0"></th>
-            <th colspan="5">{{ __('Student total') }}: {{ $usuarios->count() }}</th>
-            <th class="text-center">{{ $total_enviadas>0 ? $total_enviadas : '' }}</th>
-            <th colspan="6"></th>
+            <th colspan="{{ $unidades->count() + 4 }}">{{ __('Student total') }}: {{ $usuarios->count() }}</th>
         </tr>
         </tfoot>
     </table>

@@ -24,25 +24,7 @@ class TutorController extends Controller
 
         $organization = Organization::find(setting_usuario('_organization_id'));
 
-        if ($request->has('filtro_alumnos')) {
-            session(['profesor_filtro_alumnos' => $request->input('filtro_alumnos')]);
-        }
-
-        switch (session('profesor_filtro_alumnos')) {
-            case 'R':
-                $usuarios = User::organizacionActual()->rolAlumno()
-                    ->whereHas('actividades', function ($query) {
-                        $query->where('auto_avance', false)->where('estado', 30);
-                    })
-                    ->orderBy('last_active')->get();
-                break;
-            case 'P':
-                $usuarios = User::organizacionActual()->rolAlumno()->orderBy('name')->get()->sortBy('actividades_completadas');
-                break;
-            default:
-                $usuarios = User::organizacionActual()->rolAlumno()->orderBy('name')->get();
-                break;
-        }
+        $usuarios = User::organizacionActual()->rolAlumno()->orderBy('name')->get();
 
         $unidades = Unidad::cursoActual()->orderBy('orden')->get();
 
