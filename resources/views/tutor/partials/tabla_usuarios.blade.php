@@ -4,10 +4,10 @@
         <tr>
             <th></th>
             <th>{{ __('Name') }}</th>
+            <th class="text-center">{{ __('Completed activities') }}</th>
             @foreach($unidades as $unidad)
                 <th class="text-center">{{ $unidad->nombre }}</th>
             @endforeach
-            <th class="text-center">{{ trans_choice('tasks.completed', 2) }}</th>
         </tr>
         </thead>
         <tbody>
@@ -20,6 +20,7 @@
                     <a href="mailto:{{ $user->email }}" class="text-dark">{{ $user->name }}</a>
                     @include('profesor.partials.status_usuario')
                 </td>
+                <td class="text-center {{ $user->actividades_completadas()->count() < $total_actividades_grupo / $usuarios->count() ? 'bg-warning text-dark' : '' }}">{{ $user->actividades_completadas()->count() }}</td>
                 @foreach($unidades as $unidad)
                     @php($porcentaje = $resultados_usuario_unidades[$user->id][$unidad->id]->actividad > 0
                     ? ($resultados_usuario_unidades[$user->id][$unidad->id]->tarea/$resultados_usuario_unidades[$user->id][$unidad->id]->actividad*100) : 0)
@@ -31,14 +32,14 @@
                         <td class="text-center">-</td>
                     @endif
                 @endforeach
-                <td class="text-center {{ $user->actividades_completadas()->count() < $total_actividades_grupo / $usuarios->count() ? 'bg-warning text-dark' : '' }}">{{ $user->actividades_completadas()->count() }}</td>
             </tr>
         @endforeach
         </tbody>
         <tfoot class="thead-dark">
         <tr class="bg-secondary">
-            <td colspan="{{ $unidades->count() + 2 }}" class="text-right">{{ __('Mean') }}:</td>
+            <td colspan="2" class="text-right">{{ __('Mean') }}:</td>
             <td class="text-center">{{ number_format ( $total_actividades_grupo / $usuarios->count(), 2) }}</td>
+            <td colspan="{{ $unidades->count() }}"></td>
         </tr>
         <tr>
             <th colspan="{{ $unidades->count() + 4 }}">{{ __('Student total') }}: {{ $usuarios->count() }}</th>
