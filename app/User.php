@@ -201,6 +201,12 @@ class User extends Authenticatable implements MustVerifyEmail
             });
     }
 
+    public function actividades_examen()
+    {
+        return $this->actividades()
+            ->where('tags', 'LIKE', '%examen%');
+    }
+
     public function teams()
     {
         return $this

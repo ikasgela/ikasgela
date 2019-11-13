@@ -21,6 +21,12 @@
                 {!! Form::hidden('filtro_alumnos','R') !!}
                 {!! Form::close() !!}
 
+                {!! Form::open(['route' => ['profesor.tareas', $user->id], 'method' => 'POST']) !!}
+                {!! Form::button(__('Exams'), ['type' => 'submit',
+                    'class' => session('profesor_filtro_alumnos') == 'E' ? 'btn btn-sm mx-1 btn-secondary' : 'btn btn-sm mx-1 btn-outline-secondary'
+                ]) !!}
+                {!! Form::hidden('filtro_alumnos','E') !!}
+                {!! Form::close() !!}
             </div>
         </div>
         <h2 class="text-muted font-xl"></h2>
