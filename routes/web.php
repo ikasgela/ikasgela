@@ -61,6 +61,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/alumnos', 'ProfesorController@index')
             ->name('profesor.index');
 
+        // Tutor
+        Route::get('/tutor', 'TutorController@index')
+            ->name('tutor.index');
+
         // Selector de unidad
         Route::post('/alumnos', 'ProfesorController@index')
             ->name('profesor.index');
