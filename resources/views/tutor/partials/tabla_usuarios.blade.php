@@ -26,13 +26,14 @@
                     ? ($resultados_usuario_unidades[$user->id][$unidad->id]->tarea/$resultados_usuario_unidades[$user->id][$unidad->id]->actividad*100) : 0)
                     @if($resultados_usuario_unidades[$user->id][$unidad->id]->actividad > 0)
                         <td class="text-center {{ $porcentaje<50 ? 'bg-warning text-dark' : '' }}">
-                            @if($porcentaje>0){{ $porcentaje }} %@endif</td>
+                            {{ number_format ( $porcentaje, 2 ) }} %
+                        </td>
                     @else
-                        <td></td>
+                        <td class="text-center">-</td>
                     @endif
                 @endforeach
-                <td class="clickable text-center {{ $user->actividades_completadas()->count() < $total_actividades_grupo / $usuarios->count() ? 'bg-warning text-dark' : '' }}">{{ $user->actividades_completadas()->count() }}</td>
-                <td class="clickable">{{ $user->last_active_time }}</td>
+                <td class="text-center {{ $user->actividades_completadas()->count() < $total_actividades_grupo / $usuarios->count() ? 'bg-warning text-dark' : '' }}">{{ $user->actividades_completadas()->count() }}</td>
+                <td>{{ $user->last_active_time }}</td>
             </tr>
         @endforeach
         </tbody>
