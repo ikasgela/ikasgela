@@ -61,10 +61,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/alumnos', 'ProfesorController@index')
             ->name('profesor.index');
 
-        // Tutor
-        Route::get('/tutor', 'TutorController@index')
-            ->name('tutor.index');
-
         // Selector de unidad
         Route::post('/alumnos', 'ProfesorController@index')
             ->name('profesor.index');
@@ -246,14 +242,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Ver entradas en el registro
         Route::get('/registros', 'RegistroController@index')
             ->name('registros.index');
-
-        // Ver resultados de otros alumnos
-        Route::post('/results', 'ResultController@index')
-            ->name('results.alumno');
-
-        // Ver archivo de otros alumnos
-        Route::post('/archivo', 'ArchivoController@index')
-            ->name('archivo.alumno');
     });
 
     // Alumnos y profesores
@@ -266,12 +254,32 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Responder a cuestionarios
         Route::put('/cuestionarios/{cuestionario}/respuesta', 'CuestionarioController@respuesta')
             ->name('cuestionarios.respuesta');
+    });
 
-        // Results
+    // Profesor y tutor
+    Route::middleware(['role:profesor|tutor'])->group(function () {
+
+        // Informe de grupo
+        Route::get('/tutor', 'TutorController@index')
+            ->name('tutor.index');
+
+        // Ver resultados de otros alumnos
+        Route::post('/results', 'ResultController@index')
+            ->name('results.alumno');
+
+        // Ver archivo de otros alumnos
+        Route::post('/archivo', 'ArchivoController@index')
+            ->name('archivo.alumno');
+    });
+
+    // Alumno, profesor y tutor
+    Route::middleware(['role:alumno|profesor|tutor'])->group(function () {
+
+        // Resultados propios
         Route::get('/results', 'ResultController@index')
             ->name('results.index');
 
-        // Archivo
+        // Archivo propio
         Route::get('/archivo/{actividad}', 'ArchivoController@show')
             ->name('archivo.show');
         Route::get('/archivo', 'ArchivoController@index')

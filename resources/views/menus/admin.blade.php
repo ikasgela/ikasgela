@@ -1,14 +1,4 @@
 <li class="nav-title">{{ __('Admin') }}</li>
-<li class="nav-item">
-    <a class="nav-link" href="{{ route('archivo.index') }}">
-        <i class="nav-icon fas fa-archive"></i> {{ __('Archived') }}
-    </a>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="{{ route('results.index') }}">
-        <i class="nav-icon fas fa-graduation-cap"></i> {{ __('Results') }}
-    </a>
-</li>
 <li class="nav-item nav-dropdown">
     <a class="nav-link nav-dropdown-toggle" href="#">
         <i class="nav-icon fas fa-database"></i> {{ __('Activities') }}

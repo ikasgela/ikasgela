@@ -12,7 +12,7 @@
                 @endif
             @endauth
             @auth
-                @if(Auth::user()->hasRole('profesor'))
+                @if(Auth::user()->hasRole('tutor'))
                     @include('menus.tutor')
                 @endif
             @endauth
