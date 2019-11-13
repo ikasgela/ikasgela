@@ -17,7 +17,7 @@
                          onerror="this.onerror=null;this.src='{{ url("/svg/missing_avatar.svg") }}';"/>
                 </td>
                 <td>
-                    {{ $user->name }}
+                    <a href="mailto:{{ $user->email }}" class="text-dark">{{ $user->name }}</a>
                     @include('profesor.partials.status_usuario')
                 </td>
                 @foreach($unidades as $unidad)
