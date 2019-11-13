@@ -44,20 +44,36 @@ class TutorController extends Controller
                 break;
         }
 
-        $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
-
-        if ($request->has('unidad_id')) {
-            session(['profesor_unidad_actual' => $request->input('unidad_id')]);
-        }
-
-        $disponibles = $this->actividadesDisponibles();
+        $unidades = Unidad::cursoActual()->orderBy('orden')->get();
 
         $total_actividades_grupo = 0;
         foreach ($usuarios as $usuario) {
             $total_actividades_grupo += $usuario->actividades_completadas()->count();
         }
 
-        return view('tutor.index', compact(['usuarios', 'unidades', 'disponibles', 'organization', 'total_actividades_grupo']));
+        // Resultados por usuario y unidades
+
+        $resultados_usuario_unidades = [];
+
+        foreach ($usuarios as $usuario) {
+
+            foreach ($unidades as $unidad) {
+                $resultados_usuario_unidades[$usuario->id][$unidad->id] = new Resultado();
+
+                foreach ($usuario->actividades->where('unidad_id', $unidad->id) as $actividad) {
+
+                    $puntuacion_actividad = $actividad->puntuacion * ($actividad->multiplicador ?: 1);
+                    $puntuacion_tarea = $actividad->tarea->puntuacion * ($actividad->multiplicador ?: 1);
+
+                    if ($puntuacion_actividad > 0) {
+                        $resultados_usuario_unidades[$usuario->id][$unidad->id]->actividad += $puntuacion_actividad;
+                        $resultados_usuario_unidades[$usuario->id][$unidad->id]->tarea += $puntuacion_tarea;
+                    }
+                }
+            }
+        }
+
+        return view('tutor.index', compact(['usuarios', 'unidades', 'organization', 'total_actividades_grupo', 'resultados_usuario_unidades']));
     }
 
     private function recuento_enviadas(): void
@@ -69,19 +85,6 @@ class TutorController extends Controller
             session(['num_enviadas' => $num_enviadas]);
         else
             session()->forget('num_enviadas');
-    }
-
-    private function actividadesDisponibles()
-    {
-        $actividades_curso = Actividad::plantilla()->cursoActual()->orderBy('orden');
-
-        if (session('profesor_unidad_actual')) {
-            $disponibles = $actividades_curso->where('unidad_id', session('profesor_unidad_actual'));
-        } else {
-            $disponibles = $actividades_curso;
-        }
-
-        return $disponibles->paginate(25);
     }
 
 }
