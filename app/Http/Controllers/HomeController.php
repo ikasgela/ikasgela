@@ -35,6 +35,8 @@ class HomeController extends Controller
 
             if ($user->hasAnyRole(['profesor', 'admin'])) {
                 return redirect(route('profesor.index'));
+            } else if ($user->hasAnyRole(['tutor'])) {
+                return redirect(route('tutor.index'));
             } else {
                 return redirect(route('users.home'));
             }

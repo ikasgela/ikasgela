@@ -5,7 +5,8 @@
             <div class="row">
                 <div class="col-12 col-sm-6 p-3">
                     <h5 class="card-title">
-                        {{ $user->name }}
+                        <a title="{{ __('Edit') }}" href="{{ route('users.edit', [$user->id]) }}"
+                           class="text-dark">{{ $user->name }}</a>
                         @include('profesor.partials.status_usuario')
                     </h5>
                     <a href="mailto:{{ $user->email }}" class="card-link">{{ $user->email }}</a>
