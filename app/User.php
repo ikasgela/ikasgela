@@ -292,6 +292,18 @@ class User extends Authenticatable implements MustVerifyEmail
         return $total;
     }
 
+    public function num_completadas($etiqueta, $unidad)
+    {
+        $total = 0;
+
+        foreach ($this->actividades_completadas()->where('unidad_id', $unidad)->get() as $actividad) {
+            if ($actividad->hasEtiqueta($etiqueta))
+                $total += 1;
+        }
+
+        return $total;
+    }
+
     public function etiquetas()
     {
         return array_map('trim', explode(',', $this->tags));

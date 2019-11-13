@@ -77,17 +77,17 @@
                             @endisset
                             {{ $unidad->nombre }}
                         </td>
-                        <td class="align-middle text-center {{ $unidad->num_actividades('base') > 0 ? $user->num_archivadas('base', $unidad->id) < $unidad->num_actividades('base') ? 'bg-warning text-dark' : 'bg-success' : '' }}">
-                            {{ $user->num_archivadas('base', $unidad->id).'/'. $unidad->num_actividades('base') }}
+                        <td class="align-middle text-center {{ $unidad->num_actividades('base') > 0 ? $user->num_completadas('base', $unidad->id) < $unidad->num_actividades('base') ? 'bg-warning text-dark' : 'bg-success' : '' }}">
+                            {{ $user->num_completadas('base', $unidad->id).'/'. $unidad->num_actividades('base') }}
                         </td>
                         <td class="align-middle text-center">
-                            {{ $user->num_archivadas('extra', $unidad->id) }}
+                            {{ $user->num_completadas('extra', $unidad->id) }}
                         </td>
                         <td class="align-middle text-center">
-                            {{ $user->num_archivadas('repaso', $unidad->id) }}
+                            {{ $user->num_completadas('repaso', $unidad->id) }}
                         </td>
                         <td class="align-middle text-center">
-                            {{ $user->num_archivadas('examen', $unidad->id) }}
+                            {{ $user->num_completadas('examen', $unidad->id) }}
                         </td>
                     </tr>
                 @endforeach
