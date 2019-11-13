@@ -22,6 +22,7 @@
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Description') }}</th>
                 <th>{{ __('Slug') }}</th>
+                <th>{{ __('Order') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -35,6 +36,7 @@
                     <td>{{ $unidad->nombre }}</td>
                     <td>{{ $unidad->descripcion }}</td>
                     <td>{{ $unidad->slug }}</td>
+                    <td>{{ $unidad->orden }}</td>
                     <td>
                         <form method="POST" action="{{ route('unidades.destroy', [$unidad->id]) }}">
                             @csrf

@@ -11,4 +11,5 @@ return [
     'archived' => 'Archived',
     'finished' => 'Finished',
     'last' => 'Last',
+    'completed' => 'Completed',
 ];

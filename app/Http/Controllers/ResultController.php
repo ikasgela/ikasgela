@@ -47,8 +47,8 @@ class ResultController extends Controller
 
             foreach ($user->actividades as $actividad) {
 
-                $puntuacion_actividad = $actividad->puntuacion;
-                $puntuacion_tarea = $actividad->tarea->puntuacion;
+                $puntuacion_actividad = $actividad->puntuacion * ($actividad->multiplicador ?: 1);
+                $puntuacion_tarea = $actividad->tarea->puntuacion * ($actividad->multiplicador ?: 1);
 
                 if ($puntuacion_actividad > 0) {
 
@@ -71,8 +71,27 @@ class ResultController extends Controller
 
         // Resultados por unidades
 
-        $unidades = Unidad::cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
+        $unidades = Unidad::cursoActual()->orderBy('orden')->get();
 
-        return view('results.index', compact(['curso', 'skills_curso', 'resultados', 'unidades', 'user', 'users']));
+        // Resultados por competencias
+
+        $resultados_unidades = [];
+
+        foreach ($unidades as $unidad) {
+            $resultados_unidades[$unidad->id] = new Resultado();
+
+            foreach ($user->actividades->where('unidad_id', $unidad->id) as $actividad) {
+
+                $puntuacion_actividad = $actividad->puntuacion * ($actividad->multiplicador ?: 1);
+                $puntuacion_tarea = $actividad->tarea->puntuacion * ($actividad->multiplicador ?: 1);
+
+                if ($puntuacion_actividad > 0) {
+                    $resultados_unidades[$unidad->id]->actividad += $puntuacion_actividad;
+                    $resultados_unidades[$unidad->id]->tarea += $puntuacion_tarea;
+                }
+            }
+        }
+
+        return view('results.index', compact(['curso', 'skills_curso', 'resultados', 'unidades', 'user', 'users', 'resultados_unidades']));
     }
 }

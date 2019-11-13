@@ -12,6 +12,11 @@
                 @endif
             @endauth
             @auth
+                @if(Auth::user()->hasRole('profesor'))
+                    @include('menus.tutor')
+                @endif
+            @endauth
+            @auth
                 @if(Auth::user()->hasRole('admin'))
                     @include('menus.admin')
                     @if(config('app.debug'))
