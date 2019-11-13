@@ -175,6 +175,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('file_uploads.asociar');
         Route::delete('/file_uploads/{actividad}/desasociar/{file_upload}', 'FileUploadController@desasociar')
             ->name('file_uploads.desasociar');
+
+        // Ver archivo de otros alumnos
+        Route::post('/archivo', 'ArchivoController@index')
+            ->name('archivo.alumno');
     });
 
     // Administrador
@@ -266,10 +270,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Ver resultados de otros alumnos
         Route::post('/results', 'ResultController@index')
             ->name('results.alumno');
-
-        // Ver archivo de otros alumnos
-        Route::post('/archivo', 'ArchivoController@index')
-            ->name('archivo.alumno');
     });
 
     // Alumno, profesor y tutor
