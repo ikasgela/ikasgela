@@ -39,7 +39,6 @@
         <tr class="bg-secondary">
             <td colspan="{{ $unidades->count() + 2 }}" class="text-right">{{ __('Mean') }}:</td>
             <td class="text-center">{{ number_format ( $total_actividades_grupo / $usuarios->count(), 2) }}</td>
-            <td></td>
         </tr>
         <tr>
             <th colspan="{{ $unidades->count() + 4 }}">{{ __('Student total') }}: {{ $usuarios->count() }}</th>
