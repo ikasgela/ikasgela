@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
+use App\Curso;
 use App\Organization;
 use App\Tarea;
 use App\Unidad;
@@ -23,6 +24,8 @@ class TutorController extends Controller
         $this->recuento_enviadas();
 
         $organization = Organization::find(setting_usuario('_organization_id'));
+
+        $curso = Curso::find(setting_usuario('curso_actual'));
 
         $usuarios = User::organizacionActual()->rolAlumno()->orderBy('name')->get();
 
@@ -55,7 +58,7 @@ class TutorController extends Controller
             }
         }
 
-        return view('tutor.index', compact(['usuarios', 'unidades', 'organization', 'total_actividades_grupo', 'resultados_usuario_unidades']));
+        return view('tutor.index', compact(['usuarios', 'unidades', 'organization', 'total_actividades_grupo', 'resultados_usuario_unidades', 'curso']));
     }
 
     private function recuento_enviadas(): void
