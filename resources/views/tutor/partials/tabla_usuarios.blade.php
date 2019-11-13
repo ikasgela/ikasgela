@@ -8,7 +8,6 @@
                 <th class="text-center">{{ $unidad->nombre }}</th>
             @endforeach
             <th class="text-center">{{ trans_choice('tasks.completed', 2) }}</th>
-            <th>{{ __('Activity') }}</th>
         </tr>
         </thead>
         <tbody>
@@ -33,7 +32,6 @@
                     @endif
                 @endforeach
                 <td class="text-center {{ $user->actividades_completadas()->count() < $total_actividades_grupo / $usuarios->count() ? 'bg-warning text-dark' : '' }}">{{ $user->actividades_completadas()->count() }}</td>
-                <td>{{ $user->last_active_time }}</td>
             </tr>
         @endforeach
         </tbody>
