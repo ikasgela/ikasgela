@@ -91,6 +91,15 @@ class ResultController extends Controller
 
         $unidades = Unidad::cursoActual()->orderBy('orden')->get();
 
+        // Actividades obligatorias
+
+        $actividades_obligatorias = true;
+        foreach ($unidades as $unidad) {
+            if ($unidad->num_actividades('base') > 0 && $user->num_completadas('base', $unidad->id) < $unidad->num_actividades('base')) {
+                $actividades_obligatorias = false;
+            }
+        }
+
         // Resultados por competencias
 
         $resultados_unidades = [];
@@ -110,6 +119,7 @@ class ResultController extends Controller
             }
         }
 
-        return view('results.index', compact(['curso', 'skills_curso', 'resultados', 'unidades', 'user', 'users', 'resultados_unidades', 'nota_final']));
+        return view('results.index', compact(['curso', 'skills_curso', 'unidades', 'user', 'users',
+            'resultados', 'resultados_unidades', 'nota_final', 'actividades_obligatorias']));
     }
 }
