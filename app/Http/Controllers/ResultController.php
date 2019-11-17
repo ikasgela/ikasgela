@@ -94,9 +94,14 @@ class ResultController extends Controller
         // Actividades obligatorias
 
         $actividades_obligatorias = true;
+        $num_actividades_obligatorias = 0;
         foreach ($unidades as $unidad) {
-            if ($unidad->num_actividades('base') > 0 && $user->num_completadas('base', $unidad->id) < $unidad->num_actividades('base')) {
-                $actividades_obligatorias = false;
+            if ($unidad->num_actividades('base') > 0) {
+                $num_actividades_obligatorias += 1;
+
+                if ($user->num_completadas('base', $unidad->id) < $unidad->num_actividades('base')) {
+                    $actividades_obligatorias = false;
+                }
             }
         }
 
@@ -136,6 +141,7 @@ class ResultController extends Controller
         }
 
         return view('results.index', compact(['curso', 'skills_curso', 'unidades', 'user', 'users',
-            'resultados', 'resultados_unidades', 'nota_final', 'actividades_obligatorias', 'pruebas_evaluacion', 'num_pruebas_evaluacion']));
+            'resultados', 'resultados_unidades', 'nota_final',
+            'actividades_obligatorias', 'num_actividades_obligatorias', 'pruebas_evaluacion', 'num_pruebas_evaluacion']));
     }
 }
