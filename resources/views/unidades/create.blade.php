@@ -39,6 +39,7 @@
             </div>
 
             {{ Form::campoTexto('orden', __('Order')) }}
+            {{ Form::campoTexto('tags', __('Tags')) }}
 
             @include('partials.guardar_cancelar')
 
