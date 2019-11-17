@@ -2,14 +2,17 @@
 
 namespace App;
 
+use App\Traits\Etiquetas;
 use Illuminate\Database\Eloquent\Model;
 
 class Unidad extends Model
 {
+    use Etiquetas;
+
     protected $table = 'unidades';
 
     protected $fillable = [
-        'curso_id', 'codigo', 'nombre', 'descripcion', 'slug', 'qualification_id', 'orden'
+        'curso_id', 'codigo', 'nombre', 'descripcion', 'slug', 'qualification_id', 'orden', 'tags'
     ];
 
     public function curso()
@@ -39,11 +42,11 @@ class Unidad extends Model
         return $query->where('curso_id', setting_usuario('curso_actual'));
     }
 
-    public function num_actividades($etiqueta)
+    public function num_actividades($etiqueta, $plantilla = true)
     {
         $total = 0;
 
-        foreach ($this->actividades()->where('plantilla', true)->get() as $actividad) {
+        foreach ($this->actividades()->where('plantilla', $plantilla)->get() as $actividad) {
             if ($actividad->hasEtiqueta($etiqueta))
                 $total += 1;
         }

@@ -33,7 +33,10 @@
                     <td>{{ $unidad->curso->category->period->organization->name }}
                         - {{ $unidad->curso->category->period->name }} - {{ $unidad->curso->nombre }}</td>
                     <td>{{ $unidad->codigo }}</td>
-                    <td>{{ $unidad->nombre }}</td>
+
+                    <td>
+                        @include('unidades.partials.nombre_con_etiquetas')
+                    </td>
                     <td>{{ $unidad->descripcion }}</td>
                     <td>{{ $unidad->slug }}</td>
                     <td>{{ $unidad->orden }}</td>

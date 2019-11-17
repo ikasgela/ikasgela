@@ -11,5 +11,5 @@ return [
     'archived' => 'Archivada|Archivadas',
     'finished' => 'Terminada|Terminadas',
     'last' => 'Última|Últimas',
-    'completed' => 'Completa|Completadas',
+    'completed' => 'Completada|Completadas',
 ];

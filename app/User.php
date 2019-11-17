@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\Etiquetas;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -14,6 +15,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     use LogsActivity;
     use Messagable;
+    use Etiquetas;
 
     /**
      * The attributes that are mass assignable.
@@ -302,10 +304,5 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         return $total;
-    }
-
-    public function etiquetas()
-    {
-        return array_map('trim', explode(',', $this->tags));
     }
 }

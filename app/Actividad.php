@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\Etiquetas;
 use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,6 +13,7 @@ class Actividad extends Model
     use Cloneable;
     use LogsActivity;
     use SoftDeletes;
+    use Etiquetas;
 
     protected $cloneable_relations = [
         'intellij_projects',
@@ -146,15 +148,5 @@ class Actividad extends Model
         }
 
         return $enviar;
-    }
-
-    public function etiquetas()
-    {
-        return array_map('trim', explode(',', $this->tags));
-    }
-
-    public function hasEtiqueta($etiqueta)
-    {
-        return in_array($etiqueta, $this->etiquetas());
     }
 }

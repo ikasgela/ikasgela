@@ -21,6 +21,42 @@
         {!! Form::close() !!}
     @endif
 
+    @include('partials.subtitulo', ['subtitulo' => __('Continuous evaluation')])
+
+    <div class="row mt-3 mb-0">
+        <div class="col-md-4">
+            <div
+                class="card mb-3 {{ $num_actividades_obligatorias > 0 ? $actividades_obligatorias ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
+                <div class="card-header">{{ __('Mandatory activities') }}</div>
+                <div class="card-body text-center">
+                    <p class="card-text"
+                       style="font-size:150%;">{{ $num_actividades_obligatorias > 0 ? $actividades_obligatorias ? trans_choice('tasks.completed', 2) : __('Not completed') : __('None') }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div
+                class="card mb-3 {{ $num_pruebas_evaluacion > 0 ? $pruebas_evaluacion ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
+                <div class="card-header">{{ __('Assessment tests') }}</div>
+                <div class="card-body text-center">
+                    <p class="card-text"
+                       style="font-size:150%;">
+                        {{ $num_pruebas_evaluacion > 0 ? $pruebas_evaluacion ? __('Passed') : __('Not passed') : __('None') }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div
+                class="card mb-3 {{ $actividades_obligatorias && $pruebas_evaluacion ? $nota_final >= 5 ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
+                <div class="card-header">{{ __('Calification') }}</div>
+                <div class="card-body text-center">
+                    <p class="card-text"
+                       style="font-size:150%;">{{ $actividades_obligatorias && $pruebas_evaluacion ? $nota_final : __('Unavailable') }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @include('partials.subtitulo', ['subtitulo' => __('Skills development')])
 
     @if(count($skills_curso) > 0)
@@ -65,31 +101,29 @@
                     <th class="text-center">{{ __('Base') }}</th>
                     <th class="text-center">{{ __('Extra') }}</th>
                     <th class="text-center">Repaso</th>
-                    <th class="text-center">{{ __('Exam') }}</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($unidades as $unidad)
-                    <tr>
-                        <td class="align-middle">
-                            @isset($unidad->codigo)
-                                {{ $unidad->codigo }} -
-                            @endisset
-                            {{ $unidad->nombre }}
-                        </td>
-                        <td class="align-middle text-center {{ $unidad->num_actividades('base') > 0 ? $user->num_completadas('base', $unidad->id) < $unidad->num_actividades('base') ? 'bg-warning text-dark' : 'bg-success' : '' }}">
-                            {{ $user->num_completadas('base', $unidad->id).'/'. $unidad->num_actividades('base') }}
-                        </td>
-                        <td class="align-middle text-center">
-                            {{ $user->num_completadas('extra', $unidad->id) }}
-                        </td>
-                        <td class="align-middle text-center">
-                            {{ $user->num_completadas('repaso', $unidad->id) }}
-                        </td>
-                        <td class="align-middle text-center">
-                            {{ $user->num_completadas('examen', $unidad->id) }}
-                        </td>
-                    </tr>
+                    @if(!$unidad->hasEtiqueta('examen'))
+                        <tr>
+                            <td class="align-middle">
+                                @isset($unidad->codigo)
+                                    {{ $unidad->codigo }} -
+                                @endisset
+                                @include('unidades.partials.nombre_con_etiquetas')
+                            </td>
+                            <td class="align-middle text-center {{ $unidad->num_actividades('base') > 0 ? $user->num_completadas('base', $unidad->id) < $unidad->num_actividades('base') ? 'bg-warning text-dark' : 'bg-success' : '' }}">
+                                {{ $user->num_completadas('base', $unidad->id).'/'. $unidad->num_actividades('base') }}
+                            </td>
+                            <td class="align-middle text-center">
+                                {{ $user->num_completadas('extra', $unidad->id) }}
+                            </td>
+                            <td class="align-middle text-center">
+                                {{ $user->num_completadas('repaso', $unidad->id) }}
+                            </td>
+                        </tr>
+                    @endif
                 @endforeach
                 </tbody>
             </table>
@@ -105,7 +139,8 @@
                         @isset($unidad->codigo)
                             {{ $unidad->codigo }} -
                         @endisset
-                        {{ $unidad->nombre }}</h5>
+                        @include('unidades.partials.nombre_con_etiquetas')
+                    </h5>
                     <p class="ml-5">{{ $unidad->descripcion }}</p>
                     <div class="ml-5 progress" style="height: 24px;">
                         @php($porcentaje = $resultados_unidades[$unidad->id]->actividad > 0 ? round($resultados_unidades[$unidad->id]->tarea/$resultados_unidades[$unidad->id]->actividad*100) : 0)

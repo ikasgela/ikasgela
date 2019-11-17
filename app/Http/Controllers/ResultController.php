@@ -7,11 +7,13 @@ use App\Unidad;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
+use NumberFormatter;
 
 class Resultado
 {
     public $actividad;
     public $tarea;
+    public $porcentaje;
 }
 
 class ResultController extends Controller
@@ -20,7 +22,7 @@ class ResultController extends Controller
     {
         $user = Auth::user();
 
-        if (!empty($request->input('user_id'))) {
+        if (!empty($request->input('user_id')) && $request->input('user_id') != -1) {
             $user = User::find($request->input('user_id'));
             session(['filtrar_user_actual' => $request->input('user_id')]);
         } else {
@@ -43,6 +45,7 @@ class ResultController extends Controller
 
             foreach ($skills_curso as $skill) {
                 $resultados[$skill->id] = new Resultado();
+                $resultados[$skill->id]->porcentaje = $skill->pivot->percentage;
             }
 
             foreach ($user->actividades as $actividad) {
@@ -69,11 +72,40 @@ class ResultController extends Controller
             }
         }
 
-        // Resultados por unidades
+        // Nota final
+        $nota = 0;
+        foreach ($resultados as $resultado) {
+            if ($resultado->actividad > 0)
+                $nota += ($resultado->tarea / $resultado->actividad) * ($resultado->porcentaje / 100);
+        }
+
+        $locale = (isset($_COOKIE['locale'])) ? $_COOKIE['locale'] : $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+        $formatStyle = NumberFormatter::DECIMAL;
+        $formatter = new NumberFormatter($locale, $formatStyle);
+        $formatter->setAttribute(\NumberFormatter::MIN_FRACTION_DIGITS, 2);
+        $formatter->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, 2);
+
+        $nota_final = $formatter->format($nota * 10);
+
+        // Unidades
 
         $unidades = Unidad::cursoActual()->orderBy('orden')->get();
 
-        // Resultados por competencias
+        // Actividades obligatorias
+
+        $actividades_obligatorias = true;
+        $num_actividades_obligatorias = 0;
+        foreach ($unidades as $unidad) {
+            if ($unidad->num_actividades('base') > 0) {
+                $num_actividades_obligatorias += 1;
+
+                if ($user->num_completadas('base', $unidad->id) < $unidad->num_actividades('base')) {
+                    $actividades_obligatorias = false;
+                }
+            }
+        }
+
+        // Resultados por unidades
 
         $resultados_unidades = [];
 
@@ -92,6 +124,24 @@ class ResultController extends Controller
             }
         }
 
-        return view('results.index', compact(['curso', 'skills_curso', 'resultados', 'unidades', 'user', 'users', 'resultados_unidades']));
+        // Pruebas de evaluación
+
+        $pruebas_evaluacion = false;
+        $num_pruebas_evaluacion = 0;
+        foreach ($unidades as $unidad) {
+            if ($unidad->hasEtiqueta('examen')
+                && $user->num_completadas('examen', $unidad->id) > 0
+                && $resultados_unidades[$unidad->id]->actividad > 0) {
+                $num_pruebas_evaluacion += 1;
+
+                if (($resultados_unidades[$unidad->id]->tarea / $resultados_unidades[$unidad->id]->actividad) * 10 >= 5) {
+                    $pruebas_evaluacion = true;
+                }
+            }
+        }
+
+        return view('results.index', compact(['curso', 'skills_curso', 'unidades', 'user', 'users',
+            'resultados', 'resultados_unidades', 'nota_final',
+            'actividades_obligatorias', 'num_actividades_obligatorias', 'pruebas_evaluacion', 'num_pruebas_evaluacion']));
     }
 }
