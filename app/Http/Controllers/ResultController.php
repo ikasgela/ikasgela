@@ -22,7 +22,7 @@ class ResultController extends Controller
     {
         $user = Auth::user();
 
-        if (!empty($request->input('user_id'))) {
+        if (!empty($request->input('user_id')) && $request->input('user_id') != -1) {
             $user = User::find($request->input('user_id'));
             session(['filtrar_user_actual' => $request->input('user_id')]);
         } else {
