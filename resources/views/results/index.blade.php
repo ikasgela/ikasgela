@@ -21,6 +21,35 @@
         {!! Form::close() !!}
     @endif
 
+    @if(Auth::user()->hasAnyRole(['profesor']))
+        <div class="row mt-3 mb-0">
+            <div class="col-md-4">
+                <div class="card mb-3 {{ $nota_final >= 5 ? 'bg-success text-white' : 'bg-warning text-dark' }}">
+                    <div class="card-header">Calificación</div>
+                    <div class="card-body text-center">
+                        <p class="card-text" style="font-size:150%;">{{ $nota_final }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-header">Actividades obligatorias</div>
+                    <div class="card-body text-center">
+                        <p class="card-text" style="font-size:150%;">Sin completar</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-header">Pruebas de evaluación</div>
+                    <div class="card-body text-center">
+                        <p class="card-text" style="font-size:150%;">Superadas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
     @include('partials.subtitulo', ['subtitulo' => __('Skills development')])
 
     @if(count($skills_curso) > 0)
@@ -52,10 +81,6 @@
         {{-- Fin tarjeta--}}
     @else
         <p>{{ __('No skills assigned.') }}</p>
-    @endif
-
-    @if(Auth::user()->hasAnyRole(['profesor']))
-        <h2>Nota: {{ $nota }}</h2>
     @endif
 
     @include('partials.subtitulo', ['subtitulo' => __('Completed activities')])

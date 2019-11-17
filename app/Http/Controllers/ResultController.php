@@ -7,11 +7,13 @@ use App\Unidad;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
+use NumberFormatter;
 
 class Resultado
 {
     public $actividad;
     public $tarea;
+    public $porcentaje;
 }
 
 class ResultController extends Controller
@@ -43,6 +45,7 @@ class ResultController extends Controller
 
             foreach ($skills_curso as $skill) {
                 $resultados[$skill->id] = new Resultado();
+                $resultados[$skill->id]->porcentaje = $skill->pivot->percentage;
             }
 
             foreach ($user->actividades as $actividad) {
@@ -70,13 +73,19 @@ class ResultController extends Controller
         }
 
         // Nota final
-        $total_tareas = 0;
-        $total_actividades = 0;
-        foreach ($skills_curso as $skill) {
-            $total_tareas += $resultados[$skill->id]->tarea * $skill->pivot->percentage / 100;
-            $total_actividades += $resultados[$skill->id]->actividad * $skill->pivot->percentage / 100;
+        $nota = 0;
+        foreach ($resultados as $resultado) {
+            if ($resultado->actividad > 0)
+                $nota += ($resultado->tarea / $resultado->actividad) * ($resultado->porcentaje / 100);
         }
-        $nota = $total_actividades > 0 ? number_format($total_tareas / $total_actividades * 10, 2) : 0;
+
+        $locale = (isset($_COOKIE['locale'])) ? $_COOKIE['locale'] : $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+        $formatStyle = NumberFormatter::DECIMAL;
+        $formatter = new NumberFormatter($locale, $formatStyle);
+        $formatter->setAttribute(\NumberFormatter::MIN_FRACTION_DIGITS, 2);
+        $formatter->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, 2);
+
+        $nota_final = $formatter->format($nota * 10);
 
         // Resultados por unidades
 
@@ -101,6 +110,6 @@ class ResultController extends Controller
             }
         }
 
-        return view('results.index', compact(['curso', 'skills_curso', 'resultados', 'unidades', 'user', 'users', 'resultados_unidades', 'nota']));
+        return view('results.index', compact(['curso', 'skills_curso', 'resultados', 'unidades', 'user', 'users', 'resultados_unidades', 'nota_final']));
     }
 }
