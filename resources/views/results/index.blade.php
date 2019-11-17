@@ -104,31 +104,29 @@
                     <th class="text-center">{{ __('Base') }}</th>
                     <th class="text-center">{{ __('Extra') }}</th>
                     <th class="text-center">Repaso</th>
-                    <th class="text-center">{{ __('Exam') }}</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($unidades as $unidad)
-                    <tr>
-                        <td class="align-middle">
-                            @isset($unidad->codigo)
-                                {{ $unidad->codigo }} -
-                            @endisset
-                            @include('unidades.partials.nombre_con_etiquetas')
-                        </td>
-                        <td class="align-middle text-center {{ $unidad->num_actividades('base') > 0 ? $user->num_completadas('base', $unidad->id) < $unidad->num_actividades('base') ? 'bg-warning text-dark' : 'bg-success' : '' }}">
-                            {{ $user->num_completadas('base', $unidad->id).'/'. $unidad->num_actividades('base') }}
-                        </td>
-                        <td class="align-middle text-center">
-                            {{ $user->num_completadas('extra', $unidad->id) }}
-                        </td>
-                        <td class="align-middle text-center">
-                            {{ $user->num_completadas('repaso', $unidad->id) }}
-                        </td>
-                        <td class="align-middle text-center">
-                            {{ $user->num_completadas('examen', $unidad->id) }}
-                        </td>
-                    </tr>
+                    @if(!$unidad->hasEtiqueta('examen'))
+                        <tr>
+                            <td class="align-middle">
+                                @isset($unidad->codigo)
+                                    {{ $unidad->codigo }} -
+                                @endisset
+                                @include('unidades.partials.nombre_con_etiquetas')
+                            </td>
+                            <td class="align-middle text-center {{ $unidad->num_actividades('base') > 0 ? $user->num_completadas('base', $unidad->id) < $unidad->num_actividades('base') ? 'bg-warning text-dark' : 'bg-success' : '' }}">
+                                {{ $user->num_completadas('base', $unidad->id).'/'. $unidad->num_actividades('base') }}
+                            </td>
+                            <td class="align-middle text-center">
+                                {{ $user->num_completadas('extra', $unidad->id) }}
+                            </td>
+                            <td class="align-middle text-center">
+                                {{ $user->num_completadas('repaso', $unidad->id) }}
+                            </td>
+                        </tr>
+                    @endif
                 @endforeach
                 </tbody>
             </table>
