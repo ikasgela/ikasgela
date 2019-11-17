@@ -21,44 +21,41 @@
         {!! Form::close() !!}
     @endif
 
-    @if(Auth::user()->hasAnyRole(['profesor']))
+    @include('partials.subtitulo', ['subtitulo' => __('Continuous evaluation')])
 
-        @include('partials.subtitulo', ['subtitulo' => __('Continuous evaluation')])
-
-        <div class="row mt-3 mb-0">
-            <div class="col-md-4">
-                <div
-                    class="card mb-3 {{ $num_actividades_obligatorias > 0 ? $actividades_obligatorias ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
-                    <div class="card-header">{{ __('Mandatory activities') }}</div>
-                    <div class="card-body text-center">
-                        <p class="card-text"
-                           style="font-size:150%;">{{ $num_actividades_obligatorias > 0 ? $actividades_obligatorias ? trans_choice('tasks.completed', 2) : __('Not completed') : __('None') }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div
-                    class="card mb-3 {{ $num_pruebas_evaluacion > 0 ? $pruebas_evaluacion ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
-                    <div class="card-header">{{ __('Assessment tests') }}</div>
-                    <div class="card-body text-center">
-                        <p class="card-text"
-                           style="font-size:150%;">
-                            {{ $num_pruebas_evaluacion > 0 ? $pruebas_evaluacion ? __('Passed') : __('Not passed') : __('None') }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div
-                    class="card mb-3 {{ $actividades_obligatorias && $pruebas_evaluacion ? $nota_final >= 5 ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
-                    <div class="card-header">{{ __('Calification') }}</div>
-                    <div class="card-body text-center">
-                        <p class="card-text"
-                           style="font-size:150%;">{{ $actividades_obligatorias && $pruebas_evaluacion ? $nota_final : __('Unavailable') }}</p>
-                    </div>
+    <div class="row mt-3 mb-0">
+        <div class="col-md-4">
+            <div
+                class="card mb-3 {{ $num_actividades_obligatorias > 0 ? $actividades_obligatorias ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
+                <div class="card-header">{{ __('Mandatory activities') }}</div>
+                <div class="card-body text-center">
+                    <p class="card-text"
+                       style="font-size:150%;">{{ $num_actividades_obligatorias > 0 ? $actividades_obligatorias ? trans_choice('tasks.completed', 2) : __('Not completed') : __('None') }}</p>
                 </div>
             </div>
         </div>
-    @endif
+        <div class="col-md-4">
+            <div
+                class="card mb-3 {{ $num_pruebas_evaluacion > 0 ? $pruebas_evaluacion ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
+                <div class="card-header">{{ __('Assessment tests') }}</div>
+                <div class="card-body text-center">
+                    <p class="card-text"
+                       style="font-size:150%;">
+                        {{ $num_pruebas_evaluacion > 0 ? $pruebas_evaluacion ? __('Passed') : __('Not passed') : __('None') }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div
+                class="card mb-3 {{ $actividades_obligatorias && $pruebas_evaluacion ? $nota_final >= 5 ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
+                <div class="card-header">{{ __('Calification') }}</div>
+                <div class="card-body text-center">
+                    <p class="card-text"
+                       style="font-size:150%;">{{ $actividades_obligatorias && $pruebas_evaluacion ? $nota_final : __('Unavailable') }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     @include('partials.subtitulo', ['subtitulo' => __('Skills development')])
 
