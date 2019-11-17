@@ -141,7 +141,8 @@
                         @isset($unidad->codigo)
                             {{ $unidad->codigo }} -
                         @endisset
-                        {{ $unidad->nombre }}</h5>
+                        @include('unidades.partials.nombre_con_etiquetas')
+                    </h5>
                     <p class="ml-5">{{ $unidad->descripcion }}</p>
                     <div class="ml-5 progress" style="height: 24px;">
                         @php($porcentaje = $resultados_unidades[$unidad->id]->actividad > 0 ? round($resultados_unidades[$unidad->id]->tarea/$resultados_unidades[$unidad->id]->actividad*100) : 0)
