@@ -21,9 +21,10 @@
         {!! Form::close() !!}
     @endif
 
-    @include('partials.subtitulo', ['subtitulo' => __('Continuous evaluation')])
-
     @if(Auth::user()->hasAnyRole(['profesor']))
+
+        @include('partials.subtitulo', ['subtitulo' => __('Continuous evaluation')])
+
         <div class="row mt-3 mb-0">
             <div class="col-md-4">
                 <div
