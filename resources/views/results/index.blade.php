@@ -114,7 +114,7 @@
                             @isset($unidad->codigo)
                                 {{ $unidad->codigo }} -
                             @endisset
-                            {{ $unidad->nombre }}
+                            @include('unidades.partials.nombre_con_etiquetas')
                         </td>
                         <td class="align-middle text-center {{ $unidad->num_actividades('base') > 0 ? $user->num_completadas('base', $unidad->id) < $unidad->num_actividades('base') ? 'bg-warning text-dark' : 'bg-success' : '' }}">
                             {{ $user->num_completadas('base', $unidad->id).'/'. $unidad->num_actividades('base') }}
