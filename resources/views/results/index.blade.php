@@ -37,20 +37,23 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card text-white bg-success mb-3">
-                    <div class="card-header">Pruebas de evaluación</div>
+                <div
+                    class="card mb-3 {{ $num_pruebas_evaluacion > 0 ? $pruebas_evaluacion ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
+                    <div class="card-header">{{ __('Assessment tests') }}</div>
                     <div class="card-body text-center">
-                        <p class="card-text" style="font-size:150%;">Superadas</p>
+                        <p class="card-text"
+                           style="font-size:150%;">
+                            {{ $num_pruebas_evaluacion > 0 ? $pruebas_evaluacion ? __('Passed') : __('Not passed') : __('None') }}</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div
-                    class="card mb-3 {{ $actividades_obligatorias ? $nota_final >= 5 ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
+                    class="card mb-3 {{ $actividades_obligatorias && $pruebas_evaluacion ? $nota_final >= 5 ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
                     <div class="card-header">{{ __('Calification') }}</div>
                     <div class="card-body text-center">
                         <p class="card-text"
-                           style="font-size:150%;">{{ $actividades_obligatorias ? $nota_final : __('Unavailable') }}</p>
+                           style="font-size:150%;">{{ $actividades_obligatorias && $pruebas_evaluacion ? $nota_final : __('Unavailable') }}</p>
                     </div>
                 </div>
             </div>

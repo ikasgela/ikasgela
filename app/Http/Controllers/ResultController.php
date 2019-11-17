@@ -87,7 +87,7 @@ class ResultController extends Controller
 
         $nota_final = $formatter->format($nota * 10);
 
-        // Resultados por unidades
+        // Unidades
 
         $unidades = Unidad::cursoActual()->orderBy('orden')->get();
 
@@ -100,7 +100,7 @@ class ResultController extends Controller
             }
         }
 
-        // Resultados por competencias
+        // Resultados por unidades
 
         $resultados_unidades = [];
 
@@ -119,7 +119,23 @@ class ResultController extends Controller
             }
         }
 
+        // Pruebas de evaluación
+
+        $pruebas_evaluacion = true;
+        $num_pruebas_evaluacion = 0;
+        foreach ($unidades as $unidad) {
+            if ($unidad->hasEtiqueta('examen')
+                && $unidad->num_actividades('examen') > 0
+                && $resultados_unidades[$unidad->id]->actividad > 0) {
+                $num_pruebas_evaluacion += 1;
+
+                if ($resultados_unidades[$unidad->id]->tarea / $resultados_unidades[$unidad->id]->actividad * 10 < 5) {
+                    $pruebas_evaluacion = false;
+                }
+            }
+        }
+
         return view('results.index', compact(['curso', 'skills_curso', 'unidades', 'user', 'users',
-            'resultados', 'resultados_unidades', 'nota_final', 'actividades_obligatorias']));
+            'resultados', 'resultados_unidades', 'nota_final', 'actividades_obligatorias', 'pruebas_evaluacion', 'num_pruebas_evaluacion']));
     }
 }
