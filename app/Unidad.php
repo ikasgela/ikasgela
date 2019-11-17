@@ -2,14 +2,17 @@
 
 namespace App;
 
+use App\Traits\Etiquetas;
 use Illuminate\Database\Eloquent\Model;
 
 class Unidad extends Model
 {
+    use Etiquetas;
+
     protected $table = 'unidades';
 
     protected $fillable = [
-        'curso_id', 'codigo', 'nombre', 'descripcion', 'slug', 'qualification_id', 'orden'
+        'curso_id', 'codigo', 'nombre', 'descripcion', 'slug', 'qualification_id', 'orden', 'tags'
     ];
 
     public function curso()
