@@ -54,6 +54,10 @@
         <p>{{ __('No skills assigned.') }}</p>
     @endif
 
+    @if(Auth::user()->hasAnyRole(['profesor']))
+        <h2>Nota: {{ $nota }}</h2>
+    @endif
+
     @include('partials.subtitulo', ['subtitulo' => __('Completed activities')])
 
     @if($unidades->count() > 0)

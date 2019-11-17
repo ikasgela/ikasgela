@@ -69,6 +69,15 @@ class ResultController extends Controller
             }
         }
 
+        // Nota final
+        $total_tareas = 0;
+        $total_actividades = 0;
+        foreach ($skills_curso as $skill) {
+            $total_tareas += $resultados[$skill->id]->tarea * $skill->pivot->percentage / 100;
+            $total_actividades += $resultados[$skill->id]->actividad * $skill->pivot->percentage / 100;
+        }
+        $nota = $total_actividades > 0 ? number_format($total_tareas / $total_actividades * 10, 2) : 0;
+
         // Resultados por unidades
 
         $unidades = Unidad::cursoActual()->orderBy('orden')->get();
@@ -92,6 +101,6 @@ class ResultController extends Controller
             }
         }
 
-        return view('results.index', compact(['curso', 'skills_curso', 'resultados', 'unidades', 'user', 'users', 'resultados_unidades']));
+        return view('results.index', compact(['curso', 'skills_curso', 'resultados', 'unidades', 'user', 'users', 'resultados_unidades', 'nota']));
     }
 }
