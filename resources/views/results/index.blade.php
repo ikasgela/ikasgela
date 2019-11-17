@@ -27,15 +27,6 @@
         <div class="row mt-3 mb-0">
             <div class="col-md-4">
                 <div
-                    class="card mb-3 {{ $actividades_obligatorias ? $nota_final >= 5 ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
-                    <div class="card-header">{{ __('Calification') }}</div>
-                    <div class="card-body text-center">
-                        <p class="card-text" style="font-size:150%;">{{ $nota_final }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div
                     class="card mb-3 {{ $actividades_obligatorias ? 'bg-success text-white' : 'bg-warning text-dark' }}">
                     <div class="card-header">{{ __('Mandatory activities') }}</div>
                     <div class="card-body text-center">
@@ -49,6 +40,16 @@
                     <div class="card-header">Pruebas de evaluación</div>
                     <div class="card-body text-center">
                         <p class="card-text" style="font-size:150%;">Superadas</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div
+                    class="card mb-3 {{ $actividades_obligatorias ? $nota_final >= 5 ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
+                    <div class="card-header">{{ __('Calification') }}</div>
+                    <div class="card-body text-center">
+                        <p class="card-text"
+                           style="font-size:150%;">{{ $actividades_obligatorias ? $nota_final : __('Unavailable') }}</p>
                     </div>
                 </div>
             </div>
