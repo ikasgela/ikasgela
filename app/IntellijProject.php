@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class IntellijProject extends Model
 {
     protected $fillable = [
-        'repositorio', 'titulo', 'descripcion'
+        'repositorio', 'titulo', 'descripcion', 'archivado'
     ];
 
     public function actividades()
