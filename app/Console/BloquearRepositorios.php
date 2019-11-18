@@ -16,18 +16,18 @@ class BloquearRepositorios
 
         foreach ($actividades as $actividad) {
             foreach ($actividad->intellij_projects as $intellij_project) {
-                if (!$intellij_project->archivado) {
+                if (!$intellij_project->isArchivado()) {
                     $proyecto_gitlab = $intellij_project->gitlab();
                     if (!$proyecto_gitlab['archived']) {
                         GitLab::projects()->archive($proyecto_gitlab['id']);
-                        $intellij_project->archivado = true;
-                        $intellij_project->save();
+                        $actividad->intellij_projects()
+                            ->updateExistingPivot($intellij_project->id, ['archivado' => true]);
                         $total += 1;
                     }
                 }
             }
         }
 
-        echo 'Repositorios archivados: ' . $total;
+        echo "Repositorios archivados: $total\n";
     }
 }

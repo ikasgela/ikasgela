@@ -13,7 +13,7 @@ class AddArchivadoToIntellijProjectsTable extends Migration
      */
     public function up()
     {
-        Schema::table('intellij_projects', function (Blueprint $table) {
+        Schema::table('actividad_intellij_project', function (Blueprint $table) {
             $table->boolean('archivado')->nullable()->default(false);
         });
     }
@@ -25,7 +25,7 @@ class AddArchivadoToIntellijProjectsTable extends Migration
      */
     public function down()
     {
-        Schema::table('intellij_projects', function (Blueprint $table) {
+        Schema::table('actividad_intellij_project', function (Blueprint $table) {
             $table->dropColumn('archivado');
         });
     }

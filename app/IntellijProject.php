@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class IntellijProject extends Model
 {
     protected $fillable = [
-        'repositorio', 'titulo', 'descripcion', 'archivado'
+        'repositorio', 'titulo', 'descripcion'
     ];
 
     public function actividades()
@@ -17,7 +17,8 @@ class IntellijProject extends Model
             ->belongsToMany(Actividad::class)
             ->withTimestamps()
             ->withPivot([
-                'fork'
+                'fork',
+                'archivado'
             ]);
     }
 
@@ -43,5 +44,10 @@ class IntellijProject extends Model
     public function isForked()
     {
         return isset($this->pivot->fork) && strlen($this->pivot->fork) > 2;
+    }
+
+    public function isArchivado()
+    {
+        return $this->pivot->archivado;
     }
 }
