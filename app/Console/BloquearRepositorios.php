@@ -10,7 +10,8 @@ class BloquearRepositorios
 {
     public function __invoke()
     {
-        $actividades = Actividad::where('plantilla', false)->where('fecha_limite', '<=', Carbon::now())->get();
+        $actividades = Actividad::where('plantilla', false)
+            ->where('fecha_limite', '<=', Carbon::now())->get();
 
         $total = 0;
 
