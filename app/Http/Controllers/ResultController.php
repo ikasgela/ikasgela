@@ -39,7 +39,6 @@ class ResultController extends Controller
 
         $skills_curso = [];
         $resultados = [];
-        $porcentaje_total = 0;
 
         if (!is_null($curso) && !is_null($curso->qualification)) {
             $skills_curso = $curso->qualification->skills;
@@ -47,7 +46,6 @@ class ResultController extends Controller
             foreach ($skills_curso as $skill) {
                 $resultados[$skill->id] = new Resultado();
                 $resultados[$skill->id]->porcentaje = $skill->pivot->percentage;
-                $porcentaje_total += $skill->pivot->percentage;
             }
 
             foreach ($user->actividades as $actividad) {
@@ -76,10 +74,17 @@ class ResultController extends Controller
 
         // Nota final
         $nota = 0;
+        $porcentaje_total = 0;
         foreach ($resultados as $resultado) {
-            if ($resultado->actividad > 0)
+            if ($resultado->actividad > 0) {
                 $nota += ($resultado->tarea / $resultado->actividad) * ($resultado->porcentaje / 100);
+                $porcentaje_total += $resultado->porcentaje;
+            }
         }
+
+        if ($porcentaje_total == 0)
+            $porcentaje_total = 100;
+
         $nota = $nota / $porcentaje_total * 100;    // Por si el total de competencias suma más del 100%
 
         $locale = (isset($_COOKIE['locale'])) ? $_COOKIE['locale'] : $_SERVER['HTTP_ACCEPT_LANGUAGE'];
