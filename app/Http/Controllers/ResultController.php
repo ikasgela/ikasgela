@@ -154,9 +154,11 @@ class ResultController extends Controller
             $total_actividades_grupo += $usuario->actividades_completadas()->count();
         }
 
+        $media_actividades_grupo = $formatter->format($total_actividades_grupo / $users->count());
+
         return view('results.index', compact(['curso', 'skills_curso', 'unidades', 'user', 'users',
             'resultados', 'resultados_unidades', 'nota_final',
             'actividades_obligatorias', 'num_actividades_obligatorias', 'pruebas_evaluacion', 'num_pruebas_evaluacion',
-            'total_actividades_grupo']));
+            'media_actividades_grupo']));
     }
 }
