@@ -128,6 +128,12 @@
                     @endif
                 @endforeach
                 </tbody>
+                <tfoot class="thead-dark">
+                <tr>
+                    <th colspan="4">Actividades completadas: {{ $user->actividades_completadas()->count() }} - Media del
+                        grupo: {{ number_format ( $total_actividades_grupo / $users->count(), 2) }}</th>
+                </tr>
+                </tfoot>
             </table>
         </div>
 

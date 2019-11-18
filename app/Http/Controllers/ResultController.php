@@ -33,7 +33,7 @@ class ResultController extends Controller
         $curso = Curso::find(setting_usuario('curso_actual'));
         $users = null;
         if (!is_null($curso))
-            $users = $curso->users()->orderBy('name')->get();
+            $users = $curso->users()->rolAlumno()->orderBy('name')->get();
 
         // Resultados por competencias
 
@@ -148,8 +148,15 @@ class ResultController extends Controller
             }
         }
 
+        // Media de actividades
+        $total_actividades_grupo = 0;
+        foreach ($users as $usuario) {
+            $total_actividades_grupo += $usuario->actividades_completadas()->count();
+        }
+
         return view('results.index', compact(['curso', 'skills_curso', 'unidades', 'user', 'users',
             'resultados', 'resultados_unidades', 'nota_final',
-            'actividades_obligatorias', 'num_actividades_obligatorias', 'pruebas_evaluacion', 'num_pruebas_evaluacion']));
+            'actividades_obligatorias', 'num_actividades_obligatorias', 'pruebas_evaluacion', 'num_pruebas_evaluacion',
+            'total_actividades_grupo']));
     }
 }
