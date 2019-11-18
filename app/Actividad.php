@@ -74,7 +74,8 @@ class Actividad extends Model
             ->belongsToMany(IntellijProject::class)
             ->withTimestamps()
             ->withPivot([
-                'fork'
+                'fork',
+                'archivado'
             ]);
     }
 
