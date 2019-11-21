@@ -12,4 +12,6 @@ return [
     'finished' => 'Terminada|Terminadas',
     'last' => 'Última|Últimas',
     'completed' => 'Completada|Completadas',
+    'passed' => 'Superada|Superadas',
+    'not_passed' => 'No superada|No superadas',
 ];

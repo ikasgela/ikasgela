@@ -39,6 +39,7 @@ class ResultController extends Controller
 
         $skills_curso = [];
         $resultados = [];
+        $competencias_50_porciento = true;
 
         if (!is_null($curso) && !is_null($curso->qualification)) {
             $skills_curso = $curso->qualification->skills;
@@ -68,6 +69,9 @@ class ResultController extends Controller
                         $resultados[$skill->id]->actividad += $puntuacion_actividad * $porcentaje / 100;
                         $resultados[$skill->id]->tarea += $puntuacion_tarea * $porcentaje / 100;
                     }
+
+                    if ($resultados[$skill->id]->tarea / $resultados[$skill->id]->actividad < 0.5)
+                        $competencias_50_porciento = false;
                 }
             }
         }
@@ -164,7 +168,8 @@ class ResultController extends Controller
 
         return view('results.index', compact(['curso', 'skills_curso', 'unidades', 'user', 'users',
             'resultados', 'resultados_unidades', 'nota_final',
-            'actividades_obligatorias', 'num_actividades_obligatorias', 'numero_actividades_completadas', 'pruebas_evaluacion', 'num_pruebas_evaluacion',
-            'media_actividades_grupo']));
+            'actividades_obligatorias', 'num_actividades_obligatorias', 'numero_actividades_completadas',
+            'pruebas_evaluacion', 'num_pruebas_evaluacion',
+            'media_actividades_grupo', 'competencias_50_porciento']));
     }
 }
