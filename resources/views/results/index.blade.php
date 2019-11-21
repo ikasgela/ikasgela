@@ -30,7 +30,7 @@
                 <div class="card-header">{{ __('Mandatory activities') }}</div>
                 <div class="card-body text-center">
                     <p class="card-text"
-                       style="font-size:150%;">{{ $num_actividades_obligatorias > 0 ? $actividades_obligatorias ? trans_choice('tasks.completed', 2) : ($actividades_obligatorias+0)."/".($num_actividades_obligatorias+0)  : __('None') }}</p>
+                       style="font-size:150%;">{{ $num_actividades_obligatorias > 0 ? $actividades_obligatorias ? trans_choice('tasks.completed', 2) : ($user->num_completadas('base')+0)."/".($num_actividades_obligatorias+0)  : __('None') }}</p>
                 </div>
             </div>
         </div>
