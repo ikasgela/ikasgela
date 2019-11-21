@@ -294,11 +294,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $total;
     }
 
-    public function num_completadas($etiqueta, $unidad)
+    public function num_completadas($etiqueta, $unidad = null)
     {
         $total = 0;
 
-        foreach ($this->actividades_completadas()->where('unidad_id', $unidad)->get() as $actividad) {
+        $query = $this->actividades_completadas();
+
+        if (!is_null($unidad))
+            $query = $query->where('unidad_id', $unidad);
+
+        foreach ($query->get() as $actividad) {
             if ($actividad->hasEtiqueta($etiqueta))
                 $total += 1;
         }

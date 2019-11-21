@@ -105,7 +105,7 @@ class ResultController extends Controller
         $num_actividades_obligatorias = 0;
         foreach ($unidades as $unidad) {
             if ($unidad->num_actividades('base') > 0) {
-                $num_actividades_obligatorias += 1;
+                $num_actividades_obligatorias += $unidad->num_actividades('base');
 
                 if ($user->num_completadas('base', $unidad->id) < $unidad->num_actividades('base')) {
                     $actividades_obligatorias = false;
