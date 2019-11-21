@@ -87,14 +87,6 @@ class ResultController extends Controller
 
         $nota = $nota / $porcentaje_total * 100;    // Por si el total de competencias suma más del 100%
 
-        $locale = (isset($_COOKIE['locale'])) ? $_COOKIE['locale'] : $_SERVER['HTTP_ACCEPT_LANGUAGE'];
-        $formatStyle = NumberFormatter::DECIMAL;
-        $formatter = new NumberFormatter($locale, $formatStyle);
-        $formatter->setAttribute(\NumberFormatter::MIN_FRACTION_DIGITS, 2);
-        $formatter->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, 2);
-
-        $nota_final = $formatter->format($nota * 10);
-
         // Unidades
 
         $unidades = Unidad::cursoActual()->orderBy('orden')->get();
@@ -112,6 +104,20 @@ class ResultController extends Controller
                 }
             }
         }
+
+        // Ajustar la nota en función de las completadas 100% completadas - 100% de nota
+
+        $numero_actividades_completadas = $user->num_completadas('base');
+
+        $nota = $nota * ($numero_actividades_completadas / $num_actividades_obligatorias);
+
+        $locale = (isset($_COOKIE['locale'])) ? $_COOKIE['locale'] : $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+        $formatStyle = NumberFormatter::DECIMAL;
+        $formatter = new NumberFormatter($locale, $formatStyle);
+        $formatter->setAttribute(\NumberFormatter::MIN_FRACTION_DIGITS, 2);
+        $formatter->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, 2);
+
+        $nota_final = $formatter->format($nota * 10);
 
         // Resultados por unidades
 
@@ -158,7 +164,7 @@ class ResultController extends Controller
 
         return view('results.index', compact(['curso', 'skills_curso', 'unidades', 'user', 'users',
             'resultados', 'resultados_unidades', 'nota_final',
-            'actividades_obligatorias', 'num_actividades_obligatorias', 'pruebas_evaluacion', 'num_pruebas_evaluacion',
+            'actividades_obligatorias', 'num_actividades_obligatorias', 'numero_actividades_completadas', 'pruebas_evaluacion', 'num_pruebas_evaluacion',
             'media_actividades_grupo']));
     }
 }
