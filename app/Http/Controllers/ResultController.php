@@ -26,7 +26,7 @@ class ResultController extends Controller
         $curso = Curso::find(setting_usuario('curso_actual'));
         $users = null;
         if (!is_null($curso))
-            $users = $curso->users()->rolAlumno()->orderBy('name')->get();
+            $users = $curso->users()->rolAlumno()->noBloqueado()->orderBy('name')->get();
 
         // Resultados por competencias
 

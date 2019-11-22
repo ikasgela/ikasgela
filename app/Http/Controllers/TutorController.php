@@ -27,7 +27,7 @@ class TutorController extends Controller
 
         $curso = Curso::find(setting_usuario('curso_actual'));
 
-        $usuarios = User::organizacionActual()->rolAlumno()->orderBy('name')->get();
+        $usuarios = $curso->users()->rolAlumno()->noBloqueado()->orderBy('name')->get();
 
         $unidades = Unidad::cursoActual()->orderBy('orden')->get();
 
