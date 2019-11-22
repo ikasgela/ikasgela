@@ -38,8 +38,7 @@
         <tfoot class="thead-dark">
         <tr class="bg-secondary">
             <td colspan="2"></td>
-            <td class="text-center">{{ __('Mean') }}:
-                {{ number_format ( $total_actividades_grupo / $usuarios->count(), 2) }}</td>
+            <td class="text-center">{{ __('Mean') }}: {{ $media_actividades_grupo }}</td>
             <td colspan="{{ $unidades->count() }}"></td>
         </tr>
         <tr>

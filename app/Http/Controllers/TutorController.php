@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Actividad;
 use App\Curso;
 use App\Organization;
 use App\Tarea;
 use App\Unidad;
 use App\User;
 use Illuminate\Http\Request;
+use NumberFormatter;
 
 class TutorController extends Controller
 {
@@ -60,7 +60,14 @@ class TutorController extends Controller
             }
         }
 
-        $media_actividades_grupo = $total_actividades_grupo / $usuarios->count();
+        // Formateador con 2 decimales y en el idioma del usuario
+        $locale = (isset($_COOKIE['locale'])) ? $_COOKIE['locale'] : $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+        $formatStyle = NumberFormatter::DECIMAL;
+        $formatter = new NumberFormatter($locale, $formatStyle);
+        $formatter->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 2);
+        $formatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 2);
+
+        $media_actividades_grupo = $formatter->format($total_actividades_grupo / $usuarios->count());
 
         return view('tutor.index', compact(['usuarios', 'unidades', 'organization',
             'total_actividades_grupo', 'resultados_usuario_unidades', 'curso',

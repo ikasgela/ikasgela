@@ -109,11 +109,12 @@ class ResultController extends Controller
 
         $nota = $nota * ($numero_actividades_completadas / $num_actividades_obligatorias);
 
+        // Formateador con 2 decimales y en el idioma del usuario
         $locale = (isset($_COOKIE['locale'])) ? $_COOKIE['locale'] : $_SERVER['HTTP_ACCEPT_LANGUAGE'];
         $formatStyle = NumberFormatter::DECIMAL;
         $formatter = new NumberFormatter($locale, $formatStyle);
-        $formatter->setAttribute(\NumberFormatter::MIN_FRACTION_DIGITS, 2);
-        $formatter->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, 2);
+        $formatter->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 2);
+        $formatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 2);
 
         $nota_final = $formatter->format($nota * 10);
 
