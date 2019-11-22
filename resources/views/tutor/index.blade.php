@@ -28,4 +28,7 @@
 
     @include('tutor.partials.tabla_usuarios')
 
+    <div>
+        <p class="text-center text-muted font-xs">{{ now()->isoFormat('LLLL') }}</p>
+    </div>
 @endsection
