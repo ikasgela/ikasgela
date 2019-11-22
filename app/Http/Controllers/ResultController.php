@@ -9,13 +9,6 @@ use Auth;
 use Illuminate\Http\Request;
 use NumberFormatter;
 
-class Resultado
-{
-    public $actividad;
-    public $tarea;
-    public $porcentaje;
-}
-
 class ResultController extends Controller
 {
     public function index(Request $request)
