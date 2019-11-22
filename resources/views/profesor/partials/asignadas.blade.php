@@ -89,6 +89,13 @@
                 </tr>
             @endforeach
             </tbody>
+            <tfoot class="thead-dark">
+            <tr>
+                <th colspan="5"></th>
+                <th class="text-center">{{ $user->actividades_enviadas_noautoavance()->count() > 0 ? $user->actividades_enviadas_noautoavance()->count() : '' }}</th>
+                <th colspan="6"></th>
+            </tr>
+            </tfoot>
         </table>
     </div>
 @else
