@@ -78,6 +78,14 @@ class TutorController extends Controller
 
         // Notas finales
         $notas = [];
+
+        $actividades_obligatorias = [];
+
+        $pruebas_evaluacion = [];
+        $num_pruebas_evaluacion = [];
+
+        $competencias_50_porciento = [];
+
         foreach ($usuarios as $user) {
 
             $skills_curso = [];
@@ -112,6 +120,10 @@ class TutorController extends Controller
                             $resultados[$skill->id]->actividad += $puntuacion_actividad * $porcentaje / 100;
                             $resultados[$skill->id]->tarea += $puntuacion_tarea * $porcentaje / 100;
                         }
+
+                        $competencias_50_porciento[$user->id] = true;
+                        if ($resultados[$skill->id]->tarea / $resultados[$skill->id]->actividad < 0.5)
+                            $competencias_50_porciento[$user->id] = false;
                     }
                 }
             }
@@ -134,13 +146,57 @@ class TutorController extends Controller
             $nota = $nota * ($numero_actividades_completadas / $num_actividades_obligatorias) * 10;
 
             $notas[$user->id] = $formatter->format($nota / $porcentaje_total * 100);    // Por si el total de competencias suma más del 100%
+
+            $actividades_obligatorias[$user->id] = true;
+            if ($numero_actividades_completadas < $num_actividades_obligatorias) {
+                $actividades_obligatorias[$user->id] = false;
+            }
+
+            // Resultados por unidades
+
+            $resultados_unidades = [];
+
+            foreach ($unidades as $unidad) {
+                $resultados_unidades[$unidad->id] = new Resultado();
+
+                foreach ($user->actividades->where('unidad_id', $unidad->id) as $actividad) {
+
+                    $puntuacion_actividad = $actividad->puntuacion * ($actividad->multiplicador ?: 1);
+                    $puntuacion_tarea = $actividad->tarea->puntuacion * ($actividad->multiplicador ?: 1);
+                    $completada = in_array($actividad->tarea->estado, [40, 60]);
+
+                    if ($puntuacion_actividad > 0 && $completada) {
+                        $resultados_unidades[$unidad->id]->actividad += $puntuacion_actividad;
+                        $resultados_unidades[$unidad->id]->tarea += $puntuacion_tarea;
+                    }
+                }
+            }
+
+            // Pruebas de evaluación
+
+            $pruebas_evaluacion[$user->id] = false;
+            $num_pruebas_evaluacion[$user->id] = 0;
+
+            foreach ($unidades as $unidad) {
+                if ($unidad->hasEtiqueta('examen')
+                    && $user->num_completadas('examen', $unidad->id) > 0
+                    && $resultados_unidades[$unidad->id]->actividad > 0) {
+                    $num_pruebas_evaluacion[$user->id] += 1;
+
+                    if (($resultados_unidades[$unidad->id]->tarea / $resultados_unidades[$unidad->id]->actividad) * 10 >= 5) {
+                        $pruebas_evaluacion[$user->id] = true;
+                    }
+                }
+            }
+
         }
 
         $media_actividades_grupo = $formatter->format($total_actividades_grupo / $usuarios->count());
 
         return view('tutor.index', compact(['usuarios', 'unidades', 'organization',
             'total_actividades_grupo', 'resultados_usuario_unidades', 'curso',
-            'media_actividades_grupo', 'notas']));
+            'media_actividades_grupo', 'notas', 'actividades_obligatorias', 'num_actividades_obligatorias',
+            'pruebas_evaluacion', 'num_pruebas_evaluacion', 'competencias_50_porciento']));
     }
 
     private function recuento_enviadas(): void
