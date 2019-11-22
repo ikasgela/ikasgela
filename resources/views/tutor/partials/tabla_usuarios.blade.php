@@ -13,7 +13,13 @@
         </tr>
         </thead>
         <tbody>
+        @php($media = false)
         @foreach($usuarios as $user)
+            @if(!$media && session('tutor_filtro_alumnos') == 'P'
+                    && $user->num_completadas('base') > $media_actividades_grupo)
+                @include('tutor.partials.fila_media')
+                @php($media = true)
+            @endif
             <tr>
                 <td><img style="height:35px;" src="{{ $user->avatar_url(70)}}"
                          onerror="this.onerror=null;this.src='{{ url("/svg/missing_avatar.svg") }}';"/>
@@ -44,12 +50,9 @@
         @endforeach
         </tbody>
         <tfoot class="thead-dark">
-        <tr class="bg-secondary">
-            <td colspan="3"></td>
-            <td class="text-center">{{ __('Mean') }}: {{ $media_actividades_grupo }}</td>
-            <td></td>
-            <td colspan="{{ $unidades->count() }}"></td>
-        </tr>
+        @if(!$media)
+            @include('tutor.partials.fila_media')
+        @endif
         <tr>
             <th colspan="{{ $unidades->count() + 5 }}">{{ __('Student total') }}: {{ $usuarios->count() }}</th>
         </tr>

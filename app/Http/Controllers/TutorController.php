@@ -27,7 +27,18 @@ class TutorController extends Controller
 
         $curso = Curso::find(setting_usuario('curso_actual'));
 
-        $usuarios = $curso->users()->rolAlumno()->noBloqueado()->orderBy('name')->get();
+        if ($request->has('filtro_alumnos')) {
+            session(['tutor_filtro_alumnos' => $request->input('filtro_alumnos')]);
+        }
+
+        switch (session('tutor_filtro_alumnos')) {
+            case 'P':
+                $usuarios = $curso->users()->rolAlumno()->noBloqueado()->orderBy('name')->get()->sortBy('actividades_completadas');
+                break;
+            default:
+                $usuarios = $curso->users()->rolAlumno()->noBloqueado()->orderBy('name')->get();
+                break;
+        }
 
         $unidades = Unidad::cursoActual()->orderBy('orden')->get();
 
@@ -191,11 +202,12 @@ class TutorController extends Controller
 
         }
 
-        $media_actividades_grupo = $formatter->format($total_actividades_grupo / $usuarios->count());
+        $media_actividades_grupo = $total_actividades_grupo / $usuarios->count();
+        $media_actividades_grupo_formato = $formatter->format($media_actividades_grupo);
 
         return view('tutor.index', compact(['usuarios', 'unidades', 'organization',
             'total_actividades_grupo', 'resultados_usuario_unidades', 'curso',
-            'media_actividades_grupo', 'notas', 'actividades_obligatorias', 'num_actividades_obligatorias',
+            'media_actividades_grupo', 'media_actividades_grupo_formato', 'notas', 'actividades_obligatorias', 'num_actividades_obligatorias',
             'pruebas_evaluacion', 'num_pruebas_evaluacion', 'competencias_50_porciento']));
     }
 

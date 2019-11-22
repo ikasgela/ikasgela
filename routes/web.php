@@ -266,6 +266,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Informe de grupo
         Route::get('/tutor', 'TutorController@index')
             ->name('tutor.index');
+        Route::post('/tutor', 'TutorController@index')
+            ->name('tutor.index');
 
         // Ver resultados de otros alumnos
         Route::post('/results', 'ResultController@index')
