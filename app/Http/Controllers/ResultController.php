@@ -163,7 +163,7 @@ class ResultController extends Controller
         // Media de actividades
         $total_actividades_grupo = 0;
         foreach ($users as $usuario) {
-            $total_actividades_grupo += $usuario->actividades_completadas()->count();
+            $total_actividades_grupo += $usuario->num_completadas('base');
         }
 
         $media_actividades_grupo = $formatter->format($total_actividades_grupo / $users->count());
