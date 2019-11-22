@@ -26,7 +26,7 @@
                     ? ($resultados_usuario_unidades[$user->id][$unidad->id]->tarea/$resultados_usuario_unidades[$user->id][$unidad->id]->actividad*100) : 0)
                     @if($resultados_usuario_unidades[$user->id][$unidad->id]->actividad > 0)
                         <td class="text-center {{ $porcentaje<50 ? 'bg-warning text-dark' : '' }}">
-                            {{ number_format ( $porcentaje, 2 ) }} %
+                            {{ number_format ( $porcentaje, 0 ) }} %
                         </td>
                     @else
                         <td class="text-center">-</td>

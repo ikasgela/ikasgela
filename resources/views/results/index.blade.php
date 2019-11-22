@@ -90,7 +90,7 @@
                              style="width: {{ $porcentaje }}%;"
                              aria-valuenow="{{ $porcentaje }}"
                              aria-valuemin="0"
-                             aria-valuemax="100">@if($porcentaje>0){{ $porcentaje }}%@endif
+                             aria-valuemax="100">@if($porcentaje>0){{ $porcentaje }}&nbsp;%@endif
                         </div>
                     </div>
                     <div class="text-muted small text-right">
@@ -172,7 +172,7 @@
                              style="width: {{ $porcentaje }}%;"
                              aria-valuenow="{{ $porcentaje }}"
                              aria-valuemin="0"
-                             aria-valuemax="100">@if($porcentaje>0){{ $porcentaje }}%@endif
+                             aria-valuemax="100">@if($porcentaje>0){{ $porcentaje }}&nbsp;%@endif
                         </div>
                     </div>
                     <div class="text-muted small text-right">
