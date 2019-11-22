@@ -90,7 +90,7 @@
                              style="width: {{ $porcentaje }}%;"
                              aria-valuenow="{{ $porcentaje }}"
                              aria-valuemin="0"
-                             aria-valuemax="100">@if($porcentaje>0){{ $porcentaje }}%@endif
+                             aria-valuemax="100">@if($porcentaje>0){{ $porcentaje }}&nbsp;%@endif
                         </div>
                     </div>
                     <div class="text-muted small text-right">
@@ -145,7 +145,7 @@
                 </tbody>
                 <tfoot class="thead-dark">
                 <tr>
-                    <th colspan="4">{{ __('Completed activities') }}: {{ $user->actividades_completadas()->count() }}
+                    <th colspan="4">{{ __('Completed activities') }}: {{ $numero_actividades_completadas }}
                         - {{ __('Group mean') }}: {{ $media_actividades_grupo }}</th>
                 </tr>
                 </tfoot>
@@ -172,7 +172,7 @@
                              style="width: {{ $porcentaje }}%;"
                              aria-valuenow="{{ $porcentaje }}"
                              aria-valuemin="0"
-                             aria-valuemax="100">@if($porcentaje>0){{ $porcentaje }}%@endif
+                             aria-valuemax="100">@if($porcentaje>0){{ $porcentaje }}&nbsp;%@endif
                         </div>
                     </div>
                     <div class="text-muted small text-right">

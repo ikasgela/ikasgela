@@ -9,13 +9,6 @@ use Auth;
 use Illuminate\Http\Request;
 use NumberFormatter;
 
-class Resultado
-{
-    public $actividad;
-    public $tarea;
-    public $porcentaje;
-}
-
 class ResultController extends Controller
 {
     public function index(Request $request)
@@ -33,7 +26,7 @@ class ResultController extends Controller
         $curso = Curso::find(setting_usuario('curso_actual'));
         $users = null;
         if (!is_null($curso))
-            $users = $curso->users()->rolAlumno()->orderBy('name')->get();
+            $users = $curso->users()->rolAlumno()->noBloqueado()->orderBy('name')->get();
 
         // Resultados por competencias
 
@@ -53,8 +46,9 @@ class ResultController extends Controller
 
                 $puntuacion_actividad = $actividad->puntuacion * ($actividad->multiplicador ?: 1);
                 $puntuacion_tarea = $actividad->tarea->puntuacion * ($actividad->multiplicador ?: 1);
+                $completada = in_array($actividad->tarea->estado, [40, 60]);
 
-                if ($puntuacion_actividad > 0) {
+                if ($puntuacion_actividad > 0 && $completada) {
 
                     if (!is_null($actividad->qualification_id)) {
                         $skills = $actividad->qualification->skills;
@@ -115,11 +109,12 @@ class ResultController extends Controller
 
         $nota = $nota * ($numero_actividades_completadas / $num_actividades_obligatorias);
 
+        // Formateador con 2 decimales y en el idioma del usuario
         $locale = (isset($_COOKIE['locale'])) ? $_COOKIE['locale'] : $_SERVER['HTTP_ACCEPT_LANGUAGE'];
         $formatStyle = NumberFormatter::DECIMAL;
         $formatter = new NumberFormatter($locale, $formatStyle);
-        $formatter->setAttribute(\NumberFormatter::MIN_FRACTION_DIGITS, 2);
-        $formatter->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, 2);
+        $formatter->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 2);
+        $formatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 2);
 
         $nota_final = $formatter->format($nota * 10);
 
@@ -134,8 +129,9 @@ class ResultController extends Controller
 
                 $puntuacion_actividad = $actividad->puntuacion * ($actividad->multiplicador ?: 1);
                 $puntuacion_tarea = $actividad->tarea->puntuacion * ($actividad->multiplicador ?: 1);
+                $completada = in_array($actividad->tarea->estado, [40, 60]);
 
-                if ($puntuacion_actividad > 0) {
+                if ($puntuacion_actividad > 0 && $completada) {
                     $resultados_unidades[$unidad->id]->actividad += $puntuacion_actividad;
                     $resultados_unidades[$unidad->id]->tarea += $puntuacion_tarea;
                 }
@@ -158,10 +154,10 @@ class ResultController extends Controller
             }
         }
 
-        // Media de actividades
+        // Total de actividades para el cálculo de la media
         $total_actividades_grupo = 0;
         foreach ($users as $usuario) {
-            $total_actividades_grupo += $usuario->actividades_completadas()->count();
+            $total_actividades_grupo += $usuario->num_completadas('base');
         }
 
         $media_actividades_grupo = $formatter->format($total_actividades_grupo / $users->count());

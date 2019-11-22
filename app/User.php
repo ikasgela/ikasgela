@@ -266,6 +266,11 @@ class User extends Authenticatable implements MustVerifyEmail
         });
     }
 
+    public function scopeNoBloqueado($query)
+    {
+        return $query->where('blocked_date', null);
+    }
+
     public function files()
     {
         return $this->hasMany(File::class);
