@@ -153,7 +153,7 @@ class ResultController extends Controller
             }
         }
 
-        // Media de actividades
+        // Total de actividades para el cálculo de la media
         $total_actividades_grupo = 0;
         foreach ($users as $usuario) {
             $total_actividades_grupo += $usuario->num_completadas('base');

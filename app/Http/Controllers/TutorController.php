@@ -31,9 +31,10 @@ class TutorController extends Controller
 
         $unidades = Unidad::cursoActual()->orderBy('orden')->get();
 
+        // Total de actividades para el cálculo de la media
         $total_actividades_grupo = 0;
         foreach ($usuarios as $usuario) {
-            $total_actividades_grupo += $usuario->actividades_completadas()->count();
+            $total_actividades_grupo += $usuario->num_completadas('base');
         }
 
         // Resultados por usuario y unidades
@@ -49,8 +50,9 @@ class TutorController extends Controller
 
                     $puntuacion_actividad = $actividad->puntuacion * ($actividad->multiplicador ?: 1);
                     $puntuacion_tarea = $actividad->tarea->puntuacion * ($actividad->multiplicador ?: 1);
+                    $completada = in_array($actividad->tarea->estado, [40, 60]);
 
-                    if ($puntuacion_actividad > 0) {
+                    if ($puntuacion_actividad > 0 && $completada) {
                         $resultados_usuario_unidades[$usuario->id][$unidad->id]->actividad += $puntuacion_actividad;
                         $resultados_usuario_unidades[$usuario->id][$unidad->id]->tarea += $puntuacion_tarea;
                     }
@@ -58,7 +60,11 @@ class TutorController extends Controller
             }
         }
 
-        return view('tutor.index', compact(['usuarios', 'unidades', 'organization', 'total_actividades_grupo', 'resultados_usuario_unidades', 'curso']));
+        $media_actividades_grupo = $total_actividades_grupo / $usuarios->count();
+
+        return view('tutor.index', compact(['usuarios', 'unidades', 'organization',
+            'total_actividades_grupo', 'resultados_usuario_unidades', 'curso',
+            'media_actividades_grupo']));
     }
 
     private function recuento_enviadas(): void

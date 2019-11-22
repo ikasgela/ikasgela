@@ -20,7 +20,7 @@
                     <a href="mailto:{{ $user->email }}" class="text-dark">{{ $user->name }}</a>
                     @include('profesor.partials.status_usuario')
                 </td>
-                <td class="text-center {{ $user->actividades_completadas()->count() < $total_actividades_grupo / $usuarios->count() ? 'bg-warning text-dark' : '' }}">{{ $user->actividades_completadas()->count() }}</td>
+                <td class="text-center {{ $user->num_completadas('base') < $media_actividades_grupo ? 'bg-warning text-dark' : '' }}">{{ $user->num_completadas('base') }}</td>
                 @foreach($unidades as $unidad)
                     @php($porcentaje = $resultados_usuario_unidades[$user->id][$unidad->id]->actividad > 0
                     ? ($resultados_usuario_unidades[$user->id][$unidad->id]->tarea/$resultados_usuario_unidades[$user->id][$unidad->id]->actividad*100) : 0)
