@@ -202,11 +202,12 @@ class TutorController extends Controller
 
         }
 
-        $media_actividades_grupo = $formatter->format($total_actividades_grupo / $usuarios->count());
+        $media_actividades_grupo = $total_actividades_grupo / $usuarios->count();
+        $media_actividades_grupo_formato = $formatter->format($media_actividades_grupo);
 
         return view('tutor.index', compact(['usuarios', 'unidades', 'organization',
             'total_actividades_grupo', 'resultados_usuario_unidades', 'curso',
-            'media_actividades_grupo', 'notas', 'actividades_obligatorias', 'num_actividades_obligatorias',
+            'media_actividades_grupo', 'media_actividades_grupo_formato', 'notas', 'actividades_obligatorias', 'num_actividades_obligatorias',
             'pruebas_evaluacion', 'num_pruebas_evaluacion', 'competencias_50_porciento']));
     }
 
