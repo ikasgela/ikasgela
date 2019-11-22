@@ -27,7 +27,18 @@ class TutorController extends Controller
 
         $curso = Curso::find(setting_usuario('curso_actual'));
 
-        $usuarios = $curso->users()->rolAlumno()->noBloqueado()->orderBy('name')->get();
+        if ($request->has('filtro_alumnos')) {
+            session(['tutor_filtro_alumnos' => $request->input('filtro_alumnos')]);
+        }
+
+        switch (session('tutor_filtro_alumnos')) {
+            case 'P':
+                $usuarios = $curso->users()->rolAlumno()->noBloqueado()->orderBy('name')->get()->sortBy('actividades_completadas');
+                break;
+            default:
+                $usuarios = $curso->users()->rolAlumno()->noBloqueado()->orderBy('name')->get();
+                break;
+        }
 
         $unidades = Unidad::cursoActual()->orderBy('orden')->get();
 
