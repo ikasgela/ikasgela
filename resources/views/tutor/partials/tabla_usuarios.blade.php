@@ -5,6 +5,7 @@
             <th></th>
             <th>{{ __('Name') }}</th>
             <th class="text-center">{{ __('Completed activities') }}</th>
+            <th class="text-center">{{ __('Calification') }}</th>
             @foreach($unidades as $unidad)
                 <th class="text-center">{{ $unidad->nombre }}</th>
             @endforeach
@@ -21,6 +22,7 @@
                     @include('profesor.partials.status_usuario')
                 </td>
                 <td class="text-center {{ $user->num_completadas('base') < $media_actividades_grupo ? 'bg-warning text-dark' : '' }}">{{ $user->num_completadas('base') }}</td>
+                <td class="text-center{{ $notas[$user->id] < 5 ? 'bg-warning text-dark' : '' }}">{{ $notas[$user->id] }}</td>
                 @foreach($unidades as $unidad)
                     @php($porcentaje = $resultados_usuario_unidades[$user->id][$unidad->id]->actividad > 0
                     ? ($resultados_usuario_unidades[$user->id][$unidad->id]->tarea/$resultados_usuario_unidades[$user->id][$unidad->id]->actividad*100) : 0)
@@ -39,6 +41,7 @@
         <tr class="bg-secondary">
             <td colspan="2"></td>
             <td class="text-center">{{ __('Mean') }}: {{ $media_actividades_grupo }}</td>
+            <td></td>
             <td colspan="{{ $unidades->count() }}"></td>
         </tr>
         <tr>
