@@ -145,7 +145,7 @@
                 </tbody>
                 <tfoot class="thead-dark">
                 <tr>
-                    <th colspan="4">{{ __('Completed activities') }}: {{ $user->actividades_completadas()->count() }}
+                    <th colspan="4">{{ __('Completed activities') }}: {{ $numero_actividades_completadas }}
                         - {{ __('Group mean') }}: {{ $media_actividades_grupo }}</th>
                 </tr>
                 </tfoot>
