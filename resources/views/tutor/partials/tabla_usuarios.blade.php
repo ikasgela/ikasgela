@@ -44,22 +44,24 @@
                     ? ($resultados_usuario_unidades[$user->id][$unidad->id]->tarea/$resultados_usuario_unidades[$user->id][$unidad->id]->actividad*100) : 0)
                     @if($resultados_usuario_unidades[$user->id][$unidad->id]->actividad > 0)
                         <td class="text-center {{ $porcentaje<50 ? 'bg-warning text-dark' : '' }}">
-                            {{ number_format ( $porcentaje, 0 ) }} %
+                            {{ number_format ( $porcentaje, 0 ) }}{{ !isset($no_avatar) ? ' %' : '' }}
                         </td>
                     @else
-                        <td class="text-center">-</td>
+                        <td class="text-center">{{ !isset($no_avatar) ? '-' : '' }}</td>
                     @endif
                 @endforeach
             </tr>
         @endforeach
         </tbody>
-        <tfoot class="thead-dark">
-        @if(!$media)
-            @include('tutor.partials.fila_media')
+        @if(!isset($no_avatar))
+            <tfoot class="thead-dark">
+            @if(!$media)
+                @include('tutor.partials.fila_media')
+            @endif
+            <tr>
+                <th colspan="{{ $unidades->count() + 5 }}">{{ __('Student total') }}: {{ $usuarios->count() }}</th>
+            </tr>
+            </tfoot>
         @endif
-        <tr>
-            <th colspan="{{ $unidades->count() + 5 }}">{{ __('Student total') }}: {{ $usuarios->count() }}</th>
-        </tr>
-        </tfoot>
     </table>
 </div>

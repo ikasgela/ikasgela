@@ -12,6 +12,6 @@ class InformeGrupoExport implements FromView
 
     public function view(): View
     {
-        return view('tutor.export', $this->datosInformeGrupo(request()));
+        return view('tutor.export', $this->datosInformeGrupo(request(), true));
     }
 }

@@ -11,7 +11,7 @@ use NumberFormatter;
 
 trait InformeGrupo
 {
-    public function datosInformeGrupo(Request $request)
+    public function datosInformeGrupo(Request $request, $exportar = false)
     {
         $organization = Organization::find(setting_usuario('_organization_id'));
 
@@ -64,7 +64,12 @@ trait InformeGrupo
         // Formateador con 2 decimales y en el idioma del usuario
         $locale = (isset($_COOKIE['locale'])) ? $_COOKIE['locale'] : $_SERVER['HTTP_ACCEPT_LANGUAGE'];
         $formatStyle = NumberFormatter::DECIMAL;
-        $formatter = new NumberFormatter($locale, $formatStyle);
+
+        if (!$exportar)
+            $formatter = new NumberFormatter($locale, $formatStyle);
+        else
+            $formatter = new NumberFormatter("en_US", $formatStyle);
+
         $formatter->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 2);
         $formatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 2);
 
