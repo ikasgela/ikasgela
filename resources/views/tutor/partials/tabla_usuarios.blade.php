@@ -2,7 +2,9 @@
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
-            <th></th>
+            @if(!isset($no_avatar))
+                <th></th>
+            @endif
             <th>{{ __('Name') }}</th>
             <th class="text-center">{{ __('Continuous evaluation') }}</th>
             <th class="text-center">{{ __('Completed activities') }}</th>
@@ -21,9 +23,11 @@
                 @php($media = true)
             @endif
             <tr>
-                <td><img style="height:35px;" src="{{ $user->avatar_url(70)}}"
-                         onerror="this.onerror=null;this.src='{{ url("/svg/missing_avatar.svg") }}';"/>
-                </td>
+                @if(!isset($no_avatar))
+                    <td><img style="height:35px;" src="{{ $user->avatar_url(70)}}"
+                             onerror="this.onerror=null;this.src='{{ url("/svg/missing_avatar.svg") }}';"/>
+                    </td>
+                @endif
                 <td>
                     <a href="mailto:{{ $user->email }}" class="text-dark">{{ $user->name }}</a>
                     @include('profesor.partials.status_usuario')

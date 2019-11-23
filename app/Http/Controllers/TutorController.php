@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Curso;
+use App\Exports\InformeGrupoExport;
 use App\Organization;
 use App\Tarea;
 use App\Unidad;
-use App\User;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use NumberFormatter;
 
 class TutorController extends Controller
@@ -21,6 +22,27 @@ class TutorController extends Controller
     {
         memorizar_ruta();
 
+        return view('tutor.index', $this->datosInformeGrupo($request));
+    }
+
+    private function recuento_enviadas(): void
+    {
+        $tareas = Tarea::cursoActual()->noAutoAvance()->where('estado', 30)->get();
+
+        $num_enviadas = count($tareas);
+        if ($num_enviadas > 0)
+            session(['num_enviadas' => $num_enviadas]);
+        else
+            session()->forget('num_enviadas');
+    }
+
+    public function export()
+    {
+        return Excel::download(new InformeGrupoExport, 'informegrupo.xlsx');
+    }
+
+    public function datosInformeGrupo(Request $request)
+    {
         $this->recuento_enviadas();
 
         $organization = Organization::find(setting_usuario('_organization_id'));
@@ -205,21 +227,9 @@ class TutorController extends Controller
         $media_actividades_grupo = $total_actividades_grupo / $usuarios->count();
         $media_actividades_grupo_formato = $formatter->format($media_actividades_grupo);
 
-        return view('tutor.index', compact(['usuarios', 'unidades', 'organization',
+        return compact(['usuarios', 'unidades', 'organization',
             'total_actividades_grupo', 'resultados_usuario_unidades', 'curso',
             'media_actividades_grupo', 'media_actividades_grupo_formato', 'notas', 'actividades_obligatorias', 'num_actividades_obligatorias',
-            'pruebas_evaluacion', 'num_pruebas_evaluacion', 'competencias_50_porciento']));
+            'pruebas_evaluacion', 'num_pruebas_evaluacion', 'competencias_50_porciento']);
     }
-
-    private function recuento_enviadas(): void
-    {
-        $tareas = Tarea::cursoActual()->noAutoAvance()->where('estado', 30)->get();
-
-        $num_enviadas = count($tareas);
-        if ($num_enviadas > 0)
-            session(['num_enviadas' => $num_enviadas]);
-        else
-            session()->forget('num_enviadas');
-    }
-
 }

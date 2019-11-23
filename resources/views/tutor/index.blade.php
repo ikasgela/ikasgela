@@ -3,7 +3,13 @@
 @section('content')
 
     <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
-        <h1>{{ __('Group report') }}</h1>
+        <h1>{{ __('Group report') }}
+            <a class="ml-3"
+               style="color:#1D6F42" {{-- https://www.schemecolor.com/microsoft-excel-logo-color.php --}}
+               title="{{ __('Export to Excel file') }}"
+               href="{{ route('tutor.export') }}"><i class="fas fa-file-excel"></i>
+            </a>
+        </h1>
         <div class="form-inline">
             <div class="btn-toolbar" role="toolbar">
 
