@@ -6,7 +6,7 @@
         <h1>{{ __('Group report') }}
             <a class="ml-3"
                style="color:#1D6F42" {{-- https://www.schemecolor.com/microsoft-excel-logo-color.php --}}
-               title="{{ __('Export to Excel file') }}"
+               title="{{ __('Export to an Excel file') }}"
                href="{{ route('tutor.export') }}"><i class="fas fa-file-excel"></i>
             </a>
         </h1>
