@@ -3,7 +3,7 @@
     <h2 class="text-muted font-xl">{{ !is_null($curso) ? $curso->category->period->organization->name.' » '.$curso->category->period->name.' » '.$curso->nombre : '' }}</h2>
 </div>
 
-@include('tutor.partials.tabla_usuarios', ['no_avatar' => true])
+@include('tutor.partials.tabla_usuarios', ['exportar' => true])
 
 <div>
     <p class="text-center text-muted font-xs">{{ now()->isoFormat('LLLL') }}</p>

@@ -2,7 +2,7 @@
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
-            @if(!isset($no_avatar))
+            @if(!isset($exportar))
                 <th></th>
             @endif
             <th>{{ __('Name') }}</th>
@@ -23,7 +23,7 @@
                 @php($media = true)
             @endif
             <tr>
-                @if(!isset($no_avatar))
+                @if(!isset($exportar))
                     <td><img style="height:35px;" src="{{ $user->avatar_url(70)}}"
                              onerror="this.onerror=null;this.src='{{ url("/svg/missing_avatar.svg") }}';"/>
                     </td>
@@ -44,16 +44,16 @@
                     ? ($resultados_usuario_unidades[$user->id][$unidad->id]->tarea/$resultados_usuario_unidades[$user->id][$unidad->id]->actividad*100) : 0)
                     @if($resultados_usuario_unidades[$user->id][$unidad->id]->actividad > 0)
                         <td class="text-center {{ $porcentaje<50 ? 'bg-warning text-dark' : '' }}">
-                            {{ number_format ( $porcentaje, 0 ) }}{{ !isset($no_avatar) ? ' %' : '' }}
+                            {{ number_format ( $porcentaje, 0 ) }}{{ !isset($exportar) ? ' %' : '' }}
                         </td>
                     @else
-                        <td class="text-center">{{ !isset($no_avatar) ? '-' : '' }}</td>
+                        <td class="text-center">{{ !isset($exportar) ? '-' : '' }}</td>
                     @endif
                 @endforeach
             </tr>
         @endforeach
         </tbody>
-        @if(!isset($no_avatar))
+        @if(!isset($exportar))
             <tfoot class="thead-dark">
             @if(!$media)
                 @include('tutor.partials.fila_media')
