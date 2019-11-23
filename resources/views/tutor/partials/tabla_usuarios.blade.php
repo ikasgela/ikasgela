@@ -2,7 +2,9 @@
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
-            <th></th>
+            @if(!isset($exportar))
+                <th></th>
+            @endif
             <th>{{ __('Name') }}</th>
             <th class="text-center">{{ __('Continuous evaluation') }}</th>
             <th class="text-center">{{ __('Completed activities') }}</th>
@@ -21,9 +23,11 @@
                 @php($media = true)
             @endif
             <tr>
-                <td><img style="height:35px;" src="{{ $user->avatar_url(70)}}"
-                         onerror="this.onerror=null;this.src='{{ url("/svg/missing_avatar.svg") }}';"/>
-                </td>
+                @if(!isset($exportar))
+                    <td><img style="height:35px;" src="{{ $user->avatar_url(70)}}"
+                             onerror="this.onerror=null;this.src='{{ url("/svg/missing_avatar.svg") }}';"/>
+                    </td>
+                @endif
                 <td>
                     <a href="mailto:{{ $user->email }}" class="text-dark">{{ $user->name }}</a>
                     @include('profesor.partials.status_usuario')
@@ -40,22 +44,24 @@
                     ? ($resultados_usuario_unidades[$user->id][$unidad->id]->tarea/$resultados_usuario_unidades[$user->id][$unidad->id]->actividad*100) : 0)
                     @if($resultados_usuario_unidades[$user->id][$unidad->id]->actividad > 0)
                         <td class="text-center {{ $porcentaje<50 ? 'bg-warning text-dark' : '' }}">
-                            {{ number_format ( $porcentaje, 0 ) }} %
+                            {{ number_format ( $porcentaje, 0 ) }}{{ !isset($exportar) ? ' %' : '' }}
                         </td>
                     @else
-                        <td class="text-center">-</td>
+                        <td class="text-center">{{ !isset($exportar) ? '-' : '' }}</td>
                     @endif
                 @endforeach
             </tr>
         @endforeach
         </tbody>
-        <tfoot class="thead-dark">
-        @if(!$media)
-            @include('tutor.partials.fila_media')
+        @if(!isset($exportar))
+            <tfoot class="thead-dark">
+            @if(!$media)
+                @include('tutor.partials.fila_media')
+            @endif
+            <tr>
+                <th colspan="{{ $unidades->count() + 5 }}">{{ __('Student total') }}: {{ $usuarios->count() }}</th>
+            </tr>
+            </tfoot>
         @endif
-        <tr>
-            <th colspan="{{ $unidades->count() + 5 }}">{{ __('Student total') }}: {{ $usuarios->count() }}</th>
-        </tr>
-        </tfoot>
     </table>
 </div>
