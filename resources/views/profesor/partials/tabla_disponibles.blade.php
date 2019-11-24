@@ -50,5 +50,9 @@
 </div>
 
 <div class="d-flex justify-content-center">
-    {{ $disponibles->appends(['asignadas' => $actividades->currentPage()])->links() }}
+    @if(isset($actividades))
+        {{ $disponibles->appends(['asignadas' => $actividades->currentPage()])->links() }}
+    @else
+        {{ $disponibles->links() }}
+    @endif
 </div>
