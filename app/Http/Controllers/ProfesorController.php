@@ -77,15 +77,17 @@ class ProfesorController extends Controller
 
         switch (session('profesor_filtro_alumnos')) {
             case 'R':
-                $actividades = $user->actividades_enviadas_noautoavance()->get();
+                $actividades = $user->actividades_enviadas_noautoavance();
                 break;
             case 'E':
-                $actividades = $user->actividades_examen()->get();
+                $actividades = $user->actividades_examen();
                 break;
             default:
-                $actividades = $user->actividades()->get();
+                $actividades = $user->actividades();
                 break;
         }
+
+        $actividades = $actividades->paginate(25, ['*'], 'asignadas');
 
         $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
 
@@ -234,6 +236,6 @@ class ProfesorController extends Controller
             $disponibles = $actividades_curso;
         }
 
-        return $disponibles->paginate(25);
+        return $disponibles->paginate(25, ['*'], 'disponibles');
     }
 }

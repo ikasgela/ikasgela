@@ -49,4 +49,6 @@
     </table>
 </div>
 
-<div class="d-flex justify-content-center">{{ $disponibles->links() }}</div>
+<div class="d-flex justify-content-center">
+    {{ $disponibles->appends(['asignadas' => $actividades->currentPage()])->links() }}
+</div>

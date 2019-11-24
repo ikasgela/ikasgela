@@ -98,6 +98,10 @@
             </tfoot>
         </table>
     </div>
+
+    <div class="d-flex justify-content-center">
+        {{ $actividades->appends(['disponibles' => $disponibles->currentPage()])->links() }}
+    </div>
 @else
     <div class="row">
         <div class="col-md">
