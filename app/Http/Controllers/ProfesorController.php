@@ -87,7 +87,12 @@ class ProfesorController extends Controller
                 break;
         }
 
-        $actividades = $actividades->paginate(25, ['*'], 'asignadas');
+        $temp = $actividades->paginate(25, ['*'], 'asignadas');
+
+        if (!$request->has('asignadas'))
+            $actividades = $actividades->paginate(25, ['*'], 'asignadas', $temp->lastPage());
+        else
+            $actividades = $temp;
 
         $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
 
@@ -236,6 +241,11 @@ class ProfesorController extends Controller
             $disponibles = $actividades_curso;
         }
 
-        return $disponibles->paginate(25, ['*'], 'disponibles');
+        $temp = $disponibles->paginate(25, ['*'], 'disponibles');
+
+        if (empty(request('disponibles')))
+            return $disponibles->paginate(25, ['*'], 'disponibles', $temp->lastPage());
+        else
+            return $temp;
     }
 }
