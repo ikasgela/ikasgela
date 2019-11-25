@@ -17,7 +17,7 @@
         <tbody>
         @php($media = false)
         @foreach($usuarios as $user)
-            @if(!$media && session('tutor_filtro_alumnos') == 'P'
+            @if(!$media && !isset($exportar) && session('tutor_filtro_alumnos') == 'P'
                     && $user->num_completadas('base') > $media_actividades_grupo)
                 @include('tutor.partials.fila_media')
                 @php($media = true)
