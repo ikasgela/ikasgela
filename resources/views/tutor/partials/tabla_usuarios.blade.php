@@ -29,7 +29,11 @@
                     </td>
                 @endif
                 <td>
-                    <a href="mailto:{{ $user->email }}" class="text-dark">{{ $user->name }}</a>
+                    @if(!isset($exportar))
+                        <a href="mailto:{{ $user->email }}" class="text-dark">{{ $user->name }}</a>
+                    @else
+                        {{ $user->name }}
+                    @endif
                     @include('profesor.partials.status_usuario')
                 </td>
                 <td class="text-center {{ ($actividades_obligatorias[$user->id] || $num_actividades_obligatorias == 0)
