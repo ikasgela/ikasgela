@@ -24,18 +24,21 @@
                     <div class="form-inline">
                         @if($tarea->estado == 11)
                             <button type="submit" name="nuevoestado" value="10"
-                                    class="btn btn-secondary"> {{ __('Show') }}
+                                    class="btn btn-secondary single_click">
+                                <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Show') }}
                             </button>
                         @else
                             <button type="submit" name="nuevoestado" value="31"
-                                    class="btn btn-secondary"> {{ __('Reset') }}
+                                    class="btn btn-secondary single_click">
+                                <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Reset') }}
                             </button>
                         @endif
                         <label class="mx-3">{{ __('Attempts') }}: {{ $tarea->intentos }}</label>
                         <div class="form-inline">
                             <button type="submit" name="nuevoestado" value="41"
-                                    class="mr-3 btn btn-warning"
-                                    onclick="return validate_feedback();"> {{ __('Send again') }}
+                                    class="mr-3 btn btn-warning single_click"
+                                    onclick="return validate_feedback();">
+                                <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Send again') }}
                             </button>
                             <label class="mr-2">{{ __('Score') }}</label>
                             <input class="mr-2 form-control" type="number" min="0" max="100" step="1"
@@ -43,8 +46,9 @@
                                    value="{{ !is_null($tarea->puntuacion) ? $tarea->puntuacion : $actividad->puntuacion }}"/>
                             <label class="mr-3"> {{ __('over') }} {{ $actividad->puntuacion }}</label>
                             <button type="submit" name="nuevoestado" value="40"
-                                    class="btn btn-primary mr-3"
-                                    onclick="return validate_feedback();"> {{ __('Finished') }}
+                                    class="btn btn-primary mr-3 single_click"
+                                    onclick="return validate_feedback();">
+                                <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Finished') }}
                             </button>
                         </div>
                         @if(!is_null($actividad->siguiente))
@@ -52,15 +56,18 @@
                                 <label>{{ __('Next') }}: @include('actividades.partials.siguiente')</label>
                                 @if($actividad->final)
                                     <button type="submit" name="nuevoestado" value="70"
-                                            class="mx-3 btn btn-light"> {{ __('Resume') }}
+                                            class="mx-3 btn btn-light single_click">
+                                        <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Resume') }}
                                     </button>
                                 @else
                                     <button type="submit" name="nuevoestado" value="70"
-                                            class="mx-3 btn btn-light"> {{ __('Pause') }}
+                                            class="mx-3 btn btn-light single_click">
+                                        <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Pause') }}
                                     </button>
                                 @endif
                                 <button type="submit" name="nuevoestado" value="71"
-                                        class="btn btn-light"> {{ __('Show next') }}
+                                        class="btn btn-light single_click">
+                                    <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Show next') }}
                                 </button>
                             </div>
                         @endif()
