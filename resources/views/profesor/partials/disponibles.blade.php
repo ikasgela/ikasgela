@@ -8,7 +8,9 @@
         @include('profesor.partials.tabla_disponibles')
         @include('layouts.errors')
         <div class="mb-4">
-            <button type="submit" class="btn btn-primary">{{ __('Save assigment') }}</button>
+            <button type="submit" class="btn btn-primary single_click">
+                <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Save assigment') }}
+            </button>
             <a href="{{ route('profesor.index') }}" class="btn btn-link text-secondary">{{ __('Cancel') }}</a>
         </div>
     </form>
