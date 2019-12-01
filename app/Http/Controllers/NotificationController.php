@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Mail\NotificationTest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class NotificationController extends Controller
 {
@@ -21,5 +22,12 @@ class NotificationController extends Controller
         setting_usuario(['notificacion_tarea_enviada' => $request->has('notificacion_tarea_enviada')]);
 
         return view('notifications.edit');
+    }
+
+    public function test()
+    {
+        Mail::to(Auth::user()->email)->queue(new NotificationTest());
+
+        return redirect(route('notifications.edit'));
     }
 }

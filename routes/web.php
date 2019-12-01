@@ -246,6 +246,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Ver entradas en el registro
         Route::get('/registros', 'RegistroController@index')
             ->name('registros.index');
+
+        // Probar notificaciones
+        Route::get('/notifications/test', 'NotificationController@test')
+            ->name('notifications.test');
     });
 
     // Alumnos y profesores

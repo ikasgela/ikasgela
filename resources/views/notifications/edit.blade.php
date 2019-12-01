@@ -58,4 +58,14 @@
 
     {!! Form::close() !!}
 
+    @if(Auth::user()->hasRole('admin'))
+
+        @include('partials.subtitulo', ['subtitulo' => __('Notification test')])
+
+        <a href="{{ route('notifications.test') }}" class="btn btn-success single_click">
+            <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Send') }}
+        </a>
+
+    @endif
+
 @endsection
