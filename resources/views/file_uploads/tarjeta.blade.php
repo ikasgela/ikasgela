@@ -72,7 +72,8 @@
                     <input type="hidden" name="file_upload_id" value="{{ $file_upload->id }}">
                     <span class="help-block text-danger">{{ $errors->first('file') }}</span>
                 </div>
-                <button class="btn btn-primary">{{ __('Upload') }}</button>
+                <button class="btn btn-primary single_click">
+                    <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Upload') }}</button>
             </form>
         </div>
     @endif
