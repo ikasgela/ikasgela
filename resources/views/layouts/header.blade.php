@@ -23,10 +23,12 @@
                     </div>
                     <div class="dropdown-divider"></div>
                     @include('layouts.partials.toggle_help')
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ route('notifications.edit') }}">
-                        <i class="fas fa-bell text-primary"></i> {{ __('Notification settings') }}
-                    </a>
+                    @if(Auth::user()->hasAnyRole(['alumno','profesor']))
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ route('notifications.edit') }}">
+                            <i class="fas fa-bell text-primary"></i> {{ __('Notification settings') }}
+                        </a>
+                    @endif
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/profile">
                         <i class="fas fa-user text-primary"></i> {{ __('Profile') }}
