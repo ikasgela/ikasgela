@@ -39,6 +39,9 @@
 
             {{ Form::campoTexto('max_simultaneas', __('Simultaneous activities')) }}
 
+            {{ Form::campoTexto('fecha_inicio', __('Start date')) }}
+            {{ Form::campoTexto('fecha_fin', __('End date')) }}
+
             @include('partials.guardar_cancelar')
 
             @include('layouts.errors')
