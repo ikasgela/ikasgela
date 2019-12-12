@@ -47,6 +47,8 @@ class CursoController extends Controller
                 'slug' => Str::slug(request('nombre')),
                 'qualification_id' => request('qualification_id'),
                 'max_simultaneas' => request('max_simultaneas'),
+                'fecha_inicio' => request('fecha_inicio'),
+                'fecha_fin' => request('fecha_fin'),
             ]);
         } catch (\Exception $e) {
             // Slug repetido
@@ -90,6 +92,8 @@ class CursoController extends Controller
                 : Str::slug(request('nombre')),
             'qualification_id' => request('qualification_id'),
             'max_simultaneas' => request('max_simultaneas'),
+            'fecha_inicio' => request('fecha_inicio'),
+            'fecha_fin' => request('fecha_fin'),
         ]);
 
         return redirect(route('cursos.index'));

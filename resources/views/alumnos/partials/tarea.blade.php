@@ -70,10 +70,16 @@
                             @case(20)   {{-- Aceptada --}}
                             @case(21)   {{-- Feedback leído --}}
                             @if($actividad->envioPermitido())
-                                <button type="submit" name="nuevoestado" value="30"
-                                        class="btn btn-primary mr-2 single_click">
-                                    <i class="fas fa-spinner fa-spin"
-                                       style="display:none;"></i> {{ __('Submit for review') }}</button>
+                                @if($actividad->unidad->curso->fecha_fin->gt(\Carbon\Carbon::now()))
+                                    <button type="submit" name="nuevoestado" value="30"
+                                            class="btn btn-primary mr-2 single_click">
+                                        <i class="fas fa-spinner fa-spin"
+                                           style="display:none;"></i> {{ __('Submit for review') }}</button>
+                                @else
+                                    <div class="alert alert-danger pb-0" role="alert">
+                                        <p>El curso ha finalizado, no se admiten más envíos.</p>
+                                    </div>
+                                @endif
                             @endif
                             @if($actividad->hasEtiqueta('extra') && !is_null($actividad->siguiente))
                                 <button type="submit" name="nuevoestado" value="71"

@@ -7,7 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Curso extends Model
 {
     protected $fillable = [
-        'category_id', 'nombre', 'descripcion', 'slug', 'qualification_id', 'max_simultaneas'
+        'category_id', 'nombre', 'descripcion', 'slug', 'qualification_id', 'max_simultaneas',
+        'fecha_inicio', 'fecha_fin'
+    ];
+
+    protected $dates = [
+        'created_at', 'updated_at', 'deleted_at',
+        'fecha_inicio', 'fecha_fin'
     ];
 
     public function category()
