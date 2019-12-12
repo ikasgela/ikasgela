@@ -11,6 +11,11 @@ class Curso extends Model
         'fecha_inicio', 'fecha_fin'
     ];
 
+    protected $dates = [
+        'created_at', 'updated_at', 'deleted_at',
+        'fecha_inicio', 'fecha_fin'
+    ];
+
     public function category()
     {
         return $this->belongsTo(Category::class);
