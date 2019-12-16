@@ -148,7 +148,7 @@ class CategoriesTest extends TestCase
         $category = factory(Category::class)->create();
 
         // When
-        $response = $this->get(route('categories.show', ['id' => $category->id]));
+        $response = $this->get(route('categories.show', ['category' => $category->id]));
 
         // Then
         $response->assertSee(__('Not implemented.'));
@@ -162,7 +162,7 @@ class CategoriesTest extends TestCase
 
         // When
         // Then
-        $this->get(route('categories.show', ['id' => $category->id]))
+        $this->get(route('categories.show', ['category' => $category->id]))
             ->assertForbidden();
     }
 
@@ -173,7 +173,7 @@ class CategoriesTest extends TestCase
 
         // When
         // Then
-        $this->get(route('categories.show', ['id' => $category->id]))
+        $this->get(route('categories.show', ['category' => $category->id]))
             ->assertRedirect(route('login'));
     }
 
@@ -184,7 +184,7 @@ class CategoriesTest extends TestCase
         $category = factory(Category::class)->create();
 
         // When
-        $response = $this->get(route('categories.edit', ['id' => $category->id]), $category->toArray());
+        $response = $this->get(route('categories.edit', ['category' => $category->id]), $category->toArray());
 
         // Then
         $response->assertSeeInOrder([$category->name, $category->slug, __('Save')]);
@@ -198,7 +198,7 @@ class CategoriesTest extends TestCase
 
         // When
         // Then
-        $this->get(route('categories.edit', ['id' => $category->id]), $category->toArray())
+        $this->get(route('categories.edit', ['category' => $category->id]), $category->toArray())
             ->assertForbidden();
     }
 
@@ -209,7 +209,7 @@ class CategoriesTest extends TestCase
 
         // When
         // Then
-        $this->get(route('categories.edit', ['id' => $category->id]), $category->toArray())
+        $this->get(route('categories.edit', ['category' => $category->id]), $category->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -221,10 +221,10 @@ class CategoriesTest extends TestCase
         $category->name = "Updated";
 
         // When
-        $this->put(route('categories.update', ['id' => $category->id]), $category->toArray());
+        $this->put(route('categories.update', ['category' => $category->id]), $category->toArray());
 
         // Then
-        $this->assertDatabaseHas('categories', ['id' => $category->id, 'name' => $category->name]);
+        $this->assertDatabaseHas('categories', ['category' => $category->id, 'name' => $category->name]);
     }
 
     public function testNotAdminNotUpdate()
@@ -236,7 +236,7 @@ class CategoriesTest extends TestCase
 
         // When
         // Then
-        $this->put(route('categories.update', ['id' => $category->id]), $category->toArray())
+        $this->put(route('categories.update', ['category' => $category->id]), $category->toArray())
             ->assertForbidden();
     }
 
@@ -248,7 +248,7 @@ class CategoriesTest extends TestCase
 
         // When
         // Then
-        $this->put(route('categories.update', ['id' => $category->id]), $category->toArray())
+        $this->put(route('categories.update', ['category' => $category->id]), $category->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -262,7 +262,7 @@ class CategoriesTest extends TestCase
         $category->name = null;
 
         // Then
-        $this->put(route('categories.update', ['id' => $category->id]), $category->toArray())
+        $this->put(route('categories.update', ['category' => $category->id]), $category->toArray())
             ->assertSessionHasErrors('name');
     }
 
@@ -276,7 +276,7 @@ class CategoriesTest extends TestCase
         $category->period_id = null;
 
         // Then
-        $this->put(route('categories.update', ['id' => $category->id]), $category->toArray())
+        $this->put(route('categories.update', ['category' => $category->id]), $category->toArray())
             ->assertSessionHasErrors('period_id');
     }
 
@@ -287,10 +287,10 @@ class CategoriesTest extends TestCase
         $category = factory(Category::class)->create();
 
         // When
-        $this->delete(route('categories.destroy', ['id' => $category->id]));
+        $this->delete(route('categories.destroy', ['category' => $category->id]));
 
         // Then
-        $this->assertDatabaseMissing('categories', ['id' => $category->id]);
+        $this->assertDatabaseMissing('categories', ['category' => $category->id]);
     }
 
     public function testNotAdminNotDelete()
@@ -301,7 +301,7 @@ class CategoriesTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('categories.destroy', ['id' => $category->id]))
+        $this->delete(route('categories.destroy', ['category' => $category->id]))
             ->assertForbidden();
     }
 
@@ -312,7 +312,7 @@ class CategoriesTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('categories.destroy', ['id' => $category->id]))
+        $this->delete(route('categories.destroy', ['category' => $category->id]))
             ->assertRedirect(route('login'));
     }
 }
