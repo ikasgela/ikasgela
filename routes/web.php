@@ -274,6 +274,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('tutor.index');
         Route::get('/tutor/export', 'TutorController@export')
             ->name('tutor.export');
+        Route::get('/tutor/tareas_enviadas', 'TutorController@tareas_enviadas')
+            ->name('tutor.tareas_enviadas');
 
         // Ver resultados de otros alumnos
         Route::post('/results', 'ResultController@index')
