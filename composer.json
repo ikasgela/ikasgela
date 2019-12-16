@@ -11,6 +11,7 @@
         "bkwld/cloner": "^3.4",
         "browner12/helpers": "^2.1",
         "cmgmyr/messenger": "^2.17",
+        "consoletvs/charts": "6.*",
         "doctrine/dbal": "^2.9",
         "fideloper/proxy": "^4.0",
         "graham-campbell/gitlab": "^1.8",
