@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Charts\TareasEnviadas;
+use App\Curso;
 use App\Exports\InformeGrupoExport;
 use App\Registro;
 use App\Tarea;
 use App\Traits\InformeGrupo;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -47,6 +49,8 @@ class TutorController extends Controller
 
     public function tareas_enviadas()
     {
+        $curso = Curso::find(setting_usuario('curso_actual'));
+
         $chart = new TareasEnviadas();
 
         $registros = Registro::where('estado', 30)
@@ -58,20 +62,27 @@ class TutorController extends Controller
             ->orderBy('timestamp')
             ->get()
             ->groupBy(function ($val) {
-                return Carbon::parse($val->timestamp)->format('Y-m-d');
+                return Carbon::parse($val->timestamp)->format('d/m/Y');
             });
 
-        $chart->labels($registros->keys()->map(function ($item, $key) {
-            return Carbon::parse($item)->format('d/m/Y');
-        }))->displayLegend(false);
+        $period = CarbonPeriod::create('2019-09-01', Carbon::now());
+
+        $todas_fechas = [];
+        foreach ($period as $date) {
+            $todas_fechas[$date->format('d/m/Y')] = 0;
+        }
+
+        $datos = array_merge($todas_fechas, $registros->map(function ($item, $key) {
+            return $item->count();
+        })->toArray());
+
+        $chart->labels(array_keys($datos))->displayLegend(false);
 
         $chart->dataset('Enviadas', 'bar',
-            $registros->map(function ($item, $key) {
-                return $item->count();
-            })->values())
+            array_values($datos))
             ->color("#3490dc")
             ->backgroundColor("#d6e9f8");
 
-        return view('tutor.tareas_enviadas', ['chart' => $chart]);
+        return view('tutor.tareas_enviadas', compact(['chart', 'curso']));
     }
 }

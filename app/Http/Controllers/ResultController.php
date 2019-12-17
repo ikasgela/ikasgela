@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Charts\TareasEnviadas;
 use App\Curso;
+use App\Registro;
 use App\Unidad;
 use App\User;
 use Auth;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use NumberFormatter;
 
@@ -162,10 +166,43 @@ class ResultController extends Controller
 
         $media_actividades_grupo = $formatter->format($total_actividades_grupo / $users->count());
 
+        $chart = new TareasEnviadas();
+
+        $registros = Registro::where('user_id', $user->id)
+            ->where('estado', 30)
+            ->whereHas('tarea.actividad.unidad.curso', function ($query) {
+                $query->where('cursos.id', setting_usuario('curso_actual'));
+            })->whereHas('tarea.actividad', function ($query) {
+                $query->where('actividades.auto_avance', false);
+            })
+            ->orderBy('timestamp')
+            ->get()
+            ->groupBy(function ($val) {
+                return Carbon::parse($val->timestamp)->format('d/m/Y');
+            });
+
+        $period = CarbonPeriod::create('2019-09-01', Carbon::now());
+
+        $todas_fechas = [];
+        foreach ($period as $date) {
+            $todas_fechas[$date->format('d/m/Y')] = 0;
+        }
+
+        $datos = array_merge($todas_fechas, $registros->map(function ($item, $key) {
+            return $item->count();
+        })->toArray());
+
+        $chart->labels(array_keys($datos))->displayLegend(false);
+
+        $chart->dataset('Enviadas', 'bar',
+            array_values($datos))
+            ->color("#3490dc")
+            ->backgroundColor("#d6e9f8");
+
         return view('results.index', compact(['curso', 'skills_curso', 'unidades', 'user', 'users',
             'resultados', 'resultados_unidades', 'nota_final',
             'actividades_obligatorias', 'num_actividades_obligatorias', 'numero_actividades_completadas',
             'pruebas_evaluacion', 'num_pruebas_evaluacion',
-            'media_actividades_grupo', 'competencias_50_porciento']));
+            'media_actividades_grupo', 'competencias_50_porciento', 'chart']));
     }
 }
