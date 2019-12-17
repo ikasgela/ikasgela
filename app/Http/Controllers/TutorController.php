@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Charts\TareasEnviadas;
+use App\Curso;
 use App\Exports\InformeGrupoExport;
 use App\Registro;
 use App\Tarea;
@@ -48,6 +49,8 @@ class TutorController extends Controller
 
     public function tareas_enviadas()
     {
+        $curso = Curso::find(setting_usuario('curso_actual'));
+
         $chart = new TareasEnviadas();
 
         $registros = Registro::where('estado', 30)
@@ -80,6 +83,6 @@ class TutorController extends Controller
             ->color("#3490dc")
             ->backgroundColor("#d6e9f8");
 
-        return view('tutor.tareas_enviadas', ['chart' => $chart]);
+        return view('tutor.tareas_enviadas', compact(['chart', 'curso']));
     }
 }
