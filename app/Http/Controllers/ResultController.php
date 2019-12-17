@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Charts\TareasEnviadas;
 use App\Curso;
+use App\Registro;
 use App\Unidad;
 use App\User;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use NumberFormatter;
 
@@ -162,10 +165,36 @@ class ResultController extends Controller
 
         $media_actividades_grupo = $formatter->format($total_actividades_grupo / $users->count());
 
+        $chart = new TareasEnviadas();
+
+        $registros = Registro::where('user_id', $user->id)
+            ->where('estado', 30)
+            ->whereHas('tarea.actividad.unidad.curso', function ($query) {
+                $query->where('cursos.id', setting_usuario('curso_actual'));
+            })->whereHas('tarea.actividad', function ($query) {
+                $query->where('actividades.auto_avance', false);
+            })
+            ->orderBy('timestamp')
+            ->get()
+            ->groupBy(function ($val) {
+                return Carbon::parse($val->timestamp)->format('Y-m-d');
+            });
+
+        $chart->labels($registros->keys()->map(function ($item, $key) {
+            return Carbon::parse($item)->format('d/m/Y');
+        }))->displayLegend(false);
+
+        $chart->dataset('Enviadas', 'bar',
+            $registros->map(function ($item, $key) {
+                return $item->count();
+            })->values())
+            ->color("#3490dc")
+            ->backgroundColor("#d6e9f8");
+
         return view('results.index', compact(['curso', 'skills_curso', 'unidades', 'user', 'users',
             'resultados', 'resultados_unidades', 'nota_final',
             'actividades_obligatorias', 'num_actividades_obligatorias', 'numero_actividades_completadas',
             'pruebas_evaluacion', 'num_pruebas_evaluacion',
-            'media_actividades_grupo', 'competencias_50_porciento']));
+            'media_actividades_grupo', 'competencias_50_porciento', 'chart']));
     }
 }
