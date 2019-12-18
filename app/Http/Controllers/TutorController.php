@@ -51,9 +51,13 @@ class TutorController extends Controller
     {
         $curso = Curso::find(setting_usuario('curso_actual'));
 
+        $fecha_inicio = $curso->fecha_inicio ?: Carbon::now()->subMonths(3);
+        $fecha_fin = $curso->fecha_fin ?: Carbon::now();
+
         $chart = new TareasEnviadas();
 
         $registros = Registro::where('estado', 30)
+            ->whereBetween('timestamp', [$fecha_inicio, $fecha_fin])
             ->whereHas('tarea.actividad.unidad.curso', function ($query) {
                 $query->where('cursos.id', setting_usuario('curso_actual'));
             })->whereHas('tarea.actividad', function ($query) {
@@ -65,7 +69,7 @@ class TutorController extends Controller
                 return Carbon::parse($val->timestamp)->format('d/m/Y');
             });
 
-        $period = CarbonPeriod::create('2019-09-01', Carbon::now());
+        $period = CarbonPeriod::create($fecha_inicio, $fecha_fin);
 
         $todas_fechas = [];
         foreach ($period as $date) {

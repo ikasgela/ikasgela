@@ -5,9 +5,9 @@
             <div class="row">
                 <div class="col-12 col-sm-6 p-3">
                     <h5 class="card-title">
-                        <a title="{{ __('Edit') }}" href="{{ route('users.edit', [$user->id]) }}"
-                           class="text-dark">{{ $user->name }}</a>
+                        {{ $user->name }}
                         @include('profesor.partials.status_usuario')
+                        @include('profesor.partials.acciones_usuario')
                     </h5>
                     <a href="mailto:{{ $user->email }}" class="card-link">{{ $user->email }}</a>
                 </div>
