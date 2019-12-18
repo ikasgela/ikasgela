@@ -187,14 +187,12 @@
         </div>
     @endif
 
-    @if(Auth::user()->hasAnyRole(['profesor', 'tutor']))
-        @include('partials.subtitulo', ['subtitulo' => __('Activities per day')])
+    @include('partials.subtitulo', ['subtitulo' => __('Activities per day')])
 
-        <div>
-            {!! $chart->container() !!}
-        </div>
+    <div>
+        {!! $chart->container() !!}
+    </div>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
-        {!! $chart->script() !!}
-    @endif
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
+    {!! $chart->script() !!}
 @endsection
