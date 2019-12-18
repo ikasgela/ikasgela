@@ -145,7 +145,7 @@ class ResultController extends Controller
 
         // Pruebas de evaluación
 
-        $pruebas_evaluacion = false;
+        $pruebas_evaluacion = true;
         $num_pruebas_evaluacion = 0;
         foreach ($unidades as $unidad) {
             if ($unidad->hasEtiqueta('examen')
@@ -153,8 +153,8 @@ class ResultController extends Controller
                 && $resultados_unidades[$unidad->id]->actividad > 0) {
                 $num_pruebas_evaluacion += 1;
 
-                if (($resultados_unidades[$unidad->id]->tarea / $resultados_unidades[$unidad->id]->actividad) * 10 >= 5) {
-                    $pruebas_evaluacion = true;
+                if (($resultados_unidades[$unidad->id]->tarea / $resultados_unidades[$unidad->id]->actividad) * 10 < 5) {
+                    $pruebas_evaluacion = false;
                 }
             }
         }
