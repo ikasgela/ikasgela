@@ -111,7 +111,8 @@ class ResultController extends Controller
 
         $numero_actividades_completadas = $user->num_completadas('base');
 
-        $nota = $nota * ($numero_actividades_completadas / $num_actividades_obligatorias);
+        if ($num_actividades_obligatorias > 0)
+            $nota = $nota * ($numero_actividades_completadas / $num_actividades_obligatorias);
 
         // Formateador con 2 decimales y en el idioma del usuario
         $locale = (isset($_COOKIE['locale'])) ? $_COOKIE['locale'] : $_SERVER['HTTP_ACCEPT_LANGUAGE'];
