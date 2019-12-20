@@ -148,7 +148,7 @@ class GroupsTest extends TestCase
         $group = factory(Group::class)->create();
 
         // When
-        $response = $this->get(route('groups.show', ['id' => $group->id]));
+        $response = $this->get(route('groups.show', $group));
 
         // Then
         $response->assertSee(__('Not implemented.'));
@@ -162,7 +162,7 @@ class GroupsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('groups.show', ['id' => $group->id]))
+        $this->get(route('groups.show', $group))
             ->assertForbidden();
     }
 
@@ -173,7 +173,7 @@ class GroupsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('groups.show', ['id' => $group->id]))
+        $this->get(route('groups.show', $group))
             ->assertRedirect(route('login'));
     }
 
@@ -184,7 +184,7 @@ class GroupsTest extends TestCase
         $group = factory(Group::class)->create();
 
         // When
-        $response = $this->get(route('groups.edit', ['id' => $group->id]), $group->toArray());
+        $response = $this->get(route('groups.edit', $group), $group->toArray());
 
         // Then
         $response->assertSeeInOrder([$group->name, $group->slug, __('Save')]);
@@ -198,7 +198,7 @@ class GroupsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('groups.edit', ['id' => $group->id]), $group->toArray())
+        $this->get(route('groups.edit', $group), $group->toArray())
             ->assertForbidden();
     }
 
@@ -209,7 +209,7 @@ class GroupsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('groups.edit', ['id' => $group->id]), $group->toArray())
+        $this->get(route('groups.edit', $group), $group->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -221,10 +221,10 @@ class GroupsTest extends TestCase
         $group->name = "Updated";
 
         // When
-        $this->put(route('groups.update', ['id' => $group->id]), $group->toArray());
+        $this->put(route('groups.update', $group), $group->toArray());
 
         // Then
-        $this->assertDatabaseHas('groups', ['id' => $group->id, 'name' => $group->name]);
+        $this->assertDatabaseHas('groups', $group->toArray());
     }
 
     public function testNotAdminNotUpdate()
@@ -236,7 +236,7 @@ class GroupsTest extends TestCase
 
         // When
         // Then
-        $this->put(route('groups.update', ['id' => $group->id]), $group->toArray())
+        $this->put(route('groups.update', $group), $group->toArray())
             ->assertForbidden();
     }
 
@@ -248,7 +248,7 @@ class GroupsTest extends TestCase
 
         // When
         // Then
-        $this->put(route('groups.update', ['id' => $group->id]), $group->toArray())
+        $this->put(route('groups.update', $group), $group->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -262,7 +262,7 @@ class GroupsTest extends TestCase
         $group->name = null;
 
         // Then
-        $this->put(route('groups.update', ['id' => $group->id]), $group->toArray())
+        $this->put(route('groups.update', $group), $group->toArray())
             ->assertSessionHasErrors('name');
     }
 
@@ -276,7 +276,7 @@ class GroupsTest extends TestCase
         $group->period_id = null;
 
         // Then
-        $this->put(route('groups.update', ['id' => $group->id]), $group->toArray())
+        $this->put(route('groups.update', $group), $group->toArray())
             ->assertSessionHasErrors('period_id');
     }
 
@@ -287,10 +287,10 @@ class GroupsTest extends TestCase
         $group = factory(Group::class)->create();
 
         // When
-        $this->delete(route('groups.destroy', ['id' => $group->id]));
+        $this->delete(route('groups.destroy', $group));
 
         // Then
-        $this->assertDatabaseMissing('groups', ['id' => $group->id]);
+        $this->assertDatabaseMissing('groups', $group->toArray());
     }
 
     public function testNotAdminNotDelete()
@@ -301,7 +301,7 @@ class GroupsTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('groups.destroy', ['id' => $group->id]))
+        $this->delete(route('groups.destroy', $group))
             ->assertForbidden();
     }
 
@@ -312,7 +312,7 @@ class GroupsTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('groups.destroy', ['id' => $group->id]))
+        $this->delete(route('groups.destroy', $group))
             ->assertRedirect(route('login'));
     }
 }
