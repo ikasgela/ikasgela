@@ -213,7 +213,7 @@ class CuestionariosTest extends TestCase
         $this->put(route('cuestionarios.update', $cuestionario), $cuestionario->toArray());
 
         // Then
-        $this->assertDatabaseHas('cuestionarios', ['id' => $cuestionario->id, 'titulo' => $cuestionario->titulo]);
+        $this->assertDatabaseHas('cuestionarios', $cuestionario->toArray());
     }
 
     public function testNotProfesorNotUpdate()
@@ -265,7 +265,7 @@ class CuestionariosTest extends TestCase
         $this->delete(route('cuestionarios.destroy', $cuestionario));
 
         // Then
-        $this->assertDatabaseMissing('cuestionarios', ['id' => $cuestionario->id]);
+        $this->assertDatabaseMissing('cuestionarios', $cuestionario->toArray());
     }
 
     public function testNotProfesorNotDelete()
