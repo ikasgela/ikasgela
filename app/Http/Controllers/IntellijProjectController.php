@@ -157,15 +157,28 @@ class IntellijProjectController extends Controller
 
             $fork = null;
             $error_code = 0;
+
             $n = 2;
+
+            $namespace = trim($destino, '/');
+            if (empty($namespace))
+                $namespace = 'root';
+
+            if (empty($nombre))
+                $nombre = $original['name'];
+
+            if (empty($ruta))
+                $ruta = Str::slug($nombre);
+
             $ruta_temp = $ruta;
+            $nombre_temp = $nombre;
 
             do {
 
                 try {
                     // Hacer el fork
                     $fork = GitLab::projects()->fork($original['id'], [
-                        'namespace' => trim($destino, '/'),
+                        'namespace' => $namespace,
                         'name' => $nombre,
                         'path' => Str::slug($ruta)
                     ]);
@@ -181,9 +194,11 @@ class IntellijProjectController extends Controller
                 } catch (\RuntimeException $e) {
                     $error_code = $e->getCode();
 
-                    $ruta = $ruta_temp . "-$n";
-                    $nombre = $original['name'] . " - $n";
-                    $n += 1;
+                    if ($error_code == 409) {
+                        $ruta = $ruta_temp . "-$n";
+                        $nombre = $nombre_temp . " - $n";
+                        $n += 1;
+                    }
                 }
 
             } while ($fork == null && $error_code == 409);
