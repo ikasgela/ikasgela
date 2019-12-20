@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Charts\TareasEnviadas;
+use App\Curso;
 use App\Exports\InformeGrupoExport;
+use App\Registro;
 use App\Tarea;
 use App\Traits\InformeGrupo;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -40,5 +45,48 @@ class TutorController extends Controller
     public function export()
     {
         return Excel::download(new InformeGrupoExport, 'informegrupo.xlsx');
+    }
+
+    public function tareas_enviadas()
+    {
+        $curso = Curso::find(setting_usuario('curso_actual'));
+
+        $fecha_inicio = $curso->fecha_inicio ?: Carbon::now()->subMonths(3);
+        $fecha_fin = $curso->fecha_fin ?: Carbon::now();
+
+        $chart = new TareasEnviadas();
+
+        $registros = Registro::where('estado', 30)
+            ->whereBetween('timestamp', [$fecha_inicio, $fecha_fin])
+            ->whereHas('tarea.actividad.unidad.curso', function ($query) {
+                $query->where('cursos.id', setting_usuario('curso_actual'));
+            })->whereHas('tarea.actividad', function ($query) {
+                $query->where('actividades.auto_avance', false);
+            })
+            ->orderBy('timestamp')
+            ->get()
+            ->groupBy(function ($val) {
+                return Carbon::parse($val->timestamp)->format('d/m/Y');
+            });
+
+        $period = CarbonPeriod::create($fecha_inicio, $fecha_fin);
+
+        $todas_fechas = [];
+        foreach ($period as $date) {
+            $todas_fechas[$date->format('d/m/Y')] = 0;
+        }
+
+        $datos = array_merge($todas_fechas, $registros->map(function ($item, $key) {
+            return $item->count();
+        })->toArray());
+
+        $chart->labels(array_keys($datos))->displayLegend(false);
+
+        $chart->dataset('Enviadas', 'bar',
+            array_values($datos))
+            ->color("#3490dc")
+            ->backgroundColor("#d6e9f8");
+
+        return view('tutor.tareas_enviadas', compact(['chart', 'curso']));
     }
 }

@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Charts\TareasEnviadas;
 use App\Curso;
+use App\Registro;
 use App\Unidad;
 use App\User;
 use Auth;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use NumberFormatter;
 
@@ -107,7 +111,8 @@ class ResultController extends Controller
 
         $numero_actividades_completadas = $user->num_completadas('base');
 
-        $nota = $nota * ($numero_actividades_completadas / $num_actividades_obligatorias);
+        if ($num_actividades_obligatorias > 0)
+            $nota = $nota * ($numero_actividades_completadas / $num_actividades_obligatorias);
 
         // Formateador con 2 decimales y en el idioma del usuario
         $locale = (isset($_COOKIE['locale'])) ? $_COOKIE['locale'] : $_SERVER['HTTP_ACCEPT_LANGUAGE'];
@@ -140,7 +145,7 @@ class ResultController extends Controller
 
         // Pruebas de evaluación
 
-        $pruebas_evaluacion = false;
+        $pruebas_evaluacion = true;
         $num_pruebas_evaluacion = 0;
         foreach ($unidades as $unidad) {
             if ($unidad->hasEtiqueta('examen')
@@ -148,8 +153,8 @@ class ResultController extends Controller
                 && $resultados_unidades[$unidad->id]->actividad > 0) {
                 $num_pruebas_evaluacion += 1;
 
-                if (($resultados_unidades[$unidad->id]->tarea / $resultados_unidades[$unidad->id]->actividad) * 10 >= 5) {
-                    $pruebas_evaluacion = true;
+                if (($resultados_unidades[$unidad->id]->tarea / $resultados_unidades[$unidad->id]->actividad) * 10 < 5) {
+                    $pruebas_evaluacion = false;
                 }
             }
         }
@@ -162,10 +167,49 @@ class ResultController extends Controller
 
         $media_actividades_grupo = $formatter->format($total_actividades_grupo / $users->count());
 
+        // Gráfico de actividades
+
+        $fecha_inicio = $curso->fecha_inicio ?: Carbon::now()->subMonths(3);
+        $fecha_fin = $curso->fecha_fin ?: Carbon::now();
+
+        $chart = new TareasEnviadas();
+
+        $registros = Registro::where('user_id', $user->id)
+            ->where('estado', 30)
+            ->whereBetween('timestamp', [$fecha_inicio, $fecha_fin])
+            ->whereHas('tarea.actividad.unidad.curso', function ($query) {
+                $query->where('cursos.id', setting_usuario('curso_actual'));
+            })->whereHas('tarea.actividad', function ($query) {
+                $query->where('actividades.auto_avance', false);
+            })
+            ->orderBy('timestamp')
+            ->get()
+            ->groupBy(function ($val) {
+                return Carbon::parse($val->timestamp)->format('d/m/Y');
+            });
+
+        $period = CarbonPeriod::create($fecha_inicio, $fecha_fin);
+
+        $todas_fechas = [];
+        foreach ($period as $date) {
+            $todas_fechas[$date->format('d/m/Y')] = 0;
+        }
+
+        $datos = array_merge($todas_fechas, $registros->map(function ($item, $key) {
+            return $item->count();
+        })->toArray());
+
+        $chart->labels(array_keys($datos))->displayLegend(false);
+
+        $chart->dataset('Enviadas', 'bar',
+            array_values($datos))
+            ->color("#3490dc")
+            ->backgroundColor("#d6e9f8");
+
         return view('results.index', compact(['curso', 'skills_curso', 'unidades', 'user', 'users',
             'resultados', 'resultados_unidades', 'nota_final',
             'actividades_obligatorias', 'num_actividades_obligatorias', 'numero_actividades_completadas',
             'pruebas_evaluacion', 'num_pruebas_evaluacion',
-            'media_actividades_grupo', 'competencias_50_porciento']));
+            'media_actividades_grupo', 'competencias_50_porciento', 'chart']));
     }
 }

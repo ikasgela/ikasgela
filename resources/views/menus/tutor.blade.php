@@ -9,3 +9,8 @@
         <i class="nav-icon fas fa-graduation-cap"></i> {{ __('Results') }}
     </a>
 </li>
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('tutor.tareas_enviadas') }}">
+        <i class="nav-icon fas fa-chart-bar"></i> {{ __('Activities per day') }}
+    </a>
+</li>
