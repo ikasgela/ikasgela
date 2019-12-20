@@ -129,7 +129,7 @@ class CuestionariosTest extends TestCase
         $this->post(route('cuestionarios.store'), $cuestionario->toArray())
             ->assertSessionHasErrors('titulo');
     }
-    
+
     public function testShow()
     {
         // Given
@@ -137,7 +137,7 @@ class CuestionariosTest extends TestCase
         $cuestionario = factory(Cuestionario::class)->create();
 
         // When
-        $response = $this->get(route('cuestionarios.show', ['id' => $cuestionario->id]));
+        $response = $this->get(route('cuestionarios.show', $cuestionario));
 
         // Then
         $response->assertSeeInOrder([__('Questionnaire'), $cuestionario->titulo]);
@@ -151,7 +151,7 @@ class CuestionariosTest extends TestCase
 
         // When
         // Then
-        $this->get(route('cuestionarios.show', ['id' => $cuestionario->id]))
+        $this->get(route('cuestionarios.show', $cuestionario))
             ->assertForbidden();
     }
 
@@ -162,7 +162,7 @@ class CuestionariosTest extends TestCase
 
         // When
         // Then
-        $this->get(route('cuestionarios.show', ['id' => $cuestionario->id]))
+        $this->get(route('cuestionarios.show', $cuestionario))
             ->assertRedirect(route('login'));
     }
 
@@ -173,7 +173,7 @@ class CuestionariosTest extends TestCase
         $cuestionario = factory(Cuestionario::class)->create();
 
         // When
-        $response = $this->get(route('cuestionarios.edit', ['id' => $cuestionario->id]), $cuestionario->toArray());
+        $response = $this->get(route('cuestionarios.edit', $cuestionario), $cuestionario->toArray());
 
         // Then
         $response->assertSeeInOrder([$cuestionario->titulo, __('Save')]);
@@ -187,7 +187,7 @@ class CuestionariosTest extends TestCase
 
         // When
         // Then
-        $this->get(route('cuestionarios.edit', ['id' => $cuestionario->id]), $cuestionario->toArray())
+        $this->get(route('cuestionarios.edit', $cuestionario), $cuestionario->toArray())
             ->assertForbidden();
     }
 
@@ -198,7 +198,7 @@ class CuestionariosTest extends TestCase
 
         // When
         // Then
-        $this->get(route('cuestionarios.edit', ['id' => $cuestionario->id]), $cuestionario->toArray())
+        $this->get(route('cuestionarios.edit', $cuestionario), $cuestionario->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -210,7 +210,7 @@ class CuestionariosTest extends TestCase
         $cuestionario->titulo = "Updated";
 
         // When
-        $this->put(route('cuestionarios.update', ['id' => $cuestionario->id]), $cuestionario->toArray());
+        $this->put(route('cuestionarios.update', $cuestionario), $cuestionario->toArray());
 
         // Then
         $this->assertDatabaseHas('cuestionarios', ['id' => $cuestionario->id, 'titulo' => $cuestionario->titulo]);
@@ -225,7 +225,7 @@ class CuestionariosTest extends TestCase
 
         // When
         // Then
-        $this->put(route('cuestionarios.update', ['id' => $cuestionario->id]), $cuestionario->toArray())
+        $this->put(route('cuestionarios.update', $cuestionario), $cuestionario->toArray())
             ->assertForbidden();
     }
 
@@ -237,7 +237,7 @@ class CuestionariosTest extends TestCase
 
         // When
         // Then
-        $this->put(route('cuestionarios.update', ['id' => $cuestionario->id]), $cuestionario->toArray())
+        $this->put(route('cuestionarios.update', $cuestionario), $cuestionario->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -251,7 +251,7 @@ class CuestionariosTest extends TestCase
         $cuestionario->titulo = null;
 
         // Then
-        $this->put(route('cuestionarios.update', ['id' => $cuestionario->id]), $cuestionario->toArray())
+        $this->put(route('cuestionarios.update', $cuestionario), $cuestionario->toArray())
             ->assertSessionHasErrors('titulo');
     }
 
@@ -262,7 +262,7 @@ class CuestionariosTest extends TestCase
         $cuestionario = factory(Cuestionario::class)->create();
 
         // When
-        $this->delete(route('cuestionarios.destroy', ['id' => $cuestionario->id]));
+        $this->delete(route('cuestionarios.destroy', $cuestionario));
 
         // Then
         $this->assertDatabaseMissing('cuestionarios', ['id' => $cuestionario->id]);
@@ -276,7 +276,7 @@ class CuestionariosTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('cuestionarios.destroy', ['id' => $cuestionario->id]))
+        $this->delete(route('cuestionarios.destroy', $cuestionario))
             ->assertForbidden();
     }
 
@@ -287,7 +287,7 @@ class CuestionariosTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('cuestionarios.destroy', ['id' => $cuestionario->id]))
+        $this->delete(route('cuestionarios.destroy', $cuestionario))
             ->assertRedirect(route('login'));
     }
 }
