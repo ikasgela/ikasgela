@@ -50,7 +50,7 @@ class PreguntaController extends Controller
         if (!is_null($request->input('accion'))) {
             switch ($request->input('accion')) {
                 case 'preguntas.anyadir':
-                    return redirect(route('cuestionarios.edit', ['cuestionario_id' => $request->input('cuestionario_id')]));
+                    return redirect(route('cuestionarios.edit', ['cuestionario' => $request->input('cuestionario_id')]));
             }
         }
         return redirect(route('preguntas.index'));

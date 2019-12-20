@@ -44,7 +44,7 @@
                         </td>
                         <td>
                             <form method="POST"
-                                  action="{{ route('youtube_videos.desasociar', ['actividad' => $actividad->id, '$youtube_video'=>$youtube_video->id]) }}">
+                                  action="{{ route('youtube_videos.desasociar', ['actividad' => $actividad->id, 'youtube_video' => $youtube_video->id]) }}">
                                 @csrf
                                 @method('DELETE')
                                 <div class='btn-group'>

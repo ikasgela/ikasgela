@@ -41,7 +41,7 @@
                         <td>@include('partials.link_gitlab', ['proyecto' => $intellij_project->gitlab() ])</td>
                         <td>
                             <form method="POST"
-                                  action="{{ route('intellij_projects.desasociar', ['actividad' => $actividad->id, '$intellij_project'=>$intellij_project->id]) }}">
+                                  action="{{ route('intellij_projects.desasociar', ['actividad' => $actividad->id, 'intellij_project' => $intellij_project->id]) }}">
                                 @csrf
                                 @method('DELETE')
                                 <div class='btn-group'>
