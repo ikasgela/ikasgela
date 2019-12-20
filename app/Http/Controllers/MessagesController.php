@@ -12,7 +12,6 @@ use Cmgmyr\Messenger\Models\Participant;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
@@ -114,14 +113,12 @@ class MessagesController extends Controller
             'recipients' => 'required',
         ]);
 
-        $input = Input::all();
-
-        $mensaje_filtrado = $this->filtrarParrafosVacios($input['message']);
+        $mensaje_filtrado = $this->filtrarParrafosVacios($request['message']);
 
         $thread = Hilo::create([
-            'subject' => $input['subject'],
+            'subject' => $request['subject'],
             'owner_id' => Auth::id(),
-            'noreply' => Input::has('noreply')
+            'noreply' => $request->has('noreply')
         ]);
 
         // Message
@@ -139,8 +136,8 @@ class MessagesController extends Controller
         ]);
 
         // Recipients
-        if (Input::has('recipients')) {
-            $thread->addParticipant($input['recipients']);
+        if ($request->has('recipients')) {
+            $thread->addParticipant($request['recipients']);
         }
 
         $this->enviarEmails($thread, Auth::id());
@@ -170,7 +167,7 @@ class MessagesController extends Controller
 
         $thread->activateAllParticipants();
 
-        $mensaje_filtrado = $this->filtrarParrafosVacios(Input::get('message'));
+        $mensaje_filtrado = $this->filtrarParrafosVacios($request['message']);
 
         // Message
         Message::create([
@@ -188,8 +185,8 @@ class MessagesController extends Controller
         $participant->save();
 
         // Recipients
-        if (Input::has('recipients')) {
-            $thread->addParticipant(Input::get('recipients'));
+        if ($request->has('recipients')) {
+            $thread->addParticipant($request['recipients']);
         }
 
         $this->enviarEmails($thread, Auth::id());
