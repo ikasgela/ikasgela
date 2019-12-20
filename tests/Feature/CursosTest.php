@@ -148,7 +148,7 @@ class CursosTest extends TestCase
         $curso = factory(Curso::class)->create();
 
         // When
-        $response = $this->get(route('cursos.show', ['id' => $curso->id]));
+        $response = $this->get(route('cursos.show', $curso));
 
         // Then
         $response->assertSee(__('Not implemented.'));
@@ -162,7 +162,7 @@ class CursosTest extends TestCase
 
         // When
         // Then
-        $this->get(route('cursos.show', ['id' => $curso->id]))
+        $this->get(route('cursos.show', $curso))
             ->assertForbidden();
     }
 
@@ -173,7 +173,7 @@ class CursosTest extends TestCase
 
         // When
         // Then
-        $this->get(route('cursos.show', ['id' => $curso->id]))
+        $this->get(route('cursos.show', $curso))
             ->assertRedirect(route('login'));
     }
 
@@ -184,7 +184,7 @@ class CursosTest extends TestCase
         $curso = factory(Curso::class)->create();
 
         // When
-        $response = $this->get(route('cursos.edit', ['id' => $curso->id]), $curso->toArray());
+        $response = $this->get(route('cursos.edit', $curso), $curso->toArray());
 
         // Then
         $response->assertSeeInOrder([$curso->name, $curso->slug, __('Save')]);
@@ -198,7 +198,7 @@ class CursosTest extends TestCase
 
         // When
         // Then
-        $this->get(route('cursos.edit', ['id' => $curso->id]), $curso->toArray())
+        $this->get(route('cursos.edit', $curso), $curso->toArray())
             ->assertForbidden();
     }
 
@@ -209,7 +209,7 @@ class CursosTest extends TestCase
 
         // When
         // Then
-        $this->get(route('cursos.edit', ['id' => $curso->id]), $curso->toArray())
+        $this->get(route('cursos.edit', $curso), $curso->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -221,10 +221,10 @@ class CursosTest extends TestCase
         $curso->nombre = "Updated";
 
         // When
-        $this->put(route('cursos.update', ['id' => $curso->id]), $curso->toArray());
+        $this->put(route('cursos.update', $curso), $curso->toArray());
 
         // Then
-        $this->assertDatabaseHas('cursos', ['id' => $curso->id, 'nombre' => $curso->nombre]);
+        $this->assertDatabaseHas('cursos', $curso->toArray());
     }
 
     public function testNotAdminNotUpdate()
@@ -236,7 +236,7 @@ class CursosTest extends TestCase
 
         // When
         // Then
-        $this->put(route('cursos.update', ['id' => $curso->id]), $curso->toArray())
+        $this->put(route('cursos.update', $curso), $curso->toArray())
             ->assertForbidden();
     }
 
@@ -248,7 +248,7 @@ class CursosTest extends TestCase
 
         // When
         // Then
-        $this->put(route('cursos.update', ['id' => $curso->id]), $curso->toArray())
+        $this->put(route('cursos.update', $curso), $curso->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -262,7 +262,7 @@ class CursosTest extends TestCase
         $curso->nombre = null;
 
         // Then
-        $this->put(route('cursos.update', ['id' => $curso->id]), $curso->toArray())
+        $this->put(route('cursos.update', $curso), $curso->toArray())
             ->assertSessionHasErrors('nombre');
     }
 
@@ -276,7 +276,7 @@ class CursosTest extends TestCase
         $curso->category_id = null;
 
         // Then
-        $this->put(route('cursos.update', ['id' => $curso->id]), $curso->toArray())
+        $this->put(route('cursos.update', $curso), $curso->toArray())
             ->assertSessionHasErrors('category_id');
     }
 
@@ -287,10 +287,10 @@ class CursosTest extends TestCase
         $curso = factory(Curso::class)->create();
 
         // When
-        $this->delete(route('cursos.destroy', ['id' => $curso->id]));
+        $this->delete(route('cursos.destroy', $curso));
 
         // Then
-        $this->assertDatabaseMissing('cursos', ['id' => $curso->id]);
+        $this->assertDatabaseMissing('cursos', $curso->toArray());
     }
 
     public function testNotAdminNotDelete()
@@ -301,7 +301,7 @@ class CursosTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('cursos.destroy', ['id' => $curso->id]))
+        $this->delete(route('cursos.destroy', $curso))
             ->assertForbidden();
     }
 
@@ -312,7 +312,7 @@ class CursosTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('cursos.destroy', ['id' => $curso->id]))
+        $this->delete(route('cursos.destroy', $curso))
             ->assertRedirect(route('login'));
     }
 }
