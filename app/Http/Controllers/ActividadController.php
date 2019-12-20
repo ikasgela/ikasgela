@@ -332,7 +332,7 @@ class ActividadController extends Controller
         if (Auth::user()->hasRole('alumno')) {
             return redirect(route('users.home'));
         } else if (Auth::user()->hasRole('profesor')) {
-            return redirect(route('profesor.tareas', ['usuario' => $tarea->user->id]));
+            return redirect(route('profesor.tareas', ['user' => $tarea->user->id]));
         } else {
             return redirect(route('home'));
         }

@@ -51,7 +51,7 @@ class AlumnoController extends Controller
         return view('alumnos.portada', compact(['organization', 'period']));
     }
 
-    public function setCurso(Curso $curso)
+    public function setCurso(Curso $curso, Request $request)
     {
         $user = Auth::user();
         $cursos = Curso::all();

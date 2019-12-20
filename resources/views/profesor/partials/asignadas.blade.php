@@ -67,12 +67,12 @@
                     @endif
                     <td>
                         <form method="POST"
-                              action="{{ route('tareas.destroy', ['user' => $user->id, 'actividad'=>$actividad->tarea->id]) }}">
+                              action="{{ route('tareas.destroy', ['user' => $user->id, 'tarea' => $actividad->tarea->id]) }}">
                             @csrf
                             @method('DELETE')
                             <div class='btn-group'>
                                 <a title="{{ __('Review') }}"
-                                   href="{{ route('profesor.revisar', ['user' => $user->id, 'actividad'=>$actividad->tarea->id]) }}"
+                                   href="{{ route('profesor.revisar', ['user' => $user->id, 'tarea' => $actividad->tarea->id]) }}"
                                    class="btn btn-light btn-sm"><i class="fas fa-bullhorn"></i></a>
                                 @if(Auth::user()->hasRole('admin'))
                                     <a title="{{ __('Edit activity') }}"
