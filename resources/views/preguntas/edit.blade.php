@@ -40,6 +40,6 @@
     @include('items.tabla')
 
     <a class="btn btn-primary"
-       href="{{ route('items.anyadir', ['pregunta_id'=>$pregunta->id]) }}">{{ __('Add item') }}</a>
+       href="{{ route('items.anyadir', $pregunta) }}">{{ __('Add item') }}</a>
 
 @endsection

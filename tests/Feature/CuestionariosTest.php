@@ -213,7 +213,7 @@ class CuestionariosTest extends TestCase
         $this->put(route('cuestionarios.update', $cuestionario), $cuestionario->toArray());
 
         // Then
-        $this->assertDatabaseHas('cuestionarios', $cuestionario->toArray());
+        $this->assertDatabaseHas('cuestionarios', ['id' => $cuestionario->id, 'titulo' => $cuestionario->titulo]);
     }
 
     public function testNotProfesorNotUpdate()

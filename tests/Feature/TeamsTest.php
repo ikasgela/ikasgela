@@ -148,7 +148,7 @@ class TeamsTest extends TestCase
         $team = factory(Team::class)->create();
 
         // When
-        $response = $this->get(route('teams.show', ['id' => $team->id]));
+        $response = $this->get(route('teams.show', $team));
 
         // Then
         $response->assertSee(__('Not implemented.'));
@@ -162,7 +162,7 @@ class TeamsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('teams.show', ['id' => $team->id]))
+        $this->get(route('teams.show', $team))
             ->assertForbidden();
     }
 
@@ -173,7 +173,7 @@ class TeamsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('teams.show', ['id' => $team->id]))
+        $this->get(route('teams.show', $team))
             ->assertRedirect(route('login'));
     }
 
@@ -184,7 +184,7 @@ class TeamsTest extends TestCase
         $team = factory(Team::class)->create();
 
         // When
-        $response = $this->get(route('teams.edit', ['id' => $team->id]), $team->toArray());
+        $response = $this->get(route('teams.edit', $team), $team->toArray());
 
         // Then
         $response->assertSeeInOrder([$team->name, $team->slug, __('Save')]);
@@ -198,7 +198,7 @@ class TeamsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('teams.edit', ['id' => $team->id]), $team->toArray())
+        $this->get(route('teams.edit', $team), $team->toArray())
             ->assertForbidden();
     }
 
@@ -209,7 +209,7 @@ class TeamsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('teams.edit', ['id' => $team->id]), $team->toArray())
+        $this->get(route('teams.edit', $team), $team->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -221,7 +221,7 @@ class TeamsTest extends TestCase
         $team->name = "Updated";
 
         // When
-        $this->put(route('teams.update', ['id' => $team->id]), $team->toArray());
+        $this->put(route('teams.update', $team), $team->toArray());
 
         // Then
         $this->assertDatabaseHas('teams', ['id' => $team->id, 'name' => $team->name]);
@@ -236,7 +236,7 @@ class TeamsTest extends TestCase
 
         // When
         // Then
-        $this->put(route('teams.update', ['id' => $team->id]), $team->toArray())
+        $this->put(route('teams.update', $team), $team->toArray())
             ->assertForbidden();
     }
 
@@ -248,7 +248,7 @@ class TeamsTest extends TestCase
 
         // When
         // Then
-        $this->put(route('teams.update', ['id' => $team->id]), $team->toArray())
+        $this->put(route('teams.update', $team), $team->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -262,7 +262,7 @@ class TeamsTest extends TestCase
         $team->name = null;
 
         // Then
-        $this->put(route('teams.update', ['id' => $team->id]), $team->toArray())
+        $this->put(route('teams.update', $team), $team->toArray())
             ->assertSessionHasErrors('name');
     }
 
@@ -276,7 +276,7 @@ class TeamsTest extends TestCase
         $team->group_id = null;
 
         // Then
-        $this->put(route('teams.update', ['id' => $team->id]), $team->toArray())
+        $this->put(route('teams.update', $team), $team->toArray())
             ->assertSessionHasErrors('group_id');
     }
 
@@ -287,10 +287,10 @@ class TeamsTest extends TestCase
         $team = factory(Team::class)->create();
 
         // When
-        $this->delete(route('teams.destroy', ['id' => $team->id]));
+        $this->delete(route('teams.destroy', $team));
 
         // Then
-        $this->assertDatabaseMissing('teams', ['id' => $team->id]);
+        $this->assertDatabaseMissing('teams', $team->toArray());
     }
 
     public function testNotAdminNotDelete()
@@ -301,7 +301,7 @@ class TeamsTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('teams.destroy', ['id' => $team->id]))
+        $this->delete(route('teams.destroy', $team))
             ->assertForbidden();
     }
 
@@ -312,7 +312,7 @@ class TeamsTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('teams.destroy', ['id' => $team->id]))
+        $this->delete(route('teams.destroy', $team))
             ->assertRedirect(route('login'));
     }
 }

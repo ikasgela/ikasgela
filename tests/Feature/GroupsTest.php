@@ -224,7 +224,7 @@ class GroupsTest extends TestCase
         $this->put(route('groups.update', $group), $group->toArray());
 
         // Then
-        $this->assertDatabaseHas('groups', $group->toArray());
+        $this->assertDatabaseHas('groups', ['id' => $group->id, 'name' => $group->name]);
     }
 
     public function testNotAdminNotUpdate()

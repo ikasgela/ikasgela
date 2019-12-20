@@ -224,7 +224,7 @@ class ItemsTest extends TestCase
         $this->put(route('items.update', $item), $item->toArray());
 
         // Then
-        $this->assertDatabaseHas('items', $item->toArray());
+        $this->assertDatabaseHas('items', ['id' => $item->id, 'texto' => $item->texto]);
     }
 
     public function testNotProfesorNotUpdate()

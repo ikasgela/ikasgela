@@ -224,7 +224,7 @@ class CursosTest extends TestCase
         $this->put(route('cursos.update', $curso), $curso->toArray());
 
         // Then
-        $this->assertDatabaseHas('cursos', $curso->toArray());
+        $this->assertDatabaseHas('cursos', ['id' => $curso->id, 'nombre' => $curso->nombre]);
     }
 
     public function testNotAdminNotUpdate()

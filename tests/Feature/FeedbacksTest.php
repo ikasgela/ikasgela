@@ -224,7 +224,7 @@ class FeedbacksTest extends TestCase
         $this->put(route('feedbacks.update', $feedback), $feedback->toArray());
 
         // Then
-        $this->assertDatabaseHas('feedback', $feedback->toArray());
+        $this->assertDatabaseHas('feedback', ['id' => $feedback->id, 'mensaje' => $feedback->mensaje]);
     }
 
     public function testNotAdminNotUpdate()

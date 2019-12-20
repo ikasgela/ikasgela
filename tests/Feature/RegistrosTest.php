@@ -117,10 +117,10 @@ class RegistrosTest extends TestCase
         $registro = factory(Registro::class)->create();
 
         // When
-        $this->delete(route('registros.destroy', ['id' => $registro->id]));
+        $this->delete(route('registros.destroy', $registro));
 
         // Then
-        $this->assertDatabaseMissing('registros', ['id' => $registro->id]);
+        $this->assertDatabaseMissing('registros', $registro->toArray());
     }
 
     public function testNotAdminNotDelete()
@@ -131,7 +131,7 @@ class RegistrosTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('registros.destroy', ['id' => $registro->id]))
+        $this->delete(route('registros.destroy', $registro))
             ->assertForbidden();
     }
 
@@ -142,7 +142,7 @@ class RegistrosTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('registros.destroy', ['id' => $registro->id]))
+        $this->delete(route('registros.destroy', $registro))
             ->assertRedirect(route('login'));
     }
 }

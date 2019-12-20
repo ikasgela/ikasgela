@@ -224,7 +224,7 @@ class FileUploadsTest extends TestCase
         $this->put(route('file_uploads.update', $file_upload), $file_upload->toArray());
 
         // Then
-        $this->assertDatabaseHas('file_uploads', $file_upload->toArray());
+        $this->assertDatabaseHas('file_uploads', ['id' => $file_upload->id, 'titulo' => $file_upload->titulo]);
     }
 
     public function testNotProfesorNotUpdate()

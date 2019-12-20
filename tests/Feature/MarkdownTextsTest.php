@@ -160,7 +160,7 @@ class MarkdownTextsTest extends TestCase
         $markdown_text = factory(MarkdownText::class)->create();
 
         // When
-        $response = $this->get(route('markdown_texts.show', ['id' => $markdown_text->id]));
+        $response = $this->get(route('markdown_texts.show', $markdown_text));
 
         // Then
         $response->assertSeeInOrder([__('Markdown text'), $markdown_text->titulo]);
@@ -174,7 +174,7 @@ class MarkdownTextsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('markdown_texts.show', ['id' => $markdown_text->id]))
+        $this->get(route('markdown_texts.show', $markdown_text))
             ->assertForbidden();
     }
 
@@ -185,7 +185,7 @@ class MarkdownTextsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('markdown_texts.show', ['id' => $markdown_text->id]))
+        $this->get(route('markdown_texts.show', $markdown_text))
             ->assertRedirect(route('login'));
     }
 
@@ -196,7 +196,7 @@ class MarkdownTextsTest extends TestCase
         $markdown_text = factory(MarkdownText::class)->create();
 
         // When
-        $response = $this->get(route('markdown_texts.edit', ['id' => $markdown_text->id]), $markdown_text->toArray());
+        $response = $this->get(route('markdown_texts.edit', $markdown_text), $markdown_text->toArray());
 
         // Then
         $response->assertSeeInOrder([$markdown_text->titulo, $markdown_text->repositorio, $markdown_text->archivo, __('Save')]);
@@ -210,7 +210,7 @@ class MarkdownTextsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('markdown_texts.edit', ['id' => $markdown_text->id]), $markdown_text->toArray())
+        $this->get(route('markdown_texts.edit', $markdown_text), $markdown_text->toArray())
             ->assertForbidden();
     }
 
@@ -221,7 +221,7 @@ class MarkdownTextsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('markdown_texts.edit', ['id' => $markdown_text->id]), $markdown_text->toArray())
+        $this->get(route('markdown_texts.edit', $markdown_text), $markdown_text->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -233,7 +233,7 @@ class MarkdownTextsTest extends TestCase
         $markdown_text->titulo = "Updated";
 
         // When
-        $this->put(route('markdown_texts.update', ['id' => $markdown_text->id]), $markdown_text->toArray());
+        $this->put(route('markdown_texts.update', $markdown_text), $markdown_text->toArray());
 
         // Then
         $this->assertDatabaseHas('markdown_texts', ['id' => $markdown_text->id, 'titulo' => $markdown_text->titulo]);
@@ -248,7 +248,7 @@ class MarkdownTextsTest extends TestCase
 
         // When
         // Then
-        $this->put(route('markdown_texts.update', ['id' => $markdown_text->id]), $markdown_text->toArray())
+        $this->put(route('markdown_texts.update', $markdown_text), $markdown_text->toArray())
             ->assertForbidden();
     }
 
@@ -260,7 +260,7 @@ class MarkdownTextsTest extends TestCase
 
         // When
         // Then
-        $this->put(route('markdown_texts.update', ['id' => $markdown_text->id]), $markdown_text->toArray())
+        $this->put(route('markdown_texts.update', $markdown_text), $markdown_text->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -274,7 +274,7 @@ class MarkdownTextsTest extends TestCase
         $markdown_text->titulo = null;
 
         // Then
-        $this->put(route('markdown_texts.update', ['id' => $markdown_text->id]), $markdown_text->toArray())
+        $this->put(route('markdown_texts.update', $markdown_text), $markdown_text->toArray())
             ->assertSessionHasErrors('titulo');
     }
 
@@ -288,7 +288,7 @@ class MarkdownTextsTest extends TestCase
         $markdown_text->repositorio = null;
 
         // Then
-        $this->put(route('markdown_texts.update', ['id' => $markdown_text->id]), $markdown_text->toArray())
+        $this->put(route('markdown_texts.update', $markdown_text), $markdown_text->toArray())
             ->assertSessionHasErrors('repositorio');
     }
 
@@ -302,7 +302,7 @@ class MarkdownTextsTest extends TestCase
         $markdown_text->archivo = null;
 
         // Then
-        $this->put(route('markdown_texts.update', ['id' => $markdown_text->id]), $markdown_text->toArray())
+        $this->put(route('markdown_texts.update', $markdown_text), $markdown_text->toArray())
             ->assertSessionHasErrors('archivo');
     }
 
@@ -313,10 +313,10 @@ class MarkdownTextsTest extends TestCase
         $markdown_text = factory(MarkdownText::class)->create();
 
         // When
-        $this->delete(route('markdown_texts.destroy', ['id' => $markdown_text->id]));
+        $this->delete(route('markdown_texts.destroy', $markdown_text));
 
         // Then
-        $this->assertDatabaseMissing('markdown_texts', ['id' => $markdown_text->id]);
+        $this->assertDatabaseMissing('markdown_texts', $markdown_text->toArray());
     }
 
     public function testNotProfesorNotDelete()
@@ -327,7 +327,7 @@ class MarkdownTextsTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('markdown_texts.destroy', ['id' => $markdown_text->id]))
+        $this->delete(route('markdown_texts.destroy', $markdown_text))
             ->assertForbidden();
     }
 
@@ -338,7 +338,7 @@ class MarkdownTextsTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('markdown_texts.destroy', ['id' => $markdown_text->id]))
+        $this->delete(route('markdown_texts.destroy', $markdown_text))
             ->assertRedirect(route('login'));
     }
 }

@@ -224,7 +224,7 @@ class CategoriesTest extends TestCase
         $this->put(route('categories.update', $category), $category->toArray());
 
         // Then
-        $this->assertDatabaseHas('categories', $category->toArray());
+        $this->assertDatabaseHas('categories', ['id' => $category->id, 'name' => $category->name]);
     }
 
     public function testNotAdminNotUpdate()

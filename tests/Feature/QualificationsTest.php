@@ -148,7 +148,7 @@ class QualificationsTest extends TestCase
         $qualification = factory(Qualification::class)->create();
 
         // When
-        $response = $this->get(route('qualifications.show', ['id' => $qualification->id]));
+        $response = $this->get(route('qualifications.show', $qualification));
 
         // Then
         $response->assertSee(__('Not implemented.'));
@@ -162,7 +162,7 @@ class QualificationsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('qualifications.show', ['id' => $qualification->id]))
+        $this->get(route('qualifications.show', $qualification))
             ->assertForbidden();
     }
 
@@ -173,7 +173,7 @@ class QualificationsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('qualifications.show', ['id' => $qualification->id]))
+        $this->get(route('qualifications.show', $qualification))
             ->assertRedirect(route('login'));
     }
 
@@ -184,7 +184,7 @@ class QualificationsTest extends TestCase
         $qualification = factory(Qualification::class)->create();
 
         // When
-        $response = $this->get(route('qualifications.edit', ['id' => $qualification->id]), $qualification->toArray());
+        $response = $this->get(route('qualifications.edit', $qualification), $qualification->toArray());
 
         // Then
         $response->assertSeeInOrder([$qualification->name, $qualification->slug, __('Save')]);
@@ -198,7 +198,7 @@ class QualificationsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('qualifications.edit', ['id' => $qualification->id]), $qualification->toArray())
+        $this->get(route('qualifications.edit', $qualification), $qualification->toArray())
             ->assertForbidden();
     }
 
@@ -209,7 +209,7 @@ class QualificationsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('qualifications.edit', ['id' => $qualification->id]), $qualification->toArray())
+        $this->get(route('qualifications.edit', $qualification), $qualification->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -221,7 +221,7 @@ class QualificationsTest extends TestCase
         $qualification->name = "Updated";
 
         // When
-        $this->put(route('qualifications.update', ['id' => $qualification->id]), $qualification->toArray());
+        $this->put(route('qualifications.update', $qualification), $qualification->toArray());
 
         // Then
         $this->assertDatabaseHas('qualifications', ['id' => $qualification->id, 'name' => $qualification->name]);
@@ -236,7 +236,7 @@ class QualificationsTest extends TestCase
 
         // When
         // Then
-        $this->put(route('qualifications.update', ['id' => $qualification->id]), $qualification->toArray())
+        $this->put(route('qualifications.update', $qualification), $qualification->toArray())
             ->assertForbidden();
     }
 
@@ -248,7 +248,7 @@ class QualificationsTest extends TestCase
 
         // When
         // Then
-        $this->put(route('qualifications.update', ['id' => $qualification->id]), $qualification->toArray())
+        $this->put(route('qualifications.update', $qualification), $qualification->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -262,7 +262,7 @@ class QualificationsTest extends TestCase
         $qualification->name = null;
 
         // Then
-        $this->put(route('qualifications.update', ['id' => $qualification->id]), $qualification->toArray())
+        $this->put(route('qualifications.update', $qualification), $qualification->toArray())
             ->assertSessionHasErrors('name');
     }
 
@@ -276,7 +276,7 @@ class QualificationsTest extends TestCase
         $qualification->organization_id = null;
 
         // Then
-        $this->put(route('qualifications.update', ['id' => $qualification->id]), $qualification->toArray())
+        $this->put(route('qualifications.update', $qualification), $qualification->toArray())
             ->assertSessionHasErrors('organization_id');
     }
 
@@ -287,10 +287,10 @@ class QualificationsTest extends TestCase
         $qualification = factory(Qualification::class)->create();
 
         // When
-        $this->delete(route('qualifications.destroy', ['id' => $qualification->id]));
+        $this->delete(route('qualifications.destroy', $qualification));
 
         // Then
-        $this->assertDatabaseMissing('qualifications', ['id' => $qualification->id]);
+        $this->assertDatabaseMissing('qualifications', $qualification->toArray());
     }
 
     public function testNotAdminNotDelete()
@@ -301,7 +301,7 @@ class QualificationsTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('qualifications.destroy', ['id' => $qualification->id]))
+        $this->delete(route('qualifications.destroy', $qualification))
             ->assertForbidden();
     }
 
@@ -312,7 +312,7 @@ class QualificationsTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('qualifications.destroy', ['id' => $qualification->id]))
+        $this->delete(route('qualifications.destroy', $qualification))
             ->assertRedirect(route('login'));
     }
 }
