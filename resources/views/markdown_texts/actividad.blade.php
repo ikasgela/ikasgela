@@ -48,7 +48,7 @@
                         </td>
                         <td>
                             <form method="POST"
-                                  action="{{ route('markdown_texts.desasociar', ['actividad' => $actividad->id, '$markdown_text'=>$markdown_text->id]) }}">
+                                  action="{{ route('markdown_texts.desasociar', ['actividad' => $actividad->id, 'markdown_text' => $markdown_text->id]) }}">
                                 @csrf
                                 @method('DELETE')
                                 <div class='btn-group'>

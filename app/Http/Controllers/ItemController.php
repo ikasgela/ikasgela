@@ -49,7 +49,7 @@ class ItemController extends Controller
         if (!is_null($request->input('accion'))) {
             switch ($request->input('accion')) {
                 case 'items.anyadir':
-                    return redirect(route('preguntas.edit', ['pregunta_id' => $request->input('pregunta_id')]));
+                    return redirect(route('preguntas.edit', ['pregunta' => $request->input('pregunta_id')]));
             }
         }
         return redirect(route('items.index'));

@@ -26,7 +26,6 @@
 
     @include('preguntas.tabla')
 
-    <a class="btn btn-primary"
-       href="{{ route('preguntas.anyadir', ['cuestionario_id'=>$cuestionario->id]) }}">{{ __('Add question') }}</a>
+    <a class="btn btn-primary" href="{{ route('preguntas.anyadir', $cuestionario) }}">{{ __('Add question') }}</a>
 
 @endsection

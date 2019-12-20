@@ -41,7 +41,7 @@
                         <td>{!! $cuestionario->plantilla ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
                         <td>
                             <form method="POST"
-                                  action="{{ route('cuestionarios.desasociar', ['actividad' => $actividad->id, '$cuestionario'=>$cuestionario->id]) }}">
+                                  action="{{ route('cuestionarios.desasociar', ['actividad' => $actividad->id, 'cuestionario' => $cuestionario->id]) }}">
                                 @csrf
                                 @method('DELETE')
                                 <div class='btn-group'>

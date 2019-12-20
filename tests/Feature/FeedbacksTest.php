@@ -148,7 +148,7 @@ class FeedbacksTest extends TestCase
         $feedback = factory(Feedback::class)->create();
 
         // When
-        $response = $this->get(route('feedbacks.show', ['id' => $feedback->id]));
+        $response = $this->get(route('feedbacks.show', $feedback));
 
         // Then
         $response->assertSee(__('Not implemented.'));
@@ -162,7 +162,7 @@ class FeedbacksTest extends TestCase
 
         // When
         // Then
-        $this->get(route('feedbacks.show', ['id' => $feedback->id]))
+        $this->get(route('feedbacks.show', $feedback))
             ->assertForbidden();
     }
 
@@ -173,7 +173,7 @@ class FeedbacksTest extends TestCase
 
         // When
         // Then
-        $this->get(route('feedbacks.show', ['id' => $feedback->id]))
+        $this->get(route('feedbacks.show', $feedback))
             ->assertRedirect(route('login'));
     }
 
@@ -184,7 +184,7 @@ class FeedbacksTest extends TestCase
         $feedback = factory(Feedback::class)->create();
 
         // When
-        $response = $this->get(route('feedbacks.edit', ['id' => $feedback->id]), $feedback->toArray());
+        $response = $this->get(route('feedbacks.edit', $feedback), $feedback->toArray());
 
         // Then
         $response->assertSeeInOrder([$feedback->mensaje, $feedback->slug, __('Save')]);
@@ -198,7 +198,7 @@ class FeedbacksTest extends TestCase
 
         // When
         // Then
-        $this->get(route('feedbacks.edit', ['id' => $feedback->id]), $feedback->toArray())
+        $this->get(route('feedbacks.edit', $feedback), $feedback->toArray())
             ->assertForbidden();
     }
 
@@ -209,7 +209,7 @@ class FeedbacksTest extends TestCase
 
         // When
         // Then
-        $this->get(route('feedbacks.edit', ['id' => $feedback->id]), $feedback->toArray())
+        $this->get(route('feedbacks.edit', $feedback), $feedback->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -221,7 +221,7 @@ class FeedbacksTest extends TestCase
         $feedback->mensaje = "Updated";
 
         // When
-        $this->put(route('feedbacks.update', ['id' => $feedback->id]), $feedback->toArray());
+        $this->put(route('feedbacks.update', $feedback), $feedback->toArray());
 
         // Then
         $this->assertDatabaseHas('feedback', ['id' => $feedback->id, 'mensaje' => $feedback->mensaje]);
@@ -236,7 +236,7 @@ class FeedbacksTest extends TestCase
 
         // When
         // Then
-        $this->put(route('feedbacks.update', ['id' => $feedback->id]), $feedback->toArray())
+        $this->put(route('feedbacks.update', $feedback), $feedback->toArray())
             ->assertForbidden();
     }
 
@@ -248,7 +248,7 @@ class FeedbacksTest extends TestCase
 
         // When
         // Then
-        $this->put(route('feedbacks.update', ['id' => $feedback->id]), $feedback->toArray())
+        $this->put(route('feedbacks.update', $feedback), $feedback->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -262,7 +262,7 @@ class FeedbacksTest extends TestCase
         $feedback->mensaje = null;
 
         // Then
-        $this->put(route('feedbacks.update', ['id' => $feedback->id]), $feedback->toArray())
+        $this->put(route('feedbacks.update', $feedback), $feedback->toArray())
             ->assertSessionHasErrors('mensaje');
     }
 
@@ -276,7 +276,7 @@ class FeedbacksTest extends TestCase
         $feedback->curso_id = null;
 
         // Then
-        $this->put(route('feedbacks.update', ['id' => $feedback->id]), $feedback->toArray())
+        $this->put(route('feedbacks.update', $feedback), $feedback->toArray())
             ->assertSessionHasErrors('curso_id');
     }
 
@@ -287,10 +287,10 @@ class FeedbacksTest extends TestCase
         $feedback = factory(Feedback::class)->create();
 
         // When
-        $this->delete(route('feedbacks.destroy', ['id' => $feedback->id]));
+        $this->delete(route('feedbacks.destroy', $feedback));
 
         // Then
-        $this->assertDatabaseMissing('feedback', ['id' => $feedback->id]);
+        $this->assertDatabaseMissing('feedback', $feedback->toArray());
     }
 
     public function testNotAdminNotDelete()
@@ -301,7 +301,7 @@ class FeedbacksTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('feedbacks.destroy', ['id' => $feedback->id]))
+        $this->delete(route('feedbacks.destroy', $feedback))
             ->assertForbidden();
     }
 
@@ -312,7 +312,7 @@ class FeedbacksTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('feedbacks.destroy', ['id' => $feedback->id]))
+        $this->delete(route('feedbacks.destroy', $feedback))
             ->assertRedirect(route('login'));
     }
 }

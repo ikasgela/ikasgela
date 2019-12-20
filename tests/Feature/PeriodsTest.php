@@ -148,7 +148,7 @@ class PeriodsTest extends TestCase
         $period = factory(Period::class)->create();
 
         // When
-        $response = $this->get(route('periods.show', ['id' => $period->id]));
+        $response = $this->get(route('periods.show', $period));
 
         // Then
         $response->assertSee(__('Not implemented.'));
@@ -162,7 +162,7 @@ class PeriodsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('periods.show', ['id' => $period->id]))
+        $this->get(route('periods.show', $period))
             ->assertForbidden();
     }
 
@@ -173,7 +173,7 @@ class PeriodsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('periods.show', ['id' => $period->id]))
+        $this->get(route('periods.show', $period))
             ->assertRedirect(route('login'));
     }
 
@@ -184,7 +184,7 @@ class PeriodsTest extends TestCase
         $period = factory(Period::class)->create();
 
         // When
-        $response = $this->get(route('periods.edit', ['id' => $period->id]), $period->toArray());
+        $response = $this->get(route('periods.edit', $period), $period->toArray());
 
         // Then
         $response->assertSeeInOrder([$period->name, $period->slug, __('Save')]);
@@ -198,7 +198,7 @@ class PeriodsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('periods.edit', ['id' => $period->id]), $period->toArray())
+        $this->get(route('periods.edit', $period), $period->toArray())
             ->assertForbidden();
     }
 
@@ -209,7 +209,7 @@ class PeriodsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('periods.edit', ['id' => $period->id]), $period->toArray())
+        $this->get(route('periods.edit', $period), $period->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -221,7 +221,7 @@ class PeriodsTest extends TestCase
         $period->name = "Updated";
 
         // When
-        $this->put(route('periods.update', ['id' => $period->id]), $period->toArray());
+        $this->put(route('periods.update', $period), $period->toArray());
 
         // Then
         $this->assertDatabaseHas('periods', ['id' => $period->id, 'name' => $period->name]);
@@ -236,7 +236,7 @@ class PeriodsTest extends TestCase
 
         // When
         // Then
-        $this->put(route('periods.update', ['id' => $period->id]), $period->toArray())
+        $this->put(route('periods.update', $period), $period->toArray())
             ->assertForbidden();
     }
 
@@ -248,7 +248,7 @@ class PeriodsTest extends TestCase
 
         // When
         // Then
-        $this->put(route('periods.update', ['id' => $period->id]), $period->toArray())
+        $this->put(route('periods.update', $period), $period->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -262,7 +262,7 @@ class PeriodsTest extends TestCase
         $period->name = null;
 
         // Then
-        $this->put(route('periods.update', ['id' => $period->id]), $period->toArray())
+        $this->put(route('periods.update', $period), $period->toArray())
             ->assertSessionHasErrors('name');
     }
 
@@ -276,7 +276,7 @@ class PeriodsTest extends TestCase
         $period->organization_id = null;
 
         // Then
-        $this->put(route('periods.update', ['id' => $period->id]), $period->toArray())
+        $this->put(route('periods.update', $period), $period->toArray())
             ->assertSessionHasErrors('organization_id');
     }
 
@@ -287,10 +287,10 @@ class PeriodsTest extends TestCase
         $period = factory(Period::class)->create();
 
         // When
-        $this->delete(route('periods.destroy', ['id' => $period->id]));
+        $this->delete(route('periods.destroy', $period));
 
         // Then
-        $this->assertDatabaseMissing('periods', ['id' => $period->id]);
+        $this->assertDatabaseMissing('periods', $period->toArray());
     }
 
     public function testNotAdminNotDelete()
@@ -301,7 +301,7 @@ class PeriodsTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('periods.destroy', ['id' => $period->id]))
+        $this->delete(route('periods.destroy', $period))
             ->assertForbidden();
     }
 
@@ -312,7 +312,7 @@ class PeriodsTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('periods.destroy', ['id' => $period->id]))
+        $this->delete(route('periods.destroy', $period))
             ->assertRedirect(route('login'));
     }
 }

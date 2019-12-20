@@ -41,7 +41,7 @@
                         <td>{{ $file_upload->max_files }}</td>
                         <td>
                             <form method="POST"
-                                  action="{{ route('file_uploads.desasociar', ['actividad' => $actividad->id, '$file_upload'=>$file_upload->id]) }}">
+                                  action="{{ route('file_uploads.desasociar', ['actividad' => $actividad->id, 'file_upload' => $file_upload->id]) }}">
                                 @csrf
                                 @method('DELETE')
                                 <div class='btn-group'>

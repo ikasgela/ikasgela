@@ -150,7 +150,7 @@ class UsersTest extends TestCase
             $user = factory(User::class)->create();
 
             // When
-            $response = $this->get(route('users.show', ['id' => $user->id]));
+            $response = $this->get(route('users.show', $user));
 
             // Then
             $response->assertSee(__('Not implemented.'));
@@ -164,7 +164,7 @@ class UsersTest extends TestCase
 
             // When
             // Then
-            $this->get(route('users.show', ['id' => $user->id]))
+            $this->get(route('users.show', $user))
                 ->assertForbidden();
         }
 
@@ -175,7 +175,7 @@ class UsersTest extends TestCase
 
             // When
             // Then
-            $this->get(route('users.show', ['id' => $user->id]))
+            $this->get(route('users.show', $user))
                 ->assertRedirect(route('login'));
         }
     */
@@ -186,7 +186,7 @@ class UsersTest extends TestCase
         $user = factory(User::class)->create();
 
         // When
-        $response = $this->get(route('users.edit', ['id' => $user->id]), $user->toArray());
+        $response = $this->get(route('users.edit', $user), $user->toArray());
 
         // Then
         $response->assertSeeInOrder([$user->name, $user->slug, __('Save')]);
@@ -200,7 +200,7 @@ class UsersTest extends TestCase
 
         // When
         // Then
-        $this->get(route('users.edit', ['id' => $user->id]), $user->toArray())
+        $this->get(route('users.edit', $user), $user->toArray())
             ->assertForbidden();
     }
 
@@ -211,7 +211,7 @@ class UsersTest extends TestCase
 
         // When
         // Then
-        $this->get(route('users.edit', ['id' => $user->id]), $user->toArray())
+        $this->get(route('users.edit', $user), $user->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -228,7 +228,7 @@ class UsersTest extends TestCase
 
         // When
         $this->put(route('users.update', [
-            'id' => $user->id
+            'user' => $user->id
         ]), array_merge(
             $user->toArray(),
             ['roles_seleccionados' => [$rol_alumno->id]]
@@ -250,7 +250,7 @@ class UsersTest extends TestCase
 
         // When
         // Then
-        $this->put(route('users.update', ['id' => $user->id]), $user->toArray())
+        $this->put(route('users.update', $user), $user->toArray())
             ->assertForbidden();
     }
 
@@ -262,7 +262,7 @@ class UsersTest extends TestCase
 
         // When
         // Then
-        $this->put(route('users.update', ['id' => $user->id]), $user->toArray())
+        $this->put(route('users.update', $user), $user->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -276,7 +276,7 @@ class UsersTest extends TestCase
         $user->name = null;
 
         // Then
-        $this->put(route('users.update', ['id' => $user->id]), $user->toArray())
+        $this->put(route('users.update', $user), $user->toArray())
             ->assertSessionHasErrors('name');
     }
 
@@ -290,7 +290,7 @@ class UsersTest extends TestCase
         $user->email = null;
 
         // Then
-        $this->put(route('users.update', ['id' => $user->id]), $user->toArray())
+        $this->put(route('users.update', $user), $user->toArray())
             ->assertSessionHasErrors('email');
     }
 
@@ -304,7 +304,7 @@ class UsersTest extends TestCase
         $user->username = null;
 
         // Then
-        $this->put(route('users.update', ['id' => $user->id]), $user->toArray())
+        $this->put(route('users.update', $user), $user->toArray())
             ->assertSessionHasErrors('username');
     }
 
@@ -316,7 +316,7 @@ class UsersTest extends TestCase
 
         // When
         // Then
-        $this->put(route('users.update', ['id' => $user->id]), $user->toArray())
+        $this->put(route('users.update', $user), $user->toArray())
             ->assertSessionHasErrors('roles_seleccionados');
     }
 
@@ -327,7 +327,7 @@ class UsersTest extends TestCase
         $user = factory(User::class)->create();
 
         // When
-        $this->delete(route('users.destroy', ['id' => $user->id]));
+        $this->delete(route('users.destroy', $user));
 
         // Then
         $this->assertDatabaseMissing('users', ['id' => $user->id]);
@@ -341,7 +341,7 @@ class UsersTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('users.destroy', ['id' => $user->id]))
+        $this->delete(route('users.destroy', $user))
             ->assertForbidden();
     }
 
@@ -352,7 +352,7 @@ class UsersTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('users.destroy', ['id' => $user->id]))
+        $this->delete(route('users.destroy', $user))
             ->assertRedirect(route('login'));
     }
 }

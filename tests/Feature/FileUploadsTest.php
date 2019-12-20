@@ -148,7 +148,7 @@ class FileUploadsTest extends TestCase
         $file_upload = factory(FileUpload::class)->create();
 
         // When
-        $response = $this->get(route('file_uploads.show', ['id' => $file_upload->id]));
+        $response = $this->get(route('file_uploads.show', $file_upload));
 
         // Then
         $response->assertSeeInOrder([__('File upload'), $file_upload->titulo]);
@@ -162,7 +162,7 @@ class FileUploadsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('file_uploads.show', ['id' => $file_upload->id]))
+        $this->get(route('file_uploads.show', $file_upload))
             ->assertForbidden();
     }
 
@@ -173,7 +173,7 @@ class FileUploadsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('file_uploads.show', ['id' => $file_upload->id]))
+        $this->get(route('file_uploads.show', $file_upload))
             ->assertRedirect(route('login'));
     }
 
@@ -184,7 +184,7 @@ class FileUploadsTest extends TestCase
         $file_upload = factory(FileUpload::class)->create();
 
         // When
-        $response = $this->get(route('file_uploads.edit', ['id' => $file_upload->id]), $file_upload->toArray());
+        $response = $this->get(route('file_uploads.edit', $file_upload), $file_upload->toArray());
 
         // Then
         $response->assertSeeInOrder([$file_upload->titulo, $file_upload->descripcion, $file_upload->max_files, __('Save')]);
@@ -198,7 +198,7 @@ class FileUploadsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('file_uploads.edit', ['id' => $file_upload->id]), $file_upload->toArray())
+        $this->get(route('file_uploads.edit', $file_upload), $file_upload->toArray())
             ->assertForbidden();
     }
 
@@ -209,7 +209,7 @@ class FileUploadsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('file_uploads.edit', ['id' => $file_upload->id]), $file_upload->toArray())
+        $this->get(route('file_uploads.edit', $file_upload), $file_upload->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -221,7 +221,7 @@ class FileUploadsTest extends TestCase
         $file_upload->titulo = "Updated";
 
         // When
-        $this->put(route('file_uploads.update', ['id' => $file_upload->id]), $file_upload->toArray());
+        $this->put(route('file_uploads.update', $file_upload), $file_upload->toArray());
 
         // Then
         $this->assertDatabaseHas('file_uploads', ['id' => $file_upload->id, 'titulo' => $file_upload->titulo]);
@@ -236,7 +236,7 @@ class FileUploadsTest extends TestCase
 
         // When
         // Then
-        $this->put(route('file_uploads.update', ['id' => $file_upload->id]), $file_upload->toArray())
+        $this->put(route('file_uploads.update', $file_upload), $file_upload->toArray())
             ->assertForbidden();
     }
 
@@ -248,7 +248,7 @@ class FileUploadsTest extends TestCase
 
         // When
         // Then
-        $this->put(route('file_uploads.update', ['id' => $file_upload->id]), $file_upload->toArray())
+        $this->put(route('file_uploads.update', $file_upload), $file_upload->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -262,7 +262,7 @@ class FileUploadsTest extends TestCase
         $file_upload->titulo = null;
 
         // Then
-        $this->put(route('file_uploads.update', ['id' => $file_upload->id]), $file_upload->toArray())
+        $this->put(route('file_uploads.update', $file_upload), $file_upload->toArray())
             ->assertSessionHasErrors('titulo');
     }
 
@@ -276,7 +276,7 @@ class FileUploadsTest extends TestCase
         $file_upload->max_files = null;
 
         // Then
-        $this->put(route('file_uploads.update', ['id' => $file_upload->id]), $file_upload->toArray())
+        $this->put(route('file_uploads.update', $file_upload), $file_upload->toArray())
             ->assertSessionHasErrors('max_files');
     }
 
@@ -287,10 +287,10 @@ class FileUploadsTest extends TestCase
         $file_upload = factory(FileUpload::class)->create();
 
         // When
-        $this->delete(route('file_uploads.destroy', ['id' => $file_upload->id]));
+        $this->delete(route('file_uploads.destroy', $file_upload));
 
         // Then
-        $this->assertDatabaseMissing('file_uploads', ['id' => $file_upload->id]);
+        $this->assertDatabaseMissing('file_uploads', $file_upload->toArray());
     }
 
     public function testNotProfesorNotDelete()
@@ -301,7 +301,7 @@ class FileUploadsTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('file_uploads.destroy', ['id' => $file_upload->id]))
+        $this->delete(route('file_uploads.destroy', $file_upload))
             ->assertForbidden();
     }
 
@@ -312,7 +312,7 @@ class FileUploadsTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('file_uploads.destroy', ['id' => $file_upload->id]))
+        $this->delete(route('file_uploads.destroy', $file_upload))
             ->assertRedirect(route('login'));
     }
 }

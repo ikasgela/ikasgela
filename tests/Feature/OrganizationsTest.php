@@ -136,7 +136,7 @@ class OrganizationsTest extends TestCase
         $organization = factory(Organization::class)->create();
 
         // When
-        $response = $this->get(route('organizations.show', ['id' => $organization->id]));
+        $response = $this->get(route('organizations.show', $organization));
 
         // Then
         $response->assertSee(__('Not implemented.'));
@@ -150,7 +150,7 @@ class OrganizationsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('organizations.show', ['id' => $organization->id]))
+        $this->get(route('organizations.show', $organization))
             ->assertForbidden();
     }
 
@@ -161,7 +161,7 @@ class OrganizationsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('organizations.show', ['id' => $organization->id]))
+        $this->get(route('organizations.show', $organization))
             ->assertRedirect(route('login'));
     }
 
@@ -172,7 +172,7 @@ class OrganizationsTest extends TestCase
         $organization = factory(Organization::class)->create();
 
         // When
-        $response = $this->get(route('organizations.edit', ['id' => $organization->id]), $organization->toArray());
+        $response = $this->get(route('organizations.edit', $organization), $organization->toArray());
 
         // Then
         $response->assertSeeInOrder([$organization->name, $organization->slug, __('Save')]);
@@ -186,7 +186,7 @@ class OrganizationsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('organizations.edit', ['id' => $organization->id]), $organization->toArray())
+        $this->get(route('organizations.edit', $organization), $organization->toArray())
             ->assertForbidden();
     }
 
@@ -197,7 +197,7 @@ class OrganizationsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('organizations.edit', ['id' => $organization->id]), $organization->toArray())
+        $this->get(route('organizations.edit', $organization), $organization->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -209,7 +209,7 @@ class OrganizationsTest extends TestCase
         $organization->name = "Updated";
 
         // When
-        $this->put(route('organizations.update', ['id' => $organization->id]), $organization->toArray());
+        $this->put(route('organizations.update', $organization), $organization->toArray());
 
         // Then
         $this->assertDatabaseHas('organizations', ['id' => $organization->id, 'name' => $organization->name]);
@@ -224,7 +224,7 @@ class OrganizationsTest extends TestCase
 
         // When
         // Then
-        $this->put(route('organizations.update', ['id' => $organization->id]), $organization->toArray())
+        $this->put(route('organizations.update', $organization), $organization->toArray())
             ->assertForbidden();
     }
 
@@ -236,7 +236,7 @@ class OrganizationsTest extends TestCase
 
         // When
         // Then
-        $this->put(route('organizations.update', ['id' => $organization->id]), $organization->toArray())
+        $this->put(route('organizations.update', $organization), $organization->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -250,7 +250,7 @@ class OrganizationsTest extends TestCase
         $organization->name = null;
 
         // Then
-        $this->put(route('organizations.update', ['id' => $organization->id]), $organization->toArray())
+        $this->put(route('organizations.update', $organization), $organization->toArray())
             ->assertSessionHasErrors('name');
     }
 
@@ -261,10 +261,10 @@ class OrganizationsTest extends TestCase
         $organization = factory(Organization::class)->create();
 
         // When
-        $this->delete(route('organizations.destroy', ['id' => $organization->id]));
+        $this->delete(route('organizations.destroy', $organization));
 
         // Then
-        $this->assertDatabaseMissing('organizations', ['id' => $organization->id]);
+        $this->assertDatabaseMissing('organizations', $organization->toArray());
     }
 
     public function testNotAdminNotDelete()
@@ -275,7 +275,7 @@ class OrganizationsTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('organizations.destroy', ['id' => $organization->id]))
+        $this->delete(route('organizations.destroy', $organization))
             ->assertForbidden();
     }
 
@@ -286,7 +286,7 @@ class OrganizationsTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('organizations.destroy', ['id' => $organization->id]))
+        $this->delete(route('organizations.destroy', $organization))
             ->assertRedirect(route('login'));
     }
 }

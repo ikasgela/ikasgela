@@ -160,7 +160,7 @@ class PreguntasTest extends TestCase
         $pregunta = factory(Pregunta::class)->create();
 
         // When
-        $response = $this->get(route('preguntas.show', ['id' => $pregunta->id]));
+        $response = $this->get(route('preguntas.show', $pregunta));
 
         // Then
         $response->assertSee(__('Not implemented.'));
@@ -174,7 +174,7 @@ class PreguntasTest extends TestCase
 
         // When
         // Then
-        $this->get(route('preguntas.show', ['id' => $pregunta->id]))
+        $this->get(route('preguntas.show', $pregunta))
             ->assertForbidden();
     }
 
@@ -185,7 +185,7 @@ class PreguntasTest extends TestCase
 
         // When
         // Then
-        $this->get(route('preguntas.show', ['id' => $pregunta->id]))
+        $this->get(route('preguntas.show', $pregunta))
             ->assertRedirect(route('login'));
     }
 
@@ -196,7 +196,7 @@ class PreguntasTest extends TestCase
         $pregunta = factory(Pregunta::class)->create();
 
         // When
-        $response = $this->get(route('preguntas.edit', ['id' => $pregunta->id]), $pregunta->toArray());
+        $response = $this->get(route('preguntas.edit', $pregunta), $pregunta->toArray());
 
         // Then
         $response->assertSeeInOrder([$pregunta->titulo, __('Save')]);
@@ -210,7 +210,7 @@ class PreguntasTest extends TestCase
 
         // When
         // Then
-        $this->get(route('preguntas.edit', ['id' => $pregunta->id]), $pregunta->toArray())
+        $this->get(route('preguntas.edit', $pregunta), $pregunta->toArray())
             ->assertForbidden();
     }
 
@@ -221,7 +221,7 @@ class PreguntasTest extends TestCase
 
         // When
         // Then
-        $this->get(route('preguntas.edit', ['id' => $pregunta->id]), $pregunta->toArray())
+        $this->get(route('preguntas.edit', $pregunta), $pregunta->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -233,7 +233,7 @@ class PreguntasTest extends TestCase
         $pregunta->titulo = "Updated";
 
         // When
-        $this->put(route('preguntas.update', ['id' => $pregunta->id]), $pregunta->toArray());
+        $this->put(route('preguntas.update', $pregunta), $pregunta->toArray());
 
         // Then
         $this->assertDatabaseHas('preguntas', ['id' => $pregunta->id, 'titulo' => $pregunta->titulo]);
@@ -248,7 +248,7 @@ class PreguntasTest extends TestCase
 
         // When
         // Then
-        $this->put(route('preguntas.update', ['id' => $pregunta->id]), $pregunta->toArray())
+        $this->put(route('preguntas.update', $pregunta), $pregunta->toArray())
             ->assertForbidden();
     }
 
@@ -260,7 +260,7 @@ class PreguntasTest extends TestCase
 
         // When
         // Then
-        $this->put(route('preguntas.update', ['id' => $pregunta->id]), $pregunta->toArray())
+        $this->put(route('preguntas.update', $pregunta), $pregunta->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -274,7 +274,7 @@ class PreguntasTest extends TestCase
         $pregunta->titulo = null;
 
         // Then
-        $this->put(route('preguntas.update', ['id' => $pregunta->id]), $pregunta->toArray())
+        $this->put(route('preguntas.update', $pregunta), $pregunta->toArray())
             ->assertSessionHasErrors('titulo');
     }
 
@@ -288,7 +288,7 @@ class PreguntasTest extends TestCase
         $pregunta->texto = null;
 
         // Then
-        $this->put(route('preguntas.update', ['id' => $pregunta->id]), $pregunta->toArray())
+        $this->put(route('preguntas.update', $pregunta), $pregunta->toArray())
             ->assertSessionHasErrors('texto');
     }
 
@@ -302,7 +302,7 @@ class PreguntasTest extends TestCase
         $pregunta->cuestionario_id = null;
 
         // Then
-        $this->put(route('preguntas.update', ['id' => $pregunta->id]), $pregunta->toArray())
+        $this->put(route('preguntas.update', $pregunta), $pregunta->toArray())
             ->assertSessionHasErrors('cuestionario_id');
     }
 
@@ -313,10 +313,10 @@ class PreguntasTest extends TestCase
         $pregunta = factory(Pregunta::class)->create();
 
         // When
-        $this->delete(route('preguntas.destroy', ['id' => $pregunta->id]));
+        $this->delete(route('preguntas.destroy', $pregunta));
 
         // Then
-        $this->assertDatabaseMissing('preguntas', ['id' => $pregunta->id]);
+        $this->assertDatabaseMissing('preguntas', $pregunta->toArray());
     }
 
     public function testNotProfesorNotDelete()
@@ -327,7 +327,7 @@ class PreguntasTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('preguntas.destroy', ['id' => $pregunta->id]))
+        $this->delete(route('preguntas.destroy', $pregunta))
             ->assertForbidden();
     }
 
@@ -338,7 +338,7 @@ class PreguntasTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('preguntas.destroy', ['id' => $pregunta->id]))
+        $this->delete(route('preguntas.destroy', $pregunta))
             ->assertRedirect(route('login'));
     }
 }

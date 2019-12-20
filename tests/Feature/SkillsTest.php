@@ -148,7 +148,7 @@ class SkillsTest extends TestCase
         $skill = factory(Skill::class)->create();
 
         // When
-        $response = $this->get(route('skills.show', ['id' => $skill->id]));
+        $response = $this->get(route('skills.show', $skill));
 
         // Then
         $response->assertSee(__('Not implemented.'));
@@ -162,7 +162,7 @@ class SkillsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('skills.show', ['id' => $skill->id]))
+        $this->get(route('skills.show', $skill))
             ->assertForbidden();
     }
 
@@ -173,7 +173,7 @@ class SkillsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('skills.show', ['id' => $skill->id]))
+        $this->get(route('skills.show', $skill))
             ->assertRedirect(route('login'));
     }
 
@@ -184,7 +184,7 @@ class SkillsTest extends TestCase
         $skill = factory(Skill::class)->create();
 
         // When
-        $response = $this->get(route('skills.edit', ['id' => $skill->id]), $skill->toArray());
+        $response = $this->get(route('skills.edit', $skill), $skill->toArray());
 
         // Then
         $response->assertSeeInOrder([$skill->name, $skill->slug, __('Save')]);
@@ -198,7 +198,7 @@ class SkillsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('skills.edit', ['id' => $skill->id]), $skill->toArray())
+        $this->get(route('skills.edit', $skill), $skill->toArray())
             ->assertForbidden();
     }
 
@@ -209,7 +209,7 @@ class SkillsTest extends TestCase
 
         // When
         // Then
-        $this->get(route('skills.edit', ['id' => $skill->id]), $skill->toArray())
+        $this->get(route('skills.edit', $skill), $skill->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -221,7 +221,7 @@ class SkillsTest extends TestCase
         $skill->name = "Updated";
 
         // When
-        $this->put(route('skills.update', ['id' => $skill->id]), $skill->toArray());
+        $this->put(route('skills.update', $skill), $skill->toArray());
 
         // Then
         $this->assertDatabaseHas('skills', ['id' => $skill->id, 'name' => $skill->name]);
@@ -236,7 +236,7 @@ class SkillsTest extends TestCase
 
         // When
         // Then
-        $this->put(route('skills.update', ['id' => $skill->id]), $skill->toArray())
+        $this->put(route('skills.update', $skill), $skill->toArray())
             ->assertForbidden();
     }
 
@@ -248,7 +248,7 @@ class SkillsTest extends TestCase
 
         // When
         // Then
-        $this->put(route('skills.update', ['id' => $skill->id]), $skill->toArray())
+        $this->put(route('skills.update', $skill), $skill->toArray())
             ->assertRedirect(route('login'));
     }
 
@@ -262,7 +262,7 @@ class SkillsTest extends TestCase
         $skill->name = null;
 
         // Then
-        $this->put(route('skills.update', ['id' => $skill->id]), $skill->toArray())
+        $this->put(route('skills.update', $skill), $skill->toArray())
             ->assertSessionHasErrors('name');
     }
 
@@ -276,7 +276,7 @@ class SkillsTest extends TestCase
         $skill->organization_id = null;
 
         // Then
-        $this->put(route('skills.update', ['id' => $skill->id]), $skill->toArray())
+        $this->put(route('skills.update', $skill), $skill->toArray())
             ->assertSessionHasErrors('organization_id');
     }
 
@@ -287,10 +287,10 @@ class SkillsTest extends TestCase
         $skill = factory(Skill::class)->create();
 
         // When
-        $this->delete(route('skills.destroy', ['id' => $skill->id]));
+        $this->delete(route('skills.destroy', $skill));
 
         // Then
-        $this->assertDatabaseMissing('skills', ['id' => $skill->id]);
+        $this->assertDatabaseMissing('skills', $skill->toArray());
     }
 
     public function testNotAdminNotDelete()
@@ -301,7 +301,7 @@ class SkillsTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('skills.destroy', ['id' => $skill->id]))
+        $this->delete(route('skills.destroy', $skill))
             ->assertForbidden();
     }
 
@@ -312,7 +312,7 @@ class SkillsTest extends TestCase
 
         // When
         // Then
-        $this->delete(route('skills.destroy', ['id' => $skill->id]))
+        $this->delete(route('skills.destroy', $skill))
             ->assertRedirect(route('login'));
     }
 }
