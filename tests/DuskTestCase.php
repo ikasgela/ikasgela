@@ -36,6 +36,7 @@ abstract class DuskTestCase extends BaseTestCase
             '--headless',
             '--no-sandbox',
             '--ignore-ssl-errors',
+            '--ignore-certificate-errors',
             '--whitelisted-ips=""'
         ]);
 
