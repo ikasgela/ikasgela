@@ -4,7 +4,6 @@ use App\Curso;
 use App\Organization;
 use App\Role;
 use App\Team;
-use App\Unidad;
 use App\User;
 use Carbon\Carbon;
 use GrahamCampbell\GitLab\Facades\GitLab;
@@ -48,7 +47,7 @@ class UsersTableSeeder extends Seeder
     private function generarUsuario(string $nombre, string $email, $roles, $equipos, $cursos, $organizations): void
     {
         $usuario = User::generar_username($email);
-        $password = App::environment('local') ? '12345Abcde' : bin2hex(openssl_random_pseudo_bytes(16));;   // REF: https://stackoverflow.com/a/21498316
+        $password = App::environment(['local', 'test', 'dusk.local']) ? '12345Abcde' : bin2hex(openssl_random_pseudo_bytes(16));;   // REF: https://stackoverflow.com/a/21498316
         $fecha = Carbon::now();
 
         $user = new User();
