@@ -23,7 +23,7 @@
             <tr>
                 <td class="p-0 pl-1 {{ $actividad->destacada ? 'bg-warning' : '' }}">&nbsp;</td>
                 <td>
-                    <input type="checkbox" name="seleccionadas[]" value="{{ $actividad->id }}">
+                    <input type="checkbox" name="seleccionadas[{{ $actividad->id }}]" value="{{ $actividad->id }}">
                 </td>
                 <td>{{ $actividad->id }}</td>
                 <td>

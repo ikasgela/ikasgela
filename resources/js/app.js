@@ -47,11 +47,11 @@ $(document).ready(function ($) {
     });
 
     $('#seleccionar_usuarios').change(function () {
-        $("input[name='usuarios_seleccionados[]']").not(this).prop('checked', this.checked);
+        $("input[name^='usuarios_seleccionados']").not(this).prop('checked', this.checked);
     });
 
     $('#seleccionar_actividades').change(function () {
-        $("input[name='seleccionadas[]']").not(this).prop('checked', this.checked);
+        $("input[name^='seleccionadas']").not(this).prop('checked', this.checked);
     });
 
     $('#seleccionar_todos').change(function () {

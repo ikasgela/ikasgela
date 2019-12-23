@@ -51,7 +51,7 @@
                 </td>
                 <td>
                     <input form="asignar" type="checkbox"
-                           name="usuarios_seleccionados[]" value="{{ $user->id }}">
+                           name="usuarios_seleccionados[{{ $user->id }}]" value="{{ $user->id }}">
                 </td>
                 <td class="clickable"><img style="height:35px;" src="{{ $user->avatar_url(70)}}"
                                            onerror="this.onerror=null;this.src='{{ url("/svg/missing_avatar.svg") }}';"/>
