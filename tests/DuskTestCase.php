@@ -32,6 +32,7 @@ abstract class DuskTestCase extends BaseTestCase
         // https://medium.com/@scuttlebyte/running-headless-laravel-dusk-3-0-tests-in-docker-environments-f396752a9ffe
 
         $options = (new ChromeOptions)->addArguments([
+            '--window-size=1920,1920',
             '--disable-gpu',
             '--headless',
             '--no-sandbox',

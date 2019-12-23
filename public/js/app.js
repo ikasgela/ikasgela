@@ -54196,10 +54196,10 @@ $(document).ready(function ($) {
     window.location = $(this).parent().data("href");
   });
   $('#seleccionar_usuarios').change(function () {
-    $("input[name='usuarios_seleccionados[]']").not(this).prop('checked', this.checked);
+    $("input[name^='usuarios_seleccionados']").not(this).prop('checked', this.checked);
   });
   $('#seleccionar_actividades').change(function () {
-    $("input[name='seleccionadas[]']").not(this).prop('checked', this.checked);
+    $("input[name^='seleccionadas']").not(this).prop('checked', this.checked);
   });
   $('#seleccionar_todos').change(function () {
     $("input[name='recipients[]']").not(this).prop('checked', this.checked);
