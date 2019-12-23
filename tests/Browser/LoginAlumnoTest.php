@@ -10,6 +10,8 @@ class LoginAlumnoTest extends DuskTestCase
     public function testLoginAlumno()
     {
         $this->browse(function (Browser $browser) {
+
+            // Login de alumno
             $browser->visit('/login');
             $browser->type('email', 'marc@ikasgela.com');
             $browser->type('password', '12345Abcde');
