@@ -4,7 +4,8 @@ namespace App\Console;
 
 use App\Actividad;
 use Carbon\Carbon;
-use GrahamCampbell\GitLab\Facades\GitLab;
+use GitLab;
+use Log;
 
 class BloquearRepositorios
 {
@@ -29,6 +30,6 @@ class BloquearRepositorios
             }
         }
 
-        echo "Repositorios archivados: $total\n";
+        Log::debug("Repositorios archivados: $total");
     }
 }
