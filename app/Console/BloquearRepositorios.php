@@ -15,6 +15,7 @@ class BloquearRepositorios
             ->where('fecha_limite', '<=', Carbon::now())->get();
 
         $total = 0;
+        $archivados = 0;
 
         foreach ($actividades as $actividad) {
             foreach ($actividad->intellij_projects as $intellij_project) {
@@ -22,14 +23,15 @@ class BloquearRepositorios
                     $proyecto_gitlab = $intellij_project->gitlab();
                     if (!$proyecto_gitlab['archived']) {
                         GitLab::projects()->archive($proyecto_gitlab['id']);
-                        $actividad->intellij_projects()
-                            ->updateExistingPivot($intellij_project->id, ['archivado' => true]);
-                        $total += 1;
+                        $archivados += 1;
                     }
+                    $actividad->intellij_projects()
+                        ->updateExistingPivot($intellij_project->id, ['archivado' => true]);
+                    $total += 1;
                 }
             }
         }
 
-        Log::debug("Repositorios archivados: $total");
+        Log::info("Repositorios archivados: $archivados/$total");
     }
 }
