@@ -4,6 +4,7 @@ namespace App;
 
 use GitLab;
 use Illuminate\Database\Eloquent\Model;
+use Log;
 
 class IntellijProject extends Model
 {
@@ -30,6 +31,7 @@ class IntellijProject extends Model
             else
                 return GitLab::projects()->show($this->pivot->fork);
         } catch (\Exception $e) {
+            Log::critical($e);
             $fake = [
                 'id' => '?',
                 'name' => '?',

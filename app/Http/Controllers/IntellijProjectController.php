@@ -9,6 +9,7 @@ use Auth;
 use GitLab;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Log;
 
 class IntellijProjectController extends Controller
 {
@@ -118,7 +119,7 @@ class IntellijProjectController extends Controller
                 . '-' . $actividad->slug
                 . '-' . $proyecto['path'];
 
-            $fork = $this->clonar_repositorio($proyecto['path_with_namespace'], $username, $ruta);
+            $fork = $this->clonar_repositorio($proyecto, $username, $ruta);
         }
 
         if ($fork) {
@@ -152,9 +153,6 @@ class IntellijProjectController extends Controller
     {
         try {
 
-            // Obtener el id del repositorio de origen
-            $original = GitLab::projects()->show($origen);
-
             $fork = null;
             $error_code = 0;
 
@@ -165,7 +163,7 @@ class IntellijProjectController extends Controller
                 $namespace = 'root';
 
             if (empty($nombre))
-                $nombre = $original['name'];
+                $nombre = $origen['name'];
 
             if (empty($ruta))
                 $ruta = Str::slug($nombre);
@@ -177,7 +175,7 @@ class IntellijProjectController extends Controller
 
                 try {
                     // Hacer el fork
-                    $fork = GitLab::projects()->fork($original['id'], [
+                    $fork = GitLab::projects()->fork($origen['id'], [
                         'namespace' => $namespace,
                         'name' => $nombre,
                         'path' => Str::slug($ruta)
@@ -187,7 +185,7 @@ class IntellijProjectController extends Controller
                     GitLab::projects()->removeForkRelation($fork['id']);
 
                     // Convertirlo en privado
-                    $fork = GitLab::projects()->update($fork['id'], [
+                    GitLab::projects()->update($fork['id'], [
                         'visibility' => 'private'
                     ]);
 
@@ -198,6 +196,8 @@ class IntellijProjectController extends Controller
                         $ruta = $ruta_temp . "-$n";
                         $nombre = $nombre_temp . " - $n";
                         $n += 1;
+                    } else {
+                        Log::error($e);
                     }
                 }
 
@@ -206,6 +206,7 @@ class IntellijProjectController extends Controller
             return $fork;
 
         } catch (\Exception $e) {
+            Log::error($e);
             return false;
         }
     }
@@ -238,12 +239,16 @@ class IntellijProjectController extends Controller
             'intellij_destino' => $destino
         ]);
 
-        $this->clonar_repositorio(
-            $origen,
-            $destino,
-            $request->input('ruta'),
-            $request->input('nombre')
-        );
+        try {
+            $this->clonar_repositorio(
+                GitLab::projects()->show($origen),
+                $destino,
+                $request->input('ruta'),
+                $request->input('nombre')
+            );
+        } catch (\Exception $e) {
+            Log::error($e);
+        }
 
         return redirect(route('intellij_projects.copia'));
     }
