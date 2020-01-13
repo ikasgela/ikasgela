@@ -70,7 +70,7 @@
                             @case(20)   {{-- Aceptada --}}
                             @case(21)   {{-- Feedback leído --}}
                             @if($actividad->envioPermitido())
-                                @if(!isset($actividad->unidad->curso->fecha_fin) || $actividad->unidad->curso->fecha_fin->gt(\Carbon\Carbon::now()))
+                                @if(!isset($actividad->unidad->curso->fecha_fin) || $actividad->unidad->curso->fecha_fin->gt(\Carbon\Carbon::now()) || $actividad->hasEtiqueta('examen'))
                                     <button type="submit" name="nuevoestado" value="30"
                                             class="btn btn-primary mr-2 single_click">
                                         <i class="fas fa-spinner fa-spin"
