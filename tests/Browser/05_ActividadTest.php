@@ -20,8 +20,9 @@ class ActividadTest extends DuskTestCase
             $browser->assertPathIs('/alumnos');
 
             $browser->visit('/alumnos');
-            $browser->check('usuarios_seleccionados[1]');
-            $browser->check('seleccionadas[5]');
+            $browser->pause(500)->check("input[name='usuarios_seleccionados[1]']");
+            $browser->check("input[name='seleccionadas[5]']");
+
             $browser->press('Guardar asignación');
             $browser->assertPathIs('/alumnos');
 
