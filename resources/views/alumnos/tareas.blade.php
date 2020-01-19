@@ -9,11 +9,11 @@
             </h1>
         </div>
         <div>
-            @if(session('num_actividades') > 0)
-                @if(session('num_actividades') == 1)
+            @if($alumno_actividades_asignadas > 0)
+                @if($alumno_actividades_asignadas == 1)
                     <h2 class="text-muted font-xl">Tienes una actividad asignada</h2>
                 @else
-                    <h2 class="text-muted font-xl">Tienes {{ session('num_actividades') }} actividades asignadas</h2>
+                    <h2 class="text-muted font-xl">Tienes {{ $alumno_actividades_asignadas }} actividades asignadas</h2>
                 @endif
             @endif
         </div>
@@ -23,8 +23,8 @@
         <li class="nav-item">
             <a class="nav-link active" id="pills-en-curso-tab" data-toggle="tab" href="#pills-en-curso" role="tab"
                aria-controls="pills-profile" aria-selected="true">En curso
-                @if($user->actividades_en_curso_autoavance()->count() > 0)
-                    <span class="ml-2 badge badge-danger">{{ $user->actividades_en_curso_autoavance()->count() }}</span>
+                @if($alumno_actividades_asignadas > 0)
+                    <span class="ml-2 badge badge-danger">{{ $alumno_actividades_asignadas }}</span>
                 @else
                     <span class="ml-2 badge badge-secondary">0</span>
                 @endif

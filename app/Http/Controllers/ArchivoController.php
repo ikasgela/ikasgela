@@ -34,14 +34,6 @@ class ArchivoController extends Controller
 
         $actividades = $user->actividades_archivadas()->paginate(25);
 
-        // Recuento de asignadas
-        $num_actividades = $user->actividades_asignadas()->count();
-
-        if ($num_actividades > 0)
-            session(['num_actividades' => $num_actividades]);
-        else
-            session()->forget('num_actividades');
-
         // Lista de usuarios
         $curso = Curso::find(setting_usuario('curso_actual'));
         $users = null;

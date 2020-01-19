@@ -1,5 +1,7 @@
 <?php
 
+use App\Providers\RecuentoActividadesProvider;
+
 return [
 
     /*
@@ -160,6 +162,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        App\Providers\RecuentoActividadesProvider::class,
     ],
 
     /*
