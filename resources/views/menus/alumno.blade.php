@@ -2,8 +2,8 @@
 <li class="nav-item">
     <a class="nav-link" href="{{ route('users.home') }}">
         <i class="nav-icon fas fa-home"></i> {{ __('Desktop') }}
-        @if( session('num_actividades') > 0 )
-            <span class="badge badge-danger">{{ session('num_actividades') }}</span>
+        @if( $alumno_actividades_asignadas > 0 )
+            <span class="badge badge-danger">{{ $alumno_actividades_asignadas }}</span>
         @endif
     </a>
 </li>
