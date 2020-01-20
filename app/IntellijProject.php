@@ -19,7 +19,8 @@ class IntellijProject extends Model
             ->withTimestamps()
             ->withPivot([
                 'fork',
-                'archivado'
+                'archivado',
+                'is_forking'
             ]);
     }
 
@@ -51,5 +52,10 @@ class IntellijProject extends Model
     public function isArchivado()
     {
         return $this->pivot->archivado;
+    }
+
+    public function isForking()
+    {
+        return $this->pivot->is_forking;
     }
 }

@@ -4,9 +4,13 @@
         <h5 class="card-title">{{ $intellij_project->titulo }}</h5>
         <p class="card-text">{{ $intellij_project->descripcion }}</p>
         @if(!$intellij_project->isForked() && Auth::user()->hasRole('alumno'))
-            <a href="{{ route('intellij_projects.fork', ['actividad' => $actividad->id, 'intellij_project'=>$intellij_project->id]) }}"
-               class="btn btn-primary single_click">
-                <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Clone the project') }}</a>
+            @if(!$intellij_project->isForking())
+                <a href="{{ route('intellij_projects.fork', ['actividad' => $actividad->id, 'intellij_project'=>$intellij_project->id]) }}"
+                   class="btn btn-primary single_click">
+                    <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Clone the project') }}</a>
+            @else
+                {{ __('Cloning, please wait...') }}
+            @endif
             @if(session('clone_error_id') == $actividad->id)
                 <div class="alert alert-danger mb-0 mt-3" role="alert">
                     <span>{{ session('clone_error_status') }}</span>
