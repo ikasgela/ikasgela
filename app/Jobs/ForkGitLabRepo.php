@@ -56,17 +56,14 @@ class ForkGitLabRepo implements ShouldQueue
                 . '-' . $this->actividad->slug
                 . '-' . $proyecto['path'];
 
-            $this->actividad->intellij_projects()->updateExistingPivot($this->intellij_project->id, ['is_forking' => true])->save();
-
-            sleep(30);
+            //$this->actividad->intellij_projects()->updateExistingPivot($this->intellij_project->id, ['is_forking' => true]);
 
             $fork = $this->clonar_repositorio($proyecto, $username, $ruta);
         }
 
         if ($fork) {
-            $this->actividad->intellij_projects()->updateExistingPivot($this->intellij_project->id, ['is_forking' => false]);
             $this->actividad->intellij_projects()
-                ->updateExistingPivot($this->intellij_project->id, ['fork' => $fork['path_with_namespace']]);
+                ->updateExistingPivot($this->intellij_project->id, ['fork' => $fork['path_with_namespace'], 'is_forking' => false]);
         } else {
             $this->actividad->intellij_projects()->updateExistingPivot($this->intellij_project->id, ['is_forking' => false]);
             //$request->session()->flash('clone_error_id', $actividad->id);

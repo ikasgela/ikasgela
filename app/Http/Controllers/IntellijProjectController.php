@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App;
 use App\Actividad;
 use App\IntellijProject;
+use App\Jobs\ForkGitLabRepo;
 use Auth;
 use GitLab;
 use Illuminate\Http\Request;
@@ -104,33 +105,9 @@ class IntellijProjectController extends Controller
 
     public function fork(Actividad $actividad, IntellijProject $intellij_project, Request $request)
     {
-        /*        $username = Auth::user()->username;
+        $actividad->intellij_projects()->updateExistingPivot($intellij_project->id, ['is_forking' => true]);
 
-                // Si la actividad no está asociada a este usuario, no hacer el fork
-                if (!$actividad->users()->where('username', $username)->exists())
-                    abort(403, __('Sorry, you are not authorized to access this page.'));
-
-                $proyecto = $intellij_project->gitlab();
-
-                $fork = null;
-                if (isset($proyecto['path'])) {
-                    $ruta = $actividad->unidad->curso->slug
-                        . '-' . $actividad->unidad->slug
-                        . '-' . $actividad->slug
-                        . '-' . $proyecto['path'];
-
-                    $fork = $this->clonar_repositorio($proyecto, $username, $ruta);
-                }
-
-                if ($fork) {
-                    $actividad->intellij_projects()
-                        ->updateExistingPivot($intellij_project->id, ['fork' => $fork['path_with_namespace']]);
-                } else {
-                    $request->session()->flash('clone_error_id', $actividad->id);
-                    $request->session()->flash('clone_error_status', __('Error cloning the repository, contact your administrator.'));
-                }*/
-
-        App\Jobs\ForkGitLabRepo::dispatch($actividad, $intellij_project, Auth::user());
+        ForkGitLabRepo::dispatch($actividad, $intellij_project, Auth::user())->delay(now()->addSeconds(10));
 
         return redirect(route('users.home'));
     }
@@ -151,6 +128,7 @@ class IntellijProjectController extends Controller
     }
     */
 
+    /*
     private function clonar_repositorio($origen, $destino, $ruta, $nombre = null)
     {
         try {
@@ -212,6 +190,7 @@ class IntellijProjectController extends Controller
             return false;
         }
     }
+    */
 
     public function copia()
     {
