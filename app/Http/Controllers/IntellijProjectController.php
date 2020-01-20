@@ -104,31 +104,33 @@ class IntellijProjectController extends Controller
 
     public function fork(Actividad $actividad, IntellijProject $intellij_project, Request $request)
     {
-        $username = Auth::user()->username;
+        /*        $username = Auth::user()->username;
 
-        // Si la actividad no está asociada a este usuario, no hacer el fork
-        if (!$actividad->users()->where('username', $username)->exists())
-            abort(403, __('Sorry, you are not authorized to access this page.'));
+                // Si la actividad no está asociada a este usuario, no hacer el fork
+                if (!$actividad->users()->where('username', $username)->exists())
+                    abort(403, __('Sorry, you are not authorized to access this page.'));
 
-        $proyecto = $intellij_project->gitlab();
+                $proyecto = $intellij_project->gitlab();
 
-        $fork = null;
-        if (isset($proyecto['path'])) {
-            $ruta = $actividad->unidad->curso->slug
-                . '-' . $actividad->unidad->slug
-                . '-' . $actividad->slug
-                . '-' . $proyecto['path'];
+                $fork = null;
+                if (isset($proyecto['path'])) {
+                    $ruta = $actividad->unidad->curso->slug
+                        . '-' . $actividad->unidad->slug
+                        . '-' . $actividad->slug
+                        . '-' . $proyecto['path'];
 
-            $fork = $this->clonar_repositorio($proyecto, $username, $ruta);
-        }
+                    $fork = $this->clonar_repositorio($proyecto, $username, $ruta);
+                }
 
-        if ($fork) {
-            $actividad->intellij_projects()
-                ->updateExistingPivot($intellij_project->id, ['fork' => $fork['path_with_namespace']]);
-        } else {
-            $request->session()->flash('clone_error_id', $actividad->id);
-            $request->session()->flash('clone_error_status', __('Error cloning the repository, contact your administrator.'));
-        }
+                if ($fork) {
+                    $actividad->intellij_projects()
+                        ->updateExistingPivot($intellij_project->id, ['fork' => $fork['path_with_namespace']]);
+                } else {
+                    $request->session()->flash('clone_error_id', $actividad->id);
+                    $request->session()->flash('clone_error_status', __('Error cloning the repository, contact your administrator.'));
+                }*/
+
+        App\Jobs\ForkGitLabRepo::dispatch($actividad, $intellij_project, Auth::user());
 
         return redirect(route('users.home'));
     }
