@@ -31,7 +31,7 @@
                         &nbsp;
                     </td>
                     <td>
-                        <input form="multiple" type="checkbox" name="asignadas[]" value="{{ $actividad->id }}">
+                        <input form="multiple" type="checkbox" name="asignadas[]" value="{{ $actividad->tarea->id }}">
                     </td>
                     <td>{{ $actividad->tarea->id }}</td>
                     <td>
@@ -104,7 +104,7 @@
             <tr>
                 <td colspan="13">
                     <div class="form-inline">
-                        {!! Form::open(['route' => ['tareas.borrar_grupo'], 'method' => 'POST', 'id' => 'multiple']) !!}
+                        {!! Form::open(['route' => ['tareas.borrar_multiple', $user->id], 'method' => 'POST', 'id' => 'multiple']) !!}
                         <span>Con las seleccionadas: </span>
                         <button title="{{ __('Delete') }}"
                                 type="submit"
