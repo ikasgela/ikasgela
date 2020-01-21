@@ -97,12 +97,12 @@
             </tbody>
             <tfoot class="thead-dark">
             <tr>
-                <th colspan="5"></th>
-                <th class="text-center">{{ $user->actividades_enviadas_noautoavance()->count() > 0 ? $user->actividades_enviadas_noautoavance()->count() : '' }}</th>
+                <th colspan="6"></th>
+                <th class="text-center">{{ $user->actividades_enviadas_noautoavance()->count() > 0 ? $user->actividades_enviadas_noautoavance()->count() : '0' }}</th>
                 <th colspan="6"></th>
             </tr>
             <tr>
-                <td colspan="13">
+                <td colspan="6">
                     <div class="form-inline">
                         {!! Form::open(['route' => ['tareas.borrar_multiple', $user->id], 'method' => 'POST', 'id' => 'multiple']) !!}
                         <span>{{ __('With the selected') }}: </span>
