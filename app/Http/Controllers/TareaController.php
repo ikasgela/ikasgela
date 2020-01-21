@@ -57,4 +57,21 @@ class TareaController extends Controller
 
         return redirect(route('profesor.tareas', ['user' => $user->id]));
     }
+
+    public function borrar_grupo(Request $request)
+    {
+        $this->validate($request, [
+            'usuarios_seleccionados' => 'required',
+            'seleccionadas' => 'required',
+        ]);
+
+        foreach (request('usuarios_seleccionados') as $user_id) {
+
+            $user = User::find($user_id);
+
+            $this->asignarTareasUsuario($user);
+        }
+
+        return redirect(route('profesor.index'));
+    }
 }
