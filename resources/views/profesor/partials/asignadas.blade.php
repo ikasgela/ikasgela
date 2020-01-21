@@ -105,11 +105,8 @@
                 <td colspan="13">
                     <div class="form-inline">
                         {!! Form::open(['route' => ['tareas.borrar_multiple', $user->id], 'method' => 'POST', 'id' => 'multiple']) !!}
-                        <span>Con las seleccionadas: </span>
-                        <button title="{{ __('Delete') }}"
-                                type="submit"
-                                class="btn btn-light btn-sm mr-2"><i class="fas fa-trash text-danger"></i>
-                        </button>
+                        <span>{{ __('With the selected') }}: </span>
+                        @include('partials.boton_borrar')
                         {!! Form::close() !!}
                     </div>
                 </td>
