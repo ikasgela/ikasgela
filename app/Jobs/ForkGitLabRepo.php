@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Actividad;
 use App\IntellijProject;
+use App\Mail\RepositorioClonado;
 use App\User;
 use GitLab;
 use Illuminate\Bus\Queueable;
@@ -13,6 +14,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Str;
 use Log;
+use Mail;
 
 class ForkGitLabRepo implements ShouldQueue
 {
@@ -64,6 +66,9 @@ class ForkGitLabRepo implements ShouldQueue
         if ($fork) {
             $this->actividad->intellij_projects()
                 ->updateExistingPivot($this->intellij_project->id, ['fork' => $fork['path_with_namespace'], 'is_forking' => false]);
+
+            Mail::to($this->user->email)->queue(new RepositorioClonado($this->user));
+
         } else {
             $this->actividad->intellij_projects()->updateExistingPivot($this->intellij_project->id, ['is_forking' => false]);
             //$request->session()->flash('clone_error_id', $actividad->id);
