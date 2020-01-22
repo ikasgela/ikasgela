@@ -1,8 +1,19 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
-    "license": "MIT",
+    "name": "ikasgela/ikasgela",
+    "description": "ikasgela.com",
+    "keywords": [
+        "ikasgela",
+        "laravel"
+    ],
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Ion Jaureguialzo Sarasola",
+            "email": "ion@jaureguialzo.com",
+            "homepage": "https://www.jaureguialzo.com",
+            "role": "Developer"
+        }
+    ],
     "type": "project",
     "require": {
         "php": "^7.4",
