@@ -28,11 +28,11 @@
         @php($media = false)
         @foreach($usuarios as $user)
             @if( !$media && session('profesor_filtro_alumnos') == 'P'
-                    && $user->actividades_completadas()->count() > $total_actividades_grupo / $usuarios->count() )
+                    && $user->num_completadas('base') > $media_grupo )
                 <tr class="bg-secondary">
                     <th class="p-0"></th>
                     <th colspan="13">{{ __('Mean') }}:
-                        {{ number_format ( $total_actividades_grupo / $usuarios->count(), 2) }} {{ mb_strtolower(__('Completed activities')) }}</th>
+                        {{ number_format ( $media_grupo, 2) }} {{ mb_strtolower(__('Completed activities')) }}</th>
                     @if(Auth::user()->hasRole('admin'))
                         <th></th>
                     @endif

@@ -57,12 +57,17 @@ class ProfesorController extends Controller
 
         $disponibles = $this->actividadesDisponibles();
 
+        $usuarios_activos = User::organizacionActual()->rolAlumno()->noBloqueado()->get();
+
         $total_actividades_grupo = 0;
-        foreach ($usuarios as $usuario) {
+        foreach ($usuarios_activos as $usuario) {
             $total_actividades_grupo += $usuario->num_completadas('base');
         }
 
-        return view('profesor.index', compact(['usuarios', 'unidades', 'disponibles', 'organization', 'total_actividades_grupo']));
+        $media_grupo = $total_actividades_grupo / $usuarios_activos->count();
+
+        return view('profesor.index', compact(['usuarios', 'unidades', 'disponibles', 'organization',
+            'total_actividades_grupo', 'media_grupo']));
     }
 
     public function tareas(User $user, Request $request)
