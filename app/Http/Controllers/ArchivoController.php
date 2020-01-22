@@ -32,7 +32,13 @@ class ArchivoController extends Controller
             $user = User::find(session('filtrar_user_actual'));
         }
 
-        $actividades = $user->actividades_archivadas()->paginate(25);
+        // Situar el paginador en la última página
+        $temp = $user->actividades_archivadas()->paginate(25, ['*'], 'pagina');
+
+        if (!$request->has('pagina'))
+            $actividades = $user->actividades_archivadas()->paginate(25, ['*'], 'pagina', $temp->lastPage());
+        else
+            $actividades = $temp;
 
         // Lista de usuarios
         $curso = Curso::find(setting_usuario('curso_actual'));
