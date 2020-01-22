@@ -32,7 +32,7 @@
                 <tr class="bg-secondary">
                     <th class="p-0"></th>
                     <th colspan="13">{{ __('Mean') }}:
-                        {{ number_format ( $total_actividades_grupo / $usuarios->count(), 2) }} {{ __('completed activities') }}</th>
+                        {{ number_format ( $total_actividades_grupo / $usuarios->count(), 2) }} {{ mb_strtolower(__('Completed activities')) }}</th>
                     @if(Auth::user()->hasRole('admin'))
                         <th></th>
                     @endif

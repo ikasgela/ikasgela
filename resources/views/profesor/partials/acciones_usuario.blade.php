@@ -9,6 +9,6 @@
     {!! Form::hidden('user_id',$user->id) !!}
     {!! Form::close() !!}
 
-    <a title="{{ __('Mensaje') }}" href="{{ route('messages.create') }}"
+    <a title="{{ __('Message') }}" href="{{ route('messages.create') }}"
        class='btn btn-light btn-sm'><i class="fas fa-comment"></i></a>
 </div>
