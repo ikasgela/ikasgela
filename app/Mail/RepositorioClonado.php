@@ -11,7 +11,6 @@ class RepositorioClonado extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $usuario;
     public $hostName;
 
     /**
@@ -19,9 +18,8 @@ class RepositorioClonado extends Mailable
      *
      * @return void
      */
-    public function __construct($usuario)
+    public function __construct()
     {
-        $this->usuario = $usuario;
         $this->hostName = Request::getHost();
     }
 
