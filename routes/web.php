@@ -89,6 +89,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/tareas/{user}/destroy/{tarea}', 'TareaController@destroy')
             ->name('tareas.destroy');
 
+        // Borrar múltiples tareas
+        Route::post('/tareas/{user}/borrar_multiple', 'TareaController@borrarMultiple')
+            ->name('tareas.borrar_multiple');
+
         // Editar una tarea
         Route::get('/tareas/{tarea}/edit', 'TareaController@edit')
             ->name('tareas.edit');

@@ -6,6 +6,9 @@
             <thead class="thead-dark">
             <tr>
                 <th class="p-0"></th>
+                <th>
+                    <input type="checkbox" id="seleccionar_asignadas">
+                </th>
                 <th>#</th>
                 <th>{{ __('Activity') }}</th>
                 <th class="text-center">{{ trans_choice('tasks.hidden', 1) }}</th>
@@ -26,6 +29,9 @@
                 <tr class="table-cell-click">
                     <td class="p-0 pl-1 {{ $actividad->tarea->estado == 30 && !$actividad->auto_avance ? 'bg-danger' : '' }}">
                         &nbsp;
+                    </td>
+                    <td>
+                        <input form="multiple" type="checkbox" name="asignadas[]" value="{{ $actividad->tarea->id }}">
                     </td>
                     <td>{{ $actividad->tarea->id }}</td>
                     <td>
@@ -91,9 +97,19 @@
             </tbody>
             <tfoot class="thead-dark">
             <tr>
-                <th colspan="5"></th>
-                <th class="text-center">{{ $user->actividades_enviadas_noautoavance()->count() > 0 ? $user->actividades_enviadas_noautoavance()->count() : '' }}</th>
                 <th colspan="6"></th>
+                <th class="text-center">{{ $user->actividades_enviadas_noautoavance()->count() > 0 ? $user->actividades_enviadas_noautoavance()->count() : '0' }}</th>
+                <th colspan="6"></th>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <div class="form-inline">
+                        {!! Form::open(['route' => ['tareas.borrar_multiple', $user->id], 'method' => 'POST', 'id' => 'multiple']) !!}
+                        <span>{{ __('With the selected') }}: </span>
+                        @include('partials.boton_borrar')
+                        {!! Form::close() !!}
+                    </div>
+                </td>
             </tr>
             </tfoot>
         </table>

@@ -79,7 +79,7 @@ class ActividadTest extends DuskTestCase
             $browser->press('Terminada');
             $browser->assertPathIs('/alumnos/1/tareas');
 
-            $browser->assertSeeIn('#app > div > main > div > div.table-responsive > table > tbody > tr:nth-child(2) > td:nth-child(8)', '80');
+            $browser->assertSeeIn('#app > div > main > div > div.table-responsive > table > tbody > tr:nth-child(2) > td:nth-child(9)', '80');
 
             // Cerrar sesión
             $browser->logout();

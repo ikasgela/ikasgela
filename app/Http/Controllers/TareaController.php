@@ -36,6 +36,29 @@ class TareaController extends Controller
 
     public function destroy(User $user, Tarea $tarea)
     {
+        $this->borrarTarea($tarea);
+
+        return redirect(route('profesor.tareas', ['user' => $user->id]));
+    }
+
+    public function borrarMultiple(User $user, Request $request)
+    {
+        $this->validate($request, [
+            'asignadas' => 'required',
+        ]);
+
+        foreach (request('asignadas') as $tarea_id) {
+            $this->borrarTarea(Tarea::find($tarea_id));
+        }
+
+        return redirect(route('profesor.tareas', ['user' => $user->id]));
+    }
+
+    /**
+     * @param Tarea $tarea
+     */
+    private function borrarTarea(Tarea $tarea): void
+    {
         $registro = new Registro();
         $registro->user_id = $tarea->user->id;
         $registro->tarea_id = $tarea->id;
@@ -54,7 +77,5 @@ class TareaController extends Controller
         $tarea->actividad->delete();
 
         $tarea->delete();
-
-        return redirect(route('profesor.tareas', ['user' => $user->id]));
     }
 }

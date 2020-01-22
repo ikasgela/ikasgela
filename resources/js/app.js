@@ -56,6 +56,10 @@ $(document).ready(function ($) {
         $("input[name^='seleccionadas']").not(this).prop('checked', this.checked);
     });
 
+    $('#seleccionar_asignadas').change(function () {
+        $("input[name^='asignadas']").not(this).prop('checked', this.checked);
+    });
+
     $('#seleccionar_todos').change(function () {
         $("input[name='recipients[]']").not(this).prop('checked', this.checked);
     });
