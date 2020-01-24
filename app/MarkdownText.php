@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Cache;
 use GitLab;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
@@ -21,38 +22,43 @@ class MarkdownText extends Model
 
     public function markdown()
     {
-        try {
-            $repositorio = $this->repositorio;
-            $rama = isset($this->rama) ? $this->rama : 'master';
-            $archivo = $this->archivo;
-            $servidor = config('app.debug') ? 'https://gitlab.ikasgela.test/' : 'https://gitlab.ikasgela.com/';
+        $key = $this->repositorio . '/' . $this->archivo;
 
-            $proyecto = GitLab::projects()->show($repositorio);
+        return Cache::remember($key, now()->addDays(1), function () {
 
-            $texto = GitLab::repositoryfiles()->getRawFile($proyecto['id'], $archivo, $rama);
+            try {
+                $repositorio = $this->repositorio;
+                $rama = isset($this->rama) ? $this->rama : 'master';
+                $archivo = $this->archivo;
+                $servidor = config('app.debug') ? 'https://gitlab.ikasgela.test/' : 'https://gitlab.ikasgela.com/';
 
-            // Imagen
-            $texto = preg_replace('/(!\[.*\]\((?!http))/', '${1}' . $servidor
-                . $repositorio
-                . "/raw/$rama/"
-                , $texto);
+                $proyecto = GitLab::projects()->show($repositorio);
 
-            // Link
-            $texto = preg_replace('/(\s+\[.*\]\((?!http))/', '${1}' . $servidor
-                . $repositorio
-                . "/blob/$rama/"
-                , $texto);
+                $texto = GitLab::repositoryfiles()->getRawFile($proyecto['id'], $archivo, $rama);
 
-            // Convertir el Markdown a HTML
-            $texto = Markdown::convertToHtml($texto);
+                // Imagen
+                $texto = preg_replace('/(!\[.*\]\((?!http))/', '${1}' . $servidor
+                    . $repositorio
+                    . "/raw/$rama/"
+                    , $texto);
 
-            // Añadir target="_blank" a los enlaces
-            $texto = preg_replace('/(<a href="[^"]+")>/is', '\\1 target="_blank">', $texto);
+                // Link
+                $texto = preg_replace('/(\s+\[.*\]\((?!http))/', '${1}' . $servidor
+                    . $repositorio
+                    . "/blob/$rama/"
+                    , $texto);
 
-        } catch (\Exception $e) {
-            $texto = "# " . __('Error') . "\n\n" . __('Repository not found.');
-        }
+                // Convertir el Markdown a HTML
+                $texto = Markdown::convertToHtml($texto);
 
-        return $texto;
+                // Añadir target="_blank" a los enlaces
+                $texto = preg_replace('/(<a href="[^"]+")>/is', '\\1 target="_blank">', $texto);
+
+            } catch (\Exception $e) {
+                $texto = "# " . __('Error') . "\n\n" . __('Repository not found.');
+            }
+
+            return $texto;
+        });
     }
 }
