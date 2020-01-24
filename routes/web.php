@@ -142,9 +142,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('intellij_projects.desasociar');
 
         // Bloquear y desbloquear repositorios
-        Route::post('/intellij_projects/{repositorio}/lock', 'IntellijProjectController@lock')
+        Route::post('/intellij_projects/{intellij_project}/{actividad}/lock', 'IntellijProjectController@lock')
             ->name('intellij_projects.lock');
-        Route::post('/intellij_projects/{repositorio}/unlock', 'IntellijProjectController@unlock')
+        Route::post('/intellij_projects/{intellij_project}/{actividad}/unlock', 'IntellijProjectController@unlock')
             ->name('intellij_projects.unlock');
 
         // MarkdownText

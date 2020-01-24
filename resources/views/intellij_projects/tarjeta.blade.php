@@ -26,7 +26,7 @@
             <div class='btn-group'>
                 @if(Auth::user()->hasRole('profesor'))
                     @if($repositorio['archived'])
-                        {!! Form::open(['route' => ['intellij_projects.unlock', $repositorio['id']], 'method' => 'POST']) !!}
+                        {!! Form::open(['route' => ['intellij_projects.unlock', $intellij_project->id, $actividad->id], 'method' => 'POST']) !!}
                         <button title="{{ __('Unlock') }}"
                                 type="submit"
                                 class="btn btn-light">
@@ -34,7 +34,7 @@
                         </button>
                         {!! Form::close() !!}
                     @else
-                        {!! Form::open(['route' => ['intellij_projects.lock', $repositorio['id']], 'method' => 'POST']) !!}
+                        {!! Form::open(['route' => ['intellij_projects.lock', $intellij_project->id, $actividad->id], 'method' => 'POST']) !!}
                         <button title="{{ __('Lock') }}"
                                 type="submit"
                                 class="btn btn-light">

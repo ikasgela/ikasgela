@@ -11,6 +11,7 @@ use App\Registro;
 use App\Tarea;
 use App\Unidad;
 use App\User;
+use Cache;
 use Carbon\Carbon;
 use GrahamCampbell\GitLab\Facades\GitLab;
 use Illuminate\Http\Request;
@@ -428,10 +429,14 @@ class ActividadController extends Controller
     {
         foreach ($tarea->actividad->intellij_projects as $intellij_project) {
             $proyecto_gitlab = $intellij_project->gitlab();
-            if ($solo_lectura)
-                GitLab::projects()->archive($proyecto_gitlab['id']);
-            else
-                GitLab::projects()->unarchive($proyecto_gitlab['id']);
+
+            if ($solo_lectura) {
+                $gitlab = GitLab::projects()->archive($proyecto_gitlab['id']);
+            } else {
+                $gitlab = GitLab::projects()->unarchive($proyecto_gitlab['id']);
+            }
+
+            Cache::put($intellij_project->cacheKey(), $gitlab, now()->addDays(1));
         }
     }
 }
