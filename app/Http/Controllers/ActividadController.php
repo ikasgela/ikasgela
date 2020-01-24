@@ -30,7 +30,7 @@ class ActividadController extends Controller
     {
         memorizar_ruta();
 
-        $actividades = Actividad::orderBy('orden')->get();
+        $actividades = Actividad::orderBy('orden')->paginate(100);
 
         session(['ubicacion' => 'actividades.index']);
 
