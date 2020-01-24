@@ -6,6 +6,7 @@ use App\Actividad;
 use App\IntellijProject;
 use App\Mail\RepositorioClonado;
 use App\User;
+use Cache;
 use GitLab;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -49,7 +50,7 @@ class ForkGitLabRepo implements ShouldQueue
         if (!$this->actividad->users()->where('username', $username)->exists())
             abort(403, __('Sorry, you are not authorized to access this page.'));
 
-        $proyecto = $this->intellij_project->gitlab();
+        $proyecto = GitLab::projects()->show($this->intellij_project->repositorio);
 
         $fork = null;
         if (isset($proyecto['path'])) {
@@ -66,6 +67,11 @@ class ForkGitLabRepo implements ShouldQueue
         if ($fork) {
             $this->actividad->intellij_projects()
                 ->updateExistingPivot($this->intellij_project->id, ['fork' => $fork['path_with_namespace'], 'is_forking' => false]);
+
+            $ij = $this->actividad->intellij_projects()->find($this->intellij_project->id);
+            $key = 'gitlab_' . $ij->pivot->intellij_project_id . '_' . $ij->pivot->actividad_id;
+
+            Cache::put($key, $fork, now()->addDays(1));
 
             Mail::to($this->user->email)->send(new RepositorioClonado());
 

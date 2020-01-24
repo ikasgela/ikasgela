@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Cache;
 use GitLab;
 use Illuminate\Database\Eloquent\Model;
 use Log;
@@ -27,10 +28,17 @@ class IntellijProject extends Model
     public function gitlab()
     {
         try {
-            if (!$this->isForked())
-                return GitLab::projects()->show($this->repositorio);
-            else
-                return GitLab::projects()->show($this->pivot->fork);
+            $key = 'gitlab_' . $this->pivot->intellij_project_id . '_' . $this->pivot->actividad_id;
+
+            if (!$this->isForked()) {
+                return Cache::remember($key, now()->addDays(1), function () {
+                    return GitLab::projects()->show($this->repositorio);
+                });
+            } else {
+                return Cache::remember($key, now()->addDays(1), function () {
+                    return GitLab::projects()->show($this->pivot->fork);
+                });
+            }
         } catch (\Exception $e) {
             Log::critical($e);
             $fake = [
