@@ -69,9 +69,8 @@ class ForkGitLabRepo implements ShouldQueue
                 ->updateExistingPivot($this->intellij_project->id, ['fork' => $fork['path_with_namespace'], 'is_forking' => false]);
 
             $ij = $this->actividad->intellij_projects()->find($this->intellij_project->id);
-            $key = 'gitlab_' . $ij->pivot->intellij_project_id . '_' . $ij->pivot->actividad_id;
 
-            Cache::put($key, $fork, now()->addDays(1));
+            Cache::put($ij->cacheKey(), $fork, now()->addDays(1));
 
             Mail::to($this->user->email)->send(new RepositorioClonado());
 
