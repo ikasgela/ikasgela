@@ -28,7 +28,10 @@ class IntellijProject extends Model
     public function gitlab()
     {
         try {
-            $key = 'gitlab_' . $this->pivot->intellij_project_id . '_' . $this->pivot->actividad_id;
+            if (isset($this->pivot))
+                $key = 'gitlab_' . $this->pivot->intellij_project_id . '_' . $this->pivot->actividad_id;
+            else
+                $key = 'gitlab_' . $this->id;
 
             if (!$this->isForked()) {
                 return Cache::remember($key, now()->addDays(1), function () {
