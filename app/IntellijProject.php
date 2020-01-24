@@ -28,10 +28,7 @@ class IntellijProject extends Model
     public function gitlab()
     {
         try {
-            if (isset($this->pivot))
-                $key = 'gitlab_' . $this->pivot->intellij_project_id . '_' . $this->pivot->actividad_id;
-            else
-                $key = 'gitlab_' . $this->id;
+            $key = $this->cacheKey();
 
             if (!$this->isForked()) {
                 return Cache::remember($key, now()->addDays(1), function () {
@@ -68,5 +65,18 @@ class IntellijProject extends Model
     public function isForking()
     {
         return $this->pivot->is_forking;
+    }
+
+    /**
+     * @return string
+     */
+    public function cacheKey(): string
+    {
+        if (isset($this->pivot))
+            $key = 'gitlab_' . $this->pivot->intellij_project_id . '_' . $this->pivot->actividad_id;
+        else
+            $key = 'gitlab_' . $this->id;
+
+        return $key;
     }
 }

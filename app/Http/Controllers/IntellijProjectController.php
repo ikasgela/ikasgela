@@ -7,6 +7,7 @@ use App\Actividad;
 use App\IntellijProject;
 use App\Jobs\ForkGitLabRepo;
 use Auth;
+use Cache;
 use GitLab;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -234,16 +235,32 @@ class IntellijProjectController extends Controller
         return redirect(route('intellij_projects.copia'));
     }
 
-    public function lock($repositorio)
+    public function lock(IntellijProject $intellij_project, Actividad $actividad)
     {
-        GitLab::projects()->archive($repositorio);
+        $proyecto = $actividad->intellij_projects()->wherePivot('intellij_project_id', $intellij_project->id)->first();
+        $proyecto_gitlab = $proyecto->gitlab();
+
+        if (isset($proyecto->pivot)) {
+            $proyecto->actividades()->updateExistingPivot($actividad->id, ['archivado' => true]);
+        }
+
+        GitLab::projects()->archive($proyecto_gitlab['id']);
+        Cache::forget($proyecto->cacheKey());
 
         return back();
     }
 
-    public function unlock($repositorio)
+    public function unlock(IntellijProject $intellij_project, Actividad $actividad)
     {
-        GitLab::projects()->unarchive($repositorio);
+        $proyecto = $actividad->intellij_projects()->wherePivot('intellij_project_id', $intellij_project->id)->first();
+        $proyecto_gitlab = $proyecto->gitlab();
+
+        if (isset($proyecto->pivot)) {
+            $proyecto->actividades()->updateExistingPivot($actividad->id, ['archivado' => false]);
+        }
+
+        GitLab::projects()->unarchive($proyecto_gitlab['id']);
+        Cache::forget($proyecto->cacheKey());
 
         return back();
     }
