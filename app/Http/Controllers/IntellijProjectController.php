@@ -108,7 +108,10 @@ class IntellijProjectController extends Controller
     {
         $actividad->intellij_projects()->updateExistingPivot($intellij_project->id, ['is_forking' => true]);
 
-        ForkGitLabRepo::dispatch($actividad, $intellij_project, Auth::user()); //->delay(now()->addSeconds(10));
+        if (!App::environment('testing'))
+            ForkGitLabRepo::dispatch($actividad, $intellij_project, Auth::user());
+        else
+            ForkGitLabRepo::dispatchNow($actividad, $intellij_project, Auth::user());
 
         return redirect(route('users.home'));
     }

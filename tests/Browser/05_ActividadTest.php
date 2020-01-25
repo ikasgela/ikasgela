@@ -7,7 +7,6 @@ use Tests\DuskTestCase;
 
 class ActividadTest extends DuskTestCase
 {
-    /*
     public function testActividad()
     {
         $this->browse(function (Browser $browser) {
@@ -53,7 +52,9 @@ class ActividadTest extends DuskTestCase
             $browser->clickLink('Clonar el proyecto');
             $browser->assertPathIs('/home');
 
-            $browser->pause(5000)->refresh()->assertSee('Abrir en IntelliJ IDEA');
+            $browser->pause(1000)->visit('/home');
+
+            $browser->assertSee('Abrir en IntelliJ IDEA');
 
             // Enviar para revisión
             $browser->press('Enviar para revisión');
@@ -104,5 +105,4 @@ class ActividadTest extends DuskTestCase
             $browser->assertSee('Agenda');
         });
     }
-    */
 }
