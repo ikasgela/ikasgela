@@ -3,15 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Watson\Rememberable\Rememberable;
 
 class Organization extends Model
 {
-    use Rememberable;
-
-    public $rememberCacheTag = 'query_organization';
-    public $rememberFor = 60;
-
     protected $fillable = [
         'name', 'slug', 'current_period_id'
     ];

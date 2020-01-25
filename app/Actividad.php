@@ -7,7 +7,6 @@ use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Watson\Rememberable\Rememberable;
 
 class Actividad extends Model
 {
@@ -15,11 +14,6 @@ class Actividad extends Model
     use LogsActivity;
     use SoftDeletes;
     use Etiquetas;
-
-    use Rememberable;
-
-    public $rememberCacheTag = 'query_actividad';
-    public $rememberFor = 60;
 
     protected $cloneable_relations = [
         'intellij_projects',

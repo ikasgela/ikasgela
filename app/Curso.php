@@ -3,15 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Watson\Rememberable\Rememberable;
 
 class Curso extends Model
 {
-    use Rememberable;
-
-    public $rememberCacheTag = 'query_curso';
-    public $rememberFor = 60;
-
     protected $fillable = [
         'category_id', 'nombre', 'descripcion', 'slug', 'qualification_id', 'max_simultaneas',
         'fecha_inicio', 'fecha_fin'
