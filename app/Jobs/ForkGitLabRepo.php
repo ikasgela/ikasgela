@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Actividad;
 use App\IntellijProject;
 use App\Mail\RepositorioClonado;
+use App\Mail\RepositorioClonadoError;
 use App\Traits\ClonarRepoGitLab;
 use App\User;
 use Cache;
@@ -14,6 +15,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Log;
 use Mail;
 
 class ForkGitLabRepo implements ShouldQueue
@@ -51,7 +53,11 @@ class ForkGitLabRepo implements ShouldQueue
         if (!$this->actividad->users()->where('username', $username)->exists())
             abort(403, __('Sorry, you are not authorized to access this page.'));
 
-        $proyecto = GitLab::projects()->show($this->intellij_project->repositorio);
+        try {
+            $proyecto = GitLab::projects()->show($this->intellij_project->repositorio);
+        } catch (\Exception $e) {
+            Log::critical($e);
+        }
 
         $fork = null;
         if (isset($proyecto['path'])) {
@@ -77,6 +83,8 @@ class ForkGitLabRepo implements ShouldQueue
 
         } else {
             $this->actividad->intellij_projects()->updateExistingPivot($this->intellij_project->id, ['is_forking' => false]);
+
+            Mail::to($this->user->email)->send(new RepositorioClonadoError());
         }
     }
 }
