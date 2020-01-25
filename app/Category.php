@@ -3,9 +3,15 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Watson\Rememberable\Rememberable;
 
 class Category extends Model
 {
+    use Rememberable;
+
+    public $rememberCacheTag = 'query_category';
+    public $rememberFor = 60;
+
     protected $fillable = [
         'period_id', 'name', 'slug'
     ];
