@@ -28,9 +28,12 @@ class ResultController extends Controller
 
         // Lista de usuarios
         $curso = Curso::find(setting_usuario('curso_actual'));
-        $users = null;
-        if (!is_null($curso))
-            $users = $curso->users()->rolAlumno()->noBloqueado()->orderBy('name')->get();
+
+        // Si no hay curso no podemos seguir
+        if (is_null($curso))
+            abort(404, __('Course not found.'));
+
+        $users = $curso->users()->rolAlumno()->noBloqueado()->orderBy('name')->get();
 
         // Resultados por competencias
 
