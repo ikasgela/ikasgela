@@ -9,6 +9,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Watson\Rememberable\Rememberable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -16,6 +17,11 @@ class User extends Authenticatable implements MustVerifyEmail
     use LogsActivity;
     use Messagable;
     use Etiquetas;
+
+    use Rememberable;
+
+    public $rememberCacheTag = 'query_user';
+    public $rememberFor = 60;
 
     /**
      * The attributes that are mass assignable.

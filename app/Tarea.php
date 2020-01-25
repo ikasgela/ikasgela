@@ -6,11 +6,17 @@ use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Watson\Rememberable\Rememberable;
 
 class Tarea extends Pivot
 {
     use LogsActivity;
     use SoftDeletes;
+
+    use Rememberable;
+
+    public $rememberCacheTag = 'query_tarea';
+    public $rememberFor = 60;
 
     protected $table = 'tareas';
 
