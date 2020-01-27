@@ -57,6 +57,7 @@ class ForkGitLabRepo implements ShouldQueue
             $proyecto = GitLab::projects()->show($this->intellij_project->repositorio);
         } catch (\Exception $e) {
             Log::critical($e);
+            abort(404, __('Repository not found.'));
         }
 
         $fork = null;

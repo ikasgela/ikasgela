@@ -10,63 +10,59 @@ trait ClonarRepoGitLab
 {
     public function clonar_repositorio($origen, $destino, $ruta, $nombre = null)
     {
-        try {
+        $fork = null;
+        $error_code = 0;
 
-            $fork = null;
-            $error_code = 0;
+        $n = 2;
 
-            $n = 2;
+        $namespace = trim($destino, '/');
+        if (empty($namespace))
+            $namespace = 'root';
 
-            $namespace = trim($destino, '/');
-            if (empty($namespace))
-                $namespace = 'root';
+        if (empty($nombre))
+            $nombre = $origen['name'];
 
-            if (empty($nombre))
-                $nombre = $origen['name'];
+        if (empty($ruta))
+            $ruta = Str::slug($nombre);
 
-            if (empty($ruta))
-                $ruta = Str::slug($nombre);
+        $ruta_temp = $ruta;
+        $nombre_temp = $nombre;
+        $reintentos = 3;
 
-            $ruta_temp = $ruta;
-            $nombre_temp = $nombre;
+        do {
 
-            do {
+            try {
+                // Hacer el fork
+                $fork = GitLab::projects()->fork($origen['id'], [
+                    'namespace' => $namespace,
+                    'name' => $nombre,
+                    'path' => Str::slug($ruta)
+                ]);
 
-                try {
-                    // Hacer el fork
-                    $fork = GitLab::projects()->fork($origen['id'], [
-                        'namespace' => $namespace,
-                        'name' => $nombre,
-                        'path' => Str::slug($ruta)
-                    ]);
+                // Desconectarlo del repositorio original
+                GitLab::projects()->removeForkRelation($fork['id']);
 
-                    // Desconectarlo del repositorio original
-                    GitLab::projects()->removeForkRelation($fork['id']);
+                // Convertirlo en privado
+                GitLab::projects()->update($fork['id'], [
+                    'visibility' => 'private'
+                ]);
 
-                    // Convertirlo en privado
-                    GitLab::projects()->update($fork['id'], [
-                        'visibility' => 'private'
-                    ]);
+            } catch (\RuntimeException $e) {
+                $error_code = $e->getCode();
+                $error_message = $e->getMessage();
 
-                } catch (\RuntimeException $e) {
-                    $error_code = $e->getCode();
-
-                    if ($error_code == 409) {
-                        $ruta = $ruta_temp . "-$n";
-                        $nombre = $nombre_temp . " - $n";
-                        $n += 1;
-                    } else {
-                        Log::error($e);
-                    }
+                if ($error_code == 409 && Str::contains($error_message, 'has already been taken')) {
+                    $ruta = $ruta_temp . "-$n";
+                    $nombre = $nombre_temp . " - $n";
+                    $n += 1;
+                } else {
+                    $reintentos--;
+                    Log::error($e);
                 }
+            }
 
-            } while ($fork == null && $error_code == 409);
+        } while ($fork == null && $error_code == 409 && $reintentos > 0);
 
-            return $fork;
-
-        } catch (\Exception $e) {
-            Log::error($e);
-            return false;
-        }
+        return $fork ?: false;
     }
 }
