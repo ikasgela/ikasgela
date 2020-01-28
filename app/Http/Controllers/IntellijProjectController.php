@@ -175,6 +175,24 @@ class IntellijProjectController extends Controller
         return redirect(route('intellij_projects.copia'));
     }
 
+    public function testGitLab(Request $request)
+    {
+        $n = 0 + $request->input('n');
+
+        for ($i = 0; $i < $n; $i++) {
+            $actividad = factory(Actividad::class)->create();
+            $intellij_project = factory(IntellijProject::class)->create();
+
+            $actividad->intellij_projects()->attach($intellij_project, ['is_forking' => true]);
+
+            Auth::user()->actividades()->attach($actividad);
+
+            ForkGitLabRepo::dispatch($actividad, $intellij_project, Auth::user(), true);
+        }
+
+        return 'ok';
+    }
+
     public function lock(IntellijProject $intellij_project, Actividad $actividad)
     {
         $proyecto = $actividad->intellij_projects()->wherePivot('intellij_project_id', $intellij_project->id)->first();

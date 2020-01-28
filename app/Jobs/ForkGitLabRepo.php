@@ -33,11 +33,12 @@ class ForkGitLabRepo implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Actividad $actividad, IntellijProject $intellij_project, User $user)
+    public function __construct(Actividad $actividad, IntellijProject $intellij_project, User $user, $test_gitlab = false)
     {
         $this->actividad = $actividad;
         $this->intellij_project = $intellij_project;
         $this->user = $user;
+        $this->test_gitlab = $test_gitlab;
     }
 
     /**

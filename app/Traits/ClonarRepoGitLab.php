@@ -8,6 +8,8 @@ use Log;
 
 trait ClonarRepoGitLab
 {
+    public $test_gitlab = false;
+
     public function clonar_repositorio($origen, $destino, $ruta, $nombre = null)
     {
         $fork = null;
@@ -24,6 +26,11 @@ trait ClonarRepoGitLab
 
         if (empty($ruta))
             $ruta = Str::slug($nombre);
+
+        if ($this->test_gitlab) {
+            $nombre = Str::uuid();
+            $ruta = Str::slug($nombre);
+        }
 
         $ruta_temp = $ruta;
         $nombre_temp = $nombre;

@@ -254,6 +254,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Probar notificaciones
         Route::get('/notifications/test', 'NotificationController@test')
             ->name('notifications.test');
+
+        // Test de stress de GitLab
+        Route::get('/test_gitlab', 'IntellijProjectController@testGitLab')
+            ->name('intellij_projects.test_gitlab');
     });
 
     // Alumnos y profesores
