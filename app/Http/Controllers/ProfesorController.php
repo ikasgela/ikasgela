@@ -13,6 +13,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use NumberFormatter;
 
 class ProfesorController extends Controller
 {
@@ -66,8 +67,17 @@ class ProfesorController extends Controller
 
         $media_grupo = $total_actividades_grupo / $usuarios_activos->count();
 
+        // Formateador con 2 decimales y en el idioma del usuario
+        $locale = (isset($_COOKIE['locale'])) ? $_COOKIE['locale'] : $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+        $formatStyle = NumberFormatter::DECIMAL;
+        $formatter = new NumberFormatter($locale, $formatStyle);
+        $formatter->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 2);
+        $formatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 2);
+
+        $media_grupo_formato = $formatter->format($media_grupo);
+
         return view('profesor.index', compact(['usuarios', 'unidades', 'disponibles', 'organization',
-            'total_actividades_grupo', 'media_grupo']));
+            'total_actividades_grupo', 'media_grupo', 'media_grupo_formato']));
     }
 
     public function tareas(User $user, Request $request)
