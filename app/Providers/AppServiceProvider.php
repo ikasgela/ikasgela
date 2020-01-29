@@ -23,8 +23,6 @@ class AppServiceProvider extends ServiceProvider
         Form::component('campoTextArea', 'components.form.text_area', ['name', 'label' => null, 'value' => null, 'attributes' => []]);
 
         if (config('app.env', 'local') !== 'production') {
-            \Debugbar::disable();
-
             $this->app->singleton(\Faker\Generator::class, function () {
                 return \Faker\Factory::create('es_ES');
             });
