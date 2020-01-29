@@ -42,7 +42,7 @@ class ProfesorController extends Controller
                     ->orderBy('last_active')->get();
                 break;
             case 'P':
-                $usuarios = User::organizacionActual()->rolAlumno()->orderBy('name')->get()->sortBy('actividades_completadas');
+                $usuarios = User::organizacionActual()->rolAlumno()->orderBy('name')->get()->sortBy('num_completadas_base');
                 break;
             default:
                 $usuarios = User::organizacionActual()->rolAlumno()->orderBy('name')->get();

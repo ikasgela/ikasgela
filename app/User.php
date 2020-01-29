@@ -36,7 +36,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'password', 'remember_token',
     ];
 
-    public $appends = ['last_active_time'];
+    public $appends = ['last_active_time', 'num_completadas_base'];
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'last_active'];
 
@@ -341,5 +341,10 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         return $total;
+    }
+
+    public function getNumCompletadasBaseAttribute()
+    {
+        return $this->num_completadas('base');
     }
 }

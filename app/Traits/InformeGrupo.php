@@ -23,7 +23,7 @@ trait InformeGrupo
 
         switch (session('tutor_filtro_alumnos')) {
             case 'P':
-                $usuarios = $curso->users()->rolAlumno()->noBloqueado()->orderBy('name')->get()->sortBy('actividades_completadas');
+                $usuarios = $curso->users()->rolAlumno()->noBloqueado()->orderBy('name')->get()->sortBy('num_completadas_base');
                 break;
             default:
                 $usuarios = $curso->users()->rolAlumno()->noBloqueado()->orderBy('name')->get();

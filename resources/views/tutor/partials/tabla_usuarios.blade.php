@@ -7,7 +7,7 @@
             @endif
             <th>{{ __('Name') }}</th>
             <th class="text-center">{{ __('Continuous evaluation') }}</th>
-            <th class="text-center">{{ __('Completed activities') }}</th>
+            <th class="text-center">{{ __('Mandatory activities') }}</th>
             <th class="text-center">{{ __('Calification') }}</th>
             @foreach($unidades as $unidad)
                 <th class="text-center">{{ $unidad->nombre }}</th>
