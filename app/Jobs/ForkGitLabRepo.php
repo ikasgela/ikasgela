@@ -17,6 +17,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Log;
 use Mail;
+use Illuminate\Support\Facades\Redis;
 
 class ForkGitLabRepo implements ShouldQueue
 {
@@ -27,6 +28,8 @@ class ForkGitLabRepo implements ShouldQueue
     protected $actividad;
     protected $intellij_project;
     protected $user;
+
+    public $tries = 1000;
 
     /**
      * Create a new job instance.
@@ -48,45 +51,47 @@ class ForkGitLabRepo implements ShouldQueue
      */
     public function handle()
     {
-        $username = $this->user->username;
+        Redis::throttle('fork')->allow(4)->every(2)->then(function () {
 
-        // Si la actividad no está asociada a este usuario, no hacer el fork
-        if (!$this->actividad->users()->where('username', $username)->exists())
-            abort(403, __('Sorry, you are not authorized to access this page.'));
+            $username = $this->user->username;// Si la actividad no está asociada a este usuario, no hacer el fork
+            if (!$this->actividad->users()->where('username', $username)->exists())
+                abort(403, __('Sorry, you are not authorized to access this page.'));
+            try {
+                $proyecto = GitLab::projects()->show($this->intellij_project->repositorio);
+            } catch (\Exception $e) {
+                Log::critical($e);
+                abort(404, __('Repository not found.'));
+            }
+            $fork = null;
+            if (isset($proyecto['path'])) {
+                $ruta = $this->actividad->unidad->curso->slug
+                    . '-' . $this->actividad->unidad->slug
+                    . '-' . $this->actividad->slug
+                    . '-' . $proyecto['path'];
 
-        try {
-            $proyecto = GitLab::projects()->show($this->intellij_project->repositorio);
-        } catch (\Exception $e) {
-            Log::critical($e);
-            abort(404, __('Repository not found.'));
-        }
+                //$this->actividad->intellij_projects()->updateExistingPivot($this->intellij_project->id, ['is_forking' => true]);
 
-        $fork = null;
-        if (isset($proyecto['path'])) {
-            $ruta = $this->actividad->unidad->curso->slug
-                . '-' . $this->actividad->unidad->slug
-                . '-' . $this->actividad->slug
-                . '-' . $proyecto['path'];
+                $fork = $this->clonar_repositorio($proyecto, $username, $ruta);
+            }
+            if ($fork) {
+                $this->actividad->intellij_projects()
+                    ->updateExistingPivot($this->intellij_project->id, ['fork' => $fork['path_with_namespace'], 'is_forking' => false]);
 
-            //$this->actividad->intellij_projects()->updateExistingPivot($this->intellij_project->id, ['is_forking' => true]);
+                $ij = $this->actividad->intellij_projects()->find($this->intellij_project->id);
 
-            $fork = $this->clonar_repositorio($proyecto, $username, $ruta);
-        }
+                Cache::put($ij->cacheKey(), $fork, now()->addDays(1));
 
-        if ($fork) {
-            $this->actividad->intellij_projects()
-                ->updateExistingPivot($this->intellij_project->id, ['fork' => $fork['path_with_namespace'], 'is_forking' => false]);
+                Mail::to($this->user->email)->send(new RepositorioClonado());
 
-            $ij = $this->actividad->intellij_projects()->find($this->intellij_project->id);
+            } else {
+                $this->actividad->intellij_projects()->updateExistingPivot($this->intellij_project->id, ['is_forking' => false]);
 
-            Cache::put($ij->cacheKey(), $fork, now()->addDays(1));
+                Mail::to($this->user->email)->send(new RepositorioClonadoError());
+            }
 
-            Mail::to($this->user->email)->send(new RepositorioClonado());
-
-        } else {
-            $this->actividad->intellij_projects()->updateExistingPivot($this->intellij_project->id, ['is_forking' => false]);
-
-            Mail::to($this->user->email)->send(new RepositorioClonadoError());
-        }
+        }, function () {
+            // Could not obtain lock...
+            return $this->release(2);
+        });
     }
 }
