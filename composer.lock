@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a1bfff172c3009227afd55cddbb140b",
+    "content-hash": "53a9b22b5abd570d9a0b80f999b502e6",
     "packages": [
         {
             "name": "akaunting/setting",
@@ -1648,16 +1648,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v6.12.0",
+            "version": "v6.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "8e189a8dee7ff76bf50acb7e80aa1a36afaf54d4"
+                "reference": "f0059760814b76fb5f98bb80628607c7560ebe58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/8e189a8dee7ff76bf50acb7e80aa1a36afaf54d4",
-                "reference": "8e189a8dee7ff76bf50acb7e80aa1a36afaf54d4",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/f0059760814b76fb5f98bb80628607c7560ebe58",
+                "reference": "f0059760814b76fb5f98bb80628607c7560ebe58",
                 "shasum": ""
             },
             "require": {
@@ -1791,7 +1791,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2020-01-21T15:10:03+00:00"
+            "time": "2020-01-28T21:44:01+00:00"
         },
         {
             "name": "laravel/helpers",
@@ -7051,16 +7051,16 @@
         },
         {
             "name": "laravel/dusk",
-            "version": "v5.8.2",
+            "version": "v5.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/dusk.git",
-                "reference": "c95d70b5fff000c54a9186c2011b236592fcf948"
+                "reference": "3e54875a69d2cb7136a56d9889c11eb2988c8eb4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/c95d70b5fff000c54a9186c2011b236592fcf948",
-                "reference": "c95d70b5fff000c54a9186c2011b236592fcf948",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/3e54875a69d2cb7136a56d9889c11eb2988c8eb4",
+                "reference": "3e54875a69d2cb7136a56d9889c11eb2988c8eb4",
                 "shasum": ""
             },
             "require": {
@@ -7115,7 +7115,7 @@
                 "testing",
                 "webdriver"
             ],
-            "time": "2020-01-21T20:57:39+00:00"
+            "time": "2020-01-28T20:55:30+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -9168,8 +9168,8 @@
     "prefer-lowest": false,
     "platform": {
         "php": "^7.4",
-        "ext-intl": "*",
         "ext-gd": "*",
+        "ext-intl": "*",
         "ext-redis": "*"
     },
     "platform-dev": []
