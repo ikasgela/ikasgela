@@ -51,7 +51,7 @@ class ForkGitLabRepo implements ShouldQueue
      */
     public function handle()
     {
-        Redis::throttle('fork')->allow(4)->every(2)->then(function () {
+        Redis::throttle('fork')->allow(4)->every(5)->then(function () {
 
             $username = $this->user->username;// Si la actividad no está asociada a este usuario, no hacer el fork
             if (!$this->actividad->users()->where('username', $username)->exists())
@@ -91,7 +91,7 @@ class ForkGitLabRepo implements ShouldQueue
 
         }, function () {
             // Could not obtain lock...
-            return $this->release(2);
+            return $this->release(5);
         });
     }
 }
