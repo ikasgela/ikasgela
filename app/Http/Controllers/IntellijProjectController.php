@@ -119,7 +119,12 @@ class IntellijProjectController extends Controller
 
     public function is_forking(Actividad $actividad, IntellijProject $intellij_project, Request $request)
     {
-        return $actividad->intellij_projects()->find($intellij_project->id)->isForking();
+        $proyecto = $actividad->intellij_projects()->find($intellij_project->id);
+
+        if (!$proyecto->isForked())
+            return $proyecto->isForking();
+        else
+            return 2;   // 0 sin clonar, 1 clonando y 2 completado
     }
 
     /*

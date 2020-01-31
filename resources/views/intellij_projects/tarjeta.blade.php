@@ -1,20 +1,18 @@
 @if($intellij_project->isForking())
-@section('intellij-isforking')
-    <script>
-        var forking = false;
-        (function () {
-            setInterval(function () {
-                axios.get('{{ route('intellij_projects.is_forking', ['actividad' => $actividad->id, 'intellij_project'=>$intellij_project->id]) }}')
-                    .then(function (response) {
-                        if (response.data === 1)
-                            forking = true;
-                        else if (response.data === 0 && forking === true)
-                            location.reload();
-                    });
-            }, 5000);
-        })();
-    </script>
-@endsection
+    @push('intellij-isforking')
+        <script>
+            (function () {
+                setInterval(function () {
+                    axios.get('{{ route('intellij_projects.is_forking', ['actividad' => $actividad->id, 'intellij_project'=>$intellij_project->id]) }}')
+                        .then(function (response) {
+                            if (response.data === 2) {
+                                location.reload();
+                            }
+                        });
+                }, 5000);
+            })();
+        </script>
+    @endpush
 @endif
 
 <div class="card">
