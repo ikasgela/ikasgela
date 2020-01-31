@@ -14,6 +14,7 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     @yield('fancybox')
     @yield('prismjs-css')
+    @stack('intellij-isforking')
 </head>
 <body class="app header-fixed sidebar-fixed sidebar-lg-show footer-fixed">
 <div id="app">
