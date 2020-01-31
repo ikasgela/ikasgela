@@ -1,3 +1,22 @@
+@if($intellij_project->isForking())
+@section('intellij-isforking')
+    <script>
+        var forking = false;
+        (function () {
+            setInterval(function () {
+                axios.get('{{ route('intellij_projects.is_forking', ['actividad' => $actividad->id, 'intellij_project'=>$intellij_project->id]) }}')
+                    .then(function (response) {
+                        if (response.data === 1)
+                            forking = true;
+                        else if (response.data === 0 && forking === true)
+                            location.reload();
+                    });
+            }, 5000);
+        })();
+    </script>
+@endsection
+@endif
+
 <div class="card">
     <div class="card-header"><i class="fab fa-java"></i> {{ __('IntelliJ project') }}</div>
     <div class="card-body">
@@ -9,9 +28,10 @@
                    class="btn btn-primary single_click">
                     <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Clone the project') }}</a>
             @else
-                <div class="alert alert-success mb-0 mt-3" role="alert">
-                    <span>{{ __('Cloning, you will receive an email on completion.') }}</span>
-                </div>
+                <a href="#" class="btn btn-primary disabled mr-3">
+                    <i class="fas fa-spinner fa-spin"></i> {{ __('Clone the project') }}
+                </a>
+                {{ __('Cloning, please wait...') }}
             @endif
             @if(session('clone_error_id') == $actividad->id)
                 <div class="alert alert-danger mb-0 mt-3" role="alert">

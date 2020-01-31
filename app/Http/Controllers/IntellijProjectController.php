@@ -19,7 +19,7 @@ class IntellijProjectController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:admin', ['except' => 'fork']);
+        $this->middleware('role:admin', ['except' => ['fork', 'is_forking']]);
     }
 
     public function index()
@@ -110,11 +110,16 @@ class IntellijProjectController extends Controller
         $actividad->intellij_projects()->updateExistingPivot($intellij_project->id, ['is_forking' => true]);
 
         if (!App::environment('testing'))
-            ForkGitLabRepo::dispatch($actividad, $intellij_project, Auth::user());
+            ForkGitLabRepo::dispatch($actividad, $intellij_project, Auth::user()); //->delay(10);
         else
             ForkGitLabRepo::dispatchNow($actividad, $intellij_project, Auth::user());
 
         return redirect(route('users.home'));
+    }
+
+    public function is_forking(Actividad $actividad, IntellijProject $intellij_project, Request $request)
+    {
+        return $actividad->intellij_projects()->find($intellij_project->id)->isForking();
     }
 
     /*
