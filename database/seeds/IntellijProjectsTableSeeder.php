@@ -2,6 +2,7 @@
 
 use App\IntellijProject;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class IntellijProjectsTableSeeder extends Seeder
 {
@@ -12,30 +13,29 @@ class IntellijProjectsTableSeeder extends Seeder
      */
     public function run()
     {
-        $proyecto = new IntellijProject();
-        $proyecto->titulo = '¡Hola mundo!';
-        $proyecto->descripcion = 'Primer proyecto de prueba.';
-        $proyecto->repositorio = 'programacion/introduccion/hola-mundo';
-        $proyecto->save();
+        $nombre = 'Agenda';
+        factory(IntellijProject::class)->create([
+            'titulo' => $nombre,
+            'repositorio' => 'root/' . Str::slug($nombre),
+        ]);
 
-        $proyecto = new IntellijProject();
-        $proyecto->titulo = 'Agenda';
-        $proyecto->repositorio = 'programacion/introduccion/hola-mundo';
-        $proyecto->save();
+        $nombre = 'Tres en raya';
+        factory(IntellijProject::class)->create([
+            'titulo' => $nombre,
+            'repositorio' => 'root/' . Str::slug($nombre),
+        ]);
 
-        $proyecto = new IntellijProject();
-        $proyecto->titulo = 'Tres en raya';
-        $proyecto->repositorio = 'programacion/introduccion/hola-mundo';
-        $proyecto->save();
+        $nombre = 'Reservas';
+        factory(IntellijProject::class)->create([
+            'titulo' => $nombre,
+            'repositorio' => 'root/' . Str::slug($nombre),
+        ]);
 
-        $proyecto = new IntellijProject();
-        $proyecto->titulo = 'Reservas';
-        $proyecto->repositorio = 'programacion/introduccion/hola-mundo';
-        $proyecto->save();
+        $nombre = 'Apuntes';
+        factory(IntellijProject::class)->create([
+            'titulo' => $nombre,
+            'repositorio' => 'root/' . Str::slug($nombre),
+        ]);
 
-        $proyecto = new IntellijProject();
-        $proyecto->titulo = 'Alternativa simple';
-        $proyecto->repositorio = 'programacion/introduccion/hola-mundo';
-        $proyecto->save();
     }
 }

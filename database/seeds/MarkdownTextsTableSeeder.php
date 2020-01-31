@@ -15,7 +15,7 @@ class MarkdownTextsTableSeeder extends Seeder
         factory(MarkdownText::class)->create([
             'titulo' => 'Apuntes',
             'descripcion' => null,
-            'repositorio' => 'programacion/apuntes',
+            'repositorio' => 'root/apuntes',
             'rama' => 'master',
             'archivo' => 'README.md'
         ]);

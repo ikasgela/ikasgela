@@ -10,7 +10,7 @@ $factory->define(IntellijProject::class, function (Faker $faker) {
     $nombre = $faker->words(3, true);
 
     return [
-        'repositorio' => 'programacion/introduccion/hola-mundo',
+        'repositorio' => 'root/test',
         'titulo' => $nombre,
     ];
 });

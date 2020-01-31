@@ -2,7 +2,6 @@
 
 use App\Actividad;
 use App\Cuestionario;
-use App\Curso;
 use App\FileUpload;
 use App\IntellijProject;
 use App\Unidad;
@@ -41,8 +40,6 @@ class ActividadesTableSeeder extends Seeder
 
             $video = YoutubeVideo::where('titulo', 'Primeros pasos')->first();
             $actividad->youtube_videos()->attach($video);
-            //$proyecto = IntellijProject::where('repositorio', 'programacion/introduccion/hola-mundo')->first();
-            //$actividad->intellij_projects()->attach($proyecto);
         }
 
         // --- GUI - Agenda
@@ -62,7 +59,7 @@ class ActividadesTableSeeder extends Seeder
         $actividad->plantilla = true;
         $unidad->actividades()->save($actividad);
 
-        $proyecto = IntellijProject::where('repositorio', 'programacion/introduccion/hola-mundo')->first();
+        $proyecto = IntellijProject::where('repositorio', 'root/agenda')->first();
         $actividad->intellij_projects()->attach($proyecto);
 
         $siguiente = $actividad;
@@ -84,7 +81,7 @@ class ActividadesTableSeeder extends Seeder
         $actividad->plantilla = true;
         $unidad->actividades()->save($actividad);
 
-        $proyecto = IntellijProject::where('repositorio', 'programacion/introduccion/hola-mundo')->first();
+        $proyecto = IntellijProject::where('repositorio', 'root/tres-en-raya')->first();
         $actividad->intellij_projects()->attach($proyecto);
 
         $actividad->siguiente()->save($siguiente);
@@ -106,7 +103,7 @@ class ActividadesTableSeeder extends Seeder
         $actividad->plantilla = true;
         $unidad->actividades()->save($actividad);
 
-        $proyecto = IntellijProject::where('repositorio', 'programacion/introduccion/hola-mundo')->first();
+        $proyecto = IntellijProject::where('repositorio', 'root/reservas')->first();
         $actividad->intellij_projects()->attach($proyecto);
 
         // --- Diseño de algoritmos - Alternativa simple
