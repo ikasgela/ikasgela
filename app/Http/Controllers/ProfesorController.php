@@ -68,7 +68,7 @@ class ProfesorController extends Controller
         $media_grupo = $total_actividades_grupo / $usuarios_activos->count();
 
         // Formateador con 2 decimales y en el idioma del usuario
-        $locale = (isset($_COOKIE['locale'])) ? $_COOKIE['locale'] : $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+        $locale = app()->getLocale();
         $formatStyle = NumberFormatter::DECIMAL;
         $formatter = new NumberFormatter($locale, $formatStyle);
         $formatter->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 2);

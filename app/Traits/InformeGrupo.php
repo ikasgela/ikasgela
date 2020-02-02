@@ -62,7 +62,7 @@ trait InformeGrupo
         }
 
         // Formateador con 2 decimales y en el idioma del usuario
-        $locale = (isset($_COOKIE['locale'])) ? $_COOKIE['locale'] : $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+        $locale = app()->getLocale();
         $formatStyle = NumberFormatter::DECIMAL;
 
         if (!$exportar)
