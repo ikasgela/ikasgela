@@ -1591,16 +1591,16 @@
         },
         {
             "name": "kkomelin/laravel-translatable-string-exporter",
-            "version": "1.7.0",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kkomelin/laravel-translatable-string-exporter.git",
-                "reference": "81467b95bac4d23ab0ce5a7d92d628c760a153d9"
+                "reference": "ef8540c343da863ef6ae3d07108ab2297b50b3e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kkomelin/laravel-translatable-string-exporter/zipball/81467b95bac4d23ab0ce5a7d92d628c760a153d9",
-                "reference": "81467b95bac4d23ab0ce5a7d92d628c760a153d9",
+                "url": "https://api.github.com/repos/kkomelin/laravel-translatable-string-exporter/zipball/ef8540c343da863ef6ae3d07108ab2297b50b3e3",
+                "reference": "ef8540c343da863ef6ae3d07108ab2297b50b3e3",
                 "shasum": ""
             },
             "require": {
@@ -1644,7 +1644,7 @@
                 "laravel",
                 "translations"
             ],
-            "time": "2019-11-12T13:15:24+00:00"
+            "time": "2020-02-04T04:27:46+00:00"
         },
         {
             "name": "laravel/framework",
