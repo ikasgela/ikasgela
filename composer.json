@@ -30,6 +30,7 @@
         "graham-campbell/gitlab": "^2.0",
         "graham-campbell/markdown": "^11.0",
         "guzzlehttp/guzzle": "^6.5",
+        "hedii/laravel-gelf-logger": "^4.1",
         "intervention/image": "^2.5",
         "josiasmontag/laravel-recaptchav3": "^0.3.0",
         "kkomelin/laravel-translatable-string-exporter": "^1.2",
