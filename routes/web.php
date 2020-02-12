@@ -328,5 +328,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::view('/reloj', 'tarjetas.reloj');
 
         Route::get('/files', 'FileController@getFiles')->name('files');
+
+        Route::get('gitea', 'PruebaController@index')->name('gitea.index');
     }
 });
