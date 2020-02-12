@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App;
 use App\Actividad;
+use App\Gitea\GiteaClient;
 use App\IntellijProject;
 use App\Jobs\ForkGitLabRepo;
 use Auth;
 use Cache;
 use GitLab;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Log;
 
 class IntellijProjectController extends Controller
@@ -109,9 +111,14 @@ class IntellijProjectController extends Controller
     {
         $actividad->intellij_projects()->updateExistingPivot($intellij_project->id, ['is_forking' => true]);
 
-        if (!App::environment('testing'))
-            ForkGitLabRepo::dispatch($actividad, $intellij_project, Auth::user()); //->delay(10);
-        else
+        if (!App::environment('testing')) {
+            if ($intellij_project->host == 'gitlab') {
+                ForkGitLabRepo::dispatch($actividad, $intellij_project, Auth::user()); //->delay(10);
+            } else {
+                GiteaClient::clone($intellij_project->repositorio, Auth::user()->username, Str::slug(Str::uuid()));
+                $actividad->intellij_projects()->updateExistingPivot($intellij_project->id, ['is_forking' => false]);
+            }
+        } else
             ForkGitLabRepo::dispatchNow($actividad, $intellij_project, Auth::user());
 
         return redirect(route('users.home'));

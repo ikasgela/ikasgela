@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Gitea\GiteaClient;
 use Cache;
 use GitLab;
 use Illuminate\Database\Eloquent\Model;
@@ -27,28 +28,32 @@ class IntellijProject extends Model
 
     public function gitlab()
     {
-        try {
-            $key = $this->cacheKey();
+        if ($this->host == 'gitlab') {
+            try {
+                $key = $this->cacheKey();
 
-            if (!$this->isForked()) {
-                return Cache::remember($key, now()->addDays(1), function () {
-                    return GitLab::projects()->show($this->repositorio);
-                });
-            } else {
-                return Cache::remember($key, now()->addDays(1), function () {
-                    return GitLab::projects()->show($this->pivot->fork);
-                });
+                if (!$this->isForked()) {
+                    return Cache::remember($key, now()->addDays(1), function () {
+                        return GitLab::projects()->show($this->repositorio);
+                    });
+                } else {
+                    return Cache::remember($key, now()->addDays(1), function () {
+                        return GitLab::projects()->show($this->pivot->fork);
+                    });
+                }
+            } catch (\Exception $e) {
+                Log::critical($e);
+                $fake = [
+                    'id' => '?',
+                    'name' => '?',
+                    'description' => '?',
+                    'http_url_to_repo' => '',
+                    'path_with_namespace' => $this->repositorio
+                ];
+                return $fake;
             }
-        } catch (\Exception $e) {
-            Log::critical($e);
-            $fake = [
-                'id' => '?',
-                'name' => '?',
-                'description' => '?',
-                'http_url_to_repo' => '',
-                'path_with_namespace' => $this->repositorio
-            ];
-            return $fake;
+        } else {
+            return GiteaClient::repo($this->repositorio);
         }
     }
 
@@ -78,17 +83,5 @@ class IntellijProject extends Model
             $key = 'gitlab_' . $this->id;
 
         return $key;
-    }
-
-    public function gitea()
-    {
-        $fake = [
-            'id' => '?',
-            'name' => '?',
-            'description' => '?',
-            'http_url_to_repo' => 'https://gitea.ikasgela.test/' . $this->repositorio . '.git',
-            'path_with_namespace' => $this->repositorio
-        ];
-        return $fake;
     }
 }

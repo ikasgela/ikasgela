@@ -27,11 +27,7 @@
                     <td>{{ $intellij_project->titulo }}</td>
                     <td>{{ $intellij_project->descripcion }}</td>
                     <td>{{ $intellij_project->host }}</td>
-                    @if($intellij_project->host == 'gitlab')
-                        <td>@include('partials.link_gitlab', ['proyecto' => $intellij_project->gitlab() ])</td>
-                    @else
-                        <td>@include('partials.link_gitlab', ['proyecto' => $intellij_project->gitea() ])</td>
-                    @endif
+                    <td>@include('partials.link_gitlab', ['proyecto' => $intellij_project->gitlab() ])</td>
                     <td>
                         <form method="POST" action="{{ route('intellij_projects.destroy', [$intellij_project->id]) }}">
                             @csrf
