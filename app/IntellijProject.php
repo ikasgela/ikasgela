@@ -53,7 +53,12 @@ class IntellijProject extends Model
                 return $fake;
             }
         } else {
-            return GiteaClient::repo($this->repositorio);
+            if (!$this->isForked()) {
+                return GiteaClient::repo($this->repositorio);
+            } else {
+                return GiteaClient::repo($this->pivot->fork);
+            }
+
         }
     }
 

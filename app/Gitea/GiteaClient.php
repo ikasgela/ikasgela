@@ -34,8 +34,9 @@ class GiteaClient
             'id' => $response['id'],
             'name' => $response['name'],
             'description' => $response['description'],
-            'http_url_to_repo' => $response['html_url'],
-            'path_with_namespace' => $repositorio
+            'http_url_to_repo' => $response['clone_url'],
+            'path_with_namespace' => $response['full_name'],
+            'web_url' => $response['html_url']
         ];
 
         return $data;
@@ -53,19 +54,36 @@ class GiteaClient
         $response = json_decode($request->getBody(), true);
         $uid = $response['id'];
 
-        // Hacer la copia del repositorio
-        $request = self::$cliente->post('repos/migrate', [
-            'headers' => self::$headers,
-            'form_params' => [
-                "auth_username" => env('GITEA_USER'),
-                "auth_password" => env('GITEA_PASSWORD'),
-                "clone_addr" => env('GITEA_URL') . '/' . $repositorio . '.git',
-                "uid" => $uid,
-                "repo_name" => $destino,
-                "private" => true,
-            ]
-        ]);
+        try {// Hacer la copia del repositorio
+            $request = self::$cliente->post('repos/migrate', [
+                'headers' => self::$headers,
+                'form_params' => [
+                    "auth_username" => env('GITEA_USER'),
+                    "auth_password" => env('GITEA_PASSWORD'),
+                    "clone_addr" => env('GITEA_URL') . '/' . $repositorio . '.git',
+                    "uid" => $uid,
+                    "repo_name" => $destino,
+                    "private" => true,
+                ]
+            ]);
+        } catch (\Exception $e) {
+        }
 
-        return $request->getStatusCode();
+        if ($request->getStatusCode() == 201) {
+            $response = json_decode($request->getBody(), true);
+
+            $data = [
+                'id' => $response['id'],
+                'name' => $response['name'],
+                'description' => $response['description'],
+                'http_url_to_repo' => $response['clone_url'],
+                'path_with_namespace' => $response['full_name'],
+                'web_url' => $response['html_url']
+            ];
+
+            return $data;
+        } else {
+            return 409;
+        }
     }
 }
