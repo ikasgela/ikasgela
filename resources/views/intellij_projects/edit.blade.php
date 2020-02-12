@@ -11,6 +11,7 @@
 
             {{ Form::campoTexto('titulo', __('Title')) }}
             {{ Form::campoTexto('descripcion', __('Description')) }}
+            {{ Form::campoTexto('host', __('Host')) }}
             {{ Form::campoTexto('repositorio', __('Repository')) }}
 
             @include('partials.guardar_cancelar')

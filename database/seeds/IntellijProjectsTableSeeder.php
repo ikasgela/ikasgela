@@ -37,5 +37,11 @@ class IntellijProjectsTableSeeder extends Seeder
             'repositorio' => 'root/' . Str::slug($nombre),
         ]);
 
+        $nombre = 'Prueba';
+        factory(IntellijProject::class)->create([
+            'titulo' => $nombre,
+            'repositorio' => 'root/' . Str::slug($nombre),
+            'host' => 'gitea'
+        ]);
     }
 }

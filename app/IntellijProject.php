@@ -10,7 +10,7 @@ use Log;
 class IntellijProject extends Model
 {
     protected $fillable = [
-        'repositorio', 'titulo', 'descripcion'
+        'repositorio', 'titulo', 'descripcion', 'host'
     ];
 
     public function actividades()
@@ -78,5 +78,17 @@ class IntellijProject extends Model
             $key = 'gitlab_' . $this->id;
 
         return $key;
+    }
+
+    public function gitea()
+    {
+        $fake = [
+            'id' => '?',
+            'name' => '?',
+            'description' => '?',
+            'http_url_to_repo' => 'https://gitea.ikasgela.test/' . $this->repositorio . '.git',
+            'path_with_namespace' => $this->repositorio
+        ];
+        return $fake;
     }
 }
