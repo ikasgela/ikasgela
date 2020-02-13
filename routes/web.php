@@ -260,9 +260,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Test de stress de GitLab
         Route::get('/test_gitlab', 'IntellijProjectController@testGitLab')
             ->name('intellij_projects.test_gitlab');
-
-        // Volcado de repositorios a Gitea desde GitLab
-        Route::get('gitlab_gitea', 'PruebaController@index')->name('gitea.index');
     });
 
     // Alumnos y profesores
