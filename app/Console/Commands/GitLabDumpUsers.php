@@ -39,15 +39,20 @@ class GitLabDumpUsers extends Command
      */
     public function handle()
     {
+        $this->info('Inicio: ' . now());
+
         $users = GitLab::users()->all();
 
         $total = 0;
         foreach ($users as $user) {
             echo '.';
-            GiteaClient::user($user['email'], $user['username'], $user['name']);
-            $total++;
+            $creado = GiteaClient::user($user['email'], $user['username'], $user['name']);
+            if ($creado)
+                $total++;
         }
-        $this->info('');
-        $this->info('Copiados: ' . $total);
+        $this->line('');
+        $this->warn('Nuevos: ' . $total);
+
+        $this->info('Fin: ' . now());
     }
 }

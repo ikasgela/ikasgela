@@ -39,10 +39,12 @@ class CopiaGitLabGitea extends Command
      */
     public function handle()
     {
+        $this->info('Inicio: ' . now());
+
         $borrados = GiteaClient::borrar();
 
-        $this->info('');
-        $this->info('Borrados: ' . $borrados);
+        $this->line('');
+        $this->warn('Borrados: ' . $borrados);
 
         $users = GitLab::users()->all();
 
@@ -55,7 +57,9 @@ class CopiaGitLabGitea extends Command
                 $total++;
             }
         }
-        $this->info('');
-        $this->info('Copiados: ' . $total);
+        $this->line('');
+        $this->warn('Copiados: ' . $total);
+
+        $this->info('Fin: ' . now());
     }
 }

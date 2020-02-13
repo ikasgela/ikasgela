@@ -175,6 +175,8 @@ class GiteaClient
     {
         self::init();
 
+        $creado = false;
+
         try {// Hacer la copia del repositorio
             $request = self::$cliente->post('admin/users', [
                 'headers' => self::$headers,
@@ -191,8 +193,10 @@ class GiteaClient
 
                 ]
             ]);
+            $creado = true;
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }
+        return $creado;
     }
 }
