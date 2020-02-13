@@ -154,6 +154,7 @@ class GiteaClient
                 self::$cliente->delete('repos/' . $repo['owner']['username'] . '/' . $repo['name'], [
                     'headers' => self::$headers
                 ]);
+                echo '.';
                 $total++;
             }
 
@@ -166,6 +167,7 @@ class GiteaClient
             $response = json_decode($request->getBody(), true);
             $repos = $response['data'];
         }
-        dump($total);
+
+        return $total;
     }
 }
