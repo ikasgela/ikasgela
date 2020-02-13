@@ -4,6 +4,7 @@ namespace App\Gitea;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Str;
+use Log;
 
 class GiteaClient
 {
@@ -85,5 +86,86 @@ class GiteaClient
         } else {
             return 409;
         }
+    }
+
+    public static function dump_gitlab($repositorio, $username, $destino)
+    {
+        self::init();
+
+        // Obtener el ID de usuario de destino
+        $request = self::$cliente->get('users/' . $username, [
+            'headers' => self::$headers
+        ]);
+
+        $response = json_decode($request->getBody(), true);
+        $uid = $response['id'];
+
+        try {// Hacer la copia del repositorio
+            $request = self::$cliente->post('repos/migrate', [
+                'headers' => self::$headers,
+                'form_params' => [
+                    "auth_username" => 'root',
+                    "auth_password" => '12345Abcde',
+                    "clone_addr" => 'http://gitlab' . '/' . $repositorio . '.git',
+                    "uid" => $uid,
+                    "repo_name" => $destino,
+                    "private" => true,
+                ]
+            ]);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
+
+        if ($request->getStatusCode() == 201) {
+            $response = json_decode($request->getBody(), true);
+
+            $data = [
+                'id' => $response['id'],
+                'name' => $response['name'],
+                'description' => $response['description'],
+                'http_url_to_repo' => $response['clone_url'],
+                'path_with_namespace' => $response['full_name'],
+                'web_url' => $response['html_url']
+            ];
+
+            return $data;
+        } else {
+            return $request->getStatusCode() ?: 400;
+        }
+    }
+
+    public static function borrar()
+    {
+        self::init();
+
+        $request = self::$cliente->get('repos/search', [
+            'headers' => self::$headers,
+            'query' => [
+                'limit' => 1000
+            ]
+        ]);
+        $response = json_decode($request->getBody(), true);
+        $repos = $response['data'];
+
+        $total = 0;
+        while (count($repos) > 0) {
+            foreach ($repos as $repo) {
+                //dump($repo['owner']['username'] . '/' . $repo['name']);
+                self::$cliente->delete('repos/' . $repo['owner']['username'] . '/' . $repo['name'], [
+                    'headers' => self::$headers
+                ]);
+                $total++;
+            }
+
+            $request = self::$cliente->get('repos/search', [
+                'headers' => self::$headers,
+                'query' => [
+                    'limit' => 1000
+                ]
+            ]);
+            $response = json_decode($request->getBody(), true);
+            $repos = $response['data'];
+        }
+        dump($total);
     }
 }

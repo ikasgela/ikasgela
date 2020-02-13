@@ -329,6 +329,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::get('/files', 'FileController@getFiles')->name('files');
 
-        Route::get('gitea', 'PruebaController@index')->name('gitea.index');
+        Route::get('prueba', 'PruebaController@index')->name('gitea.index');
     }
 });
