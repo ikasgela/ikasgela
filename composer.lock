@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "62876eafd2612e718d1b4c776e3cd731",
+    "content-hash": "abb9ff94add261f8e59ab50a0e599450",
     "packages": [
         {
             "name": "akaunting/setting",
@@ -9516,7 +9516,8 @@
         "php": "^7.4",
         "ext-gd": "*",
         "ext-intl": "*",
-        "ext-redis": "*"
+        "ext-redis": "*",
+        "ext-json": "*"
     },
     "platform-dev": []
 }
