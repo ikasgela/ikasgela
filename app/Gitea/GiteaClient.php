@@ -170,4 +170,29 @@ class GiteaClient
 
         return $total;
     }
+
+    public static function user($email, $username, $name)
+    {
+        self::init();
+
+        try {// Hacer la copia del repositorio
+            $request = self::$cliente->post('admin/users', [
+                'headers' => self::$headers,
+                'form_params' => [
+                    "email" => $email,
+                    "full_name" => $name,
+                    "login_name" => $username,
+                    "username" => $username,
+                    "password" => 'sd765g7s6d5gAA.5f7s6d5g675s76g',
+                    "must_change_password" => true,
+//  "password": "string",
+//  "send_notify": true,
+//  "source_id": 0,
+
+                ]
+            ]);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
+    }
 }

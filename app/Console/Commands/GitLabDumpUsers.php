@@ -6,21 +6,21 @@ use App\Gitea\GiteaClient;
 use GitLab;
 use Illuminate\Console\Command;
 
-class CopiaGitLabGitea extends Command
+class GitLabDumpUsers extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'gitlab:dump-repos';
+    protected $signature = 'gitlab:dump-users';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Volcado de repositorios GitLab a Gitea';
+    protected $description = 'Volcado de usuarios de GitLab a Gitea';
 
     /**
      * Create a new command instance.
@@ -39,21 +39,13 @@ class CopiaGitLabGitea extends Command
      */
     public function handle()
     {
-        $borrados = GiteaClient::borrar();
-
-        $this->info('');
-        $this->info('Borrados: ' . $borrados);
-
         $users = GitLab::users()->all();
 
         $total = 0;
         foreach ($users as $user) {
-            $projects = GitLab::users()->usersProjects($user['id']);
-            foreach ($projects as $project) {
-                echo '.';
-                $resultado = GiteaClient::dump_gitlab($project['path_with_namespace'], $user['username'], $project['path']);
-                $total++;
-            }
+            echo '.';
+            GiteaClient::user($user['email'], $user['username'], $user['name']);
+            $total++;
         }
         $this->info('');
         $this->info('Copiados: ' . $total);
