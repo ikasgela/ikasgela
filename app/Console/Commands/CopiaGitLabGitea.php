@@ -66,8 +66,14 @@ class CopiaGitLabGitea extends Command
         for ($i = $first; $i <= $last; $i++) {
             try {
                 $project = GitLab::projects()->show($i);
-                $user = GitLab::users()->show($project['owner']['id']);
-                $resultado = GiteaClient::dump_gitlab($project, $user['username'], $project['path']);
+                if (isset($project['owner'])) {
+                    $user = GitLab::users()->show($project['owner']['id']);
+                    $nombre = $project['path'];
+                    $resultado = GiteaClient::dump_gitlab($project, $user['username'], $nombre);
+                } else {
+                    $nombre = str_replace('/', '-', $project['path_with_namespace']);
+                    $resultado = GiteaClient::dump_gitlab($project, 'root', $nombre);
+                }
                 echo '.';
                 if ($resultado)
                     $total++;
