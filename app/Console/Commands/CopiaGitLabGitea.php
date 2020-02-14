@@ -58,6 +58,9 @@ class CopiaGitLabGitea extends Command
             'per_page' => 1
         ])[0]['id'];
 
+        $this->line('');
+        $this->info('Copiando: ' . $first . ' -> ' . $last);
+
         $total = 0;
         $error = 0;
         for ($i = $first; $i <= $last; $i++) {
