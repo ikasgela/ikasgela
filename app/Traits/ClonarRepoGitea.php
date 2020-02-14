@@ -21,7 +21,7 @@ trait ClonarRepoGitea
         $reintentos = 3;
 
         do {
-            $error = GiteaClient::clone($repositorio['path_with_namespace'], $username, $ruta);
+            $error = GiteaClient::clone($repositorio, $username, $ruta);
 
             if ($error == 409) { //&& Str::contains($error_message, 'has already been taken')) {
                 $ruta = $ruta_temp . "-$n";

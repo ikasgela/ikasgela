@@ -194,7 +194,7 @@ class IntellijProjectController extends Controller
 //            dump($ruta);
 //            dd();
 
-            $this->clonar_repositorio($proyecto, $destino, Str::slug($ruta));
+            $this->clonar_repositorio($proyecto['path_with_namespace'], $destino, Str::slug($ruta));
         } catch (\Exception $e) {
             Log::error($e);
         }
