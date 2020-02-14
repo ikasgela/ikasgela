@@ -46,36 +46,37 @@ class CopiaGitLabGitea extends Command
         $this->line('');
         $this->warn('Borrados: ' . $borrados);
 
-        $page = 1;
-        $users = GitLab::users()->all([
-            'per_page' => 100,
-            'page' => $page
-        ]);
-        $page++;
+        $last = GitLab::projects()->all([
+            'order_by' => 'id',
+            'sort' => 'desc',
+            'per_page' => 1
+        ])[0]['id'];
 
-        while ($users != null) {
+        $first = GitLab::projects()->all([
+            'order_by' => 'id',
+            'sort' => 'asc',
+            'per_page' => 1
+        ])[0]['id'];
 
-            $total = 0;
-            foreach ($users as $user) {
-                $projects = GitLab::users()->usersProjects($user['id'], [
-                    'per_page' => 100,
-                ]);
-                foreach ($projects as $project) {
-                    echo '.';
-                    $resultado = GiteaClient::dump_gitlab($project['path_with_namespace'], $user['username'], $project['path']);
+        $total = 0;
+        $error = 0;
+        for ($i = $first; $i <= $last; $i++) {
+            try {
+                $project = GitLab::projects()->show($i);
+                $user = GitLab::users()->show($project['owner']['id']);
+                $resultado = GiteaClient::dump_gitlab($project['path_with_namespace'], $user['username'], $project['path']);
+                echo '.';
+                if ($resultado)
                     $total++;
-                }
+            } catch (\Exception $e) {
+                echo 'E';
+                $error++;
             }
-
-            $users = GitLab::users()->all([
-                'per_page' => 100,
-                'page' => $page
-            ]);
-            $page++;
         }
 
         $this->line('');
         $this->warn('Copiados: ' . $total);
+        $this->warn('Error: ' . $error);
 
         $this->info('Fin: ' . now());
     }
