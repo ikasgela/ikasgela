@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Profile;
 
+use App\Gitea\GiteaClient;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -71,6 +72,10 @@ class ProfileController extends Controller
                 'password' => $request->password
             ]);
         }
+
+        // Cambiar la contraseña en Gitea
+
+        GiteaClient::password($user->email, $user->username, $request->password);
 
         return $user;
     }

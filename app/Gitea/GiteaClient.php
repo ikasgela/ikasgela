@@ -197,4 +197,30 @@ class GiteaClient
         }
         return $creado;
     }
+
+    public static function password($email, $username, $password)
+    {
+        self::init();
+
+        try {
+            self::$cliente->patch('admin/users/' . $username, [
+                'headers' => self::$headers,
+                'form_params' => [
+                    'email' => $email,
+                    'password' => $password,
+                    'must_change_password' => false,
+                ]
+            ]);
+            Log::info('Gitea: Contraseña cambiada.', [
+                'user' => $username
+            ]);
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Gitea: Error al cambiar la contraseña.', [
+                'user' => $username,
+                'message' => $e->getMessage()
+            ]);
+        }
+        return false;
+    }
 }
