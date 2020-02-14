@@ -13,10 +13,10 @@ class GiteaClient
 
     private static function init()
     {
-        self::$cliente = new Client(['base_uri' => env('GITEA_URL') . '/api/v1/']);
+        self::$cliente = new Client(['base_uri' => config('gitea.url') . '/api/v1/']);
 
         self::$headers = [
-            'Authorization' => 'token ' . env('GITEA_TOKEN'),
+            'Authorization' => 'token ' . config('gitea.token'),
             'Accept' => 'application/json',
         ];
     }
@@ -59,9 +59,9 @@ class GiteaClient
             $request = self::$cliente->post('repos/migrate', [
                 'headers' => self::$headers,
                 'form_params' => [
-                    "auth_username" => env('GITEA_USER'),
-                    "auth_password" => env('GITEA_PASSWORD'),
-                    "clone_addr" => env('GITEA_URL') . '/' . $repositorio . '.git',
+                    "auth_username" => config('gitea.user'),
+                    "auth_password" => config('gitea.password'),
+                    "clone_addr" => config('gitea.url') . '/' . $repositorio . '.git',
                     "uid" => $uid,
                     "repo_name" => $destino,
                     "private" => true,
@@ -104,20 +104,13 @@ class GiteaClient
             $request = self::$cliente->post('repos/migrate', [
                 'headers' => self::$headers,
                 'form_params' => [
-                    "auth_username" => env('GITEA_USER'),
-                    "auth_password" => env('GITEA_PASSWORD'),
+                    "auth_username" => config('gitea.user'),
+                    "auth_password" => config('gitea.password'),
                     "clone_addr" => 'http://gitlab' . '/' . $repositorio['path_with_namespace'] . '.git',
                     "uid" => $uid,
                     "repo_name" => $destino,
                     "description" => $repositorio['name'],
                     "private" => true,
-                    "issues" => false,
-                    "labels" => false,
-                    "milestones" => false,
-                    "mirror" => false,
-                    "pull_requests" => false,
-                    "releases" => false,
-                    "wiki" => false
                 ]
             ]);
         } catch (\Exception $e) {
@@ -193,12 +186,8 @@ class GiteaClient
                     "full_name" => $name,
                     "login_name" => $username,
                     "username" => $username,
-                    "password" => 'sd765g7s6d5gAA.5f7s6d5g675s76g',
+                    "password" => Str::random(62) . '._',
                     "must_change_password" => true,
-//  "password": "string",
-//  "send_notify": true,
-//  "source_id": 0,
-
                 ]
             ]);
             $creado = true;

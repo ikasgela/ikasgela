@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Gitea\GiteaClient;
-use GitLab;
 use Illuminate\Console\Command;
 
 class BorrarGitea extends Command
@@ -13,7 +12,7 @@ class BorrarGitea extends Command
      *
      * @var string
      */
-    protected $signature = 'gitlab:clean';
+    protected $signature = 'gitlab:clean-repos';
 
     /**
      * The console command description.
