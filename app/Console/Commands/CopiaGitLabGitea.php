@@ -57,7 +57,9 @@ class CopiaGitLabGitea extends Command
 
             $total = 0;
             foreach ($users as $user) {
-                $projects = GitLab::users()->usersProjects($user['id']);
+                $projects = GitLab::users()->usersProjects($user['id'], [
+                    'per_page' => 100,
+                ]);
                 foreach ($projects as $project) {
                     echo '.';
                     $resultado = GiteaClient::dump_gitlab($project['path_with_namespace'], $user['username'], $project['path']);
@@ -71,7 +73,7 @@ class CopiaGitLabGitea extends Command
             ]);
             $page++;
         }
-        
+
         $this->line('');
         $this->warn('Copiados: ' . $total);
 
