@@ -104,8 +104,8 @@ class GiteaClient
             $request = self::$cliente->post('repos/migrate', [
                 'headers' => self::$headers,
                 'form_params' => [
-                    "auth_username" => 'root',
-                    "auth_password" => '12345Abcde',
+                    "auth_username" => env('GITEA_USER'),
+                    "auth_password" => env('GITEA_PASSWORD'),
                     "clone_addr" => 'http://gitlab' . '/' . $repositorio . '.git',
                     "uid" => $uid,
                     "repo_name" => $destino,
