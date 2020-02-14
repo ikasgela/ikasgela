@@ -105,7 +105,7 @@ class GiteaClient
                 'headers' => self::$headers,
                 'form_params' => [
                     "auth_username" => config('gitea.user'),
-                    "auth_password" => config('gitea.password'),
+                    "auth_password" => config('gitea.gitlab_password'),
                     "clone_addr" => 'http://gitlab' . '/' . $repositorio['path_with_namespace'] . '.git',
                     "uid" => $uid,
                     "repo_name" => $destino,

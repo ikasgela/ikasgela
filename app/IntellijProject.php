@@ -83,9 +83,9 @@ class IntellijProject extends Model
     public function cacheKey(): string
     {
         if (isset($this->pivot))
-            $key = 'gitlab_' . $this->pivot->intellij_project_id . '_' . $this->pivot->actividad_id;
+            $key = $this->host . '_' . $this->pivot->intellij_project_id . '_' . $this->pivot->actividad_id;
         else
-            $key = 'gitlab_' . $this->id;
+            $key = $this->host . '_' . $this->id;
 
         return $key;
     }

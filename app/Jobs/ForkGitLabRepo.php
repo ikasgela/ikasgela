@@ -81,12 +81,12 @@ class ForkGitLabRepo implements ShouldQueue
 
                 Cache::put($ij->cacheKey(), $fork, now()->addDays(1));
 
-                Mail::to($this->user->email)->send(new RepositorioClonado());
+                //Mail::to($this->user->email)->send(new RepositorioClonado());
 
             } else {
                 $this->actividad->intellij_projects()->updateExistingPivot($this->intellij_project->id, ['is_forking' => false]);
 
-                Mail::to($this->user->email)->send(new RepositorioClonadoError());
+                //Mail::to($this->user->email)->send(new RepositorioClonadoError());
             }
 
         }, function () {

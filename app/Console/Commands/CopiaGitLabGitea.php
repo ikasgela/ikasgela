@@ -71,7 +71,7 @@ class CopiaGitLabGitea extends Command
                     $nombre = $project['path'];
                     $resultado = GiteaClient::dump_gitlab($project, $user['username'], $nombre);
                 } else {
-                    $nombre = str_replace('/', '-', $project['path_with_namespace']);
+                    $nombre = str_replace('/', '.', $project['path_with_namespace']);
                     $resultado = GiteaClient::dump_gitlab($project, 'root', $nombre);
                 }
                 echo '.';

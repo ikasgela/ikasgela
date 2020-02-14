@@ -52,7 +52,7 @@ class ForkGiteaRepo implements ShouldQueue
      */
     public function handle()
     {
-        Redis::throttle('fork')->allow(2)->every(5)->then(function () {
+        Redis::throttle('fork')->allow(100)->every(60)->then(function () {
 
             $username = $this->user->username;// Si la actividad no está asociada a este usuario, no hacer el fork
             if (!$this->actividad->users()->where('username', $username)->exists())
@@ -70,7 +70,7 @@ class ForkGiteaRepo implements ShouldQueue
             $ruta = $this->actividad->unidad->curso->slug
                 . '-' . $this->actividad->unidad->slug
                 . '-' . $this->actividad->slug
-                . '-' . basename($this->intellij_project->repositorio);
+                . '-' . pathinfo(basename($this->intellij_project->repositorio), PATHINFO_EXTENSION);
 
             $fork = $this->clonar_repositorio($this->intellij_project->repositorio, $username, Str::slug($ruta));
 
@@ -80,7 +80,7 @@ class ForkGiteaRepo implements ShouldQueue
 
                 $ij = $this->actividad->intellij_projects()->find($this->intellij_project->id);
 
-                //Cache::put($ij->cacheKey(), $fork, now()->addDays(1));
+                Cache::put($ij->cacheKey(), $fork, now()->addDays(1));
 
                 //Mail::to($this->user->email)->send(new RepositorioClonado());
 
