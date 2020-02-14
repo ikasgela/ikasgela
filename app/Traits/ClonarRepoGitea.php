@@ -3,9 +3,6 @@
 namespace App\Traits;
 
 use App\Gitea\GiteaClient;
-use GitLab;
-use Illuminate\Support\Str;
-use Log;
 
 trait ClonarRepoGitea
 {
@@ -21,16 +18,13 @@ trait ClonarRepoGitea
         $ruta = $destino;
         $ruta_temp = $ruta;
 
-        //        $nombre_temp = $nombre;
-
         $reintentos = 3;
 
         do {
-            $error = GiteaClient::clone($repositorio, $username, $ruta);
+            $error = GiteaClient::clone($repositorio['path_with_namespace'], $username, $ruta);
 
             if ($error == 409) { //&& Str::contains($error_message, 'has already been taken')) {
                 $ruta = $ruta_temp . "-$n";
-//                    $nombre = $nombre_temp . " - $n";
                 $n += 1;
             } else {
                 $reintentos--;

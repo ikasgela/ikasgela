@@ -68,6 +68,7 @@ class GiteaClient
                 ]
             ]);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
         }
 
         if ($request->getStatusCode() == 201) {

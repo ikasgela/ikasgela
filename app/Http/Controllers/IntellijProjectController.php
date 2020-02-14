@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App;
 use App\Actividad;
+use App\Gitea\GiteaClient;
 use App\IntellijProject;
 use App\Jobs\ForkGiteaRepo;
 use App\Jobs\ForkGitLabRepo;
@@ -11,11 +12,12 @@ use Auth;
 use Cache;
 use GitLab;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Log;
 
 class IntellijProjectController extends Controller
 {
-    use App\Traits\ClonarRepoGitLab;
+    use App\Traits\ClonarRepoGitea;
 
     public function __construct()
     {
@@ -151,9 +153,11 @@ class IntellijProjectController extends Controller
     public function copia()
     {
         // Solo los proyectos del root
-        $proyectos = GitLab::projects()->all([
-            'membership' => true
-        ]);
+//        $proyectos = GitLab::projects()->all([
+//            'membership' => true
+//        ]);
+
+        $proyectos = [];
 
         return view('intellij_projects.copia', compact('proyectos'));
     }
@@ -169,6 +173,8 @@ class IntellijProjectController extends Controller
     {
         $origen = $request->input('origen');
         $destino = $request->input('destino');
+        $ruta = $request->input('ruta');
+        $nombre = $request->input('nombre');
 
         // Guardar en la sesión los datos para prerellenar el formulario
         session([
@@ -177,12 +183,18 @@ class IntellijProjectController extends Controller
         ]);
 
         try {
-            $this->clonar_repositorio(
-                GitLab::projects()->show($origen),
-                $destino,
-                $request->input('ruta'),
-                $request->input('nombre')
-            );
+            $proyecto = GiteaClient::repo($origen);
+
+            if (empty($ruta)) {
+                $ruta = $proyecto['name'];
+            }
+
+//            dump($proyecto);
+//            dump($destino);
+//            dump($ruta);
+//            dd();
+
+            $this->clonar_repositorio($proyecto, $destino, Str::slug($ruta));
         } catch (\Exception $e) {
             Log::error($e);
         }
