@@ -106,10 +106,18 @@ class GiteaClient
                 'form_params' => [
                     "auth_username" => env('GITEA_USER'),
                     "auth_password" => env('GITEA_PASSWORD'),
-                    "clone_addr" => 'http://gitlab' . '/' . $repositorio . '.git',
+                    "clone_addr" => 'http://gitlab' . '/' . $repositorio['path_with_namespace'] . '.git',
                     "uid" => $uid,
                     "repo_name" => $destino,
+                    "description" => $repositorio['name'],
                     "private" => true,
+                    "issues" => false,
+                    "labels" => false,
+                    "milestones" => false,
+                    "mirror" => false,
+                    "pull_requests" => false,
+                    "releases" => false,
+                    "wiki" => false
                 ]
             ]);
         } catch (\Exception $e) {

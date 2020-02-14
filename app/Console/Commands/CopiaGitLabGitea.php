@@ -64,7 +64,7 @@ class CopiaGitLabGitea extends Command
             try {
                 $project = GitLab::projects()->show($i);
                 $user = GitLab::users()->show($project['owner']['id']);
-                $resultado = GiteaClient::dump_gitlab($project['path_with_namespace'], $user['username'], $project['path']);
+                $resultado = GiteaClient::dump_gitlab($project, $user['username'], $project['path']);
                 echo '.';
                 if ($resultado)
                     $total++;
