@@ -46,17 +46,32 @@ class CopiaGitLabGitea extends Command
         $this->line('');
         $this->warn('Borrados: ' . $borrados);
 
-        $users = GitLab::users()->all();
+        $page = 1;
+        $users = GitLab::users()->all([
+            'per_page' => 100,
+            'page' => $page
+        ]);
+        $page++;
 
-        $total = 0;
-        foreach ($users as $user) {
-            $projects = GitLab::users()->usersProjects($user['id']);
-            foreach ($projects as $project) {
-                echo '.';
-                $resultado = GiteaClient::dump_gitlab($project['path_with_namespace'], $user['username'], $project['path']);
-                $total++;
+        while ($users != null) {
+
+            $total = 0;
+            foreach ($users as $user) {
+                $projects = GitLab::users()->usersProjects($user['id']);
+                foreach ($projects as $project) {
+                    echo '.';
+                    $resultado = GiteaClient::dump_gitlab($project['path_with_namespace'], $user['username'], $project['path']);
+                    $total++;
+                }
             }
+
+            $users = GitLab::users()->all([
+                'per_page' => 100,
+                'page' => $page
+            ]);
+            $page++;
         }
+        
         $this->line('');
         $this->warn('Copiados: ' . $total);
 
