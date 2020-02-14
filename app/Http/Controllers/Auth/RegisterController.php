@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Gitea\GiteaClient;
 use App\Http\Controllers\Controller;
 use App\Mail\NuevoUsuario;
 use App\Organization;
@@ -106,6 +107,10 @@ class RegisterController extends Controller
             GitLab::users()->block($gitlab['id']);
         } catch (\Exception $e) {
         }
+
+        // Crear el usuario de Gitea y dejarlo bloqueado
+        GiteaClient::user($data['email'], $nombre_usuario, $data['name'], $data['password']);
+        GiteaClient::block($data['email'], $nombre_usuario);
 
         // Crear el usuario de Laravel
         $laravel = User::create([

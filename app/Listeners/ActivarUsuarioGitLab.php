@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Actividad;
 use App\Curso;
+use App\Gitea\GiteaClient;
 use Exception;
 use GitLab;
 use Illuminate\Auth\Events\Verified;
@@ -36,6 +37,9 @@ class ActivarUsuarioGitLab
         foreach ($desactivados as $usuario) {
             GitLab::users()->unblock($usuario['id']);
         }
+
+        // Activar el usuario de Gitea
+        GiteaClient::unblock($event->user['email'], $event->user['username']);
 
         // Asociamos al usuario el curso más nuevo que haya en la organización
         // TODO: Cuando dispongamos de portada, eliminar esto y matricular al usuario en un curso de ejemplo

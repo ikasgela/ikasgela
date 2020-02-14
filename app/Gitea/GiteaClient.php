@@ -58,7 +58,7 @@ class GiteaClient
         try {// Hacer la copia del repositorio
             $request = self::$cliente->post('repos/migrate', [
                 'headers' => self::$headers,
-                'form_params' => [
+                'json' => [
                     "auth_username" => config('gitea.user'),
                     "auth_password" => config('gitea.password'),
                     "clone_addr" => config('gitea.url') . '/' . $repositorio . '.git',
@@ -104,7 +104,7 @@ class GiteaClient
         try {// Hacer la copia del repositorio
             $request = self::$cliente->post('repos/migrate', [
                 'headers' => self::$headers,
-                'form_params' => [
+                'json' => [
                     "auth_username" => config('gitea.user'),
                     "auth_password" => config('gitea.gitlab_password'),
                     "clone_addr" => 'http://gitlab' . '/' . $repositorio['path_with_namespace'] . '.git',
@@ -173,29 +173,32 @@ class GiteaClient
         return $total;
     }
 
-    public static function user($email, $username, $name)
+    public static function user($email, $username, $name, $password = null)
     {
         self::init();
 
-        $creado = false;
-
-        try {// Hacer la copia del repositorio
-            $request = self::$cliente->post('admin/users', [
+        try {
+            self::$cliente->post('admin/users', [
                 'headers' => self::$headers,
-                'form_params' => [
+                'json' => [
                     "email" => $email,
                     "full_name" => $name,
-                    "login_name" => $username,
                     "username" => $username,
-                    "password" => Str::random(62) . '._',
-                    "must_change_password" => true,
+                    "password" => $password ?: Str::random(62) . '._',
+                    "must_change_password" => false,
                 ]
             ]);
-            $creado = true;
+            Log::info('Gitea: Nuevo usuario creado.', [
+                'username' => $username
+            ]);
+            return true;
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
+            Log::error('Gitea: Error al crear un nuevo usuario.', [
+                'username' => $username,
+                'exception' => $e->getMessage()
+            ]);
         }
-        return $creado;
+        return false;
     }
 
     public static function password($email, $username, $password)
@@ -205,20 +208,71 @@ class GiteaClient
         try {
             self::$cliente->patch('admin/users/' . $username, [
                 'headers' => self::$headers,
-                'form_params' => [
+                'json' => [
                     'email' => $email,
                     'password' => $password,
-                    'must_change_password' => false,
                 ]
             ]);
             Log::info('Gitea: Contraseña cambiada.', [
-                'user' => $username
+                'username' => $username
             ]);
             return true;
         } catch (\Exception $e) {
             Log::error('Gitea: Error al cambiar la contraseña.', [
-                'user' => $username,
-                'message' => $e->getMessage()
+                'username' => $username,
+                'exception' => $e->getMessage()
+            ]);
+        }
+        return false;
+    }
+
+    public static function block($email, $username)
+    {
+        self::init();
+
+        try {
+            self::$cliente->patch('admin/users/' . $username, [
+                'headers' => self::$headers,
+                'json' => [
+                    'email' => $email,
+                    'active' => false,
+                    'allow_create_organization' => false,
+                ]
+            ]);
+            Log::info('Gitea: Usuario bloqueado.', [
+                'username' => $username
+            ]);
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Gitea: Error al bloquear un usuario.', [
+                'username' => $username,
+                'exception' => $e->getMessage()
+            ]);
+        }
+        return false;
+    }
+
+    public static function unblock($email, $username)
+    {
+        self::init();
+
+        try {
+            self::$cliente->patch('admin/users/' . $username, [
+                'headers' => self::$headers,
+                'json' => [
+                    'email' => $email,
+                    'active' => true,
+                    'allow_create_organization' => false,
+                ]
+            ]);
+            Log::info('Gitea: Usuario desbloqueado.', [
+                'username' => $username
+            ]);
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Gitea: Error al desbloquear un usuario.', [
+                'username' => $username,
+                'exception' => $e->getMessage()
             ]);
         }
         return false;
