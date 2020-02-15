@@ -39,7 +39,7 @@ class IntellijProject extends Model
                         }
                     });
                 } catch (\Exception $e) {
-                    Log::error('Error al recuperar un repositorio de GitLab.', [
+                    Log::error('Error al recuperar un repositorio.', [
                         'host' => $this->host,
                         'repository' => $this->repositorio,
                         'exception' => $e->getMessage(),
@@ -47,13 +47,21 @@ class IntellijProject extends Model
                 }
                 break;
             case 'gitea':
-                return Cache::remember($this->cacheKey(), now()->addDays(config('ikasgela.repo_cache_days')), function () {
-                    if (!$this->isForked()) {
-                        return GiteaClient::repo($this->repositorio);
-                    } else {
-                        return GiteaClient::repo($this->pivot->fork);
-                    }
-                });
+                try {
+                    return Cache::remember($this->cacheKey(), now()->addDays(config('ikasgela.repo_cache_days')), function () {
+                        if (!$this->isForked()) {
+                            return GiteaClient::repo($this->repositorio);
+                        } else {
+                            return GiteaClient::repo($this->pivot->fork);
+                        }
+                    });
+                } catch (\Exception $e) {
+                    Log::error('Error al recuperar un repositorio.', [
+                        'host' => $this->host,
+                        'repository' => $this->repositorio,
+                        'exception' => $e->getMessage(),
+                    ]);
+                }
                 break;
             default:
                 Log::error('Tipo de host de repositorios desconocido.', [
