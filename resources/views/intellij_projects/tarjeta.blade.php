@@ -42,8 +42,8 @@
             <a href="{{ $repositorio['web_url']  }}" target="_blank"
                class="btn btn-secondary">{{ $intellij_project->host == 'gitlab' ? __('Open in GitLab') : __('Open in Gitea') }}</a>
             <div class='btn-group'>
-                @if(Auth::user()->hasRole('profesor'))
-                    @if($repositorio['archived'])
+                @if(Auth::user()->hasRole('profesor') && $intellij_project->host == 'gitlab')
+                    @if($intellij_project->isArchivado())
                         {!! Form::open(['route' => ['intellij_projects.unlock', $intellij_project->id, $actividad->id], 'method' => 'POST']) !!}
                         <button title="{{ __('Unlock') }}"
                                 type="submit"

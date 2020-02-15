@@ -105,17 +105,36 @@ class IntellijProject extends Model
 
     private function updateArchiveStatus($archived = true)
     {
-        $repository = $this->repository();
+        switch ($this->host) {
+            case 'gitlab':
+                $repository = $this->repository();
 
-        if ($archived)
-            GitLab::projects()->archive($repository['id']);
-        else
-            GitLab::projects()->unarchive($repository['id']);
+                if ($archived)
+                    GitLab::projects()->archive($repository['id']);
+                else
+                    GitLab::projects()->unarchive($repository['id']);
 
-        $this->pivot->archivado = $archived;
-        $this->pivot->save();
+                $this->pivot->archivado = $archived;
+                $this->pivot->save();
 
-        Cache::forget($this->cacheKey());
+                Cache::forget($this->cacheKey());
+                break;
+            case 'gitea':
+                $repository = $this->repository();
+
+                // TODO: Bloquear realmente el repositorio en Gitea
+
+                $this->pivot->archivado = $archived;
+                $this->pivot->save();
+
+                Cache::forget($this->cacheKey());
+                break;
+            default:
+                Log::error('Tipo de host de repositorios desconocido.', [
+                    'host' => $this->host,
+                    'repository' => $this->repositorio,
+                ]);
+        }
     }
 
     public function isForking()
