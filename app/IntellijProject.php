@@ -31,48 +31,48 @@ class IntellijProject extends Model
         switch ($this->host) {
             case 'gitlab':
                 try {
-                    $key = $this->cacheKey();
-
-                    if (!$this->isForked()) {
-                        return Cache::remember($key, now()->addDays(config('ikasgela.repo_cache_days')), function () {
+                    return Cache::remember($this->cacheKey(), now()->addDays(config('ikasgela.repo_cache_days')), function () {
+                        if (!$this->isForked()) {
                             return GitLab::projects()->show($this->repositorio);
-                        });
-                    } else {
-                        return Cache::remember($key, now()->addDays(config('ikasgela.repo_cache_days')), function () {
+                        } else {
                             return GitLab::projects()->show($this->pivot->fork);
-                        });
-                    }
+                        }
+                    });
                 } catch (\Exception $e) {
-                    Log::critical($e);
-                    $fake = [
-                        'id' => '?',
-                        'name' => '?',
-                        'description' => '?',
-                        'http_url_to_repo' => '',
-                        'path_with_namespace' => $this->repositorio
-                    ];
-                    return $fake;
+                    Log::error('Error al recuperar un repositorio de GitLab.', [
+                        'host' => $this->host,
+                        'repository' => $this->repositorio,
+                        'exception' => $e->getMessage(),
+                    ]);
                 }
                 break;
             case 'gitea':
-                $key = $this->cacheKey();
-
-                if (!$this->isForked()) {
-                    return Cache::remember($key, now()->addDays(config('ikasgela.repo_cache_days')), function () {
+                return Cache::remember($this->cacheKey(), now()->addDays(config('ikasgela.repo_cache_days')), function () {
+                    if (!$this->isForked()) {
                         return GiteaClient::repo($this->repositorio);
-                    });
-                } else {
-                    return Cache::remember($key, now()->addDays(config('ikasgela.repo_cache_days')), function () {
+                    } else {
                         return GiteaClient::repo($this->pivot->fork);
-                    });
-                }
+                    }
+                });
                 break;
             default:
                 Log::error('Tipo de host de repositorios desconocido.', [
-                    'host' => $this->host
+                    'host' => $this->host,
+                    'repository' => $this->repositorio,
                 ]);
         }
-        return null;
+        return $this->fakeRepository();
+    }
+
+    public function fakeRepository()
+    {
+        return [
+            'id' => '?',
+            'name' => '?',
+            'description' => '?',
+            'http_url_to_repo' => '',
+            'path_with_namespace' => $this->repositorio
+        ];
     }
 
     public function isForked()
