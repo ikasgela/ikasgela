@@ -24,7 +24,7 @@ class MarkdownText extends Model
     {
         $key = $this->repositorio . '/' . $this->archivo;
 
-        return Cache::remember($key, now()->addDays(1), function () {
+        return Cache::remember($key, now()->addDays(config('ikasgela.markdown_cache_days')), function () {
 
             try {
                 $repositorio = $this->repositorio;

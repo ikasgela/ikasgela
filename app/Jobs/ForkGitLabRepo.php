@@ -4,8 +4,6 @@ namespace App\Jobs;
 
 use App\Actividad;
 use App\IntellijProject;
-use App\Mail\RepositorioClonado;
-use App\Mail\RepositorioClonadoError;
 use App\Traits\ClonarRepoGitLab;
 use App\User;
 use Cache;
@@ -15,9 +13,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Log;
-use Mail;
 use Illuminate\Support\Facades\Redis;
+use Log;
 
 class ForkGitLabRepo implements ShouldQueue
 {
@@ -79,7 +76,7 @@ class ForkGitLabRepo implements ShouldQueue
 
                 $ij = $this->actividad->intellij_projects()->find($this->intellij_project->id);
 
-                Cache::put($ij->cacheKey(), $fork, now()->addDays(1));
+                Cache::put($ij->cacheKey(), $fork, now()->addDays(config('ikasgela.repo_cache_days')));
 
                 //Mail::to($this->user->email)->send(new RepositorioClonado());
 

@@ -80,7 +80,7 @@ class ForkGiteaRepo implements ShouldQueue
 
                 $ij = $this->actividad->intellij_projects()->find($this->intellij_project->id);
 
-                Cache::put($ij->cacheKey(), $fork, now()->addDays(1));
+                Cache::put($ij->cacheKey(), $fork, now()->addDays(config('ikasgela.repo_cache_days')));
 
                 //Mail::to($this->user->email)->send(new RepositorioClonado());
 
