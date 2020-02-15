@@ -8,17 +8,19 @@ use Log;
 
 class GiteaClient
 {
-    private static Client $cliente;
-    private static array $headers;
+    private static $cliente = null;
+    private static $headers = null;
 
     private static function init()
     {
-        self::$cliente = new Client(['base_uri' => config('gitea.url') . '/api/v1/']);
+        if (is_null(self::$cliente))
+            self::$cliente = new Client(['base_uri' => config('gitea.url') . '/api/v1/']);
 
-        self::$headers = [
-            'Authorization' => 'token ' . config('gitea.token'),
-            'Accept' => 'application/json',
-        ];
+        if (is_null(self::$headers))
+            self::$headers = [
+                'Authorization' => 'token ' . config('gitea.token'),
+                'Accept' => 'application/json',
+            ];
     }
 
     public static function repo($repositorio)
