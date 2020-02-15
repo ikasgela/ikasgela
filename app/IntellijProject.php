@@ -26,7 +26,7 @@ class IntellijProject extends Model
             ]);
     }
 
-    public function gitlab()
+    public function repository()
     {
         if ($this->host == 'gitlab') {
             try {
@@ -84,7 +84,7 @@ class IntellijProject extends Model
 
     private function updateArchiveStatus($archived = true)
     {
-        $repository = $this->gitlab();
+        $repository = $this->repository();
 
         if ($archived)
             GitLab::projects()->archive($repository['id']);

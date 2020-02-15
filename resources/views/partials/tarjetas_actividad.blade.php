@@ -21,7 +21,7 @@
 @endforeach
 @foreach($actividad->intellij_projects()->get() as $intellij_project)
     <div class="col-md-6">
-        @include('intellij_projects.tarjeta', ['repositorio' => $intellij_project->gitlab()])
+        @include('intellij_projects.tarjeta', ['repositorio' => $intellij_project->repository()])
     </div>
 @endforeach
 </div>

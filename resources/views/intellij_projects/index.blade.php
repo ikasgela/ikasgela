@@ -27,7 +27,7 @@
                     <td>{{ $intellij_project->titulo }}</td>
                     <td>{{ $intellij_project->descripcion }}</td>
                     <td>{{ $intellij_project->host }}</td>
-                    <td>@include('partials.link_gitlab', ['proyecto' => $intellij_project->gitlab() ])</td>
+                    <td>@include('partials.link_gitlab', ['proyecto' => $intellij_project->repository() ])</td>
                     <td>
                         <form method="POST" action="{{ route('intellij_projects.destroy', [$intellij_project->id]) }}">
                             @csrf
