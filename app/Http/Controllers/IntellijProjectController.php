@@ -223,14 +223,8 @@ class IntellijProjectController extends Controller
     public function lock(IntellijProject $intellij_project, Actividad $actividad)
     {
         $proyecto = $actividad->intellij_projects()->wherePivot('intellij_project_id', $intellij_project->id)->first();
-        $proyecto_gitlab = $proyecto->gitlab();
 
-        if (isset($proyecto->pivot)) {
-            $proyecto->actividades()->updateExistingPivot($actividad->id, ['archivado' => true]);
-        }
-
-        GitLab::projects()->archive($proyecto_gitlab['id']);
-        Cache::forget($proyecto->cacheKey());
+        $proyecto->archive();
 
         return back();
     }
@@ -238,14 +232,8 @@ class IntellijProjectController extends Controller
     public function unlock(IntellijProject $intellij_project, Actividad $actividad)
     {
         $proyecto = $actividad->intellij_projects()->wherePivot('intellij_project_id', $intellij_project->id)->first();
-        $proyecto_gitlab = $proyecto->gitlab();
 
-        if (isset($proyecto->pivot)) {
-            $proyecto->actividades()->updateExistingPivot($actividad->id, ['archivado' => false]);
-        }
-
-        GitLab::projects()->unarchive($proyecto_gitlab['id']);
-        Cache::forget($proyecto->cacheKey());
+        $proyecto->unarchive();
 
         return back();
     }

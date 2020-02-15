@@ -425,18 +425,15 @@ class ActividadController extends Controller
         return back();
     }
 
-    private function bloquearRepositorios(Tarea $tarea, bool $solo_lectura): void
+    private function bloquearRepositorios(Tarea $tarea, bool $solo_lectura)
     {
         foreach ($tarea->actividad->intellij_projects as $intellij_project) {
-            $proyecto_gitlab = $intellij_project->gitlab();
 
             if ($solo_lectura) {
-                $gitlab = GitLab::projects()->archive($proyecto_gitlab['id']);
+                $intellij_project->archive();
             } else {
-                $gitlab = GitLab::projects()->unarchive($proyecto_gitlab['id']);
+                $intellij_project->unarchive();
             }
-
-            Cache::put($intellij_project->cacheKey(), $gitlab, now()->addDays(1));
         }
     }
 }

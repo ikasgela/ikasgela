@@ -72,6 +72,31 @@ class IntellijProject extends Model
         return $this->pivot->archivado;
     }
 
+    public function archive()
+    {
+        $this->updateArchiveStatus(true);
+    }
+
+    public function unarchive()
+    {
+        $this->updateArchiveStatus(false);
+    }
+
+    private function updateArchiveStatus($archived = true)
+    {
+        $repository = $this->gitlab();
+
+        if ($archived)
+            GitLab::projects()->archive($repository['id']);
+        else
+            GitLab::projects()->unarchive($repository['id']);
+
+        $this->pivot->archivado = $archived;
+        $this->pivot->save();
+
+        Cache::forget($this->cacheKey());
+    }
+
     public function isForking()
     {
         return $this->pivot->is_forking;
