@@ -122,7 +122,7 @@ class IntellijProject extends Model
             case 'gitea':
                 $repository = $this->repository();
 
-                // TODO: Bloquear realmente el repositorio en Gitea
+                GiteaClient::block_repo($repository['owner'], $repository['name'], $archived);
 
                 $this->pivot->archivado = $archived;
                 $this->pivot->save();

@@ -37,7 +37,8 @@ class GiteaClient
             'description' => $response['description'],
             'http_url_to_repo' => $response['clone_url'],
             'path_with_namespace' => $response['full_name'],
-            'web_url' => $response['html_url']
+            'web_url' => $response['html_url'],
+            'owner' => $response['owner']['login'],
         ];
 
         return $data;
@@ -272,6 +273,33 @@ class GiteaClient
         } catch (\Exception $e) {
             Log::error('Gitea: Error al desbloquear un usuario.', [
                 'username' => $username,
+                'exception' => $e->getMessage()
+            ]);
+        }
+        return false;
+    }
+
+    public static function block_repo($username, $repositorio, $block = true)
+    {
+        self::init();
+
+        try {
+            self::$cliente->patch('repos/' . $username . '/' . $repositorio, [
+                'headers' => self::$headers,
+                'json' => [
+                    'archived' => $block,
+                ]
+            ]);
+            Log::info('Gitea: Repositorio ' . ($block ? 'bloqueado' : 'desbloqueado') . '.', [
+                'username' => $username,
+                'repository' => $repositorio,
+            ]);
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Gitea: Error al bloquear/desbloquear un repositorio.', [
+                'username' => $username,
+                'repository' => $repositorio,
+                'archived' => $block,
                 'exception' => $e->getMessage()
             ]);
         }
