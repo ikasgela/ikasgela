@@ -137,7 +137,7 @@ class GiteaClient
         }
     }
 
-    public static function borrar()
+    public static function repos()
     {
         self::init();
 
@@ -148,12 +148,18 @@ class GiteaClient
             ]
         ]);
         $response = json_decode($request->getBody(), true);
-        $repos = $response['data'];
+        return $response['data'];
+    }
+
+    public static function borrar()
+    {
+        self::init();
+
+        $repos = self::repos();
 
         $total = 0;
         while (count($repos) > 0) {
             foreach ($repos as $repo) {
-                //dump($repo['owner']['username'] . '/' . $repo['name']);
                 self::$cliente->delete('repos/' . $repo['owner']['username'] . '/' . $repo['name'], [
                     'headers' => self::$headers
                 ]);
@@ -161,14 +167,7 @@ class GiteaClient
                 $total++;
             }
 
-            $request = self::$cliente->get('repos/search', [
-                'headers' => self::$headers,
-                'query' => [
-                    'limit' => 1000
-                ]
-            ]);
-            $response = json_decode($request->getBody(), true);
-            $repos = $response['data'];
+            $repos = self::repos();
         }
 
         return $total;
