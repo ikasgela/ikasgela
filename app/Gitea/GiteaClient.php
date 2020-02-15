@@ -83,7 +83,8 @@ class GiteaClient
                 'description' => $response['description'],
                 'http_url_to_repo' => $response['clone_url'],
                 'path_with_namespace' => $response['full_name'],
-                'web_url' => $response['html_url']
+                'web_url' => $response['html_url'],
+                'owner' => $response['owner']['login'],
             ];
 
             return $data;
@@ -130,7 +131,8 @@ class GiteaClient
                 'description' => $response['description'],
                 'http_url_to_repo' => $response['clone_url'],
                 'path_with_namespace' => $response['full_name'],
-                'web_url' => $response['html_url']
+                'web_url' => $response['html_url'],
+                'owner' => $response['owner']['login'],
             ];
 
             return $data;
