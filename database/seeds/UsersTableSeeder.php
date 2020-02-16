@@ -78,6 +78,9 @@ class UsersTableSeeder extends Seeder
 
         setting()->setExtraColumns(['user_id' => $user->id]);
         setting(['_organization_id' => $organizations[0]->id]);
+        setting(['_period_id' => $organizations[0]->current_period_id]);
+        $primer_curso = $user->cursos()->organizacionActual()->periodoActual()->first();
+        setting(['curso_actual' => $primer_curso ? $primer_curso->id : null]);
         setting()->save();
 
         if (config('ikasgela.gitlab_enabled')) {
