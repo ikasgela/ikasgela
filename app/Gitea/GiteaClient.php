@@ -193,6 +193,35 @@ class GiteaClient
         return $response['data'];
     }
 
+    public static function uid($username)
+    {
+        self::init();
+
+        $request = self::$cliente->get('users/' . $username, [
+            'headers' => self::$headers,
+        ]);
+
+        $response = json_decode($request->getBody(), true);
+        return $response['id'];
+    }
+
+    public static function repos_usuario($username)
+    {
+        self::init();
+
+        $uid = self::uid($username);
+
+        $request = self::$cliente->get('repos/search', [
+            'headers' => self::$headers,
+            'query' => [
+                'limit' => 1000,
+                'uid' => $uid,
+            ]
+        ]);
+        $response = json_decode($request->getBody(), true);
+        return $response['data'];
+    }
+
     public static function borrar()
     {
         self::init();
@@ -230,6 +259,19 @@ class GiteaClient
     {
         self::init();
 
+        // Borrar los repositorios de usuario
+        $repos = self::repos_usuario($username);
+        while (count($repos) > 0) {
+            foreach ($repos as $repo) {
+                self::$cliente->delete('repos/' . $repo['owner']['username'] . '/' . $repo['name'], [
+                    'headers' => self::$headers
+                ]);
+            }
+
+            $repos = self::repos_usuario($username);
+        }
+
+        // Borrar el usuario
         self::$cliente->delete('admin/users/' . $username, [
             'headers' => self::$headers
         ]);
