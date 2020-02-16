@@ -10,6 +10,7 @@ use App\User;
 use GrahamCampbell\GitLab\Facades\GitLab;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Log;
 
 class UserController extends Controller
 {
@@ -109,12 +110,23 @@ class UserController extends Controller
                     GitLab::users()->remove($borrar['id']);
                 }
             } catch (\Exception $e) {
+                Log::error('GitLab: Error al borrar el usuario.', [
+                    'username' => $user->username,
+                    'exception' => $e->getMessage()
+                ]);
             }
         }
 
         // Borrar el usuario de Gitea
         if (config('ikasgela.gitea_enabled')) {
-            GiteaClient::borrar_usuario($user->username);
+            try {
+                GiteaClient::borrar_usuario($user->username);
+            } catch (\Exception $e) {
+                Log::error('GitLab: Error al borrar el usuario.', [
+                    'username' => $user->username,
+                    'exception' => $e->getMessage()
+                ]);
+            }
         }
 
         $user->delete();
