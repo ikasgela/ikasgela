@@ -153,8 +153,13 @@ class IntellijProjectController extends Controller
 
     public function borrar($id)
     {
-        // TODO: Gitea
-        GitLab::projects()->remove($id);
+        if (config('ikasgela.gitlab_enabled')) {
+            GitLab::projects()->remove($id);
+        }
+
+        if (config('ikasgela.gitea_enabled')) {
+            GiteaClient::borrar_repo($id);
+        }
 
         return back();
     }

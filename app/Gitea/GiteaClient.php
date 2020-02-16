@@ -46,6 +46,29 @@ class GiteaClient
         return $data;
     }
 
+    public static function repo_by_id($id)
+    {
+        self::init();
+
+        $request = self::$cliente->get('repositories/' . $id, [
+            'headers' => self::$headers
+        ]);
+
+        $response = json_decode($request->getBody(), true);
+
+        $data = [
+            'id' => $response['id'],
+            'name' => $response['name'],
+            'description' => $response['description'],
+            'http_url_to_repo' => $response['clone_url'],
+            'path_with_namespace' => $response['full_name'],
+            'web_url' => $response['html_url'],
+            'owner' => $response['owner']['login'],
+        ];
+
+        return $data;
+    }
+
     public static function file($owner, $repo, $filepath, $branch)
     {
         self::init();
@@ -190,6 +213,17 @@ class GiteaClient
         }
 
         return $total;
+    }
+
+    public static function borrar_repo($id)
+    {
+        self::init();
+
+        $repo = self::repo_by_id($id);
+
+        self::$cliente->delete('repos/' . $repo['owner'] . '/' . $repo['name'], [
+            'headers' => self::$headers
+        ]);
     }
 
     public static function user($email, $username, $name, $password = null)
