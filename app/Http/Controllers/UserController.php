@@ -99,6 +99,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         // Borrar el usuario de GitLab
+        // TODO: Gitea
         try {
             $usuarios = GitLab::users()->all([
                 'search' => $user->email

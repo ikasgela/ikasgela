@@ -153,6 +153,7 @@ class IntellijProjectController extends Controller
 
     public function borrar($id)
     {
+        // TODO: Gitea
         GitLab::projects()->remove($id);
 
         return back();
