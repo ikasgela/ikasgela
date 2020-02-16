@@ -27,17 +27,23 @@ class ProfileController extends Controller
 
         $user = User::find(Auth::id());
 
-        $gitlab = GitLab::users()->all([
-            'search' => $user->email
-        ]);
-
         $user->name = $request->name;
         $user->save();
 
-        foreach ($gitlab as $usuario) {
-            GitLab::users()->update($usuario['id'], [
-                'name' => $request->name,
+        if (config('ikasgela.gitlab_enabled')) {
+            $gitlab = GitLab::users()->all([
+                'search' => $user->email
             ]);
+
+            foreach ($gitlab as $usuario) {
+                GitLab::users()->update($usuario['id'], [
+                    'name' => $request->name,
+                ]);
+            }
+        }
+
+        if (config('ikasgela.gitea_enabled')) {
+            GiteaClient::full_name($user->email, $user->username, $request->name);
         }
 
         return $user;

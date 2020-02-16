@@ -230,6 +230,31 @@ class GiteaClient
         return false;
     }
 
+    public static function full_name($email, $username, $full_name)
+    {
+        self::init();
+
+        try {
+            self::$cliente->patch('admin/users/' . $username, [
+                'headers' => self::$headers,
+                'json' => [
+                    'email' => $email,
+                    'full_name' => $full_name,
+                ]
+            ]);
+            Log::info('Gitea: Nombre actualizado.', [
+                'username' => $username
+            ]);
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Gitea: Error al actualizar el nombre.', [
+                'username' => $username,
+                'exception' => $e->getMessage()
+            ]);
+        }
+        return false;
+    }
+
     public static function block($email, $username)
     {
         self::init();
