@@ -80,9 +80,8 @@ class UsersTableSeeder extends Seeder
         setting(['_organization_id' => $organizations[0]->id]);
         setting()->save();
 
-        if (config('app.env', 'local') != 'testing') {
-
-            if (config('ikasgela.gitlab_enabled')) {
+        if (config('ikasgela.gitlab_enabled')) {
+            if (config('app.env', 'local') != 'testing') {
                 echo "  INFO: Usuario generado: $nombre - $email - $password\n";
 
                 try {
@@ -109,13 +108,13 @@ class UsersTableSeeder extends Seeder
                     echo "  ERROR: No se ha podido crear el usuario de GitLab asociado...\n";
                 }
             }
-
-            if (config('ikasgela.gitea_enabled')) {
-                echo "  INFO: Usuario generado: $nombre - $email - $password\n";
-                GiteaClient::borrar_usuario($usuario);
-                GiteaClient::user($email, $usuario, $nombre, $password);
-            }
-
         }
+
+        if (config('ikasgela.gitea_enabled')) {
+            echo "  INFO: Usuario generado: $nombre - $email - $password\n";
+            GiteaClient::borrar_usuario($usuario);
+            GiteaClient::user($email, $usuario, $nombre, $password);
+        }
+
     }
 }

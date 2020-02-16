@@ -12,5 +12,6 @@ $factory->define(IntellijProject::class, function (Faker $faker) {
     return [
         'repositorio' => 'root/test',
         'titulo' => $nombre,
+        'host' => 'gitea',
     ];
 });

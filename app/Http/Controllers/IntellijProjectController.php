@@ -118,8 +118,13 @@ class IntellijProjectController extends Controller
             } else {
                 ForkGiteaRepo::dispatch($actividad, $intellij_project, Auth::user());
             }
-        } else
-            ForkGitLabRepo::dispatchNow($actividad, $intellij_project, Auth::user());
+        } else {
+            if ($intellij_project->host == 'gitlab') {
+                ForkGitLabRepo::dispatchNow($actividad, $intellij_project, Auth::user());
+            } else {
+                ForkGiteaRepo::dispatchNow($actividad, $intellij_project, Auth::user());
+            }
+        }
 
         return redirect(route('users.home'));
     }
