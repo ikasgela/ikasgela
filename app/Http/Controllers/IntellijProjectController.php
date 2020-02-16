@@ -118,8 +118,13 @@ class IntellijProjectController extends Controller
             } else {
                 ForkGiteaRepo::dispatch($actividad, $intellij_project, Auth::user());
             }
-        } else
-            ForkGitLabRepo::dispatchNow($actividad, $intellij_project, Auth::user());
+        } else {
+            if ($intellij_project->host == 'gitlab') {
+                ForkGitLabRepo::dispatchNow($actividad, $intellij_project, Auth::user());
+            } else {
+                ForkGiteaRepo::dispatchNow($actividad, $intellij_project, Auth::user());
+            }
+        }
 
         return redirect(route('users.home'));
     }
@@ -134,37 +139,32 @@ class IntellijProjectController extends Controller
             return 2;   // 0 sin clonar, 1 clonando y 2 completado
     }
 
-    /*
-    private function borrar_proyectos($username)
-    {
-        // Borrar los proyectos del usuario (para pruebas)
-        $usuario = GitLab::users()->all([
-            'username' => $username
-        ])[0];
-
-        $proyectos = GitLab::users()->usersProjects($usuario['id']);
-
-        foreach ($proyectos as $proyecto) {
-            GitLab::projects()->remove($proyecto['id']);
-        }
-    }
-    */
-
     public function copia()
     {
         // Solo los proyectos del root
-//        $proyectos = GitLab::projects()->all([
-//            'membership' => true
-//        ]);
 
-        $proyectos = [];
+        if (config('ikasgela.gitlab_enabled')) {
+            $proyectos = GitLab::projects()->all([
+                'membership' => true
+            ]);
+        }
+
+        if (config('ikasgela.gitea_enabled')) {
+            $proyectos = GiteaClient::repos();
+        }
 
         return view('intellij_projects.copia', compact('proyectos'));
     }
 
     public function borrar($id)
     {
-        GitLab::projects()->remove($id);
+        if (config('ikasgela.gitlab_enabled')) {
+            GitLab::projects()->remove($id);
+        }
+
+        if (config('ikasgela.gitea_enabled')) {
+            GiteaClient::borrar_repo($id);
+        }
 
         return back();
     }

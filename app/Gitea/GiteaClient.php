@@ -8,17 +8,19 @@ use Log;
 
 class GiteaClient
 {
-    private static Client $cliente;
-    private static array $headers;
+    private static $cliente = null;
+    private static $headers = null;
 
     private static function init()
     {
-        self::$cliente = new Client(['base_uri' => config('gitea.url') . '/api/v1/']);
+        if (is_null(self::$cliente))
+            self::$cliente = new Client(['base_uri' => config('gitea.url') . '/api/v1/']);
 
-        self::$headers = [
-            'Authorization' => 'token ' . config('gitea.token'),
-            'Accept' => 'application/json',
-        ];
+        if (is_null(self::$headers))
+            self::$headers = [
+                'Authorization' => 'token ' . config('gitea.token'),
+                'Accept' => 'application/json',
+            ];
     }
 
     public static function repo($repositorio)
@@ -42,6 +44,44 @@ class GiteaClient
         ];
 
         return $data;
+    }
+
+    public static function repo_by_id($id)
+    {
+        self::init();
+
+        $request = self::$cliente->get('repositories/' . $id, [
+            'headers' => self::$headers
+        ]);
+
+        $response = json_decode($request->getBody(), true);
+
+        $data = [
+            'id' => $response['id'],
+            'name' => $response['name'],
+            'description' => $response['description'],
+            'http_url_to_repo' => $response['clone_url'],
+            'path_with_namespace' => $response['full_name'],
+            'web_url' => $response['html_url'],
+            'owner' => $response['owner']['login'],
+        ];
+
+        return $data;
+    }
+
+    public static function file($owner, $repo, $filepath, $branch)
+    {
+        self::init();
+
+        $query = "repos/$owner/$repo/contents/$filepath?ref=$branch";
+
+        $request = self::$cliente->get($query, [
+            'headers' => self::$headers
+        ]);
+
+        $response = json_decode($request->getBody(), true);
+
+        return base64_decode($response['content']);
     }
 
     public static function clone($repositorio, $username, $destino)
@@ -81,7 +121,8 @@ class GiteaClient
                 'description' => $response['description'],
                 'http_url_to_repo' => $response['clone_url'],
                 'path_with_namespace' => $response['full_name'],
-                'web_url' => $response['html_url']
+                'web_url' => $response['html_url'],
+                'owner' => $response['owner']['login'],
             ];
 
             return $data;
@@ -128,7 +169,8 @@ class GiteaClient
                 'description' => $response['description'],
                 'http_url_to_repo' => $response['clone_url'],
                 'path_with_namespace' => $response['full_name'],
-                'web_url' => $response['html_url']
+                'web_url' => $response['html_url'],
+                'owner' => $response['owner']['login'],
             ];
 
             return $data;
@@ -137,7 +179,7 @@ class GiteaClient
         }
     }
 
-    public static function borrar()
+    public static function repos()
     {
         self::init();
 
@@ -148,12 +190,47 @@ class GiteaClient
             ]
         ]);
         $response = json_decode($request->getBody(), true);
-        $repos = $response['data'];
+        return $response['data'];
+    }
+
+    public static function uid($username)
+    {
+        self::init();
+
+        $request = self::$cliente->get('users/' . $username, [
+            'headers' => self::$headers,
+        ]);
+
+        $response = json_decode($request->getBody(), true);
+        return $response['id'];
+    }
+
+    public static function repos_usuario($username)
+    {
+        self::init();
+
+        $uid = self::uid($username);
+
+        $request = self::$cliente->get('repos/search', [
+            'headers' => self::$headers,
+            'query' => [
+                'limit' => 1000,
+                'uid' => $uid,
+            ]
+        ]);
+        $response = json_decode($request->getBody(), true);
+        return $response['data'];
+    }
+
+    public static function borrar()
+    {
+        self::init();
+
+        $repos = self::repos();
 
         $total = 0;
         while (count($repos) > 0) {
             foreach ($repos as $repo) {
-                //dump($repo['owner']['username'] . '/' . $repo['name']);
                 self::$cliente->delete('repos/' . $repo['owner']['username'] . '/' . $repo['name'], [
                     'headers' => self::$headers
                 ]);
@@ -161,17 +238,43 @@ class GiteaClient
                 $total++;
             }
 
-            $request = self::$cliente->get('repos/search', [
-                'headers' => self::$headers,
-                'query' => [
-                    'limit' => 1000
-                ]
-            ]);
-            $response = json_decode($request->getBody(), true);
-            $repos = $response['data'];
+            $repos = self::repos();
         }
 
         return $total;
+    }
+
+    public static function borrar_repo($id)
+    {
+        self::init();
+
+        $repo = self::repo_by_id($id);
+
+        self::$cliente->delete('repos/' . $repo['owner'] . '/' . $repo['name'], [
+            'headers' => self::$headers
+        ]);
+    }
+
+    public static function borrar_usuario($username)
+    {
+        self::init();
+
+        // Borrar los repositorios de usuario
+        $repos = self::repos_usuario($username);
+        while (count($repos) > 0) {
+            foreach ($repos as $repo) {
+                self::$cliente->delete('repos/' . $repo['owner']['username'] . '/' . $repo['name'], [
+                    'headers' => self::$headers
+                ]);
+            }
+
+            $repos = self::repos_usuario($username);
+        }
+
+        // Borrar el usuario
+        self::$cliente->delete('admin/users/' . $username, [
+            'headers' => self::$headers
+        ]);
     }
 
     public static function user($email, $username, $name, $password = null)
@@ -220,6 +323,31 @@ class GiteaClient
             return true;
         } catch (\Exception $e) {
             Log::error('Gitea: Error al cambiar la contraseña.', [
+                'username' => $username,
+                'exception' => $e->getMessage()
+            ]);
+        }
+        return false;
+    }
+
+    public static function full_name($email, $username, $full_name)
+    {
+        self::init();
+
+        try {
+            self::$cliente->patch('admin/users/' . $username, [
+                'headers' => self::$headers,
+                'json' => [
+                    'email' => $email,
+                    'full_name' => $full_name,
+                ]
+            ]);
+            Log::info('Gitea: Nombre actualizado.', [
+                'username' => $username
+            ]);
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Gitea: Error al actualizar el nombre.', [
                 'username' => $username,
                 'exception' => $e->getMessage()
             ]);

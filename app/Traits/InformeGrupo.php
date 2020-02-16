@@ -149,7 +149,8 @@ trait InformeGrupo
 
             // Ajustar la nota en función de las completadas 100% completadas - 100% de nota
             $numero_actividades_completadas = $user->num_completadas('base');
-            $nota = $nota * ($numero_actividades_completadas / $num_actividades_obligatorias) * 10;
+            if ($num_actividades_obligatorias > 0)
+                $nota = $nota * ($numero_actividades_completadas / $num_actividades_obligatorias) * 10;
 
             $notas[$user->id] = $formatter->format($nota / $porcentaje_total * 100);    // Por si el total de competencias suma más del 100%
 

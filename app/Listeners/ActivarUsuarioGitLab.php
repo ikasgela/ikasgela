@@ -30,16 +30,20 @@ class ActivarUsuarioGitLab
     public function handle(Verified $event)
     {
         // Activar el usuario de GitLab
-        $desactivados = GitLab::users()->all([
-            'search' => $event->user['email']
-        ]);
+        if (config('ikasgela.gitlab_enabled')) {
+            $desactivados = GitLab::users()->all([
+                'search' => $event->user['email']
+            ]);
 
-        foreach ($desactivados as $usuario) {
-            GitLab::users()->unblock($usuario['id']);
+            foreach ($desactivados as $usuario) {
+                GitLab::users()->unblock($usuario['id']);
+            }
         }
 
         // Activar el usuario de Gitea
-        GiteaClient::unblock($event->user['email'], $event->user['username']);
+        if (config('ikasgela.gitea_enabled')) {
+            GiteaClient::unblock($event->user['email'], $event->user['username']);
+        }
 
         // Asociamos al usuario el curso más nuevo que haya en la organización
         // TODO: Cuando dispongamos de portada, eliminar esto y matricular al usuario en un curso de ejemplo

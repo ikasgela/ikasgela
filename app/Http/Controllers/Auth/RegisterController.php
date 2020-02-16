@@ -14,6 +14,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Log;
 
 class RegisterController extends Controller
 {
@@ -97,20 +98,34 @@ class RegisterController extends Controller
         $nombre_usuario = User::generar_username($data['email']);
 
         // Crear el usuario de GitLab y dejarlo bloqueado
-
-        try {
-            $gitlab = GitLab::users()->create($data['email'], $data['password'], [
-                'name' => $data['name'],
-                'username' => $nombre_usuario,
-                'skip_confirmation' => true
-            ]);
-            GitLab::users()->block($gitlab['id']);
-        } catch (\Exception $e) {
+        if (config('ikasgela.gitlab_enabled')) {
+            try {
+                $gitlab = GitLab::users()->create($data['email'], $data['password'], [
+                    'name' => $data['name'],
+                    'username' => $nombre_usuario,
+                    'skip_confirmation' => true
+                ]);
+                GitLab::users()->block($gitlab['id']);
+            } catch (\Exception $e) {
+                Log::error('GitLab: Error al crear el usuario.', [
+                    'username' => $nombre_usuario,
+                    'exception' => $e->getMessage()
+                ]);
+            }
         }
 
         // Crear el usuario de Gitea y dejarlo bloqueado
-        GiteaClient::user($data['email'], $nombre_usuario, $data['name'], $data['password']);
-        GiteaClient::block($data['email'], $nombre_usuario);
+        if (config('ikasgela.gitea_enabled')) {
+            try {
+                GiteaClient::user($data['email'], $nombre_usuario, $data['name'], $data['password']);
+                GiteaClient::block($data['email'], $nombre_usuario);
+            } catch (\Exception $e) {
+                Log::error('Gitea: Error al crear el usuario.', [
+                    'username' => $nombre_usuario,
+                    'exception' => $e->getMessage()
+                ]);
+            }
+        }
 
         // Crear el usuario de Laravel
         $laravel = User::create([
