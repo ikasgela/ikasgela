@@ -30,8 +30,13 @@
                     <td>{{ $markdown_text->repositorio }}</td>
                     <td>{{ $markdown_text->rama }}</td>
                     <td>
-                        <a target="_blank"
-                           href="https://gitlab.ikasgela.{{ config('app.debug') ? 'test' : 'com' }}/{{ $markdown_text->repositorio }}/blob/{{ isset($markdown_text->rama) ? $markdown_text->rama : 'master' }}/{{ $markdown_text->archivo }}">{{ $markdown_text->archivo }}</a>
+                        @if(config('ikasgela.gitlab_enabled'))
+                            <a target="_blank"
+                               href="https://gitlab.ikasgela.{{ config('app.debug') ? 'test' : 'com' }}/{{ $markdown_text->repositorio }}/blob/{{ isset($markdown_text->rama) ? $markdown_text->rama : 'master' }}/{{ $markdown_text->archivo }}">{{ $markdown_text->archivo }}</a>
+                        @elseif (config('ikasgela.gitea_enabled'))
+                            <a target="_blank"
+                               href="https://gitea.ikasgela.{{ config('app.debug') ? 'test' : 'com' }}/{{ $markdown_text->repositorio }}/src/branch/{{ isset($markdown_text->rama) ? $markdown_text->rama : 'master' }}/{{ $markdown_text->archivo }}">{{ $markdown_text->archivo }}</a>
+                        @endif
                     </td>
                     <td class="text-nowrap">
                         {!! Form::open(['route' => ['markdown_texts.destroy', $markdown_text->id], 'method' => 'DELETE']) !!}
