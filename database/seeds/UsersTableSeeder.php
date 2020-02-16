@@ -1,6 +1,7 @@
 <?php
 
 use App\Curso;
+use App\Gitea\GiteaClient;
 use App\Organization;
 use App\Role;
 use App\Team;
@@ -81,31 +82,40 @@ class UsersTableSeeder extends Seeder
 
         if (config('app.env', 'local') != 'testing') {
 
-            echo "  INFO: Usuario generado: $nombre - $email - $password\n";
+            if (config('ikasgela.gitlab_enabled')) {
+                echo "  INFO: Usuario generado: $nombre - $email - $password\n";
 
-            try {
-                $usuarios = GitLab::users()->all([
-                    'search' => $email
-                ]);
-                foreach ($usuarios as $borrar) {
-                    GitLab::users()->remove($borrar['id']);
+                try {
+                    $usuarios = GitLab::users()->all([
+                        'search' => $email
+                    ]);
+                    foreach ($usuarios as $borrar) {
+                        GitLab::users()->remove($borrar['id']);
+                    }
+                } catch (\Exception $e) {
                 }
-            } catch (\Exception $e) {
+
+                sleep(2);   // Si no, no de la tiempo a borrar y da error
+
+                // Crear el usuario de GitLab
+                try {
+                    GitLab::users()->create($email, $password, [
+                        'name' => $nombre,
+                        'username' => $usuario,
+                        'skip_confirmation' => true
+                    ]);
+                    echo "  INFO: Usuario de GitLab creado.\n";
+                } catch (\Exception $e) {
+                    echo "  ERROR: No se ha podido crear el usuario de GitLab asociado...\n";
+                }
             }
 
-            sleep(2);   // Si no, no de la tiempo a borrar y da error
-
-            // Crear el usuario de GitLab
-            try {
-                GitLab::users()->create($email, $password, [
-                    'name' => $nombre,
-                    'username' => $usuario,
-                    'skip_confirmation' => true
-                ]);
-                echo "  INFO: Usuario de GitLab creado.\n";
-            } catch (\Exception $e) {
-                echo "  ERROR: No se ha podido crear el usuario de GitLab asociado...\n";
+            if (config('ikasgela.gitea_enabled')) {
+                echo "  INFO: Usuario generado: $nombre - $email - $password\n";
+                GiteaClient::borrar_usuario($usuario);
+                GiteaClient::user($email, $usuario, $nombre, $password);
             }
+
         }
     }
 }
