@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Curso;
+use App\Gitea\GiteaClient;
 use App\Organization;
 use App\Role;
 use App\User;
@@ -99,15 +100,21 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         // Borrar el usuario de GitLab
-        // TODO: Gitea
-        try {
-            $usuarios = GitLab::users()->all([
-                'search' => $user->email
-            ]);
-            foreach ($usuarios as $borrar) {
-                GitLab::users()->remove($borrar['id']);
+        if (config('ikasgela.gitlab_enabled')) {
+            try {
+                $usuarios = GitLab::users()->all([
+                    'search' => $user->email
+                ]);
+                foreach ($usuarios as $borrar) {
+                    GitLab::users()->remove($borrar['id']);
+                }
+            } catch (\Exception $e) {
             }
-        } catch (\Exception $e) {
+        }
+
+        // Borrar el usuario de Gitea
+        if (config('ikasgela.gitea_enabled')) {
+            GiteaClient::borrar_usuario($user->username);
         }
 
         $user->delete();

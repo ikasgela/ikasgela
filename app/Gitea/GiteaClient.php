@@ -226,6 +226,15 @@ class GiteaClient
         ]);
     }
 
+    public static function borrar_usuario($username)
+    {
+        self::init();
+
+        self::$cliente->delete('admin/users/' . $username, [
+            'headers' => self::$headers
+        ]);
+    }
+
     public static function user($email, $username, $name, $password = null)
     {
         self::init();
