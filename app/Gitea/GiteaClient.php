@@ -46,6 +46,21 @@ class GiteaClient
         return $data;
     }
 
+    public static function file($owner, $repo, $filepath, $branch)
+    {
+        self::init();
+
+        $query = "repos/$owner/$repo/contents/$filepath?ref=$branch";
+
+        $request = self::$cliente->get($query, [
+            'headers' => self::$headers
+        ]);
+
+        $response = json_decode($request->getBody(), true);
+
+        return base64_decode($response['content']);
+    }
+
     public static function clone($repositorio, $username, $destino)
     {
         self::init();
