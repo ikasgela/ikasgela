@@ -5,7 +5,7 @@
                 setInterval(function () {
                     axios.get('{{ route('intellij_projects.is_forking', ['actividad' => $actividad->id, 'intellij_project'=>$intellij_project->id]) }}')
                         .then(function (response) {
-                            if (response.data === 2) {
+                            if (response.data === 2 || response.data === 3) {
                                 location.reload();
                             }
                         });
@@ -21,19 +21,18 @@
         <h5 class="card-title">{{ $intellij_project->titulo }}</h5>
         <p class="card-text">{{ $intellij_project->descripcion }}</p>
         @if(!$intellij_project->isForked() && Auth::user()->hasRole('alumno'))
-            @if(!$intellij_project->isForking())
+            @if($intellij_project->getForkStatus() == 0)
                 <a href="{{ route('intellij_projects.fork', ['actividad' => $actividad->id, 'intellij_project'=>$intellij_project->id]) }}"
                    class="btn btn-primary single_click">
                     <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Clone the project') }}</a>
-            @else
+            @elseif($intellij_project->getForkStatus() == 1)
                 <a href="#" class="btn btn-primary disabled mr-3">
                     <i class="fas fa-spinner fa-spin"></i> {{ __('Clone the project') }}
                 </a>
                 {{ __('Cloning, please wait...') }}
-            @endif
-            @if(session('clone_error_id') == $actividad->id)
+            @elseif($intellij_project->getForkStatus() == 3)
                 <div class="alert alert-danger mb-0 mt-3" role="alert">
-                    <span>{{ session('clone_error_status') }}</span>
+                    <span>{{ __('Server error, contact with your administrator.') }}</span>
                 </div>
             @endif
         @elseif(isset($repositorio['web_url']))

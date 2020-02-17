@@ -108,26 +108,32 @@ class GiteaClient
                     "private" => true,
                 ]
             ]);
+
+            if ($request->getStatusCode() == 201) {
+                $response = json_decode($request->getBody(), true);
+
+                $data = [
+                    'id' => $response['id'],
+                    'name' => $response['name'],
+                    'description' => $response['description'],
+                    'http_url_to_repo' => $response['clone_url'],
+                    'path_with_namespace' => $response['full_name'],
+                    'web_url' => $response['html_url'],
+                    'owner' => $response['owner']['login'],
+                ];
+
+                return $data;
+            }
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
-        }
+            Log::error('Error al clonar el repositorio.', [
+                'exception' => $e->getMessage(),
+                'code' => $e->getCode(),
+                'repo' => $repositorio,
+                'username' => $username,
+                'destino' => $destino,
+            ]);
 
-        if ($request->getStatusCode() == 201) {
-            $response = json_decode($request->getBody(), true);
-
-            $data = [
-                'id' => $response['id'],
-                'name' => $response['name'],
-                'description' => $response['description'],
-                'http_url_to_repo' => $response['clone_url'],
-                'path_with_namespace' => $response['full_name'],
-                'web_url' => $response['html_url'],
-                'owner' => $response['owner']['login'],
-            ];
-
-            return $data;
-        } else {
-            return 409;
+            return $e->getCode();
         }
     }
 

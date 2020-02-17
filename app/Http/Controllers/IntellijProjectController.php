@@ -108,9 +108,11 @@ class IntellijProjectController extends Controller
         return redirect(route('intellij_projects.actividad', ['actividad' => $actividad->id]));
     }
 
-    public function fork(Actividad $actividad, IntellijProject $intellij_project, Request $request)
+    public function fork(Actividad $actividad, IntellijProject $intellij_project)
     {
-        $actividad->intellij_projects()->updateExistingPivot($intellij_project->id, ['is_forking' => true]);
+        $proyecto = $actividad->intellij_projects()->find($intellij_project->id);
+
+        $proyecto->setForkStatus(1);  // Forking
 
         if (!App::environment('testing')) {
             if ($intellij_project->host == 'gitlab') {
@@ -133,10 +135,7 @@ class IntellijProjectController extends Controller
     {
         $proyecto = $actividad->intellij_projects()->find($intellij_project->id);
 
-        if (!$proyecto->isForked())
-            return $proyecto->isForking();
-        else
-            return 2;   // 0 sin clonar, 1 clonando y 2 completado
+        return $proyecto->getForkStatus();  // 0 sin clonar, 1 clonando, 2 completado, 3 error
     }
 
     public function copia()

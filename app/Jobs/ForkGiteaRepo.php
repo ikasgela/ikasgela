@@ -55,14 +55,25 @@ class ForkGiteaRepo implements ShouldQueue
         Redis::throttle('fork')->allow(100)->every(60)->then(function () {
 
             $username = $this->user->username;// Si la actividad no está asociada a este usuario, no hacer el fork
-            if (!$this->actividad->users()->where('username', $username)->exists())
-                abort(403, __('Sorry, you are not authorized to access this page.'));
+
+            $ij = $this->actividad->intellij_projects()->find($this->intellij_project->id);
+
+            if (!$this->actividad->users()->where('username', $username)->exists()) {
+                $ij->setForkStatus(3);  // Error
+                Log::critical('Intento de clonar un repositorio de otro usuario.', [
+                    'repo' => $this->intellij_project->repositorio,
+                    'username' => $this->user->username,
+                ]);
+            }
 
             try {
                 $proyecto = GiteaClient::repo($this->intellij_project->repositorio);
             } catch (\Exception $e) {
-                Log::critical($e);
-                abort(404, __('Repository not found.'));
+                $ij->setForkStatus(3);  // Error
+                Log::critical(__('Repository not found.'), [
+                    'repo' => $this->intellij_project->repositorio,
+                    'username' => $this->user->username,
+                ]);
             }
 
             $fork = null;
@@ -74,18 +85,15 @@ class ForkGiteaRepo implements ShouldQueue
 
             $fork = $this->clonar_repositorio($this->intellij_project->repositorio, $username, Str::slug($ruta));
 
-            if ($fork) {
-                $this->actividad->intellij_projects()
-                    ->updateExistingPivot($this->intellij_project->id, ['fork' => $fork['path_with_namespace'], 'is_forking' => false]);
-
-                $ij = $this->actividad->intellij_projects()->find($this->intellij_project->id);
+            if (!is_null($fork) && isset($fork['id'])) {
+                $ij->setForkStatus(2, $fork['path_with_namespace']);  // Ok
 
                 Cache::put($ij->cacheKey(), $fork, now()->addDays(config('ikasgela.repo_cache_days')));
 
                 //Mail::to($this->user->email)->send(new RepositorioClonado());
 
             } else {
-                $this->actividad->intellij_projects()->updateExistingPivot($this->intellij_project->id, ['is_forking' => false]);
+                $ij->setForkStatus(3);  // Error
 
                 //Mail::to($this->user->email)->send(new RepositorioClonadoError());
             }
