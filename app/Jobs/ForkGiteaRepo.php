@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use App\Actividad;
-use App\Gitea\GiteaClient;
 use App\IntellijProject;
 use App\Traits\ClonarRepoGitea;
 use App\User;
@@ -26,9 +25,7 @@ class ForkGiteaRepo implements ShouldQueue
     protected $actividad;
     protected $intellij_project;
     protected $user;
-
-    public $tries = 1000;
-
+    
     /**
      * Create a new job instance.
      *

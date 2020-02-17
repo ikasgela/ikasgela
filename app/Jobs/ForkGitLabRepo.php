@@ -26,8 +26,6 @@ class ForkGitLabRepo implements ShouldQueue
     protected $intellij_project;
     protected $user;
 
-    public $tries = 1000;
-
     /**
      * Create a new job instance.
      *
