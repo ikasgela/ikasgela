@@ -64,7 +64,7 @@
             </div>
         @else
             <div class="alert alert-danger mb-0 mt-3" role="alert">
-                <span>{{ __('GitLab error, contact with your administrator.') }}</span>
+                <span>{{ __('Server error, contact with your administrator.') }}</span>
             </div>
         @endif
     </div>
