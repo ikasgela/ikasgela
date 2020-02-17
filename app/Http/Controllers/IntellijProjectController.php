@@ -68,6 +68,8 @@ class IntellijProjectController extends Controller
 
         $intellij_project->update($request->all());
 
+        Cache::forget($intellij_project->cacheKey());
+
         return redirect(route('intellij_projects.index'));
     }
 
