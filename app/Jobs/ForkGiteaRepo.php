@@ -5,8 +5,6 @@ namespace App\Jobs;
 use App\Actividad;
 use App\Gitea\GiteaClient;
 use App\IntellijProject;
-use App\Mail\RepositorioClonado;
-use App\Mail\RepositorioClonadoError;
 use App\Traits\ClonarRepoGitea;
 use App\User;
 use Cache;
@@ -18,7 +16,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 use Log;
-use Mail;
 
 class ForkGiteaRepo implements ShouldQueue
 {
@@ -64,40 +61,29 @@ class ForkGiteaRepo implements ShouldQueue
                     'repo' => $this->intellij_project->repositorio,
                     'username' => $this->user->username,
                 ]);
-            }
-
-            try {
-                $proyecto = GiteaClient::repo($this->intellij_project->repositorio);
-            } catch (\Exception $e) {
-                $ij->setForkStatus(3);  // Error
-                Log::critical(__('Repository not found.'), [
-                    'repo' => $this->intellij_project->repositorio,
-                    'username' => $this->user->username,
-                ]);
-            }
-
-            $fork = null;
-
-            $ruta = $this->actividad->unidad->curso->slug
-                . '-' . $this->actividad->unidad->slug
-                . '-' . $this->actividad->slug
-                . '-' . pathinfo(basename($this->intellij_project->repositorio), PATHINFO_EXTENSION);
-
-            $fork = $this->clonar_repositorio($this->intellij_project->repositorio, $username, Str::slug($ruta));
-
-            if (!is_null($fork) && isset($fork['id'])) {
-                $ij->setForkStatus(2, $fork['path_with_namespace']);  // Ok
-
-                Cache::put($ij->cacheKey(), $fork, now()->addDays(config('ikasgela.repo_cache_days')));
-
-                //Mail::to($this->user->email)->send(new RepositorioClonado());
-
             } else {
-                $ij->setForkStatus(3);  // Error
+                $fork = null;
 
-                //Mail::to($this->user->email)->send(new RepositorioClonadoError());
+                $ruta = $this->actividad->unidad->curso->slug
+                    . '-' . $this->actividad->unidad->slug
+                    . '-' . $this->actividad->slug
+                    . '-' . pathinfo(basename($this->intellij_project->repositorio), PATHINFO_EXTENSION);
+
+                $fork = $this->clonar_repositorio($this->intellij_project->repositorio, $username, Str::slug($ruta));
+
+                if (!is_null($fork) && isset($fork['id'])) {
+                    $ij->setForkStatus(2, $fork['path_with_namespace']);  // Ok
+
+                    Cache::put($ij->cacheKey(), $fork, now()->addDays(config('ikasgela.repo_cache_days')));
+
+                    //Mail::to($this->user->email)->send(new RepositorioClonado());
+
+                } else {
+                    $ij->setForkStatus(3);  // Error
+
+                    //Mail::to($this->user->email)->send(new RepositorioClonadoError());
+                }
             }
-
         }, function () {
             // Could not obtain lock...
             return $this->release(5);
