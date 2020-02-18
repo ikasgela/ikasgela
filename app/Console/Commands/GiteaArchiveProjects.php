@@ -52,8 +52,13 @@ class GiteaArchiveProjects extends Command
                     $proyectos = $actividad->intellij_projects()->get();
                     foreach ($proyectos as $proyecto) {
                         if ($proyecto->isForked() && $proyecto->isArchivado()) {
-                            $proyecto->archive();
-                            $total++;
+                            try {
+                                $proyecto->archive();
+                                echo '.';
+                                $total++;
+                            } catch (\Exception $e) {
+                                echo 'E';
+                            }
                         }
 
                         Cache::forget($proyecto->cacheKey());
