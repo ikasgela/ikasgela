@@ -321,6 +321,7 @@ class GiteaClient
                 'json' => [
                     'email' => $email,
                     'password' => $password,
+                    'must_change_password' => false,
                 ]
             ]);
             Log::info('Gitea: Contraseña cambiada.', [
