@@ -38,13 +38,19 @@ class GiteaRemoveAllRepos extends Command
      */
     public function handle()
     {
-        $this->info('Inicio: ' . now());
+        if (config('app.env') == 'production') {
+            $this->alert('App en producción');
+            if ($this->confirm('¿Continuar?')) {
 
-        $borrados = GiteaClient::borrar();
+                $this->info('Inicio: ' . now());
 
-        $this->line('');
-        $this->warn('Borrados: ' . $borrados);
+                $borrados = GiteaClient::borrar();
 
-        $this->info('Fin: ' . now());
+                $this->line('');
+                $this->warn('Borrados: ' . $borrados);
+
+                $this->info('Fin: ' . now());
+            }
+        }
     }
 }

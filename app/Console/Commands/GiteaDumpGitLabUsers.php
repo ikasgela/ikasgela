@@ -39,35 +39,41 @@ class GiteaDumpGitLabUsers extends Command
      */
     public function handle()
     {
-        $this->info('Inicio: ' . now());
+        if (config('app.env') == 'production') {
+            $this->alert('App en producción');
+            if ($this->confirm('¿Continuar?')) {
 
-        $page = 1;
-        $users = GitLab::users()->all([
-            'per_page' => 100,
-            'page' => $page
-        ]);
-        $page++;
+                $this->info('Inicio: ' . now());
 
-        while ($users != null) {
+                $page = 1;
+                $users = GitLab::users()->all([
+                    'per_page' => 100,
+                    'page' => $page
+                ]);
+                $page++;
 
-            $total = 0;
-            foreach ($users as $user) {
-                echo '.';
-                $creado = GiteaClient::user($user['email'], $user['username'], $user['name']);
-                if ($creado)
-                    $total++;
+                while ($users != null) {
+
+                    $total = 0;
+                    foreach ($users as $user) {
+                        echo '.';
+                        $creado = GiteaClient::user($user['email'], $user['username'], $user['name']);
+                        if ($creado)
+                            $total++;
+                    }
+
+                    $users = GitLab::users()->all([
+                        'per_page' => 100,
+                        'page' => $page
+                    ]);
+                    $page++;
+                }
+
+                $this->line('');
+                $this->warn('Nuevos: ' . $total);
+
+                $this->info('Fin: ' . now());
             }
-
-            $users = GitLab::users()->all([
-                'per_page' => 100,
-                'page' => $page
-            ]);
-            $page++;
         }
-
-        $this->line('');
-        $this->warn('Nuevos: ' . $total);
-
-        $this->info('Fin: ' . now());
     }
 }

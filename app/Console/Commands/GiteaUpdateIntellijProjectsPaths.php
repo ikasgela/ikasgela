@@ -39,27 +39,33 @@ class GiteaUpdateIntellijProjectsPaths extends Command
      */
     public function handle()
     {
-        $this->info('Inicio: ' . now());
+        if (config('app.env') == 'production') {
+            $this->alert('App en producción');
+            if ($this->confirm('¿Continuar?')) {
 
-        $proyectos = IntellijProject::where('host', 'gitlab')
-            ->where('repositorio', 'like', 'programacion/%')->get();
+                $this->info('Inicio: ' . now());
 
-        foreach ($proyectos as $proyecto) {
-            $nombre = 'root/' . str_replace('/', '.', $proyecto->repositorio);
+                $proyectos = IntellijProject::where('host', 'gitlab')
+                    ->where('repositorio', 'like', 'programacion/%')->get();
 
-            $this->line($nombre);
+                foreach ($proyectos as $proyecto) {
+                    $nombre = 'root/' . str_replace('/', '.', $proyecto->repositorio);
 
-            $proyecto->repositorio = $nombre;
-            $proyecto->host = 'gitea';
+                    $this->line($nombre);
 
-            $proyecto->save();
+                    $proyecto->repositorio = $nombre;
+                    $proyecto->host = 'gitea';
 
-            Cache::forget($proyecto->cacheKey());
+                    $proyecto->save();
+
+                    Cache::forget($proyecto->cacheKey());
+                }
+
+                $this->line('');
+                $this->warn('Total: ' . $proyectos->count());
+
+                $this->info('Fin: ' . now());
+            }
         }
-
-        $this->line('');
-        $this->warn('Total: ' . $proyectos->count());
-
-        $this->info('Fin: ' . now());
     }
 }
