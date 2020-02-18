@@ -25,7 +25,7 @@ class ForkGiteaRepo implements ShouldQueue
     protected $actividad;
     protected $intellij_project;
     protected $user;
-    
+
     /**
      * Create a new job instance.
      *
