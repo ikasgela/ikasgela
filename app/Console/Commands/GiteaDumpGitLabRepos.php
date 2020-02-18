@@ -6,14 +6,14 @@ use App\Gitea\GiteaClient;
 use GitLab;
 use Illuminate\Console\Command;
 
-class CopiaGitLabGitea extends Command
+class GiteaDumpGitLabRepos extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'gitlab:dump-repos';
+    protected $signature = 'gitea:dump-gitlab-repos';
 
     /**
      * The console command description.

@@ -5,21 +5,21 @@ namespace App\Console\Commands;
 use App\Gitea\GiteaClient;
 use Illuminate\Console\Command;
 
-class BorrarGitea extends Command
+class GiteaRemoveAllRepos extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'gitlab:clean-repos';
+    protected $signature = 'gitea:remove-all-repos';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Borra los repositorios de Gitea';
+    protected $description = 'Borra todos los repositorios de Gitea';
 
     /**
      * Create a new command instance.
