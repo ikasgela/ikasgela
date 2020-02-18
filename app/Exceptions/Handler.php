@@ -15,17 +15,7 @@ class Handler extends ExceptionHandler
     protected $dontReport = [
         //
     ];
-
-    protected $internalDontReport = [
-//        AuthenticationException::class,
-//        AuthorizationException::class,
-//        HttpException::class,
-//        HttpResponseException::class,
-//        ModelNotFoundException::class,
-//        TokenMismatchException::class,
-//        ValidationException::class,
-    ];
-
+    
     /**
      * A list of the inputs that are never flashed for validation exceptions.
      *
