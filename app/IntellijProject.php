@@ -85,7 +85,7 @@ class IntellijProject extends Model
 
     public function isForked()
     {
-        return $this->pivot->fork_status == 2;
+        return $this->getForkStatus() == 2;
     }
 
     public function isArchivado()
@@ -139,12 +139,15 @@ class IntellijProject extends Model
 
     public function isForking()
     {
-        return $this->pivot->fork_status == 1;
+        return $this->getForkStatus() == 1;
     }
 
     public function getForkStatus()
     {
-        return $this->pivot->fork_status;
+        if (isset($this->pivot))
+            return $this->pivot->fork_status;
+        else
+            return 0;
     }
 
     public function setForkStatus($fork_status, $fork = null)
