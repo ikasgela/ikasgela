@@ -76,7 +76,7 @@ class Actividad extends Model
             ->withPivot([
                 'fork',
                 'archivado',
-                'is_forking'
+                'fork_status',
             ]);
     }
 

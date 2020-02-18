@@ -26,8 +26,6 @@ class ForkGitLabRepo implements ShouldQueue
     protected $intellij_project;
     protected $user;
 
-    public $tries = 1000;
-
     /**
      * Create a new job instance.
      *
@@ -51,41 +49,52 @@ class ForkGitLabRepo implements ShouldQueue
         Redis::throttle('fork')->allow(2)->every(5)->then(function () {
 
             $username = $this->user->username;// Si la actividad no está asociada a este usuario, no hacer el fork
-            if (!$this->actividad->users()->where('username', $username)->exists())
-                abort(403, __('Sorry, you are not authorized to access this page.'));
-            try {
-                $proyecto = GitLab::projects()->show($this->intellij_project->repositorio);
-            } catch (\Exception $e) {
-                Log::critical($e);
-                abort(404, __('Repository not found.'));
-            }
-            $fork = null;
-            if (isset($proyecto['path'])) {
-                $ruta = $this->actividad->unidad->curso->slug
-                    . '-' . $this->actividad->unidad->slug
-                    . '-' . $this->actividad->slug
-                    . '-' . $proyecto['path'];
 
-                //$this->actividad->intellij_projects()->updateExistingPivot($this->intellij_project->id, ['is_forking' => true]);
+            $ij = $this->actividad->intellij_projects()->find($this->intellij_project->id);
 
-                $fork = $this->clonar_repositorio($proyecto, $username, $ruta);
-            }
-            if ($fork) {
-                $this->actividad->intellij_projects()
-                    ->updateExistingPivot($this->intellij_project->id, ['fork' => $fork['path_with_namespace'], 'is_forking' => false]);
-
-                $ij = $this->actividad->intellij_projects()->find($this->intellij_project->id);
-
-                Cache::put($ij->cacheKey(), $fork, now()->addDays(config('ikasgela.repo_cache_days')));
-
-                //Mail::to($this->user->email)->send(new RepositorioClonado());
-
+            if (!$this->actividad->users()->where('username', $username)->exists()) {
+                $ij->setForkStatus(3);  // Error
+                Log::critical('Intento de clonar un repositorio de otro usuario.', [
+                    'repo' => $this->intellij_project->repositorio,
+                    'username' => $this->user->username,
+                ]);
             } else {
-                $this->actividad->intellij_projects()->updateExistingPivot($this->intellij_project->id, ['is_forking' => false]);
+                try {
+                    $proyecto = GitLab::projects()->show($this->intellij_project->repositorio);
 
-                //Mail::to($this->user->email)->send(new RepositorioClonadoError());
+                    $fork = null;
+
+                    if (isset($proyecto['path'])) {
+
+                        $ruta = $this->actividad->unidad->curso->slug
+                            . '-' . $this->actividad->unidad->slug
+                            . '-' . $this->actividad->slug
+                            . '-' . $proyecto['path'];
+
+                        $fork = $this->clonar_repositorio($proyecto, $username, $ruta);
+                    }
+
+                    if ($fork) {
+                        $ij->setForkStatus(2, $fork['path_with_namespace']);  // Ok
+
+                        Cache::put($ij->cacheKey(), $fork, now()->addDays(config('ikasgela.repo_cache_days')));
+
+                        //Mail::to($this->user->email)->send(new RepositorioClonado());
+
+                    } else {
+                        $ij->setForkStatus(3);  // Error
+
+                        //Mail::to($this->user->email)->send(new RepositorioClonadoError());
+                    }
+
+                } catch (\Exception $e) {
+                    $ij->setForkStatus(3);  // Error
+                    Log::critical(__('Repository not found.'), [
+                        'repo' => $this->intellij_project->repositorio,
+                        'username' => $this->user->username,
+                    ]);
+                }
             }
-
         }, function () {
             // Could not obtain lock...
             return $this->release(5);

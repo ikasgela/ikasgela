@@ -21,17 +21,17 @@ trait ClonarRepoGitea
         $reintentos = 3;
 
         do {
-            $error = GiteaClient::clone($repositorio, $username, $ruta);
+            $result = GiteaClient::clone($repositorio, $username, $ruta);
 
-            if ($error == 409) { //&& Str::contains($error_message, 'has already been taken')) {
+            if ($result == 409) { //&& Str::contains($error_message, 'has already been taken')) {
                 $ruta = $ruta_temp . "-$n";
                 $n += 1;
             } else {
                 $reintentos--;
             }
 
-        } while ($error == 409 && $reintentos > 0);
+        } while ($result == 409 && $reintentos > 0);
 
-        return $error;
+        return $result;
     }
 }
