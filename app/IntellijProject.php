@@ -85,7 +85,7 @@ class IntellijProject extends Model
 
     public function isForked()
     {
-        return isset($this->pivot->fork) && strlen($this->pivot->fork) > 2;
+        return $this->pivot->fork_status == 2;
     }
 
     public function isArchivado()

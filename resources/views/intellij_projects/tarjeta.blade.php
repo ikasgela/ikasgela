@@ -20,7 +20,7 @@
     <div class="card-body">
         <h5 class="card-title">{{ $intellij_project->titulo }}</h5>
         <p class="card-text">{{ $intellij_project->descripcion }}</p>
-        @if(!$intellij_project->isForked() && Auth::user()->hasRole('alumno') && !$repositorio['id'] == '?')
+        @if(!$intellij_project->isForked() && Auth::user()->hasRole('alumno') && !($repositorio['id'] == '?'))
             @if($intellij_project->getForkStatus() == 0)
                 <a href="{{ route('intellij_projects.fork', ['actividad' => $actividad->id, 'intellij_project'=>$intellij_project->id]) }}"
                    class="btn btn-primary single_click">
@@ -35,7 +35,7 @@
                     <span>{{ __('Server error, contact with your administrator.') }}</span>
                 </div>
             @endif
-        @elseif(isset($repositorio['web_url']))
+        @elseif($intellij_project->isForked() && isset($repositorio['web_url']))
             <a href="jetbrains://idea/checkout/git?checkout.repo={{ str_replace('https://',"https://".Auth::user()->username."@",$repositorio['http_url_to_repo']) }}&idea.required.plugins.id=Git4Idea"
                class="btn btn-primary">{{ __('Open in IntelliJ IDEA') }}</a>
             <a href="{{ $repositorio['web_url']  }}" target="_blank"
