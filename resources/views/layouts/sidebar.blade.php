@@ -52,7 +52,9 @@
                     </li>
                 @endif
                 @if(Auth::user()->hasRole('admin'))
-                    <li class="nav-title">{{ config('ikasgela.version') }} ({{ config('ikasgela.commit') }})</li>
+                    <li class="nav-title text-center">
+                        <span>{{ config('ikasgela.version') }} ({{ config('ikasgela.commit') }})</span>
+                    </li>
                 @endif
             @endauth
         </ul>
