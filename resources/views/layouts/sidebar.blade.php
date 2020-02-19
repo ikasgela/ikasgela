@@ -51,6 +51,9 @@
                         </a>
                     </li>
                 @endif
+                @if(Auth::user()->hasRole('admin'))
+                    <li class="nav-title">{{ config('ikasgela.version') }} ({{ config('ikasgela.commit') }})</li>
+                @endif
             @endauth
         </ul>
     </nav>
