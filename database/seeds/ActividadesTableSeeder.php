@@ -57,6 +57,7 @@ class ActividadesTableSeeder extends Seeder
         $actividad->puntuacion = 100;
         $actividad->slug = Str::slug($nombre);
         $actividad->plantilla = true;
+        $actividad->tags = 'base';
         $unidad->actividades()->save($actividad);
 
         $proyecto = IntellijProject::where('repositorio', 'root/agenda')->first();
@@ -79,6 +80,7 @@ class ActividadesTableSeeder extends Seeder
         $actividad->puntuacion = 100;
         $actividad->slug = Str::slug($nombre);
         $actividad->plantilla = true;
+        $actividad->tags = 'base';
         $unidad->actividades()->save($actividad);
 
         $proyecto = IntellijProject::where('repositorio', 'root/tres-en-raya')->first();
@@ -101,6 +103,7 @@ class ActividadesTableSeeder extends Seeder
         $actividad->puntuacion = 100;
         $actividad->slug = Str::slug($nombre);
         $actividad->plantilla = true;
+        $actividad->tags = 'base';
         $unidad->actividades()->save($actividad);
 
         $proyecto = IntellijProject::where('repositorio', 'root/reservas')->first();
@@ -121,6 +124,7 @@ class ActividadesTableSeeder extends Seeder
         $actividad->puntuacion = 100;
         $actividad->slug = Str::slug($nombre);
         $actividad->plantilla = true;
+        $actividad->tags = 'extra';
         $unidad->actividades()->save($actividad);
 
         $cuestionario = Cuestionario::where('titulo', 'Cuestionario de ejemplo')->first();

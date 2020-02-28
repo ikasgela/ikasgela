@@ -17,6 +17,7 @@ class UsersTableSeeder extends Seeder
         $rol_admin = Role::where('name', 'admin')->first();
         $rol_profesor = Role::where('name', 'profesor')->first();
         $rol_alumno = Role::where('name', 'alumno')->first();
+        $rol_tutor = Role::where('name', 'tutor')->first();
 
         $equipo = Team::whereHas('group.period.organization', function ($query) {
             $query->where('organizations.slug', 'egibide');
@@ -34,7 +35,7 @@ class UsersTableSeeder extends Seeder
 
         $this->generarUsuario('Marc', 'marc@ikasgela.com', [$rol_alumno], [], [$curso_ikasgela], [$ikasgela]);
         $this->generarUsuario('Noa', 'noa@ikasgela.com', [$rol_alumno], [], [$curso_ikasgela], [$ikasgela]);
-        $this->generarUsuario('Lucía', 'lucia@ikasgela.com', [$rol_profesor, $rol_admin], [], [$curso_ikasgela], [$ikasgela]);
+        $this->generarUsuario('Lucía', 'lucia@ikasgela.com', [$rol_profesor, $rol_admin, $rol_tutor], [], [$curso_ikasgela], [$ikasgela]);
 //        $this->generarUsuario('Administrador', 'admin@ikasgela.com', [$rol_admin], [], [], [$ikasgela]);
 //
 //        $this->generarUsuario('Deusto', 'ikasgela@deusto.es', [$rol_alumno], [], [$curso_deusto], [$deusto]);
@@ -79,7 +80,7 @@ class UsersTableSeeder extends Seeder
         setting()->setExtraColumns(['user_id' => $user->id]);
         setting(['_organization_id' => $organizations[0]->id]);
         setting(['_period_id' => $organizations[0]->current_period_id]);
-        $primer_curso = $user->cursos()->organizacionActual()->periodoActual()->first();
+        $primer_curso = $cursos[0];
         setting(['curso_actual' => $primer_curso ? $primer_curso->id : null]);
         setting()->save();
 
