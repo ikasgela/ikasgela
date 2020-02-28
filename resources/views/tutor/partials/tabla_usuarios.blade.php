@@ -63,7 +63,9 @@
                 @include('tutor.partials.fila_media')
             @endif
             <tr>
-                <th colspan="{{ $unidades->count() + 5 }}">{{ __('Student total') }}: {{ $usuarios->count() }}</th>
+                <th colspan="3">{{ __('Student total') }}: {{ $usuarios->count() }}</th>
+                <th class="text-center">{{ $num_actividades_obligatorias }}</th>
+                <th colspan="{{ $unidades->count() + 1 }}"></th>
             </tr>
             </tfoot>
         @endif
