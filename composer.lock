@@ -122,16 +122,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.133.27",
+            "version": "3.133.30",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "5527195465ac42cb5127a60b84eb2d8dc3b0d5c9"
+                "reference": "1ae0cff5226ffdd9b8a1d7b1f69c65fbaa5cb4e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/5527195465ac42cb5127a60b84eb2d8dc3b0d5c9",
-                "reference": "5527195465ac42cb5127a60b84eb2d8dc3b0d5c9",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/1ae0cff5226ffdd9b8a1d7b1f69c65fbaa5cb4e1",
+                "reference": "1ae0cff5226ffdd9b8a1d7b1f69c65fbaa5cb4e1",
                 "shasum": ""
             },
             "require": {
@@ -202,7 +202,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2020-03-02T19:20:19+00:00"
+            "time": "2020-03-05T19:19:55+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -304,22 +304,22 @@
         },
         {
             "name": "browner12/helpers",
-            "version": "v3.0.0",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/browner12/helpers.git",
-                "reference": "dcce8e96caa20d59b6ac8d352cb0c45cd8b57de5"
+                "reference": "b34b7f8f2d3d24703764bf4d5ce7dbff763f08d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/browner12/helpers/zipball/dcce8e96caa20d59b6ac8d352cb0c45cd8b57de5",
-                "reference": "dcce8e96caa20d59b6ac8d352cb0c45cd8b57de5",
+                "url": "https://api.github.com/repos/browner12/helpers/zipball/b34b7f8f2d3d24703764bf4d5ce7dbff763f08d8",
+                "reference": "b34b7f8f2d3d24703764bf4d5ce7dbff763f08d8",
                 "shasum": ""
             },
             "require": {
-                "illuminate/console": "^6.0",
-                "illuminate/contracts": "^6.0",
-                "illuminate/support": "^6.0",
+                "illuminate/console": "^6.0|^7.0",
+                "illuminate/contracts": "^6.0|^7.0",
+                "illuminate/support": "^6.0|^7.0",
                 "php": "^7.2"
             },
             "require-dev": {
@@ -363,7 +363,7 @@
                 "browner12",
                 "helpers"
             ],
-            "time": "2019-09-09T05:20:50+00:00"
+            "time": "2020-03-03T16:33:22+00:00"
         },
         {
             "name": "clue/stream-filter",
@@ -479,22 +479,22 @@
         },
         {
             "name": "consoletvs/charts",
-            "version": "6.5.3",
+            "version": "6.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ConsoleTVs/Charts.git",
-                "reference": "a4a8a71c438a00b95ea74a080ce5bf8916c60918"
+                "reference": "524257b5d525666385bd2e91b06e376994a7b683"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ConsoleTVs/Charts/zipball/a4a8a71c438a00b95ea74a080ce5bf8916c60918",
-                "reference": "a4a8a71c438a00b95ea74a080ce5bf8916c60918",
+                "url": "https://api.github.com/repos/ConsoleTVs/Charts/zipball/524257b5d525666385bd2e91b06e376994a7b683",
+                "reference": "524257b5d525666385bd2e91b06e376994a7b683",
                 "shasum": ""
             },
             "require": {
                 "balping/json-raw-encoder": "^1.0",
-                "illuminate/console": "^5.0|^6.0",
-                "illuminate/support": "^5.0|^6.0",
+                "illuminate/console": "^5.0|^6.0|^7.0",
+                "illuminate/support": "^5.0|^6.0|^7.0",
                 "php": ">=7.0"
             },
             "type": "library",
@@ -521,7 +521,7 @@
                 }
             ],
             "description": "The laravel charting package",
-            "time": "2019-09-03T16:50:50+00:00"
+            "time": "2020-03-03T23:16:14+00:00"
         },
         {
             "name": "doctrine/cache",
@@ -1700,28 +1700,27 @@
         },
         {
             "name": "kkomelin/laravel-translatable-string-exporter",
-            "version": "1.9.0",
+            "version": "1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kkomelin/laravel-translatable-string-exporter.git",
-                "reference": "78d1da3bea1e891b4e97c102c1c9f4aa2d70d1f6"
+                "reference": "c40e8746f0b3303e0d26c7b5cd1603e5a4283431"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kkomelin/laravel-translatable-string-exporter/zipball/78d1da3bea1e891b4e97c102c1c9f4aa2d70d1f6",
-                "reference": "78d1da3bea1e891b4e97c102c1c9f4aa2d70d1f6",
+                "url": "https://api.github.com/repos/kkomelin/laravel-translatable-string-exporter/zipball/c40e8746f0b3303e0d26c7b5cd1603e5a4283431",
+                "reference": "c40e8746f0b3303e0d26c7b5cd1603e5a4283431",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "illuminate/support": "^5.4|^6",
-                "illuminate/translation": "^5.4|^6",
+                "illuminate/support": "^5.4|^6|^7",
+                "illuminate/translation": "^5.4|^6|^7",
                 "php": ">=5.4.0",
-                "symfony/finder": "^3.2|^4.0"
+                "symfony/finder": "^3.2|^4|^5"
             },
             "require-dev": {
-                "mockery/mockery": "^1.0",
-                "orchestra/testbench": "~3.0"
+                "orchestra/testbench": "^3.4|^4.0|^5.0"
             },
             "type": "library",
             "extra": {
@@ -1753,20 +1752,20 @@
                 "laravel",
                 "translations"
             ],
-            "time": "2020-02-11T17:24:19+00:00"
+            "time": "2020-03-04T16:26:04+00:00"
         },
         {
             "name": "laravel/framework",
-            "version": "v6.17.1",
+            "version": "v6.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "32d1ed55dd46dcd706ff2e45bb7965be7320b87d"
+                "reference": "077b895d935b7fbcfb1d1eb34217fa4f80a130d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/32d1ed55dd46dcd706ff2e45bb7965be7320b87d",
-                "reference": "32d1ed55dd46dcd706ff2e45bb7965be7320b87d",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/077b895d935b7fbcfb1d1eb34217fa4f80a130d8",
+                "reference": "077b895d935b7fbcfb1d1eb34217fa4f80a130d8",
                 "shasum": ""
             },
             "require": {
@@ -1899,24 +1898,24 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2020-02-26T14:23:01+00:00"
+            "time": "2020-03-03T13:14:27+00:00"
         },
         {
             "name": "laravel/helpers",
-            "version": "v1.1.1",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/helpers.git",
-                "reference": "b8eae9ddd461e89d0296f74fd069c413bf83b6fa"
+                "reference": "1f978fc5dad9f7f906b18242c654252615201de4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/helpers/zipball/b8eae9ddd461e89d0296f74fd069c413bf83b6fa",
-                "reference": "b8eae9ddd461e89d0296f74fd069c413bf83b6fa",
+                "url": "https://api.github.com/repos/laravel/helpers/zipball/1f978fc5dad9f7f906b18242c654252615201de4",
+                "reference": "1f978fc5dad9f7f906b18242c654252615201de4",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "~5.8.0|^6.0",
+                "illuminate/support": "~5.8.0|^6.0|^7.0",
                 "php": ">=7.1.3"
             },
             "require-dev": {
@@ -1952,7 +1951,7 @@
                 "helpers",
                 "laravel"
             ],
-            "time": "2019-07-30T15:25:31+00:00"
+            "time": "2020-03-03T13:52:16+00:00"
         },
         {
             "name": "laravelcollective/html",
@@ -4228,20 +4227,20 @@
         },
         {
             "name": "rap2hpoutre/laravel-log-viewer",
-            "version": "v1.3.3",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rap2hpoutre/laravel-log-viewer.git",
-                "reference": "031ed45cd09814f5ab3c03a235b4511994911683"
+                "reference": "3506baaddbe5661fc4482b048db2ec5cfc5f9025"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rap2hpoutre/laravel-log-viewer/zipball/031ed45cd09814f5ab3c03a235b4511994911683",
-                "reference": "031ed45cd09814f5ab3c03a235b4511994911683",
+                "url": "https://api.github.com/repos/rap2hpoutre/laravel-log-viewer/zipball/3506baaddbe5661fc4482b048db2ec5cfc5f9025",
+                "reference": "3506baaddbe5661fc4482b048db2ec5cfc5f9025",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "4.2.*|5.*|^6.0",
+                "illuminate/support": "4.2.*|5.*|^6.0|^7.0",
                 "php": ">=5.4.0"
             },
             "require-dev": {
@@ -4283,33 +4282,32 @@
                 "logging",
                 "lumen"
             ],
-            "time": "2019-12-03T22:00:29+00:00"
+            "time": "2020-03-05T20:25:07+00:00"
         },
         {
             "name": "spatie/laravel-activitylog",
-            "version": "3.10.0",
+            "version": "3.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-activitylog.git",
-                "reference": "0b16f4e5ac45c14312ffa8bf25db737d92de27cd"
+                "reference": "d12fa93fbd0376a1385cd94a2348553afe12ce54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-activitylog/zipball/0b16f4e5ac45c14312ffa8bf25db737d92de27cd",
-                "reference": "0b16f4e5ac45c14312ffa8bf25db737d92de27cd",
+                "url": "https://api.github.com/repos/spatie/laravel-activitylog/zipball/d12fa93fbd0376a1385cd94a2348553afe12ce54",
+                "reference": "d12fa93fbd0376a1385cd94a2348553afe12ce54",
                 "shasum": ""
             },
             "require": {
-                "illuminate/config": "^6.0",
-                "illuminate/database": "^6.0",
-                "illuminate/support": "^6.0",
+                "illuminate/config": "^6.0|^7.0",
+                "illuminate/database": "^6.0|^7.0",
+                "illuminate/support": "^6.0|^7.0",
                 "php": "^7.2",
                 "spatie/string": "^2.1"
             },
             "require-dev": {
                 "ext-json": "*",
-                "orchestra/testbench": "^4.0",
-                "phpunit/phpunit": "^8.0"
+                "phpunit/phpunit": "^8.0|^9.0"
             },
             "type": "library",
             "extra": {
@@ -4360,7 +4358,7 @@
                 "spatie",
                 "user"
             ],
-            "time": "2020-02-22T21:16:32+00:00"
+            "time": "2020-03-03T15:18:59+00:00"
         },
         {
             "name": "spatie/string",
@@ -6899,16 +6897,16 @@
         },
         {
             "name": "facade/ignition",
-            "version": "1.16.0",
+            "version": "1.16.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/ignition.git",
-                "reference": "37f094775814b68d0c6cc8b8ff3c3be243f20725"
+                "reference": "af05ac5ee8587395d7474ec0681c08776a2cb09d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/ignition/zipball/37f094775814b68d0c6cc8b8ff3c3be243f20725",
-                "reference": "37f094775814b68d0c6cc8b8ff3c3be243f20725",
+                "url": "https://api.github.com/repos/facade/ignition/zipball/af05ac5ee8587395d7474ec0681c08776a2cb09d",
+                "reference": "af05ac5ee8587395d7474ec0681c08776a2cb09d",
                 "shasum": ""
             },
             "require": {
@@ -6935,7 +6933,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "v2.x-dev"
+                    "dev-master": "1.x-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -6966,7 +6964,7 @@
                 "laravel",
                 "page"
             ],
-            "time": "2020-01-21T17:46:02+00:00"
+            "time": "2020-03-05T12:39:07+00:00"
         },
         {
             "name": "facade/ignition-contracts",
@@ -7910,16 +7908,16 @@
         },
         {
             "name": "php-webdriver/webdriver",
-            "version": "1.8.1",
+            "version": "1.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-webdriver/php-webdriver.git",
-                "reference": "262ea0d209c292e0330be1041424887bbbffef04"
+                "reference": "3308a70be084d6d7fd1ee5787b4c2e6eb4b70aab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-webdriver/php-webdriver/zipball/262ea0d209c292e0330be1041424887bbbffef04",
-                "reference": "262ea0d209c292e0330be1041424887bbbffef04",
+                "url": "https://api.github.com/repos/php-webdriver/php-webdriver/zipball/3308a70be084d6d7fd1ee5787b4c2e6eb4b70aab",
+                "reference": "3308a70be084d6d7fd1ee5787b4c2e6eb4b70aab",
                 "shasum": ""
             },
             "require": {
@@ -7971,7 +7969,7 @@
                 "selenium",
                 "webdriver"
             ],
-            "time": "2020-02-17T08:14:38+00:00"
+            "time": "2020-03-04T14:40:12+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -8126,16 +8124,16 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "v1.10.2",
+            "version": "v1.10.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "b4400efc9d206e83138e2bb97ed7f5b14b831cd9"
+                "reference": "451c3cd1418cf640de218914901e51b064abb093"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/b4400efc9d206e83138e2bb97ed7f5b14b831cd9",
-                "reference": "b4400efc9d206e83138e2bb97ed7f5b14b831cd9",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/451c3cd1418cf640de218914901e51b064abb093",
+                "reference": "451c3cd1418cf640de218914901e51b064abb093",
                 "shasum": ""
             },
             "require": {
@@ -8185,7 +8183,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2020-01-20T15:57:02+00:00"
+            "time": "2020-03-05T15:02:03+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
