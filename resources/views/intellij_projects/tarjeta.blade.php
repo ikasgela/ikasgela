@@ -35,7 +35,7 @@
                     <span>{{ __('Server error, contact with your administrator.') }}</span>
                 </div>
             @endif
-        @elseif($intellij_project->isForked() && isset($repositorio['web_url']))
+        @elseif(isset($repositorio['web_url']))
             <a href="jetbrains://idea/checkout/git?checkout.repo={{ str_replace('https://',"https://".Auth::user()->username."@",$repositorio['http_url_to_repo']) }}&idea.required.plugins.id=Git4Idea"
                class="btn btn-primary">{{ __('Open in IntelliJ IDEA') }}</a>
             <a href="{{ $repositorio['web_url']  }}" target="_blank"
