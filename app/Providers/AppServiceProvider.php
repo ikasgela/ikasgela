@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Organization;
 use Form;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,6 +29,9 @@ class AppServiceProvider extends ServiceProvider
                 return \Faker\Factory::create('es_ES');
             });
         }
+
+        $organization = Organization::where('slug', subdominio())->first();
+        View::share('current_organization', $organization);
     }
 
     /**
