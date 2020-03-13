@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Organization extends Model
 {
     protected $fillable = [
-        'name', 'slug', 'current_period_id'
+        'name', 'slug', 'current_period_id', 'registration_open'
     ];
 
     public function periods()

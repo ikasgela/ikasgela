@@ -13,8 +13,10 @@
                 <hr class="mt-0 mb-0">
                 <div class="card-body pb-4 text-center">
                     <a class="btn btn-primary mr-3" href="{{ route('login') }}">{{ __('Sign in') }}</a>
-                    <span class="mx-3">{{ __('or') }}</span>
-                    <a class="btn btn-link" href="{{ route('register') }}">{{ __('Sign up') }}</a>
+                    @if($current_organization->registration_open)
+                        <span class="mx-3">{{ __('or') }}</span>
+                        <a class="btn btn-link" href="{{ route('register') }}">{{ __('Sign up') }}</a>
+                    @endif
                 </div>
             </div>
             {{-- Fin tarjeta--}}

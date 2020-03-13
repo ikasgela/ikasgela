@@ -12,6 +12,8 @@
             {{ Form::campoTexto('name', __('Name')) }}
             {{ Form::campoTexto('slug', __('Slug')) }}
 
+            {{ Form::campoCheck('registration_open', __('Registration open')) }}
+
             @include('partials.guardar_cancelar')
 
             @include('layouts.errors')
