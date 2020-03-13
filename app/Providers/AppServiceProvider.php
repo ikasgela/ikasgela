@@ -30,8 +30,10 @@ class AppServiceProvider extends ServiceProvider
             });
         }
 
-        $organization = Organization::where('slug', subdominio())->first();
-        View::share('current_organization', $organization);
+        if (!\App::runningInConsole()) {
+            $organization = Organization::where('slug', subdominio())->first();
+            View::share('current_organization', $organization);
+        }
     }
 
     /**
