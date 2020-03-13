@@ -36,7 +36,8 @@ class OrganizationController extends Controller
         try {
             Organization::create([
                 'name' => request('name'),
-                'slug' => Str::slug(request('name'))
+                'slug' => Str::slug(request('name')),
+                'registration_open' => $request->has('registration_open'),
             ]);
         } catch (\Exception $e) {
             // Slug repetido
@@ -67,7 +68,8 @@ class OrganizationController extends Controller
                 'slug' => strlen(request('slug')) > 0
                     ? Str::slug(request('slug'))
                     : Str::slug(request('name')),
-                'current_period_id' => request('current_period_id')
+                'current_period_id' => request('current_period_id'),
+                'registration_open' => $request->has('registration_open'),
             ]);
         } catch (\Exception $e) {
             // Slug repetido
