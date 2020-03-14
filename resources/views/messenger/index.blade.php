@@ -6,7 +6,11 @@
 
     <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
         <div>
-            <h1>{{ __('Tutorship') }}</h1>
+            <h1>{{ __('Tutorship') }}
+                <a href="{{ route('messages.create') }}" class="btn btn-primary ml-3">
+                    <i class="fas fa-pencil-alt mr-1"></i> {{ __('Create new conversation') }}
+                </a>
+            </h1>
         </div>
         <div>
             @if($count > 0)
@@ -29,10 +33,6 @@
     @endif
 
     @include('messenger.partials.flash')
-
-    <div class="mb-3">
-        <a class="btn btn-primary mr-2" href="{{ route('messages.create') }}">{{ __('Create new conversation') }}</a>
-    </div>
 
     <ul class="nav nav-tabs" id="pills-tab" role="tablist">
         <li class="nav-item">
