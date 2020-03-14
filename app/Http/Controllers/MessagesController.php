@@ -29,7 +29,10 @@ class MessagesController extends Controller
         // All threads that user is participating in, with new messages
         $threads = Hilo::forUserWithNewMessages(Auth::id())->latest('updated_at')->get();
 
-        return view('messenger.index', compact('threads'));
+        // All threads that user is participating in
+        $threads_all = Hilo::forUser(Auth::id())->latest('updated_at')->get();
+
+        return view('messenger.index', compact(['threads', 'threads_all']));
     }
 
     public function all()
