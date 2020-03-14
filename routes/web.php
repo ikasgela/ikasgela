@@ -309,7 +309,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Mensajes
     Route::group(['prefix' => 'messages'], function () {
         Route::get('/', ['as' => 'messages', 'uses' => 'MessagesController@index']);
-        Route::get('all', ['as' => 'messages.all', 'uses' => 'MessagesController@all']);
         Route::get('create', ['as' => 'messages.create', 'uses' => 'MessagesController@create']);
         Route::post('/', ['as' => 'messages.store', 'uses' => 'MessagesController@store']);
         Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
