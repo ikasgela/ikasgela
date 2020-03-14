@@ -39,7 +39,11 @@
             <a class="nav-link active" id="pills-en-curso-tab" data-toggle="tab" href="#pills-en-curso" role="tab"
                aria-controls="pills-profile" aria-selected="true">
                 {{ trans_choice('messages.unread', 2) }}
-                <span class="ml-2 badge badge-success">{{ $threads->count() }}</span>
+                @if($threads->count() > 0)
+                    <span class="ml-2 badge badge-success">{{ $threads->count() }}</span>
+                @else
+                    <span class="ml-2 badge badge-secondary">0</span>
+                @endif
             </a>
         </li>
         <li class="nav-item">
