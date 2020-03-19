@@ -151,7 +151,7 @@ class IntellijProjectController extends Controller
         }
 
         if (config('ikasgela.gitea_enabled')) {
-            $proyectos = GiteaClient::repos();
+            $proyectos = GiteaClient::repos_usuario('root');
         }
 
         return view('intellij_projects.copia', compact('proyectos'));

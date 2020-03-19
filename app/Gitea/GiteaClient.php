@@ -220,8 +220,9 @@ class GiteaClient
         $request = self::$cliente->get('repos/search', [
             'headers' => self::$headers,
             'query' => [
-                'limit' => 1000,
+                'limit' => 50,
                 'uid' => $uid,
+                'exclusive' => true,
             ]
         ]);
         $response = json_decode($request->getBody(), true);

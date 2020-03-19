@@ -28,7 +28,7 @@
                 <th>#</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Description') }}</th>
-                <th>{{ __('GitLab') }}</th>
+                <th>{{ __('Repository') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
