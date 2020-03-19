@@ -8,7 +8,7 @@ trait ClonarRepoGitea
 {
     public $test_gitlab = false;
 
-    public function clonar_repositorio($repositorio, $username, $destino)
+    public function clonar_repositorio($repositorio, $username, $destino, $nombre = null)
     {
         $n = 2;
 
@@ -21,7 +21,7 @@ trait ClonarRepoGitea
         $reintentos = 3;
 
         do {
-            $result = GiteaClient::clone($repositorio, $username, $ruta);
+            $result = GiteaClient::clone($repositorio, $username, $ruta, $nombre);
 
             if ($result == 409) { //&& Str::contains($error_message, 'has already been taken')) {
                 $ruta = $ruta_temp . "-$n";

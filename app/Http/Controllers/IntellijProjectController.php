@@ -12,7 +12,6 @@ use Auth;
 use Cache;
 use GitLab;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Log;
 
 class IntellijProjectController extends Controller
@@ -190,12 +189,11 @@ class IntellijProjectController extends Controller
                 $ruta = $proyecto['name'];
             }
 
-//            dump($proyecto);
-//            dump($destino);
-//            dump($ruta);
-//            dd();
+            if (empty($nombre)) {
+                $nombre = $proyecto['description'];
+            }
 
-            $this->clonar_repositorio($proyecto['path_with_namespace'], $destino, $ruta);
+            $this->clonar_repositorio($proyecto['path_with_namespace'], $destino, $ruta, $nombre);
         } catch (\Exception $e) {
             Log::error($e);
         }

@@ -84,7 +84,7 @@ class GiteaClient
         return base64_decode($response['content']);
     }
 
-    public static function clone($repositorio, $username, $destino)
+    public static function clone($repositorio, $username, $destino, $descripcion = null)
     {
         self::init();
 
@@ -106,6 +106,7 @@ class GiteaClient
                     "uid" => $uid,
                     "repo_name" => $destino,
                     "private" => true,
+                    "description" => $descripcion,
                 ]
             ]);
 
