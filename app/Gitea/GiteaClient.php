@@ -223,6 +223,8 @@ class GiteaClient
                 'limit' => 50,
                 'uid' => $uid,
                 'exclusive' => true,
+                'sort' => 'updated',
+                'order' => 'desc',
             ]
         ]);
         $response = json_decode($request->getBody(), true);
