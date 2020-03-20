@@ -16,13 +16,14 @@
     @yield('prismjs-css')
     @stack('intellij-isforking')
 </head>
-<body class="app header-fixed sidebar-fixed sidebar-lg-show footer-fixed">
-<div id="app">
+
+<body class="c-app">
+@include('layouts.sidebar')
+<div class="c-wrapper">
     @include('layouts.header')
-    <div class="app-body">
-        @include('layouts.sidebar')
-        <main class="main">
-            <div class="container-fluid py-4">
+    <div class="c-body">
+        <main class="c-main">
+            <div class="container-fluid">
                 @yield('content')
                 @auth
                     @if(Auth::user()->isVerified() && session('tutorial'))
@@ -40,4 +41,15 @@
 @yield('tinymce')
 @yield('prismjs-scripts')
 </body>
+
+{{--
+<body class="c-app c-header-fixed  c-footer-fixed">
+<div id="app">
+    <div class="c-body">
+        <main class="c-main">
+        </main>
+    </div>
+</div>
+</body>
+--}}
 </html>
