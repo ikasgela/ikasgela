@@ -1,4 +1,4 @@
-@php( $class = $thread->isUnread(Auth::id()) ? 'alert-success' : '' )
+@php( $class = $thread->isUnread(Auth::id()) ? 'card-accent-success' : '' )
 
 <div class="card {{ $class }}">
     <div class="card-header d-flex justify-content-between">
@@ -19,7 +19,7 @@
             @endauth
         </div>
         <small class="text-muted">{{ __('Latest message') }}</small>
-        <div class="callout callout-primary bg-light py-3">
+        <div class="c-callout c-callout-primary bg-light py-3">
             {!! $thread->latestMessage->body !!}
         </div>
     </div>
