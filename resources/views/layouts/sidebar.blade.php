@@ -62,4 +62,5 @@
             @endif
         @endauth
     </ul>
+    <div class="c-sidebar-footer text-center">&nbsp;</div>
 </div>
