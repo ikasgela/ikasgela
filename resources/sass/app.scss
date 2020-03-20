@@ -44,18 +44,6 @@
     vertical-align: middle;
 }
 
-@media (max-width: 991.98px) {
-    .app-body {
-        margin-top: 0;
-    }
-}
-
-@media (min-width: 991.98px) {
-    .app-body {
-        margin-top: 55px;
-    }
-}
-
 // https://stackoverflow.com/a/48559492
 @media print {
     .table td.bg-success {
@@ -80,14 +68,12 @@
 
 // https://github.com/asyraf9/bootstrap-sidebar/issues/10#issuecomment-69191324
 @media print {
-    .sidebar {
+    .c-sidebar {
         display: none;
     }
-    .main {
+    .c-wrapper {
         margin-left: 0 !important;
         width: 100% !important;
-    }
-    footer {
-        margin-left: 0 !important;
+        height: 100% !important;
     }
 }
