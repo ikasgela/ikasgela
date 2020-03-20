@@ -54,12 +54,16 @@
             </a>
         </li>
     </ul>
-    <div class="tab-content" id="pills-tab-content">
+    <div class="tab-content border-bottom border-left border-right" id="pills-tab-content">
         <div class="tab-pane fade show active" id="pills-en-curso" role="tabpanel" aria-labelledby="pills-en-curso-tab">
-            @each('messenger.partials.thread', $threads, 'thread', 'messenger.partials.no-threads')
+            <div class="p-3">
+                @each('messenger.partials.thread', $threads, 'thread', 'messenger.partials.no-threads')
+            </div>
         </div>
         <div class="tab-pane fade" id="pills-enviadas" role="tabpanel" aria-labelledby="pills-enviadas-tab">
-            @each('messenger.partials.thread', $threads_all, 'thread', 'messenger.partials.no-threads')
+            <div class="p-3">
+                @each('messenger.partials.thread', $threads_all, 'thread', 'messenger.partials.no-threads')
+            </div>
         </div>
     </div>
 @stop
