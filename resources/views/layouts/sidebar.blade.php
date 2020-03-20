@@ -1,7 +1,7 @@
 <div id="sidebar" class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show">
-    <div class="c-sidebar-brand">
+    <div class="c-sidebar-brand {{ config('app.debug') ? 'bg-warning' : 'bg-primary c-header-dark' }}">
         <img class="c-sidebar-brand-full c-d-dark-none"
-             src="{{ url('/svg/logo-dark.svg') }}" height="25"
+             src="{{ config('app.debug') ? url('/svg/logo-black.svg') : url('/svg/logo-dark.svg') }}" height="25"
              alt="{{ __('Logo') }}">
     </div>
     <ul class="c-sidebar-nav">
