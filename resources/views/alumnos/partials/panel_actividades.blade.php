@@ -5,12 +5,10 @@
         @php($num_actividad+=1)
     @endforeach
 @else
-    @if(session('tutorial'))
-        <div class="callout callout-success b-t-1 b-r-1 b-b-1">
-            <small class="text-muted">{{ __('Tutorial') }}</small>
-            <p>Aquí aparecerán las actividades que tengas disponibles.</p>
-        </div>
-    @endif
+    @include('partials.tutorial', [
+        'color' => 'c-callout-success',
+        'texto' => 'Aquí aparecerán las actividades que tengas disponibles.'
+    ])
     <div class="row">
         <div class="col-md-12">
             <p>{{ $mensaje_ninguna }}</p>

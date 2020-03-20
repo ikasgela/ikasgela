@@ -52,4 +52,5 @@
                 'mensaje_ninguna' => 'No hay actividades enviadas.'])
             </div>
         </div>
+    </div>
 @endsection

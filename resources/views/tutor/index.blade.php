@@ -32,13 +32,10 @@
         <h2 class="text-muted font-xl">{{ !is_null($curso) ? $curso->category->period->organization->name.' » '.$curso->category->period->name.' » '.$curso->nombre : '' }}</h2>
     </div>
 
-    @if(session('tutorial'))
-        <div class="callout callout-success b-t-1 b-r-1 b-b-1">
-            <small class="text-muted">{{ __('Tutorial') }}</small>
-            <p>Aquí aparecerá la tabla con los resultados de todos los alumnos del grupo. Se puede ordenar
-                alfabéticamente o por número de actividades completadas.</p>
-        </div>
-    @endif
+    @include('partials.tutorial', [
+        'color' => 'c-callout-success',
+        'texto' => 'Aquí aparecerá la tabla con los resultados de todos los alumnos del grupo. Se puede ordenar alfabéticamente o por número de actividades completadas.'
+    ])
 
     @include('tutor.partials.tabla_usuarios')
 

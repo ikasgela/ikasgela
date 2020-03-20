@@ -26,11 +26,11 @@
             <div class="container-fluid">
                 @yield('content')
                 @auth
-                    @if(Auth::user()->isVerified() && session('tutorial'))
-                        <div class="callout callout-danger b-t-1 b-r-1 b-b-1">
-                            <small class="text-muted">{{ __('Tutorial') }}</small>
-                            <p>Puedes desactivar el tutorial en tu perfil de usuario.</p>
-                        </div>
+                    @if(Auth::user()->isVerified())
+                        @include('partials.tutorial', [
+                            'color' => 'c-callout-danger',
+                            'texto' => 'Puedes desactivar el tutorial en tu perfil de usuario.'
+                        ])
                     @endif
                 @endauth
             </div>

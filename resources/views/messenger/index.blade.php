@@ -25,12 +25,10 @@
         </div>
     </div>
 
-    @if(session('tutorial'))
-        <div class="callout callout-success b-t-1 b-r-1 b-b-1">
-            <small class="text-muted">{{ __('Tutorial') }}</small>
-            <p>Aquí puedes iniciar conversaciones para ayudarte a resolver tus dudas sobre las actividades.</p>
-        </div>
-    @endif
+    @include('partials.tutorial', [
+        'color' => 'c-callout-success',
+        'texto' => 'Aquí puedes iniciar conversaciones para ayudarte a resolver tus dudas sobre las actividades.'
+    ])
 
     @include('messenger.partials.flash')
 

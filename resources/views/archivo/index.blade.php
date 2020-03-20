@@ -4,12 +4,10 @@
 
     @include('partials.titular', ['titular' => __('Archived')])
 
-    @if(session('tutorial'))
-        <div class="callout callout-success b-t-1 b-r-1 b-b-1">
-            <small class="text-muted">{{ __('Tutorial') }}</small>
-            <p>Aquí aparecerán las tareas una vez que las completes.</p>
-        </div>
-    @endif
+    @include('partials.tutorial', [
+        'color' => 'c-callout-success',
+        'texto' => 'Aquí aparecerán las tareas una vez que las completes.'
+    ])
 
     @if(Auth::user()->hasAnyRole(['profesor', 'tutor']))
         {!! Form::open(['route' => ['archivo.alumno'], 'method' => 'POST']) !!}

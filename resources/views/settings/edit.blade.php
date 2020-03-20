@@ -4,12 +4,10 @@
 
     @include('partials.titular', ['titular' => __('Settings')])
 
-    @if(session('tutorial'))
-        <div class="callout callout-success b-t-1 b-r-1 b-b-1">
-            <small class="text-muted">{{ __('Tutorial') }}</small>
-            <p>Si estás matriculado en más de un curso, aquí puedes cambiar de uno a otro.</p>
-        </div>
-    @endif
+    @include('partials.tutorial', [
+        'color' => 'c-callout-success',
+        'texto' => 'Si estás matriculado en más de un curso, aquí puedes cambiar de uno a otro.'
+    ])
 
     <div class="card">
         <div class="card-body">
@@ -22,9 +20,12 @@
                     <select class="form-control" id="curso_id" name="curso_id">
                         <option value="">{{ __('--- None --- ') }}</option>
                         @foreach($cursos as $curso)
-                            <option value="{{ $curso->id }}" <?php if (@setting('curso_actual') == $curso->id) echo 'selected'; ?>>{{ $curso->category->period->organization->name }}
+                            <option
+                                value="{{ $curso->id }}" <?php if (@setting('curso_actual') == $curso->id) echo 'selected'; ?>>
+                                {{ $curso->category->period->organization->name }}
                                 - {{ $curso->nombre }}
-                                - {{ $curso->category->period->name }}</option>
+                                - {{ $curso->category->period->name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -52,7 +53,10 @@
                     <select class="form-control" id="organization_id" name="organization_id">
                         <option value="">{{ __('--- None ---') }}</option>
                         @foreach($organizations as $organization)
-                            <option value="{{ $organization->id }}" <?php if (@setting('_organization_id') == $organization->id) echo 'selected'; ?>>{{ $organization->name }}</option>
+                            <option
+                                value="{{ $organization->id }}" <?php if (@setting('_organization_id') == $organization->id) echo 'selected'; ?>>
+                                {{ $organization->name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -73,8 +77,10 @@
                             <select class="form-control" id="period_id" name="period_id">
                                 <option value="">{{ __('--- None ---') }}</option>
                                 @foreach($periods as $period)
-                                    <option value="{{ $period->id }}" <?php if (@setting('_period_id') == $period->id) echo 'selected'; ?>>{{ $period->organization->name }}
-                                        - {{ $period->name }}</option>
+                                    <option
+                                        value="{{ $period->id }}" <?php if (@setting('_period_id') == $period->id) echo 'selected'; ?>>
+                                        {{ $period->organization->name }} - {{ $period->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
