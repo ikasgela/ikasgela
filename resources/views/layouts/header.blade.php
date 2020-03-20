@@ -14,7 +14,7 @@
 
     @if(Auth::check())
         <ul class="c-header-nav ml-auto mr-3">
-            <li class="{{ config('app.debug') ? 'text-dark' : '' }} mr-2 d-sm-down-none">{{ Auth::user()->name }}</li>
+            <li class="{{ config('app.debug') ? 'text-dark' : 'text-light' }} mr-2 d-sm-down-none">{{ Auth::user()->name }}</li>
             <li class="c-header-nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#" role="button" title="{{ __('Settings') }}"
                    aria-haspopup="true"
