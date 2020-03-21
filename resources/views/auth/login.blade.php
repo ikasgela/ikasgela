@@ -1,7 +1,7 @@
 @extends('layouts.auth')
 
 @section('auth')
-    <div class="col-12 col-lg-10 pb-4">
+    <div class="col-12 col-lg-8 pb-4">
         <div class="card-group">
             <div class="card">
                 <div class="card-body p-5">
