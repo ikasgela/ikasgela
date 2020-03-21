@@ -65,7 +65,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // Selector de unidad
         Route::post('/alumnos', 'ProfesorController@index')
-            ->name('profesor.index');
+            ->name('profesor.index.filtro');
 
         // Asignar una tarea a un alumno
         Route::post('/alumnos/asignar_tareas', 'ProfesorController@asignarTareasGrupo')
@@ -77,7 +77,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // Selector de unidad
         Route::post('/alumnos/{user}/tareas', 'ProfesorController@tareas')
-            ->name('profesor.tareas');
+            ->name('profesor.tareas.filtro');
 
         // Asignar una tarea a un alumno
         Route::post('/alumnos/{user}/asignar_tarea', 'ProfesorController@asignarTarea')
@@ -107,7 +107,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // Gestionar plantillas de actividades - Selector de unidad
         Route::post('/actividades/plantillas', 'ActividadController@plantillas')
-            ->name('actividades.plantillas');
+            ->name('actividades.plantillas.filtro');
 
         // Previsualizar una actividad
         Route::get('/actividades/{actividad}/preview', 'ActividadController@preview')
@@ -281,7 +281,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/tutor', 'TutorController@index')
             ->name('tutor.index');
         Route::post('/tutor', 'TutorController@index')
-            ->name('tutor.index');
+            ->name('tutor.index.filtro');
         Route::get('/tutor/export', 'TutorController@export')
             ->name('tutor.export');
         Route::get('/tutor/tareas_enviadas', 'TutorController@tareas_enviadas')

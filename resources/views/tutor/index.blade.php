@@ -13,14 +13,14 @@
         <div class="form-inline">
             <div class="btn-toolbar" role="toolbar">
 
-                {!! Form::open(['route' => ['tutor.index'], 'method' => 'POST']) !!}
+                {!! Form::open(['route' => ['tutor.index.filtro'], 'method' => 'POST']) !!}
                 {!! Form::button(__('Alphabetic order'), ['type' => 'submit',
                     'class' => session('tutor_filtro_alumnos') == 'A' ? 'btn btn-sm mx-1 btn-secondary' : 'btn btn-sm mx-1 btn-outline-secondary'
                 ]) !!}
                 {!! Form::hidden('filtro_alumnos','A') !!}
                 {!! Form::close() !!}
 
-                {!! Form::open(['route' => ['tutor.index'], 'method' => 'POST']) !!}
+                {!! Form::open(['route' => ['tutor.index.filtro'], 'method' => 'POST']) !!}
                 {!! Form::button(__('Progress'), ['type' => 'submit',
                     'class' => session('tutor_filtro_alumnos') == 'P' ? 'btn btn-sm mx-1 btn-secondary' : 'btn btn-sm mx-1 btn-outline-secondary'
                 ]) !!}
