@@ -16,7 +16,7 @@
         <ul class="c-header-nav ml-auto mr-3">
             <li class="{{ config('app.debug') ? 'text-dark' : 'text-light' }} mr-2 d-sm-down-none">{{ Auth::user()->name }}</li>
             <li class="c-header-nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#" role="button" title="{{ __('Settings') }}"
+                <a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button" title="{{ __('Settings') }}"
                    aria-haspopup="true"
                    aria-expanded="false">
                     <img alt="Avatar" style="width:35px;" src="{{Auth::user()->avatar_url(70)}}"
@@ -32,20 +32,28 @@
                     @if(Auth::user()->hasAnyRole(['alumno','profesor']))
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('notifications.edit') }}">
-                            <i class="fas fa-bell text-primary"></i> {{ __('Notification settings') }}
+                        <span class="text-center ml-n2 mr-1" style="width: 1.5rem;">
+                            <i class="fas fa-bell text-primary"></i>
+                        </span> {{ __('Notification settings') }}
                         </a>
                     @endif
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/profile">
-                        <i class="fas fa-user text-primary"></i> {{ __('Profile') }}
+                    <a class="dropdown-item" href="{{ url('/profile') }}">
+                        <span class="text-center ml-n2 mr-1" style="width: 1.5rem;">
+                            <i class="fas fa-user text-primary"></i>
+                        </span> {{ __('Profile') }}
                     </a>
-                    <a class="dropdown-item" href="/password">
-                        <i class="fas fa-key text-primary"></i> {{ __('Password') }}
+                    <a class="dropdown-item" href="{{ url('/password') }}">
+                        <span class="text-center ml-n2 mr-1" style="width: 1.5rem;">
+                        <i class="fas fa-key text-primary"></i>
+                        </span> {{ __('Password') }}
                     </a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ route('logout') }}"
                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}
+                        <span class="text-center ml-n2 mr-1" style="width: 1.5rem;">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </span> {{ __('Logout') }}
                     </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
@@ -53,13 +61,6 @@
                 </div>
             </li>
         </ul>
-    @else
-        {{--
-                <ul class="nav navbar-nav ml-auto mr-3">
-                    <li class="nav-item mr-2"><a href="{{ route('login') }}">{{ __('Sign in') }}</a></li>
-                    <li class="nav-item"><a href="{{ route('register') }}">{{ __('Register') }}</a></li>
-                </ul>
-        --}}
     @endif
 
 </header>
