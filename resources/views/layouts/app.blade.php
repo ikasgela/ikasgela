@@ -16,7 +16,6 @@
     @yield('prismjs-css')
     @stack('intellij-isforking')
 </head>
-
 <body class="c-app">
 @include('layouts.sidebar')
 <div class="c-wrapper">

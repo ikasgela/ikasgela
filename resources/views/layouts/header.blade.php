@@ -61,6 +61,9 @@
                 </div>
             </li>
         </ul>
+    @else
+        <div class="c-header-nav ml-auto" style="width:50px;">
+        </div>
     @endif
 
 </header>
