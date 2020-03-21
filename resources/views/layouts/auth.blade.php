@@ -14,7 +14,7 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
 <body class="c-app">
-<div class="c-wrapper">
+<div class="c-wrapper" id="app">
     <div class="c-body flex-row align-items-center">
         <main class="c-main">
             <div class="container-fluid">

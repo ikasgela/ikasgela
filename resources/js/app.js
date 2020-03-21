@@ -27,7 +27,7 @@ Vue.toasted.register('error', message => message, {
 Vue.component('profile', require('./components/profile/Profile.vue').default);
 Vue.component('profile-password', require('./components/profile/Password.vue').default);
 
-Vue.component('intellij-project', require('./components/IntellijProject.vue').default);
+//Vue.component('intellij-project', require('./components/IntellijProject.vue').default);
 
 const app = new Vue({
     el: '#app'

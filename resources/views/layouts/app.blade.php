@@ -18,7 +18,7 @@
 </head>
 <body class="c-app">
 @include('layouts.sidebar')
-<div class="c-wrapper">
+<div class="c-wrapper" id="app">
     @include('layouts.header')
     <div class="c-body">
         <main class="c-main">
