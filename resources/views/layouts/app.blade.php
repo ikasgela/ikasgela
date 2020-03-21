@@ -41,15 +41,4 @@
 @yield('tinymce')
 @yield('prismjs-scripts')
 </body>
-
-{{--
-<body class="c-app c-header-fixed  c-footer-fixed">
-<div id="app">
-    <div class="c-body">
-        <main class="c-main">
-        </main>
-    </div>
-</div>
-</body>
---}}
 </html>
