@@ -21,7 +21,7 @@
     {{-- Footer --}}
     @slot('footer')
         @component('mail::footer')
-            © {{ date('Y') }} Ion Jaureguialzo Sarasola
+            © {{ date('Y') }} {{ config('app.company') }}. @lang('All rights reserved.')
         @endcomponent
     @endslot
 @endcomponent
