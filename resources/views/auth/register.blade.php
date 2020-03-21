@@ -7,7 +7,7 @@
                 <div class="text-center">
                     <img src="svg/logo.svg" class="mb-5" width="200" alt="Ikasgela Logo">
                 </div>
-                @if($current_organization->registration_open)
+                @if(isset($current_organization) && $current_organization->registration_open)
                     <h1>{{ __('Sign up') }}</h1>
                     <p class="text-muted">{{ __('Create your account') }}</p>
 
