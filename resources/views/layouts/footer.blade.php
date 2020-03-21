@@ -1,3 +1,3 @@
 <footer class="c-footer align-middle d-flex justify-content-center">
-    <span>&copy; {{ \Carbon\Carbon::now()->year }} Ion Jaureguialzo Sarasola</span>
+    <span>© {{ date('Y') }} {{ config('app.company') }}. @lang('All rights reserved.')</span>
 </footer>
