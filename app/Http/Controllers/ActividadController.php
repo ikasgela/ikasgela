@@ -389,7 +389,7 @@ class ActividadController extends Controller
                 $usuario->actividades()->attach($actividad->siguiente);
 
                 // Notificar
-                $asignada = "- " . $actividad->siguiente->unidad->nombre . " - " . $actividad->siguiente->nombre . ".\n\n";
+                $asignada = "- " . $actividad->siguiente->unidad->nombre . " - " . $actividad->siguiente->nombre . ".\n";
                 if (setting_usuario('notificacion_actividad_asignada', $usuario))
                     Mail::to($usuario->email)->queue(new ActividadAsignada($usuario->name, $asignada));
             } else {

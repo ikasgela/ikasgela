@@ -202,7 +202,7 @@ class ProfesorController extends Controller
                 $clon->save();
 
                 if ($primero) {
-                    $asignadas .= "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n\n";
+                    $asignadas .= "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";
                     $user->actividades()->attach($clon);
                     $tarea = Tarea::where('user_id', $user->id)->where('actividad_id', $clon->id)->first();
                 } else {
