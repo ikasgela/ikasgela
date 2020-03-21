@@ -70,8 +70,8 @@ class TareasTest extends DuskTestCase
             $browser->press('Guardar asignación');
             $browser->assertPathIs('/alumnos');
 
-            $browser->assertSeeIn('#app > div > main > div > div.table-responsive > table > tbody > tr:nth-child(1) > td:nth-child(4)', 'Marc');
-            $browser->assertSeeIn('#app > div > main > div > div.table-responsive > table > tbody > tr:nth-child(1) > td:nth-child(6)', '1');
+            $browser->assertSeeIn('div > main > div > div.table-responsive > table > tbody > tr:nth-child(1) > td:nth-child(4)', 'Marc');
+            $browser->assertSeeIn('div > main > div > div.table-responsive > table > tbody > tr:nth-child(1) > td:nth-child(6)', '1');
 
             // Cerrar sesión
             $browser->logout();
@@ -126,7 +126,7 @@ class TareasTest extends DuskTestCase
             $browser->press('Terminada');
             $browser->assertPathIs('/alumnos/1/tareas');
 
-            $browser->assertSeeIn('#app > div > main > div > div.table-responsive > table > tbody > tr:nth-child(2) > td:nth-child(9)', '80');
+            $browser->assertSeeIn('div > main > div > div.table-responsive > table > tbody > tr:nth-child(2) > td:nth-child(9)', '80');
 
             // Cerrar sesión
             $browser->logout();

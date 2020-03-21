@@ -1,14 +1,13 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
-// Variables
-@import 'variables';
+@import 'custom';
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 // Icons
-@import '~simple-line-icons/css/simple-line-icons.css';
+//@import '~simple-line-icons/css/simple-line-icons.css';
 @import '~@fortawesome/fontawesome-free/css/all.min.css';
 // Coreui
-@import '~@coreui/coreui/dist/css/coreui.min.css';
+@import "~@coreui/coreui/scss/coreui";
 
 .card-body h1, .h1 {
     @include font-size($h2-font-size);
@@ -45,18 +44,6 @@
     vertical-align: middle;
 }
 
-@media (max-width: 991.98px) {
-    .app-body {
-        margin-top: 0;
-    }
-}
-
-@media (min-width: 991.98px) {
-    .app-body {
-        margin-top: 55px;
-    }
-}
-
 // https://stackoverflow.com/a/48559492
 @media print {
     .table td.bg-success {
@@ -81,14 +68,12 @@
 
 // https://github.com/asyraf9/bootstrap-sidebar/issues/10#issuecomment-69191324
 @media print {
-    .sidebar {
+    .c-sidebar {
         display: none;
     }
-    .main {
+    .c-wrapper {
         margin-left: 0 !important;
         width: 100% !important;
-    }
-    footer {
-        margin-left: 0 !important;
+        height: 100% !important;
     }
 }

@@ -38,15 +38,19 @@
             </a>
         </li>
     </ul>
-    <div class="tab-content" id="pills-tab-content">
+    <div class="tab-content border-bottom border-left border-right" id="pills-tab-content">
         <div class="tab-pane fade show active" id="pills-en-curso" role="tabpanel" aria-labelledby="pills-en-curso-tab">
-            @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_autoavance()->get(),
-            'mensaje_ninguna' => 'No hay actividades en curso.'
-            ])
+            <div class="p-3">
+                @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_autoavance()->get(),
+                'mensaje_ninguna' => 'No hay actividades en curso.'
+                ])
+            </div>
         </div>
         <div class="tab-pane fade" id="pills-enviadas" role="tabpanel" aria-labelledby="pills-enviadas-tab">
-            @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_enviadas_noautoavance()->get(),
-            'mensaje_ninguna' => 'No hay actividades enviadas.'])
+            <div class="p-3">
+                @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_enviadas_noautoavance()->get(),
+                'mensaje_ninguna' => 'No hay actividades enviadas.'])
+            </div>
         </div>
     </div>
 @endsection

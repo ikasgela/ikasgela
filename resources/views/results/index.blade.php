@@ -8,12 +8,10 @@
         @include('partials.titular', ['titular' => __('Results')])
     @endif
 
-    @if(session('tutorial'))
-        <div class="callout callout-success b-t-1 b-r-1 b-b-1">
-            <small class="text-muted">{{ __('Tutorial') }}</small>
-            <p>Aquí aparecerán los resultados de las competencias asociadas al curso.</p>
-        </div>
-    @endif
+    @include('partials.tutorial', [
+        'color' => 'c-callout-success',
+        'texto' => 'Aquí aparecerán los resultados de las competencias asociadas al curso.'
+    ])
 
     @if(Auth::user()->hasAnyRole(['profesor', 'tutor']))
         {!! Form::open(['route' => ['results.alumno'], 'method' => 'POST']) !!}

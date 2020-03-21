@@ -5,23 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Laravel') }}</title>
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+    <title>
+        {{ config('app.name', 'Laravel') }}
+        {{ subdominio() != 'ikasgela' ? ' | '. subdominio() :  '' }}
+    </title>
     @include('layouts.icons')
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    @yield('recaptcha')
+    <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
-<body>
-<div id="app" class="app flex-row align-items-center">
-    <div class="container">
-        <div class="row justify-content-center">
-            @yield('auth')
-        </div>
-        <div class="m-3 text-center">
-            <a class="text-secondary" href="{{ url('/') }}">{{ __('Return to the homepage') }}</a>
-        </div>
+<body class="c-app">
+<div class="c-wrapper">
+    <div class="c-body flex-row align-items-center">
+        <main class="c-main">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    @yield('auth')
+                </div>
+                <div class="m-3 text-center">
+                    <a class="text-secondary" href="{{ url('/') }}">{{ __('Return to the homepage') }}</a>
+                </div>
+            </div>
+        </main>
     </div>
 </div>
 </body>

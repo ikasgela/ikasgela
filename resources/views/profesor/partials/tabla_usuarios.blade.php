@@ -31,7 +31,7 @@
                     && $user->num_completadas('base') > $media_grupo )
                 <tr class="bg-secondary">
                     <th class="p-0"></th>
-                    <th colspan="13">{{ __('Mean') }}:
+                    <th colspan="13" class="text-dark">{{ __('Mean') }}:
                         {{ $media_grupo_formato }} {{ mb_strtolower(__('Completed activities')) }}</th>
                     @if(Auth::user()->hasRole('admin'))
                         <th></th>
@@ -63,7 +63,7 @@
                 <td class="clickable text-center">{{ $user->actividades_ocultas()->count() }}</td>
                 <td class="clickable text-center">{{ $user->actividades_nuevas()->count() }}</td>
                 <td class="clickable text-center">{{ $user->actividades_aceptadas()->count() }}</td>
-                <td class="clickable text-center {{ $user->actividades_enviadas_noautoavance()->count() > 0 ? 'bg-danger' : '' }}">{{ $user->actividades_enviadas_noautoavance()->count() }}</td>
+                <td class="clickable text-center {{ $user->actividades_enviadas_noautoavance()->count() > 0 ? 'bg-danger text-white' : '' }}">{{ $user->actividades_enviadas_noautoavance()->count() }}</td>
                 @php($total_enviadas += $user->actividades_enviadas_noautoavance()->count())
                 <td class="clickable text-center">{{ $user->actividades_revisadas()->count() }}</td>
                 <td class="clickable text-center">{{ $user->actividades_archivadas()->count() }}</td>

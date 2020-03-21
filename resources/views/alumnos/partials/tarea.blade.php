@@ -1,38 +1,52 @@
-@if(session('tutorial'))
-    <div class="callout callout-success b-t-1 b-r-1 b-b-1">
-        <small class="text-muted">{{ __('Tutorial') }}</small>
-        @switch($actividad->tarea->estado)
-            @case(10)   {{-- Nueva --}}
-            <p>Para comenzar la actividad, acéptala. A partir de ese momento tendrás acceso a sus
-                recursos.</p>
-            @break
-            @case(20)   {{-- Aceptada --}}
-            @case(21)   {{-- Feedback leído --}}
-            <p>Completa la actividad y, cuando esté lista, envíala para revisar.</p>
-            @break
-            @case(30)   {{-- Enviada --}}
-            <p>La actividad está pendiente de revisar, recibirás un email cuando se complete la revisión.</p>
-            @break
-            @case(40)   {{-- Revisada: OK --}}
-            @case(41)   {{-- Revisada: ERROR --}}
-            <p>La actividad está revisada y tienes disponible el feedback.<br> Si se ha dado por buena,
-                podrás darla por terminada y trasladarla al <a href="{{ route('archivo.index') }}">archivo</a>. Si no,
-                tendrás que mejorarla y volver a enviarla. </p>
-            @break
-            @case(42)   {{-- Avance automático --}}
-            @case(50)   {{-- Terminada --}}
-            <p>La actividad está terminada y puedes archivarla para que desaparezca del escritorio. Podrás
-                verla en el <a href="{{ route('archivo.index') }}">archivo</a>.</p>
-            @break
-            @case(60)   {{-- Archivada --}}
-            @break
-            @default
-        @endswitch
-        @if(Route::current()->getName() == 'archivo.show')
-            <p>Esta es una actividad archivada.</p>
-        @endif
-    </div>
+@switch($actividad->tarea->estado)
+    @case(10)   {{-- Nueva --}}
+    @include('partials.tutorial', [
+        'color' => 'c-callout-success',
+        'texto' => 'Para comenzar la actividad, acéptala. A partir de ese momento tendrás acceso a sus recursos.'
+    ])
+    @break
+    @case(20)   {{-- Aceptada --}}
+    @case(21)   {{-- Feedback leído --}}
+    @include('partials.tutorial', [
+        'color' => 'c-callout-success',
+        'texto' => 'Completa la actividad y, cuando esté lista, envíala para revisar.'
+    ])
+    @break
+    @case(30)   {{-- Enviada --}}
+    @include('partials.tutorial', [
+        'color' => 'c-callout-success',
+        'texto' => 'La actividad está pendiente de revisar, recibirás un email cuando se complete la revisión.'
+    ])
+    @break
+    @case(40)   {{-- Revisada: OK --}}
+    @case(41)   {{-- Revisada: ERROR --}}
+    @include('partials.tutorial', [
+        'color' => 'c-callout-success',
+        'texto' => 'La actividad está revisada y tienes disponible el feedback.<br> Si se ha dado por buena,
+        podrás darla por terminada y trasladarla al <a href="'. route('archivo.index') .'">archivo</a>. Si no,
+        tendrás que mejorarla y volver a enviarla.'
+    ])
+    @break
+    @case(42)   {{-- Avance automático --}}
+    @case(50)   {{-- Terminada --}}
+    @include('partials.tutorial', [
+        'color' => 'c-callout-success',
+        'texto' => 'La actividad está terminada y puedes archivarla para que desaparezca del escritorio. Podrás
+        verla en el <a href="'. route('archivo.index') .'">archivo</a>.'
+    ])
+    @break
+    @case(60)   {{-- Archivada --}}
+    @break
+    @default
+@endswitch
+
+@if(Route::current()->getName() == 'archivo.show')
+    @include('partials.tutorial', [
+        'color' => 'c-callout-success',
+        'texto' => 'Esta es una actividad archivada.'
+    ])
 @endif
+
 <div class="row">
     <div class="col-md-12">
         {{-- Tarjeta --}}

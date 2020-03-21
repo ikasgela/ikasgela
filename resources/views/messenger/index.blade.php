@@ -25,12 +25,10 @@
         </div>
     </div>
 
-    @if(session('tutorial'))
-        <div class="callout callout-success b-t-1 b-r-1 b-b-1">
-            <small class="text-muted">{{ __('Tutorial') }}</small>
-            <p>Aquí puedes iniciar conversaciones para ayudarte a resolver tus dudas sobre las actividades.</p>
-        </div>
-    @endif
+    @include('partials.tutorial', [
+        'color' => 'c-callout-success',
+        'texto' => 'Aquí puedes iniciar conversaciones para ayudarte a resolver tus dudas sobre las actividades.'
+    ])
 
     @include('messenger.partials.flash')
 
@@ -54,12 +52,16 @@
             </a>
         </li>
     </ul>
-    <div class="tab-content" id="pills-tab-content">
+    <div class="tab-content border-bottom border-left border-right" id="pills-tab-content">
         <div class="tab-pane fade show active" id="pills-en-curso" role="tabpanel" aria-labelledby="pills-en-curso-tab">
-            @each('messenger.partials.thread', $threads, 'thread', 'messenger.partials.no-threads')
+            <div class="p-3">
+                @each('messenger.partials.thread', $threads, 'thread', 'messenger.partials.no-threads')
+            </div>
         </div>
         <div class="tab-pane fade" id="pills-enviadas" role="tabpanel" aria-labelledby="pills-enviadas-tab">
-            @each('messenger.partials.thread', $threads_all, 'thread', 'messenger.partials.no-threads')
+            <div class="p-3">
+                @each('messenger.partials.thread', $threads_all, 'thread', 'messenger.partials.no-threads')
+            </div>
         </div>
     </div>
 @stop
