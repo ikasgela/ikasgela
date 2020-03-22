@@ -12,4 +12,28 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
+    .sass('resources/sass/app.scss', 'public/css')
+    .styles([
+        'node_modules/prismjs/themes/prism-coy.css',
+        'node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css',
+    ], 'public/css/prism.css')
+    .scripts([
+        'node_modules/prismjs/components/prism-core.js',
+        'node_modules/prismjs/components/prism-clike.js',
+
+        'node_modules/prismjs/components/prism-java.js',
+        'node_modules/prismjs/components/prism-swift.js',
+        'node_modules/prismjs/components/prism-python.js',
+
+        'node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js',
+        'node_modules/prismjs/plugins/autoloader/prism-autoloader.js',
+    ], 'public/js/prism.js');
+
+mix.copyDirectory('node_modules/tinymce/plugins', 'public/tinymce/plugins');
+mix.copyDirectory('node_modules/tinymce/skins', 'public/tinymce/skins');
+mix.copyDirectory('node_modules/tinymce/themes', 'public/tinymce/themes');
+mix.copy('node_modules/tinymce/jquery.tinymce.js', 'public/tinymce/jquery.tinymce.js');
+mix.minify('public/tinymce/jquery.tinymce.js');
+mix.copy('node_modules/tinymce/tinymce.js', 'public/tinymce/tinymce.js');
+mix.minify('public/tinymce/tinymce.js');
+mix.copyDirectory('node_modules/tinymce-i18n/langs5', 'public/tinymce/langs');

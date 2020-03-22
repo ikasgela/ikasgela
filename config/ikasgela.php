@@ -11,4 +11,6 @@ return [
     'version' => env('VERSION', '0.0'),
     'commit' => env('COMMIT', 'local'),
 
+    'tinymce_apikey' => env('TINYMCE_APIKEY', 'none'),
+
 ];
