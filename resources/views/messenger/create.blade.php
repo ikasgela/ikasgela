@@ -11,7 +11,7 @@
     <div class="card">
         <div class="card-body">
 
-            {!! Form::open(['route' => ['messages.store']]) !!}
+            {!! Form::open(['route' => ['messages.store'], 'id' => 'nuevo_mensaje']) !!}
 
             {{ Form::campoTexto('subject', __('Subject'), old('subject')) }}
 

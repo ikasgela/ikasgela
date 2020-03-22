@@ -113,4 +113,8 @@ $(document).ready(function ($) {
         }
         $(this).addClass("disabled");
     });
+
+    $('#nuevo_mensaje').submit(function (e) {
+        tinyMCE.activeEditor.plugins.autosave.removeDraft();
+    });
 });

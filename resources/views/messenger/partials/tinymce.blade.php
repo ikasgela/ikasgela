@@ -6,7 +6,7 @@
     tinymce.init({
         selector: 'textarea#message',
         language: 'es',
-        plugins: "link image autolink emoticons lists hr codesample",
+        plugins: "link image autolink emoticons lists hr codesample autosave",
         default_link_target: "_blank",
         toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | codesample | image link emoticons hr',
         link_assume_external_targets: true,
@@ -16,5 +16,9 @@
             {text: 'Swift', value: 'swift'},
             {text: 'Python', value: 'python'},
         ],
+        autosave_ask_before_unload: false,
+        autosave_interval: "15s",
+        autosave_restore_when_empty: true,
+        autosave_retention: "60m",
     });
 </script>
