@@ -12,10 +12,6 @@
         'texto' => 'El gráfico muestra el total de actividades enviadas desde la fecha de inicio del curso.'
     ])
 
-    <div>
-        {!! $chart->container() !!}
-    </div>
+    @include('partials.grafico_enviadas')
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
-    {!! $chart->script() !!}
 @endsection
