@@ -32,10 +32,8 @@ mix.js('resources/js/app.js', 'public/js')
 mix.copyDirectory('node_modules/tinymce/plugins', 'public/tinymce/plugins');
 mix.copyDirectory('node_modules/tinymce/skins', 'public/tinymce/skins');
 mix.copyDirectory('node_modules/tinymce/themes', 'public/tinymce/themes');
-mix.copy('node_modules/tinymce/jquery.tinymce.js', 'public/tinymce/jquery.tinymce.js');
-mix.minify('public/tinymce/jquery.tinymce.js');
-mix.copy('node_modules/tinymce/tinymce.js', 'public/tinymce/tinymce.js');
-mix.minify('public/tinymce/tinymce.js');
+mix.copy('node_modules/tinymce/jquery.tinymce.min.js', 'public/tinymce/jquery.tinymce.min.js');
+mix.copy('node_modules/tinymce/tinymce.min.js', 'public/tinymce/tinymce.min.js');
 mix.copyDirectory('node_modules/tinymce-i18n/langs5', 'public/tinymce/langs');
 
 mix.copy('node_modules/chart.js/dist/Chart.min.js', 'public/js/Chart.min.js');
