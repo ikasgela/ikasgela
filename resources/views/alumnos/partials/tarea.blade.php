@@ -259,7 +259,7 @@
                                     <i class="fas fa-bullhorn"></i> {{ __('Feedback') }}
                                 </div>
                                 <div class="card-body pb-0">
-                                    <div>{!! $actividad->tarea->feedback !!}</div>
+                                    <div class="line-numbers">{!! $actividad->tarea->feedback !!}</div>
                                     <hr class="mt-0 mb-2">
                                     <p class="text-muted small">
                                         {{ __('Score') }}: @include('actividades.partials.puntuacion')

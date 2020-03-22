@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@include('partials.prismjs')
+
 @section('content')
 
     <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
