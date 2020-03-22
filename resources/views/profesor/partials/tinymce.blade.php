@@ -1,10 +1,11 @@
 @include('partials.prismjs')
 
-<script src="{{ url('/tinymce/tinymce.min.js?apiKey=8krh70d56tqoqk6d2q7vpauy2oiss2rvh5k3fh3hund2ck3x') }}"></script>
+@include('partials.tinymce')
+
 <script>
     tinymce.init({
         selector: 'textarea#feedback',
-        language: 'es_ES',
+        language: 'es',
         plugins: "link image autolink emoticons lists hr codesample",
         default_link_target: "_blank",
         toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | codesample | image link emoticons hr',
