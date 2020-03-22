@@ -1,10 +1,10 @@
-@if(session('tutorial'))
-    <div class="callout callout-success b-t-1 b-r-1 b-b-1">
-        <small class="text-muted">{{ __('Tutorial') }}</small>
-        <p>Aquí puedes valorar la actividad y dar el feedback oportuno.</p>
-    </div>
-@endif
+@include('partials.tutorial', [
+    'color' => 'c-callout-success',
+    'texto' => 'Aquí puedes valorar la actividad y dar el feedback oportuno.'
+])
+
 @include('profesor.partials.tarjeta_usuario')
+
 <div class="row mt-4">
     <div class="col-md-12">
         {{-- Tarjeta --}}
