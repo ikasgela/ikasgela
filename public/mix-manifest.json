@@ -5,5 +5,7 @@
     "/js/prism.js": "/js/prism.js",
     "/tinymce/jquery.tinymce.min.js": "/tinymce/jquery.tinymce.min.js",
     "/tinymce/tinymce.min.js": "/tinymce/tinymce.min.js",
-    "/js/Chart.min.js": "/js/Chart.min.js"
+    "/js/Chart.min.js": "/js/Chart.min.js",
+    "/js/jquery.fancybox.min.css": "/js/jquery.fancybox.min.css",
+    "/js/jquery.fancybox.min.js": "/js/jquery.fancybox.min.js"
 }

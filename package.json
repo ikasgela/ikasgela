@@ -24,6 +24,7 @@
     },
     "dependencies": {
         "@coreui/coreui": "^3.0.0",
+        "@fancyapps/fancybox": "^3.5.7",
         "@fortawesome/fontawesome-free": "^5.12.1",
         "@popperjs/core": "^2.1.1",
         "ajv": "^6.12.0",

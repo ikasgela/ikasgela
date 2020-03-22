@@ -1,6 +1,6 @@
 @section('fancybox')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"/>
-    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+    <link rel="stylesheet" href="{{ asset('/js/jquery.fancybox.min.css') }}"/>
+    <script src="{{ asset('/js/jquery.fancybox.min.js') }}" defer></script>
 @endsection
 
 <div class="card">

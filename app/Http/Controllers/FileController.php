@@ -44,7 +44,7 @@ class FileController extends Controller
         $this->file->create([
             'path' => $filename,
             'title' => $request->file->getClientOriginalName(),
-            'size' => $request->file->getClientSize(),
+            'size' => $request->file->getSize(),
             'user_id' => Auth::user()->id,
             'file_upload_id' => request('file_upload_id')
         ]);
