@@ -1,29 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.pdf')
 
 @section('content')
 
-    <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
-        <h1>{{ __('Results') }}
-            @if(config('app.debug'))
-                <a class="ml-3"
-                   style="color:#ed2224" {{-- https://www.schemecolor.com/adobe-inc-logo-colors.php --}}
-                   title="{{ __('Exportar a PDF') }}"
-                   href="{{ route('results.pdf') }}"><i class="fas fa-file-pdf"></i>
-                </a>
-            @endif
-        </h1>
-        <h2 class="text-muted font-xl">{{ !is_null($curso) ? $curso->category->period->organization->name.' » '.$curso->category->period->name.' » '.$curso->nombre : '' }}</h2>
-    </div>
-
-    @include('partials.tutorial', [
-        'color' => 'c-callout-success',
-        'texto' => 'Aquí aparecerán los resultados de las competencias asociadas al curso.'
-    ])
-
-    @if(Auth::user()->hasAnyRole(['profesor', 'tutor']))
-        {!! Form::open(['route' => ['results.alumno'], 'method' => 'POST']) !!}
-        @include('partials.desplegable_usuarios')
-        {!! Form::close() !!}
+    @if(!is_null($curso))
+        @include('partials.titular', ['titular' => __('Results'), 'subtitulo' => $curso->category->period->organization->name.' » '.$curso->category->period->name.' » '.$curso->nombre  ?? '' ])
+    @else
+        @include('partials.titular', ['titular' => __('Results')])
     @endif
 
     @include('partials.subtitulo', ['subtitulo' => __('Continuous evaluation')])

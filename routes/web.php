@@ -299,6 +299,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/results', 'ResultController@index')
             ->name('results.index');
 
+        // Resultados propios en PDF
+        Route::get('/results/pdf', 'ResultController@pdf')
+            ->name('results.pdf');
+
         // Archivo propio
         Route::get('/archivo/{actividad}', 'ArchivoController@show')
             ->name('archivo.show');
