@@ -4,11 +4,13 @@
 
     <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
         <h1>{{ __('Results') }}
-            <a class="ml-3"
-               style="color:#ed2224" {{-- https://www.schemecolor.com/adobe-inc-logo-colors.php --}}
-               title="{{ __('Exportar a PDF') }}"
-               href="{{ route('results.pdf') }}"><i class="fas fa-file-pdf"></i>
-            </a>
+            @if(config('app.debug'))
+                <a class="ml-3"
+                   style="color:#ed2224" {{-- https://www.schemecolor.com/adobe-inc-logo-colors.php --}}
+                   title="{{ __('Exportar a PDF') }}"
+                   href="{{ route('results.pdf') }}"><i class="fas fa-file-pdf"></i>
+                </a>
+            @endif
         </h1>
         <h2 class="text-muted font-xl">{{ !is_null($curso) ? $curso->category->period->organization->name.' » '.$curso->category->period->name.' » '.$curso->nombre : '' }}</h2>
     </div>
