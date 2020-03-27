@@ -12,15 +12,17 @@ class NuevoMensaje extends Mailable
     use Queueable, SerializesModels;
 
     public $hostName;
+    public $preview_mensaje;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($preview_mensaje)
     {
         $this->hostName = Request::getHost();
+        $this->preview_mensaje = $preview_mensaje;
     }
 
     /**
