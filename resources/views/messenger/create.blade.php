@@ -13,7 +13,7 @@
 
             {!! Form::open(['route' => ['messages.store'], 'id' => 'nuevo_mensaje']) !!}
 
-            {{ Form::campoTexto('subject', __('Subject'), old('subject')) }}
+            {{ Form::campoTexto('subject', __('Subject'), $titulo ?: old('subject')) }}
 
             <div class="form-group row">
                 {!! Form::label('message', __('Message'), ['class' => 'col-sm-2 col-form-label']) !!}

@@ -67,8 +67,15 @@
                 @endif
             </div>
             <div class="card-body pb-1">
-                @include('actividades.partials.encabezado_con_etiquetas')
-                <p>{{ $actividad->descripcion }}</p>
+                <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
+                    <div>
+                        @include('actividades.partials.encabezado_con_etiquetas')
+                        <p>{{ $actividad->descripcion }}</p>
+                    </div>
+                    @if(Auth::user()->hasRole('alumno'))
+                        @include('actividades.partials.boton_pregunta')
+                    @endif
+                </div>
                 <div class="mb-3">
                     <form method="POST"
                           action="{{ route('actividades.estado', [$actividad->tarea->id]) }}">

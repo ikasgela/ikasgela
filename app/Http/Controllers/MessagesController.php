@@ -103,7 +103,7 @@ class MessagesController extends Controller
      *
      * @return mixed
      */
-    public function create()
+    public function create(Request $request)
     {
         $curso_actual = Curso::find(setting_usuario('curso_actual'));
 
@@ -111,7 +111,9 @@ class MessagesController extends Controller
 
         $profesores = $curso_actual->users()->rolProfesor()->get();
 
-        return view('messenger.create', compact(['users', 'profesores']));
+        $titulo = request('titulo');
+
+        return view('messenger.create', compact(['users', 'profesores', 'titulo']));
     }
 
     /**
