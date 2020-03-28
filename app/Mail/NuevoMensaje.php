@@ -13,16 +13,18 @@ class NuevoMensaje extends Mailable
 
     public $hostName;
     public $preview_mensaje;
+    public $usuario;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($preview_mensaje)
+    public function __construct($preview_mensaje, $usuario)
     {
         $this->hostName = Request::getHost();
         $this->preview_mensaje = $preview_mensaje;
+        $this->usuario = $usuario;
     }
 
     /**

@@ -93,7 +93,7 @@ class MessagesController extends Controller
                     $preview_mensaje .= "\n\n...";
                 }
 
-                Mail::to($user->email)->queue(new NuevoMensaje($preview_mensaje));
+                Mail::to($user->email)->queue(new NuevoMensaje($preview_mensaje, $thread->latestMessage->user->name));
             }
         }
     }

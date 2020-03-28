@@ -1,7 +1,7 @@
 @component('mail::message')
 # {{ __('New message') }}
 
-Has recibido un nuevo mensaje.
+Has recibido un nuevo mensaje de {{ $usuario }}.
 
 @component('mail::panel')
     {!! $preview_mensaje !!}
