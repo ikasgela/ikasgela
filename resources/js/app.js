@@ -118,3 +118,22 @@ $(document).ready(function ($) {
         tinyMCE.activeEditor.plugins.autosave.removeDraft();
     });
 });
+
+$(document).ready(function ($) {
+    $('.c-header-toggler').bind('click', function (e) {
+        e.preventDefault();
+        if (Boolean(localStorage.getItem('sidebar-toggle-expanded'))) {
+            localStorage.setItem('sidebar-toggle-expanded', '');
+        } else {
+            localStorage.setItem('sidebar-toggle-expanded', '1');
+        }
+    });
+});
+
+$('#sidebar').ready(function (e) {
+    if (localStorage.getItem("sidebar-toggle-expanded") !== null) {
+        if (localStorage.getItem("sidebar-toggle-expanded") === '1') {
+            $("#sidebar").addClass('c-sidebar-lg-show');
+        }
+    }
+});
