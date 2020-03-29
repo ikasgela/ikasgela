@@ -27,6 +27,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('settings.editar');
     Route::post('/settings', 'SettingController@guardar')
         ->name('settings.guardar');
+    Route::post('/settings/api', 'SettingController@api')
+        ->name('settings.api');
 
     // FileUpload
     Route::post('/uploads', 'FileController@postUpload')->name('uploadfile');

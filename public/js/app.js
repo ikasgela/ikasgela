@@ -60866,24 +60866,12 @@ $(document).ready(function ($) {
   $('#nuevo_mensaje').submit(function (e) {
     tinyMCE.activeEditor.plugins.autosave.removeDraft();
   });
-});
-$(document).ready(function ($) {
   $('.c-header-toggler').bind('click', function (e) {
-    e.preventDefault();
-
-    if (Boolean(localStorage.getItem('sidebar-toggle-expanded'))) {
-      localStorage.setItem('sidebar-toggle-expanded', '');
-    } else {
-      localStorage.setItem('sidebar-toggle-expanded', '1');
-    }
+    var is_sidebar_open = $('#sidebar').hasClass("c-sidebar-lg-show");
+    axios.post('/settings/api', {
+      sidebar_open: is_sidebar_open
+    });
   });
-});
-$('#sidebar').ready(function (e) {
-  if (localStorage.getItem("sidebar-toggle-expanded") !== null) {
-    if (localStorage.getItem("sidebar-toggle-expanded") === '1') {
-      $("#sidebar").addClass('c-sidebar-lg-show');
-    }
-  }
 });
 
 /***/ }),
