@@ -51,4 +51,13 @@ class SettingController extends Controller
 
         return redirect(route('settings.editar'));
     }
+
+    public function api(Request $request)
+    {
+        if (!is_null($request->input('sidebar_open'))) {
+            setting_usuario(['sidebar_open' => $request->input('sidebar_open')]);
+        }
+
+        return true;
+    }
 }

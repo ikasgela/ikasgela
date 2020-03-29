@@ -117,4 +117,11 @@ $(document).ready(function ($) {
     $('#nuevo_mensaje').submit(function (e) {
         tinyMCE.activeEditor.plugins.autosave.removeDraft();
     });
+
+    $('.c-header-toggler').bind('click', function (e) {
+        var is_sidebar_open = $('#sidebar').hasClass("c-sidebar-lg-show");
+        axios.post('/settings/api', {
+            sidebar_open: is_sidebar_open,
+        });
+    });
 });
