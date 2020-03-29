@@ -7,3 +7,4 @@
 <meta name="msapplication-TileColor" content="#3490dc">
 <meta name="msapplication-config" content="/icons/browserconfig.xml">
 <meta name="theme-color" content="#ffffff">
+<meta property="og:logo" content="{{ asset('/icons/opengraph.png') }}">
