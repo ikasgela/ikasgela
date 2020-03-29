@@ -1,5 +1,5 @@
 <div id="sidebar"
-     class="c-sidebar c-sidebar-dark c-sidebar-fixed {{ setting_usuario('sidebar_open') ? 'c-sidebar-lg-show' : '' }}">
+     class="c-sidebar c-sidebar-dark c-sidebar-fixed {{ !session('sidebar_open') ? 'c-sidebar-lg-show' : '' }}">
     <div class="c-sidebar-brand {{ config('app.debug') ? 'bg-warning' : 'bg-primary c-header-dark' }}">
         <a href="{{ url('/') }}">
             <img class="c-sidebar-brand-full c-d-dark-none"

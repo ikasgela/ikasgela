@@ -11,6 +11,10 @@ Route::get('/', 'HomeController@index')
 Auth::routes(['verify' => true]);
 require __DIR__ . '/profile/profile.php';
 
+// Control de la barra lateral
+Route::post('/settings/api', 'SettingController@api')
+    ->name('settings.api');
+
 // Sesión iniciada y cuenta verificada
 Route::middleware(['auth', 'verified'])->group(function () {
 
@@ -27,8 +31,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('settings.editar');
     Route::post('/settings', 'SettingController@guardar')
         ->name('settings.guardar');
-    Route::post('/settings/api', 'SettingController@api')
-        ->name('settings.api');
 
     // FileUpload
     Route::post('/uploads', 'FileController@postUpload')->name('uploadfile');
