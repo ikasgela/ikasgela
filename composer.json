@@ -35,6 +35,7 @@
         "intervention/image": "^2.5",
         "josiasmontag/laravel-recaptchav3": "^0.4.0",
         "kkomelin/laravel-translatable-string-exporter": "^1.2",
+        "lab404/laravel-impersonate": "^1.6",
         "laravel/framework": "^7.0",
         "laravel/helpers": "^1.1",
         "laravel/ui": "^2.0",

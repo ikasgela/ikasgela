@@ -11,9 +11,19 @@
             data-class="c-sidebar-lg-show" responsive="true">
         <span class="c-header-toggler-icon"></span>
     </button>
-
     @if(Auth::check())
         <ul class="c-header-nav ml-auto mr-3">
+            @auth
+                @if(Auth::user()->isImpersonated())
+                    <li class="c-header-nav-item mr-3">
+                        <div class='btn-group'>
+                            <a title="{{ __('Leave impersonation') }}"
+                               href="{{ route('impersonate.leave') }}"
+                               class='btn btn-light btn-sm '><i class="fas fa-user-secret text-danger"></i></a>
+                        </div>
+                    </li>
+                @endif
+            @endauth
             <li class="{{ config('app.debug') ? 'text-dark' : 'text-light' }} mr-2 d-sm-down-none">{{ Auth::user()->name }}</li>
             <li class="c-header-nav-item dropdown">
                 <a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button" title="{{ __('Settings') }}"

@@ -44,6 +44,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/notifications', 'NotificationController@update')
         ->name('notifications.update');
 
+    // Impersonar
+    Route::impersonate();
+
     // Alumno
     Route::middleware(['role:alumno'])->group(function () {
 

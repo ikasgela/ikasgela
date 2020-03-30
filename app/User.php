@@ -8,6 +8,7 @@ use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Lab404\Impersonate\Models\Impersonate;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -16,6 +17,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use LogsActivity;
     use Messagable;
     use Etiquetas;
+    use Impersonate;
 
     /**
      * The attributes that are mass assignable.
@@ -346,5 +348,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getNumCompletadasBaseAttribute()
     {
         return $this->num_completadas('base');
+    }
+
+    public function canImpersonate()
+    {
+        return $this->hasRole('admin');
+    }
+
+    public function canBeImpersonated()
+    {
+        return !$this->hasRole('admin');
     }
 }
