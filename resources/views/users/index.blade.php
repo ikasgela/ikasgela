@@ -38,11 +38,7 @@
                             @csrf
                             @method('DELETE')
                             <div class='btn-group'>
-                                @if($user->canBeImpersonated())
-                                    <a title="{{ __('Impersonate') }}"
-                                       href="{{ route('impersonate', $user->id) }}"
-                                       class='btn btn-light btn-sm'><i class="fas fa-user-secret"></i></a>
-                                @endif
+                                @include('users.partials.impersonate_button')
                                 <a title="{{ __('Edit') }}"
                                    href="{{ route('users.edit', [$user->id]) }}"
                                    class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>

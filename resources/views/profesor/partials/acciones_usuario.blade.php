@@ -11,4 +11,6 @@
 
     <a title="{{ __('Message') }}" href="{{ route('messages.create') }}"
        class='btn btn-light btn-sm'><i class="fas fa-comment"></i></a>
+
+    @include('users.partials.impersonate_button')
 </div>
