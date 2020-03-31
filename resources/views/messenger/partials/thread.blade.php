@@ -34,7 +34,7 @@
             @endauth
         </div>
         <small class="text-muted">{{ __('Latest message') }}</small>
-        <div class="c-callout c-callout-primary bg-light py-3">
+        <div class="c-callout c-callout-secondary bg-light py-3 line-numbers">
             {!! $thread->latestMessage->body !!}
         </div>
     </div>

@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@include('partials.prismjs')
+
 @section('tinymce')
     @include('messenger.partials.tinymce')
 @endsection

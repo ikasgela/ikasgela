@@ -3,7 +3,7 @@
          onerror="this.onerror=null;this.src='{{ url("/svg/missing_avatar.svg") }}';">
     <div class="media-body pl-3 overflow-auto">
         <h5 class="media-heading">{{ $message->user->name }}</h5>
-        <div class="c-callout c-callout-primary bg-light py-3">
+        <div class="c-callout c-callout-secondary bg-light py-3 line-numbers">
             {!! $message->body !!}
         </div>
         <div class="text-muted">

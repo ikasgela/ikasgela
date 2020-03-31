@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@include('partials.prismjs')
+
 @php($count = Auth::user()->newThreadsCount())
 
 @section('content')

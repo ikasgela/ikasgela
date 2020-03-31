@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@include('partials.prismjs')
+
 @section('content')
 
     @include('partials.titular', ['titular' => 'Actividad'])
