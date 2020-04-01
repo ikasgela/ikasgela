@@ -117,11 +117,19 @@ class UsersTableSeeder extends Seeder
         if (config('ikasgela.gitea_enabled')) {
             try {
                 GiteaClient::borrar_usuario($usuario);
-                GiteaClient::user($email, $usuario, $nombre, $password);
-                echo "  INFO: Usuario generado: $nombre - $email - $password\n";
+                echo "  INFO: Usuario borrado: $nombre - $email - $password\n";
             } catch (Exception $e) {
+                echo "  ERROR: Usuario no borrado: $nombre - $email - $password\n";
             }
         }
 
+        if (config('ikasgela.gitea_enabled')) {
+            try {
+                GiteaClient::user($email, $usuario, $nombre, $password);
+                echo "  INFO: Usuario generado: $nombre - $email - $password\n";
+            } catch (Exception $e) {
+                echo "  ERROR: Usuario no generado: $nombre - $email - $password\n";
+            }
+        }
     }
 }
