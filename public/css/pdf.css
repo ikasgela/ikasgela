@@ -24,6 +24,10 @@ footer {
   padding-top: 3em;
 }
 
+.border-dark {
+  border: 1px solid #2f353a;
+}
+
 .bg-success {
   background-color: #4dbd74;
 }

@@ -4,8 +4,7 @@
 
     <h1>{{ __('Results') }}</h1>
 
-    <h2></h2>
-    <table class="tabla-datos">
+    <table class="tabla-datos border-dark">
         <tr>
             <th style="width:4cm;">{{ __('Course') }}</th>
             <td>{{ $curso->category->period->organization->name.' » '.$curso->category->period->name.' » '.$curso->nombre  ?? '' }}</td>
@@ -13,6 +12,10 @@
         <tr>
             <th>{{ __('Name') }}</th>
             <td>{{ $user->name }}</td>
+        </tr>
+        <tr>
+            <th>{{ __('Date') }}</th>
+            <td>{{ now()->isoFormat('LLLL') }}</td>
         </tr>
     </table>
 

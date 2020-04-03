@@ -16,7 +16,7 @@
     <img style="height:1cm;" src="{{ public_path('/svg/logo.svg') }}"/>
 </header>
 @yield('content')
-<footer>
+<footer class="text-center">
     <span>© {{ date('Y') }} {{ config('app.company') }}. @lang('All rights reserved.')</span>
 </footer>
 </body>

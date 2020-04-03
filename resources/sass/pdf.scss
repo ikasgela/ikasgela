@@ -17,12 +17,19 @@ br {
     page-break-before: always;
 }
 
+h1 {
+}
+
 h2 {
     color: $dark;
 }
 
 footer {
     padding-top: 3em;
+}
+
+.border-dark {
+    border: 1px solid $dark;
 }
 
 .bg-success {
