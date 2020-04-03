@@ -1,3 +1,7 @@
+@page {
+  footer: page-footer;
+}
+
 body {
   font-size: 8pt;
 }
@@ -18,10 +22,6 @@ br {
 
 h2 {
   color: #2f353a;
-}
-
-footer {
-  padding-top: 3em;
 }
 
 .border-dark {

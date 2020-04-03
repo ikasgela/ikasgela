@@ -1,5 +1,9 @@
 @import 'colores';
 
+@page {
+    footer: page-footer;
+}
+
 body {
     font-size: 8pt;
 }
@@ -22,10 +26,6 @@ h1 {
 
 h2 {
     color: $dark;
-}
-
-footer {
-    padding-top: 3em;
 }
 
 .border-dark {
