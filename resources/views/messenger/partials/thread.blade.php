@@ -1,8 +1,13 @@
-@php( $class = $thread->isUnread(Auth::id()) ? 'card-accent-success' : '' )
+@php( $class = !$thread->alert && $thread->isUnread(Auth::id()) ? 'bg-success text-white' : '' )
 
-<div class="card {{ $class }}">
-    <div class="card-header d-flex justify-content-between">
-        <span><i class="fas fa-comment"></i>
+<div class="card">
+    <div class="card-header d-flex justify-content-between {{ $class }} {{ $thread->alert ? 'bg-warning' : '' }}">
+        <span>
+            @if(!$thread->alert)
+                <i class="fas fa-comment"></i>
+            @else
+                <i class="fas fa-exclamation-triangle"></i>
+            @endif
             @auth
                 @if(Auth::user()->hasRole('profesor'))
                     <span class="ml-2">
