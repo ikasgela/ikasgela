@@ -25,7 +25,7 @@ class ResultController extends Controller
     {
         $pdf = PDF::loadView('results.pdf', $this->resultados($request));
 
-        return $pdf->stream('document.pdf');
+        return $pdf->stream('resultados.pdf');
     }
 
     private function resultados(Request $request)
