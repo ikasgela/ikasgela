@@ -10,6 +10,13 @@
 
     @include('partials.subtitulo', ['subtitulo' => __('Continuous evaluation')])
 
+    <table>
+        <tr>
+            <th>{{ __('Mandatory activities') }}</th>
+            <td>{{ $num_actividades_obligatorias > 0 ? $actividades_obligatorias ? trans_choice('tasks.completed', 2) : ($numero_actividades_completadas+0)."/".($num_actividades_obligatorias+0)  : __('None') }}</td>
+        </tr>
+    </table>
+
     <div class="card-deck">
         <div
             class="card mb-3 {{ $num_actividades_obligatorias > 0 ? $actividades_obligatorias ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
@@ -17,7 +24,7 @@
                 class="card-header">{{ __('Mandatory activities') }}</div>
             <div class="card-body text-center">
                 <p class="card-text"
-                   style="font-size:150%;">{{ $num_actividades_obligatorias > 0 ? $actividades_obligatorias ? trans_choice('tasks.completed', 2) : ($numero_actividades_completadas+0)."/".($num_actividades_obligatorias+0)  : __('None') }}</p>
+                   style="font-size:150%;"></p>
             </div>
         </div>
         <div
@@ -173,9 +180,5 @@
             </div>
         </div>
     @endif
-
-    @include('partials.subtitulo', ['subtitulo' => __('Activities per day')])
-
-    @include('partials.grafico_enviadas')
 
 @endsection
