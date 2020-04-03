@@ -7,8 +7,12 @@
     <h2></h2>
     <table class="tabla-datos">
         <tr>
-            <th>Curso</th>
+            <th style="width:4cm;">{{ __('Course') }}</th>
             <td>{{ $curso->category->period->organization->name.' » '.$curso->category->period->name.' » '.$curso->nombre  ?? '' }}</td>
+        </tr>
+        <tr>
+            <th>{{ __('Name') }}</th>
+            <td>{{ $user->name }}</td>
         </tr>
     </table>
 
@@ -74,9 +78,9 @@
     @if(count($skills_curso) > 0)
         <table class="tabla-datos">
             <tr>
-                <th class="text-left">{{ __('Unit') }}</th>
-                <th>{{ __('Percent') }}</th>
-                <th>{{ __('Points') }}</th>
+                <th class="text-left">{{ __('Skill') }}</th>
+                <th>{{ __('Progress') }}</th>
+                <th>{{ __('Score') }}</th>
             </tr>
             @foreach ($skills_curso as $skill)
                 @php($porcentaje = $resultados[$skill->id]->actividad > 0 ? round($resultados[$skill->id]->tarea/$resultados[$skill->id]->actividad*100) : 0)
@@ -124,7 +128,8 @@
                 @endif
             @endforeach
             <tr>
-                <th colspan="4">{{ __('Completed activities') }}: {{ $numero_actividades_completadas }}
+                <th colspan="4" class="text-left">{{ __('Completed activities') }}
+                    : {{ $numero_actividades_completadas }}
                     - {{ __('Group mean') }}: {{ $media_actividades_grupo }}</th>
             </tr>
         </table>

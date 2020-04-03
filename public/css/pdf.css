@@ -99,8 +99,13 @@ footer {
   color: #fff;
 }
 
-.tabla-datos tr {
+.tabla-datos tr:nth-child(even) {
   background-color: #f0f3f5;
+  color: #2f353a;
+}
+
+.tabla-datos tr:nth-child(odd) {
+  background-color: #fff;
   color: #2f353a;
 }
 

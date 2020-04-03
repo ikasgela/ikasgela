@@ -100,7 +100,12 @@ footer {
     color: $white;
 }
 
-.tabla-datos tr {
+.tabla-datos tr:nth-child(even) {
     background-color: $light;
+    color: $dark;
+}
+
+.tabla-datos tr:nth-child(odd) {
+    background-color: $white;
     color: $dark;
 }
