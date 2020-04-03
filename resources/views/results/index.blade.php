@@ -4,13 +4,11 @@
 
     <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
         <h1>{{ __('Results') }}
-            @if(config('app.debug'))
-                <a class="ml-3"
-                   style="color:#ed2224" {{-- https://www.schemecolor.com/adobe-inc-logo-colors.php --}}
-                   title="{{ __('Export to PDF') }}"
-                   href="{{ route('results.pdf') }}"><i class="fas fa-file-pdf"></i>
-                </a>
-            @endif
+            <a class="ml-3"
+               style="color:#ed2224" {{-- https://www.schemecolor.com/adobe-inc-logo-colors.php --}}
+               title="{{ __('Export to PDF') }}"
+               href="{{ route('results.pdf') }}"><i class="fas fa-file-pdf"></i>
+            </a>
         </h1>
         <h2 class="text-muted font-xl">{{ !is_null($curso) ? $curso->category->period->organization->name.' » '.$curso->category->period->name.' » '.$curso->nombre : '' }}</h2>
     </div>
@@ -114,7 +112,7 @@
                     <th>{{ __('Unit') }}</th>
                     <th class="text-center">{{ __('Base') }}</th>
                     <th class="text-center">{{ __('Extra') }}</th>
-                    <th class="text-center">Repaso</th>
+                    <th class="text-center">{{ __('Revisit') }}</th>
                 </tr>
                 </thead>
                 <tbody>
