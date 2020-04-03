@@ -11,9 +11,7 @@ use App\Registro;
 use App\Tarea;
 use App\Unidad;
 use App\User;
-use Cache;
 use Carbon\Carbon;
-use GrahamCampbell\GitLab\Facades\GitLab;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -309,6 +307,7 @@ class ActividadController extends Controller
                 break;
             case 60:
                 $tarea->save();
+                $this->bloquearRepositorios($tarea, true);
                 $this->mostrarSiguienteActividad($actividad, $usuario);
                 break;
             case 70:
