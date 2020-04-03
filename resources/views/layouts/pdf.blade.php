@@ -9,30 +9,15 @@
         {{ config('app.name', 'Laravel') }}
         {{ subdominio() != 'ikasgela' ? ' | '. subdominio() :  '' }}
     </title>
-    <style>
-        table {
-            width: 100%;
-            border: 1px solid black;
-        }
-
-        th {
-            background-color: #8f9ca6;
-        }
-    </style>
+    <link href="{{ asset('css/pdf.css') }}" rel="stylesheet">
 </head>
-<body class="c-app">
-<div class="c-wrapper" id="app">
-    <header>
-        <img src="{{ public_path('/svg/logo.svg') }}"/>
-    </header>
-    <div class="c-body">
-        <main class="c-main">
-            <div class="container-fluid">
-                @yield('content')
-            </div>
-        </main>
-    </div>
-    @include('layouts.footer')
-</div>
+<body>
+<header>
+    <img style="height:1cm;" src="{{ public_path('/svg/logo.svg') }}"/>
+</header>
+@yield('content')
+<footer>
+    <span>© {{ date('Y') }} {{ config('app.company') }}. @lang('All rights reserved.')</span>
+</footer>
 </body>
 </html>
