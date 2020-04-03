@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Curso;
 use App\Hilo;
+use App\Mail\Alerta;
 use App\Mail\NuevoMensaje;
 use App\User;
 use Carbon\Carbon;
@@ -85,7 +86,7 @@ class MessagesController extends Controller
             ->get();
 
         foreach ($users as $user) {
-            if (setting_usuario('notificacion_mensaje_recibido', $user)) {
+            if ($thread->alert || setting_usuario('notificacion_mensaje_recibido', $user)) {
 
                 $preview_mensaje = Str::substr($thread->latestMessage->body, 0, self::PREVIEW_MAX_LENGTH);
 
@@ -93,7 +94,10 @@ class MessagesController extends Controller
                     $preview_mensaje .= "\n\n...";
                 }
 
-                Mail::to($user->email)->queue(new NuevoMensaje($preview_mensaje, $thread->latestMessage->user->name));
+                if (!$thread->alert)
+                    Mail::to($user->email)->queue(new NuevoMensaje($preview_mensaje, $thread->latestMessage->user->name));
+                else
+                    Mail::to($user->email)->queue(new Alerta($preview_mensaje, $thread->latestMessage->user->name));
             }
         }
     }
@@ -134,7 +138,8 @@ class MessagesController extends Controller
         $thread = Hilo::create([
             'subject' => $request['subject'],
             'owner_id' => Auth::id(),
-            'noreply' => $request->has('noreply')
+            'noreply' => $request->has('noreply'),
+            'alert' => $request->has('alert'),
         ]);
 
         // Message
