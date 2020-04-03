@@ -5,7 +5,7 @@
 
     {!! Form::button(__('Ask a question'), ['type' => 'submit', 'class' => 'btn btn-success']) !!}
 
-    {!! Form::hidden('titulo', __('Activity').': '.$actividad->nombre) !!}
+    {!! Form::hidden('titulo', __('Activity') . ': ' . $actividad->unidad->nombre . ' » ' . $actividad->nombre) !!}
 
     {!! Form::close() !!}
 </div>
