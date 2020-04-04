@@ -27,8 +27,6 @@ class ActividadController extends Controller
 
     public function index()
     {
-        memorizar_ruta();
-
         $actividades = Actividad::paginate(100);
 
         session(['ubicacion' => 'actividades.index']);
@@ -42,8 +40,6 @@ class ActividadController extends Controller
 
     public function plantillas(Request $request)
     {
-        memorizar_ruta();
-
         session(['ubicacion' => 'actividades.plantillas']);
 
         $unidades = Unidad::cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
@@ -114,7 +110,7 @@ class ActividadController extends Controller
             $actividad->siguiente()->save($siguiente);
         }
 
-        return redirect(ruta_memorizada());
+        return redirect(anterior(2));
     }
 
     protected $table = 'actividades';
@@ -204,7 +200,7 @@ class ActividadController extends Controller
 
         $actividad->save();
 
-        return redirect(ruta_memorizada());
+        return redirect(anterior(2));
     }
 
     public function destroy(Actividad $actividad)
