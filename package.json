@@ -27,11 +27,11 @@
         "@coreui/coreui": "^3.0.0",
         "@fancyapps/fancybox": "^3.5.7",
         "@fortawesome/fontawesome-free": "^5.13.0",
-        "@popperjs/core": "^2.2.0",
+        "@popperjs/core": "^2.2.1",
         "chart.js": "^2.9.3",
         "jquery-countdown": "^2.2.0",
         "perfect-scrollbar": "^1.5.0",
-        "prismjs": "^1.19.0",
+        "prismjs": "^1.20.0",
         "tinymce": "^5.2.1",
         "tinymce-i18n": "^19.9.17",
         "vue-toasted": "^1.1.28"
