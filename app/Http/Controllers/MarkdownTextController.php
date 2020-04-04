@@ -17,8 +17,6 @@ class MarkdownTextController extends Controller
 
     public function index()
     {
-        memorizar_ruta();
-
         $markdown_texts = MarkdownText::all();
 
         return view('markdown_texts.index', compact('markdown_texts'));

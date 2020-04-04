@@ -6,18 +6,25 @@ if (!function_exists('memorizar_ruta')) {
     {
         // REF: https://stackoverflow.com/a/36098635/5136913
 
-        $accion = Route::getCurrentRoute()->getActionMethod();
-
-        if ($accion == 'index')
-            $rutas = [];
-        else
-            $rutas = session()->has('_rutas') ? session('_rutas') : [];
+        $excluidas = ['settings/api'];
+        $reset = ['index'];
 
         $actual = request()->path();
 
-        array_unshift($rutas, $actual);
+        if (!in_array($actual, $excluidas)) {
 
-        session(['_rutas' => $rutas]);
+            $accion = Route::getCurrentRoute()->getActionMethod();
+
+            if (in_array($accion, $reset))
+                $rutas = [];
+            else
+                $rutas = session()->has('_rutas') ? session('_rutas') : [];
+
+            if (count($rutas) == 0 || $rutas[0] != $actual)
+                array_unshift($rutas, $actual);
+
+            session(['_rutas' => $rutas]);
+        }
     }
 
     function ruta_memorizada(int $niveles = 1)

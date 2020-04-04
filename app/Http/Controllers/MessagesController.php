@@ -26,8 +26,6 @@ class MessagesController extends Controller
      */
     public function index()
     {
-        memorizar_ruta();
-
         // All threads that user is participating in, with new messages
         $threads = Hilo::forUserWithNewMessages(Auth::id())->latest('updated_at')->get();
 
@@ -39,8 +37,6 @@ class MessagesController extends Controller
 
     public function all()
     {
-        memorizar_ruta();
-
         // All threads that user is participating in
         $threads = Hilo::forUser(Auth::id())->latest('updated_at')->get();
 
@@ -163,7 +159,7 @@ class MessagesController extends Controller
 
         $this->enviarEmails($thread, Auth::id());
 
-        return redirect(ruta_memorizada());
+        return redirect(anterior(2));
     }
 
     /**

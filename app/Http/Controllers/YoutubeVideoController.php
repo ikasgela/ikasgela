@@ -16,8 +16,6 @@ class YoutubeVideoController extends Controller
 
     public function index()
     {
-        memorizar_ruta();
-        
         $youtube_videos = YoutubeVideo::all();
 
         return view('youtube_videos.index', compact('youtube_videos'));

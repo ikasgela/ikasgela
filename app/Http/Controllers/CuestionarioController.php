@@ -17,8 +17,6 @@ class CuestionarioController extends Controller
 
     public function index()
     {
-        memorizar_ruta();
-
         $cuestionarios = Cuestionario::plantilla()->get();
 
         return view('cuestionarios.index', compact('cuestionarios'));

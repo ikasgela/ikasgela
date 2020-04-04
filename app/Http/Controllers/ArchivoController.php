@@ -16,8 +16,6 @@ class ArchivoController extends Controller
 
     public function index(Request $request)
     {
-        memorizar_ruta();
-
         $user = Auth::user();
 
         if (!empty($request->input('user_id'))) {
