@@ -52,7 +52,7 @@ class QualificationController extends Controller
             }
         }
 
-        return redirect(route('qualifications.index'));
+        return retornar();
     }
 
     public function show(Qualification $qualification)
@@ -91,13 +91,13 @@ class QualificationController extends Controller
             }
         }
 
-        return redirect(route('qualifications.index'));
+        return retornar();
     }
 
     public function destroy(Qualification $qualification)
     {
         $qualification->delete();
 
-        return redirect(route('qualifications.index'));
+        return back();
     }
 }

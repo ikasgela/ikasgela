@@ -17,8 +17,6 @@ class CuestionarioController extends Controller
 
     public function index()
     {
-        memorizar_ruta();
-
         $cuestionarios = Cuestionario::plantilla()->get();
 
         return view('cuestionarios.index', compact('cuestionarios'));
@@ -35,14 +33,16 @@ class CuestionarioController extends Controller
             'titulo' => 'required',
         ]);
 
-        Cuestionario::create([
+        $cuestionario = Cuestionario::create([
             'titulo' => $request->input('titulo'),
             'descripcion' => $request->input('descripcion'),
             'plantilla' => $request->has('plantilla'),
             'respondido' => $request->has('respondido'),
         ]);
 
-        return redirect(route('cuestionarios.index'));
+        olvidar();
+
+        return redirect(route('cuestionarios.edit', ['cuestionario' => $cuestionario]));
     }
 
     public function show(Cuestionario $cuestionario)
@@ -69,14 +69,14 @@ class CuestionarioController extends Controller
             'respondido' => $request->has('respondido'),
         ]);
 
-        return back();
+        return retornar();
     }
 
     public function destroy(Cuestionario $cuestionario)
     {
         $cuestionario->delete();
 
-        return redirect(route('cuestionarios.index'));
+        return back();
     }
 
     public function actividad(Actividad $actividad)

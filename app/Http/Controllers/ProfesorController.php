@@ -24,8 +24,6 @@ class ProfesorController extends Controller
 
     public function index(Request $request)
     {
-        memorizar_ruta();
-
         $this->recuento_enviadas();
 
         $organization = Organization::find(setting_usuario('_organization_id'));
@@ -82,8 +80,6 @@ class ProfesorController extends Controller
 
     public function tareas(User $user, Request $request)
     {
-        memorizar_ruta();
-
         $this->recuento_enviadas();
 
         if ($request->has('filtro_alumnos')) {

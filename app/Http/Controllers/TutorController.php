@@ -24,8 +24,6 @@ class TutorController extends Controller
 
     public function index(Request $request)
     {
-        memorizar_ruta();
-
         $this->recuento_enviadas();
 
         return view('tutor.index', $this->datosInformeGrupo($request));

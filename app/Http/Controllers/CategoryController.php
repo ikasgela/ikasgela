@@ -47,7 +47,7 @@ class CategoryController extends Controller
             // Slug repetido
         }
 
-        return redirect(route('categories.index'));
+        return retornar();
     }
 
     public function show(Category $category)
@@ -81,13 +81,13 @@ class CategoryController extends Controller
             // Slug repetido
         }
 
-        return redirect(route('categories.index'));
+        return retornar();
     }
 
     public function destroy(Category $category)
     {
         $category->delete();
 
-        return redirect(route('categories.index'));
+        return back();
     }
 }

@@ -46,13 +46,7 @@ class ItemController extends Controller
             'orden' => $request->input('orden'),
         ]);
 
-        if (!is_null($request->input('accion'))) {
-            switch ($request->input('accion')) {
-                case 'items.anyadir':
-                    return redirect(route('preguntas.edit', ['pregunta' => $request->input('pregunta_id')]));
-            }
-        }
-        return redirect(route('items.index'));
+        return retornar();
     }
 
     public function show(Item $item)
@@ -83,14 +77,14 @@ class ItemController extends Controller
             'orden' => $request->input('orden'),
         ]);
 
-        return redirect(route('items.index'));
+        return retornar();
     }
 
     public function destroy(Item $item)
     {
         $item->delete();
 
-        return redirect(route('items.index'));
+        return back();
     }
 
     public function anyadir(Pregunta $pregunta)

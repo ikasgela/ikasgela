@@ -47,7 +47,7 @@ class GroupController extends Controller
             // Slug repetido
         }
 
-        return redirect(route('groups.index'));
+        return retornar();
     }
 
     public function show(Group $group)
@@ -81,13 +81,13 @@ class GroupController extends Controller
             // Slug repetido
         }
 
-        return redirect(route('groups.index'));
+        return retornar();
     }
 
     public function destroy(Group $group)
     {
         $group->delete();
 
-        return redirect(route('groups.index'));
+        return back();
     }
 }

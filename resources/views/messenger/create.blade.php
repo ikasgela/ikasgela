@@ -61,12 +61,7 @@
             @if(Auth::user()->hasRole('admin'))
                 {{ Form::campoCheck('alert', __('Alert (overrides notifications settings)'), false) }}
             @endif
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary single_click">
-                    <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Send') }}</button>
-                <a href="{{ route('messages') }}" class="btn btn-link text-secondary">{{ __('Cancel') }}</a>
-            </div>
-
+            @include('partials.guardar_cancelar',['texto' => __('Send')])
             @include('layouts.errors')
             {!! Form::close() !!}
         </div>

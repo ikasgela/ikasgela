@@ -32,7 +32,7 @@ class RoleController extends Controller
             'description' => $request->input('description'),
         ]);
 
-        return redirect(route('roles.index'));
+        return retornar();
     }
 
     public function show(Role $role)
@@ -57,7 +57,7 @@ class RoleController extends Controller
             'description' => $request->input('description'),
         ]);
 
-        return redirect(route('roles.index'));
+        return retornar();
     }
 
     public function destroy(Role $role)

@@ -7,7 +7,7 @@
 </div>
 
 <div class="form-group">
-    @include('partials.enviar_cancelar')
+    @include('partials.guardar_cancelar',['texto' => __('Send')])
 </div>
 
 @include('layouts.errors')

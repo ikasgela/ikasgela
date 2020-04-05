@@ -16,8 +16,6 @@ class YoutubeVideoController extends Controller
 
     public function index()
     {
-        memorizar_ruta();
-        
         $youtube_videos = YoutubeVideo::all();
 
         return view('youtube_videos.index', compact('youtube_videos'));
@@ -37,7 +35,7 @@ class YoutubeVideoController extends Controller
 
         YoutubeVideo::create($request->all());
 
-        return redirect(route('youtube_videos.index'));
+        return retornar();
     }
 
     public function show(YoutubeVideo $youtube_video)
@@ -59,14 +57,14 @@ class YoutubeVideoController extends Controller
 
         $youtube_video->update($request->all());
 
-        return redirect(route('youtube_videos.index'));
+        return retornar();
     }
 
     public function destroy(YoutubeVideo $youtube_video)
     {
         $youtube_video->delete();
 
-        return redirect(route('youtube_videos.index'));
+        return back();
     }
 
     public function actividad(Actividad $actividad)

@@ -38,7 +38,7 @@ class FeedbackController extends Controller
 
         Feedback::create($request->all());
 
-        return redirect(route('feedbacks.index'));
+        return retornar();
     }
 
     public function show(Feedback $feedback)
@@ -62,13 +62,13 @@ class FeedbackController extends Controller
 
         $feedback->update($request->all());
 
-        return redirect(route('feedbacks.index'));
+        return retornar();
     }
 
     public function destroy(Feedback $feedback)
     {
         $feedback->delete();
 
-        return redirect(route('feedbacks.index'));
+        return back();
     }
 }
