@@ -27,7 +27,7 @@
             @if(Auth::user()->hasRole('admin'))
                 @include('menus.admin')
                 @if(config('app.debug'))
-                    @include('menus.tarjetas_prueba')
+                    @include('menus.pruebas')
                 @endif
             @endif
         @endauth

@@ -330,14 +330,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Pruebas
     if (config('app.debug')) {
-        Route::view('/tarjeta_si_no', 'tarjetas.si_no');
-        Route::view('/tarjeta_video', 'tarjetas.video');
-        Route::view('/tarjeta_respuesta_multiple', 'tarjetas.respuesta_multiple');
-        Route::view('/tarjeta_respuesta_corta', 'tarjetas.respuesta_corta');
-        Route::get('/tarjeta_texto_markdown', 'TarjetaController@texto_markdown');
-        Route::view('/tarjeta_pdf', 'tarjetas.pdf');
-        Route::view('/reloj', 'tarjetas.reloj');
-
         Route::get('/files', 'FileController@getFiles')->name('files');
     }
 });

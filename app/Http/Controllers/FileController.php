@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\File;
-use App\FileUpload;
 use App\Http\Requests\StoreFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -20,7 +19,7 @@ class FileController extends Controller
 
     public function getFiles()
     {
-        return view('tarjetas.ficheros')->with('files', auth()->user()->files);
+        return view('pruebas.ficheros')->with('files', auth()->user()->files);
     }
 
     public function postUpload(StoreFile $request)
