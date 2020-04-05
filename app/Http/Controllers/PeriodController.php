@@ -47,7 +47,7 @@ class PeriodController extends Controller
             // Slug repetido
         }
 
-        return redirect(route('periods.index'));
+        return retornar();
     }
 
     public function show(Period $period)
@@ -81,13 +81,13 @@ class PeriodController extends Controller
             // Slug repetido
         }
 
-        return redirect(route('periods.index'));
+        return retornar();
     }
 
     public function destroy(Period $period)
     {
         $period->delete();
 
-        return redirect(route('periods.index'));
+        return back();
     }
 }

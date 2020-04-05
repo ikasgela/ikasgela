@@ -43,7 +43,7 @@ class OrganizationController extends Controller
             // Slug repetido
         }
 
-        return redirect(route('organizations.index'));
+        return retornar();
     }
 
     public function show(Organization $organization)
@@ -75,13 +75,13 @@ class OrganizationController extends Controller
             // Slug repetido
         }
 
-        return redirect(route('organizations.index'));
+        return retornar();
     }
 
     public function destroy(Organization $organization)
     {
         $organization->delete();
 
-        return redirect(route('organizations.index'));
+        return back();
     }
 }

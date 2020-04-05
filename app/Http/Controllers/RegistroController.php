@@ -30,13 +30,13 @@ class RegistroController extends Controller
 
         Registro::create($request->all());
 
-        return redirect(route('registros.index'));
+        return retornar();
     }
 
     public function destroy(Registro $registro)
     {
         $registro->delete();
 
-        return redirect(route('registros.index'));
+        return back();
     }
 }

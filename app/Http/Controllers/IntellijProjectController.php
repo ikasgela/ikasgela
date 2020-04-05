@@ -44,7 +44,7 @@ class IntellijProjectController extends Controller
 
         IntellijProject::create($request->all());
 
-        return redirect(route('intellij_projects.index'));
+        return retornar();
     }
 
     public function show(IntellijProject $intellij_project)
@@ -67,14 +67,14 @@ class IntellijProjectController extends Controller
 
         Cache::forget($intellij_project->cacheKey());
 
-        return redirect(route('intellij_projects.index'));
+        return retornar();
     }
 
     public function destroy(IntellijProject $intellij_project)
     {
         $intellij_project->delete();
 
-        return redirect(route('intellij_projects.index'));
+        return back();
     }
 
     public function actividad(Actividad $actividad)

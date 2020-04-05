@@ -103,6 +103,6 @@ class CursoController extends Controller
     {
         $curso->delete();
 
-        return redirect(route('cursos.index'));
+        return back();
     }
 }

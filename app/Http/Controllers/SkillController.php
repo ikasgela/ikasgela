@@ -38,7 +38,7 @@ class SkillController extends Controller
 
         Skill::create($request->all());
 
-        return redirect(route('skills.index'));
+        return retornar();
     }
 
     public function show(Skill $skill)
@@ -62,13 +62,13 @@ class SkillController extends Controller
 
         $skill->update($request->all());
 
-        return redirect(route('skills.index'));
+        return retornar();
     }
 
     public function destroy(Skill $skill)
     {
         $skill->delete();
 
-        return redirect(route('skills.index'));
+        return back();
     }
 }

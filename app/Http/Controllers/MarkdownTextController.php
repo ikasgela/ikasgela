@@ -37,7 +37,7 @@ class MarkdownTextController extends Controller
 
         MarkdownText::create($request->all());
 
-        return redirect(route('markdown_texts.index'));
+        return retornar();
     }
 
     public function show(MarkdownText $markdown_text)
@@ -62,14 +62,14 @@ class MarkdownTextController extends Controller
 
         $markdown_text->update($request->all());
 
-        return redirect(route('markdown_texts.index'));
+        return retornar();
     }
 
     public function destroy(MarkdownText $markdown_text)
     {
         $markdown_text->delete();
 
-        return redirect(route('markdown_texts.index'));
+        return back();
     }
 
     public function actividad(Actividad $actividad)

@@ -40,7 +40,7 @@ class FileUploadController extends Controller
             'plantilla' => $request->has('plantilla'),
         ]);
 
-        return redirect(route('file_uploads.index'));
+        return retornar();
     }
 
     public function show(FileUpload $file_upload)
@@ -67,14 +67,14 @@ class FileUploadController extends Controller
             'plantilla' => $request->has('plantilla'),
         ]);
 
-        return back();
+        return retornar();
     }
 
     public function destroy(FileUpload $file_upload)
     {
         $file_upload->delete();
 
-        return redirect(route('file_uploads.index'));
+        return back();
     }
 
     public function actividad(Actividad $actividad)

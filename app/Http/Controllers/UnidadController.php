@@ -53,7 +53,7 @@ class UnidadController extends Controller
             // Slug repetido
         }
 
-        return redirect(route('unidades.index'));
+        return retornar();
     }
 
     public function show(Unidad $unidad)
@@ -93,13 +93,13 @@ class UnidadController extends Controller
             // Slug repetido
         }
 
-        return redirect(route('unidades.index'));
+        return retornar();
     }
 
     public function destroy(Unidad $unidad)
     {
         $unidad->delete();
 
-        return redirect(route('unidades.index'));
+        return back();
     }
 }

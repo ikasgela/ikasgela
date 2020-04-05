@@ -47,7 +47,7 @@ class TeamController extends Controller
             // Slug repetido
         }
 
-        return redirect(route('teams.index'));
+        return retornar();
     }
 
     public function show(Team $team)
@@ -81,13 +81,13 @@ class TeamController extends Controller
             // Slug repetido
         }
 
-        return redirect(route('teams.index'));
+        return retornar();
     }
 
     public function destroy(Team $team)
     {
         $team->delete();
 
-        return redirect(route('teams.index'));
+        return back();
     }
 }
