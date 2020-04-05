@@ -9,8 +9,6 @@
 
             {!! Form::open(['route' => ['preguntas.store']]) !!}
 
-            <input type="hidden" name="accion" value="preguntas.anyadir"/>
-
             <div class="form-group row">
                 {!! Form::label('cuestionario_id', __('Questionnaire'), ['class' => 'col-sm-2 col-form-label']) !!}
                 <div class="col-sm-10">
