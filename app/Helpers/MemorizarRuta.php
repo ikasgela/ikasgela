@@ -7,7 +7,7 @@ if (!function_exists('memorizar_ruta')) {
         // REF: https://stackoverflow.com/a/36098635/5136913
 
         $excluidas = ['settings/api'];
-        $reset = ['index'];
+        $reset = ['alumnos'];
 
         $actual = request()->path();
 
@@ -15,13 +15,19 @@ if (!function_exists('memorizar_ruta')) {
 
             $accion = Route::getCurrentRoute()->getActionMethod();
 
-            if (in_array($accion, $reset))
+//            if (in_array($actual, $reset) && $accion == 'index')
+            if ($accion == 'index')
                 $rutas = [];
             else
                 $rutas = session()->has('_rutas') ? session('_rutas') : [];
 
             if (count($rutas) == 0 || $rutas[0] != $actual)
                 array_unshift($rutas, $actual);
+
+            if (count($rutas) > 2 && $rutas[0] == $rutas[2]) {
+                array_shift($rutas);
+                array_shift($rutas);
+            }
 
             session(['_rutas' => $rutas]);
         }
