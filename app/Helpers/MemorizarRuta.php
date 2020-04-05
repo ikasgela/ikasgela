@@ -6,25 +6,20 @@ if (!function_exists('memorizar_ruta')) {
     {
         // REF: https://stackoverflow.com/a/36098635/5136913
 
-        $excluidas = ['settings/api'];
-        $reset = ['alumnos'];
+        if (request()->method() == 'GET') {
 
-        $actual = request()->path();
+            $actual = request()->path(); // cursos/create
+            $accion = request()->route()->getActionMethod(); // index
 
-        if (!in_array($actual, $excluidas)) {
-
-            $accion = Route::getCurrentRoute()->getActionMethod();
-
-//            if (in_array($actual, $reset) && $accion == 'index')
             if ($accion == 'index')
                 $rutas = [];
             else
                 $rutas = session()->has('_rutas') ? session('_rutas') : [];
 
-            if (count($rutas) == 0 || $rutas[0] != $actual)
+            if (count($rutas) == 0 || $rutas[0] != $actual) // Vacío o no es un page reload
                 array_unshift($rutas, $actual);
 
-            if (count($rutas) > 3 && $rutas[0] == $rutas[2] && $rutas[1] == $rutas[3]) {
+            if (count($rutas) > 2 && $rutas[0] == $rutas[2]) { // Después de un cancelar
                 array_shift($rutas);
                 array_shift($rutas);
             }
@@ -33,13 +28,30 @@ if (!function_exists('memorizar_ruta')) {
         }
     }
 
-    function ruta_memorizada(int $niveles = 1)
-    {
-        return session('_rutas')[$niveles];
-    }
-
     function anterior(int $niveles = 1)
     {
-        return url(ruta_memorizada($niveles));
+        $ruta = session('_rutas')[$niveles];
+
+        return url($ruta);
+    }
+
+    function olvidar(int $niveles = 1)
+    {
+        $rutas = session()->has('_rutas') ? session('_rutas') : [];
+
+        for ($i = 0; $i < $niveles; $i++) {
+            array_shift($rutas);
+        }
+
+        session(['_rutas' => $rutas]);
+    }
+
+    function retornar(int $niveles = 1)
+    {
+        $ruta = session('_rutas')[$niveles];
+
+        olvidar($niveles);
+
+        return redirect(url($ruta));
     }
 }

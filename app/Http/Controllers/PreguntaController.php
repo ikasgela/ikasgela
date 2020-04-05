@@ -37,7 +37,7 @@ class PreguntaController extends Controller
             'cuestionario_id' => 'required',
         ]);
 
-        Pregunta::create([
+        $pregunta = Pregunta::create([
             'cuestionario_id' => $request->input('cuestionario_id'),
             'titulo' => $request->input('titulo'),
             'texto' => $request->input('texto'),
@@ -47,14 +47,9 @@ class PreguntaController extends Controller
             'imagen' => $request->input('imagen'),
         ]);
 
-        if (!is_null($request->input('accion'))) {
-            switch ($request->input('accion')) {
-                case 'preguntas.anyadir':
-                    return redirect(route('cuestionarios.edit', ['cuestionario' => $request->input('cuestionario_id')]));
-            }
-        }
+        olvidar();
 
-        return redirect(anterior(2));
+        return redirect(route('preguntas.edit', ['pregunta' => $pregunta]));
     }
 
     public function show(Pregunta $pregunta)
@@ -89,14 +84,14 @@ class PreguntaController extends Controller
             'imagen' => $request->input('imagen'),
         ]);
 
-        return redirect(anterior(2));
+        return retornar();
     }
 
     public function destroy(Pregunta $pregunta)
     {
         $pregunta->delete();
 
-        return redirect()->back();
+        return back();
     }
 
     public function anyadir(Cuestionario $cuestionario)
