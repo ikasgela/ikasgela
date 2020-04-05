@@ -24,7 +24,7 @@ if (!function_exists('memorizar_ruta')) {
             if (count($rutas) == 0 || $rutas[0] != $actual)
                 array_unshift($rutas, $actual);
 
-            if (count($rutas) > 2 && $rutas[0] == $rutas[2]) {
+            if (count($rutas) > 3 && $rutas[0] == $rutas[2] && $rutas[1] == $rutas[3]) {
                 array_shift($rutas);
                 array_shift($rutas);
             }

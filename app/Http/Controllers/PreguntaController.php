@@ -53,7 +53,8 @@ class PreguntaController extends Controller
                     return redirect(route('cuestionarios.edit', ['cuestionario' => $request->input('cuestionario_id')]));
             }
         }
-        return redirect(route('preguntas.index'));
+
+        return redirect(anterior(2));
     }
 
     public function show(Pregunta $pregunta)
@@ -88,7 +89,7 @@ class PreguntaController extends Controller
             'imagen' => $request->input('imagen'),
         ]);
 
-        return redirect(route('preguntas.index'));
+        return redirect(anterior(2));
     }
 
     public function destroy(Pregunta $pregunta)

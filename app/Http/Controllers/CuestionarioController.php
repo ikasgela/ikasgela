@@ -40,7 +40,7 @@ class CuestionarioController extends Controller
             'respondido' => $request->has('respondido'),
         ]);
 
-        return redirect(route('cuestionarios.index'));
+        return redirect(anterior(2));
     }
 
     public function show(Cuestionario $cuestionario)
@@ -67,7 +67,7 @@ class CuestionarioController extends Controller
             'respondido' => $request->has('respondido'),
         ]);
 
-        return back();
+        return redirect(anterior(2));
     }
 
     public function destroy(Cuestionario $cuestionario)

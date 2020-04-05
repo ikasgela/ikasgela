@@ -52,7 +52,8 @@ class ItemController extends Controller
                     return redirect(route('preguntas.edit', ['pregunta' => $request->input('pregunta_id')]));
             }
         }
-        return redirect(route('items.index'));
+
+        return redirect(anterior(2));
     }
 
     public function show(Item $item)
@@ -83,7 +84,7 @@ class ItemController extends Controller
             'orden' => $request->input('orden'),
         ]);
 
-        return redirect(route('items.index'));
+        return redirect(anterior(2));
     }
 
     public function destroy(Item $item)
