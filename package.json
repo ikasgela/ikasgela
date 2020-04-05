@@ -33,7 +33,7 @@
         "perfect-scrollbar": "^1.5.0",
         "prismjs": "^1.20.0",
         "tinymce": "^5.2.1",
-        "tinymce-i18n": "^19.9.17",
+        "tinymce-i18n": "^20.4.4",
         "vue-toasted": "^1.1.28"
     }
 }
