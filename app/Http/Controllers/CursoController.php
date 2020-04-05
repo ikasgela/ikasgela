@@ -54,7 +54,7 @@ class CursoController extends Controller
             // Slug repetido
         }
 
-        return redirect(anterior(2));
+        return retornar();
     }
 
     public function show(Curso $curso)
@@ -96,7 +96,7 @@ class CursoController extends Controller
             'fecha_fin' => request('fecha_fin'),
         ]);
 
-        return redirect(anterior(2));
+        return retornar();
     }
 
     public function destroy(Curso $curso)

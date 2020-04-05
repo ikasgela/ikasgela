@@ -93,7 +93,7 @@ class UserController extends Controller
         }
         setting()->save();
 
-        return redirect(anterior(2));
+        return retornar();
     }
 
     public function destroy(User $user)

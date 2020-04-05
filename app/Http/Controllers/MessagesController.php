@@ -159,7 +159,7 @@ class MessagesController extends Controller
 
         $this->enviarEmails($thread, Auth::id());
 
-        return redirect(anterior(2));
+        return retornar();
     }
 
     /**

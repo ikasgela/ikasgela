@@ -47,7 +47,7 @@ class CategoryController extends Controller
             // Slug repetido
         }
 
-        return redirect(anterior(2));
+        return retornar();
     }
 
     public function show(Category $category)
@@ -81,7 +81,7 @@ class CategoryController extends Controller
             // Slug repetido
         }
 
-        return redirect(anterior(2));
+        return retornar();
     }
 
     public function destroy(Category $category)

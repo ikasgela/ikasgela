@@ -110,7 +110,7 @@ class ActividadController extends Controller
             $actividad->siguiente()->save($siguiente);
         }
 
-        return redirect(anterior(2));
+        return retornar();
     }
 
     protected $table = 'actividades';
@@ -200,7 +200,7 @@ class ActividadController extends Controller
 
         $actividad->save();
 
-        return redirect(anterior(2));
+        return retornar();
     }
 
     public function destroy(Actividad $actividad)
