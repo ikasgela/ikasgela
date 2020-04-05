@@ -14,7 +14,7 @@ if (!function_exists('memorizar_ruta')) {
             if ($accion == 'index')
                 $rutas = [];
             else
-                $rutas = session()->has('_rutas') ? session('_rutas') : [];
+                $rutas = session('_rutas') ?? [];
 
             if (count($rutas) == 0 || $rutas[0] != $actual) // Vacío o no es un page reload
                 array_unshift($rutas, $actual);
@@ -30,14 +30,14 @@ if (!function_exists('memorizar_ruta')) {
 
     function anterior(int $niveles = 1)
     {
-        $ruta = session('_rutas')[$niveles];
+        $ruta = session('_rutas')[$niveles] ?? '/';
 
         return url($ruta);
     }
 
     function olvidar(int $niveles = 1)
     {
-        $rutas = session()->has('_rutas') ? session('_rutas') : [];
+        $rutas = session('_rutas') ?? [];
 
         for ($i = 0; $i < $niveles; $i++) {
             array_shift($rutas);
@@ -48,7 +48,7 @@ if (!function_exists('memorizar_ruta')) {
 
     function retornar(int $niveles = 1)
     {
-        $ruta = session('_rutas')[$niveles];
+        $ruta = session('_rutas')[$niveles] ?? '/';
 
         olvidar($niveles);
 
