@@ -4,11 +4,22 @@
 
     <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
         <h1>{{ __('Results') }}
-            <a class="ml-3"
-               style="color:#ed2224" {{-- https://www.schemecolor.com/adobe-inc-logo-colors.php --}}
-               title="{{ __('Export to PDF') }}"
-               href="{{ route('results.pdf') }}"><i class="fas fa-file-pdf"></i>
-            </a>
+            @if(!Auth::user()->hasAnyRole(['profesor', 'tutor']))
+                <a class="ml-3"
+                   style="color:#ed2224" {{-- https://www.schemecolor.com/adobe-inc-logo-colors.php --}}
+                   title="{{ __('Export to PDF') }}"
+                   href="{{ route('results.pdf') }}"><i class="fas fa-file-pdf"></i>
+                </a>
+            @else
+                {!! Form::open(['route' => ['results.pdf'], 'method' => 'POST', 'class'=>'d-inline']) !!}
+                {!! Form::button('<i class="fas fa-file-pdf"></i>', [
+                    'type' => 'submit',
+                    'class'=>'btn btn-link',
+                    'style'=>'color:#ed2224; font-size:inherit; display:inline; padding-top:0;',
+                ]) !!}
+                {!! Form::hidden('user_id',request()->user_id) !!}
+                {!! Form::close() !!}
+            @endif
         </h1>
         <h2 class="text-muted font-xl">{{ !is_null($curso) ? $curso->category->period->organization->name.' » '.$curso->category->period->name.' » '.$curso->nombre : '' }}</h2>
     </div>

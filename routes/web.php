@@ -297,6 +297,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Ver resultados de otros alumnos
         Route::post('/results', 'ResultController@index')
             ->name('results.alumno');
+
+        // Resultados de otro usuario en PDF
+        Route::post('/results/pdf', 'ResultController@pdf')
+            ->name('results.pdf.filtro');
     });
 
     // Alumno, profesor y tutor
