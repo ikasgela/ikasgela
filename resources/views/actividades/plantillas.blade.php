@@ -11,4 +11,7 @@
     </div>
 
     @include('actividades.partials.tabla_actividades')
+
+    @include('partials.paginador', ['coleccion' => $actividades])
+
 @endsection

@@ -54,10 +54,12 @@ class ActividadController extends Controller
         }
 
         if (session('profesor_unidad_actual')) {
-            $actividades = Actividad::cursoActual()->plantilla()->where('unidad_id', session('profesor_unidad_actual'))->orderBy('orden')->get();
+            $actividades = Actividad::cursoActual()->plantilla()->where('unidad_id', session('profesor_unidad_actual'))->orderBy('orden');
         } else {
-            $actividades = Actividad::cursoActual()->plantilla()->where('plantilla', true)->orderBy('orden')->get();
+            $actividades = Actividad::cursoActual()->plantilla()->where('plantilla', true)->orderBy('orden');
         }
+
+        $actividades = $this->paginate_ultima($actividades);
 
         $ids = $actividades->pluck('id')->toArray();
 
