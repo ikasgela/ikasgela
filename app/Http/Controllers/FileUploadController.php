@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Actividad;
 use App\FileUpload;
+use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
 
 class FileUploadController extends Controller
 {
+    use PaginarUltima;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -82,7 +85,7 @@ class FileUploadController extends Controller
         $file_uploads = $actividad->file_uploads()->get();
 
         $subset = $file_uploads->pluck('id')->unique()->flatten()->toArray();
-        $disponibles = FileUpload::where('plantilla', true)->whereNotIn('id', $subset)->get();
+        $disponibles = $this->paginate_ultima(FileUpload::where('plantilla', true)->whereNotIn('id', $subset));
 
         return view('file_uploads.actividad', compact(['file_uploads', 'disponibles', 'actividad']));
     }

@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
+use App\Traits\PaginarUltima;
 use App\YoutubeVideo;
 use Illuminate\Http\Request;
 
 class YoutubeVideoController extends Controller
 {
+    use PaginarUltima;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -72,7 +75,7 @@ class YoutubeVideoController extends Controller
         $youtube_videos = $actividad->youtube_videos()->get();
 
         $subset = $youtube_videos->pluck('id')->unique()->flatten()->toArray();
-        $disponibles = YoutubeVideo::whereNotIn('id', $subset)->get();
+        $disponibles = $this->paginate_ultima(YoutubeVideo::whereNotIn('id', $subset));
 
         return view('youtube_videos.actividad', compact(['youtube_videos', 'disponibles', 'actividad']));
     }
