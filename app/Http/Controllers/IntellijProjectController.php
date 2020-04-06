@@ -8,6 +8,8 @@ use App\Gitea\GiteaClient;
 use App\IntellijProject;
 use App\Jobs\ForkGiteaRepo;
 use App\Jobs\ForkGitLabRepo;
+use App\Traits\ClonarRepoGitea;
+use App\Traits\PaginarUltima;
 use Auth;
 use Cache;
 use GitLab;
@@ -16,7 +18,8 @@ use Log;
 
 class IntellijProjectController extends Controller
 {
-    use App\Traits\ClonarRepoGitea;
+    use ClonarRepoGitea;
+    use PaginarUltima;
 
     public function __construct()
     {
@@ -82,7 +85,8 @@ class IntellijProjectController extends Controller
         $intellij_projects = $actividad->intellij_projects()->get();
 
         $subset = $intellij_projects->pluck('id')->unique()->flatten()->toArray();
-        $disponibles = IntellijProject::whereNotIn('id', $subset)->get();
+
+        $disponibles = $this->paginate_ultima(IntellijProject::whereNotIn('id', $subset));
 
         return view('intellij_projects.actividad', compact(['intellij_projects', 'disponibles', 'actividad']));
     }

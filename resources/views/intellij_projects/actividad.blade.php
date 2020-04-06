@@ -92,6 +92,9 @@
                     </tbody>
                 </table>
             </div>
+
+            <div class="d-flex justify-content-center">{{ $disponibles->links() }}</div>
+
             @include('layouts.errors')
 
             <div>
