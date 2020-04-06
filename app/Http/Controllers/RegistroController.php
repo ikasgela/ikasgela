@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Registro;
+use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
 
 class RegistroController extends Controller
 {
+    use PaginarUltima;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -15,7 +18,7 @@ class RegistroController extends Controller
 
     public function index()
     {
-        $registros = Registro::paginate(100);
+        $registros = $this->paginate_ultima(Registro::query(), 100);
 
         return view('registros.index', compact('registros'));
     }
