@@ -83,5 +83,5 @@
         </table>
     </div>
 
-    <div class="d-flex justify-content-center">{{ $registros->links() }}</div>
+    @include('partials.paginador', ['coleccion' => $registros])
 @endsection

@@ -9,6 +9,7 @@ use App\Mail\TareaEnviada;
 use App\Qualification;
 use App\Registro;
 use App\Tarea;
+use App\Traits\PaginarUltima;
 use App\Unidad;
 use App\User;
 use Carbon\Carbon;
@@ -19,6 +20,8 @@ use Illuminate\Support\Str;
 
 class ActividadController extends Controller
 {
+    use PaginarUltima;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -27,7 +30,7 @@ class ActividadController extends Controller
 
     public function index()
     {
-        $actividades = Actividad::paginate(100);
+        $actividades = $this->paginate_ultima(Actividad::query(), 100);
 
         session(['ubicacion' => 'actividades.index']);
 

@@ -93,7 +93,7 @@
                 </table>
             </div>
 
-            <div class="d-flex justify-content-center">{{ $disponibles->links() }}</div>
+            @include('partials.paginador', ['coleccion' => $disponibles])
 
             @include('layouts.errors')
 

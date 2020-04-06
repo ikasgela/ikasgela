@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Actividad;
 use App\Cuestionario;
 use App\Pregunta;
+use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
 
 class CuestionarioController extends Controller
 {
+    use PaginarUltima;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -84,7 +87,7 @@ class CuestionarioController extends Controller
         $cuestionarios = $actividad->cuestionarios()->get();
 
         $subset = $cuestionarios->pluck('id')->unique()->flatten()->toArray();
-        $disponibles = Cuestionario::where('plantilla', true)->whereNotIn('id', $subset)->get();
+        $disponibles = $this->paginate_ultima(Cuestionario::where('plantilla', true)->whereNotIn('id', $subset));
 
         return view('cuestionarios.actividad', compact(['cuestionarios', 'disponibles', 'actividad']));
     }

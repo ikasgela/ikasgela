@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Actividad;
 use App\MarkdownText;
-use GrahamCampbell\Markdown\Facades\Markdown;
+use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
 
 class MarkdownTextController extends Controller
 {
+    use PaginarUltima;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -77,7 +79,7 @@ class MarkdownTextController extends Controller
         $markdown_texts = $actividad->markdown_texts()->get();
 
         $subset = $markdown_texts->pluck('id')->unique()->flatten()->toArray();
-        $disponibles = MarkdownText::whereNotIn('id', $subset)->get();
+        $disponibles = $this->paginate_ultima(MarkdownText::whereNotIn('id', $subset));
 
         return view('markdown_texts.actividad', compact(['markdown_texts', 'disponibles', 'actividad']));
     }

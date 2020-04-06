@@ -17,5 +17,6 @@
 
     @include('actividades.partials.tabla_actividades')
 
-    <div class="d-flex justify-content-center">{{ $actividades->links() }}</div>
+    @include('partials.paginador', ['coleccion' => $actividades])
+
 @endsection
