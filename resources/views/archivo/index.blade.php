@@ -61,7 +61,7 @@
             </table>
         </div>
 
-        <div class="d-flex justify-content-center">{{ $actividades->links() }}</div>
+        @include('partials.paginador', ['coleccion' => $actividades])
     @else
         <div class="row">
             <div class="col-md-12">
