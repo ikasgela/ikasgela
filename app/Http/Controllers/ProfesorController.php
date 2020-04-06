@@ -8,6 +8,7 @@ use App\Mail\ActividadAsignada;
 use App\Organization;
 use App\Registro;
 use App\Tarea;
+use App\Traits\PaginarUltima;
 use App\Unidad;
 use App\User;
 use Carbon\Carbon;
@@ -17,6 +18,8 @@ use NumberFormatter;
 
 class ProfesorController extends Controller
 {
+    use PaginarUltima;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -98,12 +101,7 @@ class ProfesorController extends Controller
                 break;
         }
 
-        $temp = $actividades->paginate(25, ['*'], 'asignadas');
-
-        if (!$request->has('asignadas'))
-            $actividades = $actividades->paginate(25, ['*'], 'asignadas', $temp->lastPage());
-        else
-            $actividades = $temp;
+        $actividades = $this->paginate_ultima($actividades, 25, 'asignadas');
 
         $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
 
@@ -252,11 +250,6 @@ class ProfesorController extends Controller
             $disponibles = $actividades_curso;
         }
 
-        $temp = $disponibles->paginate(25, ['*'], 'disponibles');
-
-        if (empty(request('disponibles')))
-            return $disponibles->paginate(25, ['*'], 'disponibles', $temp->lastPage());
-        else
-            return $temp;
+        return $this->paginate_ultima($disponibles, 25, 'disponibles');
     }
 }
