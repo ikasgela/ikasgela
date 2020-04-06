@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Curso;
+use App\Traits\PaginarUltima;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ArchivoController extends Controller
 {
+    use PaginarUltima;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -30,13 +33,7 @@ class ArchivoController extends Controller
             $user = User::find(session('filtrar_user_actual'));
         }
 
-        // Situar el paginador en la última página
-        $temp = $user->actividades_archivadas()->paginate(25, ['*'], 'pagina');
-
-        if (!$request->has('pagina'))
-            $actividades = $user->actividades_archivadas()->paginate(25, ['*'], 'pagina', $temp->lastPage());
-        else
-            $actividades = $temp;
+        $actividades = $this->paginate_ultima($user->actividades_archivadas());
 
         // Lista de usuarios
         $curso = Curso::find(setting_usuario('curso_actual'));
@@ -54,5 +51,4 @@ class ArchivoController extends Controller
 
         return view('archivo.show', compact(['actividad', 'user']));
     }
-
 }
