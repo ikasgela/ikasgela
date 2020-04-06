@@ -101,7 +101,7 @@ class ProfesorController extends Controller
                 break;
         }
 
-        $actividades = $this->paginate_ultima($actividades, 25, 'asignadas');
+        $actividades = $this->paginate_ultima($actividades, 10, 'asignadas');
 
         $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
 
@@ -250,6 +250,6 @@ class ProfesorController extends Controller
             $disponibles = $actividades_curso;
         }
 
-        return $this->paginate_ultima($disponibles, 25, 'disponibles');
+        return $this->paginate_ultima($disponibles, 10, 'disponibles');
     }
 }
