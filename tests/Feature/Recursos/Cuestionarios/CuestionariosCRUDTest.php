@@ -304,6 +304,22 @@ class CuestionariosCRUDTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
+    public function testUpdateThereAreRequiredFields()
+    {
+        // Auth
+        $this->actingAs($this->profesor);
+
+        // Given
+        $cuestionario = factory(Cuestionario::class)->create();
+        $empty = new Cuestionario();
+
+        // When
+        $response = $this->put(route('cuestionarios.update', $cuestionario), $empty->toArray());
+
+        // Then
+        $response->assertSessionHasErrors();
+    }
+
     private function updateRequires(string $field)
     {
         // Auth

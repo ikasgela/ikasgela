@@ -293,6 +293,22 @@ class YoutubeVideosCRUDTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
+    public function testUpdateThereAreRequiredFields()
+    {
+        // Auth
+        $this->actingAs($this->profesor);
+
+        // Given
+        $youtube_video = factory(YoutubeVideo::class)->create();
+        $empty = new YoutubeVideo();
+
+        // When
+        $response = $this->put(route('youtube_videos.update', $youtube_video), $empty->toArray());
+
+        // Then
+        $response->assertSessionHasErrors();
+    }
+
     private function updateRequires(string $field)
     {
         // Auth

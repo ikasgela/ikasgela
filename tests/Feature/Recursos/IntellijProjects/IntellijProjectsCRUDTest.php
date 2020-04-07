@@ -288,6 +288,22 @@ class IntellijProjectsCRUDTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
+    public function testUpdateThereAreRequiredFields()
+    {
+        // Auth
+        $this->actingAs($this->profesor);
+
+        // Given
+        $intellij_project = factory(IntellijProject::class)->create();
+        $empty = new IntellijProject();
+
+        // When
+        $response = $this->put(route('intellij_projects.update', $intellij_project), $empty->toArray());
+
+        // Then
+        $response->assertSessionHasErrors();
+    }
+
     private function updateRequires(string $field)
     {
         // Auth
