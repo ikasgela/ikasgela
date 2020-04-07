@@ -18,8 +18,10 @@ class YoutubeVideosCRUDTest extends TestCase
 
     public function testIndex()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $youtube_video = factory(YoutubeVideo::class)->create();
 
         // When
@@ -31,29 +33,34 @@ class YoutubeVideosCRUDTest extends TestCase
 
     public function testNotProfesorNotIndex()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
 
+        // Given
         // When
+        $response = $this->get(route('youtube_videos.index'));
+
         // Then
-        $this->get(route('youtube_videos.index'))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotIndex()
     {
+        // Auth
         // Given
         // When
+        $response = $this->get(route('youtube_videos.index'));
+
         // Then
-        $this->get(route('youtube_videos.index'))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testCreate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
 
+        // Given
         // When
         $response = $this->get(route('youtube_videos.create'));
 
@@ -63,28 +70,34 @@ class YoutubeVideosCRUDTest extends TestCase
 
     public function testNotProfesorNotCreate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
 
+        // Given
         // When
+        $response = $this->get(route('youtube_videos.create'));
+
         // Then
-        $this->get(route('youtube_videos.create'))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotCreate()
     {
+        // Auth
         // Given
         // When
+        $response = $this->get(route('youtube_videos.create'));
+
         // Then
-        $this->get(route('youtube_videos.create'))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testStore()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $youtube_video = factory(YoutubeVideo::class)->make();
         $total = YoutubeVideo::all()->count();
 
@@ -97,37 +110,45 @@ class YoutubeVideosCRUDTest extends TestCase
 
     public function testNotProfesorNotStore()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
+
+        // Given
         $youtube_video = factory(YoutubeVideo::class)->make();
 
         // When
+        $response = $this->post(route('youtube_videos.store'), $youtube_video->toArray());
+
         // Then
-        $this->post(route('youtube_videos.store'), $youtube_video->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotStore()
     {
+        // Auth
         // Given
         $youtube_video = factory(YoutubeVideo::class)->make();
 
         // When
+        $response = $this->post(route('youtube_videos.store'), $youtube_video->toArray());
+
         // Then
-        $this->post(route('youtube_videos.store'), $youtube_video->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     private function storeRequires(string $field)
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $youtube_video = factory(YoutubeVideo::class)->make([$field => null]);
 
         // When
+        $response = $this->post(route('youtube_videos.store'), $youtube_video->toArray());
+
         // Then
-        $this->post(route('youtube_videos.store'), $youtube_video->toArray())
-            ->assertSessionHasErrors($field);
+        $response->assertSessionHasErrors($field);
     }
 
     public function testStoreRequiresTitulo()
@@ -142,8 +163,10 @@ class YoutubeVideosCRUDTest extends TestCase
 
     public function testShow()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $youtube_video = factory(YoutubeVideo::class)->create();
 
         // When
@@ -155,31 +178,38 @@ class YoutubeVideosCRUDTest extends TestCase
 
     public function testNotProfesorNotShow()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
+
+        // Given
         $youtube_video = factory(YoutubeVideo::class)->create();
 
         // When
+        $response = $this->get(route('youtube_videos.show', $youtube_video));
+
         // Then
-        $this->get(route('youtube_videos.show', $youtube_video))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotShow()
     {
+        // Auth
         // Given
         $youtube_video = factory(YoutubeVideo::class)->create();
 
         // When
+        $response = $this->get(route('youtube_videos.show', $youtube_video));
+
         // Then
-        $this->get(route('youtube_videos.show', $youtube_video))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testEdit()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $youtube_video = factory(YoutubeVideo::class)->create();
 
         // When
@@ -191,31 +221,38 @@ class YoutubeVideosCRUDTest extends TestCase
 
     public function testNotProfesorNotEdit()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
+
+        // Given
         $youtube_video = factory(YoutubeVideo::class)->create();
 
         // When
+        $response = $this->get(route('youtube_videos.edit', $youtube_video), $youtube_video->toArray());
+
         // Then
-        $this->get(route('youtube_videos.edit', $youtube_video), $youtube_video->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotEdit()
     {
+        // Auth
         // Given
         $youtube_video = factory(YoutubeVideo::class)->create();
 
         // When
+        $response = $this->get(route('youtube_videos.edit', $youtube_video), $youtube_video->toArray());
+
         // Then
-        $this->get(route('youtube_videos.edit', $youtube_video), $youtube_video->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testUpdate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $youtube_video = factory(YoutubeVideo::class)->create();
         $youtube_video->titulo = "Updated";
 
@@ -228,41 +265,48 @@ class YoutubeVideosCRUDTest extends TestCase
 
     public function testNotProfesorNotUpdate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
+
+        // Given
         $youtube_video = factory(YoutubeVideo::class)->create();
         $youtube_video->titulo = "Updated";
 
         // When
+        $response = $this->put(route('youtube_videos.update', $youtube_video), $youtube_video->toArray());
+
         // Then
-        $this->put(route('youtube_videos.update', $youtube_video), $youtube_video->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotUpdate()
     {
+        // Auth
         // Given
         $youtube_video = factory(YoutubeVideo::class)->create();
         $youtube_video->titulo = "Updated";
 
         // When
+        $response = $this->put(route('youtube_videos.update', $youtube_video), $youtube_video->toArray());
+
         // Then
-        $this->put(route('youtube_videos.update', $youtube_video), $youtube_video->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     private function updateRequires(string $field)
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
-        $youtube_video = factory(YoutubeVideo::class)->create();
 
-        // When
+        // Given
+        $youtube_video = factory(YoutubeVideo::class)->create();
         $youtube_video->$field = null;
 
+        // When
+        $response = $this->put(route('youtube_videos.update', $youtube_video), $youtube_video->toArray());
+
         // Then
-        $this->put(route('youtube_videos.update', $youtube_video), $youtube_video->toArray())
-            ->assertSessionHasErrors($field);
+        $response->assertSessionHasErrors($field);
     }
 
     public function testUpdateRequiresTitulo()
@@ -277,8 +321,10 @@ class YoutubeVideosCRUDTest extends TestCase
 
     public function testDelete()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $youtube_video = factory(YoutubeVideo::class)->create();
 
         // When
@@ -290,24 +336,29 @@ class YoutubeVideosCRUDTest extends TestCase
 
     public function testNotProfesorNotDelete()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
+
+        // Given
         $youtube_video = factory(YoutubeVideo::class)->create();
 
         // When
+        $response = $this->delete(route('youtube_videos.destroy', $youtube_video));
+
         // Then
-        $this->delete(route('youtube_videos.destroy', $youtube_video))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotDelete()
     {
+        // Auth
         // Given
         $youtube_video = factory(YoutubeVideo::class)->create();
 
         // When
+        $response = $this->delete(route('youtube_videos.destroy', $youtube_video));
+
         // Then
-        $this->delete(route('youtube_videos.destroy', $youtube_video))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 }
