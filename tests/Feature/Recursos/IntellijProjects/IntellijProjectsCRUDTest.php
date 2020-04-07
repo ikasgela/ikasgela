@@ -18,8 +18,10 @@ class IntellijProjectsCRUDTest extends TestCase
 
     public function testIndex()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $intellij_project = factory(IntellijProject::class)->create();
 
         // When
@@ -31,29 +33,34 @@ class IntellijProjectsCRUDTest extends TestCase
 
     public function testNotProfesorNotIndex()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
 
+        // Given
         // When
+        $response = $this->get(route('intellij_projects.index'));
+
         // Then
-        $this->get(route('intellij_projects.index'))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotIndex()
     {
+        // Auth
         // Given
         // When
+        $response = $this->get(route('intellij_projects.index'));
+
         // Then
-        $this->get(route('intellij_projects.index'))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testCreate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
 
+        // Given
         // When
         $response = $this->get(route('intellij_projects.create'));
 
@@ -63,28 +70,34 @@ class IntellijProjectsCRUDTest extends TestCase
 
     public function testNotProfesorNotCreate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
 
+        // Given
         // When
+        $response = $this->get(route('intellij_projects.create'));
+
         // Then
-        $this->get(route('intellij_projects.create'))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotCreate()
     {
+        // Auth
         // Given
         // When
+        $response = $this->get(route('intellij_projects.create'));
+
         // Then
-        $this->get(route('intellij_projects.create'))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testStore()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $intellij_project = factory(IntellijProject::class)->make();
         $total = IntellijProject::all()->count();
 
@@ -97,37 +110,45 @@ class IntellijProjectsCRUDTest extends TestCase
 
     public function testNotProfesorNotStore()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
+
+        // Given
         $intellij_project = factory(IntellijProject::class)->make();
 
         // When
+        $response = $this->post(route('intellij_projects.store'), $intellij_project->toArray());
+
         // Then
-        $this->post(route('intellij_projects.store'), $intellij_project->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotStore()
     {
+        // Auth
         // Given
         $intellij_project = factory(IntellijProject::class)->make();
 
         // When
+        $response = $this->post(route('intellij_projects.store'), $intellij_project->toArray());
+
         // Then
-        $this->post(route('intellij_projects.store'), $intellij_project->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     private function storeRequires(string $field)
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $intellij_project = factory(IntellijProject::class)->make([$field => null]);
 
         // When
+        $response = $this->post(route('intellij_projects.store'), $intellij_project->toArray());
+
         // Then
-        $this->post(route('intellij_projects.store'), $intellij_project->toArray())
-            ->assertSessionHasErrors($field);
+        $response->assertSessionHasErrors($field);
     }
 
     public function testStoreRequiresRepositorio()
@@ -137,8 +158,10 @@ class IntellijProjectsCRUDTest extends TestCase
 
     public function testShow()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $intellij_project = factory(IntellijProject::class)->create();
 
         // When
@@ -150,31 +173,38 @@ class IntellijProjectsCRUDTest extends TestCase
 
     public function testNotProfesorNotShow()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
+
+        // Given
         $intellij_project = factory(IntellijProject::class)->create();
 
         // When
+        $response = $this->get(route('intellij_projects.show', $intellij_project));
+
         // Then
-        $this->get(route('intellij_projects.show', $intellij_project))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotShow()
     {
+        // Auth
         // Given
         $intellij_project = factory(IntellijProject::class)->create();
 
         // When
+        $response = $this->get(route('intellij_projects.show', $intellij_project));
+
         // Then
-        $this->get(route('intellij_projects.show', $intellij_project))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testEdit()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $intellij_project = factory(IntellijProject::class)->create();
 
         // When
@@ -186,31 +216,38 @@ class IntellijProjectsCRUDTest extends TestCase
 
     public function testNotProfesorNotEdit()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
+
+        // Given
         $intellij_project = factory(IntellijProject::class)->create();
 
         // When
+        $response = $this->get(route('intellij_projects.edit', $intellij_project), $intellij_project->toArray());
+
         // Then
-        $this->get(route('intellij_projects.edit', $intellij_project), $intellij_project->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotEdit()
     {
+        // Auth
         // Given
         $intellij_project = factory(IntellijProject::class)->create();
 
         // When
+        $response = $this->get(route('intellij_projects.edit', $intellij_project), $intellij_project->toArray());
+
         // Then
-        $this->get(route('intellij_projects.edit', $intellij_project), $intellij_project->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testUpdate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $intellij_project = factory(IntellijProject::class)->create();
         $intellij_project->repositorio = "Updated";
 
@@ -223,41 +260,48 @@ class IntellijProjectsCRUDTest extends TestCase
 
     public function testNotProfesorNotUpdate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
+
+        // Given
         $intellij_project = factory(IntellijProject::class)->create();
         $intellij_project->repositorio = "Updated";
 
         // When
+        $response = $this->put(route('intellij_projects.update', $intellij_project), $intellij_project->toArray());
+
         // Then
-        $this->put(route('intellij_projects.update', $intellij_project), $intellij_project->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotUpdate()
     {
+        // Auth
         // Given
         $intellij_project = factory(IntellijProject::class)->create();
         $intellij_project->repositorio = "Updated";
 
         // When
+        $response = $this->put(route('intellij_projects.update', $intellij_project), $intellij_project->toArray());
+
         // Then
-        $this->put(route('intellij_projects.update', $intellij_project), $intellij_project->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     private function updateRequires(string $field)
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $intellij_project = factory(IntellijProject::class)->create();
 
         // When
         $intellij_project->$field = null;
+        $response = $this->put(route('intellij_projects.update', $intellij_project), $intellij_project->toArray());
 
         // Then
-        $this->put(route('intellij_projects.update', $intellij_project), $intellij_project->toArray())
-            ->assertSessionHasErrors($field);
+        $response->assertSessionHasErrors($field);
     }
 
     public function testUpdateRequiresRepositorio()
@@ -267,8 +311,10 @@ class IntellijProjectsCRUDTest extends TestCase
 
     public function testDelete()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $intellij_project = factory(IntellijProject::class)->create();
 
         // When
@@ -280,24 +326,29 @@ class IntellijProjectsCRUDTest extends TestCase
 
     public function testNotProfesorNotDelete()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
+
+        // Given
         $intellij_project = factory(IntellijProject::class)->create();
 
         // When
+        $response = $this->delete(route('intellij_projects.destroy', $intellij_project));
+
         // Then
-        $this->delete(route('intellij_projects.destroy', $intellij_project))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotDelete()
     {
+        // Auth
         // Given
         $intellij_project = factory(IntellijProject::class)->create();
 
         // When
+        $response = $this->delete(route('intellij_projects.destroy', $intellij_project));
+
         // Then
-        $this->delete(route('intellij_projects.destroy', $intellij_project))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 }
