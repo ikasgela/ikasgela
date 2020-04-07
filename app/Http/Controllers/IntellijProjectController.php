@@ -24,7 +24,7 @@ class IntellijProjectController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:admin', ['except' => ['fork', 'is_forking']]);
+        $this->middleware('role:profesor', ['except' => ['fork', 'is_forking']]);
     }
 
     public function index()
