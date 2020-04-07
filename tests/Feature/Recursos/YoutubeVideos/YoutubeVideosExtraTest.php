@@ -7,7 +7,7 @@ use App\YoutubeVideo;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
-class YoutubeVideoControllerExtraTest extends TestCase
+class YoutubeVideosExtraTest extends TestCase
 {
     use DatabaseTransactions;
 
