@@ -4,12 +4,12 @@ namespace Tests\Feature;
 
 use App\Cuestionario;
 use App\MarkdownText;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class CuestionariosTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     public function setUp(): void
     {
