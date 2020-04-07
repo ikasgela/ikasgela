@@ -9,7 +9,7 @@ use Tests\TestCase;
 class MarkdownTextsCRUDTest extends TestCase
 {
     use DatabaseTransactions;
-
+    
     public function setUp(): void
     {
         parent::setUp();
@@ -18,42 +18,49 @@ class MarkdownTextsCRUDTest extends TestCase
 
     public function testIndex()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $markdown_text = factory(MarkdownText::class)->create();
 
         // When
         $response = $this->get(route('markdown_texts.index'));
 
         // Then
-        $response->assertSee($markdown_text->name);
+        $response->assertSee($markdown_text->titulo);
     }
 
     public function testNotProfesorNotIndex()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
 
+        // Given
         // When
+        $response = $this->get(route('markdown_texts.index'));
+
         // Then
-        $this->get(route('markdown_texts.index'))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotIndex()
     {
+        // Auth
         // Given
         // When
+        $response = $this->get(route('markdown_texts.index'));
+
         // Then
-        $this->get(route('markdown_texts.index'))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testCreate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
 
+        // Given
         // When
         $response = $this->get(route('markdown_texts.create'));
 
@@ -63,28 +70,34 @@ class MarkdownTextsCRUDTest extends TestCase
 
     public function testNotProfesorNotCreate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
 
+        // Given
         // When
+        $response = $this->get(route('markdown_texts.create'));
+
         // Then
-        $this->get(route('markdown_texts.create'))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotCreate()
     {
+        // Auth
         // Given
         // When
+        $response = $this->get(route('markdown_texts.create'));
+
         // Then
-        $this->get(route('markdown_texts.create'))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testStore()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $markdown_text = factory(MarkdownText::class)->make();
         $total = MarkdownText::all()->count();
 
@@ -97,67 +110,73 @@ class MarkdownTextsCRUDTest extends TestCase
 
     public function testNotProfesorNotStore()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
+
+        // Given
         $markdown_text = factory(MarkdownText::class)->make();
 
         // When
+        $response = $this->post(route('markdown_texts.store'), $markdown_text->toArray());
+
         // Then
-        $this->post(route('markdown_texts.store'), $markdown_text->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotStore()
     {
+        // Auth
         // Given
         $markdown_text = factory(MarkdownText::class)->make();
 
         // When
+        $response = $this->post(route('markdown_texts.store'), $markdown_text->toArray());
+
         // Then
-        $this->post(route('markdown_texts.store'), $markdown_text->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
+    }
+
+    public function testStoreThereAreRequiredFields()
+    {
+        // Auth
+        $this->actingAs($this->profesor);
+
+        // Given
+        $empty = new MarkdownText();
+
+        // When
+        $response = $this->post(route('markdown_texts.store'), $empty->toArray());
+
+        // Then
+        $response->assertSessionHasErrors();
+    }
+
+    private function storeRequires(string $field)
+    {
+        // Auth
+        $this->actingAs($this->profesor);
+
+        // Given
+        $markdown_text = factory(MarkdownText::class)->make([$field => null]);
+
+        // When
+        $response = $this->post(route('markdown_texts.store'), $markdown_text->toArray());
+
+        // Then
+        $response->assertSessionHasErrors($field);
     }
 
     public function testStoreRequiresTitulo()
     {
-        // Given
-        $this->actingAs($this->profesor);
-        $markdown_text = factory(MarkdownText::class)->make(['titulo' => null]);
-
-        // When
-        // Then
-        $this->post(route('markdown_texts.store'), $markdown_text->toArray())
-            ->assertSessionHasErrors('titulo');
-    }
-
-    public function testStoreRequiresRepositorio()
-    {
-        // Given
-        $this->actingAs($this->profesor);
-        $markdown_text = factory(MarkdownText::class)->make(['repositorio' => null]);
-
-        // When
-        // Then
-        $this->post(route('markdown_texts.store'), $markdown_text->toArray())
-            ->assertSessionHasErrors('repositorio');
-    }
-
-    public function testStoreRequiresArchivo()
-    {
-        // Given
-        $this->actingAs($this->profesor);
-        $markdown_text = factory(MarkdownText::class)->make(['archivo' => null]);
-
-        // When
-        // Then
-        $this->post(route('markdown_texts.store'), $markdown_text->toArray())
-            ->assertSessionHasErrors('archivo');
+        $this->storeRequires('titulo');
     }
 
     public function testShow()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $markdown_text = factory(MarkdownText::class)->create();
 
         // When
@@ -169,14 +188,17 @@ class MarkdownTextsCRUDTest extends TestCase
 
     public function testNotProfesorNotShow()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
+
+        // Given
         $markdown_text = factory(MarkdownText::class)->create();
 
         // When
+        $response = $this->get(route('markdown_texts.show', $markdown_text));
+
         // Then
-        $this->get(route('markdown_texts.show', $markdown_text))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotShow()
@@ -185,51 +207,61 @@ class MarkdownTextsCRUDTest extends TestCase
         $markdown_text = factory(MarkdownText::class)->create();
 
         // When
+        $response = $this->get(route('markdown_texts.show', $markdown_text));
+
         // Then
-        $this->get(route('markdown_texts.show', $markdown_text))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testEdit()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $markdown_text = factory(MarkdownText::class)->create();
 
         // When
         $response = $this->get(route('markdown_texts.edit', $markdown_text), $markdown_text->toArray());
 
         // Then
-        $response->assertSeeInOrder([$markdown_text->titulo, $markdown_text->repositorio, $markdown_text->archivo, __('Save')]);
+        $response->assertSeeInOrder([$markdown_text->titulo, __('Save')]);
     }
 
     public function testNotProfesorNotEdit()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
+
+        // Given
         $markdown_text = factory(MarkdownText::class)->create();
 
         // When
+        $response = $this->get(route('markdown_texts.edit', $markdown_text), $markdown_text->toArray());
+
         // Then
-        $this->get(route('markdown_texts.edit', $markdown_text), $markdown_text->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotEdit()
     {
+        // Auth
         // Given
         $markdown_text = factory(MarkdownText::class)->create();
 
         // When
+        $response = $this->get(route('markdown_texts.edit', $markdown_text), $markdown_text->toArray());
+
         // Then
-        $this->get(route('markdown_texts.edit', $markdown_text), $markdown_text->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testUpdate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $markdown_text = factory(MarkdownText::class)->create();
         $markdown_text->titulo = "Updated";
 
@@ -242,75 +274,77 @@ class MarkdownTextsCRUDTest extends TestCase
 
     public function testNotProfesorNotUpdate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
+
+        // Given
         $markdown_text = factory(MarkdownText::class)->create();
         $markdown_text->titulo = "Updated";
 
         // When
+        $response = $this->put(route('markdown_texts.update', $markdown_text), $markdown_text->toArray());
+
         // Then
-        $this->put(route('markdown_texts.update', $markdown_text), $markdown_text->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotUpdate()
     {
+        // Auth
         // Given
         $markdown_text = factory(MarkdownText::class)->create();
         $markdown_text->titulo = "Updated";
 
         // When
+        $response = $this->put(route('markdown_texts.update', $markdown_text), $markdown_text->toArray());
+
         // Then
-        $this->put(route('markdown_texts.update', $markdown_text), $markdown_text->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
+    }
+
+    public function testUpdateThereAreRequiredFields()
+    {
+        // Auth
+        $this->actingAs($this->profesor);
+
+        // Given
+        $markdown_text = factory(MarkdownText::class)->create();
+        $empty = new MarkdownText();
+
+        // When
+        $response = $this->put(route('markdown_texts.update', $markdown_text), $empty->toArray());
+
+        // Then
+        $response->assertSessionHasErrors();
+    }
+
+    private function updateRequires(string $field)
+    {
+        // Auth
+        $this->actingAs($this->profesor);
+
+        // Given
+        $markdown_text = factory(MarkdownText::class)->create();
+        $markdown_text->$field = null;
+
+        // When
+        $response = $this->put(route('markdown_texts.update', $markdown_text), $markdown_text->toArray());
+
+        // Then
+        $response->assertSessionHasErrors($field);
     }
 
     public function testUpdateRequiresTitulo()
     {
-        // Given
-        $this->actingAs($this->profesor);
-        $markdown_text = factory(MarkdownText::class)->create();
-
-        // When
-        $markdown_text->titulo = null;
-
-        // Then
-        $this->put(route('markdown_texts.update', $markdown_text), $markdown_text->toArray())
-            ->assertSessionHasErrors('titulo');
-    }
-
-    public function testUpdateRequiresRepositorio()
-    {
-        // Given
-        $this->actingAs($this->profesor);
-        $markdown_text = factory(MarkdownText::class)->create();
-
-        // When
-        $markdown_text->repositorio = null;
-
-        // Then
-        $this->put(route('markdown_texts.update', $markdown_text), $markdown_text->toArray())
-            ->assertSessionHasErrors('repositorio');
-    }
-
-    public function testUpdateRequiresArchivo()
-    {
-        // Given
-        $this->actingAs($this->profesor);
-        $markdown_text = factory(MarkdownText::class)->create();
-
-        // When
-        $markdown_text->archivo = null;
-
-        // Then
-        $this->put(route('markdown_texts.update', $markdown_text), $markdown_text->toArray())
-            ->assertSessionHasErrors('archivo');
+        $this->updateRequires('titulo');
     }
 
     public function testDelete()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $markdown_text = factory(MarkdownText::class)->create();
 
         // When
@@ -322,24 +356,29 @@ class MarkdownTextsCRUDTest extends TestCase
 
     public function testNotProfesorNotDelete()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
+
+        // Given
         $markdown_text = factory(MarkdownText::class)->create();
 
         // When
+        $response = $this->delete(route('markdown_texts.destroy', $markdown_text));
+
         // Then
-        $this->delete(route('markdown_texts.destroy', $markdown_text))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotDelete()
     {
+        // Auth
         // Given
         $markdown_text = factory(MarkdownText::class)->create();
 
         // When
+        $response = $this->delete(route('markdown_texts.destroy', $markdown_text));
+
         // Then
-        $this->delete(route('markdown_texts.destroy', $markdown_text))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 }
