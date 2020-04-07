@@ -10,6 +10,10 @@ class CuestionariosCRUDTest extends TestCase
 {
     use DatabaseTransactions;
 
+    private $required = [
+        'titulo'
+    ];
+
     public function setUp(): void
     {
         parent::setUp();
@@ -153,19 +157,24 @@ class CuestionariosCRUDTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
-    public function testStoreThereAreRequiredFields()
+    public function testStoreUntestedRequiredFields()
     {
         // Auth
         $this->actingAs($this->profesor);
 
         // Given
+        $total = Cuestionario::all()->count();
+
         $empty = new Cuestionario();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
-        $response = $this->post(route('cuestionarios.store'), $empty->toArray());
+        $this->post(route('cuestionarios.store'), $empty->toArray());
 
         // Then
-        $response->assertSessionHasErrors();
+        $this->assertCount($total + 1, Cuestionario::all());
     }
 
     private function storeRequires(string $field)
@@ -183,9 +192,11 @@ class CuestionariosCRUDTest extends TestCase
         $response->assertSessionHasErrors($field);
     }
 
-    public function testStoreRequiresTitulo()
+    public function testStoreTestingNotRequiredFields()
     {
-        $this->storeRequires('titulo');
+        foreach ($this->required as $field) {
+            $this->storeRequires($field);
+        }
     }
 
     public function testShow()
@@ -319,7 +330,7 @@ class CuestionariosCRUDTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
-    public function testUpdateThereAreRequiredFields()
+    public function testUpdateUntestedRequiredFields()
     {
         // Auth
         $this->actingAs($this->profesor);
@@ -327,12 +338,15 @@ class CuestionariosCRUDTest extends TestCase
         // Given
         $cuestionario = factory(Cuestionario::class)->create();
         $empty = new Cuestionario();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
         $response = $this->put(route('cuestionarios.update', $cuestionario), $empty->toArray());
 
         // Then
-        $response->assertSessionHasErrors();
+        $response->assertSessionDoesntHaveErrors();
     }
 
     private function updateRequires(string $field)
@@ -351,9 +365,11 @@ class CuestionariosCRUDTest extends TestCase
         $response->assertSessionHasErrors($field);
     }
 
-    public function testUpdateRequiresTitulo()
+    public function testUpdateTestingNotRequiredFields()
     {
-        $this->updateRequires('titulo');
+        foreach ($this->required as $field) {
+            $this->updateRequires($field);
+        }
     }
 
     public function testDelete()
