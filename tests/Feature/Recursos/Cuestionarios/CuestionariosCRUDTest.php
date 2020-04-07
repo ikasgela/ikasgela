@@ -7,7 +7,7 @@ use App\MarkdownText;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
-class CuestionariosTest extends TestCase
+class CuestionariosCRUDTest extends TestCase
 {
     use DatabaseTransactions;
 
