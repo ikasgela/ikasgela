@@ -3,12 +3,12 @@
 namespace Tests\Feature;
 
 use App\Qualification;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class QualificationsTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     public function setUp(): void
     {
@@ -86,12 +86,13 @@ class QualificationsTest extends TestCase
         // Given
         $this->actingAs($this->admin);
         $qualification = factory(Qualification::class)->make();
+        $total = Qualification::all()->count();
 
         // When
         $this->post(route('qualifications.store'), $qualification->toArray());
 
         // Then
-        $this->assertEquals(1, Qualification::all()->count());
+        $this->assertEquals($total + 1, Qualification::all()->count());
     }
 
     public function testNotAdminNotStore()

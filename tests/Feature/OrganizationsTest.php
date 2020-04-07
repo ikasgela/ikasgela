@@ -3,12 +3,12 @@
 namespace Tests\Feature;
 
 use App\Organization;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class OrganizationsTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     public function setUp(): void
     {
@@ -86,12 +86,13 @@ class OrganizationsTest extends TestCase
         // Given
         $this->actingAs($this->admin);
         $organization = factory(Organization::class)->make();
+        $total = Organization::all()->count();
 
         // When
         $this->post(route('organizations.store'), $organization->toArray());
 
         // Then
-        $this->assertEquals(1, Organization::all()->count());
+        $this->assertEquals($total + 1, Organization::all()->count());
     }
 
     public function testNotAdminNotStore()

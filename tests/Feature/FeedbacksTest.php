@@ -3,12 +3,12 @@
 namespace Tests\Feature;
 
 use App\Feedback;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class FeedbacksTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     public function setUp(): void
     {
@@ -86,12 +86,13 @@ class FeedbacksTest extends TestCase
         // Given
         $this->actingAs($this->admin);
         $feedback = factory(Feedback::class)->make();
+        $total = Feedback::all()->count();
 
         // When
         $this->post(route('feedbacks.store'), $feedback->toArray());
 
         // Then
-        $this->assertEquals(1, Feedback::all()->count());
+        $this->assertEquals($total + 1, Feedback::all()->count());
     }
 
     public function testNotAdminNotStore()

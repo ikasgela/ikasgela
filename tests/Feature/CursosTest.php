@@ -3,12 +3,12 @@
 namespace Tests\Feature;
 
 use App\Curso;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class CursosTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     public function setUp(): void
     {
@@ -86,12 +86,13 @@ class CursosTest extends TestCase
         // Given
         $this->actingAs($this->admin);
         $curso = factory(Curso::class)->make();
+        $total = Curso::all()->count();
 
         // When
         $this->post(route('cursos.store'), $curso->toArray());
 
         // Then
-        $this->assertEquals(1, Curso::all()->count());
+        $this->assertEquals($total + 1, Curso::all()->count());
     }
 
     public function testNotAdminNotStore()

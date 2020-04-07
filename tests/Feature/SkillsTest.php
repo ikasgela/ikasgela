@@ -3,12 +3,12 @@
 namespace Tests\Feature;
 
 use App\Skill;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class SkillsTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     public function setUp(): void
     {
@@ -86,12 +86,13 @@ class SkillsTest extends TestCase
         // Given
         $this->actingAs($this->admin);
         $skill = factory(Skill::class)->make();
+        $total = Skill::all()->count();
 
         // When
         $this->post(route('skills.store'), $skill->toArray());
 
         // Then
-        $this->assertEquals(1, Skill::all()->count());
+        $this->assertEquals($total + 1, Skill::all()->count());
     }
 
     public function testNotAdminNotStore()

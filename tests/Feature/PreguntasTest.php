@@ -3,12 +3,12 @@
 namespace Tests\Feature;
 
 use App\Pregunta;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class PreguntasTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     public function setUp(): void
     {
@@ -86,12 +86,13 @@ class PreguntasTest extends TestCase
         // Given
         $this->actingAs($this->profesor);
         $pregunta = factory(Pregunta::class)->make();
+        $total = Pregunta::all()->count();
 
         // When
         $this->post(route('preguntas.store'), $pregunta->toArray());
 
         // Then
-        $this->assertEquals(1, Pregunta::all()->count());
+        $this->assertEquals($total + 1, Pregunta::all()->count());
     }
 
     public function testNotProfesorNotStore()

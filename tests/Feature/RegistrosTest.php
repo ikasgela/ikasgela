@@ -4,12 +4,12 @@ namespace Tests\Feature;
 
 use App\Registro;
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class RegistrosTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     public function setUp(): void
     {
@@ -55,12 +55,13 @@ class RegistrosTest extends TestCase
         // Given
         $this->actingAs($this->alumno);
         $registro = factory(Registro::class)->make();
+        $total = Registro::all()->count();
 
         // When
         $this->post(route('registros.store'), $registro->toArray());
 
         // Then
-        $this->assertEquals(1, Registro::all()->count());
+        $this->assertEquals($total + 1, Registro::all()->count());
     }
 
     public function testNotAuthNotStore()

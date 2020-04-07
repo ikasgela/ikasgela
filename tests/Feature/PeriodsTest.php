@@ -3,12 +3,12 @@
 namespace Tests\Feature;
 
 use App\Period;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class PeriodsTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     public function setUp(): void
     {
@@ -86,12 +86,13 @@ class PeriodsTest extends TestCase
         // Given
         $this->actingAs($this->admin);
         $period = factory(Period::class)->make();
+        $total = Period::all()->count();
 
         // When
         $this->post(route('periods.store'), $period->toArray());
 
         // Then
-        $this->assertEquals(1, Period::all()->count());
+        $this->assertEquals($total + 1, Period::all()->count());
     }
 
     public function testNotAdminNotStore()

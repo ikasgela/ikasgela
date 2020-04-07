@@ -4,12 +4,12 @@ namespace Tests\Feature;
 
 use App\Cuestionario;
 use App\MarkdownText;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class CuestionariosTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     public function setUp(): void
     {
@@ -87,12 +87,13 @@ class CuestionariosTest extends TestCase
         // Given
         $this->actingAs($this->profesor);
         $cuestionario = factory(Cuestionario::class)->make();
+        $total = Cuestionario::all()->count();
 
         // When
         $this->post(route('cuestionarios.store'), $cuestionario->toArray());
 
         // Then
-        $this->assertEquals(1, Cuestionario::all()->count());
+        $this->assertEquals($total + 1, Cuestionario::all()->count());
     }
 
     public function testNotProfesorNotStore()

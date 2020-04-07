@@ -3,12 +3,12 @@
 namespace Tests\Feature;
 
 use App\FileUpload;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class FileUploadsTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     public function setUp(): void
     {
@@ -86,12 +86,13 @@ class FileUploadsTest extends TestCase
         // Given
         $this->actingAs($this->profesor);
         $file_upload = factory(FileUpload::class)->make();
+        $total = FileUpload::all()->count();
 
         // When
         $this->post(route('file_uploads.store'), $file_upload->toArray());
 
         // Then
-        $this->assertEquals(1, FileUpload::all()->count());
+        $this->assertEquals($total + 1, FileUpload::all()->count());
     }
 
     public function testNotProfesorNotStore()
