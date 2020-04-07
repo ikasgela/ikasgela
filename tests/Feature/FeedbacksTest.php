@@ -92,7 +92,7 @@ class FeedbacksTest extends TestCase
         $this->post(route('feedbacks.store'), $feedback->toArray());
 
         // Then
-        $this->assertEquals($total + 1, Feedback::all()->count());
+        $this->assertCount($total + 1, Feedback::all());
     }
 
     public function testNotAdminNotStore()
