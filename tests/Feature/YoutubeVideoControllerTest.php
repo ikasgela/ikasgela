@@ -10,35 +10,29 @@ class YoutubeVideoControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
-    protected $allowed_role;
-    protected $not_allowed_role;
-
     public function setUp(): void
     {
         parent::setUp();
         parent::crearUsuarios();
-
-        $this->allowed_role = $this->profesor;
-        $this->not_allowed_role = $this->not_profesor;
     }
 
     public function testIndex()
     {
         // Given
-        $this->actingAs($this->allowed_role);
+        $this->actingAs($this->profesor);
         $youtube_video = factory(YoutubeVideo::class)->create();
 
         // When
         $response = $this->get(route('youtube_videos.index'));
 
         // Then
-        $response->assertSee($youtube_video->mensaje);
+        $response->assertSee($youtube_video->titulo);
     }
 
     public function testNotAllowedRoleNotIndex()
     {
         // Given
-        $this->actingAs($this->not_allowed_role);
+        $this->actingAs($this->not_profesor);
 
         // When
         // Then
@@ -58,7 +52,7 @@ class YoutubeVideoControllerTest extends TestCase
     public function testCreate()
     {
         // Given
-        $this->actingAs($this->allowed_role);
+        $this->actingAs($this->profesor);
 
         // When
         $response = $this->get(route('youtube_videos.create'));
@@ -70,7 +64,7 @@ class YoutubeVideoControllerTest extends TestCase
     public function testNotAllowedRoleNotCreate()
     {
         // Given
-        $this->actingAs($this->not_allowed_role);
+        $this->actingAs($this->not_profesor);
 
         // When
         // Then
@@ -90,7 +84,7 @@ class YoutubeVideoControllerTest extends TestCase
     public function testStore()
     {
         // Given
-        $this->actingAs($this->allowed_role);
+        $this->actingAs($this->profesor);
         $youtube_video = factory(YoutubeVideo::class)->make();
         $total = YoutubeVideo::all()->count();
 
@@ -104,7 +98,7 @@ class YoutubeVideoControllerTest extends TestCase
     public function testNotAllowedRoleNotStore()
     {
         // Given
-        $this->actingAs($this->not_allowed_role);
+        $this->actingAs($this->not_profesor);
         $youtube_video = factory(YoutubeVideo::class)->make();
 
         // When
@@ -127,7 +121,7 @@ class YoutubeVideoControllerTest extends TestCase
     private function storeRequires(string $field)
     {
         // Given
-        $this->actingAs($this->allowed_role);
+        $this->actingAs($this->profesor);
         $youtube_video = factory(YoutubeVideo::class)->make([$field => null]);
 
         // When
@@ -149,7 +143,7 @@ class YoutubeVideoControllerTest extends TestCase
     public function testShow()
     {
         // Given
-        $this->actingAs($this->allowed_role);
+        $this->actingAs($this->profesor);
         $youtube_video = factory(YoutubeVideo::class)->create();
 
         // When
@@ -162,7 +156,7 @@ class YoutubeVideoControllerTest extends TestCase
     public function testNotAllowedRoleNotShow()
     {
         // Given
-        $this->actingAs($this->not_allowed_role);
+        $this->actingAs($this->not_profesor);
         $youtube_video = factory(YoutubeVideo::class)->create();
 
         // When
@@ -185,20 +179,20 @@ class YoutubeVideoControllerTest extends TestCase
     public function testEdit()
     {
         // Given
-        $this->actingAs($this->allowed_role);
+        $this->actingAs($this->profesor);
         $youtube_video = factory(YoutubeVideo::class)->create();
 
         // When
         $response = $this->get(route('youtube_videos.edit', $youtube_video), $youtube_video->toArray());
 
         // Then
-        $response->assertSeeInOrder([$youtube_video->mensaje, $youtube_video->slug, __('Save')]);
+        $response->assertSeeInOrder([$youtube_video->titulo, $youtube_video->slug, __('Save')]);
     }
 
     public function testNotAllowedRoleNotEdit()
     {
         // Given
-        $this->actingAs($this->not_allowed_role);
+        $this->actingAs($this->not_profesor);
         $youtube_video = factory(YoutubeVideo::class)->create();
 
         // When
@@ -221,7 +215,7 @@ class YoutubeVideoControllerTest extends TestCase
     public function testUpdate()
     {
         // Given
-        $this->actingAs($this->allowed_role);
+        $this->actingAs($this->profesor);
         $youtube_video = factory(YoutubeVideo::class)->create();
         $youtube_video->titulo = "Updated";
 
@@ -235,7 +229,7 @@ class YoutubeVideoControllerTest extends TestCase
     public function testNotAllowedRoleNotUpdate()
     {
         // Given
-        $this->actingAs($this->not_allowed_role);
+        $this->actingAs($this->not_profesor);
         $youtube_video = factory(YoutubeVideo::class)->create();
         $youtube_video->titulo = "Updated";
 
@@ -260,7 +254,7 @@ class YoutubeVideoControllerTest extends TestCase
     private function updateRequires(string $field)
     {
         // Given
-        $this->actingAs($this->allowed_role);
+        $this->actingAs($this->profesor);
         $youtube_video = factory(YoutubeVideo::class)->create();
 
         // When
@@ -284,7 +278,7 @@ class YoutubeVideoControllerTest extends TestCase
     public function testDelete()
     {
         // Given
-        $this->actingAs($this->allowed_role);
+        $this->actingAs($this->profesor);
         $youtube_video = factory(YoutubeVideo::class)->create();
 
         // When
@@ -297,7 +291,7 @@ class YoutubeVideoControllerTest extends TestCase
     public function testNotAllowedRoleNotDelete()
     {
         // Given
-        $this->actingAs($this->not_allowed_role);
+        $this->actingAs($this->not_profesor);
         $youtube_video = factory(YoutubeVideo::class)->create();
 
         // When
