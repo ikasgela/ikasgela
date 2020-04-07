@@ -295,9 +295,9 @@ class IntellijProjectsCRUDTest extends TestCase
 
         // Given
         $intellij_project = factory(IntellijProject::class)->create();
+        $intellij_project->$field = null;
 
         // When
-        $intellij_project->$field = null;
         $response = $this->put(route('intellij_projects.update', $intellij_project), $intellij_project->toArray());
 
         // Then
