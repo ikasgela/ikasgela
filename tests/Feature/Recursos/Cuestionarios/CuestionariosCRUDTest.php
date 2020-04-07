@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Cuestionario;
-use App\MarkdownText;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
@@ -19,22 +18,42 @@ class CuestionariosCRUDTest extends TestCase
 
     public function testIndex()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
+        $cuestionario = factory(Cuestionario::class)->create([
+            'plantilla' => true,
+        ]);
+
+        // When
+        $response = $this->get(route('cuestionarios.index'));
+
+        // Then
+        $response->assertSee($cuestionario->titulo);
+    }
+
+    public function testNotPlantillaNotIndex()
+    {
+        // Auth
+        $this->actingAs($this->profesor);
+
+        // Given
         $cuestionario = factory(Cuestionario::class)->create();
 
         // When
         $response = $this->get(route('cuestionarios.index'));
 
         // Then
-        $response->assertSee($cuestionario->name);
+        $response->assertDontSee($cuestionario->titulo);
     }
 
     public function testNotProfesorNotIndex()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
 
+        // Given
         // When
         // Then
         $this->get(route('cuestionarios.index'))
@@ -43,6 +62,7 @@ class CuestionariosCRUDTest extends TestCase
 
     public function testNotAuthNotIndex()
     {
+        // Auth
         // Given
         // When
         // Then
@@ -119,16 +139,24 @@ class CuestionariosCRUDTest extends TestCase
             ->assertRedirect(route('login'));
     }
 
-    public function testStoreRequiresTitulo()
+    private function storeRequires(string $field)
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
-        $cuestionario = factory(Cuestionario::class)->make(['titulo' => null]);
+
+        // Given
+        $cuestionario = factory(Cuestionario::class)->make([$field => null]);
 
         // When
+        $response = $this->post(route('cuestionarios.store'), $cuestionario->toArray());
+
         // Then
-        $this->post(route('cuestionarios.store'), $cuestionario->toArray())
-            ->assertSessionHasErrors('titulo');
+        $response->assertSessionHasErrors($field);
+    }
+
+    public function testStoreRequiresTitulo()
+    {
+        $this->storeRequires('titulo');
     }
 
     public function testShow()
@@ -242,18 +270,25 @@ class CuestionariosCRUDTest extends TestCase
             ->assertRedirect(route('login'));
     }
 
-    public function testUpdateRequiresTitulo()
+    private function updateRequires(string $field)
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $cuestionario = factory(Cuestionario::class)->create();
+        $cuestionario->$field = null;
 
         // When
-        $cuestionario->titulo = null;
+        $response = $this->put(route('cuestionarios.update', $cuestionario), $cuestionario->toArray());
 
         // Then
-        $this->put(route('cuestionarios.update', $cuestionario), $cuestionario->toArray())
-            ->assertSessionHasErrors('titulo');
+        $response->assertSessionHasErrors($field);
+    }
+
+    public function testUpdateRequiresTitulo()
+    {
+        $this->updateRequires('titulo');
     }
 
     public function testDelete()
