@@ -153,6 +153,21 @@ class CuestionariosCRUDTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
+    public function testStoreThereAreRequiredFields()
+    {
+        // Auth
+        $this->actingAs($this->profesor);
+
+        // Given
+        $empty = new Cuestionario();
+
+        // When
+        $response = $this->post(route('cuestionarios.store'), $empty->toArray());
+
+        // Then
+        $response->assertSessionHasErrors();
+    }
+
     private function storeRequires(string $field)
     {
         // Auth

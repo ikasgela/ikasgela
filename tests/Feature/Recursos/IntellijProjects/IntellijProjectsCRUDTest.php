@@ -136,6 +136,21 @@ class IntellijProjectsCRUDTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
+    public function testStoreThereAreRequiredFields()
+    {
+        // Auth
+        $this->actingAs($this->profesor);
+
+        // Given
+        $empty = new IntellijProject();
+
+        // When
+        $response = $this->post(route('intellij_projects.store'), $empty->toArray());
+
+        // Then
+        $response->assertSessionHasErrors();
+    }
+
     private function storeRequires(string $field)
     {
         // Auth

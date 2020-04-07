@@ -136,6 +136,21 @@ class YoutubeVideosCRUDTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
+    public function testStoreThereAreRequiredFields()
+    {
+        // Auth
+        $this->actingAs($this->profesor);
+
+        // Given
+        $empty = new YoutubeVideo();
+
+        // When
+        $response = $this->post(route('youtube_videos.store'), $empty->toArray());
+
+        // Then
+        $response->assertSessionHasErrors();
+    }
+
     private function storeRequires(string $field)
     {
         // Auth
