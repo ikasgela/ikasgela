@@ -55,9 +55,10 @@ class CuestionariosCRUDTest extends TestCase
 
         // Given
         // When
+        $response = $this->get(route('cuestionarios.index'));
+
         // Then
-        $this->get(route('cuestionarios.index'))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotIndex()
@@ -65,16 +66,18 @@ class CuestionariosCRUDTest extends TestCase
         // Auth
         // Given
         // When
+        $response = $this->get(route('cuestionarios.index'));
+
         // Then
-        $this->get(route('cuestionarios.index'))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testCreate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
 
+        // Given
         // When
         $response = $this->get(route('cuestionarios.create'));
 
@@ -84,28 +87,34 @@ class CuestionariosCRUDTest extends TestCase
 
     public function testNotProfesorNotCreate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
 
+        // Given
         // When
+        $response = $this->get(route('cuestionarios.create'));
+
         // Then
-        $this->get(route('cuestionarios.create'))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotCreate()
     {
+        // Auth
         // Given
         // When
+        $response = $this->get(route('cuestionarios.create'));
+
         // Then
-        $this->get(route('cuestionarios.create'))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testStore()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $cuestionario = factory(Cuestionario::class)->make();
         $total = Cuestionario::all()->count();
 
@@ -118,25 +127,30 @@ class CuestionariosCRUDTest extends TestCase
 
     public function testNotProfesorNotStore()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
+
+        // Given
         $cuestionario = factory(Cuestionario::class)->make();
 
         // When
+        $response = $this->post(route('cuestionarios.store'), $cuestionario->toArray());
+
         // Then
-        $this->post(route('cuestionarios.store'), $cuestionario->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotStore()
     {
+        // Auth
         // Given
         $cuestionario = factory(Cuestionario::class)->make();
 
         // When
+        $response = $this->post(route('cuestionarios.store'), $cuestionario->toArray());
+
         // Then
-        $this->post(route('cuestionarios.store'), $cuestionario->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     private function storeRequires(string $field)
@@ -161,8 +175,10 @@ class CuestionariosCRUDTest extends TestCase
 
     public function testShow()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $cuestionario = factory(Cuestionario::class)->create();
 
         // When
@@ -174,14 +190,17 @@ class CuestionariosCRUDTest extends TestCase
 
     public function testNotProfesorNotShow()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
+
+        // Given
         $cuestionario = factory(Cuestionario::class)->create();
 
         // When
+        $response = $this->get(route('cuestionarios.show', $cuestionario));
+
         // Then
-        $this->get(route('cuestionarios.show', $cuestionario))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotShow()
@@ -190,15 +209,18 @@ class CuestionariosCRUDTest extends TestCase
         $cuestionario = factory(Cuestionario::class)->create();
 
         // When
+        $response = $this->get(route('cuestionarios.show', $cuestionario));
+
         // Then
-        $this->get(route('cuestionarios.show', $cuestionario))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testEdit()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $cuestionario = factory(Cuestionario::class)->create();
 
         // When
@@ -210,31 +232,38 @@ class CuestionariosCRUDTest extends TestCase
 
     public function testNotProfesorNotEdit()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
+
+        // Given
         $cuestionario = factory(Cuestionario::class)->create();
 
         // When
+        $response = $this->get(route('cuestionarios.edit', $cuestionario), $cuestionario->toArray());
+
         // Then
-        $this->get(route('cuestionarios.edit', $cuestionario), $cuestionario->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotEdit()
     {
+        // Auth
         // Given
         $cuestionario = factory(Cuestionario::class)->create();
 
         // When
+        $response = $this->get(route('cuestionarios.edit', $cuestionario), $cuestionario->toArray());
+
         // Then
-        $this->get(route('cuestionarios.edit', $cuestionario), $cuestionario->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testUpdate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $cuestionario = factory(Cuestionario::class)->create();
         $cuestionario->titulo = "Updated";
 
@@ -247,27 +276,32 @@ class CuestionariosCRUDTest extends TestCase
 
     public function testNotProfesorNotUpdate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
+
+        // Given
         $cuestionario = factory(Cuestionario::class)->create();
         $cuestionario->titulo = "Updated";
 
         // When
+        $response = $this->put(route('cuestionarios.update', $cuestionario), $cuestionario->toArray());
+
         // Then
-        $this->put(route('cuestionarios.update', $cuestionario), $cuestionario->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotUpdate()
     {
+        // Auth
         // Given
         $cuestionario = factory(Cuestionario::class)->create();
         $cuestionario->titulo = "Updated";
 
         // When
+        $response = $this->put(route('cuestionarios.update', $cuestionario), $cuestionario->toArray());
+
         // Then
-        $this->put(route('cuestionarios.update', $cuestionario), $cuestionario->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     private function updateRequires(string $field)
@@ -293,8 +327,10 @@ class CuestionariosCRUDTest extends TestCase
 
     public function testDelete()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
+
+        // Given
         $cuestionario = factory(Cuestionario::class)->create();
 
         // When
@@ -306,24 +342,29 @@ class CuestionariosCRUDTest extends TestCase
 
     public function testNotProfesorNotDelete()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_profesor);
+
+        // Given
         $cuestionario = factory(Cuestionario::class)->create();
 
         // When
+        $response = $this->delete(route('cuestionarios.destroy', $cuestionario));
+
         // Then
-        $this->delete(route('cuestionarios.destroy', $cuestionario))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotDelete()
     {
+        // Auth
         // Given
         $cuestionario = factory(Cuestionario::class)->create();
 
         // When
+        $response = $this->delete(route('cuestionarios.destroy', $cuestionario));
+
         // Then
-        $this->delete(route('cuestionarios.destroy', $cuestionario))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 }

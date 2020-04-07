@@ -29,7 +29,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $response->assertSee($intellij_project->repositorio);
     }
 
-    public function testNotAllowedRoleNotIndex()
+    public function testNotProfesorNotIndex()
     {
         // Given
         $this->actingAs($this->not_profesor);
@@ -61,7 +61,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $response->assertSeeInOrder([__('New IntelliJ project'), __('Save')]);
     }
 
-    public function testNotAllowedRoleNotCreate()
+    public function testNotProfesorNotCreate()
     {
         // Given
         $this->actingAs($this->not_profesor);
@@ -95,7 +95,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $this->assertCount($total + 1, IntellijProject::all());
     }
 
-    public function testNotAllowedRoleNotStore()
+    public function testNotProfesorNotStore()
     {
         // Given
         $this->actingAs($this->not_profesor);
@@ -148,7 +148,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $response->assertSee(__('Not implemented.'));
     }
 
-    public function testNotAllowedRoleNotShow()
+    public function testNotProfesorNotShow()
     {
         // Given
         $this->actingAs($this->not_profesor);
@@ -184,7 +184,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $response->assertSeeInOrder([$intellij_project->repositorio, $intellij_project->slug, __('Save')]);
     }
 
-    public function testNotAllowedRoleNotEdit()
+    public function testNotProfesorNotEdit()
     {
         // Given
         $this->actingAs($this->not_profesor);
@@ -221,7 +221,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $this->assertDatabaseHas('intellij_projects', ['id' => $intellij_project->id, 'repositorio' => $intellij_project->repositorio]);
     }
 
-    public function testNotAllowedRoleNotUpdate()
+    public function testNotProfesorNotUpdate()
     {
         // Given
         $this->actingAs($this->not_profesor);
@@ -278,7 +278,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $this->assertDatabaseMissing('intellij_projects', $intellij_project->toArray());
     }
 
-    public function testNotAllowedRoleNotDelete()
+    public function testNotProfesorNotDelete()
     {
         // Given
         $this->actingAs($this->not_profesor);

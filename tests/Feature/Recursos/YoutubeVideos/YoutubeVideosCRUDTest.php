@@ -29,7 +29,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $response->assertSee($youtube_video->titulo);
     }
 
-    public function testNotAllowedRoleNotIndex()
+    public function testNotProfesorNotIndex()
     {
         // Given
         $this->actingAs($this->not_profesor);
@@ -61,7 +61,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $response->assertSeeInOrder([__('New YouTube video'), __('Save')]);
     }
 
-    public function testNotAllowedRoleNotCreate()
+    public function testNotProfesorNotCreate()
     {
         // Given
         $this->actingAs($this->not_profesor);
@@ -95,7 +95,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $this->assertCount($total + 1, YoutubeVideo::all());
     }
 
-    public function testNotAllowedRoleNotStore()
+    public function testNotProfesorNotStore()
     {
         // Given
         $this->actingAs($this->not_profesor);
@@ -153,7 +153,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $response->assertSee(__('Not implemented.'));
     }
 
-    public function testNotAllowedRoleNotShow()
+    public function testNotProfesorNotShow()
     {
         // Given
         $this->actingAs($this->not_profesor);
@@ -189,7 +189,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $response->assertSeeInOrder([$youtube_video->titulo, $youtube_video->slug, __('Save')]);
     }
 
-    public function testNotAllowedRoleNotEdit()
+    public function testNotProfesorNotEdit()
     {
         // Given
         $this->actingAs($this->not_profesor);
@@ -226,7 +226,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $this->assertDatabaseHas('youtube_videos', ['id' => $youtube_video->id, 'titulo' => $youtube_video->titulo]);
     }
 
-    public function testNotAllowedRoleNotUpdate()
+    public function testNotProfesorNotUpdate()
     {
         // Given
         $this->actingAs($this->not_profesor);
@@ -288,7 +288,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $this->assertDatabaseMissing('youtube_videos', $youtube_video->toArray());
     }
 
-    public function testNotAllowedRoleNotDelete()
+    public function testNotProfesorNotDelete()
     {
         // Given
         $this->actingAs($this->not_profesor);
