@@ -86,12 +86,13 @@ class SkillsTest extends TestCase
         // Given
         $this->actingAs($this->admin);
         $skill = factory(Skill::class)->make();
+        $total = Skill::all()->count();
 
         // When
         $this->post(route('skills.store'), $skill->toArray());
 
         // Then
-        $this->assertEquals(1, Skill::all()->count());
+        $this->assertEquals($total + 1, Skill::all()->count());
     }
 
     public function testNotAdminNotStore()

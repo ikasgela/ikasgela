@@ -86,12 +86,13 @@ class QualificationsTest extends TestCase
         // Given
         $this->actingAs($this->admin);
         $qualification = factory(Qualification::class)->make();
+        $total = Qualification::all()->count();
 
         // When
         $this->post(route('qualifications.store'), $qualification->toArray());
 
         // Then
-        $this->assertEquals(1, Qualification::all()->count());
+        $this->assertEquals($total + 1, Qualification::all()->count());
     }
 
     public function testNotAdminNotStore()

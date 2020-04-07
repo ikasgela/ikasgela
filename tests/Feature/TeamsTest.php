@@ -86,12 +86,13 @@ class TeamsTest extends TestCase
         // Given
         $this->actingAs($this->admin);
         $team = factory(Team::class)->make();
+        $total = Team::all()->count();
 
         // When
         $this->post(route('teams.store'), $team->toArray());
 
         // Then
-        $this->assertEquals(1, Team::all()->count());
+        $this->assertEquals($total + 1, Team::all()->count());
     }
 
     public function testNotAdminNotStore()

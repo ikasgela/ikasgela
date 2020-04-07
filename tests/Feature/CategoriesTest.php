@@ -86,12 +86,13 @@ class CategoriesTest extends TestCase
         // Given
         $this->actingAs($this->admin);
         $category = factory(Category::class)->make();
+        $total = Category::all()->count();
 
         // When
         $this->post(route('categories.store'), $category->toArray());
 
         // Then
-        $this->assertEquals(1, Category::all()->count());
+        $this->assertEquals($total + 1, Category::all()->count());
     }
 
     public function testNotAdminNotStore()

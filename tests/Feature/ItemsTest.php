@@ -86,12 +86,13 @@ class ItemsTest extends TestCase
         // Given
         $this->actingAs($this->profesor);
         $item = factory(Item::class)->make();
+        $total = Item::all()->count();
 
         // When
         $this->post(route('items.store'), $item->toArray());
 
         // Then
-        $this->assertEquals(1, Item::all()->count());
+        $this->assertEquals($total + 1, Item::all()->count());
     }
 
     public function testNotProfesorNotStore()

@@ -86,12 +86,13 @@ class GroupsTest extends TestCase
         // Given
         $this->actingAs($this->admin);
         $group = factory(Group::class)->make();
+        $total = Group::all()->count();
 
         // When
         $this->post(route('groups.store'), $group->toArray());
 
         // Then
-        $this->assertEquals(1, Group::all()->count());
+        $this->assertEquals($total + 1, Group::all()->count());
     }
 
     public function testNotAdminNotStore()

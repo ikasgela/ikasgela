@@ -86,12 +86,13 @@ class MarkdownTextsTest extends TestCase
         // Given
         $this->actingAs($this->profesor);
         $markdown_text = factory(MarkdownText::class)->make();
+        $total = MarkdownText::all()->count();
 
         // When
         $this->post(route('markdown_texts.store'), $markdown_text->toArray());
 
         // Then
-        $this->assertEquals(1, MarkdownText::all()->count());
+        $this->assertEquals($total + 1, MarkdownText::all()->count());
     }
 
     public function testNotProfesorNotStore()
