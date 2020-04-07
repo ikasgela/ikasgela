@@ -6,7 +6,7 @@ use App\MarkdownText;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
-class MarkdownTextsTest extends TestCase
+class MarkdownTextsCRUDTest extends TestCase
 {
     use DatabaseTransactions;
 

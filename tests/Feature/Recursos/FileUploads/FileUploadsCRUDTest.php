@@ -6,7 +6,7 @@ use App\FileUpload;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
-class FileUploadsTest extends TestCase
+class FileUploadsCRUDTest extends TestCase
 {
     use DatabaseTransactions;
 
