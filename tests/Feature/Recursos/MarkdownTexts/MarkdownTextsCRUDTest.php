@@ -9,7 +9,11 @@ use Tests\TestCase;
 class MarkdownTextsCRUDTest extends TestCase
 {
     use DatabaseTransactions;
-    
+
+    private $required = [
+        'titulo', 'repositorio', 'archivo'
+    ];
+
     public function setUp(): void
     {
         parent::setUp();
@@ -136,19 +140,24 @@ class MarkdownTextsCRUDTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
-    public function testStoreThereAreRequiredFields()
+    public function testStoreUntestedRequiredFields()
     {
         // Auth
         $this->actingAs($this->profesor);
 
         // Given
+        $total = MarkdownText::all()->count();
+
         $empty = new MarkdownText();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
-        $response = $this->post(route('markdown_texts.store'), $empty->toArray());
+        $this->post(route('markdown_texts.store'), $empty->toArray());
 
         // Then
-        $response->assertSessionHasErrors();
+        $this->assertCount($total + 1, MarkdownText::all());
     }
 
     private function storeRequires(string $field)
@@ -166,9 +175,11 @@ class MarkdownTextsCRUDTest extends TestCase
         $response->assertSessionHasErrors($field);
     }
 
-    public function testStoreRequiresTitulo()
+    public function testStoreTestingNotRequiredFields()
     {
-        $this->storeRequires('titulo');
+        foreach ($this->required as $field) {
+            $this->storeRequires($field);
+        }
     }
 
     public function testShow()
@@ -302,7 +313,7 @@ class MarkdownTextsCRUDTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
-    public function testUpdateThereAreRequiredFields()
+    public function testUpdateUntestedRequiredFields()
     {
         // Auth
         $this->actingAs($this->profesor);
@@ -310,12 +321,15 @@ class MarkdownTextsCRUDTest extends TestCase
         // Given
         $markdown_text = factory(MarkdownText::class)->create();
         $empty = new MarkdownText();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
         $response = $this->put(route('markdown_texts.update', $markdown_text), $empty->toArray());
 
         // Then
-        $response->assertSessionHasErrors();
+        $response->assertSessionDoesntHaveErrors();
     }
 
     private function updateRequires(string $field)
@@ -334,9 +348,11 @@ class MarkdownTextsCRUDTest extends TestCase
         $response->assertSessionHasErrors($field);
     }
 
-    public function testUpdateRequiresTitulo()
+    public function testUpdateTestingNotRequiredFields()
     {
-        $this->updateRequires('titulo');
+        foreach ($this->required as $field) {
+            $this->updateRequires($field);
+        }
     }
 
     public function testDelete()
