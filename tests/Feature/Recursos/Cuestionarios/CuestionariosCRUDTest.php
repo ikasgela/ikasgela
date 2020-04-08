@@ -171,10 +171,10 @@ class CuestionariosCRUDTest extends TestCase
         }
 
         // When
-        $this->post(route('cuestionarios.store'), $empty->toArray());
+        $response = $this->post(route('cuestionarios.store'), $empty->toArray());
 
         // Then
-        $this->assertCount($total + 1, Cuestionario::all());
+        $response->assertSessionHasNoErrors();
     }
 
     private function storeRequires(string $field)
@@ -346,7 +346,7 @@ class CuestionariosCRUDTest extends TestCase
         $response = $this->put(route('cuestionarios.update', $cuestionario), $empty->toArray());
 
         // Then
-        $response->assertSessionDoesntHaveErrors();
+        $response->assertSessionHasNoErrors();
     }
 
     private function updateRequires(string $field)
