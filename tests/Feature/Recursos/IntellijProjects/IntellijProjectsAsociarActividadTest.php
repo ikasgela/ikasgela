@@ -7,7 +7,7 @@ use App\IntellijProject;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
-class IntellijProjectsExtraTest extends TestCase
+class IntellijProjectsAsociarActividadTest extends TestCase
 {
     use DatabaseTransactions;
 

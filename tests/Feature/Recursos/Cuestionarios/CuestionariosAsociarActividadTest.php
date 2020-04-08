@@ -7,7 +7,7 @@ use App\Cuestionario;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
-class CuestionariosExtraTest extends TestCase
+class CuestionariosAsociarActividadTest extends TestCase
 {
     use DatabaseTransactions;
 
