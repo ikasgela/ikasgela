@@ -194,7 +194,7 @@ class ItemsCRUDTest extends TestCase
         $response = $this->get(route('items.show', $item));
 
         // Then
-        $response->assertSeeInOrder([__('Questionnaire'), $item->texto]);
+        $response->assertSee(__('Not implemented.'));
     }
 
     public function testNotProfesorNotShow()
