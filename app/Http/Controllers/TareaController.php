@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Actividad;
 use App\Registro;
-use App\Unidad;
+use App\Tarea;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
-use App\User;
-use App\Tarea;
 
 class TareaController extends Controller
 {

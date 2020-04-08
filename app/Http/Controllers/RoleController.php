@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Actividad;
 use App\Role;
 use Illuminate\Http\Request;
 

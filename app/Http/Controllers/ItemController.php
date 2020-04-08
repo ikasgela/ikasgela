@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Cuestionario;
 use App\Item;
 use App\Pregunta;
 use BadMethodCallException;

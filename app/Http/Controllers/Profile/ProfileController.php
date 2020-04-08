@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\Profile;
 
 use App\Gitea\GiteaClient;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use App\User;
+use GitLab;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\User;
-
-use GitLab;
 
 class ProfileController extends Controller
 {
