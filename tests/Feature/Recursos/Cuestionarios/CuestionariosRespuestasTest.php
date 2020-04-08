@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Recursos\Cuestionarios;
 
-use App\Actividad;
 use App\Cuestionario;
 use App\Item;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -35,7 +34,7 @@ class CuestionariosRespuestasTest extends TestCase
     }
 
     /** @test */
-    public function respuesta_ok()
+    public function respuesta_correcta_seleccionada()
     {
         // Auth
         $this->actingAs($this->profesor);
@@ -61,7 +60,7 @@ class CuestionariosRespuestasTest extends TestCase
     }
 
     /** @test */
-    public function respuesta_error()
+    public function respuesta_incorrecta_seleccionada()
     {
         // Auth
         $this->actingAs($this->profesor);
@@ -84,5 +83,38 @@ class CuestionariosRespuestasTest extends TestCase
 
         $response = $this->get(route('cuestionarios.show', $cuestionario));
         $response->assertSeeInOrder(['invalid-feedback', 'Feedback ERROR']);
+    }
+
+    /** @test */
+    public function respuesta_correcta_no_seleccionada()
+    {
+        // Auth
+        $this->actingAs($this->profesor);
+
+        // Given
+        $item = factory(Item::class)->create([
+            'correcto' => false,
+            'feedback' => 'Feedback ERROR',
+        ]);
+
+        $item2 = factory(Item::class)->create([
+            'correcto' => true,
+            'feedback' => 'Feedback OK no seleccionado',
+        ]);
+
+        $pregunta = $item->pregunta;
+        $cuestionario = $item->pregunta->cuestionario;
+
+        $pregunta->items()->save($item2);
+
+        // When
+        $this->get(route('cuestionarios.show', $cuestionario));
+        $response = $this->put(route('cuestionarios.respuesta', $cuestionario), ['respuestas' => [$pregunta->id => [$item->id]]]);
+
+        // Then
+        $response->assertRedirect(route('cuestionarios.show', $cuestionario));
+
+        $response = $this->get(route('cuestionarios.show', $cuestionario));
+        $response->assertSeeInOrder(['invalid-feedback', 'Feedback ERROR', 'invalid-feedback', 'Feedback OK no seleccionado']);
     }
 }
