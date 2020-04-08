@@ -19,9 +19,10 @@ class IntellijProjectsExtraTest extends TestCase
 
     public function testActividad()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
 
+        // Given
         $actividad = factory(Actividad::class)->create();
         $intellij_project1 = factory(IntellijProject::class)->create();
         $intellij_project2 = factory(IntellijProject::class)->create();
@@ -46,9 +47,10 @@ class IntellijProjectsExtraTest extends TestCase
 
     public function testAsociar()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
 
+        // Given
         $actividad = factory(Actividad::class)->create();
         $intellij_project1 = factory(IntellijProject::class)->create();
         $intellij_project2 = factory(IntellijProject::class)->create();
@@ -62,9 +64,10 @@ class IntellijProjectsExtraTest extends TestCase
 
     public function testAsociarRequiresSeleccionadas()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
 
+        // Given
         $actividad = factory(Actividad::class)->create();
 
         // When
@@ -76,9 +79,10 @@ class IntellijProjectsExtraTest extends TestCase
 
     public function testDesasociar()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
 
+        // Given
         $actividad = factory(Actividad::class)->create();
         $intellij_project1 = factory(IntellijProject::class)->create();
         $intellij_project2 = factory(IntellijProject::class)->create();
