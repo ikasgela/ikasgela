@@ -11,6 +11,7 @@ use App\Jobs\ForkGitLabRepo;
 use App\Traits\ClonarRepoGitea;
 use App\Traits\PaginarUltima;
 use Auth;
+use BadMethodCallException;
 use Cache;
 use GitLab;
 use Illuminate\Http\Request;
@@ -54,7 +55,7 @@ class IntellijProjectController extends Controller
 
     public function show(IntellijProject $intellij_project)
     {
-        return view('intellij_projects.show', compact('intellij_project'));
+        throw new BadMethodCallException(__('Not implemented.'));
     }
 
     public function edit(IntellijProject $intellij_project)

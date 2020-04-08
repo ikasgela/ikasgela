@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actividad;
 use App\Traits\PaginarUltima;
 use App\YoutubeVideo;
+use BadMethodCallException;
 use Illuminate\Http\Request;
 
 class YoutubeVideoController extends Controller
@@ -43,7 +44,7 @@ class YoutubeVideoController extends Controller
 
     public function show(YoutubeVideo $youtube_video)
     {
-        return view('youtube_videos.show', compact('youtube_video'));
+        throw new BadMethodCallException(__('Not implemented.'));
     }
 
     public function edit(YoutubeVideo $youtube_video)
