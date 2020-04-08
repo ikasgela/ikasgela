@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Evaluacion;
 
 use App\Skill;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

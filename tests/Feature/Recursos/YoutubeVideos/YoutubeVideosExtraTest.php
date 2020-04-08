@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Recursos\YoutubeVideos;
 
 use App\Actividad;
 use App\YoutubeVideo;

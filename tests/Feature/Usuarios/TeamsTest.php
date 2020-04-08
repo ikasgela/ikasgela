@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Usuarios;
 
 use App\Team;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

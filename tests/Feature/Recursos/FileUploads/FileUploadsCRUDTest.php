@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Recursos\FileUploads;
 
 use App\FileUpload;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

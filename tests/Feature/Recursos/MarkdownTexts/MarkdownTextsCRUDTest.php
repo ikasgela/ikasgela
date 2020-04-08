@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Recursos\MarkdownTexts;
 
 use App\MarkdownText;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

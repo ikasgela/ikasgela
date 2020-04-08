@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Recursos\Cuestionarios;
 
 use App\Item;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

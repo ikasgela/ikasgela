@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Recursos\IntellijProjects;
 
 use App\IntellijProject;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
