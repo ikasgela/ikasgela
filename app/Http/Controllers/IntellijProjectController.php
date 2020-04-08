@@ -43,6 +43,8 @@ class IntellijProjectController extends Controller
     {
         $this->validate($request, [
             'repositorio' => 'required',
+            'titulo' => 'required',
+            'host' => 'required',
         ]);
 
         IntellijProject::create($request->all());
@@ -64,6 +66,8 @@ class IntellijProjectController extends Controller
     {
         $this->validate($request, [
             'repositorio' => 'required',
+            'titulo' => 'required',
+            'host' => 'required',
         ]);
 
         $intellij_project->update($request->all());
