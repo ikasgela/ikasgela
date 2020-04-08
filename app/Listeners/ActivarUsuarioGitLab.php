@@ -5,7 +5,6 @@ namespace App\Listeners;
 use App\Actividad;
 use App\Curso;
 use App\Gitea\GiteaClient;
-use Exception;
 use GitLab;
 use Illuminate\Auth\Events\Verified;
 

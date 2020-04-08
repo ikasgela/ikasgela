@@ -10,6 +10,10 @@ class FileUploadsCRUDTest extends TestCase
 {
     use DatabaseTransactions;
 
+    private $required = [
+        'titulo', 'max_files'
+    ];
+
     public function setUp(): void
     {
         parent::setUp();
@@ -153,19 +157,24 @@ class FileUploadsCRUDTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
-    public function testStoreThereAreRequiredFields()
+    public function testStoreUntestedRequiredFields()
     {
         // Auth
         $this->actingAs($this->profesor);
 
         // Given
+        $total = FileUpload::all()->count();
+
         $empty = new FileUpload();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
-        $response = $this->post(route('file_uploads.store'), $empty->toArray());
+        $this->post(route('file_uploads.store'), $empty->toArray());
 
         // Then
-        $response->assertSessionHasErrors();
+        $this->assertCount($total + 1, FileUpload::all());
     }
 
     private function storeRequires(string $field)
@@ -183,14 +192,11 @@ class FileUploadsCRUDTest extends TestCase
         $response->assertSessionHasErrors($field);
     }
 
-    public function testStoreRequiresTitulo()
+    public function testStoreTestingNotRequiredFields()
     {
-        $this->storeRequires('titulo');
-    }
-
-    public function testStoreRequiresMaxFiles()
-    {
-        $this->storeRequires('max_files');
+        foreach ($this->required as $field) {
+            $this->storeRequires($field);
+        }
     }
 
     public function testShow()
@@ -324,7 +330,7 @@ class FileUploadsCRUDTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
-    public function testUpdateThereAreRequiredFields()
+    public function testUpdateUntestedRequiredFields()
     {
         // Auth
         $this->actingAs($this->profesor);
@@ -332,12 +338,15 @@ class FileUploadsCRUDTest extends TestCase
         // Given
         $file_upload = factory(FileUpload::class)->create();
         $empty = new FileUpload();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
         $response = $this->put(route('file_uploads.update', $file_upload), $empty->toArray());
 
         // Then
-        $response->assertSessionHasErrors();
+        $response->assertSessionDoesntHaveErrors();
     }
 
     private function updateRequires(string $field)
@@ -356,14 +365,11 @@ class FileUploadsCRUDTest extends TestCase
         $response->assertSessionHasErrors($field);
     }
 
-    public function testUpdateRequiresTitulo()
+    public function testUpdateTestingNotRequiredFields()
     {
-        $this->updateRequires('titulo');
-    }
-
-    public function testUpdateRequiresMaxFiles()
-    {
-        $this->updateRequires('max_files');
+        foreach ($this->required as $field) {
+            $this->updateRequires($field);
+        }
     }
 
     public function testDelete()

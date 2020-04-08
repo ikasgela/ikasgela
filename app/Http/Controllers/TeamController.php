@@ -52,7 +52,7 @@ class TeamController extends Controller
 
     public function show(Team $team)
     {
-        throw new BadMethodCallException(__('Not implemented.'));
+        return abort(501, __('Not implemented.'));
     }
 
     public function edit(Team $team)

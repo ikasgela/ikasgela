@@ -10,6 +10,10 @@ class YoutubeVideosCRUDTest extends TestCase
 {
     use DatabaseTransactions;
 
+    private $required = [
+        'titulo', 'codigo'
+    ];
+
     public function setUp(): void
     {
         parent::setUp();
@@ -136,19 +140,24 @@ class YoutubeVideosCRUDTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
-    public function testStoreThereAreRequiredFields()
+    public function testStoreUntestedRequiredFields()
     {
         // Auth
         $this->actingAs($this->profesor);
 
         // Given
+        $total = YoutubeVideo::all()->count();
+
         $empty = new YoutubeVideo();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
-        $response = $this->post(route('youtube_videos.store'), $empty->toArray());
+        $this->post(route('youtube_videos.store'), $empty->toArray());
 
         // Then
-        $response->assertSessionHasErrors();
+        $this->assertCount($total + 1, YoutubeVideo::all());
     }
 
     private function storeRequires(string $field)
@@ -166,14 +175,11 @@ class YoutubeVideosCRUDTest extends TestCase
         $response->assertSessionHasErrors($field);
     }
 
-    public function testStoreRequiresTitulo()
+    public function testStoreTestingNotRequiredFields()
     {
-        $this->storeRequires('titulo');
-    }
-
-    public function testStoreRequiresCodigo()
-    {
-        $this->storeRequires('codigo');
+        foreach ($this->required as $field) {
+            $this->storeRequires($field);
+        }
     }
 
     public function testShow()
@@ -188,7 +194,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $response = $this->get(route('youtube_videos.show', $youtube_video));
 
         // Then
-        $response->assertSee(__('Not implemented.'));
+        $response->assertStatus(501);
     }
 
     public function testNotProfesorNotShow()
@@ -308,7 +314,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
-    public function testUpdateThereAreRequiredFields()
+    public function testUpdateUntestedRequiredFields()
     {
         // Auth
         $this->actingAs($this->profesor);
@@ -316,12 +322,15 @@ class YoutubeVideosCRUDTest extends TestCase
         // Given
         $youtube_video = factory(YoutubeVideo::class)->create();
         $empty = new YoutubeVideo();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
         $response = $this->put(route('youtube_videos.update', $youtube_video), $empty->toArray());
 
         // Then
-        $response->assertSessionHasErrors();
+        $response->assertSessionDoesntHaveErrors();
     }
 
     private function updateRequires(string $field)
@@ -340,14 +349,11 @@ class YoutubeVideosCRUDTest extends TestCase
         $response->assertSessionHasErrors($field);
     }
 
-    public function testUpdateRequiresTitulo()
+    public function testUpdateTestingNotRequiredFields()
     {
-        $this->updateRequires('titulo');
-    }
-
-    public function testUpdateRequiresCodigo()
-    {
-        $this->updateRequires('codigo');
+        foreach ($this->required as $field) {
+            $this->updateRequires($field);
+        }
     }
 
     public function testDelete()

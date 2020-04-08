@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Cuestionario;
 use App\Item;
 use App\Pregunta;
 use BadMethodCallException;
@@ -51,7 +50,7 @@ class ItemController extends Controller
 
     public function show(Item $item)
     {
-        throw new BadMethodCallException(__('Not implemented.'));
+        return abort(501, __('Not implemented.'));
     }
 
     public function edit(Item $item)

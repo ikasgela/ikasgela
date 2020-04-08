@@ -113,7 +113,7 @@ class CuestionariosCRUDTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
-    public function testStore()
+    public function testStoreAndEdit()
     {
         // Auth
         $this->actingAs($this->profesor);
@@ -123,10 +123,13 @@ class CuestionariosCRUDTest extends TestCase
         $total = Cuestionario::all()->count();
 
         // When
-        $this->post(route('cuestionarios.store'), $cuestionario->toArray());
+        $response = $this->post(route('cuestionarios.store'), $cuestionario->toArray());
 
         // Then
-        $this->assertEquals($total + 1, Cuestionario::all()->count());
+        $this->assertCount($total + 1, Cuestionario::all());
+
+        $guardado = Cuestionario::orderBy('id', 'desc')->first();
+        $response->assertLocation(route('cuestionarios.edit', $guardado));
     }
 
     public function testNotProfesorNotStore()
@@ -171,10 +174,10 @@ class CuestionariosCRUDTest extends TestCase
         }
 
         // When
-        $this->post(route('cuestionarios.store'), $empty->toArray());
+        $response = $this->post(route('cuestionarios.store'), $empty->toArray());
 
         // Then
-        $this->assertCount($total + 1, Cuestionario::all());
+        $response->assertSessionHasNoErrors();
     }
 
     private function storeRequires(string $field)
@@ -346,7 +349,7 @@ class CuestionariosCRUDTest extends TestCase
         $response = $this->put(route('cuestionarios.update', $cuestionario), $empty->toArray());
 
         // Then
-        $response->assertSessionDoesntHaveErrors();
+        $response->assertSessionHasNoErrors();
     }
 
     private function updateRequires(string $field)

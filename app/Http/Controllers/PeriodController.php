@@ -52,7 +52,7 @@ class PeriodController extends Controller
 
     public function show(Period $period)
     {
-        throw new BadMethodCallException(__('Not implemented.'));
+        return abort(501, __('Not implemented.'));
     }
 
     public function edit(Period $period)

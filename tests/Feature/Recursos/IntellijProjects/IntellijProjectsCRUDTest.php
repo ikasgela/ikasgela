@@ -10,6 +10,10 @@ class IntellijProjectsCRUDTest extends TestCase
 {
     use DatabaseTransactions;
 
+    private $required = [
+        'repositorio', 'titulo', 'host'
+    ];
+
     public function setUp(): void
     {
         parent::setUp();
@@ -136,19 +140,24 @@ class IntellijProjectsCRUDTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
-    public function testStoreThereAreRequiredFields()
+    public function testStoreUntestedRequiredFields()
     {
         // Auth
         $this->actingAs($this->profesor);
 
         // Given
+        $total = IntellijProject::all()->count();
+
         $empty = new IntellijProject();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
-        $response = $this->post(route('intellij_projects.store'), $empty->toArray());
+        $this->post(route('intellij_projects.store'), $empty->toArray());
 
         // Then
-        $response->assertSessionHasErrors();
+        $this->assertCount($total + 1, IntellijProject::all());
     }
 
     private function storeRequires(string $field)
@@ -166,9 +175,11 @@ class IntellijProjectsCRUDTest extends TestCase
         $response->assertSessionHasErrors($field);
     }
 
-    public function testStoreRequiresRepositorio()
+    public function testStoreTestingNotRequiredFields()
     {
-        $this->storeRequires('repositorio');
+        foreach ($this->required as $field) {
+            $this->storeRequires($field);
+        }
     }
 
     public function testShow()
@@ -183,7 +194,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $response = $this->get(route('intellij_projects.show', $intellij_project));
 
         // Then
-        $response->assertSee(__('Not implemented.'));
+        $response->assertStatus(501);
     }
 
     public function testNotProfesorNotShow()
@@ -303,7 +314,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
-    public function testUpdateThereAreRequiredFields()
+    public function testUpdateUntestedRequiredFields()
     {
         // Auth
         $this->actingAs($this->profesor);
@@ -311,12 +322,15 @@ class IntellijProjectsCRUDTest extends TestCase
         // Given
         $intellij_project = factory(IntellijProject::class)->create();
         $empty = new IntellijProject();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
         $response = $this->put(route('intellij_projects.update', $intellij_project), $empty->toArray());
 
         // Then
-        $response->assertSessionHasErrors();
+        $response->assertSessionDoesntHaveErrors();
     }
 
     private function updateRequires(string $field)
@@ -335,9 +349,11 @@ class IntellijProjectsCRUDTest extends TestCase
         $response->assertSessionHasErrors($field);
     }
 
-    public function testUpdateRequiresRepositorio()
+    public function testUpdateTestingNotRequiredFields()
     {
-        $this->updateRequires('repositorio');
+        foreach ($this->required as $field) {
+            $this->updateRequires($field);
+        }
     }
 
     public function testDelete()

@@ -7,7 +7,7 @@ use App\YoutubeVideo;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
-class YoutubeVideosExtraTest extends TestCase
+class YoutubeVideosAsociarActividadTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -19,9 +19,10 @@ class YoutubeVideosExtraTest extends TestCase
 
     public function testActividad()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
 
+        // Given
         $actividad = factory(Actividad::class)->create();
         $youtube_video1 = factory(YoutubeVideo::class)->create();
         $youtube_video2 = factory(YoutubeVideo::class)->create();
@@ -46,9 +47,10 @@ class YoutubeVideosExtraTest extends TestCase
 
     public function testAsociar()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
 
+        // Given
         $actividad = factory(Actividad::class)->create();
         $youtube_video1 = factory(YoutubeVideo::class)->create();
         $youtube_video2 = factory(YoutubeVideo::class)->create();
@@ -62,9 +64,10 @@ class YoutubeVideosExtraTest extends TestCase
 
     public function testAsociarRequiresSeleccionadas()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
 
+        // Given
         $actividad = factory(Actividad::class)->create();
 
         // When
@@ -76,9 +79,10 @@ class YoutubeVideosExtraTest extends TestCase
 
     public function testDesasociar()
     {
-        // Given
+        // Auth
         $this->actingAs($this->profesor);
 
+        // Given
         $actividad = factory(Actividad::class)->create();
         $youtube_video1 = factory(YoutubeVideo::class)->create();
         $youtube_video2 = factory(YoutubeVideo::class)->create();

@@ -12,6 +12,7 @@ use App\Tarea;
 use App\Traits\PaginarUltima;
 use App\Unidad;
 use App\User;
+use BadMethodCallException;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -128,7 +129,7 @@ class ActividadController extends Controller
      */
     public function show(Actividad $actividad)
     {
-        return view('actividades.show', compact('actividad'));
+        return abort(501, __('Not implemented.'));
     }
 
     public function preview(Actividad $actividad)

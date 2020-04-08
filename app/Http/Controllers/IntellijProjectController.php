@@ -11,6 +11,7 @@ use App\Jobs\ForkGitLabRepo;
 use App\Traits\ClonarRepoGitea;
 use App\Traits\PaginarUltima;
 use Auth;
+use BadMethodCallException;
 use Cache;
 use GitLab;
 use Illuminate\Http\Request;
@@ -43,6 +44,8 @@ class IntellijProjectController extends Controller
     {
         $this->validate($request, [
             'repositorio' => 'required',
+            'titulo' => 'required',
+            'host' => 'required',
         ]);
 
         IntellijProject::create($request->all());
@@ -52,7 +55,7 @@ class IntellijProjectController extends Controller
 
     public function show(IntellijProject $intellij_project)
     {
-        return view('intellij_projects.show', compact('intellij_project'));
+        return abort(501, __('Not implemented.'));
     }
 
     public function edit(IntellijProject $intellij_project)
@@ -64,6 +67,8 @@ class IntellijProjectController extends Controller
     {
         $this->validate($request, [
             'repositorio' => 'required',
+            'titulo' => 'required',
+            'host' => 'required',
         ]);
 
         $intellij_project->update($request->all());

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Curso;
 use App\Qualification;
 use App\Unidad;
+use BadMethodCallException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -58,7 +59,7 @@ class UnidadController extends Controller
 
     public function show(Unidad $unidad)
     {
-        return view('unidades.show', compact('unidad'));
+        return abort(501, __('Not implemented.'));
     }
 
     public function edit(Unidad $unidad)

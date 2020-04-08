@@ -2,9 +2,6 @@
 
 namespace App\Console;
 
-use App\Actividad;
-use Carbon\Carbon;
-use GrahamCampbell\GitLab\Facades\GitLab;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 

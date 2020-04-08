@@ -52,7 +52,7 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        throw new BadMethodCallException(__('Not implemented.'));
+        return abort(501, __('Not implemented.'));
     }
 
     public function edit(Category $category)

@@ -152,7 +152,7 @@ class CategoriesTest extends TestCase
         $response = $this->get(route('categories.show', $category));
 
         // Then
-        $response->assertSee(__('Not implemented.'));
+        $response->assertStatus(501);
     }
 
     public function testNotAdminNotShow()

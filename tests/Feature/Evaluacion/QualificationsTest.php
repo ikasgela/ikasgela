@@ -152,7 +152,7 @@ class QualificationsTest extends TestCase
         $response = $this->get(route('qualifications.show', $qualification));
 
         // Then
-        $response->assertSee(__('Not implemented.'));
+        $response->assertStatus(501);
     }
 
     public function testNotAdminNotShow()

@@ -57,7 +57,7 @@ class QualificationController extends Controller
 
     public function show(Qualification $qualification)
     {
-        throw new BadMethodCallException(__('Not implemented.'));
+        return abort(501, __('Not implemented.'));
     }
 
     public function edit(Qualification $qualification)

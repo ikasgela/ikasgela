@@ -152,7 +152,7 @@ class FeedbacksTest extends TestCase
         $response = $this->get(route('feedbacks.show', $feedback));
 
         // Then
-        $response->assertSee(__('Not implemented.'));
+        $response->assertStatus(501);
     }
 
     public function testNotAdminNotShow()

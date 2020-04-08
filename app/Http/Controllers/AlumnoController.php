@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Curso;
 use App\Organization;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Setting;
 
 class AlumnoController extends Controller
