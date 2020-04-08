@@ -129,7 +129,7 @@ class ActividadController extends Controller
      */
     public function show(Actividad $actividad)
     {
-        throw new BadMethodCallException(__('Not implemented.'));
+        return abort(501, __('Not implemented.'));
     }
 
     public function preview(Actividad $actividad)

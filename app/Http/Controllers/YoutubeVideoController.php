@@ -44,7 +44,7 @@ class YoutubeVideoController extends Controller
 
     public function show(YoutubeVideo $youtube_video)
     {
-        throw new BadMethodCallException(__('Not implemented.'));
+        return abort(501, __('Not implemented.'));
     }
 
     public function edit(YoutubeVideo $youtube_video)

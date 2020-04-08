@@ -194,7 +194,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $response = $this->get(route('youtube_videos.show', $youtube_video));
 
         // Then
-        $response->assertSee(__('Not implemented.'));
+        $response->assertStatus(501);
     }
 
     public function testNotProfesorNotShow()

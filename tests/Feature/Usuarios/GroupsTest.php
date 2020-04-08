@@ -152,7 +152,7 @@ class GroupsTest extends TestCase
         $response = $this->get(route('groups.show', $group));
 
         // Then
-        $response->assertSee(__('Not implemented.'));
+        $response->assertStatus(501);
     }
 
     public function testNotAdminNotShow()

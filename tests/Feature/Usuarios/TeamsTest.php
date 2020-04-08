@@ -152,7 +152,7 @@ class TeamsTest extends TestCase
         $response = $this->get(route('teams.show', $team));
 
         // Then
-        $response->assertSee(__('Not implemented.'));
+        $response->assertStatus(501);
     }
 
     public function testNotAdminNotShow()

@@ -140,7 +140,7 @@ class OrganizationsTest extends TestCase
         $response = $this->get(route('organizations.show', $organization));
 
         // Then
-        $response->assertSee(__('Not implemented.'));
+        $response->assertStatus(501);
     }
 
     public function testNotAdminNotShow()

@@ -59,7 +59,7 @@ class UnidadController extends Controller
 
     public function show(Unidad $unidad)
     {
-        throw new BadMethodCallException(__('Not implemented.'));
+        return abort(501, __('Not implemented.'));
     }
 
     public function edit(Unidad $unidad)

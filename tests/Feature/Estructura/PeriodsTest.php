@@ -152,7 +152,7 @@ class PeriodsTest extends TestCase
         $response = $this->get(route('periods.show', $period));
 
         // Then
-        $response->assertSee(__('Not implemented.'));
+        $response->assertStatus(501);
     }
 
     public function testNotAdminNotShow()

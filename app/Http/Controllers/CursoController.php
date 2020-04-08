@@ -59,7 +59,7 @@ class CursoController extends Controller
 
     public function show(Curso $curso)
     {
-        throw new BadMethodCallException(__('Not implemented.'));
+        return abort(501, __('Not implemented.'));
     }
 
     /**

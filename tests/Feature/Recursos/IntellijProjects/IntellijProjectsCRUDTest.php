@@ -194,7 +194,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $response = $this->get(route('intellij_projects.show', $intellij_project));
 
         // Then
-        $response->assertSee(__('Not implemented.'));
+        $response->assertStatus(501);
     }
 
     public function testNotProfesorNotShow()

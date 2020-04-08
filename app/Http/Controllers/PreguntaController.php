@@ -54,7 +54,7 @@ class PreguntaController extends Controller
 
     public function show(Pregunta $pregunta)
     {
-        throw new BadMethodCallException(__('Not implemented.'));
+        return abort(501, __('Not implemented.'));
     }
 
     public function edit(Pregunta $pregunta)

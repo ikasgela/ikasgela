@@ -43,7 +43,7 @@ class FeedbackController extends Controller
 
     public function show(Feedback $feedback)
     {
-        throw new BadMethodCallException(__('Not implemented.'));
+        return abort(501, __('Not implemented.'));
     }
 
     public function edit(Feedback $feedback)
