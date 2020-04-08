@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\Recursos\Cuestionarios;
 
-use App\Cuestionario;
+use App\Pregunta;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
-class CuestionariosAnyadirPreguntaTest extends TestCase
+class PreguntasAnyadirItemTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -17,21 +17,21 @@ class CuestionariosAnyadirPreguntaTest extends TestCase
     }
 
     /** @test */
-    public function anyadir_pregunta_a_cuestionario()
+    public function anyadir_item_a_pregunta()
     {
         // Auth
         $this->actingAs($this->profesor);
 
         // Given
-        $cuestionario = factory(Cuestionario::class)->create();
+        $pregunta = factory(Pregunta::class)->create();
 
         // When
-        $response = $this->get(route('preguntas.anyadir', $cuestionario));
+        $response = $this->get(route('items.anyadir', $pregunta));
 
         // Then
         $response->assertSeeInOrder([
-            __('New question'),
-            $cuestionario->titulo,
+            __('New item'),
+            $pregunta->titulo,
             __('Save'),
         ]);
     }
