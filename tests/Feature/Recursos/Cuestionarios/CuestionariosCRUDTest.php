@@ -113,7 +113,7 @@ class CuestionariosCRUDTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
-    public function testStore()
+    public function testStoreAndEdit()
     {
         // Auth
         $this->actingAs($this->profesor);
@@ -123,10 +123,13 @@ class CuestionariosCRUDTest extends TestCase
         $total = Cuestionario::all()->count();
 
         // When
-        $this->post(route('cuestionarios.store'), $cuestionario->toArray());
+        $response = $this->post(route('cuestionarios.store'), $cuestionario->toArray());
 
         // Then
-        $this->assertEquals($total + 1, Cuestionario::all()->count());
+        $this->assertCount($total + 1, Cuestionario::all());
+
+        $guardado = Cuestionario::orderBy('id', 'desc')->first();
+        $response->assertLocation(route('cuestionarios.edit', $guardado));
     }
 
     public function testNotProfesorNotStore()
