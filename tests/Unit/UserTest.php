@@ -23,6 +23,7 @@ class UserTest extends TestCase
                 'id', 'name', 'email', 'username', 'email_verified_at',
                 'password', 'remember_token', 'tutorial', 'created_at', 'updated_at',
                 'last_active', 'blocked_date', 'max_simultaneas', 'tags',
-            ]), 1);
+            ])
+        );
     }
 }
