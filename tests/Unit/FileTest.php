@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
-class UserTest extends TestCase
+class FileTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -18,23 +18,22 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function users_table_has_expected_columns()
+    public function files_table_has_expected_columns()
     {
         // Auth
         // Given
         // When
         // Then
         $this->assertTrue(
-            Schema::hasColumns('users', [
-                'id', 'name', 'email', 'username', 'email_verified_at',
-                'password', 'remember_token', 'tutorial', 'created_at', 'updated_at',
-                'last_active', 'blocked_date', 'max_simultaneas', 'tags',
+            Schema::hasColumns('files', [
+                'id', 'path', 'title', 'size', 'file_upload_id',
+                'user_id', 'created_at', 'updated_at',
             ])
         );
     }
 
     /** @test */
-    public function a_user_has_many_files()
+    public function a_file_belongs_to_a_user()
     {
         // Auth
         // Given
@@ -43,6 +42,6 @@ class UserTest extends TestCase
 
         // When
         // Then
-        $this->assertTrue($user->files->contains($file));
+        $this->assertEquals($file->user->id, $user->id);
     }
 }
