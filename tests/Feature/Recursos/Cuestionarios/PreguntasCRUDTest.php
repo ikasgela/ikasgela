@@ -96,7 +96,7 @@ class PreguntasCRUDTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
-    public function testStoreAndEdit()
+    public function testStore()
     {
         // Auth
         $this->actingAs($this->profesor);
@@ -106,11 +106,24 @@ class PreguntasCRUDTest extends TestCase
         $total = Pregunta::all()->count();
 
         // When
-        $response = $this->post(route('preguntas.store'), $pregunta->toArray());
+        $this->post(route('preguntas.store'), $pregunta->toArray());
 
         // Then
         $this->assertCount($total + 1, Pregunta::all());
+    }
 
+    public function testStoreThenEdit()
+    {
+        // Auth
+        $this->actingAs($this->profesor);
+
+        // Given
+        $pregunta = factory(Pregunta::class)->make();
+
+        // When
+        $response = $this->post(route('preguntas.store'), $pregunta->toArray());
+
+        // Then
         $guardado = Pregunta::orderBy('id', 'desc')->first();
         $response->assertLocation(route('preguntas.edit', $guardado));
     }
