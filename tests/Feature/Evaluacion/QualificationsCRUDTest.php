@@ -3,6 +3,7 @@
 namespace Tests\Feature\Evaluacion;
 
 use App\Qualification;
+use App\Skill;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
@@ -110,6 +111,32 @@ class QualificationsCRUDTest extends TestCase
 
         // Then
         $this->assertEquals($total + 1, Qualification::all()->count());
+    }
+
+    public function testStoreWithSkills()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $qualification = factory(Qualification::class)->make();
+        $skill1 = factory(Skill::class)->create();
+        $skill2 = factory(Skill::class)->create();
+
+        $extra = [
+            'skills_seleccionados' => [
+                $skill1->id, $skill2->id
+            ],
+            'percentage_' . $skill1->id => 100,
+            'percentage_' . $skill2->id => 50,
+        ];
+
+        // When
+        $this->post(route('qualifications.store'), array_merge($qualification->toArray(), $extra));
+
+        // Then
+        $guardado = Qualification::orderBy('id', 'desc')->first();
+        $this->assertCount(2, $guardado->skills);
     }
 
     public function testNotAdminNotStore()
@@ -281,6 +308,32 @@ class QualificationsCRUDTest extends TestCase
 
         // Then
         $this->assertDatabaseHas('qualifications', ['id' => $qualification->id, 'name' => $qualification->name]);
+    }
+
+    public function testUpdateWithSkills()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $qualification = factory(Qualification::class)->create();
+        $qualification->name = "Updated";
+        $skill1 = factory(Skill::class)->create();
+        $skill2 = factory(Skill::class)->create();
+
+        $extra = [
+            'skills_seleccionados' => [
+                $skill1->id, $skill2->id
+            ],
+            'percentage_' . $skill1->id => 100,
+            'percentage_' . $skill2->id => 50,
+        ];
+
+        // When
+        $this->put(route('qualifications.update', $qualification), array_merge($qualification->toArray(), $extra));
+
+        // Then
+        $this->assertCount(2, $qualification->skills);
     }
 
     public function testNotAdminNotUpdate()

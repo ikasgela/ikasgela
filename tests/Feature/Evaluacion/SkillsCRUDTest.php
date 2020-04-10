@@ -274,13 +274,13 @@ class SkillsCRUDTest extends TestCase
 
         // Given
         $skill = factory(Skill::class)->create();
-        $skill->updated_at = now();
-
+        sleep(2);
+        $skill->name = "Updated";
         // When
         $this->put(route('skills.update', $skill), $skill->toArray());
 
         // Then
-        $this->assertDatabaseHas('skills', ['id' => $skill->id, 'updated_at' => $skill->updated_at]);
+        $this->assertDatabaseHas('skills', ['id' => $skill->id, 'name' => $skill->name]);
     }
 
     public function testNotAdminNotUpdate()
@@ -290,9 +290,9 @@ class SkillsCRUDTest extends TestCase
 
         // Given
         $skill = factory(Skill::class)->create();
-        $skill->updated_at = now();
 
         // When
+        $skill->name = "Updated";
         $response = $this->put(route('skills.update', $skill), $skill->toArray());
 
         // Then
@@ -304,9 +304,9 @@ class SkillsCRUDTest extends TestCase
         // Auth
         // Given
         $skill = factory(Skill::class)->create();
-        $skill->updated_at = now();
 
         // When
+        $skill->name = "Updated";
         $response = $this->put(route('skills.update', $skill), $skill->toArray());
 
         // Then
@@ -339,9 +339,9 @@ class SkillsCRUDTest extends TestCase
 
         // Given
         $skill = factory(Skill::class)->create();
-        $skill->$field = null;
 
         // When
+        $skill->$field = null;
         $response = $this->put(route('skills.update', $skill), $skill->toArray());
 
         // Then
