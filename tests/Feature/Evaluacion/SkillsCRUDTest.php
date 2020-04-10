@@ -6,9 +6,13 @@ use App\Skill;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
-class SkillsTest extends TestCase
+class SkillsCRUDTest extends TestCase
 {
     use DatabaseTransactions;
+
+    private $required = [
+        'name', 'organization_id'
+    ];
 
     public function setUp(): void
     {
@@ -18,8 +22,10 @@ class SkillsTest extends TestCase
 
     public function testIndex()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $skill = factory(Skill::class)->create();
 
         // When
@@ -31,29 +37,34 @@ class SkillsTest extends TestCase
 
     public function testNotAdminNotIndex()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
 
+        // Given
         // When
+        $response = $this->get(route('skills.index'));
+
         // Then
-        $this->get(route('skills.index'))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotIndex()
     {
+        // Auth
         // Given
         // When
+        $response = $this->get(route('skills.index'));
+
         // Then
-        $this->get(route('skills.index'))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testCreate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
 
+        // Given
         // When
         $response = $this->get(route('skills.create'));
 
@@ -63,28 +74,34 @@ class SkillsTest extends TestCase
 
     public function testNotAdminNotCreate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
 
+        // Given
         // When
+        $response = $this->get(route('skills.create'));
+
         // Then
-        $this->get(route('skills.create'))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotCreate()
     {
+        // Auth
         // Given
         // When
+        $response = $this->get(route('skills.create'));
+
         // Then
-        $this->get(route('skills.create'))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testStore()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $skill = factory(Skill::class)->make();
         $total = Skill::all()->count();
 
@@ -97,55 +114,80 @@ class SkillsTest extends TestCase
 
     public function testNotAdminNotStore()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $skill = factory(Skill::class)->make();
 
         // When
+        $response = $this->post(route('skills.store'), $skill->toArray());
+
         // Then
-        $this->post(route('skills.store'), $skill->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotStore()
     {
+        // Auth
         // Given
         $skill = factory(Skill::class)->make();
 
         // When
+        $response = $this->post(route('skills.store'), $skill->toArray());
+
         // Then
-        $this->post(route('skills.store'), $skill->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
-    public function testStoreRequiresName()
+    public function testStoreUntestedRequiredFields()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
-        $skill = factory(Skill::class)->make(['name' => null]);
+
+        // Given
+        $total = Skill::all()->count();
+
+        $empty = new Skill();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
+        $response = $this->post(route('skills.store'), $empty->toArray());
+
         // Then
-        $this->post(route('skills.store'), $skill->toArray())
-            ->assertSessionHasErrors('name');
+        $response->assertSessionHasNoErrors();
     }
 
-    public function testStoreRequiresOrganization()
+    private function storeRequires(string $field)
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
-        $skill = factory(Skill::class)->make(['organization_id' => null]);
+
+        // Given
+        $skill = factory(Skill::class)->make([$field => null]);
 
         // When
+        $response = $this->post(route('skills.store'), $skill->toArray());
+
         // Then
-        $this->post(route('skills.store'), $skill->toArray())
-            ->assertSessionHasErrors('organization_id');
+        $response->assertSessionHasErrors($field);
+    }
+
+    public function testStoreTestingNotRequiredFields()
+    {
+        foreach ($this->required as $field) {
+            $this->storeRequires($field);
+        }
     }
 
     public function testShow()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $skill = factory(Skill::class)->create();
 
         // When
@@ -157,14 +199,17 @@ class SkillsTest extends TestCase
 
     public function testNotAdminNotShow()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $skill = factory(Skill::class)->create();
 
         // When
+        $response = $this->get(route('skills.show', $skill));
+
         // Then
-        $this->get(route('skills.show', $skill))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotShow()
@@ -173,118 +218,149 @@ class SkillsTest extends TestCase
         $skill = factory(Skill::class)->create();
 
         // When
+        $response = $this->get(route('skills.show', $skill));
+
         // Then
-        $this->get(route('skills.show', $skill))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testEdit()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $skill = factory(Skill::class)->create();
 
         // When
         $response = $this->get(route('skills.edit', $skill), $skill->toArray());
 
         // Then
-        $response->assertSeeInOrder([$skill->name, $skill->slug, __('Save')]);
+        $response->assertSeeInOrder([$skill->name, __('Save')]);
     }
 
     public function testNotAdminNotEdit()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $skill = factory(Skill::class)->create();
 
         // When
+        $response = $this->get(route('skills.edit', $skill), $skill->toArray());
+
         // Then
-        $this->get(route('skills.edit', $skill), $skill->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotEdit()
     {
+        // Auth
         // Given
         $skill = factory(Skill::class)->create();
 
         // When
+        $response = $this->get(route('skills.edit', $skill), $skill->toArray());
+
         // Then
-        $this->get(route('skills.edit', $skill), $skill->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testUpdate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $skill = factory(Skill::class)->create();
-        $skill->name = "Updated";
+        $skill->updated_at = now();
 
         // When
         $this->put(route('skills.update', $skill), $skill->toArray());
 
         // Then
-        $this->assertDatabaseHas('skills', ['id' => $skill->id, 'name' => $skill->name]);
+        $this->assertDatabaseHas('skills', ['id' => $skill->id, 'updated_at' => $skill->updated_at]);
     }
 
     public function testNotAdminNotUpdate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $skill = factory(Skill::class)->create();
-        $skill->name = "Updated";
+        $skill->updated_at = now();
 
         // When
+        $response = $this->put(route('skills.update', $skill), $skill->toArray());
+
         // Then
-        $this->put(route('skills.update', $skill), $skill->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotUpdate()
     {
+        // Auth
         // Given
         $skill = factory(Skill::class)->create();
-        $skill->name = "Updated";
+        $skill->updated_at = now();
 
         // When
+        $response = $this->put(route('skills.update', $skill), $skill->toArray());
+
         // Then
-        $this->put(route('skills.update', $skill), $skill->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
-    public function testUpdateRequiresName()
+    public function testUpdateUntestedRequiredFields()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $skill = factory(Skill::class)->create();
+        $empty = new Skill();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
-        $skill->name = null;
+        $response = $this->put(route('skills.update', $skill), $empty->toArray());
 
         // Then
-        $this->put(route('skills.update', $skill), $skill->toArray())
-            ->assertSessionHasErrors('name');
+        $response->assertSessionHasNoErrors();
     }
 
-    public function testUpdateRequiresOrganization()
+    private function updateRequires(string $field)
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $skill = factory(Skill::class)->create();
+        $skill->$field = null;
 
         // When
-        $skill->organization_id = null;
+        $response = $this->put(route('skills.update', $skill), $skill->toArray());
 
         // Then
-        $this->put(route('skills.update', $skill), $skill->toArray())
-            ->assertSessionHasErrors('organization_id');
+        $response->assertSessionHasErrors($field);
+    }
+
+    public function testUpdateTestingNotRequiredFields()
+    {
+        foreach ($this->required as $field) {
+            $this->updateRequires($field);
+        }
     }
 
     public function testDelete()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $skill = factory(Skill::class)->create();
 
         // When
@@ -296,24 +372,29 @@ class SkillsTest extends TestCase
 
     public function testNotAdminNotDelete()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $skill = factory(Skill::class)->create();
 
         // When
+        $response = $this->delete(route('skills.destroy', $skill));
+
         // Then
-        $this->delete(route('skills.destroy', $skill))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotDelete()
     {
+        // Auth
         // Given
         $skill = factory(Skill::class)->create();
 
         // When
+        $response = $this->delete(route('skills.destroy', $skill));
+
         // Then
-        $this->delete(route('skills.destroy', $skill))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 }

@@ -6,9 +6,13 @@ use App\Qualification;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
-class QualificationsTest extends TestCase
+class QualificationsCRUDTest extends TestCase
 {
     use DatabaseTransactions;
+
+    private $required = [
+        'name', 'organization_id'
+    ];
 
     public function setUp(): void
     {
@@ -18,8 +22,10 @@ class QualificationsTest extends TestCase
 
     public function testIndex()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $qualification = factory(Qualification::class)->create();
 
         // When
@@ -31,29 +37,34 @@ class QualificationsTest extends TestCase
 
     public function testNotAdminNotIndex()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
 
+        // Given
         // When
+        $response = $this->get(route('qualifications.index'));
+
         // Then
-        $this->get(route('qualifications.index'))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotIndex()
     {
+        // Auth
         // Given
         // When
+        $response = $this->get(route('qualifications.index'));
+
         // Then
-        $this->get(route('qualifications.index'))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testCreate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
 
+        // Given
         // When
         $response = $this->get(route('qualifications.create'));
 
@@ -63,28 +74,34 @@ class QualificationsTest extends TestCase
 
     public function testNotAdminNotCreate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
 
+        // Given
         // When
+        $response = $this->get(route('qualifications.create'));
+
         // Then
-        $this->get(route('qualifications.create'))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotCreate()
     {
+        // Auth
         // Given
         // When
+        $response = $this->get(route('qualifications.create'));
+
         // Then
-        $this->get(route('qualifications.create'))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testStore()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $qualification = factory(Qualification::class)->make();
         $total = Qualification::all()->count();
 
@@ -97,55 +114,80 @@ class QualificationsTest extends TestCase
 
     public function testNotAdminNotStore()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $qualification = factory(Qualification::class)->make();
 
         // When
+        $response = $this->post(route('qualifications.store'), $qualification->toArray());
+
         // Then
-        $this->post(route('qualifications.store'), $qualification->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotStore()
     {
+        // Auth
         // Given
         $qualification = factory(Qualification::class)->make();
 
         // When
+        $response = $this->post(route('qualifications.store'), $qualification->toArray());
+
         // Then
-        $this->post(route('qualifications.store'), $qualification->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
-    public function testStoreRequiresName()
+    public function testStoreUntestedRequiredFields()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
-        $qualification = factory(Qualification::class)->make(['name' => null]);
+
+        // Given
+        $total = Qualification::all()->count();
+
+        $empty = new Qualification();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
+        $response = $this->post(route('qualifications.store'), $empty->toArray());
+
         // Then
-        $this->post(route('qualifications.store'), $qualification->toArray())
-            ->assertSessionHasErrors('name');
+        $response->assertSessionHasNoErrors();
     }
 
-    public function testStoreRequiresOrganization()
+    private function storeRequires(string $field)
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
-        $qualification = factory(Qualification::class)->make(['organization_id' => null]);
+
+        // Given
+        $qualification = factory(Qualification::class)->make([$field => null]);
 
         // When
+        $response = $this->post(route('qualifications.store'), $qualification->toArray());
+
         // Then
-        $this->post(route('qualifications.store'), $qualification->toArray())
-            ->assertSessionHasErrors('organization_id');
+        $response->assertSessionHasErrors($field);
+    }
+
+    public function testStoreTestingNotRequiredFields()
+    {
+        foreach ($this->required as $field) {
+            $this->storeRequires($field);
+        }
     }
 
     public function testShow()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $qualification = factory(Qualification::class)->create();
 
         // When
@@ -157,14 +199,17 @@ class QualificationsTest extends TestCase
 
     public function testNotAdminNotShow()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $qualification = factory(Qualification::class)->create();
 
         // When
+        $response = $this->get(route('qualifications.show', $qualification));
+
         // Then
-        $this->get(route('qualifications.show', $qualification))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotShow()
@@ -173,51 +218,61 @@ class QualificationsTest extends TestCase
         $qualification = factory(Qualification::class)->create();
 
         // When
+        $response = $this->get(route('qualifications.show', $qualification));
+
         // Then
-        $this->get(route('qualifications.show', $qualification))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testEdit()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $qualification = factory(Qualification::class)->create();
 
         // When
         $response = $this->get(route('qualifications.edit', $qualification), $qualification->toArray());
 
         // Then
-        $response->assertSeeInOrder([$qualification->name, $qualification->slug, __('Save')]);
+        $response->assertSeeInOrder([$qualification->name, __('Save')]);
     }
 
     public function testNotAdminNotEdit()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $qualification = factory(Qualification::class)->create();
 
         // When
+        $response = $this->get(route('qualifications.edit', $qualification), $qualification->toArray());
+
         // Then
-        $this->get(route('qualifications.edit', $qualification), $qualification->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotEdit()
     {
+        // Auth
         // Given
         $qualification = factory(Qualification::class)->create();
 
         // When
+        $response = $this->get(route('qualifications.edit', $qualification), $qualification->toArray());
+
         // Then
-        $this->get(route('qualifications.edit', $qualification), $qualification->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testUpdate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $qualification = factory(Qualification::class)->create();
         $qualification->name = "Updated";
 
@@ -230,61 +285,82 @@ class QualificationsTest extends TestCase
 
     public function testNotAdminNotUpdate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $qualification = factory(Qualification::class)->create();
         $qualification->name = "Updated";
 
         // When
+        $response = $this->put(route('qualifications.update', $qualification), $qualification->toArray());
+
         // Then
-        $this->put(route('qualifications.update', $qualification), $qualification->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotUpdate()
     {
+        // Auth
         // Given
         $qualification = factory(Qualification::class)->create();
         $qualification->name = "Updated";
 
         // When
+        $response = $this->put(route('qualifications.update', $qualification), $qualification->toArray());
+
         // Then
-        $this->put(route('qualifications.update', $qualification), $qualification->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
-    public function testUpdateRequiresName()
+    public function testUpdateUntestedRequiredFields()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $qualification = factory(Qualification::class)->create();
+        $empty = new Qualification();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
-        $qualification->name = null;
+        $response = $this->put(route('qualifications.update', $qualification), $empty->toArray());
 
         // Then
-        $this->put(route('qualifications.update', $qualification), $qualification->toArray())
-            ->assertSessionHasErrors('name');
+        $response->assertSessionHasNoErrors();
     }
 
-    public function testUpdateRequiresOrganization()
+    private function updateRequires(string $field)
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $qualification = factory(Qualification::class)->create();
+        $qualification->$field = null;
 
         // When
-        $qualification->organization_id = null;
+        $response = $this->put(route('qualifications.update', $qualification), $qualification->toArray());
 
         // Then
-        $this->put(route('qualifications.update', $qualification), $qualification->toArray())
-            ->assertSessionHasErrors('organization_id');
+        $response->assertSessionHasErrors($field);
+    }
+
+    public function testUpdateTestingNotRequiredFields()
+    {
+        foreach ($this->required as $field) {
+            $this->updateRequires($field);
+        }
     }
 
     public function testDelete()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $qualification = factory(Qualification::class)->create();
 
         // When
@@ -296,24 +372,29 @@ class QualificationsTest extends TestCase
 
     public function testNotAdminNotDelete()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $qualification = factory(Qualification::class)->create();
 
         // When
+        $response = $this->delete(route('qualifications.destroy', $qualification));
+
         // Then
-        $this->delete(route('qualifications.destroy', $qualification))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotDelete()
     {
+        // Auth
         // Given
         $qualification = factory(Qualification::class)->create();
 
         // When
+        $response = $this->delete(route('qualifications.destroy', $qualification));
+
         // Then
-        $this->delete(route('qualifications.destroy', $qualification))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 }
