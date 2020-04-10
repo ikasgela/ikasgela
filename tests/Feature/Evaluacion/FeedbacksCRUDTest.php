@@ -6,9 +6,13 @@ use App\Feedback;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
-class FeedbacksTest extends TestCase
+class FeedbacksCRUDTest extends TestCase
 {
     use DatabaseTransactions;
+
+    private $required = [
+        'mensaje', 'curso_id'
+    ];
 
     public function setUp(): void
     {
@@ -18,8 +22,10 @@ class FeedbacksTest extends TestCase
 
     public function testIndex()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $feedback = factory(Feedback::class)->create();
 
         // When
@@ -31,29 +37,34 @@ class FeedbacksTest extends TestCase
 
     public function testNotAdminNotIndex()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
 
+        // Given
         // When
+        $response = $this->get(route('feedbacks.index'));
+
         // Then
-        $this->get(route('feedbacks.index'))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotIndex()
     {
+        // Auth
         // Given
         // When
+        $response = $this->get(route('feedbacks.index'));
+
         // Then
-        $this->get(route('feedbacks.index'))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testCreate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
 
+        // Given
         // When
         $response = $this->get(route('feedbacks.create'));
 
@@ -63,28 +74,34 @@ class FeedbacksTest extends TestCase
 
     public function testNotAdminNotCreate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
 
+        // Given
         // When
+        $response = $this->get(route('feedbacks.create'));
+
         // Then
-        $this->get(route('feedbacks.create'))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotCreate()
     {
+        // Auth
         // Given
         // When
+        $response = $this->get(route('feedbacks.create'));
+
         // Then
-        $this->get(route('feedbacks.create'))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testStore()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $feedback = factory(Feedback::class)->make();
         $total = Feedback::all()->count();
 
@@ -92,60 +109,85 @@ class FeedbacksTest extends TestCase
         $this->post(route('feedbacks.store'), $feedback->toArray());
 
         // Then
-        $this->assertCount($total + 1, Feedback::all());
+        $this->assertEquals($total + 1, Feedback::all()->count());
     }
 
     public function testNotAdminNotStore()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $feedback = factory(Feedback::class)->make();
 
         // When
+        $response = $this->post(route('feedbacks.store'), $feedback->toArray());
+
         // Then
-        $this->post(route('feedbacks.store'), $feedback->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotStore()
     {
+        // Auth
         // Given
         $feedback = factory(Feedback::class)->make();
 
         // When
+        $response = $this->post(route('feedbacks.store'), $feedback->toArray());
+
         // Then
-        $this->post(route('feedbacks.store'), $feedback->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
-    public function testStoreRequiresMensaje()
+    public function testStoreUntestedRequiredFields()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
-        $feedback = factory(Feedback::class)->make(['mensaje' => null]);
+
+        // Given
+        $total = Feedback::all()->count();
+
+        $empty = new Feedback();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
+        $response = $this->post(route('feedbacks.store'), $empty->toArray());
+
         // Then
-        $this->post(route('feedbacks.store'), $feedback->toArray())
-            ->assertSessionHasErrors('mensaje');
+        $response->assertSessionHasNoErrors();
     }
 
-    public function testStoreRequiresCurso()
+    private function storeRequires(string $field)
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
-        $feedback = factory(Feedback::class)->make(['curso_id' => null]);
+
+        // Given
+        $feedback = factory(Feedback::class)->make([$field => null]);
 
         // When
+        $response = $this->post(route('feedbacks.store'), $feedback->toArray());
+
         // Then
-        $this->post(route('feedbacks.store'), $feedback->toArray())
-            ->assertSessionHasErrors('curso_id');
+        $response->assertSessionHasErrors($field);
+    }
+
+    public function testStoreTestingNotRequiredFields()
+    {
+        foreach ($this->required as $field) {
+            $this->storeRequires($field);
+        }
     }
 
     public function testShow()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $feedback = factory(Feedback::class)->create();
 
         // When
@@ -157,14 +199,17 @@ class FeedbacksTest extends TestCase
 
     public function testNotAdminNotShow()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $feedback = factory(Feedback::class)->create();
 
         // When
+        $response = $this->get(route('feedbacks.show', $feedback));
+
         // Then
-        $this->get(route('feedbacks.show', $feedback))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotShow()
@@ -173,51 +218,61 @@ class FeedbacksTest extends TestCase
         $feedback = factory(Feedback::class)->create();
 
         // When
+        $response = $this->get(route('feedbacks.show', $feedback));
+
         // Then
-        $this->get(route('feedbacks.show', $feedback))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testEdit()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $feedback = factory(Feedback::class)->create();
 
         // When
         $response = $this->get(route('feedbacks.edit', $feedback), $feedback->toArray());
 
         // Then
-        $response->assertSeeInOrder([$feedback->mensaje, $feedback->slug, __('Save')]);
+        $response->assertSeeInOrder([$feedback->mensaje, __('Save')]);
     }
 
     public function testNotAdminNotEdit()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $feedback = factory(Feedback::class)->create();
 
         // When
+        $response = $this->get(route('feedbacks.edit', $feedback), $feedback->toArray());
+
         // Then
-        $this->get(route('feedbacks.edit', $feedback), $feedback->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotEdit()
     {
+        // Auth
         // Given
         $feedback = factory(Feedback::class)->create();
 
         // When
+        $response = $this->get(route('feedbacks.edit', $feedback), $feedback->toArray());
+
         // Then
-        $this->get(route('feedbacks.edit', $feedback), $feedback->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testUpdate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $feedback = factory(Feedback::class)->create();
         $feedback->mensaje = "Updated";
 
@@ -230,61 +285,82 @@ class FeedbacksTest extends TestCase
 
     public function testNotAdminNotUpdate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $feedback = factory(Feedback::class)->create();
         $feedback->mensaje = "Updated";
 
         // When
+        $response = $this->put(route('feedbacks.update', $feedback), $feedback->toArray());
+
         // Then
-        $this->put(route('feedbacks.update', $feedback), $feedback->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotUpdate()
     {
+        // Auth
         // Given
         $feedback = factory(Feedback::class)->create();
         $feedback->mensaje = "Updated";
 
         // When
+        $response = $this->put(route('feedbacks.update', $feedback), $feedback->toArray());
+
         // Then
-        $this->put(route('feedbacks.update', $feedback), $feedback->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
-    public function testUpdateRequiresMensaje()
+    public function testUpdateUntestedRequiredFields()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $feedback = factory(Feedback::class)->create();
+        $empty = new Feedback();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
-        $feedback->mensaje = null;
+        $response = $this->put(route('feedbacks.update', $feedback), $empty->toArray());
 
         // Then
-        $this->put(route('feedbacks.update', $feedback), $feedback->toArray())
-            ->assertSessionHasErrors('mensaje');
+        $response->assertSessionHasNoErrors();
     }
 
-    public function testUpdateRequiresCurso()
+    private function updateRequires(string $field)
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $feedback = factory(Feedback::class)->create();
+        $feedback->$field = null;
 
         // When
-        $feedback->curso_id = null;
+        $response = $this->put(route('feedbacks.update', $feedback), $feedback->toArray());
 
         // Then
-        $this->put(route('feedbacks.update', $feedback), $feedback->toArray())
-            ->assertSessionHasErrors('curso_id');
+        $response->assertSessionHasErrors($field);
+    }
+
+    public function testUpdateTestingNotRequiredFields()
+    {
+        foreach ($this->required as $field) {
+            $this->updateRequires($field);
+        }
     }
 
     public function testDelete()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $feedback = factory(Feedback::class)->create();
 
         // When
@@ -296,24 +372,29 @@ class FeedbacksTest extends TestCase
 
     public function testNotAdminNotDelete()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $feedback = factory(Feedback::class)->create();
 
         // When
+        $response = $this->delete(route('feedbacks.destroy', $feedback));
+
         // Then
-        $this->delete(route('feedbacks.destroy', $feedback))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotDelete()
     {
+        // Auth
         // Given
         $feedback = factory(Feedback::class)->create();
 
         // When
+        $response = $this->delete(route('feedbacks.destroy', $feedback));
+
         // Then
-        $this->delete(route('feedbacks.destroy', $feedback))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 }
