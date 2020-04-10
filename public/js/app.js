@@ -7009,18 +7009,23 @@ function getOffsetParent(element) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return getParentNode; });
 /* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getNodeName.js */ "./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
+/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getDocumentElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
+
 
 function getParentNode(element) {
   if (Object(_getNodeName_js__WEBPACK_IMPORTED_MODULE_0__["default"])(element) === 'html') {
     return element;
   }
 
-  return element.parentNode || // DOM Element detected
-  // $FlowFixMe: need a better way to handle this...
-  element.host || // ShadowRoot detected
-  document.ownerDocument || // Fallback to ownerDocument if available
-  document.documentElement // Or to documentElement if everything else fails
-  ;
+  return (// $FlowFixMe: this is a quicker (but less type safe) way to save quite some bytes from the bundle
+    element.assignedSlot || // step into the shadow DOM of the parent of a slotted node
+    element.parentNode || // DOM Element detected
+    // $FlowFixMe: need a better way to handle this...
+    element.host || // ShadowRoot detected
+    // $FlowFixMe: HTMLElement is a Node
+    Object(_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_1__["default"])(element) // fallback
+
+  );
 }
 
 /***/ }),
@@ -7701,7 +7706,7 @@ function effect(_ref2) {
   var state = _ref2.state;
   var initialStyles = {
     popper: {
-      position: 'absolute',
+      position: state.options.strategy,
       left: '0',
       top: '0',
       margin: '0'
@@ -7969,8 +7974,7 @@ function computeStyles(_ref3) {
       adaptive = _options$adaptive === void 0 ? true : _options$adaptive;
 
   if (true) {
-    var _getComputedStyle = Object(_dom_utils_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_4__["default"])(state.elements.popper),
-        transitionProperty = _getComputedStyle.transitionProperty;
+    var transitionProperty = Object(_dom_utils_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_4__["default"])(state.elements.popper).transitionProperty || '';
 
     if (adaptive && ['transform', 'top', 'right', 'bottom', 'left'].some(function (property) {
       return transitionProperty.indexOf(property) >= 0;
