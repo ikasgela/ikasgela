@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Usuarios;
 
+use App\Role;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -153,11 +154,25 @@ class UsersCRUDTest extends TestCase
         $user = factory(User::class)->create();
         $user->name = "Updated";
 
+        $rol_admin = Role::create(['name' => 'admin', 'description' => 'Administrador']);
+        $rol_alumno = Role::create(['name' => 'alumno', 'description' => 'Alumno']);
+        $rol_profesor = Role::create(['name' => 'profesor', 'description' => 'Profesor']);
+        $rol_tutor = Role::create(['name' => 'tutor', 'description' => 'Tutor']);
+
         // When
-        $this->put(route('users.update', $user), $user->toArray());
+        $this->put(route('users.update', $user), array_merge($user->toArray(), [
+                'roles_seleccionados' => [$rol_alumno->id]
+            ]
+        ));
 
         // Then
         $this->assertDatabaseHas('users', ['id' => $user->id, 'name' => $user->name]);
+
+        $this->assertDatabaseHas('role_user', ['user_id' => $user->id, 'role_id' => $rol_alumno->id]);
+
+        $this->assertDatabaseMissing('role_user', ['user_id' => $user->id, 'role_id' => $rol_admin->id]);
+        $this->assertDatabaseMissing('role_user', ['user_id' => $user->id, 'role_id' => $rol_profesor->id]);
+        $this->assertDatabaseMissing('role_user', ['user_id' => $user->id, 'role_id' => $rol_tutor->id]);
     }
 
     public function testNotAdminNotUpdate()
