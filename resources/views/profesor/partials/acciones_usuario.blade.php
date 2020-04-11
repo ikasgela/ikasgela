@@ -4,14 +4,14 @@
 
     {!! Form::open(['route' => ['results.alumno'], 'method' => 'POST']) !!}
     {!! Form::button('<i class="fas fa-graduation-cap"></i>', ['type' => 'submit',
-        'class' => 'btn btn-light btn-sm', 'title' => __('Results')
+        'class' => 'btn btn-light btn-sm rounded-0', 'title' => __('Results')
     ]) !!}
     {!! Form::hidden('user_id',$user->id) !!}
     {!! Form::close() !!}
 
     {!! Form::open(['route' => ['messages.create-with-subject'], 'method' => 'POST']) !!}
     {!! Form::button('<i class="fas fa-envelope"></i>', ['type' => 'submit',
-        'class' => 'btn btn-light btn-sm', 'title' => __('Message')
+        'class' => 'btn btn-light btn-sm rounded-0', 'title' => __('Message')
     ]) !!}
     {!! Form::hidden('user_id', $user->id) !!}
     {!! Form::close() !!}
