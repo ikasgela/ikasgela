@@ -17,3 +17,7 @@ $factory->define(Actividad::class, function (Faker $faker) {
         'slug' => Str::slug($nombre)
     ];
 });
+
+$factory->afterCreating(Actividad::class, function ($actividad, Faker $faker) {
+    $actividad->orden = $actividad->id;
+});
