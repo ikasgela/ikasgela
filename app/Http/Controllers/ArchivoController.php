@@ -37,7 +37,7 @@ class ArchivoController extends Controller
 
         // Lista de usuarios
         $curso = Curso::find(setting_usuario('curso_actual'));
-        $users = null;
+        $users = [];
         if (!is_null($curso))
             $users = $curso->users()->orderBy('name')->get();
 
@@ -47,7 +47,7 @@ class ArchivoController extends Controller
     public function show($id)
     {
         $user = Auth::user();
-        $actividad = $user->actividades()->find($id);
+        $actividad = $user->actividades()->findOrFail($id);
 
         return view('archivo.show', compact(['actividad', 'user']));
     }
