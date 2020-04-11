@@ -37,15 +37,11 @@ class GroupController extends Controller
             'name' => 'required',
         ]);
 
-        try {
-            Group::create([
-                'period_id' => request('period_id'),
-                'name' => request('name'),
-                'slug' => Str::slug(request('name'))
-            ]);
-        } catch (\Exception $e) {
-            // Slug repetido
-        }
+        Group::create([
+            'period_id' => request('period_id'),
+            'name' => request('name'),
+            'slug' => Str::slug(request('name'))
+        ]);
 
         return retornar();
     }
@@ -69,17 +65,13 @@ class GroupController extends Controller
             'name' => 'required',
         ]);
 
-        try {
-            $group->update([
-                'period_id' => request('period_id'),
-                'name' => request('name'),
-                'slug' => strlen(request('slug')) > 0
-                    ? Str::slug(request('slug'))
-                    : Str::slug(request('name'))
-            ]);
-        } catch (\Exception $e) {
-            // Slug repetido
-        }
+        $group->update([
+            'period_id' => request('period_id'),
+            'name' => request('name'),
+            'slug' => strlen(request('slug')) > 0
+                ? Str::slug(request('slug'))
+                : Str::slug(request('name'))
+        ]);
 
         return retornar();
     }

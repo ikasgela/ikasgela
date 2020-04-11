@@ -6,9 +6,13 @@ use App\Group;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
-class GroupsTest extends TestCase
+class GroupsCRUDTest extends TestCase
 {
     use DatabaseTransactions;
+
+    private $required = [
+        'name', 'period_id'
+    ];
 
     public function setUp(): void
     {
@@ -18,8 +22,10 @@ class GroupsTest extends TestCase
 
     public function testIndex()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $group = factory(Group::class)->create();
 
         // When
@@ -31,29 +37,34 @@ class GroupsTest extends TestCase
 
     public function testNotAdminNotIndex()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
 
+        // Given
         // When
+        $response = $this->get(route('groups.index'));
+
         // Then
-        $this->get(route('groups.index'))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotIndex()
     {
+        // Auth
         // Given
         // When
+        $response = $this->get(route('groups.index'));
+
         // Then
-        $this->get(route('groups.index'))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testCreate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
 
+        // Given
         // When
         $response = $this->get(route('groups.create'));
 
@@ -63,28 +74,34 @@ class GroupsTest extends TestCase
 
     public function testNotAdminNotCreate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
 
+        // Given
         // When
+        $response = $this->get(route('groups.create'));
+
         // Then
-        $this->get(route('groups.create'))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotCreate()
     {
+        // Auth
         // Given
         // When
+        $response = $this->get(route('groups.create'));
+
         // Then
-        $this->get(route('groups.create'))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testStore()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $group = factory(Group::class)->make();
         $total = Group::all()->count();
 
@@ -97,55 +114,80 @@ class GroupsTest extends TestCase
 
     public function testNotAdminNotStore()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $group = factory(Group::class)->make();
 
         // When
+        $response = $this->post(route('groups.store'), $group->toArray());
+
         // Then
-        $this->post(route('groups.store'), $group->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotStore()
     {
+        // Auth
         // Given
         $group = factory(Group::class)->make();
 
         // When
+        $response = $this->post(route('groups.store'), $group->toArray());
+
         // Then
-        $this->post(route('groups.store'), $group->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
-    public function testStoreRequiresName()
+    public function testStoreUntestedRequiredFields()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
-        $group = factory(Group::class)->make(['name' => null]);
+
+        // Given
+        $total = Group::all()->count();
+
+        $empty = new Group();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
+        $response = $this->post(route('groups.store'), $empty->toArray());
+
         // Then
-        $this->post(route('groups.store'), $group->toArray())
-            ->assertSessionHasErrors('name');
+        $response->assertSessionHasNoErrors();
     }
 
-    public function testStoreRequiresPeriod()
+    private function storeRequires(string $field)
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
-        $group = factory(Group::class)->make(['period_id' => null]);
+
+        // Given
+        $group = factory(Group::class)->make([$field => null]);
 
         // When
+        $response = $this->post(route('groups.store'), $group->toArray());
+
         // Then
-        $this->post(route('groups.store'), $group->toArray())
-            ->assertSessionHasErrors('period_id');
+        $response->assertSessionHasErrors($field);
+    }
+
+    public function testStoreTestingNotRequiredFields()
+    {
+        foreach ($this->required as $field) {
+            $this->storeRequires($field);
+        }
     }
 
     public function testShow()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $group = factory(Group::class)->create();
 
         // When
@@ -157,14 +199,17 @@ class GroupsTest extends TestCase
 
     public function testNotAdminNotShow()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $group = factory(Group::class)->create();
 
         // When
+        $response = $this->get(route('groups.show', $group));
+
         // Then
-        $this->get(route('groups.show', $group))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotShow()
@@ -173,51 +218,61 @@ class GroupsTest extends TestCase
         $group = factory(Group::class)->create();
 
         // When
+        $response = $this->get(route('groups.show', $group));
+
         // Then
-        $this->get(route('groups.show', $group))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testEdit()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $group = factory(Group::class)->create();
 
         // When
         $response = $this->get(route('groups.edit', $group), $group->toArray());
 
         // Then
-        $response->assertSeeInOrder([$group->name, $group->slug, __('Save')]);
+        $response->assertSeeInOrder([$group->name, __('Save')]);
     }
 
     public function testNotAdminNotEdit()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $group = factory(Group::class)->create();
 
         // When
+        $response = $this->get(route('groups.edit', $group), $group->toArray());
+
         // Then
-        $this->get(route('groups.edit', $group), $group->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotEdit()
     {
+        // Auth
         // Given
         $group = factory(Group::class)->create();
 
         // When
+        $response = $this->get(route('groups.edit', $group), $group->toArray());
+
         // Then
-        $this->get(route('groups.edit', $group), $group->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testUpdate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $group = factory(Group::class)->create();
         $group->name = "Updated";
 
@@ -230,61 +285,82 @@ class GroupsTest extends TestCase
 
     public function testNotAdminNotUpdate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $group = factory(Group::class)->create();
         $group->name = "Updated";
 
         // When
+        $response = $this->put(route('groups.update', $group), $group->toArray());
+
         // Then
-        $this->put(route('groups.update', $group), $group->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotUpdate()
     {
+        // Auth
         // Given
         $group = factory(Group::class)->create();
         $group->name = "Updated";
 
         // When
+        $response = $this->put(route('groups.update', $group), $group->toArray());
+
         // Then
-        $this->put(route('groups.update', $group), $group->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
-    public function testUpdateRequiresName()
+    public function testUpdateUntestedRequiredFields()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $group = factory(Group::class)->create();
+        $empty = new Group();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
-        $group->name = null;
+        $response = $this->put(route('groups.update', $group), $empty->toArray());
 
         // Then
-        $this->put(route('groups.update', $group), $group->toArray())
-            ->assertSessionHasErrors('name');
+        $response->assertSessionHasNoErrors();
     }
 
-    public function testUpdateRequiresPeriod()
+    private function updateRequires(string $field)
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $group = factory(Group::class)->create();
+        $group->$field = null;
 
         // When
-        $group->period_id = null;
+        $response = $this->put(route('groups.update', $group), $group->toArray());
 
         // Then
-        $this->put(route('groups.update', $group), $group->toArray())
-            ->assertSessionHasErrors('period_id');
+        $response->assertSessionHasErrors($field);
+    }
+
+    public function testUpdateTestingNotRequiredFields()
+    {
+        foreach ($this->required as $field) {
+            $this->updateRequires($field);
+        }
     }
 
     public function testDelete()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $group = factory(Group::class)->create();
 
         // When
@@ -296,24 +372,29 @@ class GroupsTest extends TestCase
 
     public function testNotAdminNotDelete()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $group = factory(Group::class)->create();
 
         // When
+        $response = $this->delete(route('groups.destroy', $group));
+
         // Then
-        $this->delete(route('groups.destroy', $group))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotDelete()
     {
+        // Auth
         // Given
         $group = factory(Group::class)->create();
 
         // When
+        $response = $this->delete(route('groups.destroy', $group));
+
         // Then
-        $this->delete(route('groups.destroy', $group))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 }
