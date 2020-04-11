@@ -113,7 +113,9 @@ class MessagesController extends Controller
 
         $titulo = request('titulo');
 
-        return view('messenger.create', compact(['users', 'profesores', 'titulo']));
+        $selected_user = request('user_id');
+
+        return view('messenger.create', compact(['users', 'profesores', 'titulo', 'selected_user']));
     }
 
     /**
