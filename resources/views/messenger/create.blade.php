@@ -37,7 +37,7 @@
                                 <div class="form-check form-check-inline">
                                     <label class="form-check-label col-form-label">
                                         <input class="form-check-input" type="checkbox" name="recipients[]"
-                                               value="{{ $user->id }}">
+                                               value="{{ $user->id }}" {{ $selected_user == $user->id ? 'checked' : '' }}>
                                         {{$user->name}}
                                     </label>
                                 </div>
