@@ -39,20 +39,16 @@ class UnidadController extends Controller
             'nombre' => 'required',
         ]);
 
-        try {
-            Unidad::create([
-                'curso_id' => request('curso_id'),
-                'codigo' => request('codigo'),
-                'nombre' => request('nombre'),
-                'descripcion' => request('descripcion'),
-                'slug' => Str::slug(request('nombre')),
-                'qualification_id' => request('qualification_id'),
-                'orden' => request('orden'),
-                'tags' => request('tags'),
-            ]);
-        } catch (\Exception $e) {
-            // Slug repetido
-        }
+        Unidad::create([
+            'curso_id' => request('curso_id'),
+            'codigo' => request('codigo'),
+            'nombre' => request('nombre'),
+            'descripcion' => request('descripcion'),
+            'slug' => Str::slug(request('nombre')),
+            'qualification_id' => request('qualification_id'),
+            'orden' => request('orden'),
+            'tags' => request('tags'),
+        ]);
 
         return retornar();
     }
@@ -77,22 +73,18 @@ class UnidadController extends Controller
             'nombre' => 'required',
         ]);
 
-        try {
-            $unidad->update([
-                'curso_id' => request('curso_id'),
-                'codigo' => request('codigo'),
-                'nombre' => request('nombre'),
-                'descripcion' => request('descripcion'),
-                'slug' => strlen(request('slug')) > 0
-                    ? Str::slug(request('slug'))
-                    : Str::slug(request('nombre')),
-                'qualification_id' => request('qualification_id'),
-                'orden' => request('orden'),
-                'tags' => request('tags'),
-            ]);
-        } catch (\Exception $e) {
-            // Slug repetido
-        }
+        $unidad->update([
+            'curso_id' => request('curso_id'),
+            'codigo' => request('codigo'),
+            'nombre' => request('nombre'),
+            'descripcion' => request('descripcion'),
+            'slug' => strlen(request('slug')) > 0
+                ? Str::slug(request('slug'))
+                : Str::slug(request('nombre')),
+            'qualification_id' => request('qualification_id'),
+            'orden' => request('orden'),
+            'tags' => request('tags'),
+        ]);
 
         return retornar();
     }

@@ -6,9 +6,13 @@ use App\Category;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
-class CategoriesTest extends TestCase
+class CategoriesCRUDTest extends TestCase
 {
     use DatabaseTransactions;
+
+    private $required = [
+        'name', 'period_id'
+    ];
 
     public function setUp(): void
     {
@@ -18,8 +22,10 @@ class CategoriesTest extends TestCase
 
     public function testIndex()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $category = factory(Category::class)->create();
 
         // When
@@ -31,29 +37,34 @@ class CategoriesTest extends TestCase
 
     public function testNotAdminNotIndex()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
 
+        // Given
         // When
+        $response = $this->get(route('categories.index'));
+
         // Then
-        $this->get(route('categories.index'))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotIndex()
     {
+        // Auth
         // Given
         // When
+        $response = $this->get(route('categories.index'));
+
         // Then
-        $this->get(route('categories.index'))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testCreate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
 
+        // Given
         // When
         $response = $this->get(route('categories.create'));
 
@@ -63,28 +74,34 @@ class CategoriesTest extends TestCase
 
     public function testNotAdminNotCreate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
 
+        // Given
         // When
+        $response = $this->get(route('categories.create'));
+
         // Then
-        $this->get(route('categories.create'))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotCreate()
     {
+        // Auth
         // Given
         // When
+        $response = $this->get(route('categories.create'));
+
         // Then
-        $this->get(route('categories.create'))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testStore()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $category = factory(Category::class)->make();
         $total = Category::all()->count();
 
@@ -97,55 +114,80 @@ class CategoriesTest extends TestCase
 
     public function testNotAdminNotStore()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $category = factory(Category::class)->make();
 
         // When
+        $response = $this->post(route('categories.store'), $category->toArray());
+
         // Then
-        $this->post(route('categories.store'), $category->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotStore()
     {
+        // Auth
         // Given
         $category = factory(Category::class)->make();
 
         // When
+        $response = $this->post(route('categories.store'), $category->toArray());
+
         // Then
-        $this->post(route('categories.store'), $category->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
-    public function testStoreRequiresName()
+    public function testStoreUntestedRequiredFields()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
-        $category = factory(Category::class)->make(['name' => null]);
+
+        // Given
+        $total = Category::all()->count();
+
+        $empty = new Category();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
+        $response = $this->post(route('categories.store'), $empty->toArray());
+
         // Then
-        $this->post(route('categories.store'), $category->toArray())
-            ->assertSessionHasErrors('name');
+        $response->assertSessionHasNoErrors();
     }
 
-    public function testStoreRequiresPeriod()
+    private function storeRequires(string $field)
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
-        $category = factory(Category::class)->make(['period_id' => null]);
+
+        // Given
+        $category = factory(Category::class)->make([$field => null]);
 
         // When
+        $response = $this->post(route('categories.store'), $category->toArray());
+
         // Then
-        $this->post(route('categories.store'), $category->toArray())
-            ->assertSessionHasErrors('period_id');
+        $response->assertSessionHasErrors($field);
+    }
+
+    public function testStoreTestingNotRequiredFields()
+    {
+        foreach ($this->required as $field) {
+            $this->storeRequires($field);
+        }
     }
 
     public function testShow()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $category = factory(Category::class)->create();
 
         // When
@@ -157,14 +199,17 @@ class CategoriesTest extends TestCase
 
     public function testNotAdminNotShow()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $category = factory(Category::class)->create();
 
         // When
+        $response = $this->get(route('categories.show', $category));
+
         // Then
-        $this->get(route('categories.show', $category))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotShow()
@@ -173,51 +218,61 @@ class CategoriesTest extends TestCase
         $category = factory(Category::class)->create();
 
         // When
+        $response = $this->get(route('categories.show', $category));
+
         // Then
-        $this->get(route('categories.show', $category))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testEdit()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $category = factory(Category::class)->create();
 
         // When
         $response = $this->get(route('categories.edit', $category), $category->toArray());
 
         // Then
-        $response->assertSeeInOrder([$category->name, $category->slug, __('Save')]);
+        $response->assertSeeInOrder([$category->name, __('Save')]);
     }
 
     public function testNotAdminNotEdit()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $category = factory(Category::class)->create();
 
         // When
+        $response = $this->get(route('categories.edit', $category), $category->toArray());
+
         // Then
-        $this->get(route('categories.edit', $category), $category->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotEdit()
     {
+        // Auth
         // Given
         $category = factory(Category::class)->create();
 
         // When
+        $response = $this->get(route('categories.edit', $category), $category->toArray());
+
         // Then
-        $this->get(route('categories.edit', $category), $category->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testUpdate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $category = factory(Category::class)->create();
         $category->name = "Updated";
 
@@ -230,61 +285,82 @@ class CategoriesTest extends TestCase
 
     public function testNotAdminNotUpdate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $category = factory(Category::class)->create();
         $category->name = "Updated";
 
         // When
+        $response = $this->put(route('categories.update', $category), $category->toArray());
+
         // Then
-        $this->put(route('categories.update', $category), $category->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotUpdate()
     {
+        // Auth
         // Given
         $category = factory(Category::class)->create();
         $category->name = "Updated";
 
         // When
+        $response = $this->put(route('categories.update', $category), $category->toArray());
+
         // Then
-        $this->put(route('categories.update', $category), $category->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
-    public function testUpdateRequiresName()
+    public function testUpdateUntestedRequiredFields()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $category = factory(Category::class)->create();
+        $empty = new Category();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
-        $category->name = null;
+        $response = $this->put(route('categories.update', $category), $empty->toArray());
 
         // Then
-        $this->put(route('categories.update', $category), $category->toArray())
-            ->assertSessionHasErrors('name');
+        $response->assertSessionHasNoErrors();
     }
 
-    public function testUpdateRequiresPeriod()
+    private function updateRequires(string $field)
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $category = factory(Category::class)->create();
+        $category->$field = null;
 
         // When
-        $category->period_id = null;
+        $response = $this->put(route('categories.update', $category), $category->toArray());
 
         // Then
-        $this->put(route('categories.update', $category), $category->toArray())
-            ->assertSessionHasErrors('period_id');
+        $response->assertSessionHasErrors($field);
+    }
+
+    public function testUpdateTestingNotRequiredFields()
+    {
+        foreach ($this->required as $field) {
+            $this->updateRequires($field);
+        }
     }
 
     public function testDelete()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $category = factory(Category::class)->create();
 
         // When
@@ -296,24 +372,29 @@ class CategoriesTest extends TestCase
 
     public function testNotAdminNotDelete()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $category = factory(Category::class)->create();
 
         // When
+        $response = $this->delete(route('categories.destroy', $category));
+
         // Then
-        $this->delete(route('categories.destroy', $category))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotDelete()
     {
+        // Auth
         // Given
         $category = factory(Category::class)->create();
 
         // When
+        $response = $this->delete(route('categories.destroy', $category));
+
         // Then
-        $this->delete(route('categories.destroy', $category))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 }

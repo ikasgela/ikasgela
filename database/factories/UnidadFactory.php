@@ -17,3 +17,7 @@ $factory->define(Unidad::class, function (Faker $faker) {
         'slug' => Str::slug($nombre)
     ];
 });
+
+$factory->afterCreating(Unidad::class, function ($unidad, Faker $faker) {
+    $unidad->orden = $unidad->id;
+});

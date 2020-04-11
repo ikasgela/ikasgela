@@ -6,9 +6,13 @@ use App\Curso;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
-class CursosTest extends TestCase
+class CursosCRUDTest extends TestCase
 {
     use DatabaseTransactions;
+
+    private $required = [
+        'nombre', 'category_id'
+    ];
 
     public function setUp(): void
     {
@@ -18,42 +22,49 @@ class CursosTest extends TestCase
 
     public function testIndex()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $curso = factory(Curso::class)->create();
 
         // When
         $response = $this->get(route('cursos.index'));
 
         // Then
-        $response->assertSee($curso->name);
+        $response->assertSee($curso->nombre);
     }
 
     public function testNotAdminNotIndex()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
 
+        // Given
         // When
+        $response = $this->get(route('cursos.index'));
+
         // Then
-        $this->get(route('cursos.index'))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotIndex()
     {
+        // Auth
         // Given
         // When
+        $response = $this->get(route('cursos.index'));
+
         // Then
-        $this->get(route('cursos.index'))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testCreate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
 
+        // Given
         // When
         $response = $this->get(route('cursos.create'));
 
@@ -63,28 +74,34 @@ class CursosTest extends TestCase
 
     public function testNotAdminNotCreate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
 
+        // Given
         // When
+        $response = $this->get(route('cursos.create'));
+
         // Then
-        $this->get(route('cursos.create'))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotCreate()
     {
+        // Auth
         // Given
         // When
+        $response = $this->get(route('cursos.create'));
+
         // Then
-        $this->get(route('cursos.create'))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testStore()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $curso = factory(Curso::class)->make();
         $total = Curso::all()->count();
 
@@ -97,55 +114,80 @@ class CursosTest extends TestCase
 
     public function testNotAdminNotStore()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $curso = factory(Curso::class)->make();
 
         // When
+        $response = $this->post(route('cursos.store'), $curso->toArray());
+
         // Then
-        $this->post(route('cursos.store'), $curso->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotStore()
     {
+        // Auth
         // Given
         $curso = factory(Curso::class)->make();
 
         // When
+        $response = $this->post(route('cursos.store'), $curso->toArray());
+
         // Then
-        $this->post(route('cursos.store'), $curso->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
-    public function testStoreRequiresNombre()
+    public function testStoreUntestedRequiredFields()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
-        $curso = factory(Curso::class)->make(['nombre' => null]);
+
+        // Given
+        $total = Curso::all()->count();
+
+        $empty = new Curso();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
+        $response = $this->post(route('cursos.store'), $empty->toArray());
+
         // Then
-        $this->post(route('cursos.store'), $curso->toArray())
-            ->assertSessionHasErrors('nombre');
+        $response->assertSessionHasNoErrors();
     }
 
-    public function testStoreRequiresCategory()
+    private function storeRequires(string $field)
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
-        $curso = factory(Curso::class)->make(['category_id' => null]);
+
+        // Given
+        $curso = factory(Curso::class)->make([$field => null]);
 
         // When
+        $response = $this->post(route('cursos.store'), $curso->toArray());
+
         // Then
-        $this->post(route('cursos.store'), $curso->toArray())
-            ->assertSessionHasErrors('category_id');
+        $response->assertSessionHasErrors($field);
+    }
+
+    public function testStoreTestingNotRequiredFields()
+    {
+        foreach ($this->required as $field) {
+            $this->storeRequires($field);
+        }
     }
 
     public function testShow()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $curso = factory(Curso::class)->create();
 
         // When
@@ -157,14 +199,17 @@ class CursosTest extends TestCase
 
     public function testNotAdminNotShow()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $curso = factory(Curso::class)->create();
 
         // When
+        $response = $this->get(route('cursos.show', $curso));
+
         // Then
-        $this->get(route('cursos.show', $curso))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotShow()
@@ -173,51 +218,61 @@ class CursosTest extends TestCase
         $curso = factory(Curso::class)->create();
 
         // When
+        $response = $this->get(route('cursos.show', $curso));
+
         // Then
-        $this->get(route('cursos.show', $curso))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testEdit()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $curso = factory(Curso::class)->create();
 
         // When
         $response = $this->get(route('cursos.edit', $curso), $curso->toArray());
 
         // Then
-        $response->assertSeeInOrder([$curso->name, $curso->slug, __('Save')]);
+        $response->assertSeeInOrder([$curso->nombre, __('Save')]);
     }
 
     public function testNotAdminNotEdit()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $curso = factory(Curso::class)->create();
 
         // When
+        $response = $this->get(route('cursos.edit', $curso), $curso->toArray());
+
         // Then
-        $this->get(route('cursos.edit', $curso), $curso->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotEdit()
     {
+        // Auth
         // Given
         $curso = factory(Curso::class)->create();
 
         // When
+        $response = $this->get(route('cursos.edit', $curso), $curso->toArray());
+
         // Then
-        $this->get(route('cursos.edit', $curso), $curso->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testUpdate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $curso = factory(Curso::class)->create();
         $curso->nombre = "Updated";
 
@@ -230,61 +285,82 @@ class CursosTest extends TestCase
 
     public function testNotAdminNotUpdate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $curso = factory(Curso::class)->create();
-        $curso->name = "Updated";
+        $curso->nombre = "Updated";
 
         // When
+        $response = $this->put(route('cursos.update', $curso), $curso->toArray());
+
         // Then
-        $this->put(route('cursos.update', $curso), $curso->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotUpdate()
     {
+        // Auth
         // Given
         $curso = factory(Curso::class)->create();
-        $curso->name = "Updated";
+        $curso->nombre = "Updated";
 
         // When
+        $response = $this->put(route('cursos.update', $curso), $curso->toArray());
+
         // Then
-        $this->put(route('cursos.update', $curso), $curso->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
-    public function testUpdateRequiresNombre()
+    public function testUpdateUntestedRequiredFields()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $curso = factory(Curso::class)->create();
+        $empty = new Curso();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
-        $curso->nombre = null;
+        $response = $this->put(route('cursos.update', $curso), $empty->toArray());
 
         // Then
-        $this->put(route('cursos.update', $curso), $curso->toArray())
-            ->assertSessionHasErrors('nombre');
+        $response->assertSessionHasNoErrors();
     }
 
-    public function testUpdateRequiresCategory()
+    private function updateRequires(string $field)
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $curso = factory(Curso::class)->create();
+        $curso->$field = null;
 
         // When
-        $curso->category_id = null;
+        $response = $this->put(route('cursos.update', $curso), $curso->toArray());
 
         // Then
-        $this->put(route('cursos.update', $curso), $curso->toArray())
-            ->assertSessionHasErrors('category_id');
+        $response->assertSessionHasErrors($field);
+    }
+
+    public function testUpdateTestingNotRequiredFields()
+    {
+        foreach ($this->required as $field) {
+            $this->updateRequires($field);
+        }
     }
 
     public function testDelete()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $curso = factory(Curso::class)->create();
 
         // When
@@ -296,24 +372,29 @@ class CursosTest extends TestCase
 
     public function testNotAdminNotDelete()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $curso = factory(Curso::class)->create();
 
         // When
+        $response = $this->delete(route('cursos.destroy', $curso));
+
         // Then
-        $this->delete(route('cursos.destroy', $curso))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotDelete()
     {
+        // Auth
         // Given
         $curso = factory(Curso::class)->create();
 
         // When
+        $response = $this->delete(route('cursos.destroy', $curso));
+
         // Then
-        $this->delete(route('cursos.destroy', $curso))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 }

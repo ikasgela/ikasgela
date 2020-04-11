@@ -6,9 +6,13 @@ use App\Team;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
-class TeamsTest extends TestCase
+class TeamsCRUDTest extends TestCase
 {
     use DatabaseTransactions;
+
+    private $required = [
+        'name', 'group_id'
+    ];
 
     public function setUp(): void
     {
@@ -18,8 +22,10 @@ class TeamsTest extends TestCase
 
     public function testIndex()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $team = factory(Team::class)->create();
 
         // When
@@ -31,29 +37,34 @@ class TeamsTest extends TestCase
 
     public function testNotAdminNotIndex()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
 
+        // Given
         // When
+        $response = $this->get(route('teams.index'));
+
         // Then
-        $this->get(route('teams.index'))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotIndex()
     {
+        // Auth
         // Given
         // When
+        $response = $this->get(route('teams.index'));
+
         // Then
-        $this->get(route('teams.index'))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testCreate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
 
+        // Given
         // When
         $response = $this->get(route('teams.create'));
 
@@ -63,28 +74,34 @@ class TeamsTest extends TestCase
 
     public function testNotAdminNotCreate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
 
+        // Given
         // When
+        $response = $this->get(route('teams.create'));
+
         // Then
-        $this->get(route('teams.create'))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotCreate()
     {
+        // Auth
         // Given
         // When
+        $response = $this->get(route('teams.create'));
+
         // Then
-        $this->get(route('teams.create'))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testStore()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $team = factory(Team::class)->make();
         $total = Team::all()->count();
 
@@ -97,55 +114,80 @@ class TeamsTest extends TestCase
 
     public function testNotAdminNotStore()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $team = factory(Team::class)->make();
 
         // When
+        $response = $this->post(route('teams.store'), $team->toArray());
+
         // Then
-        $this->post(route('teams.store'), $team->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotStore()
     {
+        // Auth
         // Given
         $team = factory(Team::class)->make();
 
         // When
+        $response = $this->post(route('teams.store'), $team->toArray());
+
         // Then
-        $this->post(route('teams.store'), $team->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
-    public function testStoreRequiresName()
+    public function testStoreUntestedRequiredFields()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
-        $team = factory(Team::class)->make(['name' => null]);
+
+        // Given
+        $total = Team::all()->count();
+
+        $empty = new Team();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
+        $response = $this->post(route('teams.store'), $empty->toArray());
+
         // Then
-        $this->post(route('teams.store'), $team->toArray())
-            ->assertSessionHasErrors('name');
+        $response->assertSessionHasNoErrors();
     }
 
-    public function testStoreRequiresGroup()
+    private function storeRequires(string $field)
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
-        $team = factory(Team::class)->make(['group_id' => null]);
+
+        // Given
+        $team = factory(Team::class)->make([$field => null]);
 
         // When
+        $response = $this->post(route('teams.store'), $team->toArray());
+
         // Then
-        $this->post(route('teams.store'), $team->toArray())
-            ->assertSessionHasErrors('group_id');
+        $response->assertSessionHasErrors($field);
+    }
+
+    public function testStoreTestingNotRequiredFields()
+    {
+        foreach ($this->required as $field) {
+            $this->storeRequires($field);
+        }
     }
 
     public function testShow()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $team = factory(Team::class)->create();
 
         // When
@@ -157,14 +199,17 @@ class TeamsTest extends TestCase
 
     public function testNotAdminNotShow()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $team = factory(Team::class)->create();
 
         // When
+        $response = $this->get(route('teams.show', $team));
+
         // Then
-        $this->get(route('teams.show', $team))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotShow()
@@ -173,51 +218,61 @@ class TeamsTest extends TestCase
         $team = factory(Team::class)->create();
 
         // When
+        $response = $this->get(route('teams.show', $team));
+
         // Then
-        $this->get(route('teams.show', $team))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testEdit()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $team = factory(Team::class)->create();
 
         // When
         $response = $this->get(route('teams.edit', $team), $team->toArray());
 
         // Then
-        $response->assertSeeInOrder([$team->name, $team->slug, __('Save')]);
+        $response->assertSeeInOrder([$team->name, __('Save')]);
     }
 
     public function testNotAdminNotEdit()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $team = factory(Team::class)->create();
 
         // When
+        $response = $this->get(route('teams.edit', $team), $team->toArray());
+
         // Then
-        $this->get(route('teams.edit', $team), $team->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotEdit()
     {
+        // Auth
         // Given
         $team = factory(Team::class)->create();
 
         // When
+        $response = $this->get(route('teams.edit', $team), $team->toArray());
+
         // Then
-        $this->get(route('teams.edit', $team), $team->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testUpdate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $team = factory(Team::class)->create();
         $team->name = "Updated";
 
@@ -230,61 +285,82 @@ class TeamsTest extends TestCase
 
     public function testNotAdminNotUpdate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $team = factory(Team::class)->create();
         $team->name = "Updated";
 
         // When
+        $response = $this->put(route('teams.update', $team), $team->toArray());
+
         // Then
-        $this->put(route('teams.update', $team), $team->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotUpdate()
     {
+        // Auth
         // Given
         $team = factory(Team::class)->create();
         $team->name = "Updated";
 
         // When
+        $response = $this->put(route('teams.update', $team), $team->toArray());
+
         // Then
-        $this->put(route('teams.update', $team), $team->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
-    public function testUpdateRequiresName()
+    public function testUpdateUntestedRequiredFields()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $team = factory(Team::class)->create();
+        $empty = new Team();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
-        $team->name = null;
+        $response = $this->put(route('teams.update', $team), $empty->toArray());
 
         // Then
-        $this->put(route('teams.update', $team), $team->toArray())
-            ->assertSessionHasErrors('name');
+        $response->assertSessionHasNoErrors();
     }
 
-    public function testUpdateRequiresGroup()
+    private function updateRequires(string $field)
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $team = factory(Team::class)->create();
+        $team->$field = null;
 
         // When
-        $team->group_id = null;
+        $response = $this->put(route('teams.update', $team), $team->toArray());
 
         // Then
-        $this->put(route('teams.update', $team), $team->toArray())
-            ->assertSessionHasErrors('group_id');
+        $response->assertSessionHasErrors($field);
+    }
+
+    public function testUpdateTestingNotRequiredFields()
+    {
+        foreach ($this->required as $field) {
+            $this->updateRequires($field);
+        }
     }
 
     public function testDelete()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $team = factory(Team::class)->create();
 
         // When
@@ -296,24 +372,29 @@ class TeamsTest extends TestCase
 
     public function testNotAdminNotDelete()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $team = factory(Team::class)->create();
 
         // When
+        $response = $this->delete(route('teams.destroy', $team));
+
         // Then
-        $this->delete(route('teams.destroy', $team))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotDelete()
     {
+        // Auth
         // Given
         $team = factory(Team::class)->create();
 
         // When
+        $response = $this->delete(route('teams.destroy', $team));
+
         // Then
-        $this->delete(route('teams.destroy', $team))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 }

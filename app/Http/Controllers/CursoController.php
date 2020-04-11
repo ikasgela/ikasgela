@@ -39,20 +39,16 @@ class CursoController extends Controller
             'nombre' => 'required',
         ]);
 
-        try {
-            Curso::create([
-                'category_id' => request('category_id'),
-                'nombre' => request('nombre'),
-                'descripcion' => request('descripcion'),
-                'slug' => Str::slug(request('nombre')),
-                'qualification_id' => request('qualification_id'),
-                'max_simultaneas' => request('max_simultaneas'),
-                'fecha_inicio' => request('fecha_inicio'),
-                'fecha_fin' => request('fecha_fin'),
-            ]);
-        } catch (\Exception $e) {
-            // Slug repetido
-        }
+        Curso::create([
+            'category_id' => request('category_id'),
+            'nombre' => request('nombre'),
+            'descripcion' => request('descripcion'),
+            'slug' => Str::slug(request('nombre')),
+            'qualification_id' => request('qualification_id'),
+            'max_simultaneas' => request('max_simultaneas'),
+            'fecha_inicio' => request('fecha_inicio'),
+            'fecha_fin' => request('fecha_fin'),
+        ]);
 
         return retornar();
     }

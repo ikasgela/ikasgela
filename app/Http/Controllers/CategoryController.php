@@ -37,15 +37,11 @@ class CategoryController extends Controller
             'name' => 'required',
         ]);
 
-        try {
-            Category::create([
-                'period_id' => request('period_id'),
-                'name' => request('name'),
-                'slug' => Str::slug(request('name'))
-            ]);
-        } catch (\Exception $e) {
-            // Slug repetido
-        }
+        Category::create([
+            'period_id' => request('period_id'),
+            'name' => request('name'),
+            'slug' => Str::slug(request('name'))
+        ]);
 
         return retornar();
     }
@@ -69,17 +65,13 @@ class CategoryController extends Controller
             'name' => 'required',
         ]);
 
-        try {
-            $category->update([
-                'period_id' => request('period_id'),
-                'name' => request('name'),
-                'slug' => strlen(request('slug')) > 0
-                    ? Str::slug(request('slug'))
-                    : Str::slug(request('name'))
-            ]);
-        } catch (\Exception $e) {
-            // Slug repetido
-        }
+        $category->update([
+            'period_id' => request('period_id'),
+            'name' => request('name'),
+            'slug' => strlen(request('slug')) > 0
+                ? Str::slug(request('slug'))
+                : Str::slug(request('name'))
+        ]);
 
         return retornar();
     }

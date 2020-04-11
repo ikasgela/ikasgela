@@ -33,15 +33,11 @@ class OrganizationController extends Controller
             'name' => 'required',
         ]);
 
-        try {
-            Organization::create([
-                'name' => request('name'),
-                'slug' => Str::slug(request('name')),
-                'registration_open' => $request->has('registration_open'),
-            ]);
-        } catch (\Exception $e) {
-            // Slug repetido
-        }
+        Organization::create([
+            'name' => request('name'),
+            'slug' => Str::slug(request('name')),
+            'registration_open' => $request->has('registration_open'),
+        ]);
 
         return retornar();
     }
@@ -62,18 +58,14 @@ class OrganizationController extends Controller
             'name' => 'required',
         ]);
 
-        try {
-            $organization->update([
-                'name' => request('name'),
-                'slug' => strlen(request('slug')) > 0
-                    ? Str::slug(request('slug'))
-                    : Str::slug(request('name')),
-                'current_period_id' => request('current_period_id'),
-                'registration_open' => $request->has('registration_open'),
-            ]);
-        } catch (\Exception $e) {
-            // Slug repetido
-        }
+        $organization->update([
+            'name' => request('name'),
+            'slug' => strlen(request('slug')) > 0
+                ? Str::slug(request('slug'))
+                : Str::slug(request('name')),
+            'current_period_id' => request('current_period_id'),
+            'registration_open' => $request->has('registration_open'),
+        ]);
 
         return retornar();
     }
