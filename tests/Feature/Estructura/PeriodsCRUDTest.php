@@ -6,9 +6,13 @@ use App\Period;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
-class PeriodsTest extends TestCase
+class PeriodsCRUDTest extends TestCase
 {
     use DatabaseTransactions;
+
+    private $required = [
+        'name', 'organization_id'
+    ];
 
     public function setUp(): void
     {
@@ -18,8 +22,10 @@ class PeriodsTest extends TestCase
 
     public function testIndex()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $period = factory(Period::class)->create();
 
         // When
@@ -31,29 +37,34 @@ class PeriodsTest extends TestCase
 
     public function testNotAdminNotIndex()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
 
+        // Given
         // When
+        $response = $this->get(route('periods.index'));
+
         // Then
-        $this->get(route('periods.index'))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotIndex()
     {
+        // Auth
         // Given
         // When
+        $response = $this->get(route('periods.index'));
+
         // Then
-        $this->get(route('periods.index'))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testCreate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
 
+        // Given
         // When
         $response = $this->get(route('periods.create'));
 
@@ -63,28 +74,34 @@ class PeriodsTest extends TestCase
 
     public function testNotAdminNotCreate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
 
+        // Given
         // When
+        $response = $this->get(route('periods.create'));
+
         // Then
-        $this->get(route('periods.create'))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotCreate()
     {
+        // Auth
         // Given
         // When
+        $response = $this->get(route('periods.create'));
+
         // Then
-        $this->get(route('periods.create'))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testStore()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $period = factory(Period::class)->make();
         $total = Period::all()->count();
 
@@ -97,55 +114,80 @@ class PeriodsTest extends TestCase
 
     public function testNotAdminNotStore()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $period = factory(Period::class)->make();
 
         // When
+        $response = $this->post(route('periods.store'), $period->toArray());
+
         // Then
-        $this->post(route('periods.store'), $period->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotStore()
     {
+        // Auth
         // Given
         $period = factory(Period::class)->make();
 
         // When
+        $response = $this->post(route('periods.store'), $period->toArray());
+
         // Then
-        $this->post(route('periods.store'), $period->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
-    public function testStoreRequiresName()
+    public function testStoreUntestedRequiredFields()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
-        $period = factory(Period::class)->make(['name' => null]);
+
+        // Given
+        $total = Period::all()->count();
+
+        $empty = new Period();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
+        $response = $this->post(route('periods.store'), $empty->toArray());
+
         // Then
-        $this->post(route('periods.store'), $period->toArray())
-            ->assertSessionHasErrors('name');
+        $response->assertSessionHasNoErrors();
     }
 
-    public function testStoreRequiresOrganization()
+    private function storeRequires(string $field)
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
-        $period = factory(Period::class)->make(['organization_id' => null]);
+
+        // Given
+        $period = factory(Period::class)->make([$field => null]);
 
         // When
+        $response = $this->post(route('periods.store'), $period->toArray());
+
         // Then
-        $this->post(route('periods.store'), $period->toArray())
-            ->assertSessionHasErrors('organization_id');
+        $response->assertSessionHasErrors($field);
+    }
+
+    public function testStoreTestingNotRequiredFields()
+    {
+        foreach ($this->required as $field) {
+            $this->storeRequires($field);
+        }
     }
 
     public function testShow()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $period = factory(Period::class)->create();
 
         // When
@@ -157,14 +199,17 @@ class PeriodsTest extends TestCase
 
     public function testNotAdminNotShow()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $period = factory(Period::class)->create();
 
         // When
+        $response = $this->get(route('periods.show', $period));
+
         // Then
-        $this->get(route('periods.show', $period))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotShow()
@@ -173,51 +218,61 @@ class PeriodsTest extends TestCase
         $period = factory(Period::class)->create();
 
         // When
+        $response = $this->get(route('periods.show', $period));
+
         // Then
-        $this->get(route('periods.show', $period))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testEdit()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $period = factory(Period::class)->create();
 
         // When
         $response = $this->get(route('periods.edit', $period), $period->toArray());
 
         // Then
-        $response->assertSeeInOrder([$period->name, $period->slug, __('Save')]);
+        $response->assertSeeInOrder([$period->name, __('Save')]);
     }
 
     public function testNotAdminNotEdit()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $period = factory(Period::class)->create();
 
         // When
+        $response = $this->get(route('periods.edit', $period), $period->toArray());
+
         // Then
-        $this->get(route('periods.edit', $period), $period->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotEdit()
     {
+        // Auth
         // Given
         $period = factory(Period::class)->create();
 
         // When
+        $response = $this->get(route('periods.edit', $period), $period->toArray());
+
         // Then
-        $this->get(route('periods.edit', $period), $period->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
     public function testUpdate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $period = factory(Period::class)->create();
         $period->name = "Updated";
 
@@ -230,61 +285,82 @@ class PeriodsTest extends TestCase
 
     public function testNotAdminNotUpdate()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $period = factory(Period::class)->create();
         $period->name = "Updated";
 
         // When
+        $response = $this->put(route('periods.update', $period), $period->toArray());
+
         // Then
-        $this->put(route('periods.update', $period), $period->toArray())
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotUpdate()
     {
+        // Auth
         // Given
         $period = factory(Period::class)->create();
         $period->name = "Updated";
 
         // When
+        $response = $this->put(route('periods.update', $period), $period->toArray());
+
         // Then
-        $this->put(route('periods.update', $period), $period->toArray())
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 
-    public function testUpdateRequiresName()
+    public function testUpdateUntestedRequiredFields()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $period = factory(Period::class)->create();
+        $empty = new Period();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
-        $period->name = null;
+        $response = $this->put(route('periods.update', $period), $empty->toArray());
 
         // Then
-        $this->put(route('periods.update', $period), $period->toArray())
-            ->assertSessionHasErrors('name');
+        $response->assertSessionHasNoErrors();
     }
 
-    public function testUpdateRequiresOrganization()
+    private function updateRequires(string $field)
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $period = factory(Period::class)->create();
+        $period->$field = null;
 
         // When
-        $period->organization_id = null;
+        $response = $this->put(route('periods.update', $period), $period->toArray());
 
         // Then
-        $this->put(route('periods.update', $period), $period->toArray())
-            ->assertSessionHasErrors('organization_id');
+        $response->assertSessionHasErrors($field);
+    }
+
+    public function testUpdateTestingNotRequiredFields()
+    {
+        foreach ($this->required as $field) {
+            $this->updateRequires($field);
+        }
     }
 
     public function testDelete()
     {
-        // Given
+        // Auth
         $this->actingAs($this->admin);
+
+        // Given
         $period = factory(Period::class)->create();
 
         // When
@@ -296,24 +372,29 @@ class PeriodsTest extends TestCase
 
     public function testNotAdminNotDelete()
     {
-        // Given
+        // Auth
         $this->actingAs($this->not_admin);
+
+        // Given
         $period = factory(Period::class)->create();
 
         // When
+        $response = $this->delete(route('periods.destroy', $period));
+
         // Then
-        $this->delete(route('periods.destroy', $period))
-            ->assertForbidden();
+        $response->assertForbidden();
     }
 
     public function testNotAuthNotDelete()
     {
+        // Auth
         // Given
         $period = factory(Period::class)->create();
 
         // When
+        $response = $this->delete(route('periods.destroy', $period));
+
         // Then
-        $this->delete(route('periods.destroy', $period))
-            ->assertRedirect(route('login'));
+        $response->assertRedirect(route('login'));
     }
 }
