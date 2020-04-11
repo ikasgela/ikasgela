@@ -259,7 +259,8 @@ class UsersCRUDTest extends TestCase
         $this->delete(route('users.destroy', $user));
 
         // Then
-        $this->assertDatabaseMissing('users', $user->toArray());
+        // No se puede usar ->toArray() porque tiene getters personalizados
+        $this->assertDatabaseMissing('users', ['id' => $user->id]);
     }
 
     public function testNotAdminNotDelete()
