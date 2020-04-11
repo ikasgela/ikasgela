@@ -37,15 +37,11 @@ class PeriodController extends Controller
             'name' => 'required',
         ]);
 
-        try {
-            Period::create([
-                'organization_id' => request('organization_id'),
-                'name' => request('name'),
-                'slug' => Str::slug(request('name'))
-            ]);
-        } catch (\Exception $e) {
-            // Slug repetido
-        }
+        Period::create([
+            'organization_id' => request('organization_id'),
+            'name' => request('name'),
+            'slug' => Str::slug(request('name'))
+        ]);
 
         return retornar();
     }
@@ -69,17 +65,13 @@ class PeriodController extends Controller
             'name' => 'required',
         ]);
 
-        try {
-            $period->update([
-                'organization_id' => request('organization_id'),
-                'name' => request('name'),
-                'slug' => strlen(request('slug')) > 0
-                    ? Str::slug(request('slug'))
-                    : Str::slug(request('name'))
-            ]);
-        } catch (\Exception $e) {
-            // Slug repetido
-        }
+        $period->update([
+            'organization_id' => request('organization_id'),
+            'name' => request('name'),
+            'slug' => strlen(request('slug')) > 0
+                ? Str::slug(request('slug'))
+                : Str::slug(request('name'))
+        ]);
 
         return retornar();
     }

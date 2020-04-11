@@ -37,15 +37,11 @@ class TeamController extends Controller
             'name' => 'required',
         ]);
 
-        try {
-            Team::create([
-                'group_id' => request('group_id'),
-                'name' => request('name'),
-                'slug' => Str::slug(request('name'))
-            ]);
-        } catch (\Exception $e) {
-            // Slug repetido
-        }
+        Team::create([
+            'group_id' => request('group_id'),
+            'name' => request('name'),
+            'slug' => Str::slug(request('name'))
+        ]);
 
         return retornar();
     }
@@ -69,17 +65,13 @@ class TeamController extends Controller
             'name' => 'required',
         ]);
 
-        try {
-            $team->update([
-                'group_id' => request('group_id'),
-                'name' => request('name'),
-                'slug' => strlen(request('slug')) > 0
-                    ? Str::slug(request('slug'))
-                    : Str::slug(request('name'))
-            ]);
-        } catch (\Exception $e) {
-            // Slug repetido
-        }
+        $team->update([
+            'group_id' => request('group_id'),
+            'name' => request('name'),
+            'slug' => strlen(request('slug')) > 0
+                ? Str::slug(request('slug'))
+                : Str::slug(request('name'))
+        ]);
 
         return retornar();
     }
