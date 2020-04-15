@@ -7085,9 +7085,20 @@ __webpack_require__.r(__webpack_exports__);
 
 function getViewportRect(element) {
   var win = Object(_getWindow_js__WEBPACK_IMPORTED_MODULE_0__["default"])(element);
+  var visualViewport = win.visualViewport;
+  var width = win.innerWidth;
+  var height = win.innerHeight; // We don't know which browsers have buggy or odd implementations of this, so
+  // for now we're only applying it to iOS to fix the keyboard issue.
+  // Investigation required
+
+  if (visualViewport && /iPhone|iPod|iPad/.test(navigator.platform)) {
+    width = visualViewport.width;
+    height = visualViewport.height;
+  }
+
   return {
-    width: win.innerWidth,
-    height: win.innerHeight,
+    width: width,
+    height: height,
     x: 0,
     y: 0
   };
@@ -7248,7 +7259,8 @@ function listScrollParents(element, list) {
 
   var scrollParent = Object(_getScrollParent_js__WEBPACK_IMPORTED_MODULE_0__["default"])(element);
   var isBody = Object(_getNodeName_js__WEBPACK_IMPORTED_MODULE_2__["default"])(scrollParent) === 'body';
-  var target = isBody ? Object(_getWindow_js__WEBPACK_IMPORTED_MODULE_3__["default"])(scrollParent) : scrollParent;
+  var win = Object(_getWindow_js__WEBPACK_IMPORTED_MODULE_3__["default"])(scrollParent);
+  var target = isBody ? [win].concat(win.visualViewport || []) : scrollParent;
   var updatedList = list.concat(target);
   return isBody ? updatedList : // $FlowFixMe: isBody tells us target will be an HTMLElement here
   updatedList.concat(listScrollParents(Object(_getParentNode_js__WEBPACK_IMPORTED_MODULE_1__["default"])(target)));
@@ -7740,7 +7752,8 @@ function effect(_ref2) {
       });
     });
   };
-}
+} // eslint-disable-next-line import/no-unused-modules
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'applyStyles',
@@ -7793,7 +7806,7 @@ function arrow(_ref) {
   var isVertical = [_enums_js__WEBPACK_IMPORTED_MODULE_8__["left"], _enums_js__WEBPACK_IMPORTED_MODULE_8__["right"]].indexOf(basePlacement) >= 0;
   var len = isVertical ? 'height' : 'width';
 
-  if (!arrowElement) {
+  if (!arrowElement || !popperOffsets) {
     return;
   }
 
@@ -7824,7 +7837,12 @@ function effect(_ref2) {
   var _options$element = options.element,
       arrowElement = _options$element === void 0 ? '[data-popper-arrow]' : _options$element,
       _options$padding = options.padding,
-      padding = _options$padding === void 0 ? 0 : _options$padding; // CSS selector
+      padding = _options$padding === void 0 ? 0 : _options$padding;
+
+  if (arrowElement == null) {
+    return;
+  } // CSS selector
+
 
   if (typeof arrowElement === 'string') {
     arrowElement = state.elements.popper.querySelector(arrowElement);
@@ -7846,7 +7864,8 @@ function effect(_ref2) {
   state.modifiersData[name + "#persistent"] = {
     padding: Object(_utils_mergePaddingObject_js__WEBPACK_IMPORTED_MODULE_6__["default"])(typeof padding !== 'number' ? padding : Object(_utils_expandToHashMap_js__WEBPACK_IMPORTED_MODULE_7__["default"])(padding, _enums_js__WEBPACK_IMPORTED_MODULE_8__["basePlacements"]))
   };
-}
+} // eslint-disable-next-line import/no-unused-modules
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'arrow',
@@ -7982,13 +8001,15 @@ function computeStyles(_ref3) {
     popper: state.elements.popper,
     popperRect: state.rects.popper,
     gpuAcceleration: gpuAcceleration
-  }; // popper offsets are always available
+  };
 
-  state.styles.popper = Object.assign({}, state.styles.popper, {}, mapToStyles(Object.assign({}, commonStyles, {
-    offsets: state.modifiersData.popperOffsets,
-    position: state.options.strategy,
-    adaptive: adaptive
-  }))); // arrow offsets may not be available
+  if (state.modifiersData.popperOffsets != null) {
+    state.styles.popper = Object.assign({}, state.styles.popper, {}, mapToStyles(Object.assign({}, commonStyles, {
+      offsets: state.modifiersData.popperOffsets,
+      position: state.options.strategy,
+      adaptive: adaptive
+    })));
+  }
 
   if (state.modifiersData.arrow != null) {
     state.styles.arrow = Object.assign({}, state.styles.arrow, {}, mapToStyles(Object.assign({}, commonStyles, {
@@ -8001,7 +8022,8 @@ function computeStyles(_ref3) {
   state.attributes.popper = Object.assign({}, state.attributes.popper, {
     'data-popper-placement': state.placement
   });
-}
+} // eslint-disable-next-line import/no-unused-modules
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'computeStyles',
@@ -8060,7 +8082,8 @@ function effect(_ref) {
       window.removeEventListener('resize', instance.update, passive);
     }
   };
-}
+} // eslint-disable-next-line import/no-unused-modules
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'eventListeners',
@@ -8121,7 +8144,8 @@ function flip(_ref) {
       rootBoundary = options.rootBoundary,
       altBoundary = options.altBoundary,
       _options$flipVariatio = options.flipVariations,
-      flipVariations = _options$flipVariatio === void 0 ? true : _options$flipVariatio;
+      flipVariations = _options$flipVariatio === void 0 ? true : _options$flipVariatio,
+      allowedAutoPlacements = options.allowedAutoPlacements;
   var preferredPlacement = state.options.placement;
   var basePlacement = Object(_utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_1__["default"])(preferredPlacement);
   var isBasePlacement = basePlacement === preferredPlacement;
@@ -8132,7 +8156,8 @@ function flip(_ref) {
       boundary: boundary,
       rootBoundary: rootBoundary,
       padding: padding,
-      flipVariations: flipVariations
+      flipVariations: flipVariations,
+      allowedAutoPlacements: allowedAutoPlacements
     }) : placement);
   }, []);
   var referenceRect = state.rects.reference;
@@ -8209,7 +8234,8 @@ function flip(_ref) {
     state.placement = firstFittingPlacement;
     state.reset = true;
   }
-}
+} // eslint-disable-next-line import/no-unused-modules
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'flip',
@@ -8286,7 +8312,8 @@ function hide(_ref) {
     'data-popper-reference-hidden': isReferenceHidden,
     'data-popper-escaped': hasPopperEscaped
   });
-}
+} // eslint-disable-next-line import/no-unused-modules
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'hide',
@@ -8346,10 +8373,15 @@ function offset(_ref2) {
   var _data$state$placement = data[state.placement],
       x = _data$state$placement.x,
       y = _data$state$placement.y;
-  state.modifiersData.popperOffsets.x += x;
-  state.modifiersData.popperOffsets.y += y;
+
+  if (state.modifiersData.popperOffsets != null) {
+    state.modifiersData.popperOffsets.x += x;
+    state.modifiersData.popperOffsets.y += y;
+  }
+
   state.modifiersData[name] = data;
-}
+} // eslint-disable-next-line import/no-unused-modules
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'offset',
@@ -8386,7 +8418,8 @@ function popperOffsets(_ref) {
     strategy: 'absolute',
     placement: state.placement
   });
-}
+} // eslint-disable-next-line import/no-unused-modules
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'popperOffsets',
@@ -8466,6 +8499,10 @@ function preventOverflow(_ref) {
     y: 0
   };
 
+  if (!popperOffsets) {
+    return;
+  }
+
   if (checkMainAxis) {
     var mainSide = mainAxis === 'y' ? _enums_js__WEBPACK_IMPORTED_MODULE_0__["top"] : _enums_js__WEBPACK_IMPORTED_MODULE_0__["left"];
     var altSide = mainAxis === 'y' ? _enums_js__WEBPACK_IMPORTED_MODULE_0__["bottom"] : _enums_js__WEBPACK_IMPORTED_MODULE_0__["right"];
@@ -8517,12 +8554,13 @@ function preventOverflow(_ref) {
 
     var _preventedOffset = Object(_utils_within_js__WEBPACK_IMPORTED_MODULE_4__["default"])(_min, _offset, _max);
 
-    state.modifiersData.popperOffsets[altAxis] = _preventedOffset;
+    popperOffsets[altAxis] = _preventedOffset;
     data[altAxis] = _preventedOffset - _offset;
   }
 
   state.modifiersData[name] = data;
-}
+} // eslint-disable-next-line import/no-unused-modules
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'preventOverflow',
@@ -8598,6 +8636,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/*:: type OverflowsMap = { [ComputedPlacement]: number }; */
+
+/*;; type OverflowsMap = { [key in ComputedPlacement]: number }; */
 function computeAutoPlacement(state, options) {
   if (options === void 0) {
     options = {};
@@ -8608,11 +8650,15 @@ function computeAutoPlacement(state, options) {
       boundary = _options.boundary,
       rootBoundary = _options.rootBoundary,
       padding = _options.padding,
-      flipVariations = _options.flipVariations;
+      flipVariations = _options.flipVariations,
+      _options$allowedAutoP = _options.allowedAutoPlacements,
+      allowedAutoPlacements = _options$allowedAutoP === void 0 ? _enums_js__WEBPACK_IMPORTED_MODULE_1__["placements"] : _options$allowedAutoP;
   var variation = Object(_getVariation_js__WEBPACK_IMPORTED_MODULE_0__["default"])(placement);
-  var placements = variation ? flipVariations ? _enums_js__WEBPACK_IMPORTED_MODULE_1__["variationPlacements"] : _enums_js__WEBPACK_IMPORTED_MODULE_1__["variationPlacements"].filter(function (placement) {
+  var placements = (variation ? flipVariations ? _enums_js__WEBPACK_IMPORTED_MODULE_1__["variationPlacements"] : _enums_js__WEBPACK_IMPORTED_MODULE_1__["variationPlacements"].filter(function (placement) {
     return Object(_getVariation_js__WEBPACK_IMPORTED_MODULE_0__["default"])(placement) === variation;
-  }) : _enums_js__WEBPACK_IMPORTED_MODULE_1__["basePlacements"]; // $FlowFixMe: Flow seems to have problems with two array unions...
+  }) : _enums_js__WEBPACK_IMPORTED_MODULE_1__["basePlacements"]).filter(function (placement) {
+    return allowedAutoPlacements.indexOf(placement) >= 0;
+  }); // $FlowFixMe: Flow seems to have problems with two array unions...
 
   var overflows = placements.reduce(function (acc, placement) {
     acc[placement] = Object(_detectOverflow_js__WEBPACK_IMPORTED_MODULE_2__["default"])(state, {
