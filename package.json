@@ -18,7 +18,7 @@
         "lodash": "^4.17.15",
         "popper.js": "^1.16.1",
         "resolve-url-loader": "^3.1.1",
-        "sass": "^1.26.3",
+        "sass": "^1.26.5",
         "sass-loader": "^8.0.0",
         "vue": "^2.6.11",
         "vue-template-compiler": "^2.6.11"
@@ -32,7 +32,7 @@
         "jquery-countdown": "^2.2.0",
         "perfect-scrollbar": "^1.5.0",
         "prismjs": "^1.20.0",
-        "tinymce": "^5.2.1",
+        "tinymce": "^5.2.2",
         "tinymce-i18n": "^20.4.4",
         "vue-toasted": "^1.1.28"
     }
