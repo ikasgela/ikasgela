@@ -335,5 +335,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Pruebas
     if (config('app.debug')) {
         Route::get('/files', 'FileController@getFiles')->name('files');
+
+        // MongoDB - Documentos
+        Route::resource('documentos', 'DocumentoController');
     }
 });
