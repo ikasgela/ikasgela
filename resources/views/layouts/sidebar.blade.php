@@ -59,7 +59,7 @@
                 </li>
             @endif
             @if(Auth::user()->hasRole('admin'))
-                <li class="c-sidebar-nav-title text-center">
+                <li class="c-sidebar-nav-title text-center text-lowercase">
                     <span>{{ config('ikasgela.version') }} ({{ config('ikasgela.commit') }})</span>
                 </li>
             @endif
