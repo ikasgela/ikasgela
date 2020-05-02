@@ -71,16 +71,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.137.0",
+            "version": "3.137.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "e92ed36668dd546041714d3d1c520d6206423ab3"
+                "reference": "935060ae3d64f2bfeab7a6ba46bebe525047446c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e92ed36668dd546041714d3d1c520d6206423ab3",
-                "reference": "e92ed36668dd546041714d3d1c520d6206423ab3",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/935060ae3d64f2bfeab7a6ba46bebe525047446c",
+                "reference": "935060ae3d64f2bfeab7a6ba46bebe525047446c",
                 "shasum": ""
             },
             "require": {
@@ -151,7 +151,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2020-04-30T18:16:22+00:00"
+            "time": "2020-05-01T18:13:22+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -2271,16 +2271,16 @@
         },
         {
             "name": "laraveles/spanish",
-            "version": "1.4.5",
+            "version": "1.4.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laraveles/spanish.git",
-                "reference": "1e71f5d5350f6db0c72e6a5ff4a00802b42805b3"
+                "reference": "d8eb80c966abc5a4fa45fe3aa58734ab6fddb5a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laraveles/spanish/zipball/1e71f5d5350f6db0c72e6a5ff4a00802b42805b3",
-                "reference": "1e71f5d5350f6db0c72e6a5ff4a00802b42805b3",
+                "url": "https://api.github.com/repos/Laraveles/spanish/zipball/d8eb80c966abc5a4fa45fe3aa58734ab6fddb5a5",
+                "reference": "d8eb80c966abc5a4fa45fe3aa58734ab6fddb5a5",
                 "shasum": ""
             },
             "require": {
@@ -2329,7 +2329,7 @@
                 "spanish",
                 "traduccion"
             ],
-            "time": "2019-11-02T08:39:28+00:00"
+            "time": "2020-05-01T09:10:46+00:00"
         },
         {
             "name": "league/commonmark",
