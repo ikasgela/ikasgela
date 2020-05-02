@@ -4,11 +4,12 @@
 Has recibido un nuevo mensaje de {{ $usuario }}.
 
 @component('mail::panel')
-    {!! $preview_mensaje !!}
+## {{ $titulo }}
+{!! $preview !!}
 @endcomponent
 
 @component('mail::button', ['url' => "https://$hostName/messages"])
-    {{ __('Open messages') }}
+{{ __('Open messages') }}
 @endcomponent
 
 @endcomponent

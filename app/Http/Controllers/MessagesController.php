@@ -15,7 +15,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Str;
 
 class MessagesController extends Controller
 {
@@ -71,8 +70,6 @@ class MessagesController extends Controller
         return view('messenger.show', compact('thread', 'users'));
     }
 
-    const PREVIEW_MAX_LENGTH = 300;
-
     private function enviarEmails($thread)
     {
         $userId = Auth::id();
@@ -84,16 +81,10 @@ class MessagesController extends Controller
         foreach ($users as $user) {
             if ($thread->alert || setting_usuario('notificacion_mensaje_recibido', $user)) {
 
-                $preview_mensaje = Str::substr($thread->latestMessage->body, 0, self::PREVIEW_MAX_LENGTH);
-
-                if (Str::length($thread->latestMessage->body) > self::PREVIEW_MAX_LENGTH) {
-                    $preview_mensaje .= "\n\n...";
-                }
-
                 if (!$thread->alert)
-                    Mail::to($user->email)->queue(new NuevoMensaje($preview_mensaje, $thread->latestMessage->user->name));
+                    Mail::to($user->email)->queue(new NuevoMensaje($thread->latestMessage));
                 else
-                    Mail::to($user->email)->queue(new Alerta($preview_mensaje, $thread->latestMessage->user->name));
+                    Mail::to($user->email)->queue(new Alerta($thread->latestMessage));
             }
         }
     }
