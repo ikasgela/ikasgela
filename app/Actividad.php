@@ -121,6 +121,11 @@ class Actividad extends Model
         });
     }
 
+    public function scopeExtra($query)
+    {
+        return $query->where('tags', 'LIKE', '%extra%');
+    }
+
     public function file_uploads()
     {
         return $this

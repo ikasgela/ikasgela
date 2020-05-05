@@ -33,6 +33,13 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" id="pills-extra-tab" data-toggle="tab" href="#pills-extra" role="tab"
+               aria-controls="pills-contact" aria-selected="false">Extra
+                <span
+                    class="ml-2 badge badge-secondary">{{ $user->actividades_en_curso_autoavance()->extra()->count() }}</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" id="pills-enviadas-tab" data-toggle="tab" href="#pills-enviadas" role="tab"
                aria-controls="pills-contact" aria-selected="false">Enviadas
                 <span
@@ -45,6 +52,13 @@
             <div class="p-3">
                 @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_autoavance()->get(),
                 'mensaje_ninguna' => 'No hay actividades en curso.'
+                ])
+            </div>
+        </div>
+        <div class="tab-pane fade show active" id="pills-extra" role="tabpanel" aria-labelledby="pills-extra-tab">
+            <div class="p-3">
+                @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_autoavance()->extra()->get(),
+                'mensaje_ninguna' => 'No hay actividades extra en curso.'
                 ])
             </div>
         </div>
