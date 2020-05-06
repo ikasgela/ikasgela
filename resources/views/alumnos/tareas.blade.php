@@ -24,7 +24,7 @@
     <ul class="nav nav-tabs" id="pills-tab" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" id="pills-en-curso-tab" data-toggle="tab" href="#pills-en-curso" role="tab"
-               aria-controls="pills-profile" aria-selected="true">En curso
+               aria-controls="pills-profile" aria-selected="true">{{ __('In progress') }}
                 @if($alumno_actividades_asignadas > 0)
                     <span class="ml-2 badge badge-danger">{{ $alumno_actividades_asignadas }}</span>
                 @else
@@ -34,14 +34,14 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" id="pills-extra-tab" data-toggle="tab" href="#pills-extra" role="tab"
-               aria-controls="pills-contact" aria-selected="false">Extra
+               aria-controls="pills-contact" aria-selected="false">{{ __('Extra') }}
                 <span
                     class="ml-2 badge badge-secondary">{{ $user->actividades_en_curso_autoavance()->tag('extra')->count() }}</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="pills-enviadas-tab" data-toggle="tab" href="#pills-enviadas" role="tab"
-               aria-controls="pills-contact" aria-selected="false">Enviadas
+               aria-controls="pills-contact" aria-selected="false">{{ trans_choice('tasks.sent', 2) }}
                 <span
                     class="ml-2 badge badge-secondary">{{ $user->actividades_enviadas_noautoavance()->count() }}</span>
             </a>
