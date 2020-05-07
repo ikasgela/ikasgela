@@ -32,13 +32,15 @@
                 @endif
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" id="pills-extra-tab" data-toggle="tab" href="#pills-extra" role="tab"
-               aria-controls="pills-contact" aria-selected="false">{{ __('Extra') }}
-                <span
-                    class="ml-2 badge badge-secondary">{{ $user->actividades_en_curso_autoavance()->tag('extra')->count() }}</span>
-            </a>
-        </li>
+        @if($user->actividades()->tag('extra')->count() > 0)
+            <li class="nav-item">
+                <a class="nav-link" id="pills-extra-tab" data-toggle="tab" href="#pills-extra" role="tab"
+                   aria-controls="pills-contact" aria-selected="false">{{ __('Extra') }}
+                    <span
+                        class="ml-2 badge badge-secondary">{{ $user->actividades_en_curso_autoavance()->tag('extra')->count() }}</span>
+                </a>
+            </li>
+        @endif
         <li class="nav-item">
             <a class="nav-link" id="pills-enviadas-tab" data-toggle="tab" href="#pills-enviadas" role="tab"
                aria-controls="pills-contact" aria-selected="false">{{ trans_choice('tasks.sent', 2) }}
@@ -55,13 +57,15 @@
                 ])
             </div>
         </div>
-        <div class="tab-pane fade" id="pills-extra" role="tabpanel" aria-labelledby="pills-extra-tab">
-            <div class="p-3">
-                @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_autoavance()->tag('extra')->get(),
-                'mensaje_ninguna' => 'No hay actividades extra en curso.'
-                ])
+        @if($user->actividades()->tag('extra')->count() > 0)
+            <div class="tab-pane fade" id="pills-extra" role="tabpanel" aria-labelledby="pills-extra-tab">
+                <div class="p-3">
+                    @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_autoavance()->tag('extra')->get(),
+                    'mensaje_ninguna' => 'No hay actividades extra en curso.'
+                    ])
+                </div>
             </div>
-        </div>
+        @endif
         <div class="tab-pane fade" id="pills-enviadas" role="tabpanel" aria-labelledby="pills-enviadas-tab">
             <div class="p-3">
                 @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_enviadas_noautoavance()->get(),
