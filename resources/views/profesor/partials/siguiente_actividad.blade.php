@@ -1,4 +1,4 @@
-<td class="clickable">
+<td>
     @if(!is_null($actividad))
         {!! !is_null($actividad->siguiente) ? $actividad->final
         ? '<i class="fas fa-times text-danger"></i>'
