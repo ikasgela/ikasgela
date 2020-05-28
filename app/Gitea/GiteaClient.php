@@ -444,4 +444,17 @@ class GiteaClient
         }
         return false;
     }
+
+    public static function download($owner, $repo, $branch)
+    {
+        self::init();
+
+        $query = "repos/$owner/$repo/archive/$branch";
+
+        $response = self::$cliente->get($query, [
+            'headers' => self::$headers
+        ]);
+
+        return $response->getBody()->getContents();
+    }
 }

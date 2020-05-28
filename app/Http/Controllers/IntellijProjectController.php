@@ -25,7 +25,7 @@ class IntellijProjectController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:profesor', ['except' => ['fork', 'is_forking']]);
+        $this->middleware('role:profesor', ['except' => ['fork', 'is_forking', 'download']]);
     }
 
     public function index()
@@ -242,5 +242,14 @@ class IntellijProjectController extends Controller
         $proyecto->unarchive();
 
         return back();
+    }
+
+    public function download(IntellijProject $intellij_project)
+    {
+        $repositorio = $intellij_project->repository();
+
+        return response()->streamDownload(function () use ($repositorio) {
+            echo GiteaClient::download($repositorio['owner'], $repositorio['name'], 'master.zip');
+        }, $repositorio['name'] . '.zip');
     }
 }
