@@ -51,4 +51,13 @@ class ArchivoController extends Controller
 
         return view('archivo.show', compact(['actividad', 'user']));
     }
+
+    public function outline()
+    {
+        $curso = Curso::find(setting_usuario('curso_actual'));
+
+        $unidades = $curso->unidades()->orderBy('codigo')->get();
+
+        return view('archivo.outline', compact(['unidades']));
+    }
 }
