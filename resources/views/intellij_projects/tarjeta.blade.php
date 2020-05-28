@@ -20,7 +20,10 @@
     <div class="card-body">
         <h5 class="card-title">{{ $intellij_project->titulo }}</h5>
         <p class="card-text">{{ $intellij_project->descripcion }}</p>
-        @if(!$intellij_project->isForked() && Auth::user()->hasRole('alumno') && !($repositorio['id'] == '?'))
+        @if($actividad->plantilla)
+            <a href="{{ route('intellij_projects.download', ['intellij_project'=>$intellij_project->id]) }}"
+               class="btn btn-primary">{{ __('Download the project') }}</a>
+        @elseif(!$intellij_project->isForked() && Auth::user()->hasRole('alumno') && !($repositorio['id'] == '?'))
             @if($intellij_project->getForkStatus() == 0)
                 <a href="{{ route('intellij_projects.fork', ['actividad' => $actividad->id, 'intellij_project'=>$intellij_project->id]) }}"
                    class="btn btn-primary single_click">
