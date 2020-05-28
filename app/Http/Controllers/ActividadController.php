@@ -134,7 +134,13 @@ class ActividadController extends Controller
 
     public function preview(Actividad $actividad)
     {
-        return view('actividades.preview', compact('actividad'));
+        $user = Auth::user();
+
+        if ($user->hasAnyRole(['admin', 'profesor']) || $user->hasRole('alumno') && $actividad->plantilla) {
+            return view('actividades.preview', compact('actividad'));
+        } else {
+            abort(404, __('Activity not found.'));
+        }
     }
 
     public function edit(Actividad $actividad)
