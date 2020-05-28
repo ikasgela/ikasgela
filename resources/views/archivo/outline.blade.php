@@ -26,7 +26,7 @@
                     <tbody>
                     @foreach($unidad->actividades as $actividad)
                         @if($actividad->plantilla && $actividad->hasEtiqueta('base'))
-                            <tr class="table-row" data-href="{{ route('actividades.preview_alumno', $actividad->id) }}">
+                            <tr class="table-row" data-href="{{ route('actividades.preview', $actividad->id) }}">
                                 <td class="align-middle">
                                     @include('actividades.partials.nombre_con_etiquetas')
                                 </td>

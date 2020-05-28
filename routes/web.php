@@ -62,9 +62,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/intellij_projects/status/{actividad}/fork/{intellij_project}', 'IntellijProjectController@is_forking')
             ->name('intellij_projects.is_forking');
 
-        // Previsualizar una actividad
-        Route::get('/actividades/{actividad}/preview_alumno', 'ActividadController@preview')
-            ->name('actividades.preview_alumno');
+        // Descargar un repositorio
         Route::get('/intellij_projects/{intellij_project}/download', 'IntellijProjectController@download')
             ->name('intellij_projects.download');
     });
@@ -121,10 +119,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Gestionar plantillas de actividades - Selector de unidad
         Route::post('/actividades/plantillas', 'ActividadController@plantillas')
             ->name('actividades.plantillas.filtro');
-
-        // Previsualizar una actividad
-        Route::get('/actividades/{actividad}/preview', 'ActividadController@preview')
-            ->name('actividades.preview');
 
         // Reordenar actividades
         Route::post('/actividades/reordenar/{a1}/{a2}', 'ActividadController@reordenar')
@@ -285,6 +279,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Responder a cuestionarios
         Route::put('/cuestionarios/{cuestionario}/respuesta', 'CuestionarioController@respuesta')
             ->name('cuestionarios.respuesta');
+
+        // Previsualizar una actividad
+        Route::get('/actividades/{actividad}/preview', 'ActividadController@preview')
+            ->name('actividades.preview');
     });
 
     // Profesor y tutor
