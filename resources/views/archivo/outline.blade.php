@@ -24,7 +24,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($unidad->actividades as $actividad)
+                    @foreach($unidad->actividades->sortBy('orden') as $actividad)
                         @if($actividad->plantilla && !$actividad->hasEtiqueta('extra') && !$actividad->hasEtiqueta('examen'))
                             <tr class="table-row" data-href="{{ route('actividades.preview', $actividad->id) }}">
                                 <td class="align-middle">
