@@ -61,6 +61,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('intellij_projects.fork');
         Route::get('/intellij_projects/status/{actividad}/fork/{intellij_project}', 'IntellijProjectController@is_forking')
             ->name('intellij_projects.is_forking');
+
+        // Previsualizar una actividad
+        Route::get('/actividades/{actividad}/preview_alumno', 'ActividadController@preview')
+            ->name('actividades.preview_alumno');
+        Route::get('/intellij_projects/{intellij_project}/download', 'IntellijProjectController@download')
+            ->name('intellij_projects.download');
     });
 
     // Profesor
@@ -319,6 +325,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('archivo.show');
         Route::get('/archivo', 'ArchivoController@index')
             ->name('archivo.index');
+
+        // Esquema del curso
+        Route::get('/outline', 'ArchivoController@outline')
+            ->name('archivo.outline');
     });
 
     // Mensajes
