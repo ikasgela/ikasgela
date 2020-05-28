@@ -6,12 +6,11 @@
 
     @include('actividades.partials.preview_siguiente')
 
-    @if(session('tutorial'))
-        <div class="callout callout-success b-t-1 b-r-1 b-b-1">
-            <small class="text-muted">{{ __('Tutorial') }}</small>
-            <p>Vista previa de la actividad.</p>
-        </div>
-    @endif
+    @include('partials.tutorial', [
+        'color' => 'c-callout-success',
+        'texto' => 'Vista previa de la actividad.'
+    ])
+
     <div class="row mt-4">
         <div class="col-md-12">
             {{-- Tarjeta --}}
