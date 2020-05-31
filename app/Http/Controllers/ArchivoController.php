@@ -56,7 +56,7 @@ class ArchivoController extends Controller
     {
         $curso = Curso::find(setting_usuario('curso_actual'));
 
-        $unidades = $curso->unidades()->orderBy('codigo')->get();
+        $unidades = $curso->unidades()->tag('examen', false)->orderBy('codigo')->get();
 
         return view('archivo.outline', compact(['unidades']));
     }
