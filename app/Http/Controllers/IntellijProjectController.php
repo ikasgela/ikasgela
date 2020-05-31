@@ -200,7 +200,15 @@ class IntellijProjectController extends Controller
                 $nombre = $proyecto['description'];
             }
 
-            $this->clonar_repositorio($proyecto['path_with_namespace'], $destino, $ruta, $nombre);
+            $clonado = $this->clonar_repositorio($proyecto['path_with_namespace'], $destino, $ruta, $nombre);
+
+            // Crear el recurso asociado al nuevo repositorio
+            IntellijProject::create([
+                'titulo' => $clonado['description'],
+                'descripcion' => 'Clona el repositorio y abre el proyecto en IntelliJ. El enunciado está dentro del proyecto, en el archivo README.md.',
+                'repositorio' => $clonado['path_with_namespace'],
+                'host' => 'gitea',
+            ]);
         } catch (\Exception $e) {
             Log::error($e);
         }
