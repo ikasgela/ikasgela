@@ -53,4 +53,15 @@ class Unidad extends Model
 
         return $total;
     }
+
+    public function puntos()
+    {
+        $total = 0;
+
+        foreach ($this->actividades()->where('plantilla', true)->get() as $actividad) {
+            $total += $actividad->puntos();
+        }
+
+        return $total;
+    }
 }

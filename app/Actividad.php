@@ -151,4 +151,9 @@ class Actividad extends Model
 
         return $enviar;
     }
+
+    public function puntos()
+    {
+        return $this->puntuacion * ($this->multiplicador ?: 1);
+    }
 }
