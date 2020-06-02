@@ -61,7 +61,7 @@
             </div>
         @endif
     </div>
-    @if(count($file_upload->files) < $file_upload->max_files && Route::currentRouteName() != 'archivo.show' && Route::currentRouteName() != 'actividades.preview')
+    @if(count($file_upload->files) < $file_upload->max_files && Route::currentRouteName() != 'archivo.show' && Route::currentRouteName() != 'actividades.preview' || !Auth::user()->hasRole('alumno'))
         <hr class="my-0">
         <div class="card-body">
             <p class="small">{{ __('Upload limit') }}: {{ $file_upload->max_files-count($file_upload->files) }}</p>
