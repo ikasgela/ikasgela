@@ -71,16 +71,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.138.10",
+            "version": "3.139.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "cf197a033ad75cd9e3a90a207cf5ec8935aafa48"
+                "reference": "0d8ccd70c76e22f04ec16bff07b7e002dd594c82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/cf197a033ad75cd9e3a90a207cf5ec8935aafa48",
-                "reference": "cf197a033ad75cd9e3a90a207cf5ec8935aafa48",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0d8ccd70c76e22f04ec16bff07b7e002dd594c82",
+                "reference": "0d8ccd70c76e22f04ec16bff07b7e002dd594c82",
                 "shasum": ""
             },
             "require": {
@@ -151,7 +151,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2020-05-28T18:12:07+00:00"
+            "time": "2020-06-01T18:11:54+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -1995,16 +1995,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v7.13.0",
+            "version": "v7.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "6fa69bfbd57744a5bbec5538ce483919b3fd625f"
+                "reference": "abe085c497851c4e22f56b22ed1cdc2ff2de3342"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/6fa69bfbd57744a5bbec5538ce483919b3fd625f",
-                "reference": "6fa69bfbd57744a5bbec5538ce483919b3fd625f",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/abe085c497851c4e22f56b22ed1cdc2ff2de3342",
+                "reference": "abe085c497851c4e22f56b22ed1cdc2ff2de3342",
                 "shasum": ""
             },
             "require": {
@@ -2015,7 +2015,7 @@
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
                 "league/commonmark": "^1.3",
-                "league/flysystem": "^1.0.8",
+                "league/flysystem": "^1.0.34",
                 "monolog/monolog": "^2.0",
                 "nesbot/carbon": "^2.17",
                 "opis/closure": "^3.1",
@@ -2040,6 +2040,9 @@
             },
             "conflict": {
                 "tightenco/collect": "<5.5.33"
+            },
+            "provide": {
+                "psr/container-implementation": "1.0"
             },
             "replace": {
                 "illuminate/auth": "self.version",
@@ -2144,7 +2147,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2020-05-26T14:32:43+00:00"
+            "time": "2020-06-02T14:25:23+00:00"
         },
         {
             "name": "laravel/helpers",
