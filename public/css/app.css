@@ -2194,11 +2194,6 @@ pre code {
   box-shadow: 0 0 0 0.2rem rgba(52, 144, 220, 0.25);
 }
 
-.form-control::-webkit-input-placeholder {
-  color: #73818f;
-  opacity: 1;
-}
-
 .form-control::-moz-placeholder {
   color: #73818f;
   opacity: 1;
@@ -16098,11 +16093,6 @@ html:not([dir=rtl]) .dropleft .dropdown-toggle:empty::after {
   box-shadow: 0 0 0 0.2rem rgba(52, 144, 220, 0.25);
 }
 
-.form-control::-webkit-input-placeholder {
-  color: #73818f;
-  opacity: 1;
-}
-
 .form-control::-moz-placeholder {
   color: #73818f;
   opacity: 1;
@@ -21884,10 +21874,6 @@ html:not([dir=rtl]) .c-sidebar.c-sidebar-show.c-sidebar-right {
   border: 0;
 }
 
-.c-sidebar .c-sidebar-form .c-form-control::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.7);
-}
-
 .c-sidebar .c-sidebar-form .c-form-control::-moz-placeholder {
   color: rgba(255, 255, 255, 0.7);
 }
@@ -22114,10 +22100,6 @@ html:not([dir=rtl]) .c-sidebar.c-sidebar-light.c-sidebar-right {
   color: #fff;
   background: rgba(0, 0, 0, 0.1);
   border: 0;
-}
-
-.c-sidebar.c-sidebar-light .c-sidebar-form .c-form-control::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.7);
 }
 
 .c-sidebar.c-sidebar-light .c-sidebar-form .c-form-control::-moz-placeholder {
