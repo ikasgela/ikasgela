@@ -34,7 +34,7 @@
         "guzzlehttp/guzzle": "^6.5",
         "hedii/laravel-gelf-logger": "^5.0",
         "intervention/image": "^2.5",
-        "jenssegers/mongodb": "^4.0.0-alpha.1",
+        "jenssegers/mongodb": "dev-develop",
         "josiasmontag/laravel-recaptchav3": "^0.4.0",
         "kkomelin/laravel-translatable-string-exporter": "^1.2",
         "lab404/laravel-impersonate": "^1.6",
