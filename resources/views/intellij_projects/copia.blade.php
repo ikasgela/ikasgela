@@ -13,6 +13,7 @@
             {{ Form::campoTexto('destino', __('User'), session('intellij_destino'), ['placeholder' => 'marc.ikasgela.com (opcional, por defecto copia en root)']) }}
             {{ Form::campoTexto('ruta', __('New project name'), '', ['placeholder' => 'hola-mundo (opcional, mantiene el original)']) }}
             {{ Form::campoTexto('nombre', __('New project description'), '', ['placeholder' => 'Hola Mundo (opcional, mantiene el original)']) }}
+            {{ Form::campoCheck('crear_recurso', __('Create associated resource'), true) }}
 
             <button type="submit" class="btn btn-primary">{{ __('Clone') }}</button>
 

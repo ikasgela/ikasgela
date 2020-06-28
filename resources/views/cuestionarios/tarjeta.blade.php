@@ -60,7 +60,7 @@ $en_blanco = $total - $respondidas;
                 @endif
             </span>
         </div>
-    @else
+    @elseif(Route::currentRouteName() != 'archivo.show' && Route::currentRouteName() != 'actividades.preview' || !Auth::user()->hasRole('alumno'))
         <hr class="my-0">
         <div class="card-body">
             <button type="submit" class="btn btn-primary single_click">

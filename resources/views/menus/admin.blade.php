@@ -5,12 +5,12 @@
     </a>
     <ul class="c-sidebar-nav-dropdown-items">
         <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="{{ route('actividades.plantillas') }}">
+            <a class="c-sidebar-nav-link bg-dark" href="{{ route('actividades.plantillas') }}">
                 <i class="c-sidebar-nav-icon fas fa-file"></i> {{ __('Activity templates') }}
             </a>
         </li>
         <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="{{ route('intellij_projects.copia') }}">
+            <a class="c-sidebar-nav-link bg-dark" href="{{ route('intellij_projects.copia') }}">
                 <i class="c-sidebar-nav-icon fas fa-copy"></i> {{ __('Project cloner') }}
             </a>
         </li>
@@ -22,28 +22,28 @@
     </a>
     <ul class="c-sidebar-nav-dropdown-items">
         <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="{{ route('markdown_texts.index') }}">
-                <i class="fab fa-markdown"></i> {{ __('Markdown texts') }}
+            <a class="c-sidebar-nav-link bg-dark" href="{{ route('markdown_texts.index') }}">
+                <i class="c-sidebar-nav-icon fab fa-markdown"></i> {{ __('Markdown texts') }}
             </a>
         </li>
         <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="{{ route('youtube_videos.index') }}">
-                <i class="fab fa-youtube"></i> {{ __('YouTube videos') }}
+            <a class="c-sidebar-nav-link bg-dark" href="{{ route('youtube_videos.index') }}">
+                <i class="c-sidebar-nav-icon fab fa-youtube"></i> {{ __('YouTube videos') }}
             </a>
         </li>
         <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="{{ route('intellij_projects.index') }}">
-                <i class="fab fa-java"></i> {{ __('IntelliJ projects') }}
+            <a class="c-sidebar-nav-link bg-dark" href="{{ route('intellij_projects.index') }}">
+                <i class="c-sidebar-nav-icon fab fa-java"></i> {{ __('IntelliJ projects') }}
             </a>
         </li>
         <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="{{ route('cuestionarios.index') }}">
-                <i class="fas fa-question-circle"></i> {{ __('Questionnaires') }}
+            <a class="c-sidebar-nav-link bg-dark" href="{{ route('cuestionarios.index') }}">
+                <i class="c-sidebar-nav-icon fas fa-question-circle"></i> {{ __('Questionnaires') }}
             </a>
         </li>
-        <li class="c-sidebar-nav-item">
+        <li class="c-sidebar-nav-item bg-dark">
             <a class="c-sidebar-nav-link" href="{{ route('file_uploads.index') }}">
-                <i class="fas fa-file-upload"></i> {{ __('File uploads') }}
+                <i class="c-sidebar-nav-icon fas fa-file-upload"></i> {{ __('File uploads') }}
             </a>
         </li>
     </ul>

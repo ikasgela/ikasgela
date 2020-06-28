@@ -8,20 +8,9 @@
             @else
                 <i class="fas fa-exclamation-triangle"></i>
             @endif
-            @auth
-                @if(Auth::user()->hasRole('profesor'))
-                    <span class="ml-2">
-                        <a class="text-dark" target="_blank"
-                           href="{{ route('profesor.tareas', ['user' => $thread->creator()->id]) }}">
-                            {{ $thread->creator()->name }}
-                        </a>
-                    </span>
-                @else
-                    <span class="ml-2">
-                        {{ $thread->creator()->name }}
-                    </span>
-                @endif
-            @endauth
+            <span class="ml-2">
+                {{ $thread->creator()->name }}
+            </span>
         </span>
         <span>{{ $thread->userUnreadMessagesCount(Auth::id()) }} {{ __('unread') }}</span>
     </div>

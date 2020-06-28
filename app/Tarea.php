@@ -68,4 +68,9 @@ class Tarea extends Pivot
             return __('Unknown');
         }
     }
+
+    public function puntos()
+    {
+        return $this->puntuacion * ($this->actividad->multiplicador ?: 1);
+    }
 }

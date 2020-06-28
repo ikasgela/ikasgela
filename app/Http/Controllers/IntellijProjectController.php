@@ -25,7 +25,7 @@ class IntellijProjectController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:profesor', ['except' => ['fork', 'is_forking']]);
+        $this->middleware('role:profesor', ['except' => ['fork', 'is_forking', 'download']]);
     }
 
     public function index()
@@ -200,7 +200,17 @@ class IntellijProjectController extends Controller
                 $nombre = $proyecto['description'];
             }
 
-            $this->clonar_repositorio($proyecto['path_with_namespace'], $destino, $ruta, $nombre);
+            $clonado = $this->clonar_repositorio($proyecto['path_with_namespace'], $destino, $ruta, $nombre);
+
+            // Crear el recurso asociado al nuevo repositorio
+            if ($request->has('crear_recurso')) {
+                IntellijProject::create([
+                    'titulo' => $clonado['description'],
+                    'descripcion' => 'Clona el repositorio y abre el proyecto en IntelliJ. El enunciado está dentro del proyecto, en el archivo README.md.',
+                    'repositorio' => $clonado['path_with_namespace'],
+                    'host' => 'gitea',
+                ]);
+            }
         } catch (\Exception $e) {
             Log::error($e);
         }
@@ -242,5 +252,14 @@ class IntellijProjectController extends Controller
         $proyecto->unarchive();
 
         return back();
+    }
+
+    public function download(IntellijProject $intellij_project)
+    {
+        $repositorio = $intellij_project->repository();
+
+        return response()->streamDownload(function () use ($repositorio) {
+            echo GiteaClient::download($repositorio['owner'], $repositorio['name'], 'master.zip');
+        }, $repositorio['name'] . '.zip');
     }
 }

@@ -72,8 +72,10 @@
                         @include('actividades.partials.encabezado_con_etiquetas')
                         <p>{{ $actividad->descripcion }}</p>
                     </div>
-                    @if(Auth::user()->hasRole('alumno'))
+                    @if(Auth::user()->hasRole('alumno') && !$actividad->hasEtiqueta('examen'))
                         @include('actividades.partials.boton_pregunta')
+                    @elseif($actividad->hasEtiqueta('examen'))
+                        @include('actividades.partials.puntuacion_examen')
                     @endif
                 </div>
                 <div class="mb-3">

@@ -13,4 +13,6 @@ return [
 
     'tinymce_apikey' => env('TINYMCE_APIKEY', 'none'),
 
+    'message_preview_max_length' => env('MESSAGE_PREVIEW_MAX_LENGTH', 300),
+
 ];
