@@ -98,3 +98,5 @@ _ide_helper.php
 coverage/
 
 public/js/app.js.LICENSE.txt
+
+storage/
