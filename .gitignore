@@ -100,3 +100,5 @@ coverage/
 public/js/app.js.LICENSE.txt
 
 storage/
+
+supervisord.pid
