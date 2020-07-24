@@ -94,3 +94,5 @@ Temporary Items
 .env.*
 
 _ide_helper.php
+
+coverage/
