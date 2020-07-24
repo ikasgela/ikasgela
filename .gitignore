@@ -92,3 +92,5 @@ Temporary Items
 .phpstorm.meta.php
 
 .env.*
+
+_ide_helper.php
