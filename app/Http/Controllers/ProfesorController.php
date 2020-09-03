@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
+use App\Curso;
 use App\Feedback;
 use App\Mail\ActividadAsignada;
 use App\Organization;
@@ -30,6 +31,7 @@ class ProfesorController extends Controller
         $this->recuento_enviadas();
 
         $organization = Organization::find(setting_usuario('_organization_id'));
+        $curso_actual = Curso::find(setting_usuario('curso_actual'));
 
         if ($request->has('filtro_alumnos')) {
             session(['profesor_filtro_alumnos' => $request->input('filtro_alumnos')]);
@@ -37,17 +39,17 @@ class ProfesorController extends Controller
 
         switch (session('profesor_filtro_alumnos')) {
             case 'R':
-                $usuarios = User::organizacionActual()->rolAlumno()
+                $usuarios = $curso_actual->users()->rolAlumno()
                     ->whereHas('actividades', function ($query) {
                         $query->where('auto_avance', false)->where('estado', 30);
                     })
                     ->orderBy('last_active')->get();
                 break;
             case 'P':
-                $usuarios = User::organizacionActual()->rolAlumno()->orderBy('name')->get()->sortBy('num_completadas_base');
+                $usuarios = $curso_actual->users()->orderBy('name')->get()->sortBy('num_completadas_base');
                 break;
             default:
-                $usuarios = User::organizacionActual()->rolAlumno()->orderBy('name')->get();
+                $usuarios = $curso_actual->users()->rolAlumno()->orderBy('name')->get();
                 break;
         }
 
