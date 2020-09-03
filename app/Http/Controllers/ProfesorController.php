@@ -31,26 +31,31 @@ class ProfesorController extends Controller
         $this->recuento_enviadas();
 
         $organization = Organization::find(setting_usuario('_organization_id'));
-        $curso_actual = Curso::find(setting_usuario('curso_actual'));
 
         if ($request->has('filtro_alumnos')) {
             session(['profesor_filtro_alumnos' => $request->input('filtro_alumnos')]);
         }
 
-        switch (session('profesor_filtro_alumnos')) {
-            case 'R':
-                $usuarios = $curso_actual->users()->rolAlumno()
-                    ->whereHas('actividades', function ($query) {
-                        $query->where('auto_avance', false)->where('estado', 30);
-                    })
-                    ->orderBy('last_active')->get();
-                break;
-            case 'P':
-                $usuarios = $curso_actual->users()->orderBy('name')->get()->sortBy('num_completadas_base');
-                break;
-            default:
-                $usuarios = $curso_actual->users()->rolAlumno()->orderBy('name')->get();
-                break;
+        $curso_actual = Curso::find(setting_usuario('curso_actual'));
+
+        if ($curso_actual != null) {
+            switch (session('profesor_filtro_alumnos')) {
+                case 'R':
+                    $usuarios = $curso_actual->users()->rolAlumno()
+                        ->whereHas('actividades', function ($query) {
+                            $query->where('auto_avance', false)->where('estado', 30);
+                        })
+                        ->orderBy('last_active')->get();
+                    break;
+                case 'P':
+                    $usuarios = $curso_actual->users()->rolAlumno()->orderBy('name')->get()->sortBy('num_completadas_base');
+                    break;
+                default:
+                    $usuarios = $curso_actual->users()->rolAlumno()->orderBy('name')->get();
+                    break;
+            }
+        } else {
+            $usuarios = User::organizacionActual()->rolAlumno()->orderBy('name')->get();
         }
 
         $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
@@ -68,7 +73,7 @@ class ProfesorController extends Controller
             $total_actividades_grupo += $usuario->num_completadas('base');
         }
 
-        $media_grupo = $total_actividades_grupo / $usuarios_activos->count();
+        $media_grupo = $usuarios_activos != null ? $total_actividades_grupo / $usuarios_activos->count() : 0;
 
         // Formateador con 2 decimales y en el idioma del usuario
         $locale = app()->getLocale();
