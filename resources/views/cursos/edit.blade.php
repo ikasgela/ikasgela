@@ -14,7 +14,8 @@
                 <div class="col-sm-10">
                     <select class="form-control" id="category_id" name="category_id">
                         @foreach($categories as $category)
-                            <option value="{{ $category->id }}" <?php if ($curso->category_id == $category->id) echo 'selected'; ?>>{{ $category->period->organization->name }}
+                            <option
+                                value="{{ $category->id }}" <?php if ($curso->category_id == $category->id) echo 'selected'; ?>>{{ $category->period->organization->name }}
                                 - {{ $category->period->name }} - {{ $category->name }}</option>
                         @endforeach
                     </select>
@@ -31,7 +32,10 @@
                     <select class="form-control" id="qualification_id" name="qualification_id">
                         <option value="">{{ __('--- None ---') }}</option>
                         @foreach($qualifications as $qualification)
-                            <option value="{{ $qualification->id }}" <?php if ($curso->qualification_id == $qualification->id) echo 'selected'; ?>>{{ $qualification->name }}</option>
+                            <option
+                                value="{{ $qualification->id }}" <?php if ($curso->qualification_id == $qualification->id) echo 'selected'; ?>>
+                                {{ $qualification->organization->name }} - {{ $qualification->name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>

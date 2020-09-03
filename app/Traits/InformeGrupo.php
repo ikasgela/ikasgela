@@ -198,7 +198,7 @@ trait InformeGrupo
 
         }
 
-        $media_actividades_grupo = $total_actividades_grupo / $usuarios->count();
+        $media_actividades_grupo = $usuarios->count() > 0 ? $total_actividades_grupo / $usuarios->count() : 0;
         $media_actividades_grupo_formato = $formatter->format($media_actividades_grupo);
 
         return compact(['usuarios', 'unidades', 'organization',

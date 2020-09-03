@@ -181,7 +181,7 @@ class ResultController extends Controller
             $total_actividades_grupo += $usuario->num_completadas('base');
         }
 
-        $media_actividades_grupo = $formatter->format($total_actividades_grupo / $users->count());
+        $media_actividades_grupo = $formatter->format($users->count() > 0 ? $total_actividades_grupo / $users->count() : 0);
 
         // Gráfico de actividades
 
