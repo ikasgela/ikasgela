@@ -67,7 +67,9 @@ class CursoController extends Controller
     public function edit(Curso $curso)
     {
         $categories = Category::orderBy('name')->get();
-        $qualifications = Qualification::orderBy('name')->get();
+        $qualifications = Qualification::with(['organization' => function ($q) {
+            $q->orderBy('name');
+        }])->get();
 
         return view('cursos.edit', compact(['curso', 'categories', 'qualifications']));
     }
