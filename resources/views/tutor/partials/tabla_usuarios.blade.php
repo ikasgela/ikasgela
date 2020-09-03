@@ -38,9 +38,9 @@
                 </td>
                 <td class="text-center {{ ($actividades_obligatorias[$user->id] || $num_actividades_obligatorias == 0)
                 && ($pruebas_evaluacion[$user->id] || $num_pruebas_evaluacion[$user->id] == 0)
-                && $competencias_50_porciento[$user->id] && $notas[$user->id] >= 5 ? 'bg-success text-white' : 'bg-warning text-dark' }}">{{ ($actividades_obligatorias[$user->id] || $num_actividades_obligatorias == 0)
+                && isset($competencias_50_porciento[$user->id]) && $competencias_50_porciento[$user->id] && $notas[$user->id] >= 5 ? 'bg-success text-white' : 'bg-warning text-dark' }}">{{ ($actividades_obligatorias[$user->id] || $num_actividades_obligatorias == 0)
                 && ($pruebas_evaluacion[$user->id] || $num_pruebas_evaluacion[$user->id] == 0)
-                && $competencias_50_porciento[$user->id] && $notas[$user->id] >= 5 ? trans_choice('tasks.passed', 1) : trans_choice('tasks.not_passed', 1) }}</td>
+                && isset($competencias_50_porciento[$user->id]) && $competencias_50_porciento[$user->id] && $notas[$user->id] >= 5 ? trans_choice('tasks.passed', 1) : trans_choice('tasks.not_passed', 1) }}</td>
                 <td class="text-center {{ $user->num_completadas('base') < $media_actividades_grupo ? 'bg-warning text-dark' : '' }}">{{ $user->num_completadas('base') }}</td>
                 <td class="text-center {{ $notas[$user->id] < 5 ? 'bg-warning text-dark' : '' }}">{{ $notas[$user->id] }}</td>
                 @foreach($unidades as $unidad)
