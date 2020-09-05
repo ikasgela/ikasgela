@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\File;
+use App\FileResource;
 use App\FileUpload;
 use App\Http\Requests\StoreFile;
 use App\Http\Requests\StoreImage;
@@ -62,14 +63,15 @@ class FileController extends Controller
         $filename = md5(time()) . '/' . $fichero->getClientOriginalName();
         $extension = $fichero->getClientOriginalExtension();
 
-        Storage::disk('s3-test')->put('documents/' . $filename, file_get_contents($fichero));
+        Storage::disk('s3')->put('documents/' . $filename, file_get_contents($fichero));
 
-        $this->file->create([
+        $file_resource = FileResource::find(request('file_resource_id'));
+
+        $file_resource->files()->create([
             'path' => $filename,
             'title' => $request->file->getClientOriginalName(),
             'size' => $request->file->getSize(),
             'user_id' => Auth::user()->id,
-            'file_upload_id' => request('file_upload_id')
         ]);
 
         return back()->with('success', 'File Successfully Saved');

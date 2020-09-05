@@ -190,6 +190,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/file_uploads/{actividad}/desasociar/{file_upload}', 'FileUploadController@desasociar')
             ->name('file_uploads.desasociar');
 
+        // FileResource
+        Route::resource('file_resources', 'FileResourceController');
+        Route::get('/file_resources/{actividad}/actividad', 'FileResourceController@actividad')
+            ->name('file_resources.actividad');
+        Route::post('/file_resources/{actividad}/asociar', 'FileResourceController@asociar')
+            ->name('file_resources.asociar');
+        Route::delete('/file_resources/{actividad}/desasociar/{file_resource}', 'FileResourceController@desasociar')
+            ->name('file_resources.desasociar');
+
         // Ver archivo de otros alumnos
         Route::post('/archivo', 'ArchivoController@index')
             ->name('archivo.alumno');
