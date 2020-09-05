@@ -20,7 +20,8 @@ class Actividad extends Model
         'youtube_videos',
         'markdown_texts',
         'cuestionarios',
-        'file_uploads'
+        'file_uploads',
+        'file_resources',
     ];
 
     protected $clone_exempt_attributes = ['plantilla'];
