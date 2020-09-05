@@ -21,7 +21,7 @@
                         <tr>
                             <td>
                                 <a data-fancybox="gallery" href="{{ $file->imageUrl('documents') }}">
-                                    {{ $file->imageUrl('documents') }}
+                                    {{ $file->title }}
                                 </a>
                             </td>
                             <td>{{ $file->size_in_kb }} KB</td>

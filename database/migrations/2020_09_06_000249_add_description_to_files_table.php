@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTituloToFilesTable extends Migration
+class AddDescriptionToFilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddTituloToFilesTable extends Migration
     public function up()
     {
         Schema::table('files', function (Blueprint $table) {
-            $table->string('titulo')->nullable();
+            $table->string('description')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class AddTituloToFilesTable extends Migration
     public function down()
     {
         Schema::table('files', function (Blueprint $table) {
-            $table->dropColumn('titulo');
+            $table->dropColumn('description');
         });
     }
 }
