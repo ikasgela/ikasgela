@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\File;
-use App\Http\Requests\StoreFile;
+use App\Http\Requests\StoreImage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -22,7 +22,7 @@ class FileController extends Controller
         return view('pruebas.ficheros')->with('files', auth()->user()->files);
     }
 
-    public function postUpload(StoreFile $request)
+    public function postUpload(StoreImage $request)
     {
         $fichero = $request->file;
 
