@@ -9,6 +9,11 @@
         @include('youtube_videos.tarjeta')
     </div>
 @endforeach
+@foreach($actividad->file_resources()->get() as $file_resource)
+    <div class="col-md-6">
+        @include('file_resources.tarjeta')
+    </div>
+@endforeach
 @foreach($actividad->cuestionarios()->get() as $cuestionario)
     <div class="col-md-6">
         @include('cuestionarios.tarjeta')
