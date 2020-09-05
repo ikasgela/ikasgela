@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('New file resource')])
+    @include('partials.titular', ['titular' => __('New files resource')])
 
     <div class="card">
         <div class="card-body">
@@ -11,8 +11,6 @@
 
             {{ Form::campoTexto('titulo', __('Title')) }}
             {{ Form::campoTexto('descripcion', __('Description')) }}
-            {{ Form::campoTexto('max_files', __('Maximum'), 1) }}
-            {{ Form::campoCheck('plantilla', __('Template'), true) }}
 
             @include('partials.guardar_cancelar')
 

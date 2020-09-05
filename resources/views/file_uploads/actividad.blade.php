@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Resources: File uploads')])
+    @include('partials.titular', ['titular' => __('Resources: Image uploads')])
 
     <div class="row">
         <div class="col-md-12">

@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Resources: File resources')])
+    @include('partials.titular', ['titular' => __('Resources: Files')])
 
     <div class="row">
         <div class="col-md-12">
@@ -28,7 +28,6 @@
                     <th>#</th>
                     <th>{{ __('Title') }}</th>
                     <th>{{ __('Description') }}</th>
-                    <th>{{ __('Maximum') }}</th>
                     <th>{{ __('Actions') }}</th>
                 </tr>
                 </thead>
@@ -38,7 +37,6 @@
                         <td>{{ $file_resource->id }}</td>
                         <td>{{ $file_resource->titulo }}</td>
                         <td>{{ $file_resource->descripcion }}</td>
-                        <td>{{ $file_resource->max_files }}</td>
                         <td>
                             <form method="POST"
                                   action="{{ route('file_resources.desasociar', ['actividad' => $actividad->id, 'file_resource' => $file_resource->id]) }}">
@@ -82,7 +80,6 @@
                         <th>#</th>
                         <th>{{ __('Title') }}</th>
                         <th>{{ __('Description') }}</th>
-                        <th>{{ __('Maximum') }}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -92,7 +89,6 @@
                             <td>{{ $file_resource->id }}</td>
                             <td>{{ $file_resource->titulo }}</td>
                             <td>{{ $file_resource->descripcion }}</td>
-                            <td>{{ $file_resource->max_files }}</td>
                         </tr>
                     @endforeach
                     </tbody>

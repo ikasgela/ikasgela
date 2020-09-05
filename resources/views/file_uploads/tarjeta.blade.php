@@ -4,7 +4,7 @@
 @endsection
 
 <div class="card">
-    <div class="card-header"><i class="fas fa-file-upload"></i> {{ __('File upload') }}</div>
+    <div class="card-header"><i class="fas fa-file-upload"></i> {{ __('Image upload') }}</div>
     <div class="card-body">
         <h5 class="card-title">{{ $file_upload->titulo }}</h5>
         <p class="card-text">{{ $file_upload->descripcion }}</p>

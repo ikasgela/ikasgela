@@ -2,10 +2,10 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Resources: File resources')])
+    @include('partials.titular', ['titular' => __('Resources: Files')])
 
     <div class="mb-3">
-        <a class="btn btn-primary" href="{{ route('file_resources.create') }}">{{ __('New file resource') }}</a>
+        <a class="btn btn-primary" href="{{ route('file_resources.create') }}">{{ __('New files resource') }}</a>
     </div>
 
     <div class="table-responsive">
@@ -15,8 +15,6 @@
                 <th>#</th>
                 <th>{{ __('Title') }}</th>
                 <th>{{ __('Description') }}</th>
-                <th>{{ __('Maximum') }}</th>
-                <th>{{ __('Template') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -26,8 +24,6 @@
                     <td>{{ $file_resource->id }}</td>
                     <td>{{ $file_resource->titulo }}</td>
                     <td>{{ $file_resource->descripcion }}</td>
-                    <td>{{ $file_resource->max_files }}</td>
-                    <td>{!! $file_resource->plantilla ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
                     <td class="text-nowrap">
                         {!! Form::open(['route' => ['file_resources.destroy', $file_resource->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>

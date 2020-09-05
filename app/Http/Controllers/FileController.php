@@ -70,6 +70,7 @@ class FileController extends Controller
         $file_resource->files()->create([
             'path' => $filename,
             'title' => $request->file->getClientOriginalName(),
+            'description' => request('description'),
             'size' => $request->file->getSize(),
             'user_id' => Auth::user()->id,
         ]);

@@ -2,10 +2,10 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Resources: File uploads')])
+    @include('partials.titular', ['titular' => __('Resources: Image uploads')])
 
     <div class="mb-3">
-        <a class="btn btn-primary" href="{{ route('file_uploads.create') }}">{{ __('New file upload') }}</a>
+        <a class="btn btn-primary" href="{{ route('file_uploads.create') }}">{{ __('New image upload') }}</a>
     </div>
 
     <div class="table-responsive">

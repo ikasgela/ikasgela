@@ -1,5 +1,5 @@
 <div class="card">
-    <div class="card-header"><i class="fas fa-file-resource"></i> {{ __('File resource') }}</div>
+    <div class="card-header"><i class="fas fa-file"></i> {{ __('Files') }}</div>
     <div class="card-body">
         <h5 class="card-title">{{ $file_resource->titulo }}</h5>
         <p class="card-text">{{ $file_resource->descripcion }}</p>
@@ -21,11 +21,11 @@
                         <tr>
                             <td>
                                 <a data-fancybox="gallery" href="{{ $file->imageUrl('documents') }}">
-                                    {{ $file->title }}
+                                    {{ $file->description ?: $file->title }}
                                 </a>
                             </td>
                             <td>{{ $file->size_in_kb }} KB</td>
-                            <td>{{ $file->resourceed_time }}</td>
+                            <td>{{ $file->uploaded_time }}</td>
                             @if(Route::currentRouteName() != 'archivo.show')
                                 <td class="text-center">
                                     <div class='btn-group'>
@@ -48,7 +48,7 @@
             <form action="{{ route('files.upload.document') }}" enctype="multipart/form-data" method="post">
                 @csrf
                 <div class="form-group">
-                    {{ Form::campoTexto('titulo', __('Title')) }}
+                    {{ Form::campoTexto('description', __('Description')) }}
                     <input type="file" name="file" id="file">
                     <input type="hidden" name="file_resource_id" value="{{ $file_resource->id }}">
                     <span class="help-block text-danger">{{ $errors->first('file') }}</span>

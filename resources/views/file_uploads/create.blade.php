@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('New file upload')])
+    @include('partials.titular', ['titular' => __('New image upload')])
 
     <div class="card">
         <div class="card-body">
