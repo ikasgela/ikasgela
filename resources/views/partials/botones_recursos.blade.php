@@ -10,6 +10,11 @@
            class="btn btn-sm {{ $actividad->youtube_videos()->count() > 0 ? 'btn-primary' : 'btn-light' }}">
             <i class="fab fa-youtube"></i>
         </a>
+        <a title="{{ __('Files') }}"
+           href="{{ route('file_resources.actividad', [$actividad->id]) }}"
+           class="btn btn-sm {{ $actividad->file_resources()->count() > 0 ? 'btn-primary' : 'btn-light' }}">
+            <i class="fas fa-file"></i>
+        </a>
         <a title="{{ __('Question') }}"
            href="{{ route('cuestionarios.actividad', [$actividad->id]) }}"
            class="btn btn-sm {{ $actividad->cuestionarios()->count() > 0 ? 'btn-primary' : 'btn-light' }}">
@@ -19,11 +24,6 @@
            href="{{ route('file_uploads.actividad', [$actividad->id]) }}"
            class="btn btn-sm {{ $actividad->file_uploads()->count() > 0 ? 'btn-primary' : 'btn-light' }}">
             <i class="fas fa-file-upload"></i>
-        </a>
-        <a title="{{ __('Files') }}"
-           href="{{ route('file_resources.actividad', [$actividad->id]) }}"
-           class="btn btn-sm {{ $actividad->file_resources()->count() > 0 ? 'btn-primary' : 'btn-light' }}">
-            <i class="fas fa-file"></i>
         </a>
         <a title="{{ __('IntelliJ project') }}"
            href="{{ route('intellij_projects.actividad', [$actividad->id]) }}"
