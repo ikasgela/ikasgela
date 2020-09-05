@@ -56,7 +56,7 @@ class FileController extends Controller
     {
         $fichero = $request->file;
 
-        $filename = md5(time()) . '_' . $fichero->getClientOriginalName();
+        $filename = md5(time()) . '/' . $fichero->getClientOriginalName();
         $extension = $fichero->getClientOriginalExtension();
 
         Storage::disk('s3-test')->put('documents/' . $filename, file_get_contents($fichero));
