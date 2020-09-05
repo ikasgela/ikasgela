@@ -128,6 +128,13 @@ class Actividad extends Model
             ->withTimestamps();
     }
 
+    public function file_resources()
+    {
+        return $this
+            ->belongsToMany(FileResource::class)
+            ->withTimestamps();
+    }
+
     public function envioPermitido()
     {
         $enviar = true;
