@@ -84,6 +84,7 @@ class FileController extends Controller
         if ($file->user()->where('id', Auth::user()->id)->exists() || Auth::user()->hasRole('admin')) {
             Storage::disk('s3')->delete('images/' . $file->path);
             Storage::disk('s3')->delete('thumbnails/' . $file->path);
+            Storage::disk('s3')->delete('documents/' . $file->path);
             $file->delete();
         } else {
             abort(403, __('Sorry, you are not authorized to access this page.'));
