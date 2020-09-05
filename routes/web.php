@@ -33,8 +33,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('settings.guardar');
 
     // FileUpload
-    Route::post('/uploads', 'FileController@postUpload')->name('uploadfile');
-    Route::delete('/uploads/{file}', 'FileController@postDelete')->name('deletefile');
+    Route::post('/upload_image', 'FileController@imageUpload')->name('files.upload.image');
+    Route::post('/upload_document', 'FileController@documentUpload')->name('files.upload.document');
+    Route::delete('/uploads/{file}', 'FileController@postDelete')->name('files.delete');
     Route::post('/files/{file}/rotate_left', 'FileController@rotateLeft')->name('files.rotate_left');
     Route::post('/files/{file}/rotate_right', 'FileController@rotateRight')->name('files.rotate_right');
 

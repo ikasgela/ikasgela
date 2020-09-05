@@ -48,7 +48,7 @@
                                             <i class="fas fa-undo fa-flip-horizontal"></i>
                                         </button>
                                         {!! Form::close() !!}
-                                        {!! Form::open(['route' => ['deletefile', $file->id], 'method' => 'DELETE']) !!}
+                                        {!! Form::open(['route' => ['files.delete', $file->id], 'method' => 'DELETE']) !!}
                                         @include('partials.boton_borrar')
                                         {!! Form::close() !!}
                                     </div>
@@ -65,7 +65,7 @@
         <hr class="my-0">
         <div class="card-body">
             <p class="small">{{ __('Upload limit') }}: {{ $file_upload->max_files-count($file_upload->files) }}</p>
-            <form action="{{ route('uploadfile') }}" enctype="multipart/form-data" method="post">
+            <form action="{{ route('files.upload.image') }}" enctype="multipart/form-data" method="post">
                 @csrf
                 <div class="form-group">
                     <input type="file" name="file" id="file">

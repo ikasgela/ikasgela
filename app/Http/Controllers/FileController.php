@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\File;
+use App\Http\Requests\StoreFile;
 use App\Http\Requests\StoreImage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +23,7 @@ class FileController extends Controller
         return view('pruebas.ficheros')->with('files', auth()->user()->files);
     }
 
-    public function postUpload(StoreImage $request)
+    public function imageUpload(StoreImage $request)
     {
         $fichero = $request->file;
 
@@ -39,6 +40,26 @@ class FileController extends Controller
 
         Storage::disk('s3')->put('images/' . $filename, $imagen->__toString());
         Storage::disk('s3')->put('thumbnails/' . $filename, $thumbnail->__toString());
+
+        $this->file->create([
+            'path' => $filename,
+            'title' => $request->file->getClientOriginalName(),
+            'size' => $request->file->getSize(),
+            'user_id' => Auth::user()->id,
+            'file_upload_id' => request('file_upload_id')
+        ]);
+
+        return back()->with('success', 'File Successfully Saved');
+    }
+
+    public function documentUpload(StoreFile $request)
+    {
+        $fichero = $request->file;
+
+        $filename = md5(time()) . '_' . $fichero->getClientOriginalName();
+        $extension = $fichero->getClientOriginalExtension();
+
+        Storage::disk('s3-test')->put('documents/' . $filename, file_get_contents($fichero));
 
         $this->file->create([
             'path' => $filename,
