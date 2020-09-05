@@ -10,8 +10,8 @@
                     <tr>
                         <th>{{ __('File') }}</th>
                         <th>{{ __('Size') }}</th>
-                        <th>{{ __('Uploaded') }}</th>
-                        @if(Route::currentRouteName() != 'archivo.show')
+                        @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() != 'archivo.show')
+                            <th>{{ __('Uploaded') }}</th>
                             <th class="text-center">{{ __('Actions') }}</th>
                         @endif
                     </tr>
@@ -20,13 +20,13 @@
                     @foreach ($file_resource->files as $file)
                         <tr>
                             <td>
-                                <a data-fancybox="gallery" href="{{ $file->imageUrl('documents') }}">
+                                <a href="{{ $file->imageUrl('documents') }}">
                                     {{ $file->description ?: $file->title }}
                                 </a>
                             </td>
                             <td>{{ $file->size_in_kb }} KB</td>
-                            <td>{{ $file->uploaded_time }}</td>
-                            @if(Route::currentRouteName() != 'archivo.show')
+                            @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() != 'archivo.show')
+                                <td>{{ $file->uploaded_time }}</td>
                                 <td class="text-center">
                                     <div class='btn-group'>
                                         {!! Form::open(['route' => ['files.delete', $file->id], 'method' => 'DELETE']) !!}
