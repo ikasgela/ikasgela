@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\File;
+use App\FileUpload;
 use App\Http\Requests\StoreFile;
 use App\Http\Requests\StoreImage;
 use Illuminate\Support\Facades\Auth;
@@ -41,7 +42,9 @@ class FileController extends Controller
         Storage::disk('s3')->put('images/' . $filename, $imagen->__toString());
         Storage::disk('s3')->put('thumbnails/' . $filename, $thumbnail->__toString());
 
-        $this->file->create([
+        $file_upload = FileUpload::find(request('file_upload_id'));
+
+        $file_upload->files()->create([
             'path' => $filename,
             'title' => $request->file->getClientOriginalName(),
             'size' => $request->file->getSize(),

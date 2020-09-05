@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 class File extends Model
 {
     protected $fillable = [
-        'path', 'title', 'size', 'file_upload_id', 'user_id'
+        'path', 'title', 'size', 'file_upload_id', 'user_id', 'file_upload_type'
     ];
 
     public $appends = ['url', 'uploaded_time', 'size_in_kb'];
@@ -36,7 +36,7 @@ class File extends Model
 
     public function file_upload()
     {
-        return $this->belongsTo(FileUpload::class);
+        return $this->morphTo();
     }
 
     public function user()
