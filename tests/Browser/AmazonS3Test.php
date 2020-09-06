@@ -21,7 +21,7 @@ class AmazonS3Test extends DuskTestCase
 
             // Abrir la actividad de subida de archivo
             $browser->visit('/file_uploads/1');
-            $browser->assertSee(__('File upload'));
+            $browser->assertSee(__('Image upload'));
 
             // Subir el archivo
             $browser->attach('file', base_path("public/icons/android-chrome-512x512.png"));
