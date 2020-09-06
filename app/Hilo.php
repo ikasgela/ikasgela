@@ -6,6 +6,11 @@ use Cmgmyr\Messenger\Models\Thread;
 
 class Hilo extends Thread
 {
-    protected $fillable = ['subject', 'owner_id', 'noreply', 'alert'];
+    protected $fillable = ['subject', 'owner_id', 'noreply', 'alert', 'curso_id'];
+
+    public function scopeCursoActual($query)
+    {
+        return $query->where('curso_id', setting_usuario('curso_actual'));
+    }
 }
 
