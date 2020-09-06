@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Resources: Image uploads')])
+    @include('partials.titular', ['titular' => __('Resources: Files')])
 
     <div class="row">
         <div class="col-md-12">
@@ -20,7 +20,7 @@
 
     @include('partials.subtitulo', ['subtitulo' => __('Assigned resources')])
 
-    @if(count($file_uploads) > 0 )
+    @if(count($file_resources) > 0 )
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead class="thead-dark">
@@ -28,28 +28,26 @@
                     <th>#</th>
                     <th>{{ __('Title') }}</th>
                     <th>{{ __('Description') }}</th>
-                    <th>{{ __('Maximum') }}</th>
                     <th>{{ __('Actions') }}</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($file_uploads as $file_upload)
+                @foreach($file_resources as $file_resource)
                     <tr>
-                        <td>{{ $file_upload->id }}</td>
-                        <td>{{ $file_upload->titulo }}</td>
-                        <td>{{ $file_upload->descripcion }}</td>
-                        <td>{{ $file_upload->max_files }}</td>
+                        <td>{{ $file_resource->id }}</td>
+                        <td>{{ $file_resource->titulo }}</td>
+                        <td>{{ $file_resource->descripcion }}</td>
                         <td>
                             <form method="POST"
-                                  action="{{ route('file_uploads.desasociar', ['actividad' => $actividad->id, 'file_upload' => $file_upload->id]) }}">
+                                  action="{{ route('file_resources.desasociar', ['actividad' => $actividad->id, 'file_resource' => $file_resource->id]) }}">
                                 @csrf
                                 @method('DELETE')
                                 <div class='btn-group'>
                                     <a title="{{ __('Show') }}"
-                                       href="{{ route('file_uploads.show', [$file_upload->id]) }}"
+                                       href="{{ route('file_resources.show', [$file_resource->id]) }}"
                                        class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
                                     <a title="{{ __('Edit') }}"
-                                       href="{{ route('file_uploads.edit', [$file_upload->id]) }}"
+                                       href="{{ route('file_resources.edit', [$file_resource->id]) }}"
                                        class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
                                     @include('partials.boton_borrar')
                                 </div>
@@ -71,7 +69,7 @@
     @include('partials.subtitulo', ['subtitulo' => __('Available resources')])
 
     @if(count($disponibles) > 0)
-        <form method="POST" action="{{ route('file_uploads.asociar', ['actividad' => $actividad->id]) }}">
+        <form method="POST" action="{{ route('file_resources.asociar', ['actividad' => $actividad->id]) }}">
             @csrf
 
             <div class="table-responsive">
@@ -82,17 +80,15 @@
                         <th>#</th>
                         <th>{{ __('Title') }}</th>
                         <th>{{ __('Description') }}</th>
-                        <th>{{ __('Maximum') }}</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($disponibles as $file_upload)
+                    @foreach($disponibles as $file_resource)
                         <tr>
-                            <td><input type="checkbox" name="seleccionadas[]" value="{{ $file_upload->id }}"></td>
-                            <td>{{ $file_upload->id }}</td>
-                            <td>{{ $file_upload->titulo }}</td>
-                            <td>{{ $file_upload->descripcion }}</td>
-                            <td>{{ $file_upload->max_files }}</td>
+                            <td><input type="checkbox" name="seleccionadas[]" value="{{ $file_resource->id }}"></td>
+                            <td>{{ $file_resource->id }}</td>
+                            <td>{{ $file_resource->titulo }}</td>
+                            <td>{{ $file_resource->descripcion }}</td>
                         </tr>
                     @endforeach
                     </tbody>

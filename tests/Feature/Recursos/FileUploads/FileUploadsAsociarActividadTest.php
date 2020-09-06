@@ -36,7 +36,7 @@ class FileUploadsAsociarActividadTest extends TestCase
 
         // Then
         $response->assertSeeInOrder([
-            __('Resources: File uploads'),
+            __('Resources: Image uploads'),
             __('Assigned resources'),
             $file_upload1->repositorio,
             $file_upload3->repositorio,

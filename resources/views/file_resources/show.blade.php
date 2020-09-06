@@ -2,11 +2,11 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Image upload')])
+    @include('partials.titular', ['titular' => __('Files')])
 
     <div class="row">
         <div class="col-md-6">
-            @include('file_uploads.tarjeta')
+            @include('file_resources.tarjeta')
         </div>
     </div>
 

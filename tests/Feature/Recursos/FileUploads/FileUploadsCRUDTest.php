@@ -86,7 +86,7 @@ class FileUploadsCRUDTest extends TestCase
         $response = $this->get(route('file_uploads.create'));
 
         // Then
-        $response->assertSeeInOrder([__('New file upload'), __('Save')]);
+        $response->assertSeeInOrder([__('New image upload'), __('Save')]);
     }
 
     public function testNotProfesorNotCreate()
@@ -211,7 +211,7 @@ class FileUploadsCRUDTest extends TestCase
         $response = $this->get(route('file_uploads.show', $file_upload));
 
         // Then
-        $response->assertSeeInOrder([__('File upload'), $file_upload->titulo]);
+        $response->assertSeeInOrder([__('Image upload'), $file_upload->titulo]);
     }
 
     public function testNotProfesorNotShow()

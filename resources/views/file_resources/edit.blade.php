@@ -2,17 +2,15 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Edit image upload')])
+    @include('partials.titular', ['titular' => __('Edit files resource')])
 
     <div class="card">
         <div class="card-body">
 
-            {!! Form::model($file_upload, ['route' => ['file_uploads.update', $file_upload->id], 'method' => 'PUT']) !!}
+            {!! Form::model($file_resource, ['route' => ['file_resources.update', $file_resource->id], 'method' => 'PUT']) !!}
 
             {{ Form::campoTexto('titulo', __('Title')) }}
             {{ Form::campoTexto('descripcion', __('Description')) }}
-            {{ Form::campoTexto('max_files', __('Maximum')) }}
-            {{ Form::campoCheck('plantilla', __('Template')) }}
 
             @include('partials.guardar_cancelar')
 

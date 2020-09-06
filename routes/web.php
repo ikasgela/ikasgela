@@ -33,8 +33,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('settings.guardar');
 
     // FileUpload
-    Route::post('/uploads', 'FileController@postUpload')->name('uploadfile');
-    Route::delete('/uploads/{file}', 'FileController@postDelete')->name('deletefile');
+    Route::post('/upload_image', 'FileController@imageUpload')->name('files.upload.image');
+    Route::post('/upload_document', 'FileController@documentUpload')->name('files.upload.document');
+    Route::delete('/uploads/{file}', 'FileController@postDelete')->name('files.delete');
     Route::post('/files/{file}/rotate_left', 'FileController@rotateLeft')->name('files.rotate_left');
     Route::post('/files/{file}/rotate_right', 'FileController@rotateRight')->name('files.rotate_right');
 
@@ -188,6 +189,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('file_uploads.asociar');
         Route::delete('/file_uploads/{actividad}/desasociar/{file_upload}', 'FileUploadController@desasociar')
             ->name('file_uploads.desasociar');
+
+        // FileResource
+        Route::resource('file_resources', 'FileResourceController');
+        Route::get('/file_resources/{actividad}/actividad', 'FileResourceController@actividad')
+            ->name('file_resources.actividad');
+        Route::post('/file_resources/{actividad}/asociar', 'FileResourceController@asociar')
+            ->name('file_resources.asociar');
+        Route::delete('/file_resources/{actividad}/desasociar/{file_resource}', 'FileResourceController@desasociar')
+            ->name('file_resources.desasociar');
 
         // Ver archivo de otros alumnos
         Route::post('/archivo', 'ArchivoController@index')

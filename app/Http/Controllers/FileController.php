@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\File;
+use App\FileResource;
+use App\FileUpload;
 use App\Http\Requests\StoreFile;
+use App\Http\Requests\StoreImage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -22,7 +25,7 @@ class FileController extends Controller
         return view('pruebas.ficheros')->with('files', auth()->user()->files);
     }
 
-    public function postUpload(StoreFile $request)
+    public function imageUpload(StoreImage $request)
     {
         $fichero = $request->file;
 
@@ -40,12 +43,36 @@ class FileController extends Controller
         Storage::disk('s3')->put('images/' . $filename, $imagen->__toString());
         Storage::disk('s3')->put('thumbnails/' . $filename, $thumbnail->__toString());
 
-        $this->file->create([
+        $file_upload = FileUpload::find(request('file_upload_id'));
+
+        $file_upload->files()->create([
             'path' => $filename,
             'title' => $request->file->getClientOriginalName(),
             'size' => $request->file->getSize(),
             'user_id' => Auth::user()->id,
             'file_upload_id' => request('file_upload_id')
+        ]);
+
+        return back()->with('success', 'File Successfully Saved');
+    }
+
+    public function documentUpload(StoreFile $request)
+    {
+        $fichero = $request->file;
+
+        $filename = md5(time()) . '/' . $fichero->getClientOriginalName();
+        $extension = $fichero->getClientOriginalExtension();
+
+        Storage::disk('s3')->put('documents/' . $filename, file_get_contents($fichero));
+
+        $file_resource = FileResource::find(request('file_resource_id'));
+
+        $file_resource->files()->create([
+            'path' => $filename,
+            'title' => $request->file->getClientOriginalName(),
+            'description' => request('description'),
+            'size' => $request->file->getSize(),
+            'user_id' => Auth::user()->id,
         ]);
 
         return back()->with('success', 'File Successfully Saved');
@@ -57,6 +84,7 @@ class FileController extends Controller
         if ($file->user()->where('id', Auth::user()->id)->exists() || Auth::user()->hasRole('admin')) {
             Storage::disk('s3')->delete('images/' . $file->path);
             Storage::disk('s3')->delete('thumbnails/' . $file->path);
+            Storage::disk('s3')->delete('documents/' . $file->path);
             $file->delete();
         } else {
             abort(403, __('Sorry, you are not authorized to access this page.'));

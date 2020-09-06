@@ -43,7 +43,12 @@
         </li>
         <li class="c-sidebar-nav-item bg-dark">
             <a class="c-sidebar-nav-link" href="{{ route('file_uploads.index') }}">
-                <i class="c-sidebar-nav-icon fas fa-file-upload"></i> {{ __('File uploads') }}
+                <i class="c-sidebar-nav-icon fas fa-file-upload"></i> {{ __('Image uploads') }}
+            </a>
+        </li>
+        <li class="c-sidebar-nav-item bg-dark">
+            <a class="c-sidebar-nav-link" href="{{ route('file_resources.index') }}">
+                <i class="c-sidebar-nav-icon fas fa-file"></i> {{ __('Files') }}
             </a>
         </li>
     </ul>
