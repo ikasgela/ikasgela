@@ -26,10 +26,10 @@ class MessagesController extends Controller
     public function index()
     {
         // All threads that user is participating in, with new messages
-        $threads = Hilo::forUserWithNewMessages(Auth::id())->latest('updated_at')->get();
+        $threads = Hilo::forUserWithNewMessages(Auth::id())->cursoActual()->latest('updated_at')->get();
 
         // All threads that user is participating in
-        $threads_all = Hilo::forUser(Auth::id())->latest('updated_at')->get();
+        $threads_all = Hilo::forUser(Auth::id())->cursoActual()->latest('updated_at')->get();
 
         return view('messenger.index', compact(['threads', 'threads_all']));
     }
@@ -37,7 +37,7 @@ class MessagesController extends Controller
     public function all()
     {
         // All threads that user is participating in
-        $threads = Hilo::forUser(Auth::id())->latest('updated_at')->get();
+        $threads = Hilo::forUser(Auth::id())->cursoActual()->latest('updated_at')->get();
 
         return view('messenger.index', compact('threads'));
     }
@@ -51,7 +51,7 @@ class MessagesController extends Controller
     public function show($id)
     {
         try {
-            $thread = Hilo::forUser(Auth::id())->findOrFail($id);
+            $thread = Hilo::forUser(Auth::id())->cursoActual()->findOrFail($id);
         } catch (ModelNotFoundException $e) {
             Session::flash('error_message', __('Thread not found.'));
 
@@ -129,6 +129,7 @@ class MessagesController extends Controller
             'owner_id' => Auth::id(),
             'noreply' => $request->has('noreply'),
             'alert' => $request->has('alert'),
+            'curso_id' => setting_usuario('curso_actual'),
         ]);
 
         // Message
