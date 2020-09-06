@@ -31,9 +31,9 @@
                 <i class="c-sidebar-nav-icon fab fa-youtube"></i> {{ __('YouTube videos') }}
             </a>
         </li>
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link bg-dark" href="{{ route('intellij_projects.index') }}">
-                <i class="c-sidebar-nav-icon fab fa-java"></i> {{ __('IntelliJ projects') }}
+        <li class="c-sidebar-nav-item bg-dark">
+            <a class="c-sidebar-nav-link" href="{{ route('file_resources.index') }}">
+                <i class="c-sidebar-nav-icon fas fa-file"></i> {{ __('Files') }}
             </a>
         </li>
         <li class="c-sidebar-nav-item">
@@ -46,9 +46,9 @@
                 <i class="c-sidebar-nav-icon fas fa-file-upload"></i> {{ __('Image uploads') }}
             </a>
         </li>
-        <li class="c-sidebar-nav-item bg-dark">
-            <a class="c-sidebar-nav-link" href="{{ route('file_resources.index') }}">
-                <i class="c-sidebar-nav-icon fas fa-file"></i> {{ __('Files') }}
+        <li class="c-sidebar-nav-item">
+            <a class="c-sidebar-nav-link bg-dark" href="{{ route('intellij_projects.index') }}">
+                <i class="c-sidebar-nav-icon fab fa-java"></i> {{ __('IntelliJ projects') }}
             </a>
         </li>
     </ul>
