@@ -78,11 +78,29 @@
                     </div>
                     <div class="border rounded p-3">
                         <div class="form-group d-flex flex-row justify-content-between">
-                            {!! Form::label('unidad', __('Message'), ['class' => 'col-form-label']) !!}
+                            {!! Form::label('unidad', __('Course'), ['class' => 'col-form-label']) !!}
                             <div class="flex-fill mx-3">
                                 <select class="form-control" id="feedback_id" name="feedback_id">
                                     {{--                                <option value="">{{ __('--- None ---') }}</option>--}}
-                                    @foreach($feedbacks as $feedback)
+                                    @foreach($feedbacks_curso as $feedback)
+                                        <option
+                                            value="{{ $feedback->id }}" {{ session('profesor_feedback_actual') == $feedback->id ? 'selected' : '' }}>
+                                            {{ $feedback->mensaje }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div>
+                                <button type="button" id="boton_feedback"
+                                        class="btn btn-primary">{{ __('Add') }}</button>
+                            </div>
+                        </div>
+                        <div class="form-group d-flex flex-row justify-content-between">
+                            {!! Form::label('unidad', __('Activity'), ['class' => 'col-form-label']) !!}
+                            <div class="flex-fill mx-3">
+                                <select class="form-control" id="feedback_id" name="feedback_id">
+                                    {{--                                <option value="">{{ __('--- None ---') }}</option>--}}
+                                    @foreach($feedbacks_actividad as $feedback)
                                         <option
                                             value="{{ $feedback->id }}" {{ session('profesor_feedback_actual') == $feedback->id ? 'selected' : '' }}>
                                             {{ $feedback->mensaje }}

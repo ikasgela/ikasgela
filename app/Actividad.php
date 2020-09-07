@@ -169,4 +169,9 @@ class Actividad extends Model
     {
         return $this->puntuacion * ($this->multiplicador ?: 1);
     }
+
+    public function feedbacks()
+    {
+        return $this->morphMany('App\Feedback', 'curso');
+    }
 }
