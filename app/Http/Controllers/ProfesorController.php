@@ -200,6 +200,7 @@ class ProfesorController extends Controller
             while ($actividad != null) {
 
                 $clon = $actividad->duplicate();
+                $clon->plantilla_id = $actividad->id;
                 $clon->save();
 
                 if ($primero) {

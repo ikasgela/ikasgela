@@ -91,6 +91,11 @@ class Actividad extends Model
         return $this->belongsTo(Actividad::class, 'siguiente_id');
     }
 
+    public function original()
+    {
+        return $this->belongsTo(Actividad::class, 'plantilla_id');
+    }
+
     public function qualification()
     {
         return $this->belongsTo(Qualification::class);
