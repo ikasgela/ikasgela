@@ -98,18 +98,18 @@
                         <div class="form-group d-flex flex-row justify-content-between">
                             {!! Form::label('unidad', __('Activity'), ['class' => 'col-form-label']) !!}
                             <div class="flex-fill mx-3">
-                                <select class="form-control" id="feedback_id" name="feedback_id">
+                                <select class="form-control" id="feedback_actividad_id" name="feedback_actividad_id">
                                     {{--                                <option value="">{{ __('--- None ---') }}</option>--}}
                                     @foreach($feedbacks_actividad as $feedback)
                                         <option
-                                            value="{{ $feedback->id }}" {{ session('profesor_feedback_actual') == $feedback->id ? 'selected' : '' }}>
+                                            value="{{ $feedback->id }}" {{ session('profesor_feedback_actividad_actual') == $feedback->id ? 'selected' : '' }}>
                                             {{ $feedback->mensaje }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
                             <div>
-                                <button type="button" id="boton_feedback"
+                                <button type="button" id="boton_feedback_actividad"
                                         class="btn btn-primary">{{ __('Add') }}</button>
                             </div>
                         </div>

@@ -61056,6 +61056,17 @@ $(document).ready(function ($) {
     extra = extra + $('#feedback_id option:selected').text();
     tinyMCE.activeEditor.setContent(texto + extra);
   });
+  $('#boton_feedback_actividad').click(function () {
+    var extra = '';
+
+    if (tinyMCE.activeEditor.getContent().length > 0) {
+      extra = '\n';
+    }
+
+    var texto = tinyMCE.activeEditor.getContent();
+    extra = extra + $('#feedback_actividad_id option:selected').text();
+    tinyMCE.activeEditor.setContent(texto + extra);
+  });
   $('[data-countdown]').each(function () {
     var $this = $(this);
     var finalDate = $(this).data('countdown');
