@@ -22,7 +22,7 @@
             @foreach($feedbacks as $feedback)
                 <tr>
                     <td>{{ $feedback->id }}</td>
-                    <td>{{ $feedback->curso->nombre }}</td>
+{{--                    <td>{{ $feedback->curso->nombre }}</td>--}}
                     <td>{{ $feedback->mensaje }}</td>
                     <td>
                         {!! Form::open(['route' => ['feedbacks.destroy', $feedback->id], 'method' => 'DELETE']) !!}

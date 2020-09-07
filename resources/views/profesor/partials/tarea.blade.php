@@ -14,6 +14,7 @@
             </div>
             <form class="col-md-12 p-0"
                   method="POST"
+                  name="form1"
                   action="{{ route('actividades.estado', [$tarea->id]) }}">
                 @csrf
                 @method('PUT')
@@ -115,14 +116,31 @@
                             </div>
                         </div>
                         <textarea class="form-control"
+                                  form="prueba"
                                   id="feedback"
                                   name="feedback"
                                   rows="15">{{ !is_null($tarea->feedback) ? $tarea->feedback : '' }}
                             <p>=== {{ __('Comments').' (v'.($tarea->intentos+1).')' }} ===</p>
                         </textarea>
+                        <div class="form-inline mt-3 align-items-right">
+                            <label class="mr-2">{{ __('Save as') }}</label>
+                            <button form="prueba" type="submit" name="tipo" value="curso"
+                                    class="btn btn-primary">{{ __('course') }}
+                            </button>
+                            <label class="mx-2">{{ __('or') }}</label>
+                            <button form="prueba" type="submit" name="tipo" value="actividad"
+                                    class="btn btn-primary">{{ __('activity') }}
+                            </button>
+                            <label class="mr-2">{{ __('feedback') }}</label>
+                        </div>
                     </div>
                 </div>
             </form>
+            {!! Form::open(['route' => ['feedback.save'], 'method' => 'POST', 'id' => 'prueba']) !!}
+            <input form="prueba" type="hidden" name="curso_id" value="1">
+            <input form="prueba" type="hidden" name="actividad_id" value="8">
+            {!! Form::close() !!}
+
             @if($tarea->estado >= 10)
                 <hr class="my-2">
                 @include('partials.tarjetas_actividad')
