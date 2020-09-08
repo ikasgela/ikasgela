@@ -71,4 +71,22 @@ class FeedbackController extends Controller
 
         return back();
     }
+
+    public function save(Request $request)
+    {
+//        $this->validate($request, [
+//            'curso_id' => 'required',
+//            'feedback' => 'required',
+//        ]);
+
+        Feedback::create([
+            'curso_id' => request('tipo') == 'curso' ? request('curso_id') : request('actividad_id'),
+            'titulo' => request('titulo'),
+            'mensaje' => request('mensaje'),
+            'curso_type' => request('tipo') == 'curso' ? 'App\Curso' : 'App\Actividad',
+        ]);
+
+        return back();
+    }
+
 }

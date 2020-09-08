@@ -88,10 +88,27 @@ $(document).ready(function ($) {
         }
 
         var texto = tinyMCE.activeEditor.getContent();
-        extra = extra + $('#feedback_id option:selected').text();
+        extra = extra + $('#feedback_id option:selected').attr('data-mensaje');
 
         tinyMCE.activeEditor.setContent(texto + extra);
     });
+
+    $('#boton_feedback_actividad').click(function () {
+
+        var extra = '';
+        if (tinyMCE.activeEditor.getContent().length > 0) {
+            extra = '\n';
+        }
+
+        var texto = tinyMCE.activeEditor.getContent();
+        extra = extra + $('#feedback_actividad_id option:selected').attr('data-mensaje');
+
+        tinyMCE.activeEditor.setContent(texto + extra);
+    });
+
+    $('#guardar_feedback').submit(function () {
+        $('#mensaje').val(tinyMCE.activeEditor.getContent());
+    })
 
     $('[data-countdown]').each(function () {
         var $this = $(this);

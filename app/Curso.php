@@ -40,7 +40,7 @@ class Curso extends Model
 
     public function feedbacks()
     {
-        return $this->hasMany(Feedback::class);
+        return $this->morphMany('App\Feedback', 'curso');
     }
 
     public function scopeOrganizacionActual($query)

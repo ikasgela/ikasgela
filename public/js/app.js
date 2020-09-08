@@ -112,7 +112,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _popperjs_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @popperjs/core */ "./node_modules/@popperjs/core/lib/popper.js");
 /* harmony import */ var perfect_scrollbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! perfect-scrollbar */ "./node_modules/perfect-scrollbar/dist/perfect-scrollbar.esm.js");
 /*!
-  * CoreUI v3.2.2 (https://coreui.io)
+  * CoreUI v3.3.0 (https://coreui.io)
   * Copyright 2020 creativeLabs Łukasz Holeczek
   * Licensed under MIT (https://coreui.io)
   */
@@ -507,7 +507,7 @@ if (!supportScopeQuery) {
 /**
  * --------------------------------------------------------------------------
  * Bootstrap (v5.0.0-alpha1): dom/event-handler.js
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
 /**
@@ -547,6 +547,8 @@ function getEvent(element) {
 
 function bootstrapHandler(element, fn) {
   return function handler(event) {
+    event.delegateTarget = element;
+
     if (handler.oneOff) {
       EventHandler.off(element, event.type, fn);
     }
@@ -562,6 +564,8 @@ function bootstrapDelegationHandler(element, selector, fn) {
     for (var target = event.target; target && target !== this; target = target.parentNode) {
       for (var i = domElements.length; i--;) {
         if (domElements[i] === target) {
+          event.delegateTarget = target;
+
           if (handler.oneOff) {
             EventHandler.off(element, event.type, fn);
           }
@@ -746,7 +750,7 @@ var EventHandler = {
         bubbles: bubbles,
         cancelable: true
       });
-    } // merge custom informations in our event
+    } // merge custom information in our event
 
 
     if (typeof args !== 'undefined') {
@@ -1085,11 +1089,7 @@ var Alert = /*#__PURE__*/function () {
 
   // Public
   _proto.close = function close(element) {
-    var rootElement = this._element;
-
-    if (element) {
-      rootElement = this._getRootElement(element);
-    }
+    var rootElement = element ? this._getRootElement(element) : this._element;
 
     var customEvent = this._triggerCloseEvent(rootElement);
 
@@ -2692,9 +2692,7 @@ var Collapse = /*#__PURE__*/function () {
   };
 
   _proto._getDimension = function _getDimension() {
-    var hasWidth = this._element.classList.contains(WIDTH);
-
-    return hasWidth ? WIDTH : HEIGHT;
+    return this._element.classList.contains(WIDTH) ? WIDTH : HEIGHT;
   };
 
   _proto._getParent = function _getParent() {
@@ -2721,21 +2719,20 @@ var Collapse = /*#__PURE__*/function () {
   };
 
   _proto._addAriaAndCollapsedClass = function _addAriaAndCollapsedClass(element, triggerArray) {
-    if (element) {
-      var isOpen = element.classList.contains(CLASS_NAME_SHOW$1);
-
-      if (triggerArray.length) {
-        triggerArray.forEach(function (elem) {
-          if (isOpen) {
-            elem.classList.remove(CLASS_NAME_COLLAPSED);
-          } else {
-            elem.classList.add(CLASS_NAME_COLLAPSED);
-          }
-
-          elem.setAttribute('aria-expanded', isOpen);
-        });
-      }
+    if (!element || !triggerArray.length) {
+      return;
     }
+
+    var isOpen = element.classList.contains(CLASS_NAME_SHOW$1);
+    triggerArray.forEach(function (elem) {
+      if (isOpen) {
+        elem.classList.remove(CLASS_NAME_COLLAPSED);
+      } else {
+        elem.classList.add(CLASS_NAME_COLLAPSED);
+      }
+
+      elem.setAttribute('aria-expanded', isOpen);
+    });
   } // Static
   ;
 
@@ -3113,22 +3110,7 @@ var Dropdown = /*#__PURE__*/function () {
 
   _proto._detectHeader = function _detectHeader() {
     return Boolean(this._element.closest("." + CLASS_NAME_HEADER));
-  } // _getOffset() {
-  //   const offset = {}
-  //   if (typeof this._config.offset === 'function') {
-  //     offset.fn = data => {
-  //       data.offsets = {
-  //         ...data.offsets,
-  //         ...this._config.offset(data.offsets, this._element) || {}
-  //       }
-  //       return data
-  //     }
-  //   } else {
-  //     offset.offset = this._config.offset
-  //   }
-  //   return offset
-  // }
-  ;
+  };
 
   _proto._getOffset = function _getOffset() {
     var _this2 = this;
@@ -3796,11 +3778,25 @@ var Modal = /*#__PURE__*/function () {
         return;
       }
 
+      var isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
+
+      if (!isModalOverflowing) {
+        this._element.style.overflowY = 'hidden';
+      }
+
       this._element.classList.add(CLASS_NAME_STATIC);
 
-      var modalTransitionDuration = getTransitionDurationFromElement(this._element);
+      var modalTransitionDuration = getTransitionDurationFromElement(this._dialog);
+      EventHandler.off(this._element, TRANSITION_END);
       EventHandler.one(this._element, TRANSITION_END, function () {
         _this9._element.classList.remove(CLASS_NAME_STATIC);
+
+        if (!isModalOverflowing) {
+          EventHandler.one(_this9._element, TRANSITION_END, function () {
+            _this9._element.style.overflowY = '';
+          });
+          emulateTransitionEnd(_this9._element, modalTransitionDuration);
+        }
       });
       emulateTransitionEnd(this._element, modalTransitionDuration);
 
@@ -4260,11 +4256,11 @@ var Tooltip = /*#__PURE__*/function () {
 
     if (event) {
       var dataKey = this.constructor.DATA_KEY;
-      var context = Data.getData(event.target, dataKey);
+      var context = Data.getData(event.delegateTarget, dataKey);
 
       if (!context) {
-        context = new this.constructor(event.target, this._getDelegateConfig());
-        Data.setData(event.target, dataKey, context);
+        context = new this.constructor(event.delegateTarget, this._getDelegateConfig());
+        Data.setData(event.delegateTarget, dataKey, context);
       }
 
       context._activeTrigger.click = !context._activeTrigger.click;
@@ -4652,11 +4648,11 @@ var Tooltip = /*#__PURE__*/function () {
 
   _proto._enter = function _enter(event, context) {
     var dataKey = this.constructor.DATA_KEY;
-    context = context || Data.getData(event.target, dataKey);
+    context = context || Data.getData(event.delegateTarget, dataKey);
 
     if (!context) {
-      context = new this.constructor(event.target, this._getDelegateConfig());
-      Data.setData(event.target, dataKey, context);
+      context = new this.constructor(event.delegateTarget, this._getDelegateConfig());
+      Data.setData(event.delegateTarget, dataKey, context);
     }
 
     if (event) {
@@ -4685,11 +4681,11 @@ var Tooltip = /*#__PURE__*/function () {
 
   _proto._leave = function _leave(event, context) {
     var dataKey = this.constructor.DATA_KEY;
-    context = context || Data.getData(event.target, dataKey);
+    context = context || Data.getData(event.delegateTarget, dataKey);
 
     if (!context) {
-      context = new this.constructor(event.target, this._getDelegateConfig());
-      Data.setData(event.target, dataKey, context);
+      context = new this.constructor(event.delegateTarget, this._getDelegateConfig());
+      Data.setData(event.delegateTarget, dataKey, context);
     }
 
     if (event) {
@@ -4812,7 +4808,6 @@ var Tooltip = /*#__PURE__*/function () {
     this.show();
     this.config.animation = initConfigAnimation;
   } // Static
-  // Static
   ;
 
   Tooltip.jQueryInterface = function jQueryInterface(config) {
@@ -4977,12 +4972,12 @@ var Popover = /*#__PURE__*/function (_Tooltip) {
 
     this.setElementContent(SelectorEngine.findOne(SELECTOR_CONTENT, tip), content);
     tip.classList.remove(CLASS_NAME_FADE$2, CLASS_NAME_SHOW$5);
-  };
+  } // Private
+  ;
 
   _proto._addAttachmentClass = function _addAttachmentClass(attachment) {
     this.getTipElement().classList.add(CLASS_PREFIX$1 + "-" + attachment);
-  } // Private
-  ;
+  };
 
   _proto._getContent = function _getContent() {
     return this.element.getAttribute('data-content') || this.config.content;
@@ -5140,7 +5135,7 @@ var ScrollSpy = /*#__PURE__*/function () {
     this._element = element;
     this._scrollElement = element.tagName === 'BODY' ? window : element;
     this._config = this._getConfig(config);
-    this._selector = this._config.target + " " + SELECTOR_NAV_LINKS + "," + (this._config.target + " " + SELECTOR_LIST_ITEMS + ",") + (this._config.target + " ." + CLASS_NAME_DROPDOWN_ITEM);
+    this._selector = this._config.target + " " + SELECTOR_NAV_LINKS + ", " + this._config.target + " " + SELECTOR_LIST_ITEMS + ", " + this._config.target + " ." + CLASS_NAME_DROPDOWN_ITEM;
     this._offsets = [];
     this._targets = [];
     this._activeTarget = null;
@@ -5170,12 +5165,8 @@ var ScrollSpy = /*#__PURE__*/function () {
     this._scrollHeight = this._getScrollHeight();
     var targets = SelectorEngine.find(this._selector);
     targets.map(function (element) {
-      var target;
       var targetSelector = getSelectorFromElement(element);
-
-      if (targetSelector) {
-        target = SelectorEngine.findOne(targetSelector);
-      }
+      var target = targetSelector ? SelectorEngine.findOne(targetSelector) : null;
 
       if (target) {
         var targetBCR = target.getBoundingClientRect();
@@ -5407,16 +5398,19 @@ var DATA_KEY$b = 'coreui.sidebar';
 var EVENT_KEY$b = "." + DATA_KEY$b;
 var DATA_API_KEY$9 = '.data-api';
 var Default$9 = {
+  activeLinksExact: true,
   breakpoints: {
     xs: 'c-sidebar-show',
     sm: 'c-sidebar-sm-show',
     md: 'c-sidebar-md-show',
     lg: 'c-sidebar-lg-show',
-    xl: 'c-sidebar-xl-show'
+    xl: 'c-sidebar-xl-show',
+    xxl: 'c-sidebar-xxl-show'
   },
   dropdownAccordion: true
 };
 var DefaultType$8 = {
+  activeLinksExact: 'boolean',
   breakpoints: 'object',
   dropdownAccordion: '(string|boolean)'
 };
@@ -5713,6 +5707,10 @@ var Sidebar = /*#__PURE__*/function () {
         continue; // text node
       }
 
+      if (element.nodeType === 8) {
+        continue; // comment node
+      }
+
       if (!filter || filter(element)) {
         siblings.push(element);
       } // eslint-disable-next-line no-cond-assign
@@ -5737,7 +5735,9 @@ var Sidebar = /*#__PURE__*/function () {
 
 
     if (Default$9.dropdownAccordion === true) {
-      this._getAllSiblings(toggler.parentElement).forEach(function (element) {
+      this._getAllSiblings(toggler.parentElement, function (element) {
+        return Boolean(element.classList.contains(CLASS_NAME_NAV_DROPDOWN));
+      }).forEach(function (element) {
         if (element !== toggler.parentNode) {
           if (element.classList.contains(CLASS_NAME_NAV_DROPDOWN)) {
             element.classList.remove(CLASS_NAME_SHOW$6);
@@ -5816,7 +5816,21 @@ var Sidebar = /*#__PURE__*/function () {
         currentUrl = currentUrl.slice(0, -1);
       }
 
-      if (element.href === currentUrl) {
+      var dataAttributes = element.closest(SELECTOR_NAVIGATION_CONTAINER).dataset;
+
+      if (typeof dataAttributes.activeLinksExact !== 'undefined') {
+        Default$9.activeLinksExact = JSON.parse(dataAttributes.activeLinksExact);
+      }
+
+      if (Default$9.activeLinksExact && element.href === currentUrl) {
+        element.classList.add(CLASS_NAME_ACTIVE$4); // eslint-disable-next-line unicorn/prefer-spread
+
+        Array.from(_this4._getParents(element, SELECTOR_NAV_DROPDOWN$1)).forEach(function (element) {
+          element.classList.add(CLASS_NAME_SHOW$6);
+        });
+      }
+
+      if (!Default$9.activeLinksExact && element.href.startsWith(currentUrl)) {
         element.classList.add(CLASS_NAME_ACTIVE$4); // eslint-disable-next-line unicorn/prefer-spread
 
         Array.from(_this4._getParents(element, SELECTOR_NAV_DROPDOWN$1)).forEach(function (element) {
@@ -6214,7 +6228,7 @@ var DefaultType$9 = {
 var Default$a = {
   animation: true,
   autohide: true,
-  delay: 500
+  delay: 5000
 };
 var SELECTOR_DATA_DISMISS$1 = '[data-dismiss="toast"]';
 /**
@@ -6246,6 +6260,8 @@ var Toast = /*#__PURE__*/function () {
     if (showEvent.defaultPrevented) {
       return;
     }
+
+    this._clearTimeout();
 
     if (this._config.animation) {
       this._element.classList.add(CLASS_NAME_FADE$5);
@@ -6311,8 +6327,7 @@ var Toast = /*#__PURE__*/function () {
   };
 
   _proto.dispose = function dispose() {
-    clearTimeout(this._timeout);
-    this._timeout = null;
+    this._clearTimeout();
 
     if (this._element.classList.contains(CLASS_NAME_SHOW$8)) {
       this._element.classList.remove(CLASS_NAME_SHOW$8);
@@ -6337,6 +6352,11 @@ var Toast = /*#__PURE__*/function () {
     EventHandler.on(this._element, EVENT_CLICK_DISMISS$1, SELECTOR_DATA_DISMISS$1, function () {
       return _this3.hide();
     });
+  };
+
+  _proto._clearTimeout = function _clearTimeout() {
+    clearTimeout(this._timeout);
+    this._timeout = null;
   } // Static
   ;
 
@@ -9298,6 +9318,7 @@ module.exports = __webpack_require__(/*! ./lib/axios */ "./node_modules/axios/li
 
 var utils = __webpack_require__(/*! ./../utils */ "./node_modules/axios/lib/utils.js");
 var settle = __webpack_require__(/*! ./../core/settle */ "./node_modules/axios/lib/core/settle.js");
+var cookies = __webpack_require__(/*! ./../helpers/cookies */ "./node_modules/axios/lib/helpers/cookies.js");
 var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ "./node_modules/axios/lib/helpers/buildURL.js");
 var buildFullPath = __webpack_require__(/*! ../core/buildFullPath */ "./node_modules/axios/lib/core/buildFullPath.js");
 var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ "./node_modules/axios/lib/helpers/parseHeaders.js");
@@ -9313,12 +9334,19 @@ module.exports = function xhrAdapter(config) {
       delete requestHeaders['Content-Type']; // Let the browser set it
     }
 
+    if (
+      (utils.isBlob(requestData) || utils.isFile(requestData)) &&
+      requestData.type
+    ) {
+      delete requestHeaders['Content-Type']; // Let the browser set it
+    }
+
     var request = new XMLHttpRequest();
 
     // HTTP basic authentication
     if (config.auth) {
       var username = config.auth.username || '';
-      var password = config.auth.password || '';
+      var password = unescape(encodeURIComponent(config.auth.password)) || '';
       requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
     }
 
@@ -9399,8 +9427,6 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(/*! ./../helpers/cookies */ "./node_modules/axios/lib/helpers/cookies.js");
-
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(fullPath)) && config.xsrfCookieName ?
         cookies.read(config.xsrfCookieName) :
@@ -9466,7 +9492,7 @@ module.exports = function xhrAdapter(config) {
       });
     }
 
-    if (requestData === undefined) {
+    if (!requestData) {
       requestData = null;
     }
 
@@ -9743,7 +9769,7 @@ Axios.prototype.getUri = function getUri(config) {
 utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData(method) {
   /*eslint func-names:0*/
   Axios.prototype[method] = function(url, config) {
-    return this.request(utils.merge(config || {}, {
+    return this.request(mergeConfig(config || {}, {
       method: method,
       url: url
     }));
@@ -9753,7 +9779,7 @@ utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData
 utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
   /*eslint func-names:0*/
   Axios.prototype[method] = function(url, data, config) {
-    return this.request(utils.merge(config || {}, {
+    return this.request(mergeConfig(config || {}, {
       method: method,
       url: url,
       data: data
@@ -10013,7 +10039,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
   error.response = response;
   error.isAxiosError = true;
 
-  error.toJSON = function() {
+  error.toJSON = function toJSON() {
     return {
       // Standard
       message: this.message,
@@ -10062,59 +10088,73 @@ module.exports = function mergeConfig(config1, config2) {
   config2 = config2 || {};
   var config = {};
 
-  var valueFromConfig2Keys = ['url', 'method', 'params', 'data'];
-  var mergeDeepPropertiesKeys = ['headers', 'auth', 'proxy'];
+  var valueFromConfig2Keys = ['url', 'method', 'data'];
+  var mergeDeepPropertiesKeys = ['headers', 'auth', 'proxy', 'params'];
   var defaultToConfig2Keys = [
-    'baseURL', 'url', 'transformRequest', 'transformResponse', 'paramsSerializer',
-    'timeout', 'withCredentials', 'adapter', 'responseType', 'xsrfCookieName',
-    'xsrfHeaderName', 'onUploadProgress', 'onDownloadProgress',
-    'maxContentLength', 'validateStatus', 'maxRedirects', 'httpAgent',
-    'httpsAgent', 'cancelToken', 'socketPath'
+    'baseURL', 'transformRequest', 'transformResponse', 'paramsSerializer',
+    'timeout', 'timeoutMessage', 'withCredentials', 'adapter', 'responseType', 'xsrfCookieName',
+    'xsrfHeaderName', 'onUploadProgress', 'onDownloadProgress', 'decompress',
+    'maxContentLength', 'maxBodyLength', 'maxRedirects', 'transport', 'httpAgent',
+    'httpsAgent', 'cancelToken', 'socketPath', 'responseEncoding'
   ];
+  var directMergeKeys = ['validateStatus'];
+
+  function getMergedValue(target, source) {
+    if (utils.isPlainObject(target) && utils.isPlainObject(source)) {
+      return utils.merge(target, source);
+    } else if (utils.isPlainObject(source)) {
+      return utils.merge({}, source);
+    } else if (utils.isArray(source)) {
+      return source.slice();
+    }
+    return source;
+  }
+
+  function mergeDeepProperties(prop) {
+    if (!utils.isUndefined(config2[prop])) {
+      config[prop] = getMergedValue(config1[prop], config2[prop]);
+    } else if (!utils.isUndefined(config1[prop])) {
+      config[prop] = getMergedValue(undefined, config1[prop]);
+    }
+  }
 
   utils.forEach(valueFromConfig2Keys, function valueFromConfig2(prop) {
-    if (typeof config2[prop] !== 'undefined') {
-      config[prop] = config2[prop];
+    if (!utils.isUndefined(config2[prop])) {
+      config[prop] = getMergedValue(undefined, config2[prop]);
     }
   });
 
-  utils.forEach(mergeDeepPropertiesKeys, function mergeDeepProperties(prop) {
-    if (utils.isObject(config2[prop])) {
-      config[prop] = utils.deepMerge(config1[prop], config2[prop]);
-    } else if (typeof config2[prop] !== 'undefined') {
-      config[prop] = config2[prop];
-    } else if (utils.isObject(config1[prop])) {
-      config[prop] = utils.deepMerge(config1[prop]);
-    } else if (typeof config1[prop] !== 'undefined') {
-      config[prop] = config1[prop];
-    }
-  });
+  utils.forEach(mergeDeepPropertiesKeys, mergeDeepProperties);
 
   utils.forEach(defaultToConfig2Keys, function defaultToConfig2(prop) {
-    if (typeof config2[prop] !== 'undefined') {
-      config[prop] = config2[prop];
-    } else if (typeof config1[prop] !== 'undefined') {
-      config[prop] = config1[prop];
+    if (!utils.isUndefined(config2[prop])) {
+      config[prop] = getMergedValue(undefined, config2[prop]);
+    } else if (!utils.isUndefined(config1[prop])) {
+      config[prop] = getMergedValue(undefined, config1[prop]);
+    }
+  });
+
+  utils.forEach(directMergeKeys, function merge(prop) {
+    if (prop in config2) {
+      config[prop] = getMergedValue(config1[prop], config2[prop]);
+    } else if (prop in config1) {
+      config[prop] = getMergedValue(undefined, config1[prop]);
     }
   });
 
   var axiosKeys = valueFromConfig2Keys
     .concat(mergeDeepPropertiesKeys)
-    .concat(defaultToConfig2Keys);
+    .concat(defaultToConfig2Keys)
+    .concat(directMergeKeys);
 
   var otherKeys = Object
-    .keys(config2)
+    .keys(config1)
+    .concat(Object.keys(config2))
     .filter(function filterAxiosKeys(key) {
       return axiosKeys.indexOf(key) === -1;
     });
 
-  utils.forEach(otherKeys, function otherKeysDefaultToConfig2(prop) {
-    if (typeof config2[prop] !== 'undefined') {
-      config[prop] = config2[prop];
-    } else if (typeof config1[prop] !== 'undefined') {
-      config[prop] = config1[prop];
-    }
-  });
+  utils.forEach(otherKeys, mergeDeepProperties);
 
   return config;
 };
@@ -10143,7 +10183,7 @@ var createError = __webpack_require__(/*! ./createError */ "./node_modules/axios
  */
 module.exports = function settle(resolve, reject, response) {
   var validateStatus = response.config.validateStatus;
-  if (!validateStatus || validateStatus(response.status)) {
+  if (!response.status || !validateStatus || validateStatus(response.status)) {
     resolve(response);
   } else {
     reject(createError(
@@ -10275,6 +10315,7 @@ var defaults = {
   xsrfHeaderName: 'X-XSRF-TOKEN',
 
   maxContentLength: -1,
+  maxBodyLength: -1,
 
   validateStatus: function validateStatus(status) {
     return status >= 200 && status < 300;
@@ -10338,7 +10379,6 @@ var utils = __webpack_require__(/*! ./../utils */ "./node_modules/axios/lib/util
 
 function encode(val) {
   return encodeURIComponent(val).
-    replace(/%40/gi, '@').
     replace(/%3A/gi, ':').
     replace(/%24/g, '$').
     replace(/%2C/gi, ',').
@@ -10848,6 +10888,21 @@ function isObject(val) {
 }
 
 /**
+ * Determine if a value is a plain Object
+ *
+ * @param {Object} val The value to test
+ * @return {boolean} True if value is a plain Object, otherwise false
+ */
+function isPlainObject(val) {
+  if (toString.call(val) !== '[object Object]') {
+    return false;
+  }
+
+  var prototype = Object.getPrototypeOf(val);
+  return prototype === null || prototype === Object.prototype;
+}
+
+/**
  * Determine if a value is a Date
  *
  * @param {Object} val The value to test
@@ -11003,34 +11058,12 @@ function forEach(obj, fn) {
 function merge(/* obj1, obj2, obj3, ... */) {
   var result = {};
   function assignValue(val, key) {
-    if (typeof result[key] === 'object' && typeof val === 'object') {
+    if (isPlainObject(result[key]) && isPlainObject(val)) {
       result[key] = merge(result[key], val);
-    } else {
-      result[key] = val;
-    }
-  }
-
-  for (var i = 0, l = arguments.length; i < l; i++) {
-    forEach(arguments[i], assignValue);
-  }
-  return result;
-}
-
-/**
- * Function equal to merge with the difference being that no reference
- * to original objects is kept.
- *
- * @see merge
- * @param {Object} obj1 Object to merge
- * @returns {Object} Result of all merge properties
- */
-function deepMerge(/* obj1, obj2, obj3, ... */) {
-  var result = {};
-  function assignValue(val, key) {
-    if (typeof result[key] === 'object' && typeof val === 'object') {
-      result[key] = deepMerge(result[key], val);
-    } else if (typeof val === 'object') {
-      result[key] = deepMerge({}, val);
+    } else if (isPlainObject(val)) {
+      result[key] = merge({}, val);
+    } else if (isArray(val)) {
+      result[key] = val.slice();
     } else {
       result[key] = val;
     }
@@ -11061,6 +11094,19 @@ function extend(a, b, thisArg) {
   return a;
 }
 
+/**
+ * Remove byte order marker. This catches EF BB BF (the UTF-8 BOM)
+ *
+ * @param {string} content with BOM
+ * @return {string} content value without BOM
+ */
+function stripBOM(content) {
+  if (content.charCodeAt(0) === 0xFEFF) {
+    content = content.slice(1);
+  }
+  return content;
+}
+
 module.exports = {
   isArray: isArray,
   isArrayBuffer: isArrayBuffer,
@@ -11070,6 +11116,7 @@ module.exports = {
   isString: isString,
   isNumber: isNumber,
   isObject: isObject,
+  isPlainObject: isPlainObject,
   isUndefined: isUndefined,
   isDate: isDate,
   isFile: isFile,
@@ -11080,9 +11127,9 @@ module.exports = {
   isStandardBrowserEnv: isStandardBrowserEnv,
   forEach: forEach,
   merge: merge,
-  deepMerge: deepMerge,
   extend: extend,
-  trim: trim
+  trim: trim,
+  stripBOM: stripBOM
 };
 
 
@@ -61053,8 +61100,22 @@ $(document).ready(function ($) {
     }
 
     var texto = tinyMCE.activeEditor.getContent();
-    extra = extra + $('#feedback_id option:selected').text();
+    extra = extra + $('#feedback_id option:selected').attr('data-mensaje');
     tinyMCE.activeEditor.setContent(texto + extra);
+  });
+  $('#boton_feedback_actividad').click(function () {
+    var extra = '';
+
+    if (tinyMCE.activeEditor.getContent().length > 0) {
+      extra = '\n';
+    }
+
+    var texto = tinyMCE.activeEditor.getContent();
+    extra = extra + $('#feedback_actividad_id option:selected').attr('data-mensaje');
+    tinyMCE.activeEditor.setContent(texto + extra);
+  });
+  $('#guardar_feedback').submit(function () {
+    $('#mensaje').val(tinyMCE.activeEditor.getContent());
   });
   $('[data-countdown]').each(function () {
     var $this = $(this);

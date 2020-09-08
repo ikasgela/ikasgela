@@ -78,14 +78,15 @@
                     </div>
                     <div class="border rounded p-3">
                         <div class="form-group d-flex flex-row justify-content-between">
-                            {!! Form::label('unidad', __('Message'), ['class' => 'col-form-label']) !!}
+                            {!! Form::label('unidad', __('Course'), ['class' => 'col-form-label']) !!}
                             <div class="flex-fill mx-3">
                                 <select class="form-control" id="feedback_id" name="feedback_id">
                                     {{--                                <option value="">{{ __('--- None ---') }}</option>--}}
-                                    @foreach($feedbacks as $feedback)
+                                    @foreach($feedbacks_curso as $feedback)
                                         <option
+                                            data-mensaje="{{ $feedback->mensaje }}"
                                             value="{{ $feedback->id }}" {{ session('profesor_feedback_actual') == $feedback->id ? 'selected' : '' }}>
-                                            {{ $feedback->mensaje }}
+                                            {{ $feedback->titulo }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -95,15 +96,53 @@
                                         class="btn btn-primary">{{ __('Add') }}</button>
                             </div>
                         </div>
+                        <div class="form-group d-flex flex-row justify-content-between">
+                            {!! Form::label('unidad', __('Activity'), ['class' => 'col-form-label']) !!}
+                            <div class="flex-fill mx-3">
+                                <select class="form-control" id="feedback_actividad_id" name="feedback_actividad_id">
+                                    {{--                                <option value="">{{ __('--- None ---') }}</option>--}}
+                                    @foreach($feedbacks_actividad as $feedback)
+                                        <option
+                                            data-mensaje="{{ $feedback->mensaje }}"
+                                            value="{{ $feedback->id }}" {{ session('profesor_feedback_actividad_actual') == $feedback->id ? 'selected' : '' }}>
+                                            {{ $feedback->titulo }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div>
+                                <button type="button" id="boton_feedback_actividad"
+                                        class="btn btn-primary">{{ __('Add') }}</button>
+                            </div>
+                        </div>
                         <textarea class="form-control"
                                   id="feedback"
                                   name="feedback"
                                   rows="15">{{ !is_null($tarea->feedback) ? $tarea->feedback : '' }}
                             <p>=== {{ __('Comments').' (v'.($tarea->intentos+1).')' }} ===</p>
                         </textarea>
+                        <div class="form-inline mt-3 align-items-right">
+                            <label class="mr-2">{{ __('Title') }}</label>
+                            <input class="form-control mr-2" form="guardar_feedback" type="text" id="titulo"
+                                   name="titulo">
+                            <label class="mr-2">{{ __('save as') }}</label>
+                            <button form="guardar_feedback" type="submit" name="tipo" value="curso"
+                                    class="btn btn-primary">{{ __('course feedback') }}
+                            </button>
+                            <label class="mx-2">{{ __('or') }}</label>
+                            <button form="guardar_feedback" type="submit" name="tipo" value="actividad"
+                                    class="btn btn-primary">{{ __('activity feedback') }}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </form>
+            {!! Form::open(['route' => ['feedback.save'], 'method' => 'POST', 'id' => 'guardar_feedback']) !!}
+            <input form="guardar_feedback" type="hidden" id="mensaje" name="mensaje">
+            <input form="guardar_feedback" type="hidden" name="curso_id" value="{{ $actividad->unidad->curso->id }}">
+            <input form="guardar_feedback" type="hidden" name="actividad_id" value="{{ $actividad->original->id }}">
+            {!! Form::close() !!}
+
             @if($tarea->estado >= 10)
                 <hr class="my-2">
                 @include('partials.tarjetas_actividad')

@@ -63,6 +63,7 @@ class ActivarUsuarioGitLab
             ->first();
 
         $clon = $actividad->duplicate();
+        $clon->plantilla_id = $actividad->id;
         $clon->save();
         $event->user->actividades()->attach($clon, ['puntuacion' => $actividad->puntuacion]);
 

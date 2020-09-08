@@ -10910,7 +10910,7 @@ a.text-dark:focus {
 
 /*!
  * CoreUI - HTML, CSS, and JavaScript UI Components Library
- * @version v3.2.2
+ * @version v3.3.0
  * @link https://coreui.io/
  * Copyright (c) 2020 creativeLabs Łukasz Holeczek
  * License MIT  (https://coreui.io/license/)
@@ -10943,9 +10943,9 @@ a.text-dark:focus {
   --danger: #e3342f;
   --light: #f0f3f5;
   --dark: #2f353a;
-  color: #181b1e;
+  color: #23282c;
   background-color: #fff;
-  --color: #181b1e;
+  --color: #23282c;
 }
 
 *,
@@ -10982,7 +10982,7 @@ body {
   font-weight: 400;
   line-height: 1.5;
   text-align: left;
-  color: #181b1e;
+  color: #23282c;
   background-color: #fff;
 }
 
@@ -22174,6 +22174,11 @@ html:not([dir=rtl]) .c-sidebar.c-sidebar-show.c-sidebar-right {
   color: #fff;
 }
 
+.c-sidebar .c-sidebar-nav-link:focus,
+.c-sidebar .c-sidebar-nav-dropdown-toggle:focus {
+  outline: none;
+}
+
 @media (hover: hover), (-ms-high-contrast: none) {
   .c-sidebar .c-sidebar-nav-link:hover,
   .c-sidebar .c-sidebar-nav-dropdown-toggle:hover {
@@ -22400,6 +22405,11 @@ html:not([dir=rtl]) .c-sidebar.c-sidebar-light.c-sidebar-right {
 .c-sidebar.c-sidebar-light .c-sidebar-nav-link.c-active .c-sidebar-nav-icon,
 .c-sidebar.c-sidebar-light .c-active.c-sidebar-nav-dropdown-toggle .c-sidebar-nav-icon {
   color: #3490dc;
+}
+
+.c-sidebar.c-sidebar-light .c-sidebar-nav-link:focus,
+.c-sidebar.c-sidebar-light .c-sidebar-nav-dropdown-toggle:focus {
+  outline: none;
 }
 
 @media (hover: hover), (-ms-high-contrast: none) {
@@ -24021,6 +24031,102 @@ html:not([dir=rtl]) .c-switch-label .c-switch-slider::after {
   margin-bottom: 0.125rem;
 }
 
+.toast-primary {
+  color: #fff;
+  background-color: #3490dc;
+  border-color: #2176bd;
+}
+
+.toast-primary .toast-header {
+  color: #fff;
+  background-color: #2484d2;
+  border-color: #2176bd;
+}
+
+.toast-secondary {
+  color: #23282c;
+  background-color: #c8ced3;
+  border-color: #acb5bc;
+}
+
+.toast-secondary .toast-header {
+  color: #23282c;
+  background-color: #bac1c8;
+  border-color: #acb5bc;
+}
+
+.toast-success {
+  color: #fff;
+  background-color: #4dbd74;
+  border-color: #3a9d5d;
+}
+
+.toast-success .toast-header {
+  color: #fff;
+  background-color: #41af67;
+  border-color: #3a9d5d;
+}
+
+.toast-info {
+  color: #23282c;
+  background-color: #63c2de;
+  border-color: #39b2d5;
+}
+
+.toast-info .toast-header {
+  color: #23282c;
+  background-color: #4ebada;
+  border-color: #39b2d5;
+}
+
+.toast-warning {
+  color: #23282c;
+  background-color: #ffc107;
+  border-color: #d39e00;
+}
+
+.toast-warning .toast-header {
+  color: #23282c;
+  background-color: #edb100;
+  border-color: #d39e00;
+}
+
+.toast-danger {
+  color: #fff;
+  background-color: #e3342f;
+  border-color: #c51f1a;
+}
+
+.toast-danger .toast-header {
+  color: #fff;
+  background-color: #db231d;
+  border-color: #c51f1a;
+}
+
+.toast-light {
+  color: #23282c;
+  background-color: #f0f3f5;
+  border-color: #d1dbe1;
+}
+
+.toast-light .toast-header {
+  color: #23282c;
+  background-color: #e1e7eb;
+  border-color: #d1dbe1;
+}
+
+.toast-dark {
+  color: #fff;
+  background-color: #2f353a;
+  border-color: #181b1e;
+}
+
+.toast-dark .toast-header {
+  color: #fff;
+  background-color: #24282c;
+  border-color: #181b1e;
+}
+
 .tooltip {
   position: absolute;
   z-index: 1070;
@@ -24214,6 +24320,7 @@ html:not([dir=rtl]) .c-switch-label .c-switch-slider::after {
 .c-no-layout-transition .c-wrapper .c-sidebar-nav-icon,
 .c-no-layout-transition .c-wrapper .c-sidebar-nav-dropdown,
 .c-no-layout-transition .c-wrapper .c-sidebar-nav-dropdown-toggle,
+.c-no-layout-transition .c-wrapper .c-sidebar-nav-dropdown-toggle::after,
 .c-no-layout-transition .c-wrapper .c-sidebar-nav-dropdown-items,
 .c-no-layout-transition .c-wrapper .c-sidebar-nav-label,
 .c-no-layout-transition .c-wrapper .c-sidebar-footer,
@@ -24225,6 +24332,7 @@ html:not([dir=rtl]) .c-switch-label .c-switch-slider::after {
 .c-no-layout-transition .c-sidebar .c-sidebar-nav-icon,
 .c-no-layout-transition .c-sidebar .c-sidebar-nav-dropdown,
 .c-no-layout-transition .c-sidebar .c-sidebar-nav-dropdown-toggle,
+.c-no-layout-transition .c-sidebar .c-sidebar-nav-dropdown-toggle::after,
 .c-no-layout-transition .c-sidebar .c-sidebar-nav-dropdown-items,
 .c-no-layout-transition .c-sidebar .c-sidebar-nav-label,
 .c-no-layout-transition .c-sidebar .c-sidebar-footer,

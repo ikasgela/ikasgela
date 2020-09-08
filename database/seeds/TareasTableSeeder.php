@@ -23,6 +23,7 @@ class TareasTableSeeder extends Seeder
             ->first();
 
         $clon = $actividad->duplicate();
+        $clon->plantilla_id = $actividad->id;
         $clon->final = true;
         $clon->save();
         $usuario->actividades()->attach($clon, ['puntuacion' => 0]);

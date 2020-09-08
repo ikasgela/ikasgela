@@ -91,6 +91,11 @@ class Actividad extends Model
         return $this->belongsTo(Actividad::class, 'siguiente_id');
     }
 
+    public function original()
+    {
+        return $this->belongsTo(Actividad::class, 'plantilla_id');
+    }
+
     public function qualification()
     {
         return $this->belongsTo(Qualification::class);
@@ -163,5 +168,10 @@ class Actividad extends Model
     public function puntos()
     {
         return $this->puntuacion * ($this->multiplicador ?: 1);
+    }
+
+    public function feedbacks()
+    {
+        return $this->morphMany('App\Feedback', 'curso');
     }
 }

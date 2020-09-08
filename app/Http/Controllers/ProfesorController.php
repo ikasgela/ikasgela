@@ -168,9 +168,10 @@ class ProfesorController extends Controller
     public function revisar(User $user, Tarea $tarea)
     {
         $actividad = $tarea->actividad;
-        $feedbacks = Feedback::orderBy('mensaje')->get();
+        $feedbacks_curso = $actividad->unidad->curso->feedbacks()->get();
+        $feedbacks_actividad = $actividad->original->feedbacks()->get();
 
-        return view('profesor.revisar', compact(['user', 'tarea', 'actividad', 'feedbacks']));
+        return view('profesor.revisar', compact(['user', 'tarea', 'actividad', 'feedbacks_curso', 'feedbacks_actividad']));
     }
 
     private function recuento_enviadas(): void
@@ -200,6 +201,7 @@ class ProfesorController extends Controller
             while ($actividad != null) {
 
                 $clon = $actividad->duplicate();
+                $clon->plantilla_id = $actividad->id;
                 $clon->save();
 
                 if ($primero) {
