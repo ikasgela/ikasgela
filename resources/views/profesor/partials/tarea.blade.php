@@ -129,10 +129,12 @@
                             <button form="guardar_feedback" type="submit" name="tipo" value="curso"
                                     class="btn btn-primary">{{ __('course feedback') }}
                             </button>
-                            <label class="mx-2">{{ __('or') }}</label>
-                            <button form="guardar_feedback" type="submit" name="tipo" value="actividad"
-                                    class="btn btn-primary">{{ __('activity feedback') }}
-                            </button>
+                            @if(isset($actividad->original))
+                                <label class="mx-2">{{ __('or') }}</label>
+                                <button form="guardar_feedback" type="submit" name="tipo" value="actividad"
+                                        class="btn btn-primary">{{ __('activity feedback') }}
+                                </button>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -140,9 +142,10 @@
             {!! Form::open(['route' => ['feedback.save'], 'method' => 'POST', 'id' => 'guardar_feedback']) !!}
             <input form="guardar_feedback" type="hidden" id="mensaje" name="mensaje">
             <input form="guardar_feedback" type="hidden" name="curso_id" value="{{ $actividad->unidad->curso->id }}">
-            <input form="guardar_feedback" type="hidden" name="actividad_id" value="{{ $actividad->original->id }}">
+            @if(isset($actividad->original))
+                <input form="guardar_feedback" type="hidden" name="actividad_id" value="{{ $actividad->original->id }}">
+            @endif
             {!! Form::close() !!}
-
             @if($tarea->estado >= 10)
                 <hr class="my-2">
                 @include('partials.tarjetas_actividad')

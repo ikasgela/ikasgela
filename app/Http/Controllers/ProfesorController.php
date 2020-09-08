@@ -169,7 +169,7 @@ class ProfesorController extends Controller
     {
         $actividad = $tarea->actividad;
         $feedbacks_curso = $actividad->unidad->curso->feedbacks()->get();
-        $feedbacks_actividad = $actividad->original->feedbacks()->get();
+        $feedbacks_actividad = isset($actividad->original) ? $actividad->original->feedbacks()->get() : [];
 
         return view('profesor.revisar', compact(['user', 'tarea', 'actividad', 'feedbacks_curso', 'feedbacks_actividad']));
     }
