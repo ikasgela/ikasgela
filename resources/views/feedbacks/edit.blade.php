@@ -9,20 +9,11 @@
 
             {!! Form::model($feedback, ['route' => ['feedbacks.update', $feedback->id], 'method' => 'PUT']) !!}
 
-            <div class="form-group row">
-                {!! Form::label('curso_id', __('Course'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
-                    <select class="form-control" id="curso_id" name="curso_id">
-                        @foreach($cursos as $curso)
-                            <option
-                                value="{{ $curso->id }}" <?php if ($feedback->curso_id == $curso->id) echo 'selected'; ?>>
-                                {{ $curso->category->period->organization->name }} - {{ $curso->nombre }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-
+            {{ Form::campoTexto('curso_actividad',
+                is_a($feedback->curso, 'App\Curso') ? __('Course') : __('Activity'),
+                $feedback->curso->nombre, ['readonly'])
+                }}
+            {{ Form::hidden('curso_id',$feedback->curso_id) }}
             {{ Form::campoTexto('titulo', __('Title')) }}
             {{ Form::campoTexto('mensaje', __('Message')) }}
 

@@ -86,7 +86,7 @@ class FeedbackController extends Controller
             'curso_type' => request('tipo') == 'curso' ? 'App\Curso' : 'App\Actividad',
         ]);
 
-        return retornar();
+        return back();
     }
 
 }

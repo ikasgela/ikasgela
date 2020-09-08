@@ -24,7 +24,7 @@
                 <tr>
                     <td>{{ $feedback->id }}</td>
                     <td>{{ is_a($feedback->curso, 'App\Curso') ? __('Course') : __('Activity') }}</td>
-                    <td>{{ $feedback->curso->nombre }}</td>
+                    <td>{{ is_a($feedback->curso, 'App\Actividad') ? $feedback->curso->unidad->codigo.' - ' : '' }}{{ $feedback->curso->nombre }}</td>
                     <td>{{ $feedback->titulo }}</td>
                     <td>
                         {!! Form::open(['route' => ['feedbacks.destroy', $feedback->id], 'method' => 'DELETE']) !!}
