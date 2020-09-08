@@ -81,7 +81,7 @@ class FeedbackController extends Controller
 
         Feedback::create([
             'curso_id' => request('tipo') == 'curso' ? request('curso_id') : request('actividad_id'),
-            'mensaje' => request('feedback'),
+            'mensaje' => request('mensaje'),
             'curso_type' => request('tipo') == 'curso' ? 'App\Curso' : 'App\Actividad',
         ]);
 

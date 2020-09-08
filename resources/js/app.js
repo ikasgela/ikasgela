@@ -106,6 +106,10 @@ $(document).ready(function ($) {
         tinyMCE.activeEditor.setContent(texto + extra);
     });
 
+    $('#guardar_feedback').submit(function () {
+        $('#mensaje').val($('#feedback').val());
+    })
+
     $('[data-countdown]').each(function () {
         var $this = $(this);
         var finalDate = $(this).data('countdown');
