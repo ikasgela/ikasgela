@@ -10,6 +10,7 @@ $factory->define(Feedback::class, function (Faker $faker) {
 
     return [
         'curso_id' => factory(Curso::class),
+        'titulo' => $faker->sentence(3, true),
         'mensaje' => $faker->sentence(8, true),
     ];
 });
