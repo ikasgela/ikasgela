@@ -13,8 +13,9 @@
             <thead class="thead-dark">
             <tr>
                 <th>#</th>
-                <th>{{ __('Course') }}</th>
-                <th>{{ __('Message') }}</th>
+                <th>{{ __('Type') }}</th>
+                <th>{{ __('Course') }} / {{ __('Activity') }}</th>
+                <th>{{ __('Title') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -22,8 +23,9 @@
             @foreach($feedbacks as $feedback)
                 <tr>
                     <td>{{ $feedback->id }}</td>
-{{--                    <td>{{ $feedback->curso->nombre }}</td>--}}
-                    <td>{{ $feedback->mensaje }}</td>
+                    <td>{{ is_a($feedback->curso, 'App\Curso') ? __('Course') : __('Activity') }}</td>
+                    <td>{{ $feedback->curso->nombre }}</td>
+                    <td>{{ $feedback->titulo }}</td>
                     <td>
                         {!! Form::open(['route' => ['feedbacks.destroy', $feedback->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>

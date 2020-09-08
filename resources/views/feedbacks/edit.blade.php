@@ -23,6 +23,7 @@
                 </div>
             </div>
 
+            {{ Form::campoTexto('titulo', __('Title')) }}
             {{ Form::campoTexto('mensaje', __('Message')) }}
 
             @include('partials.guardar_cancelar')

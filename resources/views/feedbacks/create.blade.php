@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('New feedback message')])
+    @include('partials.titular', ['titular' => __('New course feedback message')])
 
     <div class="card">
         <div class="card-body">
@@ -22,6 +22,7 @@
                 </div>
             </div>
 
+            {{ Form::campoTexto('titulo', __('Title')) }}
             {{ Form::campoTexto('mensaje', __('Message')) }}
 
             @include('partials.guardar_cancelar')
