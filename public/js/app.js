@@ -61100,7 +61100,7 @@ $(document).ready(function ($) {
     }
 
     var texto = tinyMCE.activeEditor.getContent();
-    extra = extra + $('#feedback_id option:selected').text();
+    extra = extra + $('#feedback_id option:selected').attr('data-mensaje');
     tinyMCE.activeEditor.setContent(texto + extra);
   });
   $('#boton_feedback_actividad').click(function () {

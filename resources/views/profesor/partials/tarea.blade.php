@@ -84,8 +84,9 @@
                                     {{--                                <option value="">{{ __('--- None ---') }}</option>--}}
                                     @foreach($feedbacks_curso as $feedback)
                                         <option
+                                            data-mensaje="{{ $feedback->mensaje }}"
                                             value="{{ $feedback->id }}" {{ session('profesor_feedback_actual') == $feedback->id ? 'selected' : '' }}>
-                                            {{ $feedback->mensaje }}
+                                            {{ $feedback->titulo }}
                                         </option>
                                     @endforeach
                                 </select>
