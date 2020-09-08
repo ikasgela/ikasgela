@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actividad;
 use App\Curso;
 use App\Feedback;
 use BadMethodCallException;
@@ -17,9 +18,13 @@ class FeedbackController extends Controller
 
     public function index()
     {
-        $feedbacks = Feedback::all();
+        $curso_actual = Curso::find(setting_usuario('curso_actual'));
 
-        return view('feedbacks.index', compact('feedbacks'));
+        $feedbacks = $curso_actual->feedbacks()->get();
+
+        $actividades = Actividad::cursoActual()->where('plantilla', true)->orderBy('nombre')->get();
+
+        return view('feedbacks.index', compact(['feedbacks', 'actividades']));
     }
 
     public function create()
