@@ -107,7 +107,7 @@ $(document).ready(function ($) {
     });
 
     $('#guardar_feedback').submit(function () {
-        $('#mensaje').val($('#feedback').val());
+        $('#mensaje').val(tinyMCE.activeEditor.getContent());
     })
 
     $('[data-countdown]').each(function () {

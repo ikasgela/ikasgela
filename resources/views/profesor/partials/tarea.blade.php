@@ -121,23 +121,25 @@
                             <p>=== {{ __('Comments').' (v'.($tarea->intentos+1).')' }} ===</p>
                         </textarea>
                         <div class="form-inline mt-3 align-items-right">
-                            <label class="mr-2">{{ __('Save as') }}</label>
+                            <label class="mr-2">{{ __('Title') }}</label>
+                            <input class="form-control mr-2" form="guardar_feedback" type="text" id="titulo"
+                                   name="titulo">
+                            <label class="mr-2">{{ __('save as') }}</label>
                             <button form="guardar_feedback" type="submit" name="tipo" value="curso"
-                                    class="btn btn-primary">{{ __('course') }}
+                                    class="btn btn-primary">{{ __('course feedback') }}
                             </button>
                             <label class="mx-2">{{ __('or') }}</label>
                             <button form="guardar_feedback" type="submit" name="tipo" value="actividad"
-                                    class="btn btn-primary">{{ __('activity') }}
+                                    class="btn btn-primary">{{ __('activity feedback') }}
                             </button>
-                            <label class="mr-2">{{ __('feedback') }}</label>
                         </div>
                     </div>
                 </div>
             </form>
             {!! Form::open(['route' => ['feedback.save'], 'method' => 'POST', 'id' => 'guardar_feedback']) !!}
             <input form="guardar_feedback" type="hidden" id="mensaje" name="mensaje">
-            <input form="guardar_feedback" type="hidden" name="curso_id" value="1">
-            <input form="guardar_feedback" type="hidden" name="actividad_id" value="8">
+            <input form="guardar_feedback" type="hidden" name="curso_id" value="{{ $actividad->unidad->curso->id }}">
+            <input form="guardar_feedback" type="hidden" name="actividad_id" value="{{ $actividad->original->id }}">
             {!! Form::close() !!}
 
             @if($tarea->estado >= 10)

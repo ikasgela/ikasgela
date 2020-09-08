@@ -61115,7 +61115,7 @@ $(document).ready(function ($) {
     tinyMCE.activeEditor.setContent(texto + extra);
   });
   $('#guardar_feedback').submit(function () {
-    $('#mensaje').val($('#feedback').val());
+    $('#mensaje').val(tinyMCE.activeEditor.getContent());
   });
   $('[data-countdown]').each(function () {
     var $this = $(this);
