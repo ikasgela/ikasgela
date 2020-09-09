@@ -397,7 +397,7 @@ class ActividadController extends Controller
             $clon->plantilla_id = $actividad->siguiente->id;
             $clon->save();
 
-            $actividad->siguiente_id = $clon->id;
+            $actividad->siguiente_id = null;
             $actividad->save();
 
             if (!$actividad->final) {
