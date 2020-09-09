@@ -18,7 +18,7 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         'Illuminate\Auth\Events\Verified' => [
-            'App\Listeners\ActivarUsuarioGitLab',
+            'App\Listeners\ActivarUsuario',
         ],
         'Illuminate\Auth\Events\Login' => [
             'App\Listeners\LoginSuccess',

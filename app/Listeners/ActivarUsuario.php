@@ -8,7 +8,7 @@ use App\Gitea\GiteaClient;
 use GitLab;
 use Illuminate\Auth\Events\Verified;
 
-class ActivarUsuarioGitLab
+class ActivarUsuario
 {
     /**
      * Create the event listener.
