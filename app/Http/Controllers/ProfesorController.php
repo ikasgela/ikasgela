@@ -202,6 +202,7 @@ class ProfesorController extends Controller
 
                 $clon = $actividad->duplicate();
                 $clon->plantilla_id = $actividad->id;
+                $clon->fecha_entrega = Carbon::now()->addDays($actividad->unidad->curso->plazo_actividad);
                 $clon->save();
 
                 if ($primero) {

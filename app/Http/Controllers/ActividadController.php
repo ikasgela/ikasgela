@@ -372,6 +372,7 @@ class ActividadController extends Controller
             // Crear el clon de la siguiente y guardarlo
             $clon = $actividad->siguiente->duplicate();
             $clon->plantilla_id = $actividad->siguiente->id;
+            $clon->fecha_entrega = Carbon::now()->addDays($actividad->unidad->curso->plazo_actividad);
             $clon->save();
 
             $actividad->siguiente_id = null;

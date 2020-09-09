@@ -48,6 +48,7 @@ class CursoController extends Controller
             'slug' => Str::slug(request('nombre')),
             'qualification_id' => request('qualification_id'),
             'max_simultaneas' => request('max_simultaneas'),
+            'plazo_actividad' => request('plazo_actividad'),
             'fecha_inicio' => request('fecha_inicio'),
             'fecha_fin' => request('fecha_fin'),
         ]);
@@ -92,6 +93,7 @@ class CursoController extends Controller
                 : Str::slug(request('nombre')),
             'qualification_id' => request('qualification_id'),
             'max_simultaneas' => request('max_simultaneas'),
+            'plazo_actividad' => request('plazo_actividad'),
             'fecha_inicio' => request('fecha_inicio'),
             'fecha_fin' => request('fecha_fin'),
         ]);
