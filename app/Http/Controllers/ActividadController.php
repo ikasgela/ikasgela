@@ -390,26 +390,34 @@ class ActividadController extends Controller
         $max_simultaneas = $usuario->max_simultaneas ?? $usuario->curso_actual()->max_simultaneas ?? 2;
 
         // Pasar a la siguiente si no es final y no hay otra activa
-        if (!is_null($actividad->siguiente) && ($usuario->actividades_asignadas()->count() < $max_simultaneas || $sin_limite)) {
+        if (!is_null($actividad->siguiente) && $actividad->siguiente->plantilla && ($usuario->actividades_asignadas()->count() < $max_simultaneas || $sin_limite)) {
+
+            // Crear el clon de la siguiente y guardarlo
+            $clon = $actividad->siguiente->duplicate();
+            $clon->plantilla_id = $actividad->siguiente->id;
+            $clon->save();
+
+            $actividad->siguiente_id = $clon->id;
+            $actividad->save();
+
             if (!$actividad->final) {
-                // Visible
-                $usuario->actividades()->attach($actividad->siguiente);
+                $usuario->actividades()->attach($clon);
 
                 // Notificar
-                $asignada = "- " . $actividad->siguiente->unidad->nombre . " - " . $actividad->siguiente->nombre . ".\n";
+                $asignada = "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";
                 if (setting_usuario('notificacion_actividad_asignada', $usuario))
                     Mail::to($usuario->email)->queue(new ActividadAsignada($usuario->name, $asignada));
             } else {
                 // Oculta
-                $usuario->actividades()->attach($actividad->siguiente, ['estado' => 11]);
+                $usuario->actividades()->attach($clon, ['estado' => 11]);
             }
 
             // Registrar la nueva tarea
-            $nueva_tarea = Tarea::where('user_id', $usuario->id)->where('actividad_id', $actividad->siguiente->id)->first();
+            $nueva_tarea = Tarea::where('user_id', $usuario->id)->where('actividad_id', $clon->id)->first();
 
             // Anular el enlace, para no volver a crear una copia si la tarea no se corrige a la primera
-            $actividad->siguiente->siguiente_id = null;
-            $actividad->siguiente->save();
+            //$actividad->siguiente->siguiente_id = null;
+            //$actividad->siguiente->save();
 
             $registro_nueva_tarea = Registro::make([
                 'user_id' => $usuario->id,
