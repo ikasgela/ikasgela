@@ -29,7 +29,7 @@ class Actividad extends Model
     protected $table = 'actividades';
 
     protected $fillable = [
-        'unidad_id', 'nombre', 'descripcion', 'puntuacion', 'plantilla', 'slug', 'final', 'siguiente', 'auto_avance', 'qualification_id', 'orden',
+        'unidad_id', 'nombre', 'descripcion', 'puntuacion', 'plantilla', 'slug', 'final', 'siguiente_id', 'auto_avance', 'qualification_id', 'orden',
         'fecha_disponibilidad', 'fecha_entrega', 'fecha_limite', 'destacada', 'tags', 'multiplicador'
     ];
 
@@ -81,14 +81,14 @@ class Actividad extends Model
             ]);
     }
 
-    public function siguiente()
+    public function getSiguienteAttribute()
     {
-        return $this->hasOne(Actividad::class, 'siguiente_id');
+        return Actividad::find($this->siguiente_id);
     }
 
-    public function anterior()
+    public function setSiguienteAttribute($value)
     {
-        return $this->belongsTo(Actividad::class, 'siguiente_id');
+        $this->attributes['siguiente_id'] = $value;
     }
 
     public function original()

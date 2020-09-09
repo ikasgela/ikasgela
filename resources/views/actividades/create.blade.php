@@ -36,7 +36,7 @@
                     <select class="form-control" id="siguiente_id" name="siguiente_id">
                         <option value="">{{ __('--- None ---') }}</option>
                         @foreach($actividades as $temp)
-                            <option value="{{ $temp->id }}">{{ $temp->slug }}</option>
+                            <option value="{{ $temp->id }}">{{ $temp->slug }} ({{ $temp->id }})</option>
                         @endforeach
                     </select>
                 </div>

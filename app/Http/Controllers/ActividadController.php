@@ -31,7 +31,7 @@ class ActividadController extends Controller
 
     public function index()
     {
-        $actividades = $this->paginate_ultima(Actividad::query(), 100);
+        $actividades = $this->paginate_ultima(Actividad::query(), 50);
 
         session(['ubicacion' => 'actividades.index']);
 
@@ -60,7 +60,7 @@ class ActividadController extends Controller
             $actividades = Actividad::cursoActual()->plantilla()->where('plantilla', true)->orderBy('orden');
         }
 
-        $actividades = $this->paginate_ultima($actividades);
+        $actividades = $this->paginate_ultima($actividades, 50);
 
         $ids = $actividades->pluck('id')->toArray();
 
@@ -70,7 +70,7 @@ class ActividadController extends Controller
     public function create()
     {
         $unidades = Unidad::cursoActual()->orderBy('nombre')->get();
-        $actividades = Actividad::cursoActual()->where('plantilla', true)->whereNull('siguiente_id')->orderBy('nombre')->get();
+        $actividades = Actividad::cursoActual()->plantilla()->orderBy('nombre')->get();
         $qualifications = Qualification::organizacionActual()->orderBy('name')->get();
 
         return view('actividades.create', compact(['unidades', 'actividades', 'qualifications']));
@@ -96,6 +96,8 @@ class ActividadController extends Controller
 
             'slug' => Str::slug(request('nombre')),
 
+            'siguiente_id' => request('siguiente_id'),
+
             'qualification_id' => request('qualification_id'),
 
             'fecha_disponibilidad' => request('fecha_disponibilidad'),
@@ -110,11 +112,6 @@ class ActividadController extends Controller
 
         $actividad->orden = $actividad->id;
         $actividad->save();
-
-        if (!is_null($request->input('siguiente_id'))) {
-            $siguiente = Actividad::find($request->input('siguiente_id'));
-            $actividad->siguiente()->save($siguiente);
-        }
 
         return retornar();
     }
@@ -146,9 +143,9 @@ class ActividadController extends Controller
     public function edit(Actividad $actividad)
     {
         $unidades = Unidad::orderBy('curso_id')->orderBy('codigo')->orderBy('nombre')->get();
-        $siguiente = !is_null($actividad->siguiente) ? $actividad->siguiente->id : null;
-        $actividades = Actividad::cursoActual()->where('id', '!=', $actividad->id)->whereNull('siguiente_id')->orWhere('id', $siguiente)->orderBy('nombre')->get();
-        $plantillas = Actividad::cursoActual()->where('plantilla', true)->where('id', '!=', $actividad->id)->whereNull('siguiente_id')->orWhere('id', $siguiente)->orderBy('nombre')->get();
+        $siguiente = $actividad->siguiente;
+        $actividades = Actividad::cursoActual()->where('id', '!=', $actividad->id)->orderBy('nombre')->get();
+        $plantillas = Actividad::cursoActual()->plantilla()->where('id', '!=', $actividad->id)->orderBy('nombre')->get();
         $qualifications = Qualification::organizacionActual()->orderBy('name')->get();
 
         return view('actividades.edit', compact(['actividad', 'unidades', 'actividades', 'plantillas', 'qualifications']));
@@ -191,26 +188,6 @@ class ActividadController extends Controller
 
             'multiplicador' => request('multiplicador'),
         ]);
-
-        if (!is_null($request->input('siguiente_id'))) {
-            $siguiente = Actividad::find($request->input('siguiente_id'));
-            if (is_null($actividad->siguiente)) {
-                $actividad->siguiente()->save($siguiente);
-            } else {
-                if ($actividad->siguiente->id != $request->input('siguiente_id')) {
-                    $actividad->siguiente->siguiente_id = null;
-                    $actividad->siguiente->save();
-                    $actividad->siguiente()->save($siguiente);
-                }
-            }
-        } else {
-            if (!is_null($actividad->siguiente)) {
-                $actividad->siguiente->siguiente_id = null;
-                $actividad->siguiente->save();
-            }
-        }
-
-        $actividad->save();
 
         return retornar();
     }
@@ -357,7 +334,7 @@ class ActividadController extends Controller
     {
         $clon = $actividad->duplicate();
         $clon->plantilla = $actividad->plantilla;
-        $clon->siguiente_id = null;
+        $clon->siguiente = null;
         $clon->nombre = $clon->nombre . " (" . __("Copy") . ')';
         $clon->slug = Str::slug($clon->nombre);
 
@@ -390,26 +367,30 @@ class ActividadController extends Controller
         $max_simultaneas = $usuario->max_simultaneas ?? $usuario->curso_actual()->max_simultaneas ?? 2;
 
         // Pasar a la siguiente si no es final y no hay otra activa
-        if (!is_null($actividad->siguiente) && ($usuario->actividades_asignadas()->count() < $max_simultaneas || $sin_limite)) {
+        if (!is_null($actividad->siguiente) && $actividad->siguiente->plantilla && ($usuario->actividades_asignadas()->count() < $max_simultaneas || $sin_limite)) {
+
+            // Crear el clon de la siguiente y guardarlo
+            $clon = $actividad->siguiente->duplicate();
+            $clon->plantilla_id = $actividad->siguiente->id;
+            $clon->save();
+
+            $actividad->siguiente_id = null;
+            $actividad->save();
+
             if (!$actividad->final) {
-                // Visible
-                $usuario->actividades()->attach($actividad->siguiente);
+                $usuario->actividades()->attach($clon);
 
                 // Notificar
-                $asignada = "- " . $actividad->siguiente->unidad->nombre . " - " . $actividad->siguiente->nombre . ".\n";
+                $asignada = "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";
                 if (setting_usuario('notificacion_actividad_asignada', $usuario))
                     Mail::to($usuario->email)->queue(new ActividadAsignada($usuario->name, $asignada));
             } else {
                 // Oculta
-                $usuario->actividades()->attach($actividad->siguiente, ['estado' => 11]);
+                $usuario->actividades()->attach($clon, ['estado' => 11]);
             }
 
             // Registrar la nueva tarea
-            $nueva_tarea = Tarea::where('user_id', $usuario->id)->where('actividad_id', $actividad->siguiente->id)->first();
-
-            // Anular el enlace, para no volver a crear una copia si la tarea no se corrige a la primera
-            $actividad->siguiente->siguiente_id = null;
-            $actividad->siguiente->save();
+            $nueva_tarea = Tarea::where('user_id', $usuario->id)->where('actividad_id', $clon->id)->first();
 
             $registro_nueva_tarea = Registro::make([
                 'user_id' => $usuario->id,
