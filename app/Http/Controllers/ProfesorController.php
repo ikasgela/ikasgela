@@ -73,7 +73,7 @@ class ProfesorController extends Controller
             $total_actividades_grupo += $usuario->num_completadas('base');
         }
 
-        $media_grupo = $usuarios_activos != null ? $total_actividades_grupo / $usuarios_activos->count() : 0;
+        $media_grupo = isset($usuarios_activos) && $usuarios_activos->count() > 0 ? $total_actividades_grupo / $usuarios_activos->count() : 0;
 
         // Formateador con 2 decimales y en el idioma del usuario
         $locale = app()->getLocale();
