@@ -16,6 +16,7 @@
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Slug') }}</th>
                 <th>{{ __('Registration open') }}</th>
+                <th>{{ __('Current period') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -26,6 +27,7 @@
                     <td>{{ $organization->name }}</td>
                     <td>{{ $organization->slug }}</td>
                     <td>{{ $organization->registration_open ? __('Yes') : __('No') }}</td>
+                    <td>{{ $organization->current_period()->name ?? '' }}</td>
                     <td>
                         {!! Form::open(['route' => ['organizations.destroy', $organization->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>
