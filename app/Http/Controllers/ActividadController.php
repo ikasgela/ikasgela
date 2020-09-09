@@ -334,6 +334,7 @@ class ActividadController extends Controller
     {
         $clon = $actividad->duplicate();
         $clon->plantilla = $actividad->plantilla;
+        $clon->siguiente = null;
         $clon->nombre = $clon->nombre . " (" . __("Copy") . ')';
         $clon->slug = Str::slug($clon->nombre);
 
