@@ -55,29 +55,29 @@ class ActivarUsuarioGitLab
         setting_usuario(['curso_actual' => $curso->id], $event->user);
 
         // Asignar la tarea de bienvenida
-        $actividad = Actividad::whereHas('unidad.curso.category.period.organization', function ($query) {
-            $query->where('organizations.slug', organizacion());
-        })
-            ->where('nombre', 'Tarea de bienvenida')
+        $actividad = Actividad::whereHas('unidad.curso', function ($query) use ($curso) {
+            $query->where('id', $curso->id);
+        })->where('slug', 'tarea-de-bienvenida')
             ->where('plantilla', true)
             ->first();
 
-        $clon = $actividad->duplicate();
-        $clon->plantilla_id = $actividad->id;
-        $clon->save();
-        $event->user->actividades()->attach($clon, ['puntuacion' => $actividad->puntuacion]);
+        if (isset($actividad)) {
+            $clon = $actividad->duplicate();
+            $clon->plantilla_id = $actividad->id;
+            $clon->save();
+            $event->user->actividades()->attach($clon, ['puntuacion' => $actividad->puntuacion]);// Duplicar los recursos
 
-        // Duplicar los recursos
-        foreach ($actividad->cuestionarios as $cuestionario) {
-            $copia = $cuestionario->duplicate();
-            $clon->cuestionarios()->detach($cuestionario);
-            $clon->cuestionarios()->attach($copia);
-        }
+            foreach ($actividad->cuestionarios as $cuestionario) {
+                $copia = $cuestionario->duplicate();
+                $clon->cuestionarios()->detach($cuestionario);
+                $clon->cuestionarios()->attach($copia);
+            }
 
-        foreach ($actividad->file_uploads as $file_upload) {
-            $copia = $file_upload->duplicate();
-            $clon->file_uploads()->detach($file_upload);
-            $clon->file_uploads()->attach($copia);
+            foreach ($actividad->file_uploads as $file_upload) {
+                $copia = $file_upload->duplicate();
+                $clon->file_uploads()->detach($file_upload);
+                $clon->file_uploads()->attach($copia);
+            }
         }
 
         // Activar todas las notificaciones
