@@ -43,6 +43,17 @@ class Actividad extends Model
         $this->cloneable_relations = $relations;
     }
 
+    public function onCloned($src)
+    {
+        if ($this->intellij_projects()->count() > 1) {
+            $intellij_project_ids = $this->intellij_projects()->get()->pluck('id')->toArray();
+
+            $random = array_rand($intellij_project_ids);
+
+            $this->intellij_projects()->detach($intellij_project_ids[$random]);
+        }
+    }
+
     public function unidad()
     {
         return $this->belongsTo(Unidad::class);
