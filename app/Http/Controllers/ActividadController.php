@@ -31,7 +31,7 @@ class ActividadController extends Controller
 
     public function index()
     {
-        $actividades = $this->paginate_ultima(Actividad::query(), 100);
+        $actividades = $this->paginate_ultima(Actividad::query(), 50);
 
         session(['ubicacion' => 'actividades.index']);
 
@@ -60,7 +60,7 @@ class ActividadController extends Controller
             $actividades = Actividad::cursoActual()->plantilla()->where('plantilla', true)->orderBy('orden');
         }
 
-        $actividades = $this->paginate_ultima($actividades);
+        $actividades = $this->paginate_ultima($actividades, 50);
 
         $ids = $actividades->pluck('id')->toArray();
 
