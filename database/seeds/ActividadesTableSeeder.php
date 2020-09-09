@@ -86,7 +86,8 @@ class ActividadesTableSeeder extends Seeder
         $proyecto = IntellijProject::where('repositorio', 'root/tres-en-raya')->first();
         $actividad->intellij_projects()->attach($proyecto);
 
-        $actividad->siguiente()->save($siguiente);
+        $actividad->siguiente_id = $siguiente->id;
+        $actividad->save();
 
         // --- Colecciones - Reservas
 

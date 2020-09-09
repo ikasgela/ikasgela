@@ -232,7 +232,7 @@ class ProfesorController extends Controller
                     $clon->file_uploads()->attach($copia);
                 }
 
-                $actividad = $actividad->siguiente;
+                $actividad = null;
                 $anterior = $clon;
                 $primero = false;
             }

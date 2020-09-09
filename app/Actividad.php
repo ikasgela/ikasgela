@@ -81,14 +81,9 @@ class Actividad extends Model
             ]);
     }
 
-    public function siguiente()
+    public function getSiguienteAttribute()
     {
-        return $this->hasOne(Actividad::class, 'siguiente_id');
-    }
-
-    public function anterior()
-    {
-        return $this->belongsTo(Actividad::class, 'siguiente_id');
+        return Actividad::find($this->siguiente_id);
     }
 
     public function original()
