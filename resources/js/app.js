@@ -120,6 +120,12 @@ $(document).ready(function ($) {
             } else {
                 $(this).html(event.strftime('%H:%M:%S'));
             }
+
+            if (event.elapsed) {
+                setTimeout(function () {
+                    location.reload();
+                }, 1050);
+            }
         });
     });
 
