@@ -138,6 +138,15 @@ class User extends Authenticatable implements MustVerifyEmail
             });
     }
 
+    public function actividades_caducadas()
+    {
+        return $this->actividades()
+            ->wherePivotIn('estado', [10, 20, 21, 41, 42])
+            ->where(function ($query) {
+                $query->where('fecha_limite', '<', Carbon::now());
+            });
+    }
+
     public function actividades_en_curso_autoavance()
     {
         return $this->actividades()
