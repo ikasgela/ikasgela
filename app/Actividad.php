@@ -24,13 +24,13 @@ class Actividad extends Model
         'file_resources',
     ];
 
-    protected $clone_exempt_attributes = ['plantilla'];
+    protected $clone_exempt_attributes = ['plantilla', 'siguiente_overriden'];
 
     protected $table = 'actividades';
 
     protected $fillable = [
         'unidad_id', 'nombre', 'descripcion', 'puntuacion', 'plantilla', 'slug', 'final', 'siguiente_id', 'auto_avance', 'qualification_id', 'orden',
-        'fecha_disponibilidad', 'fecha_entrega', 'fecha_limite', 'destacada', 'tags', 'multiplicador'
+        'fecha_disponibilidad', 'fecha_entrega', 'fecha_limite', 'destacada', 'tags', 'multiplicador', 'siguiente_overriden'
     ];
 
     protected $dates = [

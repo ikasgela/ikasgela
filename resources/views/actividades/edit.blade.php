@@ -58,6 +58,8 @@
                     </select>
                 </div>
             </div>
+
+            {{ Form::campoCheck('siguiente_overriden', __('Next field overriden')) }}
             {{ Form::campoCheck('final', __('Final')) }}
             {{ Form::campoCheck('auto_avance', __('Auto advance')) }}
 
