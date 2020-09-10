@@ -77,6 +77,6 @@ class Tarea extends Pivot
 
     public function getIsExpiredAttribute()
     {
-        return in_array($this->estado, [10, 20, 21, 41, 42]) && $this->fecha_limite < Carbon::now();
+        return in_array($this->estado, [10, 20, 21, 41, 42]) && $this->actividad->fecha_limite < Carbon::now();
     }
 }
