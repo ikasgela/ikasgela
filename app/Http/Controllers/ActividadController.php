@@ -237,6 +237,7 @@ class ActividadController extends Controller
                 $this->mostrarSiguienteActividad($actividad, $usuario);
 
                 $this->bloquearRepositorios($tarea, true);
+                $tarea->archiveFiles();
                 break;
 
             // Reiniciada (botón de reset, para cuando se confunden y envian sin querer)
@@ -279,6 +280,9 @@ class ActividadController extends Controller
 
                 $tarea->user->last_active = Carbon::now();
                 $tarea->user->save();
+
+                $tarea->archiveFiles();
+
                 if (setting_usuario('notificacion_feedback_recibido', $tarea->user))
                     Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea));
                 break;
@@ -294,6 +298,7 @@ class ActividadController extends Controller
             case 62:
                 $tarea->save();
                 $this->bloquearRepositorios($tarea, true);
+                $tarea->archiveFiles();
                 $this->mostrarSiguienteActividad($actividad, $usuario);
                 break;
             case 70:

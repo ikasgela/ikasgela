@@ -48,9 +48,11 @@
                                             <i class="fas fa-undo fa-flip-horizontal"></i>
                                         </button>
                                         {!! Form::close() !!}
-                                        {!! Form::open(['route' => ['files.delete', $file->id], 'method' => 'DELETE']) !!}
-                                        @include('partials.boton_borrar')
-                                        {!! Form::close() !!}
+                                        @if(!$file->archived || Auth::user()->hasAnyRole(['admin','profesor']))
+                                            {!! Form::open(['route' => ['files.delete', $file->id], 'method' => 'DELETE']) !!}
+                                            @include('partials.boton_borrar')
+                                            {!! Form::close() !!}
+                                        @endif
                                     </div>
                                 </td>
                             @endif
@@ -61,10 +63,11 @@
             </div>
         @endif
     </div>
-    @if(count($file_upload->files) < $file_upload->max_files && Route::currentRouteName() != 'archivo.show' && Route::currentRouteName() != 'actividades.preview' || !Auth::user()->hasRole('alumno'))
+    @if(count($file_upload->not_archived_files) < $file_upload->max_files && Route::currentRouteName() != 'archivo.show' && Route::currentRouteName() != 'actividades.preview' || !Auth::user()->hasRole('alumno'))
         <hr class="my-0">
         <div class="card-body">
-            <p class="small">{{ __('Upload limit') }}: {{ $file_upload->max_files-count($file_upload->files) }}</p>
+            <p class="small">{{ __('Upload limit') }}
+                : {{ $file_upload->max_files-count($file_upload->not_archived_files) }}</p>
             <form action="{{ route('files.upload.image') }}" enctype="multipart/form-data" method="post">
                 @csrf
                 <div class="form-group">
