@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -72,5 +73,10 @@ class Tarea extends Pivot
     public function puntos()
     {
         return $this->puntuacion * ($this->actividad->multiplicador ?: 1);
+    }
+
+    public function getIsExpiredAttribute()
+    {
+        return in_array($this->estado, [10, 20, 21, 41, 42]) && $this->fecha_limite < Carbon::now();
     }
 }
