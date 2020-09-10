@@ -153,6 +153,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Cohensive\Embed\EmbedServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -215,6 +216,7 @@ return [
 
         'GitLab' => GrahamCampbell\GitLab\Facades\GitLab::class,
 
+        'Embed' => Cohensive\Embed\Facades\Embed::class,
     ],
 
 ];
