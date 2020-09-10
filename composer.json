@@ -55,7 +55,7 @@
         "barryvdh/laravel-debugbar": "^3.2",
         "barryvdh/laravel-ide-helper": "^2.6",
         "beyondcode/laravel-dump-server": "^1.0",
-        "brianium/paratest": "^4.0",
+        "brianium/paratest": "^5.0",
         "facade/ignition": "^2.0",
         "fzaninotto/faker": "^1.4",
         "laravel/dusk": "^6.0",
