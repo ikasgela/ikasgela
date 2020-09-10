@@ -187,6 +187,8 @@ class ActividadController extends Controller
             'tags' => request('tags'),
 
             'multiplicador' => request('multiplicador'),
+
+            'siguiente_overriden' => $actividad->siguiente_id != request('siguiente_id'),
         ]);
 
         return retornar();
@@ -376,7 +378,14 @@ class ActividadController extends Controller
         if (!is_null($actividad->siguiente) && $actividad->siguiente->plantilla && ($usuario->actividades_asignadas()->count() < $max_simultaneas || $sin_limite)) {
 
             // Crear el clon de la siguiente y guardarlo
-            $clon = $actividad->siguiente->duplicate();
+            $plantilla = Actividad::find($actividad->plantilla_id);
+
+            if ($plantilla->siguiente_id != $actividad->siguiente_id && !$actividad->siguiente_overriden) {
+                $clon = $plantilla->siguiente->duplicate();
+            } else {
+                $clon = $actividad->siguiente->duplicate();
+            }
+
             $clon->plantilla_id = $actividad->siguiente->id;
             $plazo = Carbon::now()->addDays($actividad->unidad->curso->plazo_actividad);
             $clon->fecha_entrega = $plazo;
