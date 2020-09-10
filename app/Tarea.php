@@ -79,4 +79,14 @@ class Tarea extends Pivot
     {
         return in_array($this->estado, [10, 20, 21, 41, 42]) && $this->actividad->fecha_limite < Carbon::now();
     }
+
+    public function archiveFiles()
+    {
+        foreach ($this->actividad->file_uploads()->get() as $file_upload) {
+            foreach ($file_upload->files()->get() as $file) {
+                $file->archived = true;
+                $file->save();
+            }
+        }
+    }
 }
