@@ -31,4 +31,9 @@ class FileUpload extends Model
     {
         return $query->where('plantilla', true);
     }
+
+    public function getNotArchivedFilesAttribute()
+    {
+        return $this->files()->where('archived', false)->get();
+    }
 }

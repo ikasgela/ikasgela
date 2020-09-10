@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 class File extends Model
 {
     protected $fillable = [
-        'path', 'title', 'size', 'file_upload_id', 'user_id', 'file_upload_type', 'description'
+        'path', 'title', 'size', 'file_upload_id', 'user_id', 'file_upload_type', 'description', 'archived'
     ];
 
     public $appends = ['url', 'uploaded_time', 'size_in_kb'];
