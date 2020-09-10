@@ -15,12 +15,12 @@ class YoutubeVideosTableSeeder extends Seeder
         $video = new YoutubeVideo();
         $video->titulo = 'Primeros pasos';
         $video->descripcion = 'En este vídeo te explicamos cómo funciona Ikasgela.';
-        $video->codigo = 'uhDQNbaVpt4';
+        $video->codigo = 'https://youtu.be/uhDQNbaVpt4';
         $video->save();
 
         $video = new YoutubeVideo();
         $video->titulo = 'How Not to Land an Orbital Rocket Booster';
-        $video->codigo = 'bvim4rsNHkQ';
+        $video->codigo = 'https://youtu.be/bvim4rsNHkQ';
         $video->save();
     }
 }
