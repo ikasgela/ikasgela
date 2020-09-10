@@ -48,9 +48,11 @@
                                             <i class="fas fa-undo fa-flip-horizontal"></i>
                                         </button>
                                         {!! Form::close() !!}
-                                        {!! Form::open(['route' => ['files.delete', $file->id], 'method' => 'DELETE']) !!}
-                                        @include('partials.boton_borrar')
-                                        {!! Form::close() !!}
+                                        @if(!$file->archived)
+                                            {!! Form::open(['route' => ['files.delete', $file->id], 'method' => 'DELETE']) !!}
+                                            @include('partials.boton_borrar')
+                                            {!! Form::close() !!}
+                                        @endif
                                     </div>
                                 </td>
                             @endif
