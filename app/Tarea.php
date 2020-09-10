@@ -89,4 +89,9 @@ class Tarea extends Pivot
             }
         }
     }
+
+    public function getIsCompletadaAttribute()
+    {
+        return in_array($this->estado, [40, 60, 62]);
+    }
 }
