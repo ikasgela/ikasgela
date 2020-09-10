@@ -291,6 +291,7 @@ class ActividadController extends Controller
             case 50:
                 break;
             case 60:
+            case 62:
                 $tarea->save();
                 $this->bloquearRepositorios($tarea, true);
                 $this->mostrarSiguienteActividad($actividad, $usuario);

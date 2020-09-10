@@ -28,6 +28,9 @@
                             @case(10)   {{-- Nueva --}}
                             Nueva
                             @break
+                            @case(11)   {{-- Oculta --}}
+                            Oculta
+                            @break
                             @case(20)   {{-- Aceptada --}}
                             Aceptada
                             @break
@@ -60,6 +63,12 @@
                             @break
                             @case(61)   {{-- Borrada --}}
                             Borrada
+                            @break
+                            @case(62)   {{-- Caducada --}}
+                            Caducada
+                            @break
+                            @case(70)   {{-- En pausa --}}
+                            En pausa
                             @break
                             @case(71)   {{-- Mostrar siguiente --}}
                             Mostrar siguiente
