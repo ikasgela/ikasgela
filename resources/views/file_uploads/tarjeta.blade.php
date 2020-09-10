@@ -48,7 +48,7 @@
                                             <i class="fas fa-undo fa-flip-horizontal"></i>
                                         </button>
                                         {!! Form::close() !!}
-                                        @if(!$file->archived)
+                                        @if(!$file->archived || Auth::user()->hasAnyRole(['admin','profesor']))
                                             {!! Form::open(['route' => ['files.delete', $file->id], 'method' => 'DELETE']) !!}
                                             @include('partials.boton_borrar')
                                             {!! Form::close() !!}
