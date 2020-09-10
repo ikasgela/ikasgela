@@ -89,7 +89,7 @@
                 @php($porcentaje = $resultados[$skill->id]->actividad > 0 ? round($resultados[$skill->id]->tarea/$resultados[$skill->id]->actividad*100) : 0)
                 <tr>
                     <td>{{ $skill->name }}</td>
-                    <td class="text-center {{ $porcentaje > 0 && $porcentaje<50 ? 'bg-warning text-dark' : ($porcentaje >= 50 ? 'bg-success' : '') }}">{{ $porcentaje }}</td>
+                    <td class="text-center {{ $porcentaje > 0 && $porcentaje<50 ? 'bg-warning text-dark' : ($porcentaje >= 50 ? 'bg-success' : '') }}">{{ $porcentaje }} %</td>
                     <td class="text-center">
                         {{ $resultados[$skill->id]->tarea + 0 }}/{{ $resultados[$skill->id]->actividad + 0 }}</td>
                 </tr>
