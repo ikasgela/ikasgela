@@ -50,6 +50,13 @@
                                     onclick="return validate_feedback();">
                                 <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Finished') }}
                             </button>
+                            @if($tarea->is_expired)
+                                <button type="submit" name="nuevoestado" value="62"
+                                        class="btn btn-secondary mr-3 single_click">
+                                    <i class="fas fa-spinner fa-spin"
+                                       style="display:none;"></i> {{ __('Archive expired') }}
+                                </button>
+                            @endif
                         </div>
                         @if(!is_null($actividad->siguiente))
                             <div class="form-inline">

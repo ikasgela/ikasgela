@@ -14,6 +14,7 @@
             <th class="text-center">{{ trans_choice('tasks.sent', 2) }}</th>
             <th class="text-center">{{ trans_choice('tasks.reviewed', 2) }}</th>
             <th class="text-center">{{ trans_choice('tasks.archived', 2) }}</th>
+            <th class="text-center">{{ trans_choice('tasks.expired', 2) }}</th>
             <th class="text-center">{{ __('Simultaneous') }}</th>
             <th>{{ __('Activity') }}</th>
             <th>{{ trans_choice('tasks.last', 1) }}</th>
@@ -67,6 +68,7 @@
                 @php($total_enviadas += $user->actividades_enviadas_noautoavance()->count())
                 <td class="clickable text-center">{{ $user->actividades_revisadas()->count() }}</td>
                 <td class="clickable text-center">{{ $user->actividades_archivadas()->count() }}</td>
+                <td class="clickable text-center {{ $user->actividades_caducadas()->count() > 0 ? 'bg-warning text-black' : '' }}">{{ $user->actividades_caducadas()->count() }}</td>
                 <td class="clickable">{{ $user->max_simultaneas }}</td>
                 <td class="clickable">{{ $user->last_active_time }}</td>
                 <td class="clickable">{{ $user->actividades_asignadas()->orderBy('id', 'desc')->first()->slug ?? '' }}</td>
@@ -94,7 +96,7 @@
             <th class="p-0"></th>
             <th colspan="6">{{ __('Student total') }}: {{ $usuarios->count() }}</th>
             <th class="text-center">{{ $total_enviadas>0 ? $total_enviadas : '' }}</th>
-            <th colspan="6"></th>
+            <th colspan="7"></th>
             @if(Auth::user()->hasRole('admin'))
                 <th></th>
             @endif

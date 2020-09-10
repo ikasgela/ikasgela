@@ -17,6 +17,7 @@
                 <th class="text-center">{{ trans_choice('tasks.reviewed', 1) }}</th>
                 <th class="text-center">{{ __('Score') }}</th>
                 <th class="text-center">{{ trans_choice('tasks.finished', 1) }}</th>
+                <th class="text-center">{{ trans_choice('tasks.expired', 1) }}</th>
                 <th>{{ __('Next') }}</th>
                 @if(Auth::user()->hasRole('admin'))
                     <th>{{ __('Resources') }}</th>
@@ -67,6 +68,7 @@
                     </td>
                     <td class="text-center">{{ $actividad->tarea->puntuacion }}</td>
                     <td class="text-center">{!! $actividad->tarea->estado >= 50 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                    <td class="text-center">{!! $actividad->tarea->is_expired ? '<i class="fas fa-exclamation-triangle text-warning"></i>' : '<i class="fas fa-times text-secondary"></i>' !!}</td>
                     @include('profesor.partials.siguiente_actividad')
                     @if(Auth::user()->hasRole('admin'))
                         @include('partials.botones_recursos')
@@ -99,7 +101,7 @@
             <tr>
                 <th colspan="6"></th>
                 <th class="text-center">{{ $user->actividades_enviadas_noautoavance()->count() > 0 ? $user->actividades_enviadas_noautoavance()->count() : '0' }}</th>
-                <th colspan="6"></th>
+                <th colspan="7"></th>
             </tr>
             <tr>
                 <td colspan="6">

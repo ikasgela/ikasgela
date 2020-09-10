@@ -12,4 +12,5 @@ return [
     'finished' => 'Finished',
     'last' => 'Last',
     'completed' => 'Completed',
+    'expired' => 'Expired',
 ];
