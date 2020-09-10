@@ -8,12 +8,5 @@
                 {!! $youtube_video->video_html !!}
             </div>
         </div>
-        {{--
-                <form>
-                    <div class="card-text mt-3">
-                        <button type="submit" class="btn btn-primary">Marcar como visto</button>
-                    </div>
-                </form>
-        --}}
     </div>
 </div>
