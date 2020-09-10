@@ -15,6 +15,7 @@ $factory->define(Curso::class, function (Faker $faker) {
         'category_id' => factory(Category::class),
         'nombre' => $name,
         'descripcion' => $faker->sentence(8),
-        'slug' => Str::slug($name)
+        'slug' => Str::slug($name),
+        'plazo_actividad' => 7,
     ];
 });
