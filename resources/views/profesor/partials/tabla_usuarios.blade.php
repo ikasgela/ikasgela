@@ -68,7 +68,7 @@
                 @php($total_enviadas += $user->actividades_enviadas_noautoavance()->count())
                 <td class="clickable text-center">{{ $user->actividades_revisadas()->count() }}</td>
                 <td class="clickable text-center">{{ $user->actividades_archivadas()->count() }}</td>
-                <td class="clickable text-center">{{ $user->actividades_caducadas()->count() }}</td>
+                <td class="clickable text-center {{ $user->actividades_caducadas()->count() > 0 ? 'bg-warning text-black' : '' }}">{{ $user->actividades_caducadas()->count() }}</td>
                 <td class="clickable">{{ $user->max_simultaneas }}</td>
                 <td class="clickable">{{ $user->last_active_time }}</td>
                 <td class="clickable">{{ $user->actividades_asignadas()->orderBy('id', 'desc')->first()->slug ?? '' }}</td>
