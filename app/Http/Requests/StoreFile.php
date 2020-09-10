@@ -24,7 +24,7 @@ class StoreFile extends FormRequest
     public function rules()
     {
         return [
-            'file' => 'required|mimes:pdf,doc,odt|max:100000'
+            'file' => 'required|mimes:pdf,doc,odt|max:65536' // 64MB
         ];
     }
 }
