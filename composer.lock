@@ -4170,12 +4170,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ijaureguialzo/laravel-tinymce-simple-imageupload.git",
-                "reference": "858b35e21035d6116a2393ab05f4adb1d3492aa3"
+                "reference": "9e462277300c7ec66f886f10c87f14e72f9829c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ijaureguialzo/laravel-tinymce-simple-imageupload/zipball/858b35e21035d6116a2393ab05f4adb1d3492aa3",
-                "reference": "858b35e21035d6116a2393ab05f4adb1d3492aa3",
+                "url": "https://api.github.com/repos/ijaureguialzo/laravel-tinymce-simple-imageupload/zipball/9e462277300c7ec66f886f10c87f14e72f9829c0",
+                "reference": "9e462277300c7ec66f886f10c87f14e72f9829c0",
                 "shasum": ""
             },
             "require": {
@@ -4217,7 +4217,7 @@
             "support": {
                 "source": "https://github.com/ijaureguialzo/laravel-tinymce-simple-imageupload/tree/master"
             },
-            "time": "2020-09-11T07:00:41+00:00"
+            "time": "2020-09-11T14:38:10+00:00"
         },
         {
             "name": "php-http/cache-plugin",
@@ -10840,16 +10840,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.3.8",
+            "version": "9.3.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "93d78d8e2a06393a0d0c1ead6fe9984f1af1f88c"
+                "reference": "60c90ba713075e83bd039db4760226df7ad9a5cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/93d78d8e2a06393a0d0c1ead6fe9984f1af1f88c",
-                "reference": "93d78d8e2a06393a0d0c1ead6fe9984f1af1f88c",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/60c90ba713075e83bd039db4760226df7ad9a5cb",
+                "reference": "60c90ba713075e83bd039db4760226df7ad9a5cb",
                 "shasum": ""
             },
             "require": {
@@ -10863,7 +10863,7 @@
                 "myclabs/deep-copy": "^1.10.1",
                 "phar-io/manifest": "^2.0.1",
                 "phar-io/version": "^3.0.2",
-                "php": "^7.3 || ^8.0",
+                "php": ">=7.3",
                 "phpspec/prophecy": "^1.11.1",
                 "phpunit/php-code-coverage": "^9.1.5",
                 "phpunit/php-file-iterator": "^3.0.4",
@@ -10935,7 +10935,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-08-27T06:30:58+00:00"
+            "time": "2020-09-11T12:42:34+00:00"
         },
         {
             "name": "psy/psysh",
