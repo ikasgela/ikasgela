@@ -41,7 +41,7 @@
                                 <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Send again') }}
                             </button>
                             <label class="mr-2">{{ __('Score') }}</label>
-                            <input class="mr-2 form-control" type="number" min="0" max="100" step="1"
+                            <input class="mr-2 form-control" type="number" min="0" max="100" step="20"
                                    name="puntuacion"
                                    value="{{ !is_null($tarea->puntuacion) ? $tarea->puntuacion : $actividad->puntuacion }}"/>
                             <label class="mr-3"> {{ __('over') }} {{ $actividad->puntuacion }}</label>
