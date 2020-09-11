@@ -21,5 +21,13 @@
         autosave_interval: "15s",
         autosave_restore_when_empty: true,
         autosave_retention: "60m",
+        relative_urls: false,
+        file_picker_callback: function (callback, value, meta) {
+            // trigger file upload form
+            if (meta.filetype == 'image') {
+                alert('dfsdf');
+                $('#formUpload input').click();
+            }
+        }
     });
 </script>

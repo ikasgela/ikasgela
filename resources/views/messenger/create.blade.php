@@ -2,6 +2,7 @@
 
 @section('tinymce')
     @include('messenger.partials.tinymce')
+    @include('mceImageUpload::upload_form')
 @endsection
 
 @section('content')
