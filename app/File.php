@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
@@ -16,12 +15,12 @@ class File extends Model
 
     public function getUrlAttribute()
     {
-        return Storage::disk('s3')->temporaryUrl($this->path, Carbon::now()->addMinutes(5));
+        return Storage::disk('s3')->temporaryUrl($this->path, now()->addDays(2));
     }
 
     public function imageUrl($path = '')
     {
-        return Storage::disk('s3')->temporaryUrl($path . '/' . $this->path, Carbon::now()->addMinutes(5));
+        return Storage::disk('s3')->temporaryUrl($path . '/' . $this->path, now()->addDays(2));
     }
 
     public function getUploadedTimeAttribute()
