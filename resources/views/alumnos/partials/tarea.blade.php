@@ -267,20 +267,23 @@
                                 {{ $actividad->tarea->estado == 41 ? 'bg-warning text-dark' : '' }}">
                                     <i class="fas fa-bullhorn"></i> {{ __('Feedback') }}
                                 </div>
-                                <div class="card-body pb-0">
-                                    <div class="line-numbers">{!! $actividad->tarea->feedback !!}</div>
+                                <div class="mx-3 mt-3 p-1">
+                                    <div class="media rounded line-numbers">
+                                        <div class="media-body overflow-auto">
+                                            {!! $actividad->tarea->feedback !!}
+                                        </div>
+                                    </div>
                                     <hr class="mt-0 mb-2">
                                     <p class="text-muted small">
                                         {{ __('Score') }}: @include('actividades.partials.puntuacion')
                                     </p>
-
                                 </div>
                             </div>
                         </div>
                     </div>
-                @endif
-            @endif
         </div>
-        {{-- Fin tarjeta--}}
+        @endif
+        @endif
     </div>
+    {{-- Fin tarjeta--}}
 </div>
