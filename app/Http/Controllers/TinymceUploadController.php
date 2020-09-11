@@ -14,17 +14,21 @@ class TinymceUploadController extends Controller
 
         $filename = md5(time()) . '/' . $fichero->getClientOriginalName();
 
-        $imagen = Image::make($fichero)->orientate()->stream();
+        $imagen = Image::make($fichero)->orientate()
+            ->resize(3000, 3000, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })->stream();
 
-        Storage::disk('s3-test')->put('pruebas/' . $filename, $imagen->__toString());
+        Storage::disk('s3')->put('images/' . $filename, $imagen->__toString());
 
-        return mce_back(route('tinymce.upload.url', ['path' => 'pruebas/' . $filename]));
+        return mce_back(route('tinymce.upload.url', ['path' => 'images/' . $filename]));
     }
 
     public function getS3(Request $request)
     {
         $path = request('path');
 
-        return response()->redirectTo(Storage::disk('s3-test')->temporaryUrl($path, now()->addDays(1)));
+        return response()->redirectTo(Storage::disk('s3')->temporaryUrl($path, now()->addDays(1)));
     }
 }
