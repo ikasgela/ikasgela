@@ -19,6 +19,7 @@
             {text: 'PHP', value: 'php'},
             {text: 'SQL', value: 'sql'},
         ],
+        relative_urls: false,
         setup: function (editor) {
             editor.on('init', function () {
                 editor.focus();
