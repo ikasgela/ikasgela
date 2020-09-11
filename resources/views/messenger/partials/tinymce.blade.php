@@ -23,8 +23,7 @@
         autosave_retention: "60m",
         relative_urls: false,
         file_picker_callback: function (callback, value, meta) {
-            // trigger file upload form
-            if (meta.filetype == 'image') {
+            if (meta.filetype === 'image') {
                 $('#formUpload input').click();
             }
         }
