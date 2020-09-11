@@ -2,7 +2,6 @@
 
 @section('tinymce')
     @include('messenger.partials.tinymce')
-    @include('mceImageUpload::upload_form', ['upload_url' => route('tinymce.upload.image')])
 @endsection
 
 @section('content')
