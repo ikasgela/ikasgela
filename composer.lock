@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2b020cf0675bc094997e122a021ea6f7",
+    "content-hash": "8691c588c190180d55869b84575a265e",
     "packages": [
         {
             "name": "akaunting/setting",
@@ -71,16 +71,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.154.0",
+            "version": "3.154.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "370d1a58004fbeb3896ec48489677e90e653b12f"
+                "reference": "5651d8a92164d98869b70a15e4c06ce4c14c7c28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/370d1a58004fbeb3896ec48489677e90e653b12f",
-                "reference": "370d1a58004fbeb3896ec48489677e90e653b12f",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/5651d8a92164d98869b70a15e4c06ce4c14c7c28",
+                "reference": "5651d8a92164d98869b70a15e4c06ce4c14c7c28",
                 "shasum": ""
             },
             "require": {
@@ -152,7 +152,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2020-09-10T18:12:09+00:00"
+            "time": "2020-09-11T18:12:41+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -4163,61 +4163,6 @@
                 "random"
             ],
             "time": "2018-07-02T15:55:56+00:00"
-        },
-        {
-            "name": "petehouston/laravel-tinymce-simple-imageupload",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ijaureguialzo/laravel-tinymce-simple-imageupload.git",
-                "reference": "9e462277300c7ec66f886f10c87f14e72f9829c0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ijaureguialzo/laravel-tinymce-simple-imageupload/zipball/9e462277300c7ec66f886f10c87f14e72f9829c0",
-                "reference": "9e462277300c7ec66f886f10c87f14e72f9829c0",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "~5.1|~6.0|~7.0|~8.0",
-                "php": "~5.5|~7.3"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Petehouston\\Tinymce\\TinymceServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Petehouston\\Tinymce\\": "src"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Pete Houston",
-                    "email": "contact@petehouston.com",
-                    "homepage": "http://petehouston.com"
-                }
-            ],
-            "description": "Simple image upload for TinyMCE in Laravel.",
-            "homepage": "https://github.com/petehouston/laravel-tinymce-simple-imageupload",
-            "keywords": [
-                "image upload",
-                "laravel",
-                "laravel 5",
-                "php",
-                "tinymce"
-            ],
-            "support": {
-                "source": "https://github.com/ijaureguialzo/laravel-tinymce-simple-imageupload/tree/master"
-            },
-            "time": "2020-09-11T14:38:10+00:00"
         },
         {
             "name": "php-http/cache-plugin",
@@ -12321,8 +12266,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "jenssegers/mongodb": 20,
-        "petehouston/laravel-tinymce-simple-imageupload": 20
+        "jenssegers/mongodb": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

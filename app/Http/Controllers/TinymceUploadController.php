@@ -22,7 +22,7 @@ class TinymceUploadController extends Controller
 
         Storage::disk('s3')->put('images/' . $filename, $imagen->__toString());
 
-        return mce_back(route('tinymce.upload.url', ['path' => 'images/' . $filename]));
+        return route('tinymce.upload.url', ['path' => 'images/' . $filename]);
     }
 
     public function getS3(Request $request)
