@@ -29,5 +29,3 @@
         }
     });
 </script>
-
-@include('mceImageUpload::upload_form', ['upload_url' => route('tinymce.upload.image')])
