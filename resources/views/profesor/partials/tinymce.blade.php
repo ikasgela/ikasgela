@@ -25,6 +25,11 @@
                 editor.selection.select(editor.getBody(), true);
                 editor.selection.collapse(false);
             });
+        },
+        file_picker_callback: function (callback, value, meta) {
+            if (meta.filetype === 'image') {
+                $('#formUpload input').click();
+            }
         }
     });
 
