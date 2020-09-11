@@ -4170,12 +4170,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ijaureguialzo/laravel-tinymce-simple-imageupload.git",
-                "reference": "4d6717c9aa22c9dac493c7f073869faad3c3f713"
+                "reference": "858b35e21035d6116a2393ab05f4adb1d3492aa3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ijaureguialzo/laravel-tinymce-simple-imageupload/zipball/4d6717c9aa22c9dac493c7f073869faad3c3f713",
-                "reference": "4d6717c9aa22c9dac493c7f073869faad3c3f713",
+                "url": "https://api.github.com/repos/ijaureguialzo/laravel-tinymce-simple-imageupload/zipball/858b35e21035d6116a2393ab05f4adb1d3492aa3",
+                "reference": "858b35e21035d6116a2393ab05f4adb1d3492aa3",
                 "shasum": ""
             },
             "require": {
@@ -4217,7 +4217,7 @@
             "support": {
                 "source": "https://github.com/ijaureguialzo/laravel-tinymce-simple-imageupload/tree/master"
             },
-            "time": "2020-09-11T05:39:04+00:00"
+            "time": "2020-09-11T07:00:41+00:00"
         },
         {
             "name": "php-http/cache-plugin",

@@ -25,7 +25,6 @@
         file_picker_callback: function (callback, value, meta) {
             // trigger file upload form
             if (meta.filetype == 'image') {
-                alert('dfsdf');
                 $('#formUpload input').click();
             }
         }
