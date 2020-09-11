@@ -29,6 +29,6 @@ class TinymceUploadController extends Controller
     {
         $path = request('path');
 
-        return response()->redirectTo(Storage::disk('s3')->temporaryUrl($path, now()->addDays(1)));
+        return isset($path) ? response()->redirectTo(Storage::disk('s3')->temporaryUrl($path, now()->addDays(1))) : '';
     }
 }
