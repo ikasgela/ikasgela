@@ -12,12 +12,7 @@
         link_assume_external_targets: true,
         codesample_global_prismjs: true,
         codesample_languages: [
-            {text: 'Java', value: 'java'},
-            {text: 'Swift', value: 'swift'},
-            {text: 'Python', value: 'python'},
-            {text: 'HTML/XML', value: 'markup'},
-            {text: 'PHP', value: 'php'},
-            {text: 'SQL', value: 'sql'},
+            @include('partials.tinymce.codesample_languages')
         ],
         relative_urls: false,
         setup: function (editor) {
