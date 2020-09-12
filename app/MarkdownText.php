@@ -56,12 +56,6 @@ class MarkdownText extends Model
                     $proyecto = GiteaClient::repo($repositorio);
                     $texto = GiteaClient::file($proyecto['owner'], $proyecto['name'], $archivo, $rama);
 
-                    // Imagen
-                    $texto = preg_replace('/(!\[.*\]\((?!http))/', '${1}' . $servidor
-                        . $repositorio
-                        . "/raw/branch/$rama/"
-                        , $texto);
-
                     // Link
                     $texto = preg_replace('/(\s+\[.*\]\((?!http))/', '${1}' . $servidor
                         . $repositorio
