@@ -39,11 +39,13 @@ $en_blanco = $total - $respondidas;
                         <label class="form-check-label" for="respuestas[{{ $pregunta->id }}]">
                             {{ $item->texto }}
                         </label>
-                        <div class="{{
+                        @if($cuestionario->respondido)
+                            <div class="{{
                         $item->seleccionado && $item->correcto ? 'valid-feedback' : 'invalid-feedback'
                         }}">
-                            {{ $item->feedback }}
-                        </div>
+                                {{ $item->feedback }}
+                            </div>
+                        @endif
                     </div>
                 @endforeach
             </div>
