@@ -4,3 +4,4 @@
 {text: 'HTML/XML', value: 'markup'},
 {text: 'PHP', value: 'php'},
 {text: 'SQL', value: 'sql'},
+{text: '{{ __('Plaintext') }}', value: 'text'},
