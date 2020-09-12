@@ -366,6 +366,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function canBeImpersonated()
     {
-        return !$this->hasRole('admin');
+        return !$this->hasRole('admin') && !$this->isBlocked();
     }
 }
