@@ -281,10 +281,9 @@
                             </div>
                         </div>
                     </div>
+                @endif
+            @endif
         </div>
-        @endif
-        @endif
+        {{-- Fin tarjeta--}}
     </div>
-    {{-- Fin tarjeta--}}
-</div>
 </div>
