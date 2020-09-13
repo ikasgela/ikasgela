@@ -31,12 +31,14 @@ class OrganizationController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
+            'seats' => 'required',
         ]);
 
         Organization::create([
             'name' => request('name'),
             'slug' => Str::slug(request('name')),
             'registration_open' => $request->has('registration_open'),
+            'seats' => request('seats'),
         ]);
 
         return retornar();
@@ -56,6 +58,7 @@ class OrganizationController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
+            'seats' => 'required',
         ]);
 
         $organization->update([
@@ -65,6 +68,7 @@ class OrganizationController extends Controller
                 : Str::slug(request('name')),
             'current_period_id' => request('current_period_id'),
             'registration_open' => $request->has('registration_open'),
+            'seats' => request('seats'),
         ]);
 
         return retornar();

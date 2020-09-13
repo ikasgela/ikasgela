@@ -11,7 +11,7 @@ class OrganizationsCRUDTest extends TestCase
     use DatabaseTransactions;
 
     private $required = [
-        'name'
+        'name', 'seats'
     ];
 
     public function setUp(): void

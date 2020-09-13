@@ -13,6 +13,7 @@
             {{ Form::campoTexto('slug', __('Slug')) }}
 
             {{ Form::campoCheck('registration_open', __('Registration open')) }}
+            {{ Form::campoTexto('seats', __('Available seats')) }}
 
             <div class="form-group row">
                 {!! Form::label('current_period_id', __('Current period'), ['class' => 'col-sm-2 col-form-label']) !!}
