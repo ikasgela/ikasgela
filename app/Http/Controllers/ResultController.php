@@ -32,11 +32,16 @@ class ResultController extends Controller
     {
         $user = Auth::user();
 
-        if (!empty($request->input('user_id')) && $request->input('user_id') != -1) {
-            $user = User::find($request->input('user_id'));
-            session(['filtrar_user_actual' => $request->input('user_id')]);
-        } else {
-            session()->forget('filtrar_user_actual');
+        if (!empty($request->input('user_id'))) {
+            $user_id = $request->input('user_id');
+            if ($user_id == -1) {
+                session()->forget('filtrar_user_actual');
+            } else {
+                $user = User::find($user_id);
+                session(['filtrar_user_actual' => $user_id]);
+            }
+        } else if (!empty(session('filtrar_user_actual'))) {
+            $user = User::find(session('filtrar_user_actual'));
         }
 
         // Lista de usuarios
