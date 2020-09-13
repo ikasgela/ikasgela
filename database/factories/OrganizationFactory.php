@@ -13,6 +13,6 @@ $factory->define(Organization::class, function (Faker $faker) {
     return [
         'name' => $name,
         'slug' => Str::slug($name),
-        'seats' => $faker->numberBetween(0, 100),
+        'seats' => $faker->numberBetween(5, 10),
     ];
 });
