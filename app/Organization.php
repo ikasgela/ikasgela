@@ -36,4 +36,9 @@ class Organization extends Model
     {
         return Period::find($this->current_period_id);
     }
+
+    public function isRegistrationOpen()
+    {
+        return $this->registration_open && $this->seats > 0;
+    }
 }
