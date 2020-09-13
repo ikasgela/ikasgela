@@ -30,6 +30,12 @@
                 {!! Form::hidden('filtro_alumnos','P') !!}
                 {!! Form::close() !!}
 
+                {!! Form::open(['route' => ['profesor.index.filtro'], 'method' => 'POST']) !!}
+                {!! Form::button(__('Show blocked'), ['type' => 'submit',
+                    'class' => session('profesor_filtro_alumnos_bloqueados') == 'B' ? 'btn btn-sm mx-1 btn-secondary' : 'btn btn-sm mx-1 btn-outline-secondary'
+                ]) !!}
+                {!! Form::hidden('filtro_alumnos_bloqueados','B') !!}
+                {!! Form::close() !!}
             </div>
         </div>
         <h2 class="text-muted font-xl">{{ $organization->name ?? '?' }}</h2>

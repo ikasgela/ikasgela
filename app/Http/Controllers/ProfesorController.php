@@ -37,22 +37,36 @@ class ProfesorController extends Controller
             session(['profesor_filtro_alumnos' => $request->input('filtro_alumnos')]);
         }
 
+        if ($request->has('filtro_alumnos_bloqueados')) {
+            if (session('profesor_filtro_alumnos_bloqueados') == 'B') {
+                session(['profesor_filtro_alumnos_bloqueados' => '']);
+            } else {
+                session(['profesor_filtro_alumnos_bloqueados' => $request->input('filtro_alumnos_bloqueados')]);
+            }
+        }
+
         $curso_actual = Curso::find(setting_usuario('curso_actual'));
 
         if ($curso_actual != null) {
+
+            $alumnos = $curso_actual->users()->rolAlumno();
+
+            if (!session('profesor_filtro_alumnos_bloqueados') == 'B') {
+                $alumnos = $alumnos->noBloqueado();
+            }
+
             switch (session('profesor_filtro_alumnos')) {
                 case 'R':
-                    $usuarios = $curso_actual->users()->rolAlumno()
-                        ->whereHas('actividades', function ($query) {
-                            $query->where('auto_avance', false)->where('estado', 30);
-                        })
+                    $usuarios = $alumnos->whereHas('actividades', function ($query) {
+                        $query->where('auto_avance', false)->where('estado', 30);
+                    })
                         ->orderBy('last_active')->get();
                     break;
                 case 'P':
-                    $usuarios = $curso_actual->users()->rolAlumno()->orderBy('name')->get()->sortBy('num_completadas_base');
+                    $usuarios = $alumnos->orderBy('name')->get()->sortBy('num_completadas_base');
                     break;
                 default:
-                    $usuarios = $curso_actual->users()->rolAlumno()->orderBy('name')->get();
+                    $usuarios = $alumnos->orderBy('name')->get();
                     break;
             }
         } else {
