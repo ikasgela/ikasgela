@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Organization extends Model
 {
     protected $fillable = [
-        'name', 'slug', 'current_period_id', 'registration_open'
+        'name', 'slug', 'current_period_id', 'registration_open', 'seats'
     ];
 
     public function periods()
@@ -35,5 +35,10 @@ class Organization extends Model
     public function current_period()
     {
         return Period::find($this->current_period_id);
+    }
+
+    public function isRegistrationOpen()
+    {
+        return $this->registration_open && $this->seats > 0;
     }
 }

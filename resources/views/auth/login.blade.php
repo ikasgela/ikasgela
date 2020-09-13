@@ -80,7 +80,7 @@
                         </div>
                     </form>
                 </div>
-                @if(isset($current_organization) && $current_organization->registration_open)
+                @if(isset($current_organization) && $current_organization->isRegistrationOpen())
                     <div class="card-footer p-4 d-lg-none">
                         <div class="col-12 text-right">
                             <a class="btn btn-outline-primary btn-block mt-3"
@@ -93,7 +93,7 @@
                 <div class="card-body text-center">
                     <div style="height:20em">
                         <img src="svg/logo-dark.svg" class="mb-5" width="200" alt="Logo">
-                        @if(isset($current_organization) && $current_organization->registration_open)
+                        @if(isset($current_organization) && $current_organization->isRegistrationOpen())
                             <h2>{{ __('Sign up') }}</h2>
                             <p>{{ __("If you don't have account, create one.") }}</p>
                             <a class="btn btn-link btn-light text-dark mt-2"
