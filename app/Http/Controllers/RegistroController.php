@@ -7,6 +7,7 @@ use App\Registro;
 use App\Traits\PaginarUltima;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RegistroController extends Controller
 {
@@ -55,14 +56,15 @@ class RegistroController extends Controller
             'estado' => 'required',
         ]);
 
-        $curso = Curso::find(setting_usuario('curso_actual'));
+        $user = User::find(request('user_id'));
+        $curso = $user->curso_actual();
 
         Registro::create([
             'user_id' => request('user_id'),
             'tarea_id' => request('tarea_id'),
             'estado' => request('estado'),
             'detalles' => request('detalles'),
-            'curso_id' => request('curso_id'),
+            'curso_id' => !is_null($user) && !is_null($curso) ? $curso->id : null,
         ]);
 
         return retornar();
