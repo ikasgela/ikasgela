@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Curso;
 use App\Registro;
 use App\Traits\PaginarUltima;
+use App\User;
 use Illuminate\Http\Request;
 
 class RegistroController extends Controller
@@ -16,11 +18,32 @@ class RegistroController extends Controller
         $this->middleware('role:alumno|profesor|admin');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $registros = $this->paginate_ultima(Registro::query(), 100);
+        // Lista de usuarios
+        $users = User::orderBy('name')->get();
 
-        return view('registros.index', compact('registros'));
+        $user = null;
+
+        if (!empty($request->input('user_id'))) {
+            $user_id = $request->input('user_id');
+            if ($user_id == -1) {
+                session()->forget('filtrar_user_actual');
+            } else {
+                $user = User::find($user_id);
+                session(['filtrar_user_actual' => $user_id]);
+            }
+        } else if (!empty(session('filtrar_user_actual'))) {
+            $user = User::find(session('filtrar_user_actual'));
+        }
+
+        if (!is_null($user)) {
+            $registros = $this->paginate_ultima(Registro::where('user_id', $user->id), 100);
+        } else {
+            $registros = $this->paginate_ultima(Registro::query(), 100);
+        }
+
+        return view('registros.index', compact(['registros', 'users']));
     }
 
     public function store(Request $request)

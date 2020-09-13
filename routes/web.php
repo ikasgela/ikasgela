@@ -276,6 +276,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/registros', 'RegistroController@index')
             ->name('registros.index');
 
+        // Filtrar el registro por alumno
+        Route::get('/registros_alumno', 'RegistroController@index')
+            ->name('registros_alumno.index');
+        Route::post('/registros_alumno', 'RegistroController@index')
+            ->name('registros_alumno.alumno');
+
         // Probar notificaciones
         Route::get('/notifications/test', 'NotificationController@test')
             ->name('notifications.test');
