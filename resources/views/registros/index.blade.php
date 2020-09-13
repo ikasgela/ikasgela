@@ -4,6 +4,12 @@
 
     @include('partials.titular', ['titular' => __('Records')])
 
+    @if(Auth::user()->hasAnyRole(['admin']))
+        {!! Form::open(['route' => ['registros_alumno.alumno'], 'method' => 'POST']) !!}
+        @include('partials.desplegable_usuarios')
+        {!! Form::close() !!}
+    @endif
+
     <div class="table-responsive">
         <table class="table table-hover">
             <thead class="thead-dark">
