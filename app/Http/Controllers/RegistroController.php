@@ -21,7 +21,8 @@ class RegistroController extends Controller
     public function index(Request $request)
     {
         // Lista de usuarios
-        $users = User::orderBy('name')->get();
+        $curso = Curso::find(setting_usuario('curso_actual'));
+        $users = $curso->users()->orderBy('name')->get();
 
         $user = null;
 
@@ -38,9 +39,9 @@ class RegistroController extends Controller
         }
 
         if (!is_null($user)) {
-            $registros = $this->paginate_ultima(Registro::where('user_id', $user->id), 100);
+            $registros = $this->paginate_ultima(Registro::where('curso_id', $curso->id)->where('user_id', $user->id), 100);
         } else {
-            $registros = $this->paginate_ultima(Registro::query(), 100);
+            $registros = $this->paginate_ultima(Registro::where('curso_id', $curso->id), 100);
         }
 
         return view('registros.index', compact(['registros', 'users']));
@@ -54,7 +55,15 @@ class RegistroController extends Controller
             'estado' => 'required',
         ]);
 
-        Registro::create($request->all());
+        $curso = Curso::find(setting_usuario('curso_actual'));
+
+        Registro::create([
+            'user_id' => request('user_id'),
+            'tarea_id' => request('tarea_id'),
+            'estado' => request('estado'),
+            'detalles' => request('detalles'),
+            'curso_id' => request('curso_id'),
+        ]);
 
         return retornar();
     }
