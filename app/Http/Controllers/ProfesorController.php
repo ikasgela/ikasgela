@@ -81,14 +81,19 @@ class ProfesorController extends Controller
 
         $disponibles = $this->actividadesDisponibles();
 
-        $usuarios_activos = User::organizacionActual()->rolAlumno()->noBloqueado()->get();
+        $media_grupo = 0;
 
-        $total_actividades_grupo = 0;
-        foreach ($usuarios_activos as $usuario) {
-            $total_actividades_grupo += $usuario->num_completadas('base');
+        if ($curso_actual != null) {
+
+            $usuarios_activos = $curso_actual->users()->rolAlumno()->noBloqueado()->get();
+
+            $total_actividades_grupo = 0;
+            foreach ($usuarios_activos as $usuario) {
+                $total_actividades_grupo += $usuario->num_completadas('base');
+            }
+
+            $media_grupo = isset($usuarios_activos) && $usuarios_activos->count() > 0 ? $total_actividades_grupo / $usuarios_activos->count() : 0;
         }
-
-        $media_grupo = isset($usuarios_activos) && $usuarios_activos->count() > 0 ? $total_actividades_grupo / $usuarios_activos->count() : 0;
 
         // Formateador con 2 decimales y en el idioma del usuario
         $locale = app()->getLocale();
