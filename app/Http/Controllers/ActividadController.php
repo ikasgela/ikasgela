@@ -217,6 +217,7 @@ class ActividadController extends Controller
         $registro->tarea_id = $tarea->id;
         $registro->timestamp = Carbon::now();
         $registro->estado = $nuevoestado;
+        $registro->curso_id = Auth::user()->curso_actual()->id;
 
         switch ($nuevoestado) {
             case 10:
@@ -319,9 +320,6 @@ class ActividadController extends Controller
 
         $registro->save();
 
-        if (isset($registro_nueva_tarea))
-            $registro_nueva_tarea->save();
-
         if (Auth::user()->hasRole('alumno')) {
             return redirect(route('users.home'));
         } else if (Auth::user()->hasRole('profesor')) {
@@ -410,11 +408,12 @@ class ActividadController extends Controller
             // Registrar la nueva tarea
             $nueva_tarea = Tarea::where('user_id', $usuario->id)->where('actividad_id', $clon->id)->first();
 
-            $registro_nueva_tarea = Registro::make([
+            Registro::create([
                 'user_id' => $usuario->id,
                 'tarea_id' => $nueva_tarea->id,
                 'estado' => !$actividad->final ? 10 : 11,
                 'timestamp' => Carbon::now(),
+                'curso_id' => Auth::user()->curso_actual()->id,
             ]);
         }
     }

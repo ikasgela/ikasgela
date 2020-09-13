@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Registro extends Model
 {
     protected $fillable = [
-        'user_id', 'tarea_id', 'estado', 'timestamp', 'detalles'
+        'user_id', 'tarea_id', 'estado', 'timestamp', 'detalles', 'curso_id'
     ];
 
     public $timestamps = false;

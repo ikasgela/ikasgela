@@ -7,6 +7,7 @@ use App\Tarea;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TareaController extends Controller
 {
@@ -61,6 +62,7 @@ class TareaController extends Controller
         $registro->tarea_id = $tarea->id;
         $registro->timestamp = Carbon::now();
         $registro->estado = 61;
+        $registro->curso_id = Auth::user()->curso_actual()->id;
         $registro->save();
 
         foreach ($tarea->actividad->cuestionarios as $cuestionario) {

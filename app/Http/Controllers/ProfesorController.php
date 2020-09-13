@@ -14,6 +14,7 @@ use App\Unidad;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use NumberFormatter;
 
@@ -245,6 +246,7 @@ class ProfesorController extends Controller
                 'tarea_id' => $tarea->id,
                 'estado' => 10,
                 'timestamp' => Carbon::now(),
+                'curso_id' => Auth::user()->curso_actual()->id,
             ]);
         }
 
