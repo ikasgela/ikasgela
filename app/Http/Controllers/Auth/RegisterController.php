@@ -94,6 +94,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $organization = Organization::where('slug', subdominio())->first();
+
+        if (!$organization->isRegistrationOpen()) {
+            abort(403, __("Sorry, you are not authorized to access this page."));
+        }
+
+        $organization->decrement('seats', 1);
+
         // Generar el nombre de usuario a partir del email
         $nombre_usuario = User::generar_username($data['email']);
 
@@ -143,7 +151,7 @@ class RegisterController extends Controller
 
         $laravel
             ->organizations()
-            ->attach(Organization::where('slug', subdominio())->first());
+            ->attach($organization);
 
         activity()
             ->causedBy($laravel)
