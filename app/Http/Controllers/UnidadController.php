@@ -48,6 +48,9 @@ class UnidadController extends Controller
             'qualification_id' => request('qualification_id'),
             'orden' => request('orden'),
             'tags' => request('tags'),
+            'fecha_disponibilidad' => request('fecha_disponibilidad'),
+            'fecha_entrega' => request('fecha_entrega'),
+            'fecha_limite' => request('fecha_limite'),
         ]);
 
         return retornar();
@@ -84,6 +87,9 @@ class UnidadController extends Controller
             'qualification_id' => request('qualification_id'),
             'orden' => request('orden'),
             'tags' => request('tags'),
+            'fecha_disponibilidad' => request('fecha_disponibilidad'),
+            'fecha_entrega' => request('fecha_entrega'),
+            'fecha_limite' => request('fecha_limite'),
         ]);
 
         return retornar();
