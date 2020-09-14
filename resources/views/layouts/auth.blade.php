@@ -28,5 +28,8 @@
         </main>
     </div>
 </div>
+@if(config('app.env') == 'production')
+    @yield('recaptcha')
+@endif
 </body>
 </html>
