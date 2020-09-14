@@ -44,7 +44,7 @@
     @else
         <div class="row">
             <div class="col-md-12">
-                <p>No tienes tareas archivadas.</p>
+                <p>{{ __('No activities yet.') }}</p>
             </div>
         </div>
     @endif
