@@ -35,7 +35,7 @@
         "hedii/laravel-gelf-logger": "^5.0",
         "intervention/image": "^2.5",
         "jenssegers/mongodb": "dev-develop",
-        "josiasmontag/laravel-recaptchav3": "^0.4.0",
+        "josiasmontag/laravel-recaptchav3": "^0.6.0",
         "kkomelin/laravel-translatable-string-exporter": "^1.2",
         "lab404/laravel-impersonate": "^1.6",
         "laravel/framework": "^7.0",
