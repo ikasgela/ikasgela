@@ -27,9 +27,9 @@
                         <tbody>
                         <tr class="border-secondary">
                             <th class="bg-secondary text-dark w-25">{{ __('Availability date') }}</th>
-                            <td class="align-middle">{{ !is_null($unidad->fecha_disponibilidad) ? $unidad->fecha_disponibilidad->format('d/m/Y H:i:s') : '-' }}</td>
+                            <td class="align-middle w-25">{{ !is_null($unidad->fecha_disponibilidad) ? $unidad->fecha_disponibilidad->format('d/m/Y H:i:s') : '-' }}</td>
                             <th class="bg-secondary text-dark w-25">{{ __('Due date') }}</th>
-                            <td class="align-middle">{{ !is_null($unidad->fecha_entrega) ? $unidad->fecha_entrega->format('d/m/Y H:i:s') : '-' }}</td>
+                            <td class="align-middle w-25">{{ !is_null($unidad->fecha_entrega) ? $unidad->fecha_entrega->format('d/m/Y H:i:s') : '-' }}</td>
                         </tr>
                         </tbody>
                     </table>
