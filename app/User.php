@@ -369,4 +369,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return !$this->hasRole('admin') && !$this->isBlocked();
     }
+
+    public function newThreadsCount()
+    {
+        return Hilo::forUserWithNewMessages($this)->cursoActual()->count();
+    }
 }

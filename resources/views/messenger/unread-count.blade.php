@@ -1,4 +1,4 @@
-@php($count = \App\Hilo::forUserWithNewMessages(Auth::id())->cursoActual()->count())
+@php($count = Auth::user()->newThreadsCount())
 @if($count > 0)
     {{ $count }}
 @endif
