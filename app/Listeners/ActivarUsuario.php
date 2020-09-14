@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Actividad;
 use App\Curso;
 use App\Gitea\GiteaClient;
+use App\Organization;
 use GitLab;
 use Illuminate\Auth\Events\Verified;
 
@@ -46,10 +47,13 @@ class ActivarUsuario
 
         // Asociamos al usuario el curso más nuevo que haya en la organización
         // TODO: Cuando dispongamos de portada, eliminar esto y matricular al usuario en un curso de ejemplo
+        $organization = Organization::where('slug', organizacion())->first();
+
         $curso = Curso::whereHas('category.period.organization', function ($query) {
             $query->where('organizations.slug', organizacion());
-        })
-            ->latest()->first();
+        })->whereHas('category.period', function ($query) use ($organization) {
+            $query->where('periods.id', $organization->current_period_id);
+        })->latest()->first();
 
         $event->user->cursos()->attach($curso);
         setting_usuario(['curso_actual' => $curso->id], $event->user);
