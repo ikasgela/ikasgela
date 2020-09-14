@@ -28,5 +28,6 @@
         </main>
     </div>
 </div>
+@yield('recaptcha')
 </body>
 </html>
