@@ -12,6 +12,9 @@
     @include('layouts.icons')
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <script src="{{ asset('js/app.js') }}" defer></script>
+    @if(config('app.env') == 'production')
+        @yield('recaptcha')
+    @endif
 </head>
 <body class="c-app">
 <div class="c-wrapper" id="app">
@@ -28,8 +31,5 @@
         </main>
     </div>
 </div>
-@if(config('app.env') == 'production')
-    @yield('recaptcha')
-@endif
 </body>
 </html>
