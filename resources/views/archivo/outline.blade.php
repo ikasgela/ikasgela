@@ -36,7 +36,7 @@
                 </div>
 
                 @if(!is_null($unidad->fecha_entrega) && $unidad->fecha_entrega < now())
-                    <h3>{{ __('Contents') }}</h3>
+                    <h3>{{ __('Activities') }}</h3>
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead class="thead-dark">
