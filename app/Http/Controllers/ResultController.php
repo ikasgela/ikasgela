@@ -11,6 +11,7 @@ use Auth;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use NumberFormatter;
 use PDF;
 
@@ -23,6 +24,10 @@ class ResultController extends Controller
 
     public function pdf(Request $request)
     {
+        $curso = Curso::find(setting_usuario('curso_actual'));
+        if (is_null($curso))
+            abort(404, __('Course not found.'));
+
         $pdf = PDF::loadView('results.pdf', $this->resultados($request));
 
         return $pdf->stream('resultados.pdf');
@@ -47,11 +52,11 @@ class ResultController extends Controller
         // Lista de usuarios
         $curso = Curso::find(setting_usuario('curso_actual'));
 
-        // Si no hay curso no podemos seguir
-        if (is_null($curso))
-            abort(404, __('Course not found.'));
-
-        $users = $curso->users()->rolAlumno()->noBloqueado()->orderBy('name')->get();
+        if (!is_null($curso)) {
+            $users = $curso->users()->rolAlumno()->noBloqueado()->orderBy('name')->get();
+        } else {
+            $users = new Collection();
+        }
 
         // Resultados por competencias
 
@@ -190,42 +195,49 @@ class ResultController extends Controller
 
         // Gráfico de actividades
 
-        $fecha_inicio = $curso->fecha_inicio ?: Carbon::now()->subMonths(3);
-        $fecha_fin = $curso->fecha_fin ?: Carbon::now();
+        if (!is_null($curso)) {
+            $fecha_inicio = $curso->fecha_inicio ?: Carbon::now()->subMonths(3);
+            $fecha_fin = $curso->fecha_fin ?: Carbon::now();
+        }
 
         $chart = new TareasEnviadas();
 
-        $registros = Registro::where('user_id', $user->id)
-            ->where('estado', 30)
-            ->whereBetween('timestamp', [$fecha_inicio, $fecha_fin])
-            ->whereHas('tarea.actividad.unidad.curso', function ($query) {
-                $query->where('cursos.id', setting_usuario('curso_actual'));
-            })->whereHas('tarea.actividad', function ($query) {
-                $query->where('actividades.auto_avance', false);
-            })
-            ->orderBy('timestamp')
-            ->get()
-            ->groupBy(function ($val) {
-                return Carbon::parse($val->timestamp)->format('d/m/Y');
-            });
+        $registros = [];
+        $period = null;
 
-        $period = CarbonPeriod::create($fecha_inicio, $fecha_fin);
+        if (!is_null($curso)) {
+            $registros = Registro::where('user_id', $user->id)
+                ->where('estado', 30)
+                ->whereBetween('timestamp', [$fecha_inicio, $fecha_fin])
+                ->whereHas('tarea.actividad.unidad.curso', function ($query) {
+                    $query->where('cursos.id', setting_usuario('curso_actual'));
+                })->whereHas('tarea.actividad', function ($query) {
+                    $query->where('actividades.auto_avance', false);
+                })
+                ->orderBy('timestamp')
+                ->get()
+                ->groupBy(function ($val) {
+                    return Carbon::parse($val->timestamp)->format('d/m/Y');
+                });
 
-        $todas_fechas = [];
-        foreach ($period as $date) {
-            $todas_fechas[$date->format('d/m/Y')] = 0;
+            $period = CarbonPeriod::create($fecha_inicio, $fecha_fin);
+
+            $todas_fechas = [];
+            foreach ($period as $date) {
+                $todas_fechas[$date->format('d/m/Y')] = 0;
+            }
+
+            $datos = array_merge($todas_fechas, $registros->map(function ($item, $key) {
+                return $item->count();
+            })->toArray());
+
+            $chart->labels(array_keys($datos))->displayLegend(false);
+
+            $chart->dataset('Enviadas', 'bar',
+                array_values($datos))
+                ->color("#3490dc")
+                ->backgroundColor("#d6e9f8");
         }
-
-        $datos = array_merge($todas_fechas, $registros->map(function ($item, $key) {
-            return $item->count();
-        })->toArray());
-
-        $chart->labels(array_keys($datos))->displayLegend(false);
-
-        $chart->dataset('Enviadas', 'bar',
-            array_values($datos))
-            ->color("#3490dc")
-            ->backgroundColor("#d6e9f8");
 
         return compact(['curso', 'skills_curso', 'unidades', 'user', 'users',
             'resultados', 'resultados_unidades', 'nota_final',

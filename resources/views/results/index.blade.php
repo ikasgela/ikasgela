@@ -4,6 +4,8 @@
 
     <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
         <h1>{{ __('Results') }}
+            @if(!is_null($user->curso_actual()))
+
             @if(!Auth::user()->hasAnyRole(['profesor', 'tutor']))
                 <a class="ml-3"
                    style="color:#ed2224" {{-- https://www.schemecolor.com/adobe-inc-logo-colors.php --}}
@@ -20,6 +22,7 @@
                 {!! Form::hidden('user_id',request()->user_id) !!}
                 {!! Form::close() !!}
             @endif
+            @endif
         </h1>
         <h2 class="text-muted font-xl">{{ !is_null($curso) ? $curso->category->period->organization->name.' » '.$curso->category->period->name.' » '.$curso->nombre : '' }}</h2>
     </div>
@@ -35,6 +38,7 @@
         {!! Form::close() !!}
     @endif
 
+    @if(!is_null($user->curso_actual()))
     @include('partials.subtitulo', ['subtitulo' => __('Continuous evaluation')])
 
     <div class="card-deck">
@@ -204,5 +208,13 @@
     @include('partials.subtitulo', ['subtitulo' => __('Activities per day')])
 
     @include('partials.grafico_enviadas')
+
+    @else
+        <div class="row">
+            <div class="col-md-12">
+                <p>{{ __("There's no data to show.") }}</p>
+            </div>
+        </div>
+    @endif
 
 @endsection
