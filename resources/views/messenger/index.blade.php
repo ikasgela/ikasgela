@@ -9,9 +9,11 @@
     <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
         <div>
             <h1>{{ __('Tutorship') }}
-                <a href="{{ route('messages.create') }}" class="btn btn-primary ml-3">
-                    <i class="fas fa-pencil-alt mr-1"></i> {{ __('Create new conversation') }}
-                </a>
+                @if(!is_null($curso_actual))
+                    <a href="{{ route('messages.create') }}" class="btn btn-primary ml-3">
+                        <i class="fas fa-pencil-alt mr-1"></i> {{ __('Create new conversation') }}
+                    </a>
+                @endif
             </h1>
         </div>
         <div>

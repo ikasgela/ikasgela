@@ -2,7 +2,13 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Course outline')])
+    <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
+        <h1>{{ __('Course outline') }}</h1>
+        @if(!is_null(Auth::user()->curso_actual()))
+            @php($curso = Auth::user()->curso_actual())
+            <h2 class="text-muted font-xl">{{ !is_null($curso) ? $curso->category->period->organization->name.' » '.$curso->category->period->name.' » '.$curso->nombre : '' }}</h2>
+        @endif
+    </div>
 
     @include('partials.tutorial', [
         'color' => 'c-callout-success',
@@ -44,7 +50,7 @@
     @else
         <div class="row">
             <div class="col-md-12">
-                <p>No tienes tareas archivadas.</p>
+                <p>{{ __('No activities yet.') }}</p>
             </div>
         </div>
     @endif

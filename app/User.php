@@ -57,6 +57,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         // Modificar tambien los campos en \App\Tarea::$fillable
         return $this->belongsToMany('App\Actividad', 'tareas')
+            ->cursoActual()
             ->using('App\Tarea')
             ->as('tarea')
             ->withPivot([
@@ -367,5 +368,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function canBeImpersonated()
     {
         return !$this->hasRole('admin') && !$this->isBlocked();
+    }
+
+    public function newThreadsCount()
+    {
+        return Hilo::forUserWithNewMessages($this->id)->cursoActual()->count();
     }
 }
