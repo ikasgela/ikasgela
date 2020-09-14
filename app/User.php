@@ -372,6 +372,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function newThreadsCount()
     {
-        return Hilo::forUserWithNewMessages($this)->cursoActual()->count();
+        return Hilo::forUserWithNewMessages($this->id)->cursoActual()->count();
     }
 }
