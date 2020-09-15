@@ -367,7 +367,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function canBeImpersonated()
     {
-        return !$this->hasRole('admin') && !$this->isBlocked();
+        return !$this->hasRole('admin') && !$this->isBlocked() && $this->hasVerifiedEmail();
     }
 
     public function newThreadsCount()

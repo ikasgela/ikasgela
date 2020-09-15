@@ -140,4 +140,19 @@ class UserController extends Controller
 
         return back();
     }
+
+    public function toggleBlocked(Request $request)
+    {
+        $user = User::findOrFail(request('user_id'));
+
+        if (!is_null($user->blocked_date)) {
+            $user->blocked_date = null;
+        } else {
+            $user->blocked_date = now();
+        }
+
+        $user->save();
+
+        return back();
+    }
 }
