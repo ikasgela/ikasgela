@@ -289,6 +289,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Test de stress de GitLab
         Route::get('/test_gitlab', 'IntellijProjectController@testGitLab')
             ->name('intellij_projects.test_gitlab');
+
+        // Activación manual de usuario
+        Route::post('/user_manual_activation', 'UserController@manualActivation')
+            ->name('users.manual_activation');
+
     });
 
     // Alumnos y profesores

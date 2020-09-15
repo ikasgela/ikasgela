@@ -131,4 +131,13 @@ class UserController extends Controller
 
         return back();
     }
+
+    public function manualActivation(Request $request)
+    {
+        $user = User::findOrFail(request('user_id'));
+
+        $user->markEmailAsVerified();
+
+        return back();
+    }
 }
