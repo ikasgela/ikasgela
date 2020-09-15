@@ -75,17 +75,7 @@
                 @include('profesor.partials.siguiente_actividad', ['actividad' => $user->actividades_asignadas()->orderBy('id', 'desc')->first()])
                 @if(Auth::user()->hasRole('admin'))
                     <td class="text-center">
-                        <form method="POST" action="{{ route('users.destroy', [$user->id]) }}">
-                            @csrf
-                            @method('DELETE')
-                            <div class='btn-group'>
-                                @include('users.partials.impersonate_button')
-                                <a title="{{ __('Edit') }}"
-                                   href="{{ route('users.edit', [$user->id]) }}"
-                                   class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                                @include('partials.boton_borrar')
-                            </div>
-                        </form>
+                        @include('users.partials.acciones')
                     </td>
                 @endif
             </tr>
