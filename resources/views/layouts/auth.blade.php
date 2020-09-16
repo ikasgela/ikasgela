@@ -9,7 +9,11 @@
         {{ config('app.name', 'Laravel') }}
         {{ subdominio() != 'ikasgela' ? ' | '. subdominio() :  '' }}
     </title>
-    @include('layouts.icons')
+    @if(config('app.env') == 'production')
+        @include('layouts.partials.favicons')
+    @else
+        @include('layouts.partials.favicons_debug')
+    @endif
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <script src="{{ asset('js/app.js') }}" defer></script>
     @if(config('app.env') == 'production')
