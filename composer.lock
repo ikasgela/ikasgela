@@ -71,16 +71,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.154.1",
+            "version": "3.154.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "5651d8a92164d98869b70a15e4c06ce4c14c7c28"
+                "reference": "0001c05c03f2bd354f6b38f6b81b60f45c2514f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/5651d8a92164d98869b70a15e4c06ce4c14c7c28",
-                "reference": "5651d8a92164d98869b70a15e4c06ce4c14c7c28",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0001c05c03f2bd354f6b38f6b81b60f45c2514f8",
+                "reference": "0001c05c03f2bd354f6b38f6b81b60f45c2514f8",
                 "shasum": ""
             },
             "require": {
@@ -152,7 +152,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2020-09-11T18:12:41+00:00"
+            "time": "2020-09-15T18:15:35+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -2294,16 +2294,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v7.28.1",
+            "version": "v7.28.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "f7493ab717ca2a9598b1db2d6a3bae8ac8c755e8"
+                "reference": "0956b0688d96565044074b77f521a653d9fce5fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/f7493ab717ca2a9598b1db2d6a3bae8ac8c755e8",
-                "reference": "f7493ab717ca2a9598b1db2d6a3bae8ac8c755e8",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/0956b0688d96565044074b77f521a653d9fce5fb",
+                "reference": "0956b0688d96565044074b77f521a653d9fce5fb",
                 "shasum": ""
             },
             "require": {
@@ -2448,7 +2448,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2020-09-09T15:02:46+00:00"
+            "time": "2020-09-15T14:48:02+00:00"
         },
         {
             "name": "laravel/helpers",
@@ -10487,16 +10487,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "9.1.8",
+            "version": "9.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "f98f8466126d83b55b924a94d2244c53c216b8fb"
+                "reference": "cf6582906d4b2502c5f4c6be6a3d0b4cd5b3ef7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/f98f8466126d83b55b924a94d2244c53c216b8fb",
-                "reference": "f98f8466126d83b55b924a94d2244c53c216b8fb",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/cf6582906d4b2502c5f4c6be6a3d0b4cd5b3ef7f",
+                "reference": "cf6582906d4b2502c5f4c6be6a3d0b4cd5b3ef7f",
                 "shasum": ""
             },
             "require": {
@@ -10504,7 +10504,7 @@
                 "ext-libxml": "*",
                 "ext-xmlwriter": "*",
                 "nikic/php-parser": "^4.8",
-                "php": "^7.3 || ^8.0",
+                "php": ">=7.3",
                 "phpunit/php-file-iterator": "^3.0.3",
                 "phpunit/php-text-template": "^2.0.2",
                 "sebastian/code-unit-reverse-lookup": "^2.0.2",
@@ -10556,7 +10556,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-09-07T08:07:10+00:00"
+            "time": "2020-09-15T06:14:11+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
