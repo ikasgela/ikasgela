@@ -93,8 +93,38 @@
                 @foreach ($skills_curso as $skill)
                     <h5 class="card-title">{{ $skill->name }}</h5>
                     <p class="ml-5">{{ $skill->description }}</p>
+
+                    <div class="row no-gutters ml-5">
+                        <div class="col" style="flex: 0 0 60%;">Actividades</div>
+                        <div style="flex: 0 0 40%;">Exámenes</div>
+                    </div>
+
+                    <div class="progress ml-5" style="height: 24px;">
+                        <div class="progress-bar" role="progressbar" style="width: 9%" aria-valuenow="15"
+                             aria-valuemin="0" aria-valuemax="100">15&thinsp;%
+                        </div>
+                        <div class="progress-bar bg-gray-200" style="width: 51%"></div>
+
+                        <div class="progress-bar" role="progressbar" style="width: 12%"
+                             aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30&thinsp;%
+                        </div>
+                        <div class="progress-bar bg-gray-200" style="width: 28%"></div>
+                    </div>
+
+                    <div class="row no-gutters ml-5">
+                        <div class="col text-muted small text-right" style="flex: 0 0 60%;">60&thinsp;%</div>
+                        <div class="col text-muted small text-right" style="flex: 0 0 40%;">40&thinsp;%</div>
+                    </div>
+
+                    <div class="row no-gutters ml-5">
+                        <div class="col" style="flex: 0 0 60%;">
+                            <span>Total de la competencia</span>
+                        </div>
+                    </div>
+
                     <div class="ml-5 progress" style="height: 24px;">
-                        @php($porcentaje = $resultados[$skill->id]->actividad > 0 ? round($resultados[$skill->id]->tarea/$resultados[$skill->id]->actividad*100) : 0)
+{{--                        @php($porcentaje = $resultados[$skill->id]->actividad > 0 ? round($resultados[$skill->id]->tarea/$resultados[$skill->id]->actividad*100) : 0)--}}
+                        @php($porcentaje = rand(0,100))
                         <div class="progress-bar {{ $porcentaje<50 ? 'bg-warning text-dark' : 'bg-success' }}"
                              role="progressbar"
                              style="width: {{ $porcentaje }}%;"
