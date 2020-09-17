@@ -104,15 +104,15 @@ class ResultController extends Controller
                             $resultados[$skill->id]->puntos_tarea += $puntuacion_tarea;
                             $resultados[$skill->id]->puntos_totales_tarea += $puntuacion_actividad;
 
-                            $resultados[$skill->id]->tarea += $puntuacion_tarea * ($peso_tarea / 100) * ($porcentaje / 100);
-                            $resultados[$skill->id]->actividad += $puntuacion_actividad * ($peso_tarea / 100) * ($porcentaje / 100);
+                            $resultados[$skill->id]->tarea += $puntuacion_tarea * ($peso_tarea / $puntuacion_actividad) * ($porcentaje / 100);
+                            $resultados[$skill->id]->actividad += $puntuacion_actividad * ($peso_tarea / $puntuacion_actividad) * ($porcentaje / 100);
 
                         } else {
                             $resultados[$skill->id]->puntos_examen += $puntuacion_tarea;
                             $resultados[$skill->id]->puntos_totales_examen += $puntuacion_actividad;
 
-                            $resultados[$skill->id]->tarea += $puntuacion_tarea * ($peso_examen / 100) * ($porcentaje / 100);
-                            $resultados[$skill->id]->actividad += $puntuacion_actividad * ($peso_examen / 100) * ($porcentaje / 100);
+                            $resultados[$skill->id]->tarea += $puntuacion_tarea * ($peso_examen / $puntuacion_actividad) * ($porcentaje / 100);
+                            $resultados[$skill->id]->actividad += $puntuacion_actividad * ($peso_examen / $puntuacion_actividad) * ($porcentaje / 100);
                         }
 
                     }
