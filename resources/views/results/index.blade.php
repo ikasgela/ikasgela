@@ -106,14 +106,11 @@
 
                         <div class="progress ml-5" style="height: 24px;">
                             @php($porcentaje_tarea = $resultado->puntos_tarea/$resultado->puntos_totales_tarea*100)
-                            <div class="progress-bar bg-success" role="progressbar"
+                            <div class="progress-bar" role="progressbar"
                                  style="width: {{ $peso_actividades * $porcentaje_tarea / 100 }}%"
                                  aria-valuenow="{{ $porcentaje_tarea }}"
-                                 aria-valuemin="0" aria-valuemax="100">
-
-                                {{ $resultado->puntos_tarea }}
-                                {{ $resultado->puntos_totales_tarea }}
-
+                                 aria-valuemin="0" aria-valuemax="100"
+                                 title="{{ $resultado->puntos_tarea }}/{{ $resultado->puntos_totales_tarea }}">
                                 {{ $porcentaje_tarea }}&thinsp;%
                             </div>
                             <div class="progress-bar bg-gray-200"
@@ -122,11 +119,8 @@
                             @php($porcentaje_examen = $resultado->puntos_examen/$resultado->puntos_totales_examen*100)
                             <div class="progress-bar" role="progressbar"
                                  style="width: {{ $peso_examenes * $porcentaje_examen / 100 }}%"
-                                 aria-valuenow="{{ $porcentaje_examen }}" aria-valuemin="0" aria-valuemax="100">
-
-                                {{ $resultado->puntos_examen }}
-                                {{ $resultado->puntos_totales_examen }}
-
+                                 aria-valuenow="{{ $porcentaje_examen }}" aria-valuemin="0" aria-valuemax="100"
+                                 title="{{ $resultado->puntos_examen }}/{{ $resultado->puntos_totales_examen }}">
                                 {{ $porcentaje_examen }}&thinsp;%
                             </div>
                             <div class="progress-bar bg-gray-200"
@@ -135,14 +129,16 @@
 
                         <div class="row no-gutters ml-5">
                             <div class="col text-muted small" style="flex: 0 0 10%;">0&thinsp;%</div>
-                            <div class="col text-muted small text-right" style="flex: 0 0 {{ $peso_actividades-10 }}%;">
-                                60&thinsp;%
+                            <div class="col text-muted small text-right pr-1"
+                                 style="flex: 0 0 {{ $peso_actividades-10 }}%;">{{ $peso_actividades }}&thinsp;%
                             </div>
-                            <div class="col text-muted small text-right" style="flex: 0 0 {{ $peso_examenes }}%;">100&thinsp;%</div>
+                            <div class="col text-muted small text-right border-left"
+                                 style="flex: 0 0 {{ $peso_examenes }}%;">100&thinsp;%
+                            </div>
                         </div>
 
                         <div class="row no-gutters ml-5 mt-2">
-                            <div class="col" style="flex: 0 0 60%;">
+                            <div class="col" style="flex: 0 0 {{ $peso_actividades }}%;">
                                 <span>Total de la competencia</span>
                             </div>
                         </div>
@@ -154,19 +150,17 @@
                                  style="width: {{ $porcentaje }}%;"
                                  aria-valuenow="{{ $porcentaje }}"
                                  aria-valuemin="0"
-                                 aria-valuemax="100">
-
-                                {{ $resultado->tarea }}
-                                {{ $resultado->actividad }}
-
-                                @if($porcentaje>0){{ $porcentaje }}&nbsp;%@endif
+                                 aria-valuemax="100"
+                                 title="{{ $resultado->tarea }}/{{ $resultado->actividad }}">
+                                @if($porcentaje>0){{ $porcentaje }}&thinsp;%@endif
                             </div>
                         </div>
-                        <div class="text-muted small text-right">
-                            {{ $resultado->tarea + 0 }}/{{ $resultado->actividad + 0 }}
-                        </div>
+
                         @if(!$loop->last)
+                            <div class="mb-3">&nbsp;</div>
                             <hr>
+                        @else
+                            <div>&nbsp;</div>
                         @endif
                     @endforeach
                 </div>
