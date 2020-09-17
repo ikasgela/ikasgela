@@ -123,8 +123,7 @@
                     </div>
 
                     <div class="ml-5 progress" style="height: 24px;">
-{{--                        @php($porcentaje = $resultados[$skill->id]->actividad > 0 ? round($resultados[$skill->id]->tarea/$resultados[$skill->id]->actividad*100) : 0)--}}
-                        @php($porcentaje = rand(0,100))
+                        @php($porcentaje = $resultados[$skill->id]->actividad > 0 ? round($resultados[$skill->id]->tarea/$resultados[$skill->id]->actividad*100) : 0)
                         <div class="progress-bar {{ $porcentaje<50 ? 'bg-warning text-dark' : 'bg-success' }}"
                              role="progressbar"
                              style="width: {{ $porcentaje }}%;"

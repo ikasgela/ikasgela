@@ -72,13 +72,13 @@ class ResultController extends Controller
                 $resultados[$skill->id]->porcentaje = $skill->pivot->percentage;
             }
 
-            foreach ($user->actividades as $actividad) {
+            foreach ($user->actividades_completadas()->get() as $actividad) {
 
                 $puntuacion_actividad = $actividad->puntuacion * ($actividad->multiplicador ?: 1);
                 $puntuacion_tarea = $actividad->tarea->puntuacion * ($actividad->multiplicador ?: 1);
                 $completada = in_array($actividad->tarea->estado, [40, 60]);
 
-                if ($puntuacion_actividad > 0 && $completada) {
+                if ($puntuacion_actividad > 0) {
 
                     if (!is_null($actividad->qualification_id)) {
                         $skills = $actividad->qualification->skills;
