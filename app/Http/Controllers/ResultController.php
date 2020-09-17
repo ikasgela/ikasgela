@@ -117,7 +117,8 @@ class ResultController extends Controller
 
                     }
 
-                    if ($resultados[$skill->id]->tarea / $resultados[$skill->id]->actividad < 0.5)
+                    // TODO: Revisar como influye este ajuste cuando hay exámenes
+                    if ($resultados[$skill->id]->actividad > 0 && $resultados[$skill->id]->tarea / $resultados[$skill->id]->actividad < 0.5)
                         $competencias_50_porciento = false;
                 }
             }
