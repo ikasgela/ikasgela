@@ -111,7 +111,7 @@
                                  aria-valuenow="{{ $porcentaje_tarea }}"
                                  aria-valuemin="0" aria-valuemax="100"
                                  title="{{ $resultado->puntos_tarea }}/{{ $resultado->puntos_totales_tarea }}">
-                                {{ $porcentaje_tarea }}&thinsp;%
+                                {{ formato_decimales($porcentaje_tarea) }}&thinsp;%
                             </div>
                             <div class="progress-bar bg-gray-200"
                                  style="width: {{ $peso_actividades * (100-$porcentaje_tarea) / 100 }}%"></div>
@@ -121,7 +121,7 @@
                                  style="width: {{ $peso_examenes * $porcentaje_examen / 100 }}%"
                                  aria-valuenow="{{ $porcentaje_examen }}" aria-valuemin="0" aria-valuemax="100"
                                  title="{{ $resultado->puntos_examen }}/{{ $resultado->puntos_totales_examen }}">
-                                {{ $porcentaje_examen }}&thinsp;%
+                                {{ formato_decimales($porcentaje_examen) }}&thinsp;%
                             </div>
                             <div class="progress-bar bg-gray-200"
                                  style="width: {{ $peso_examenes * (100-$porcentaje_examen) / 100 }}%"></div>
@@ -152,7 +152,7 @@
                                  aria-valuemin="0"
                                  aria-valuemax="100"
                                  title="{{ $resultado->tarea }}/{{ $resultado->actividad }}">
-                                @if($porcentaje>0){{ $porcentaje }}&thinsp;%@endif
+                                @if($porcentaje>0){{ formato_decimales($porcentaje) }}&thinsp;%@endif
                             </div>
                         </div>
 
@@ -235,7 +235,7 @@
                                  style="width: {{ $porcentaje }}%;"
                                  aria-valuenow="{{ $porcentaje }}"
                                  aria-valuemin="0"
-                                 aria-valuemax="100">@if($porcentaje>0){{ $porcentaje }}&nbsp;%@endif
+                                 aria-valuemax="100">@if($porcentaje>0){{ $porcentaje }}&thinsp;%@endif
                             </div>
                         </div>
                         <div class="text-muted small text-right">
