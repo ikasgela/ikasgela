@@ -375,7 +375,7 @@ class ActividadController extends Controller
         // Pasar a la siguiente si no es final y no hay otra activa
         if (!is_null($actividad->siguiente)
             && $actividad->siguiente->plantilla
-            && ($usuario->actividades_asignadas()->count() < $max_simultaneas || $sin_limite)) {
+            && ($usuario->actividades_enviadas_noautoavance()->count() < $max_simultaneas || $sin_limite)) {
 
             // Crear el clon de la siguiente y guardarlo
             $plantilla = Actividad::find($actividad->plantilla_id);
