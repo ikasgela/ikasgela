@@ -70,7 +70,7 @@ class ProfesorController extends Controller
                     break;
             }
         } else {
-            $usuarios = User::organizacionActual()->rolAlumno()->orderBy('name')->get();
+            $usuarios = User::cursoActual()->rolAlumno()->orderBy('name')->get();
         }
 
         $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
@@ -134,7 +134,7 @@ class ProfesorController extends Controller
 
         // Obtener el id del anterior y el siguiente
 
-        $usuarios = User::organizacionActual()->rolAlumno()->orderBy('name')->pluck('id')->toArray();
+        $usuarios = User::cursoActual()->rolAlumno()->orderBy('name')->pluck('id')->toArray();
 
         $pos = array_search($user->id, $usuarios);
 

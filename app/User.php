@@ -291,6 +291,13 @@ class User extends Authenticatable implements MustVerifyEmail
         });
     }
 
+    public function scopeCursoActual($query)
+    {
+        return $query->whereHas('cursos', function ($query) {
+            $query->where('cursos.id', setting_usuario('curso_actual'));
+        });
+    }
+
     public function scopeRolAlumno($query)
     {
         return $query->whereHas('roles', function ($query) {
