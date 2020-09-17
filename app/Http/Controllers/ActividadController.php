@@ -369,11 +369,13 @@ class ActividadController extends Controller
 
     private function mostrarSiguienteActividad(Actividad $actividad, User $usuario, bool $sin_limite = false)
     {
-        // Calcular el límite máximo de actividades: Usuario -> Curso -> 2
-        $max_simultaneas = $usuario->max_simultaneas ?? $usuario->curso_actual()->max_simultaneas ?? 2;
+        // Calcular el límite máximo de actividades: Usuario -> Curso -> 1000
+        $max_simultaneas = $usuario->max_simultaneas ?? $usuario->curso_actual()->max_simultaneas ?? 1000;
 
         // Pasar a la siguiente si no es final y no hay otra activa
-        if (!is_null($actividad->siguiente) && $actividad->siguiente->plantilla && ($usuario->actividades_asignadas()->count() < $max_simultaneas || $sin_limite)) {
+        if (!is_null($actividad->siguiente)
+            && $actividad->siguiente->plantilla
+            && ($usuario->actividades_asignadas()->count() < $max_simultaneas || $sin_limite)) {
 
             // Crear el clon de la siguiente y guardarlo
             $plantilla = Actividad::find($actividad->plantilla_id);
