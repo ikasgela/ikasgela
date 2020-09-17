@@ -16,6 +16,7 @@
                 <th>{{ __('Organization') }}</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Description') }}</th>
+                <th>{{ __('Exam weight') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -26,6 +27,7 @@
                     <td>{{ $skill->organization->name }}</td>
                     <td>{{ $skill->name }}</td>
                     <td>{{ $skill->description }}</td>
+                    <td>{{ $skill->peso_examen }}</td>
                     <td class="text-nowrap">
                         {!! Form::open(['route' => ['skills.destroy', $skill->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>

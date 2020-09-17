@@ -22,6 +22,7 @@
 
             {{ Form::campoTexto('name', __('Name')) }}
             {{ Form::campoTexto('description', __('Description')) }}
+            {{ Form::campoTexto('peso_examen', __('Exam weight')) }}
 
             @include('partials.guardar_cancelar')
 
