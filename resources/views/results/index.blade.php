@@ -144,7 +144,7 @@
                         </div>
 
                         <div class="ml-5 progress" style="height: 24px;">
-                            @php($porcentaje = $resultado->actividad > 0 ? round($resultado->tarea/$resultado->actividad*100) : 0)
+                            @php($porcentaje = $resultado->actividad > 0 ? $resultado->tarea/$resultado->actividad*100 : 0)
                             <div class="progress-bar {{ $porcentaje<50 ? 'bg-warning text-dark' : 'bg-success' }}"
                                  role="progressbar"
                                  style="width: {{ $porcentaje }}%;"
