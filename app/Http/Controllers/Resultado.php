@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 class Resultado
 {
-    public $tarea;
-    public $actividad;
+    public $tarea = 0;
+    public $actividad = 0;
 
-    public $puntos_tarea;
-    public $puntos_totales_tarea;
-    public $puntos_examen;
-    public $puntos_totales_examen;
+    public $puntos_tarea = 0;
+    public $puntos_totales_tarea = 0;
+    public $puntos_examen = 0;
+    public $puntos_totales_examen = 0;
 
-    public $porcentaje;
+    public $porcentaje = 0;
 }
