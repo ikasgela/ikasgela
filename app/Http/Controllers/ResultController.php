@@ -72,14 +72,17 @@ class ResultController extends Controller
                 $resultados[$skill->id]->porcentaje = $skill->pivot->percentage;
             }
 
-            foreach ($user->actividades as $actividad) {
+            foreach ($user->actividades_completadas()->get() as $actividad) {
 
+                // Total de puntos de la actividad
                 $puntuacion_actividad = $actividad->puntuacion * ($actividad->multiplicador ?: 1);
+
+                // Puntos obtenidos
                 $puntuacion_tarea = $actividad->tarea->puntuacion * ($actividad->multiplicador ?: 1);
-                $completada = in_array($actividad->tarea->estado, [40, 60]);
 
-                if ($puntuacion_actividad > 0 && $completada) {
+                if ($puntuacion_actividad > 0) {
 
+                    // Obtener las competencias: Curso->Unidad->Actividad
                     if (!is_null($actividad->qualification_id)) {
                         $skills = $actividad->qualification->skills;
                     } else if (!is_null($actividad->unidad->qualification_id)) {
@@ -89,12 +92,33 @@ class ResultController extends Controller
                     }
 
                     foreach ($skills as $skill) {
+
+                        // Aportación de la competencia a la cualificación
                         $porcentaje = $skill->pivot->percentage;
-                        $resultados[$skill->id]->actividad += $puntuacion_actividad * $porcentaje / 100;
-                        $resultados[$skill->id]->tarea += $puntuacion_tarea * $porcentaje / 100;
+
+                        // Peso relativo de las actividades de examen
+                        $peso_examen = $skill->peso_examen;
+                        $peso_tarea = 100 - $skill->peso_examen;
+
+                        if (!$actividad->hasEtiqueta('examen')) {
+                            $resultados[$skill->id]->puntos_tarea += $puntuacion_tarea;
+                            $resultados[$skill->id]->puntos_totales_tarea += $puntuacion_actividad;
+
+                            $resultados[$skill->id]->tarea += $puntuacion_tarea * ($peso_tarea / $puntuacion_actividad) * ($porcentaje / 100);
+                            $resultados[$skill->id]->actividad += $puntuacion_actividad * ($peso_tarea / $puntuacion_actividad) * ($porcentaje / 100);
+
+                        } else {
+                            $resultados[$skill->id]->puntos_examen += $puntuacion_tarea;
+                            $resultados[$skill->id]->puntos_totales_examen += $puntuacion_actividad;
+
+                            $resultados[$skill->id]->tarea += $puntuacion_tarea * ($peso_examen / $puntuacion_actividad) * ($porcentaje / 100);
+                            $resultados[$skill->id]->actividad += $puntuacion_actividad * ($peso_examen / $puntuacion_actividad) * ($porcentaje / 100);
+                        }
+
                     }
 
-                    if ($resultados[$skill->id]->tarea / $resultados[$skill->id]->actividad < 0.5)
+                    // TODO: Revisar como influye este ajuste cuando hay exámenes
+                    if ($resultados[$skill->id]->actividad > 0 && $resultados[$skill->id]->tarea / $resultados[$skill->id]->actividad < 0.5)
                         $competencias_50_porciento = false;
                 }
             }
