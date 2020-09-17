@@ -14,7 +14,10 @@
                 <div class="col-sm-10">
                     <select class="form-control" id="organization_id" name="organization_id">
                         @foreach($organizations as $organization)
-                            <option value="{{ $organization->id }}" <?php if ($skill->organization_id == $organization->id) echo 'selected'; ?>>{{ $organization->name }}</option>
+                            <option
+                                value="{{ $organization->id }}" {{ $skill->organization_id == $organization->id ? 'selected' : '' }}>
+                                {{ $organization->name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -22,6 +25,7 @@
 
             {{ Form::campoTexto('name', __('Name')) }}
             {{ Form::campoTexto('description', __('Description')) }}
+            {{ Form::campoTexto('peso_examen', __('Exam weight')) }}
 
             @include('partials.guardar_cancelar')
 
