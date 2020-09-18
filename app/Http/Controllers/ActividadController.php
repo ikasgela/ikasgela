@@ -237,10 +237,12 @@ class ActividadController extends Controller
                 $tarea->user->save();
 
                 $tarea->save();
-                $this->mostrarSiguienteActividad($actividad, $usuario);
 
-                $this->bloquearRepositorios($tarea, true);
-                $tarea->archiveFiles();
+                if (!$tarea->actividad->auto_avance) {
+                    $this->mostrarSiguienteActividad($actividad, $usuario);
+                    $this->bloquearRepositorios($tarea, true);
+                    $tarea->archiveFiles();
+                }
                 break;
 
             // Reiniciada (botón de reset, para cuando se confunden y envian sin querer)
