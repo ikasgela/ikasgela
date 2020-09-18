@@ -24,7 +24,9 @@
             @foreach($feedbacks as $feedback)
                 <tr>
                     <td>{{ $feedback->id }}</td>
-                    <td>{{ is_a($feedback->curso, 'App\Actividad') ? $feedback->curso->unidad->codigo.' - ' : '' }}{{ $feedback->curso->nombre }}</td>
+                    <td>{{ $feedback->curso->category->period->organization->name }}
+                        - {{ $feedback->curso->category->period->name }}
+                        - {{ is_a($feedback->curso, 'App\Actividad') ? $feedback->curso->unidad->codigo.' - ' : '' }}{{ $feedback->curso->nombre }}</td>
                     <td>{{ $feedback->titulo }}</td>
                     <td>
                         {!! Form::open(['route' => ['feedbacks.destroy', $feedback->id], 'method' => 'DELETE']) !!}

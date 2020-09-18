@@ -15,7 +15,7 @@
 
             {{ Form::campoTexto('curso_actividad',
                 is_a($feedback->curso, 'App\Curso') ? __('Course') : __('Activity'),
-                $feedback->curso->nombre, ['readonly'])
+                $feedback->curso->category->period->organization->name.' - '.$feedback->curso->category->period->name.' - '.$feedback->curso->nombre, ['readonly'])
                 }}
             {{ Form::hidden('curso_id',$feedback->curso_id) }}
             {{ Form::campoTexto('titulo', __('Title')) }}

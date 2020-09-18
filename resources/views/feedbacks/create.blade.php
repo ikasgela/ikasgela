@@ -15,7 +15,8 @@
                     <select class="form-control" id="curso_id" name="curso_id">
                         @foreach($cursos as $curso)
                             <option value="{{ $curso->id }}">
-                                {{ $curso->category->period->organization->name }} - {{ $curso->nombre }}
+                                {{ $curso->category->period->organization->name }}
+                                - {{ $curso->category->period->name }} - {{ $curso->nombre }}
                             </option>
                         @endforeach
                     </select>
