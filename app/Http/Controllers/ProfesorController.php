@@ -134,7 +134,7 @@ class ProfesorController extends Controller
 
         // Obtener el id del anterior y el siguiente
 
-        $usuarios = User::cursoActual()->rolAlumno()->orderBy('name')->pluck('id')->toArray();
+        $usuarios = User::cursoActual()->rolAlumno()->noBloqueado()->orderBy('name')->pluck('id')->toArray();
 
         $pos = array_search($user->id, $usuarios);
 
