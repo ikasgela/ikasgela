@@ -6,6 +6,7 @@ use App\Traits\Etiquetas;
 use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Actividad extends Model
@@ -85,10 +86,10 @@ class Actividad extends Model
             ->as('tarea')
             ->withPivot([
                 'id',
-
                 'estado',
                 'feedback',
                 'puntuacion',
+                'intentos'
             ]);
     }
 
@@ -217,5 +218,17 @@ class Actividad extends Model
     public function scopeCaducada($query)
     {
         return $query->where('fecha_limite', '<', now());
+    }
+
+    public function scopeEstados($query, $estados)
+    {
+        return $query->whereHas('users', function ($q) use ($estados) {
+            $q->where('user_id', Auth::user()->id)->whereIn('estado', $estados);
+        });
+    }
+
+    public function scopeAutoAvance($query)
+    {
+        return $query->where('auto_avance', true);
     }
 }

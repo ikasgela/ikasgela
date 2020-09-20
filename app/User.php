@@ -135,31 +135,26 @@ class User extends Authenticatable implements MustVerifyEmail
     public function actividades_en_curso()
     {
         return $this->actividades()
-            ->whereHas('users', function ($q) {
-                $q->where('user_id', $this->id)
-                    ->whereIn('estado', [10, 20]);
-            })->enPlazo()
-            ->orWhereHas('users', function ($q) {
-                $q->where('user_id', $this->id)
-                    ->whereIn('estado', [40, 41, 42]);
+            ->where(function ($query) {
+                $query
+                    ->estados([10, 20])
+                    ->enPlazo();
+            })
+            ->orWhere(function ($query) {
+                $query
+                    ->estados([40, 41, 42]);
             });
     }
 
     public function actividades_en_curso_autoavance()
     {
-        return $this->actividades()
-            ->whereHas('users', function ($q) {
-                $q->where('user_id', $this->id)
-                    ->whereIn('estado', [10, 20]);
-            })->enPlazo()
-            ->orWhereHas('users', function ($q) {
-                $q->where('user_id', $this->id)
-                    ->whereIn('estado', [40, 41, 42]);
-            })
-            ->orWhereHas('users', function ($q) {
-                $q->where('user_id', $this->id)
-                    ->whereIn('estado', [30]);
-            })->where('auto_avance', true)->enPlazo();
+        return $this->actividades_en_curso()
+            ->orWhere(function ($query) {
+                $query
+                    ->estados([30])
+                    ->autoAvance()
+                    ->enPlazo();
+            });
     }
 
     public function actividades_enviadas()
@@ -172,7 +167,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->actividades()
             ->wherePivotIn('estado', [30])
-            ->where('auto_avance', false);
+            ->where('auto_avance', false)
+            ->enPlazo();
     }
 
     public function actividades_revisadas()
