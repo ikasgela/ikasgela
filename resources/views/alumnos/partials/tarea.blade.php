@@ -53,7 +53,7 @@
         <div class="card border-dark">
             <div class="card-header text-white bg-dark d-flex justify-content-between">
                 <span>{{ $actividad->unidad->curso->nombre }} » {{ $actividad->unidad->nombre }}</span>
-                @if(!$actividad->tarea->is_completada && isset($actividad->fecha_entrega))
+                @if(isset($actividad->fecha_entrega) && !$actividad->tarea->is_completada && !$actividad->tarea->is_enviada)
                     @if($actividad->fecha_entrega->gt(\Carbon\Carbon::now()))
                         <div>{{ __('Remaining time') }}:
                             <span data-countdown="{{ $actividad->fecha_entrega }}"></span>
