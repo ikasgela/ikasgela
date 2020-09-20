@@ -135,19 +135,31 @@ class User extends Authenticatable implements MustVerifyEmail
     public function actividades_en_curso()
     {
         return $this->actividades()
-            ->enPlazo()
-            ->wherePivotIn('estado', [10, 20])
-            ->orWherePivotIn('estado', [40, 41, 42]);
+            ->whereHas('users', function ($q) {
+                $q->where('user_id', $this->id)
+                    ->whereIn('estado', [10, 20]);
+            })->enPlazo()
+            ->orWhereHas('users', function ($q) {
+                $q->where('user_id', $this->id)
+                    ->whereIn('estado', [40, 41, 42]);
+            });
     }
 
     public function actividades_en_curso_autoavance()
     {
         return $this->actividades()
-            ->enPlazo()
-            ->wherePivotIn('estado', [10, 20])
-            ->orWherePivotIn('estado', [30])
-            ->where('auto_avance', true)
-            ->orWherePivotIn('estado', [40, 41, 42]);
+            ->whereHas('users', function ($q) {
+                $q->where('user_id', $this->id)
+                    ->whereIn('estado', [10, 20]);
+            })->enPlazo()
+            ->orWhereHas('users', function ($q) {
+                $q->where('user_id', $this->id)
+                    ->whereIn('estado', [40, 41, 42]);
+            })
+            ->orWhereHas('users', function ($q) {
+                $q->where('user_id', $this->id)
+                    ->whereIn('estado', [30]);
+            })->where('auto_avance', true)->enPlazo();
     }
 
     public function actividades_enviadas()
