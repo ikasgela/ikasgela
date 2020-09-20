@@ -3,7 +3,6 @@
 namespace App;
 
 use App\Traits\Etiquetas;
-use Carbon\Carbon;
 use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -110,107 +109,71 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function actividades_nuevas()
     {
-        return $this->actividades()->wherePivot('estado', 10);
+        return $this->actividades()
+            ->wherePivot('estado', 10);
     }
 
     public function actividades_ocultas()
     {
-        return $this->actividades()->wherePivot('estado', 11);
+        return $this->actividades()
+            ->wherePivot('estado', 11);
     }
 
     public function actividades_aceptadas()
     {
-        return $this->actividades()->wherePivotIn('estado', [20, 21]);
-    }
-
-    public function actividades_en_curso()
-    {
         return $this->actividades()
-            ->wherePivotIn('estado', [10, 20, 21, 40, 41, 42])
-            ->where(function ($query) {
-                $query->where('fecha_disponibilidad', '<=', Carbon::now())
-                    ->orWhereNull('fecha_disponibilidad')
-                    ->orWhere('estado', 40);    // Si no, al corregir no se ve la tarea vencida
-            })
-            ->where(function ($query) {
-                $query->where('fecha_limite', '>=', Carbon::now())
-                    ->orWhereNull('fecha_limite')
-                    ->orWhere('estado', 40);
-            });
+            ->wherePivotIn('estado', [20, 21]);
     }
 
     public function actividades_caducadas()
     {
         return $this->actividades()
-            ->wherePivotIn('estado', [10, 20, 21, 41, 42])
-            ->where(function ($query) {
-                $query->where('fecha_limite', '<', Carbon::now());
-            });
+            ->caducada()
+            ->wherePivotNotIn('estado', [30, 40, 60, 62]);
+    }
+
+    public function actividades_en_curso()
+    {
+        return $this->actividades()
+            ->enPlazo()
+            ->wherePivotIn('estado', [10, 20])
+            ->orWherePivotIn('estado', [40, 41, 42]);
     }
 
     public function actividades_en_curso_autoavance()
     {
         return $this->actividades()
-            ->wherePivotIn('estado', [10, 20, 21, 40, 41, 42])
-            ->where(function ($query) {
-                $query->where('fecha_disponibilidad', '<=', Carbon::now())
-                    ->orWhereNull('fecha_disponibilidad')
-                    ->orWhere('estado', 40);    // Si no, al corregir no se ve la tarea vencida
-            })
-            ->where(function ($query) {
-                $query->where('fecha_limite', '>=', Carbon::now())
-                    ->orWhereNull('fecha_limite')
-                    ->orWhere('estado', 40);
-            })
+            ->enPlazo()
+            ->wherePivotIn('estado', [10, 20])
             ->orWherePivotIn('estado', [30])
             ->where('auto_avance', true)
-            ->where(function ($query) {
-                $query->where('fecha_disponibilidad', '<=', Carbon::now())
-                    ->orWhereNull('fecha_disponibilidad');
-            })
-            ->where(function ($query) {
-                $query->where('fecha_limite', '>=', Carbon::now())
-                    ->orWhereNull('fecha_limite');
-            });
+            ->orWherePivotIn('estado', [40, 41, 42]);
     }
 
     public function actividades_enviadas()
     {
         return $this->actividades()
-            ->wherePivotIn('estado', [30])
-            ->where(function ($query) {
-                $query->where('fecha_disponibilidad', '<=', Carbon::now())
-                    ->orWhereNull('fecha_disponibilidad');
-            })
-            ->where(function ($query) {
-                $query->where('fecha_limite', '>=', Carbon::now())
-                    ->orWhereNull('fecha_limite');
-            });
+            ->wherePivotIn('estado', [30]);
     }
 
     public function actividades_enviadas_noautoavance()
     {
         return $this->actividades()
             ->wherePivotIn('estado', [30])
-            ->where('auto_avance', false)
-            ->where(function ($query) {
-                $query->where('fecha_disponibilidad', '<=', Carbon::now())
-                    ->orWhereNull('fecha_disponibilidad');
-            })
-            ->where(function ($query) {
-                $query->where('fecha_limite', '>=', Carbon::now())
-                    ->orWhereNull('fecha_limite');
-            });
+            ->where('auto_avance', false);
     }
 
     public function actividades_revisadas()
     {
-        return $this->actividades()->where('auto_avance', false)->wherePivotIn('estado', [40, 41]);
+        return $this->actividades()
+            ->where('auto_avance', false)
+            ->wherePivotIn('estado', [40, 41]);
     }
 
     public function actividades_archivadas()
     {
-        return $this->actividades()->wherePivotIn('estado', [60, 62]);
+        return $this->actividades()
+            ->wherePivotIn('estado', [60, 62]);
     }
 
     public function actividades_completadas()
@@ -222,30 +185,21 @@ class User extends Authenticatable implements MustVerifyEmail
     public function actividades_sin_completar()
     {
         return $this->actividades()
-            ->wherePivotIn('estado', [10, 20, 30, 41, 42])
-            ->where('tags', 'LIKE', '%base%');
+            ->wherePivotNotIn('estado', [40, 60, 62])
+            ->tag('base');
     }
 
     public function actividades_asignadas()
     {
         return $this->actividades()
-            ->wherePivotIn('estado', [10, 20, 30, 40, 41, 42])
-            ->where(function ($query) {
-                $query->where('fecha_disponibilidad', '<=', Carbon::now())
-                    ->orWhereNull('fecha_disponibilidad')
-                    ->orWhere('estado', 40);
-            })
-            ->where(function ($query) {
-                $query->where('fecha_limite', '>=', Carbon::now())
-                    ->orWhereNull('fecha_limite')
-                    ->orWhere('estado', 40);
-            });
+            ->enPlazo()
+            ->wherePivotIn('estado', [10, 20, 30, 40, 41, 42]);
     }
 
     public function actividades_examen()
     {
         return $this->actividades()
-            ->where('tags', 'LIKE', '%examen%');
+            ->tag('examen');
     }
 
     public function teams()
