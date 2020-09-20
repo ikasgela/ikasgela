@@ -10,9 +10,9 @@ use App\User;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class FiltradoActividadesTest extends DuskTestCase
+class T6_FiltradoActividadesTest extends DuskTestCase
 {
-    public function testTareaBienvenida()
+    public function testFiltradoActividades()
     {
         $this->browse(function (Browser $browser) {
 
@@ -57,8 +57,6 @@ class FiltradoActividadesTest extends DuskTestCase
                 $browser->refresh();
                 $browser->assertSee($nombre);
 
-                $browser->screenshot($nombre);
-
                 $actividad->delete();
             }
             // Fin del test -----------------------------------------------------------------------
@@ -79,8 +77,6 @@ class FiltradoActividadesTest extends DuskTestCase
 
                 $browser->refresh();
                 $browser->assertDontSee($nombre);
-
-                $browser->screenshot($nombre);
 
                 $actividad->delete();
             }
@@ -104,8 +100,6 @@ class FiltradoActividadesTest extends DuskTestCase
 
             $browser->assertSee($nombre);
 
-            $browser->screenshot($nombre);
-
             $actividad->delete();
             // Fin del test
 
@@ -126,8 +120,6 @@ class FiltradoActividadesTest extends DuskTestCase
 
             $browser->assertSee($nombre);
 
-            $browser->screenshot($nombre);
-
             $actividad->delete();
             // Fin del test
 
@@ -147,8 +139,6 @@ class FiltradoActividadesTest extends DuskTestCase
             $browser->refresh();
 
             $browser->assertDontSee($nombre);
-
-            $browser->screenshot($nombre);
 
             $actividad->delete();
             // Fin del test
@@ -171,8 +161,6 @@ class FiltradoActividadesTest extends DuskTestCase
                 $browser->refresh();
                 $browser->assertDontSee($nombre);
 
-                $browser->screenshot($nombre);
-
                 $actividad->delete();
             }
             // Fin del test -----------------------------------------------------------------------
@@ -194,8 +182,6 @@ class FiltradoActividadesTest extends DuskTestCase
 
                 $browser->refresh();
                 $browser->assertSee($nombre);
-
-                $browser->screenshot($nombre);
 
                 $actividad->delete();
             }

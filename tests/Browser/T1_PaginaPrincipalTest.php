@@ -5,7 +5,7 @@ namespace Tests\Browser;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class PaginaPrincipalTest extends DuskTestCase
+class T1_PaginaPrincipalTest extends DuskTestCase
 {
     public function testPaginaPrincipal()
     {

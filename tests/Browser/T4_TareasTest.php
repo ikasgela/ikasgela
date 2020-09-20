@@ -5,7 +5,7 @@ namespace Tests\Browser;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class TareasTest extends DuskTestCase
+class T4_TareasTest extends DuskTestCase
 {
     public function testTareaBienvenida()
     {

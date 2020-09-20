@@ -5,19 +5,19 @@ namespace Tests\Browser;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class LoginAlumnoTest extends DuskTestCase
+class T2_LoginProfesorTest extends DuskTestCase
 {
-    public function testLoginAlumno()
+    public function testLoginProfesor()
     {
         $this->browse(function (Browser $browser) {
 
-            // Login de alumno
+            // Login de profesor
             $browser->visit('/login');
-            $browser->type('email', 'marc@ikasgela.com');
+            $browser->type('email', 'lucia@ikasgela.com');
             $browser->type('password', '12345Abcde');
             $browser->check('remember');
             $browser->press('Entrar');
-            $browser->assertPathIs('/home');
+            $browser->assertPathIs('/alumnos');
         });
     }
 }
