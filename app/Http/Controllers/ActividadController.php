@@ -283,6 +283,11 @@ class ActividadController extends Controller
 
                 $registro->detalles = $tarea->feedback;
 
+                $plazo = now()->addDays($actividad->unidad->curso->plazo_actividad);
+                $actividad->fecha_entrega = $plazo;
+                $actividad->fecha_limite = $plazo;
+                $actividad->save();
+
                 $tarea->user->last_active = now();
                 $tarea->user->save();
 
