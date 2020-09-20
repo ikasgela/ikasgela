@@ -135,15 +135,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function actividades_en_curso()
     {
         return $this->actividades()
-            ->enPlazo()
-            ->wherePivotIn('estado', [10, 20])
-            ->orWhere
-            ->wherePivotIn('estado', [40, 41, 42]);
-    }
-
-    public function actividades_en_curso_autoavance()
-    {
-        return $this->actividades()
             ->where(function ($query) {
                 $query
                     ->estados([10, 20])
@@ -151,13 +142,18 @@ class User extends Authenticatable implements MustVerifyEmail
             })
             ->orWhere(function ($query) {
                 $query
+                    ->estados([40, 41, 42]);
+            });
+    }
+
+    public function actividades_en_curso_autoavance()
+    {
+        return $this->actividades_en_curso()
+            ->orWhere(function ($query) {
+                $query
                     ->estados([30])
                     ->autoAvance()
                     ->enPlazo();
-            })
-            ->orWhere(function ($query) {
-                $query
-                    ->estados([40, 41, 42]);
             });
     }
 
