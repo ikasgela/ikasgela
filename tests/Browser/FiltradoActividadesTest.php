@@ -153,30 +153,53 @@ class FiltradoActividadesTest extends DuskTestCase
             $actividad->delete();
             // Fin del test
 
-            // Test
-            $estado = 40;
-            $nombre = 'tarea_examen_caducada_corregida_' . $estado;
+            // Test -------------------------------------------------------------------------------
+            $estados = [10, 20, 30];
 
-            $actividad = factory(Actividad::class)->create([
-                'nombre' => $nombre,
-                'unidad_id' => $unidad->id,
-                'tags' => 'examen',
-                'fecha_limite' => now()->addDays(-1),
-            ]);
+            foreach ($estados as $estado) {
+                $nombre = 'tarea_examen_caducada_' . $estado;
 
-            $usuario->actividades()->attach($actividad, ['estado' => $estado]);
+                $actividad = factory(Actividad::class)->create([
+                    'nombre' => $nombre,
+                    'unidad_id' => $unidad->id,
+                    'tags' => 'examen',
+                    'fecha_limite' => now()->addDays(-1),
+                ]);
 
-            $browser->refresh();
+                $usuario->actividades()->attach($actividad, ['estado' => $estado]);
 
-            //$browser->click('#pills-enviadas-tab');
-            //$browser->pause(1000);
+                $browser->refresh();
+                $browser->assertDontSee($nombre);
 
-            $browser->assertSee($nombre);
+                $browser->screenshot($nombre);
 
-            $browser->screenshot($nombre);
+                $actividad->delete();
+            }
+            // Fin del test -----------------------------------------------------------------------
 
-            $actividad->delete();
-            // Fin del test
+            // Test -------------------------------------------------------------------------------
+            $estados = [40, 41, 42];
+
+            foreach ($estados as $estado) {
+                $nombre = 'tarea_examen_caducada_corregida_' . $estado;
+
+                $actividad = factory(Actividad::class)->create([
+                    'nombre' => $nombre,
+                    'unidad_id' => $unidad->id,
+                    'tags' => 'examen',
+                    'fecha_limite' => now()->addDays(-1),
+                ]);
+
+                $usuario->actividades()->attach($actividad, ['estado' => $estado]);
+
+                $browser->refresh();
+                $browser->assertSee($nombre);
+
+                $browser->screenshot($nombre);
+
+                $actividad->delete();
+            }
+            // Fin del test -----------------------------------------------------------------------
 
             // Restaurar la tarea de bienvenida
             $tarea_bienvenida->estado = 10;
