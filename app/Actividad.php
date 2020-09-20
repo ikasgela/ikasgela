@@ -218,4 +218,16 @@ class Actividad extends Model
     {
         return $query->where('fecha_limite', '<', now());
     }
+
+    public function scopeEstados($query, $estados)
+    {
+        return $query->whereHas('users', function ($q) use ($estados) {
+            $q->whereIn('estado', $estados);
+        });
+    }
+
+    public function scopeAutoAvance($query)
+    {
+        return $query->where('auto_avance', true);
+    }
 }

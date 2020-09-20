@@ -65,7 +65,7 @@ class FiltradoActividadesTest extends DuskTestCase
 
             // Test
             $estado = 30;
-            $nombre = 'tarea_' . $estado;
+            $nombre = 'tarea_enviada' . $estado;
 
             $actividad = factory(Actividad::class)->create([
                 'nombre' => $nombre,
@@ -75,9 +75,10 @@ class FiltradoActividadesTest extends DuskTestCase
             $usuario->actividades()->attach($actividad, ['estado' => $estado]);
 
             $browser->refresh();
-            $browser->click('#pills-enviadas-tab');
 
+            $browser->click('#pills-enviadas-tab');
             $browser->pause(1000);
+
             $browser->assertSee($nombre);
 
             $browser->screenshot($nombre);
@@ -85,6 +86,52 @@ class FiltradoActividadesTest extends DuskTestCase
             $actividad->delete();
             // Fin del test
 
+            // Test
+            $estado = 30;
+            $nombre = 'tarea_enviada_autoavance' . $estado;
+
+            $actividad = factory(Actividad::class)->create([
+                'nombre' => $nombre,
+                'unidad_id' => $unidad->id,
+                'auto_avance' => true,
+                'fecha_limite' => now()->addDays(1),
+            ]);
+
+            $usuario->actividades()->attach($actividad, ['estado' => $estado]);
+
+            $browser->refresh();
+
+            $browser->assertSee($nombre);
+
+            $browser->screenshot($nombre);
+
+            $actividad->delete();
+            // Fin del test
+
+            // Test
+            $estado = 40;
+            $nombre = 'tarea_examen_caducada_corregida_' . $estado;
+
+            $actividad = factory(Actividad::class)->create([
+                'nombre' => $nombre,
+                'unidad_id' => $unidad->id,
+                'tags' => 'examen',
+                'fecha_limite' => now()->addDays(-1),
+            ]);
+
+            $usuario->actividades()->attach($actividad, ['estado' => $estado]);
+
+            $browser->refresh();
+
+            //$browser->click('#pills-enviadas-tab');
+            //$browser->pause(1000);
+
+            $browser->assertSee($nombre);
+
+            $browser->screenshot($nombre);
+
+            $actividad->delete();
+            // Fin del test
 
             // Restaurar la tarea de bienvenida
             $tarea_bienvenida->estado = 10;

@@ -135,31 +135,30 @@ class User extends Authenticatable implements MustVerifyEmail
     public function actividades_en_curso()
     {
         return $this->actividades()
-            ->whereHas('users', function ($q) {
-                $q->where('user_id', $this->id)
-                    ->whereIn('estado', [10, 20]);
-            })->enPlazo()
-            ->orWhereHas('users', function ($q) {
-                $q->where('user_id', $this->id)
-                    ->whereIn('estado', [40, 41, 42]);
-            });
+            ->enPlazo()
+            ->wherePivotIn('estado', [10, 20])
+            ->orWhere
+            ->wherePivotIn('estado', [40, 41, 42]);
     }
 
     public function actividades_en_curso_autoavance()
     {
         return $this->actividades()
-            ->whereHas('users', function ($q) {
-                $q->where('user_id', $this->id)
-                    ->whereIn('estado', [10, 20]);
-            })->enPlazo()
-            ->orWhereHas('users', function ($q) {
-                $q->where('user_id', $this->id)
-                    ->whereIn('estado', [40, 41, 42]);
+            ->where(function ($query) {
+                $query
+                    ->estados([10, 20])
+                    ->enPlazo();
             })
-            ->orWhereHas('users', function ($q) {
-                $q->where('user_id', $this->id)
-                    ->whereIn('estado', [30]);
-            })->where('auto_avance', true)->enPlazo();
+            ->orWhere(function ($query) {
+                $query
+                    ->estados([30])
+                    ->autoAvance()
+                    ->enPlazo();
+            })
+            ->orWhere(function ($query) {
+                $query
+                    ->estados([40, 41, 42]);
+            });
     }
 
     public function actividades_enviadas()
