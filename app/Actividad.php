@@ -86,10 +86,10 @@ class Actividad extends Model
             ->as('tarea')
             ->withPivot([
                 'id',
-
                 'estado',
                 'feedback',
                 'puntuacion',
+                'intentos'
             ]);
     }
 
