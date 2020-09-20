@@ -222,7 +222,9 @@ class ProfesorController extends Controller
 
                 $clon = $actividad->duplicate();
                 $clon->plantilla_id = $actividad->id;
-                $plazo = Carbon::now()->addDays($actividad->unidad->curso->plazo_actividad);
+                $ahora = now();
+                $clon->fecha_disponibilidad = $ahora;
+                $plazo = $ahora->addDays($actividad->unidad->curso->plazo_actividad);
                 $clon->fecha_entrega = $plazo;
                 $clon->fecha_limite = $plazo;
                 $clon->save();
@@ -245,7 +247,7 @@ class ProfesorController extends Controller
                 'user_id' => $user->id,
                 'tarea_id' => $tarea->id,
                 'estado' => 10,
-                'timestamp' => Carbon::now(),
+                'timestamp' => now(),
                 'curso_id' => Auth::user()->curso_actual()->id,
             ]);
         }
