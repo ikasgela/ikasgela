@@ -88,7 +88,7 @@ class FiltradoActividadesTest extends DuskTestCase
 
             // Test
             $estado = 30;
-            $nombre = 'tarea_enviada_autoavance' . $estado;
+            $nombre = 'tarea_enviada_autoavance_en_plazo' . $estado;
 
             $actividad = factory(Actividad::class)->create([
                 'nombre' => $nombre,
@@ -102,6 +102,28 @@ class FiltradoActividadesTest extends DuskTestCase
             $browser->refresh();
 
             $browser->assertSee($nombre);
+
+            $browser->screenshot($nombre);
+
+            $actividad->delete();
+            // Fin del test
+
+            // Test
+            $estado = 30;
+            $nombre = 'tarea_enviada_autoavance_caducada' . $estado;
+
+            $actividad = factory(Actividad::class)->create([
+                'nombre' => $nombre,
+                'unidad_id' => $unidad->id,
+                'auto_avance' => true,
+                'fecha_limite' => now()->addDays(-1),
+            ]);
+
+            $usuario->actividades()->attach($actividad, ['estado' => $estado]);
+
+            $browser->refresh();
+
+            $browser->assertDontSee($nombre);
 
             $browser->screenshot($nombre);
 
