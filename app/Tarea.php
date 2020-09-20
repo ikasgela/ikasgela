@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -77,7 +76,7 @@ class Tarea extends Pivot
 
     public function getIsExpiredAttribute()
     {
-        return isset($this->actividad->fecha_limite) && in_array($this->estado, [10, 20, 21, 41, 42]) && $this->actividad->fecha_limite < Carbon::now();
+        return isset($this->actividad->fecha_limite) && $this->actividad->fecha_limite < now();
     }
 
     public function archiveFiles()

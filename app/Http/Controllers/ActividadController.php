@@ -215,7 +215,7 @@ class ActividadController extends Controller
         $registro = new Registro();
         $registro->user_id = $usuario->id;
         $registro->tarea_id = $tarea->id;
-        $registro->timestamp = Carbon::now();
+        $registro->timestamp = now();
         $registro->estado = $nuevoestado;
         $registro->curso_id = Auth::user()->curso_actual()->id;
 
@@ -233,7 +233,7 @@ class ActividadController extends Controller
                     }
                 }
 
-                $tarea->user->last_active = Carbon::now();
+                $tarea->user->last_active = now();
                 $tarea->user->save();
 
                 $tarea->save();
@@ -266,7 +266,7 @@ class ActividadController extends Controller
 
                 $registro->detalles = $tarea->feedback;
 
-                $tarea->user->last_active = Carbon::now();
+                $tarea->user->last_active = now();
                 $tarea->user->save();
 
                 break;
@@ -283,7 +283,7 @@ class ActividadController extends Controller
 
                 $registro->detalles = $tarea->feedback;
 
-                $tarea->user->last_active = Carbon::now();
+                $tarea->user->last_active = now();
                 $tarea->user->save();
 
                 $tarea->archiveFiles();
@@ -389,7 +389,9 @@ class ActividadController extends Controller
             }
 
             $clon->plantilla_id = $actividad->siguiente->id;
-            $plazo = Carbon::now()->addDays($actividad->unidad->curso->plazo_actividad);
+            $ahora = now();
+            $clon->fecha_disponibilidad = $ahora;
+            $plazo = $ahora->addDays($actividad->unidad->curso->plazo_actividad);
             $clon->fecha_entrega = $plazo;
             $clon->fecha_limite = $plazo;
             $clon->save();
@@ -416,7 +418,7 @@ class ActividadController extends Controller
                 'user_id' => $usuario->id,
                 'tarea_id' => $nueva_tarea->id,
                 'estado' => !$actividad->final ? 10 : 11,
-                'timestamp' => Carbon::now(),
+                'timestamp' => now(),
                 'curso_id' => Auth::user()->curso_actual()->id,
             ]);
         }

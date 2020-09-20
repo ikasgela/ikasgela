@@ -204,4 +204,18 @@ class Actividad extends Model
     {
         return $this->morphMany('App\Feedback', 'curso');
     }
+
+    public function scopeEnPlazo($query)
+    {
+        return $query->where(function ($query) {
+            $query->where('fecha_disponibilidad', '<=', now())->orWhereNull('fecha_disponibilidad');
+        })->where(function ($query) {
+            $query->where('fecha_limite', '>=', now())->orWhereNull('fecha_limite');
+        });
+    }
+
+    public function scopeCaducada($query)
+    {
+        return $query->where('fecha_limite', '<', now());
+    }
 }
