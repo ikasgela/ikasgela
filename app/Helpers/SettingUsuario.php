@@ -4,17 +4,15 @@ if (!function_exists('setting_usuario')) {
 
     function setting_usuario($key, $user = null)
     {
+        $usuario = null;
         if (!is_null($user)) {
-            setting()->setExtraColumns(['user_id' => $user->id]);
+            $usuario = $user->id;
         } else if (!is_null(Auth::user())) {
-            setting()->setExtraColumns(['user_id' => Auth::user()->id]);
+            $usuario = Auth::user()->id;
         }
 
-        return setting_sitio($key);
-    }
+        setting()->setExtraColumns(['user_id' => $usuario]);
 
-    function setting_sitio($key)
-    {
         if (is_array($key)) {
             if (!is_null(array_values($key)[0])) {
                 setting($key);
@@ -23,7 +21,7 @@ if (!function_exists('setting_usuario')) {
             }
             setting()->save();
         } else {
-            return setting($key);
+            return DB::table('settings')->where('user_id', $usuario)->where('key', $key)->first()->value;
         }
 
         return null;
