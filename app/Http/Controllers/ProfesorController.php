@@ -82,6 +82,7 @@ class ProfesorController extends Controller
         $disponibles = $this->actividadesDisponibles();
 
         $media_grupo = 0;
+        $total_actividades_grupo = 0;
 
         if ($curso_actual != null) {
 
