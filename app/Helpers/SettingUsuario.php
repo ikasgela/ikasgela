@@ -21,7 +21,12 @@ if (!function_exists('setting_usuario')) {
             }
             setting()->save();
         } else {
-            return DB::table('settings')->where('user_id', $usuario)->where('key', $key)->first()->value;
+            if (!is_null($usuario)) {
+                $result = DB::table('settings')->where('user_id', $usuario)->where('key', $key)->first();
+                return !is_null($result) ? $result->value : null;
+            } else {
+                return DB::table('settings')->where('key', $key)->first()->value;
+            }
         }
 
         return null;
