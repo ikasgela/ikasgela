@@ -215,6 +215,14 @@ class MessagesController extends Controller
         return back();
     }
 
+    public function destroyMessage($id)
+    {
+        $message = Message::findOrFail($id);
+        $message->delete();
+
+        return back();
+    }
+
     private function filtrarParrafosVacios($mensaje)
     {
         return preg_replace('/<p[^>]*>&nbsp;<\\/p[^>]*>/', '', $mensaje);

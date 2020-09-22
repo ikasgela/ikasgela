@@ -3,7 +3,18 @@
          onerror="this.onerror=null;this.src='{{ url("/svg/missing_avatar.svg") }}';">
     <div class="media-body pl-3 overflow-auto">
         <h5 class="media-heading">
+
             <span>{{ $message->user->name }}</span>
+            @auth
+                @if(Auth::user()->hasRole('profesor'))
+                    {!! Form::open(['route' => ['messages.destroy_message', $message->id], 'method' => 'DELETE']) !!}
+                    <div class="btn-group">
+                        @include('partials.boton_borrar')
+                    </div>
+                    {!! Form::close() !!}
+                @endif
+            @endauth
+
             @if(Auth::user()->hasRole('profesor') && $message->user->hasRole('alumno'))
                 <a title="{{ __('Control panel') }}" target="_blank"
                    href="{{ route('profesor.tareas', ['user' => $message->user->id]) }}"
