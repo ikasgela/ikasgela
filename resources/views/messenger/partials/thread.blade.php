@@ -27,11 +27,14 @@
                 @endif
             @endauth
         </div>
-        <small class="text-muted">{{ __('Latest message') }}</small>
     </div>
-    <div class="media rounded bg-light m-3 line-numbers">
-        <div class="media-body px-3 pt-3 overflow-auto" style="border-left: 4px solid #c8ced3; border-radius: 0.25em">
-            {!! $thread->latestMessage->body !!}
+    @if(!is_null($thread->latestMessage))
+        <small class="text-muted mx-3 mb-1">{{ __('Latest message') }}</small>
+        <div class="media rounded bg-light mx-3 mb-3 line-numbers">
+            <div class="media-body px-3 pt-3 overflow-auto"
+                 style="border-left: 4px solid #c8ced3; border-radius: 0.25em">
+                {!! $thread->latestMessage->body !!}
+            </div>
         </div>
-    </div>
+    @endif
 </div>

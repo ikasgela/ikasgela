@@ -371,7 +371,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/', ['as' => 'messages.store', 'uses' => 'MessagesController@store']);
         Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
         Route::put('{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
-        Route::delete('{id}', ['as' => 'messages.destroy', 'uses' => 'MessagesController@destroy']);
+        Route::delete('/delete_thread/{id}', ['as' => 'messages.destroy', 'uses' => 'MessagesController@destroy']);
+        Route::delete('/delete_message/{id}', ['as' => 'messages.destroy_message', 'uses' => 'MessagesController@destroyMessage']);
     });
 
     // Pruebas
