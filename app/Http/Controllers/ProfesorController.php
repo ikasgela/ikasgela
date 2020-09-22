@@ -65,8 +65,10 @@ class ProfesorController extends Controller
             if ($request->has('tag')) {
                 session(['profesor_filtro_etiquetas' => 'S']);
                 session()->push('tags', request('tag'));
-                $alumnos = $alumnos->tags(session('tags'));
             }
+
+            if (!is_null(session('tags')))
+                $alumnos = $alumnos->tags(session('tags'));
 
             switch (session('profesor_filtro_alumnos')) {
                 case 'R':
