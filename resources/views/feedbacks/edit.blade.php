@@ -15,7 +15,10 @@
 
             {{ Form::campoTexto('curso_actividad',
                 is_a($feedback->curso, 'App\Curso') ? __('Course') : __('Activity'),
-                $feedback->curso->category->period->organization->name.' - '.$feedback->curso->category->period->name.' - '.$feedback->curso->nombre, ['readonly'])
+                is_a($feedback->curso, 'App\Curso')
+                ? $feedback->curso->category->period->organization->name.' - '.$feedback->curso->category->period->name.' - '.$feedback->curso->nombre
+                : $feedback->curso->unidad->curso->category->period->organization->name.' - '.$feedback->curso->unidad->curso->category->period->name.' - '.$feedback->curso->unidad->curso->nombre
+                , ['readonly'])
                 }}
             {{ Form::hidden('curso_id',$feedback->curso_id) }}
             {{ Form::campoTexto('titulo', __('Title')) }}
