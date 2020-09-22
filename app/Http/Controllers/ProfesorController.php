@@ -45,6 +45,13 @@ class ProfesorController extends Controller
             }
         }
 
+        if ($request->has('filtro_etiquetas')) {
+            if (request('filtro_etiquetas') == 'N') {
+                session(['profesor_filtro_etiquetas' => '']);
+                session(['tags' => []]);
+            }
+        }
+
         $curso_actual = Curso::find(setting_usuario('curso_actual'));
 
         if ($curso_actual != null) {
@@ -53,6 +60,12 @@ class ProfesorController extends Controller
 
             if (!session('profesor_filtro_alumnos_bloqueados') == 'B') {
                 $alumnos = $alumnos->noBloqueado();
+            }
+
+            if ($request->has('tag')) {
+                session(['profesor_filtro_etiquetas' => 'S']);
+                session()->push('tags', request('tag'));
+                $alumnos = $alumnos->tags(session('tags'));
             }
 
             switch (session('profesor_filtro_alumnos')) {

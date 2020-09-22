@@ -36,6 +36,13 @@
                 ]) !!}
                 {!! Form::hidden('filtro_alumnos_bloqueados','B') !!}
                 {!! Form::close() !!}
+
+                {!! Form::open(['route' => ['profesor.index.filtro'], 'method' => 'POST']) !!}
+                {!! Form::button(__('Clear filters'), ['type' => 'submit',
+                    'class' => session('profesor_filtro_etiquetas') == 'S' ? 'btn btn-sm mx-1 btn-secondary' : 'btn btn-sm mx-1 btn-outline-secondary'
+                ]) !!}
+                {!! Form::hidden('filtro_etiquetas','N') !!}
+                {!! Form::close() !!}
             </div>
         </div>
         <h2 class="text-muted font-xl">{{ $organization->name ?? '?' }}</h2>
