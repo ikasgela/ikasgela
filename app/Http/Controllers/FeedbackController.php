@@ -31,7 +31,9 @@ class FeedbackController extends Controller
     {
         $cursos = Curso::orderBy('nombre')->get();
 
-        return view('feedbacks.create', compact('cursos'));
+        $curso_actual = Curso::find(setting_usuario('curso_actual'));
+
+        return view('feedbacks.create', compact(['cursos', 'curso_actual']));
     }
 
     public function store(Request $request)
