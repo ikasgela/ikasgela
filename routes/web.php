@@ -83,6 +83,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/alumnos', 'ProfesorController@index')
             ->name('profesor.index.filtro');
 
+        Route::get('/alumnos/etiqueta', 'ProfesorController@index')
+            ->name('profesor.index.etiqueta');
+
         // Asignar una tarea a un alumno
         Route::post('/alumnos/asignar_tareas', 'ProfesorController@asignarTareasGrupo')
             ->name('profesor.asignar_tareas_grupo');

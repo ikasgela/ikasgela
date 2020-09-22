@@ -59,7 +59,7 @@
                 </td>
                 <td class="clickable">
                     {{ $user->name }}
-                    @include('profesor.partials.status_usuario')
+                    @include('profesor.partials.status_usuario_filtro')
                 </td>
                 <td class="clickable text-center">{{ $user->actividades_ocultas()->count() }}</td>
                 <td class="clickable text-center">{{ $user->actividades_nuevas()->count() }}</td>
