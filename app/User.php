@@ -137,7 +137,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->actividades()
             ->where(function ($query) {
                 $query
-                    ->estados([10, 20])
+                    ->estados([10, 20, 21])
                     ->enPlazo();
             })
             ->orWhere(function ($query) {
@@ -201,7 +201,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->actividades()
             ->enPlazo()
-            ->wherePivotIn('estado', [10, 20, 30, 40, 41, 42]);
+            ->wherePivotIn('estado', [10, 20, 21, 30, 40, 41, 42]);
     }
 
     public function actividades_examen()
