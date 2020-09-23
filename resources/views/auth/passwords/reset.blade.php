@@ -17,7 +17,9 @@
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">@</span>
+                            <span class="input-group-text" style="width:2.75em">
+                                <i class="fas fa-at text-secondary"></i>
+                            </span>
                         </div>
                         <input id="email" type="email"
                                class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
@@ -33,8 +35,8 @@
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <i class="icon-lock"></i>
+                        <span class="input-group-text" style="width:2.75em">
+                            <i class="fas fa-lock text-secondary"></i>
                         </span>
                         </div>
                         <input id="password" type="password"
@@ -50,8 +52,8 @@
                     </div>
                     <div class="input-group mb-4">
                         <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <i class="icon-lock"></i>
+                        <span class="input-group-text" style="width:2.75em">
+                            <i class="fas fa-lock text-secondary"></i>
                         </span>
                         </div>
                         <input id="password-confirm" type="password" class="form-control"

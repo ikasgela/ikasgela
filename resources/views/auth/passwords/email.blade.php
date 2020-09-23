@@ -16,7 +16,7 @@
 
                     <div class="input-group mb-4">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">
+                            <span class="input-group-text" style="width:2.75em">
                                 <i class="fas fa-at text-secondary"></i>
                             </span>
                         </div>
