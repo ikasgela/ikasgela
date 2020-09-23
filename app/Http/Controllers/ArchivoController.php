@@ -39,7 +39,7 @@ class ArchivoController extends Controller
         $curso = Curso::find(setting_usuario('curso_actual'));
         $users = [];
         if (!is_null($curso))
-            $users = $curso->users()->orderBy('surname')->orderBy('name')->get();
+            $users = $curso->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name')->get();
 
         return view('archivo.index', compact(['actividades', 'user', 'users']));
     }
