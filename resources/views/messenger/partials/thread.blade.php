@@ -9,7 +9,7 @@
                 <i class="fas fa-exclamation-triangle"></i>
             @endif
             <span class="ml-2">
-                {{ $thread->creator()->name }}
+                {{ $thread->creator()->name }} {{ $thread->creator()->surname }}
             </span>
         </span>
         <span>{{ $thread->userUnreadMessagesCount(Auth::id()) }} {{ __('unread') }}</span>

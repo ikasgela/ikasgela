@@ -38,7 +38,7 @@
                                     <label class="form-check-label col-form-label">
                                         <input class="form-check-input" type="checkbox" name="recipients[]"
                                                value="{{ $user->id }}" {{ $selected_user == $user->id ? 'checked' : '' }}>
-                                        {{$user->name}}
+                                        {{$user->name}} {{$user->surname}}
                                     </label>
                                 </div>
                             @endforeach
@@ -52,7 +52,9 @@
                     <div class="col-sm-10">
                         <select class="form-control" id="recipients" name="recipients[]">
                             @foreach($profesores as $profesor)
-                                <option value="{{ $profesor->id }}">{{ $profesor->name }}</option>
+                                <option value="{{ $profesor->id }}">
+                                    {{ $profesor->name }} {{ $profesor->surname }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
