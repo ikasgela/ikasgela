@@ -35,7 +35,7 @@ class NuevoMensaje extends Mailable
             $this->preview .= "\n\n...";
         }
 
-        $this->usuario = $mensaje->user->name;
+        $this->usuario = $mensaje->user;
     }
 
     /**
