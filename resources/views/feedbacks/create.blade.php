@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('tinymce')
+    @include('feedbacks.partials.tinymce')
+@endsection
+
 @section('content')
 
     @include('partials.titular', ['titular' => __('New course feedback message')])
@@ -24,7 +28,14 @@
             </div>
 
             {{ Form::campoTexto('titulo', __('Title')) }}
-            {{ Form::campoTexto('mensaje', __('Message')) }}
+
+            <div class="form-group row">
+                {!! Form::label('mensaje', __('Message'), ['class' => 'col-sm-2 col-form-label']) !!}
+                <div class="col-sm-10">
+                    <textarea rows="10" class="form-control" id="mensaje"
+                              name="mensaje"></textarea>
+                </div>
+            </div>
 
             @include('partials.guardar_cancelar')
 
