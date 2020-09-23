@@ -49,6 +49,16 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public static function generar_username($email)
     {
+        if (strlen($email) > 40) {
+            $usuario_dominio = array_map('trim', explode('@', $email));
+
+            $dominio = $usuario_dominio[1];
+            $longitud_dominio = strlen($dominio);
+            $usuario = $usuario_dominio[0];
+
+            $email = substr($usuario, 0, 39 - $longitud_dominio) . '.' . $dominio;
+        }
+
         return strtolower(str_replace('@', '.', $email));
     }
 
