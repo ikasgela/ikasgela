@@ -30,9 +30,9 @@
                 @endif
                 <td>
                     @if(!isset($exportar))
-                        <a href="mailto:{{ $user->email }}" class="text-dark">{{ $user->name }}</a>
+                        <a href="mailto:{{ $user->email }}" class="text-dark">{{ $user->name }} {{ $user->surname }}</a>
                     @else
-                        {{ $user->name }}
+                        {{ $user->name }} {{ $user->surname }}
                     @endif
                     @include('profesor.partials.status_usuario')
                 </td>

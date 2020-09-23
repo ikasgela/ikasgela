@@ -1,7 +1,7 @@
 @component('mail::message')
 # {{ __('New message') }}
 
-Has recibido un nuevo mensaje de {{ $usuario }}.
+Has recibido un nuevo mensaje de {{ $usuario->name }} {{ $usuario->surname }}.
 
 @component('mail::panel')
 ## {{ $titulo }}

@@ -26,7 +26,7 @@
             @foreach($registros as $registro)
                 <tr>
                     <td>{{ $registro->id }}</td>
-                    <td>{{ $registro->user->name }}</td>
+                    <td>{{ $registro->user->name }} {{ $registro->user->surname }}</td>
                     <td>{{ $registro->tarea->actividad->nombre }}</td>
                     <td>{{ $registro->estado }}</td>
                     <td>

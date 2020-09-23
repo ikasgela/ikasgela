@@ -58,7 +58,7 @@
                                            onerror="this.onerror=null;this.src='{{ url("/svg/missing_avatar.svg") }}';"/>
                 </td>
                 <td class="clickable">
-                    {{ $user->name }}
+                    {{ $user->name }} {{ $user->surname }}
                     @include('profesor.partials.status_usuario_filtro')
                 </td>
                 <td class="clickable text-center">{{ $user->actividades_ocultas()->count() }}</td>

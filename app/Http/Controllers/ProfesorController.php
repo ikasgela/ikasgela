@@ -56,7 +56,7 @@ class ProfesorController extends Controller
 
         if ($curso_actual != null) {
 
-            $alumnos = $curso_actual->users()->rolAlumno();
+            $alumnos = $curso_actual->users()->rolAlumno()->orderBy('surname')->orderBy('name');
 
             if (!session('profesor_filtro_alumnos_bloqueados') == 'B') {
                 $alumnos = $alumnos->noBloqueado();
