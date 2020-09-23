@@ -301,6 +301,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/user_toggle_blocked', 'UserController@toggleBlocked')
             ->name('users.toggle_blocked');
 
+        // Informe de todas las actividades del curso
+        Route::get('/actividades_export', 'ActividadController@export')
+            ->name('actividades.export');
+
     });
 
     // Alumnos y profesores

@@ -63,4 +63,9 @@ class Curso extends Model
             $query->where('name', 'profesor');
         });
     }
+
+    public function actividades()
+    {
+        return $this->hasManyThrough('App\Actividad', 'App\Unidad');
+    }
 }

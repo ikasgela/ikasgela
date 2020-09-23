@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
+use App\Exports\ActividadesCursoExport;
 use App\Mail\ActividadAsignada;
 use App\Mail\FeedbackRecibido;
 use App\Mail\TareaEnviada;
 use App\Qualification;
 use App\Registro;
 use App\Tarea;
+use App\Traits\InformeActividadesCurso;
 use App\Traits\PaginarUltima;
 use App\Unidad;
 use App\User;
@@ -18,10 +20,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ActividadController extends Controller
 {
     use PaginarUltima;
+    use InformeActividadesCurso;
 
     public function __construct()
     {
@@ -40,6 +44,11 @@ class ActividadController extends Controller
         $todas_unidades = Unidad::orderBy('curso_id')->orderBy('codigo')->orderBy('nombre')->get();
 
         return view('actividades.index', compact(['actividades', 'ids', 'todas_unidades']));
+    }
+
+    public function export()
+    {
+        return Excel::download(new ActividadesCursoExport, 'actividades.xlsx');
     }
 
     public function plantillas(Request $request)

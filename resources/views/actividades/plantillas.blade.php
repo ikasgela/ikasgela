@@ -2,7 +2,15 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Activities')])
+    <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
+        <h1>{{ __('Activities') }}
+            <a class="ml-3"
+               style="color:#1D6F42" {{-- https://www.schemecolor.com/microsoft-excel-logo-color.php --}}
+               title="{{ __('Export to an Excel file') }}"
+               href="{{ route('actividades.export') }}"><i class="fas fa-file-excel"></i>
+            </a>
+        </h1>
+    </div>
 
     @include('actividades.selector_unidad')
 
