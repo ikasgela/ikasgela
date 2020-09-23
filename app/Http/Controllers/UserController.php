@@ -33,7 +33,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::all();
+        $users = User::orderBy('surname')->orderBy('name')->get();
 
         return view('users.index', compact('users'));
     }
@@ -71,6 +71,7 @@ class UserController extends Controller
 
         $user->update([
             'name' => $request->input('name'),
+            'surname' => $request->input('surname'),
             'email' => $request->input('email'),
             'username' => $request->input('username'),
             'last_active' => $request->input('last_active'),

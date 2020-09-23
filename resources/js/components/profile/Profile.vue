@@ -6,13 +6,24 @@
         <div class="card-body">
             <form class="form-horizontal">
                 <div class="form-group row">
-                    <label class="col-md-3">Nombre completo</label>
+                    <label class="col-md-3">Nombre</label>
                     <div class="col-md-9">
                         <input class="form-control" :class="{'is-invalid': errors.name}"
                                type="text" v-model="user.name">
                         <span class="help-block">Escribe tu nombre para que la gente pueda reconocerte.</span>
                         <div class="invalid-feedback" v-if="errors.name">
-                            {{errors.name[0]}}
+                            {{ errors.name[0] }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3">Apellidos</label>
+                    <div class="col-md-9">
+                        <input class="form-control" :class="{'is-invalid': errors.surname}"
+                               type="text" v-model="user.surname">
+                        <span class="help-block">Escribe tus apellidos.</span>
+                        <div class="invalid-feedback" v-if="errors.surname">
+                            {{ errors.surname[0] }}
                         </div>
                     </div>
                 </div>
@@ -23,7 +34,7 @@
                                type="email" v-model="user.email" readonly>
                         <span class="help-block">Esta dirección de email se mostrará en tu perfil público.</span>
                         <div class="invalid-feedback" v-if="errors.email">
-                            {{errors.email[0]}}
+                            {{ errors.email[0] }}
                         </div>
                     </div>
                 </div>
@@ -42,37 +53,37 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                user: {},
-                errors: {},
-                submiting: false
-            }
+export default {
+    data() {
+        return {
+            user: {},
+            errors: {},
+            submiting: false
+        }
+    },
+    mounted() {
+        this.getAuthUser()
+    },
+    methods: {
+        getAuthUser() {
+            axios.get(`/api/profile/getAuthUser`)
+                .then(response => {
+                    this.user = response.data
+                })
         },
-        mounted() {
-            this.getAuthUser()
-        },
-        methods: {
-            getAuthUser() {
-                axios.get(`/api/profile/getAuthUser`)
-                    .then(response => {
-                        this.user = response.data
-                    })
-            },
-            updateAuthUser() {
-                this.submiting = true
-                axios.put(`/api/profile/updateAuthUser`, this.user)
-                    .then(response => {
-                        this.errors = {}
-                        this.submiting = false
-                        this.$toasted.global.error('¡Perfil actualizado!');
-                    })
-                    .catch(error => {
-                        this.errors = error.response.data.errors
-                        this.submiting = false
-                    })
-            }
+        updateAuthUser() {
+            this.submiting = true
+            axios.put(`/api/profile/updateAuthUser`, this.user)
+                .then(response => {
+                    this.errors = {}
+                    this.submiting = false
+                    this.$toasted.global.error('¡Perfil actualizado!');
+                })
+                .catch(error => {
+                    this.errors = error.response.data.errors
+                    this.submiting = false
+                })
         }
     }
+}
 </script>

@@ -24,7 +24,7 @@
                     </li>
                 @endif
             @endauth
-            <li class="{{ config('app.debug') ? 'text-dark' : 'text-light' }} mr-2 d-sm-down-none">{{ Auth::user()->name }}</li>
+            <li class="{{ config('app.debug') ? 'text-dark' : 'text-light' }} mr-2 d-sm-down-none">{{ Auth::user()->name }} {{ Auth::user()->surname }}</li>
             <li class="c-header-nav-item dropdown">
                 <a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button" title="{{ __('Settings') }}"
                    aria-haspopup="true"
@@ -34,7 +34,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right shadow mt-2 pb-2">
                     <div class="dropdown-item-text">
-                        <h5>{{ Auth::user()->name }}</h5>
+                        <h5>{{ Auth::user()->name }} {{ Auth::user()->surname }}</h5>
                         <small class="text-muted">{{ Auth::user()->email }}</small>
                     </div>
                     <div class="dropdown-divider"></div>

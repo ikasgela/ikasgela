@@ -11281,6 +11281,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -48712,7 +48723,7 @@ var render = function() {
     _c("div", { staticClass: "card-body" }, [
       _c("form", { staticClass: "form-horizontal" }, [
         _c("div", { staticClass: "form-group row" }, [
-          _c("label", { staticClass: "col-md-3" }, [_vm._v("Nombre completo")]),
+          _c("label", { staticClass: "col-md-3" }, [_vm._v("Nombre")]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-9" }, [
             _c("input", {
@@ -48747,6 +48758,49 @@ var render = function() {
                   _vm._v(
                     "\n                        " +
                       _vm._s(_vm.errors.name[0]) +
+                      "\n                    "
+                  )
+                ])
+              : _vm._e()
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group row" }, [
+          _c("label", { staticClass: "col-md-3" }, [_vm._v("Apellidos")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-9" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.user.surname,
+                  expression: "user.surname"
+                }
+              ],
+              staticClass: "form-control",
+              class: { "is-invalid": _vm.errors.surname },
+              attrs: { type: "text" },
+              domProps: { value: _vm.user.surname },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.user, "surname", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("span", { staticClass: "help-block" }, [
+              _vm._v("Escribe tus apellidos.")
+            ]),
+            _vm._v(" "),
+            _vm.errors.surname
+              ? _c("div", { staticClass: "invalid-feedback" }, [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(_vm.errors.surname[0]) +
                       "\n                    "
                   )
                 ])

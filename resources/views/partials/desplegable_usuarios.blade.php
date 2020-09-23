@@ -6,7 +6,7 @@
             @foreach($users as $user)
                 <option
                     value="{{ $user->id }}" {{ session('filtrar_user_actual') == $user->id ? 'selected' : '' }}>
-                    {{ $user->name }} - {{ $user->email }}
+                    {{ $user->name }} {{ $user->surname }} - {{ $user->email }}
                 </option>
             @endforeach
         </select>

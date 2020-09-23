@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-12 col-sm-6 p-3">
                     <h5 class="card-title">
-                        {{ $user->name }}
+                        {{ $user->name }} {{ $user->surname }}
                         @include('profesor.partials.status_usuario')
                         @include('profesor.partials.acciones_usuario')
                     </h5>

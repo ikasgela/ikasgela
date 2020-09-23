@@ -100,9 +100,9 @@ class MessagesController extends Controller
     {
         $curso_actual = Curso::find(setting_usuario('curso_actual'));
 
-        $users = $curso_actual->users()->where('users.id', '!=', Auth::id())->get();
+        $users = $curso_actual->users()->where('users.id', '!=', Auth::id())->orderBy('surname')->orderBy('name')->get();
 
-        $profesores = $curso_actual->users()->rolProfesor()->get();
+        $profesores = $curso_actual->users()->rolProfesor()->orderBy('surname')->orderBy('name')->get();
 
         $titulo = request('titulo');
 

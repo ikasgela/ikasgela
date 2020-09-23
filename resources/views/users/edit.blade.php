@@ -18,6 +18,7 @@
             </div>
 
             {{ Form::campoTexto('name', __('Name')) }}
+            {{ Form::campoTexto('surname', __('Surname')) }}
             {{ Form::campoTexto('email', __('Email')) }}
             {{ Form::campoTexto('username', __('Username')) }}
             {{ Form::campoTexto('last_active', __('Last active')) }}
