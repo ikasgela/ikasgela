@@ -25,7 +25,7 @@
                     <td><img style="height:35px;" src="{{ $user->avatar_url(70) }}"
                              onerror="this.onerror=null;this.src='{{ url("/svg/missing_avatar.svg") }}';"/></td>
                     <td>
-                        {{ $user->name }}
+                        {{ $user->name }} {{ $user->surname }}
                         @include('profesor.partials.status_usuario')
                     </td>
                     <td><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
