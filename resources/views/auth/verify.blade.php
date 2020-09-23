@@ -13,8 +13,10 @@
                 @endif
 
                 {{ __('Before proceeding, please check your email for a verification link.') }}
-                {{ __('If you did not receive the email') }}, <a
-                        href="{{ route('verification.resend') }}">{{ __('click here to request another') }}</a>.
+                {!! Form::open(['route' => ['verification.resend'], 'method' => 'POST']) !!}
+                {!! Form::label('message', __('If you did not receive the email').',', ['class' => 'mr-2']) !!}
+                {!! Form::button(__('click here to request another').'.', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
+                {!! Form::close() !!}
             </div>
         </div>
     </div>

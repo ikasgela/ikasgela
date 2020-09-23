@@ -42,7 +42,8 @@ class ProfileController extends Controller
         }
 
         if (config('ikasgela.gitea_enabled')) {
-            GiteaClient::full_name($user->email, $user->username, $request->name);
+            $nombre_completo = $request->name . ' ' . $request->surname;
+            GiteaClient::full_name($user->email, $user->username, $nombre_completo);
         }
 
         return $user;

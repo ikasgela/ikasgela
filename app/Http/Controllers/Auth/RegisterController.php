@@ -74,12 +74,14 @@ class RegisterController extends Controller
         if (config('app.debug'))
             return Validator::make($data, [
                 'name' => 'required|string|max:255',
+                'surname' => 'string|max:255',
                 'email' => "required|string|email|$validator:$dominios|max:255|unique:users",
                 'password' => 'required|string|min:8|confirmed',
             ]);
         else
             return Validator::make($data, [
                 'name' => 'required|string|max:255',
+                'surname' => 'string|max:255',
                 'email' => "required|string|email|$validator:$dominios|max:255|unique:users",
                 'password' => 'required|string|min:8|confirmed',
                 'g-recaptcha-response' => 'required|recaptchav3:register,0.5',
@@ -125,7 +127,8 @@ class RegisterController extends Controller
         // Crear el usuario de Gitea y dejarlo bloqueado
         if (config('ikasgela.gitea_enabled')) {
             try {
-                GiteaClient::user($data['email'], $nombre_usuario, $data['name'], $data['password']);
+                $nombre_completo = $data['name'] . ' ' . $data['surname'];
+                GiteaClient::user($data['email'], $nombre_usuario, $nombre_completo, $data['password']);
                 GiteaClient::block($data['email'], $nombre_usuario);
             } catch (\Exception $e) {
                 Log::error('Gitea: Error al crear el usuario.', [
@@ -138,6 +141,7 @@ class RegisterController extends Controller
         // Crear el usuario de Laravel
         $laravel = User::create([
             'name' => $data['name'],
+            'surname' => $data['surname'],
             'email' => $data['email'],
             'username' => $nombre_usuario,
             'password' => Hash::make($data['password']),

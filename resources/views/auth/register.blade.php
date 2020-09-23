@@ -24,11 +24,14 @@
                                    class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
                                    name="name" value="{{ old('name') }}"
                                    placeholder="{{ __('Name') }}" required autofocus>
-
-                            @if ($errors->has('name'))
+                            <input id="name" type="text"
+                                   class="form-control{{ $errors->has('surname') ? ' is-invalid' : '' }}"
+                                   name="surname" value="{{ old('surname') }}"
+                                   placeholder="{{ __('Surname') }}">
+                            @if($errors->has('name'))
                                 <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('name') }}</strong>
-                        </span>
+                                    <strong>{{ $errors->first('name') }}</strong>
+                                </span>
                             @endif
                         </div>
                         <div class="input-group mb-3">

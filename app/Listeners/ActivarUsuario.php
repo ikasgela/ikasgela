@@ -43,6 +43,8 @@ class ActivarUsuario
         // Activar el usuario de Gitea
         if (config('ikasgela.gitea_enabled')) {
             GiteaClient::unblock($event->user['email'], $event->user['username']);
+            $nombre_completo = $event->user['name'] . ' ' . $event->user['surname'];
+            GiteaClient::full_name($event->user['email'], $event->user['username'], $nombre_completo);
         }
 
         // Asociamos al usuario el curso más nuevo que haya en la organización
