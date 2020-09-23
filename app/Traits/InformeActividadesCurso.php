@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Actividad;
 use App\Curso;
 use Illuminate\Http\Request;
 
@@ -11,7 +12,7 @@ trait InformeActividadesCurso
     {
         $curso = Curso::find(setting_usuario('curso_actual'));
 
-        $actividades = $curso->actividades()->get();
+        $actividades = Actividad::cursoActual()->plantilla()->orderBy('orden')->get();
 
         return compact(['curso', 'actividades']);
     }
