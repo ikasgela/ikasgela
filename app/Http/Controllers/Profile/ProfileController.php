@@ -26,6 +26,7 @@ class ProfileController extends Controller
         $user = User::find(Auth::id());
 
         $user->name = $request->name;
+        $user->surname = $request->surname;
         $user->save();
 
         if (config('ikasgela.gitlab_enabled')) {
