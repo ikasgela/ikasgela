@@ -12,11 +12,13 @@
                     </div>
                 @endif
 
-                {{ __('Before proceeding, please check your email for a verification link.') }}
-                {!! Form::open(['route' => ['verification.resend'], 'method' => 'POST']) !!}
-                {!! Form::label('message', __('If you did not receive the email').',', ['class' => 'mr-2']) !!}
-                {!! Form::button(__('click here to request another').'.', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
-                {!! Form::close() !!}
+                <p>{{ __('Before proceeding, please check your email for a verification link.') }}</p>
+                {{ __('If you did not receive the email') }},
+                <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
+                    @csrf
+                    <button type="submit"
+                            class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>
+                </form>&ZeroWidthSpace;.
             </div>
         </div>
     </div>
