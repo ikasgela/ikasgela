@@ -70,8 +70,8 @@ class T4_TareasTest extends DuskTestCase
             $browser->press('Guardar asignación');
             $browser->assertPathIs('/alumnos');
 
-            $browser->assertSeeIn('div > main > div > div.table-responsive > table > tbody > tr:nth-child(1) > td:nth-child(4)', 'Marc');
-            $browser->assertSeeIn('div > main > div > div.table-responsive > table > tbody > tr:nth-child(1) > td:nth-child(6)', '1');
+            $browser->assertSeeIn('div > main > div > div.table-responsive > table > tbody > tr:nth-child(2) > td:nth-child(4)', 'Marc');
+            $browser->assertSeeIn('div > main > div > div.table-responsive > table > tbody > tr:nth-child(2) > td:nth-child(6)', '1');
 
             // Cerrar sesión
             $browser->logout();
