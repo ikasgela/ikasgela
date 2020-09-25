@@ -16,7 +16,7 @@ class ArchivoTest extends TestCase
 
     public function setUp(): void
     {
-        $this->markTestSkipped('Tests desactivados.');
+        //$this->markTestSkipped('Tests desactivados.');
 
         parent::setUp();
         parent::crearUsuarios();
@@ -33,7 +33,13 @@ class ArchivoTest extends TestCase
 
         $actividad1 = factory(Actividad::class)->create();
         $actividad2 = factory(Actividad::class)->create();
+        $actividad2->unidad->curso_id = $actividad1->unidad->curso->id;
+        $actividad2->unidad->save();
         $actividad3 = factory(Actividad::class)->create();
+        $actividad3->unidad->curso_id = $actividad1->unidad->curso->id;
+        $actividad3->unidad->save();
+
+        setting_usuario(['curso_actual' => $actividad1->unidad->curso->id]);
 
         $user->actividades()->attach($actividad1, ['estado' => 60]);
         $user->actividades()->attach($actividad2);
@@ -61,7 +67,13 @@ class ArchivoTest extends TestCase
 
         $actividad1 = factory(Actividad::class)->create();
         $actividad2 = factory(Actividad::class)->create();
+        $actividad2->unidad->curso_id = $actividad1->unidad->curso->id;
+        $actividad2->unidad->save();
         $actividad3 = factory(Actividad::class)->create();
+        $actividad3->unidad->curso_id = $actividad1->unidad->curso->id;
+        $actividad3->unidad->save();
+
+        setting_usuario(['curso_actual' => $actividad1->unidad->curso->id]);
 
         $user->actividades()->attach($actividad1, ['estado' => 60]);
         $user->actividades()->attach($actividad2);
@@ -89,7 +101,13 @@ class ArchivoTest extends TestCase
 
         $actividad1 = factory(Actividad::class)->create();
         $actividad2 = factory(Actividad::class)->create();
+        $actividad2->unidad->curso_id = $actividad1->unidad->curso->id;
+        $actividad2->unidad->save();
         $actividad3 = factory(Actividad::class)->create();
+        $actividad3->unidad->curso_id = $actividad1->unidad->curso->id;
+        $actividad3->unidad->save();
+
+        setting_usuario(['curso_actual' => $actividad1->unidad->curso->id]);
 
         $user->actividades()->attach($actividad1, ['estado' => 60]);
         $user->actividades()->attach($actividad2);
@@ -113,7 +131,13 @@ class ArchivoTest extends TestCase
 
         $actividad1 = factory(Actividad::class)->create();
         $actividad2 = factory(Actividad::class)->create();
+        $actividad2->unidad->curso_id = $actividad1->unidad->curso->id;
+        $actividad2->unidad->save();
         $actividad3 = factory(Actividad::class)->create();
+        $actividad3->unidad->curso_id = $actividad1->unidad->curso->id;
+        $actividad3->unidad->save();
+
+        setting_usuario(['curso_actual' => $actividad1->unidad->curso->id]);
 
         $user->actividades()->attach($actividad1, ['estado' => 60]);
         $user->actividades()->attach($actividad2);
@@ -140,7 +164,13 @@ class ArchivoTest extends TestCase
 
         $actividad1 = factory(Actividad::class)->create();
         $actividad2 = factory(Actividad::class)->create();
+        $actividad2->unidad->curso_id = $actividad1->unidad->curso->id;
+        $actividad2->unidad->save();
         $actividad3 = factory(Actividad::class)->create();
+        $actividad3->unidad->curso_id = $actividad1->unidad->curso->id;
+        $actividad3->unidad->save();
+
+        setting_usuario(['curso_actual' => $actividad1->unidad->curso->id]);
 
         $user->actividades()->attach($actividad1, ['estado' => 60]);
         $user->actividades()->attach($actividad2);
