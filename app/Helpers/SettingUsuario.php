@@ -24,7 +24,7 @@ if (!function_exists('setting_usuario')) {
             if (!is_null($usuario)) {
                 $result = DB::table('settings')->where('user_id', $usuario)->where('key', $key)->first();
                 return !is_null($result) ? $result->value : null;
-            } else {
+            } else if (!is_null(Auth::user())) {
                 return DB::table('settings')->where('key', $key)->first()->value;
             }
         }
