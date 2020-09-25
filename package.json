@@ -27,7 +27,7 @@
         "@coreui/coreui": "^3.3.0",
         "@fancyapps/fancybox": "^3.5.7",
         "@fortawesome/fontawesome-free": "^5.14.0",
-        "@popperjs/core": "^2.4.4",
+        "@popperjs/core": "^2.5.2",
         "chart.js": "^2.9.3",
         "jquery-countdown": "^2.2.0",
         "perfect-scrollbar": "^1.5.0",
