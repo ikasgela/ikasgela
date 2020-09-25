@@ -24,7 +24,7 @@
                                    class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
                                    name="name" value="{{ old('name') }}"
                                    placeholder="{{ __('Name') }}" required autofocus>
-                            <input id="name" type="text"
+                            <input id="surname" type="text"
                                    class="form-control{{ $errors->has('surname') ? ' is-invalid' : '' }}"
                                    name="surname" value="{{ old('surname') }}"
                                    placeholder="{{ __('Surname') }}">
@@ -50,6 +50,16 @@
                             <strong>{{ $errors->first('email') }}</strong>
                         </span>
                             @endif
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text" style="width:2.75em">
+                                <i class="fas fa-at text-secondary"></i>
+                            </span>
+                            </div>
+                            <input id="email-confirm" type="email" class="form-control"
+                                   name="email_confirmation" value="{{ old('email_confirmation') }}"
+                                   placeholder="{{ __('Confirm Email Address') }}" required>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
