@@ -79,9 +79,7 @@
                         </table>
                     </div>
                 @else
-                    <div class="col-md-12">
-                        <p>{{ __('No dates defined yet.') }}</p>
-                    </div>
+                    <p>{{ __('No dates defined yet.') }}</p>
                 @endif
             </div>
         @endforeach
