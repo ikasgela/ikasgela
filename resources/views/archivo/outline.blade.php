@@ -63,7 +63,7 @@
                                 @php($porcentaje = $unidad->num_actividades('base') > 0 ? $user->num_completadas('base', $unidad->id)/$unidad->num_actividades('base')*100 : 0)
                                 @php($minimo_entregadas = $unidad->minimo_entregadas ?? $curso->minimo_entregadas ?? 0)
                                 <div
-                                    class="progress-bar {{ $porcentaje < $minimo_entregadas ? 'bg-warning text-dark' : 'bg-success' }}"
+                                    class="progress-bar {{ $minimo_entregadas > 0 && $porcentaje < $minimo_entregadas ? 'bg-warning text-dark' : ($minimo_entregadas > 0 ? 'bg-success' : 'bg-primary') }}"
                                     role="progressbar"
                                     style="width: {{ $porcentaje }}%"
                                     aria-valuenow="{{ $porcentaje }}"
