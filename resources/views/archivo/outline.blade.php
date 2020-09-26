@@ -23,6 +23,7 @@
 
             <div class="pb-3">
                 @if(!is_null($unidad->fecha_entrega) && $unidad->fecha_entrega > now())
+                    <hr>
                     <div class="progress-group">
                         <div class="progress-group-prepend">
                             <span class="progress-group-text">{{ __('Recommended') }}</span>
@@ -52,17 +53,20 @@
                             </div>
                         </div>
                     </div>
+                    <hr>
                     <div class="progress-group">
                         <div class="progress-group-prepend">
                             <span class="progress-group-text">{{ __('Actual') }}</span>
                         </div>
                         <div class="progress-group-bars">
                             <div class="progress m-0" style="height: 24px;">
+                                @php($porcentaje = $unidad->num_actividades('base') > 0 ? $user->num_completadas('base', $unidad->id)/$unidad->num_actividades('base')*100 : 0)
                                 <div class="progress-bar" role="progressbar"
-                                     style="width: {{ 60 }}%"
-                                     aria-valuenow="{{ 60 }}"
+                                     style="width: {{ $porcentaje }}%"
+                                     aria-valuenow="{{ $porcentaje }}"
+                                     title="{{ $user->num_completadas('base', $unidad->id).'/'. $unidad->num_actividades('base') }}"
                                      aria-valuemin="0" aria-valuemax="100">
-                                    {{ formato_decimales(60) }}&thinsp;%
+                                    {{ formato_decimales($porcentaje) }}&thinsp;%
                                 </div>
                             </div>
                             @php($minimo_entregadas = $unidad->minimo_entregadas ?? $curso->minimo_entregadas ?? 0)
@@ -80,6 +84,7 @@
                             @endif
                         </div>
                     </div>
+                    <hr>
                 @elseif(!is_null($unidad->fecha_entrega))
                     <div class="table-responsive">
                         <table class="table table-hover">
