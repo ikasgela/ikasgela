@@ -25,24 +25,28 @@
                 @if(!is_null($unidad->fecha_entrega) && $unidad->fecha_entrega > now())
                     <div class="progress-group">
                         <div class="progress-group-prepend">
-                            <span class="progress-group-text">{{ __('Progress') }}</span>
+                            <span class="progress-group-text">{{ __('Recommended progress') }}</span>
                         </div>
                         <div class="progress-group-bars">
                             <div class="progress-group-header">
-                                <div>
+                                <div style="width:10em;">
                                     {{ !is_null($unidad->fecha_disponibilidad) ? $unidad->fecha_disponibilidad->format('d/m/Y H:i') : '-' }}
                                 </div>
                                 <div class="col text-muted small text-center">
                                     @include('partials.diferencia_fechas', ['fecha_inicial' => now(), 'fecha_final' => $unidad->fecha_entrega])
                                 </div>
-                                <div class="ml-auto">
+                                <div class="ml-auto text-right" style="width:10em;">
                                     {{ !is_null($unidad->fecha_entrega) ? $unidad->fecha_entrega->format('d/m/Y H:i') : '-' }}
                                 </div>
                             </div>
+                            @php($porcentaje = !is_null($unidad->fecha_disponibilidad) && !is_null($unidad->fecha_entrega) ? round(100-(now()->diffInSeconds($unidad->fecha_entrega)/$unidad->fecha_disponibilidad->diffInSeconds($unidad->fecha_entrega)*100),0) : 0)
                             <div class="progress-group-bars">
                                 <div class="progress" style="height:24px">
-                                    <div class="progress-bar bg-warning text-dark" role="progressbar" style="width: 43%"
-                                         aria-valuenow="43" aria-valuemin="0" aria-valuemax="100">43&thinsp;%
+                                    <div class="progress-bar bg-warning text-dark" role="progressbar"
+                                         style="width: {{ $porcentaje }}%"
+                                         aria-valuenow="{{ $porcentaje }}"
+                                         aria-valuemin="0" aria-valuemax="100">
+                                        {{ $porcentaje }}&thinsp;%
                                     </div>
                                 </div>
                             </div>
