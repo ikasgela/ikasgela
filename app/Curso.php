@@ -8,7 +8,7 @@ class Curso extends Model
 {
     protected $fillable = [
         'category_id', 'nombre', 'descripcion', 'slug', 'qualification_id', 'max_simultaneas',
-        'fecha_inicio', 'fecha_fin', 'plazo_actividad'
+        'fecha_inicio', 'fecha_fin', 'plazo_actividad', 'minimo_entregadas'
     ];
 
     protected $dates = [

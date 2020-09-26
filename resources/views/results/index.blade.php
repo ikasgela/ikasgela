@@ -134,10 +134,10 @@
                         <div class="row no-gutters ml-5">
                             <div class="col text-muted small" style="flex: 0 0 10%;">0&thinsp;%</div>
                             @if($peso_examenes>0)
-                                <div class="col text-muted small text-right pr-1"
+                                <div class="col text-muted small text-right pr-1 border-right"
                                      style="flex: 0 0 {{ $peso_actividades-10 }}%;">{{ $peso_actividades }}&thinsp;%
                                 </div>
-                                <div class="col text-muted small text-right border-left"
+                                <div class="col text-muted small text-right"
                                      style="flex: 0 0 {{ $peso_examenes }}%;">100&thinsp;%
                                 </div>
                             @else

@@ -51,6 +51,7 @@ class UnidadController extends Controller
             'fecha_disponibilidad' => request('fecha_disponibilidad'),
             'fecha_entrega' => request('fecha_entrega'),
             'fecha_limite' => request('fecha_limite'),
+            'minimo_entregadas' => request('minimo_entregadas'),
         ]);
 
         return retornar();
@@ -90,6 +91,7 @@ class UnidadController extends Controller
             'fecha_disponibilidad' => request('fecha_disponibilidad'),
             'fecha_entrega' => request('fecha_entrega'),
             'fecha_limite' => request('fecha_limite'),
+            'minimo_entregadas' => request('minimo_entregadas'),
         ]);
 
         return retornar();

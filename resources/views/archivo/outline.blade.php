@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
-        <h1>{{ __('Course outline') }}</h1>
+        <h1>{{ __('Course progress') }}</h1>
         @if(!is_null(Auth::user()->curso_actual()))
             @php($curso = Auth::user()->curso_actual())
             <h2 class="text-muted font-xl">{{ !is_null($curso) ? $curso->category->period->organization->name.' » '.$curso->category->period->name.' » '.$curso->nombre : '' }}</h2>
@@ -21,27 +21,78 @@
 
             @include('partials.subtitulo', ['subtitulo' => (isset($unidad->codigo) ? ($unidad->codigo.' - ') : '') . $unidad->nombre])
 
-            <div class="ml-4">
-                <div class="table-responsive">
-                    <table class="table">
-                        <tbody>
-                        <tr class="border-secondary">
-                            <th class="bg-secondary text-dark w-25">{{ __('Availability date') }}</th>
-                            <td class="align-middle w-25">{{ !is_null($unidad->fecha_disponibilidad) ? $unidad->fecha_disponibilidad->format('d/m/Y H:i:s') : '-' }}</td>
-                            <th class="bg-secondary text-dark w-25">{{ __('Due date') }}</th>
-                            <td class="align-middle w-25">{{ !is_null($unidad->fecha_entrega) ? $unidad->fecha_entrega->format('d/m/Y H:i:s') : '-' }}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                @if(!is_null($unidad->fecha_entrega) && $unidad->fecha_entrega < now())
-                    <h3>{{ __('Activities') }}</h3>
+            <div class="pb-3">
+                @if(!is_null($unidad->fecha_entrega) && $unidad->fecha_entrega > now())
+                    <hr>
+                    <div class="progress-group">
+                        <div class="progress-group-prepend">
+                            <span class="progress-group-text">{{ __('Recommended') }}</span>
+                        </div>
+                        <div class="progress-group-bars">
+                            <div class="progress-group-header">
+                                <div style="width:10em;">
+                                    {{ !is_null($unidad->fecha_disponibilidad) ? $unidad->fecha_disponibilidad->format('d/m/Y H:i') : '-' }}
+                                </div>
+                                <div class="col text-muted small text-center">
+                                    @include('partials.diferencia_fechas', ['fecha_inicial' => now(), 'fecha_final' => $unidad->fecha_entrega])
+                                </div>
+                                <div class="ml-auto text-right" style="width:10em;">
+                                    {{ !is_null($unidad->fecha_entrega) ? $unidad->fecha_entrega->format('d/m/Y H:i') : '-' }}
+                                </div>
+                            </div>
+                            @php($porcentaje = !is_null($unidad->fecha_disponibilidad) && !is_null($unidad->fecha_entrega) ? round(100-(now()->diffInSeconds($unidad->fecha_entrega)/$unidad->fecha_disponibilidad->diffInSeconds($unidad->fecha_entrega)*100),0) : 0)
+                            <div class="progress-group-bars">
+                                <div class="progress" style="height:24px">
+                                    <div class="progress-bar bg-primary" role="progressbar"
+                                         style="width: {{ $porcentaje > 0 ? $porcentaje : 0 }}%"
+                                         aria-valuenow="{{ $porcentaje > 0 ? $porcentaje : 0 }}"
+                                         aria-valuemin="0" aria-valuemax="100">
+                                        {{ $porcentaje > 0 ? $porcentaje : 0 }}&thinsp;%
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="progress-group">
+                        <div class="progress-group-prepend">
+                            <span class="progress-group-text">{{ __('Actual') }}</span>
+                        </div>
+                        <div class="progress-group-bars">
+                            <div class="progress m-0" style="height: 24px;">
+                                @php($porcentaje = $unidad->num_actividades('base') > 0 ? $user->num_completadas('base', $unidad->id)/$unidad->num_actividades('base')*100 : 0)
+                                @php($minimo_entregadas = $unidad->minimo_entregadas ?? $curso->minimo_entregadas ?? 0)
+                                <div
+                                    class="progress-bar {{ $minimo_entregadas > 0 && $porcentaje < $minimo_entregadas ? 'bg-warning text-dark' : ($minimo_entregadas > 0 ? 'bg-success' : 'bg-primary') }}"
+                                    role="progressbar"
+                                    style="width: {{ $porcentaje }}%"
+                                    aria-valuenow="{{ $porcentaje }}"
+                                    title="{{ $user->num_completadas('base', $unidad->id).'/'. $unidad->num_actividades('base') }}"
+                                    aria-valuemin="0" aria-valuemax="100">
+                                    {{ formato_decimales($porcentaje) }}&thinsp;%
+                                </div>
+                            </div>
+                            @if($minimo_entregadas > 0)
+                                <div class="row no-gutters">
+                                    <div class="col text-muted small" style="flex: 0 0 10%;">0&thinsp;%</div>
+                                    <div class="col text-muted small text-right pr-1 border-right"
+                                         style="flex: 0 0 {{ $minimo_entregadas-10 }}%;">
+                                        {{ $minimo_entregadas }}&thinsp;%
+                                    </div>
+                                    <div class="col text-muted small text-right"
+                                         style="flex: 0 0 {{ 100-$minimo_entregadas }}%;">100&thinsp;%
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                    <hr>
+                @elseif(!is_null($unidad->fecha_entrega))
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead class="thead-dark">
                             <tr>
-                                <th class="w-75">{{ __('Name') }}</th>
+                                <th class="w-75">{{ __('Activity') }}</th>
                                 <th>{{ __('Resources') }}</th>
                             </tr>
                             </thead>
@@ -62,6 +113,8 @@
                             </tbody>
                         </table>
                     </div>
+                @else
+                    <p>{{ __('No dates defined yet.') }}</p>
                 @endif
             </div>
         @endforeach
