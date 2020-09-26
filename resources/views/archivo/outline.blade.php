@@ -21,7 +21,7 @@
 
             @include('partials.subtitulo', ['subtitulo' => (isset($unidad->codigo) ? ($unidad->codigo.' - ') : '') . $unidad->nombre])
 
-            <div class="ml-4 pb-3">
+            <div class="pb-3">
                 @if(!is_null($unidad->fecha_entrega) && $unidad->fecha_entrega > now())
                     <div class="progress-group">
                         <div class="progress-group-prepend">
