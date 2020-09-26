@@ -61,15 +61,17 @@
                         <div class="progress-group-bars">
                             <div class="progress m-0" style="height: 24px;">
                                 @php($porcentaje = $unidad->num_actividades('base') > 0 ? $user->num_completadas('base', $unidad->id)/$unidad->num_actividades('base')*100 : 0)
-                                <div class="progress-bar" role="progressbar"
-                                     style="width: {{ $porcentaje }}%"
-                                     aria-valuenow="{{ $porcentaje }}"
-                                     title="{{ $user->num_completadas('base', $unidad->id).'/'. $unidad->num_actividades('base') }}"
-                                     aria-valuemin="0" aria-valuemax="100">
+                                @php($minimo_entregadas = $unidad->minimo_entregadas ?? $curso->minimo_entregadas ?? 0)
+                                <div
+                                    class="progress-bar {{ $porcentaje < $minimo_entregadas ? 'bg-warning text-dark' : 'bg-success' }}"
+                                    role="progressbar"
+                                    style="width: {{ $porcentaje }}%"
+                                    aria-valuenow="{{ $porcentaje }}"
+                                    title="{{ $user->num_completadas('base', $unidad->id).'/'. $unidad->num_actividades('base') }}"
+                                    aria-valuemin="0" aria-valuemax="100">
                                     {{ formato_decimales($porcentaje) }}&thinsp;%
                                 </div>
                             </div>
-                            @php($minimo_entregadas = $unidad->minimo_entregadas ?? $curso->minimo_entregadas ?? 0)
                             @if($minimo_entregadas > 0)
                                 <div class="row no-gutters">
                                     <div class="col text-muted small" style="flex: 0 0 10%;">0&thinsp;%</div>
