@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
-        <h1>{{ __('Course outline') }}</h1>
+        <h1>{{ __('Course progress') }}</h1>
         @if(!is_null(Auth::user()->curso_actual()))
             @php($curso = Auth::user()->curso_actual())
             <h2 class="text-muted font-xl">{{ !is_null($curso) ? $curso->category->period->organization->name.' » '.$curso->category->period->name.' » '.$curso->nombre : '' }}</h2>
@@ -25,7 +25,7 @@
                 @if(!is_null($unidad->fecha_entrega) && $unidad->fecha_entrega > now())
                     <div class="progress-group">
                         <div class="progress-group-prepend">
-                            <span class="progress-group-text">{{ __('Recommended progress') }}</span>
+                            <span class="progress-group-text">{{ __('Recommended') }}</span>
                         </div>
                         <div class="progress-group-bars">
                             <div class="progress-group-header">
