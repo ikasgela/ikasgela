@@ -43,6 +43,7 @@
 
             {{ Form::campoTexto('max_simultaneas', __('Simultaneous activities')) }}
             {{ Form::campoTexto('plazo_actividad', __('Activity deadline')) }}
+            {{ Form::campoTexto('minimo_entregadas', __('Minimum percent')) }}
 
             {{ Form::campoTexto('fecha_inicio', __('Start date')) }}
             {{ Form::campoTexto('fecha_fin', __('End date')) }}

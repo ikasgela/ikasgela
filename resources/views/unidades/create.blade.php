@@ -45,6 +45,8 @@
             {{ Form::campoTexto('fecha_entrega', __('Due date')) }}
             {{ Form::campoTexto('fecha_limite', __('Deadline')) }}
 
+            {{ Form::campoTexto('minimo_entregadas', __('Minimum percent')) }}
+
             @include('partials.guardar_cancelar')
 
             @include('layouts.errors')

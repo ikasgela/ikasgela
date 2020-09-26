@@ -51,6 +51,7 @@ class CursoController extends Controller
             'plazo_actividad' => request('plazo_actividad'),
             'fecha_inicio' => request('fecha_inicio'),
             'fecha_fin' => request('fecha_fin'),
+            'minimo_entregadas' => request('minimo_entregadas'),
         ]);
 
         return retornar();
@@ -96,6 +97,7 @@ class CursoController extends Controller
             'plazo_actividad' => request('plazo_actividad'),
             'fecha_inicio' => request('fecha_inicio'),
             'fecha_fin' => request('fecha_fin'),
+            'minimo_entregadas' => request('minimo_entregadas'),
         ]);
 
         return retornar();
