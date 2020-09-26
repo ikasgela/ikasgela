@@ -65,15 +65,19 @@
                                     {{ formato_decimales(60) }}&thinsp;%
                                 </div>
                             </div>
-                            <div class="row no-gutters">
-                                <div class="col text-muted small" style="flex: 0 0 10%;">0&thinsp;%</div>
-                                <div class="col text-muted small text-right pr-1 border-right"
-                                     style="flex: 0 0 {{ 50 }}%;">{{ 60 }}&thinsp;%
+                            @php($minimo_entregadas = $unidad->minimo_entregadas ?? $curso->minimo_entregadas ?? 0)
+                            @if($minimo_entregadas > 0)
+                                <div class="row no-gutters">
+                                    <div class="col text-muted small" style="flex: 0 0 10%;">0&thinsp;%</div>
+                                    <div class="col text-muted small text-right pr-1 border-right"
+                                         style="flex: 0 0 {{ $minimo_entregadas-10 }}%;">
+                                        {{ $minimo_entregadas }}&thinsp;%
+                                    </div>
+                                    <div class="col text-muted small text-right"
+                                         style="flex: 0 0 {{ 100-$minimo_entregadas }}%;">100&thinsp;%
+                                    </div>
                                 </div>
-                                <div class="col text-muted small text-right"
-                                     style="flex: 0 0 {{ 40 }}%;">100&thinsp;%
-                                </div>
-                            </div>
+                            @endif
                         </div>
                     </div>
                 @elseif(!is_null($unidad->fecha_entrega))
