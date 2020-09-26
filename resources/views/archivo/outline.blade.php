@@ -43,10 +43,10 @@
                             <div class="progress-group-bars">
                                 <div class="progress" style="height:24px">
                                     <div class="progress-bar bg-primary" role="progressbar"
-                                         style="width: {{ $porcentaje }}%"
-                                         aria-valuenow="{{ $porcentaje }}"
+                                         style="width: {{ $porcentaje > 0 ? $porcentaje : 0 }}%"
+                                         aria-valuenow="{{ $porcentaje > 0 ? $porcentaje : 0 }}"
                                          aria-valuemin="0" aria-valuemax="100">
-                                        {{ $porcentaje }}&thinsp;%
+                                        {{ $porcentaje > 0 ? $porcentaje : 0 }}&thinsp;%
                                     </div>
                                 </div>
                             </div>
