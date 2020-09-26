@@ -52,6 +52,30 @@
                             </div>
                         </div>
                     </div>
+                    <div class="progress-group">
+                        <div class="progress-group-prepend">
+                            <span class="progress-group-text">{{ __('Actual') }}</span>
+                        </div>
+                        <div class="progress-group-bars">
+                            <div class="progress" style="height: 24px;">
+                                <div class="progress-bar" role="progressbar"
+                                     style="width: {{ 60 }}%"
+                                     aria-valuenow="{{ 60 }}"
+                                     aria-valuemin="0" aria-valuemax="100">
+                                    {{ formato_decimales(60) }}&thinsp;%
+                                </div>
+                            </div>
+                            <div class="row no-gutters">
+                                <div class="col text-muted small" style="flex: 0 0 10%;">0&thinsp;%</div>
+                                <div class="col text-muted small text-right pr-1 border-right"
+                                     style="flex: 0 0 {{ 50 }}%;">{{ 60 }}&thinsp;%
+                                </div>
+                                <div class="col text-muted small text-right"
+                                     style="flex: 0 0 {{ 40 }}%;">100&thinsp;%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 @elseif(!is_null($unidad->fecha_entrega))
                     <div class="table-responsive">
                         <table class="table table-hover">
