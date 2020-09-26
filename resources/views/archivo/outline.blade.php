@@ -57,7 +57,7 @@
                             <span class="progress-group-text">{{ __('Actual') }}</span>
                         </div>
                         <div class="progress-group-bars">
-                            <div class="progress" style="height: 24px;">
+                            <div class="progress m-0" style="height: 24px;">
                                 <div class="progress-bar" role="progressbar"
                                      style="width: {{ 60 }}%"
                                      aria-valuenow="{{ 60 }}"
