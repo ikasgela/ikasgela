@@ -22,20 +22,33 @@
             @include('partials.subtitulo', ['subtitulo' => (isset($unidad->codigo) ? ($unidad->codigo.' - ') : '') . $unidad->nombre])
 
             <div class="ml-4">
-                <div class="table-responsive">
-                    <table class="table">
-                        <tbody>
-                        <tr class="border-secondary">
-                            <th class="bg-secondary text-dark w-25">{{ __('Availability date') }}</th>
-                            <td class="align-middle w-25">{{ !is_null($unidad->fecha_disponibilidad) ? $unidad->fecha_disponibilidad->format('d/m/Y H:i:s') : '-' }}</td>
-                            <th class="bg-secondary text-dark w-25">{{ __('Due date') }}</th>
-                            <td class="align-middle w-25">{{ !is_null($unidad->fecha_entrega) ? $unidad->fecha_entrega->format('d/m/Y H:i:s') : '-' }}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                @if(!is_null($unidad->fecha_entrega) && $unidad->fecha_entrega < now())
+                @if(!is_null($unidad->fecha_entrega) && $unidad->fecha_entrega > now())
+                    <div class="progress-group">
+                        <div class="progress-group-prepend">
+                            <span class="progress-group-text">{{ __('Progress') }}</span>
+                        </div>
+                        <div class="progress-group-bars">
+                            <div class="progress-group-header">
+                                <div>
+                                    {{ !is_null($unidad->fecha_disponibilidad) ? $unidad->fecha_disponibilidad->format('d/m/Y H:i') : '-' }}
+                                </div>
+                                <div class="col text-muted small text-center">
+                                    @include('partials.diferencia_fechas', ['fecha_inicial' => now(), 'fecha_final' => $unidad->fecha_entrega])
+                                </div>
+                                <div class="ml-auto">
+                                    {{ !is_null($unidad->fecha_entrega) ? $unidad->fecha_entrega->format('d/m/Y H:i') : '-' }}
+                                </div>
+                            </div>
+                            <div class="progress-group-bars">
+                                <div class="progress" style="height:24px">
+                                    <div class="progress-bar bg-warning text-dark" role="progressbar" style="width: 43%"
+                                         aria-valuenow="43" aria-valuemin="0" aria-valuemax="100">43&thinsp;%
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @elseif(!is_null($unidad->fecha_entrega))
                     <h3>{{ __('Activities') }}</h3>
                     <div class="table-responsive">
                         <table class="table table-hover">
