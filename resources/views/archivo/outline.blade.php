@@ -42,7 +42,7 @@
                             @php($porcentaje = !is_null($unidad->fecha_disponibilidad) && !is_null($unidad->fecha_entrega) ? round(100-(now()->diffInSeconds($unidad->fecha_entrega)/$unidad->fecha_disponibilidad->diffInSeconds($unidad->fecha_entrega)*100),0) : 0)
                             <div class="progress-group-bars">
                                 <div class="progress" style="height:24px">
-                                    <div class="progress-bar bg-warning text-dark" role="progressbar"
+                                    <div class="progress-bar bg-primary" role="progressbar"
                                          style="width: {{ $porcentaje }}%"
                                          aria-valuenow="{{ $porcentaje }}"
                                          aria-valuemin="0" aria-valuemax="100">
