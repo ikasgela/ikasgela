@@ -4,6 +4,8 @@ namespace Tests\Feature\Alumno;
 
 use App\Actividad;
 use App\Curso;
+use App\Qualification;
+use App\Skill;
 use App\Unidad;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -30,13 +32,44 @@ class ResultTest extends TestCase
         $this->actingAs($this->alumno);
 
         // Given
+
+        // Usuario
         $user = $this->alumno;
 
-        // Nuevo curso
+        // Curso
         $curso = factory(Curso::class)->create();
 
         setting_usuario(['curso_actual' => $curso->id]);
 
+        // Organización
+        $organization = $curso->category->period->organization;
+
+        // Competencias
+        $competencia1 = factory(Skill::class)->create([
+            'organization_id' => $organization->id,
+            'name' => 'Diseño de algoritmos',
+            'peso_examen' => 40,
+        ]);
+
+        $competencia2 = factory(Skill::class)->create([
+            'organization_id' => $organization->id,
+            'name' => 'Programación estructurada',
+            'peso_examen' => 40,
+        ]);
+
+        $cualificacion1 = factory(Qualification::class)->create([
+            'organization_id' => $organization->id,
+            'name' => 'General',
+            'template' => true,
+        ]);
+
+        $cualificacion1->skills()->attach($competencia1, ['percentage' => 20]);
+        $cualificacion1->skills()->attach($competencia2, ['percentage' => 80]);
+
+        $curso->qualification()->associate($cualificacion1);
+        $curso->save();
+
+        // Actividades
         $unidad1 = factory(Unidad::class)->create([
             'curso_id' => $curso->id,
             'nombre' => 'U1',
@@ -44,8 +77,8 @@ class ResultTest extends TestCase
 
         $actividad1 = factory(Actividad::class)->create([
             'unidad_id' => $unidad1->id,
+            'puntuacion' => 100,
             'tags' => 'base',
-            'nombre' => 'Superada 100',
             'plantilla' => true,
         ]);
 
@@ -63,8 +96,8 @@ class ResultTest extends TestCase
 
         $actividad2 = factory(Actividad::class)->create([
             'unidad_id' => $unidad2->id,
+            'puntuacion' => 100,
             'tags' => 'base',
-            'nombre' => 'Superada 80',
             'plantilla' => true,
         ]);
 
@@ -83,15 +116,15 @@ class ResultTest extends TestCase
 
         $actividad3 = factory(Actividad::class)->create([
             'unidad_id' => $unidad3->id,
+            'puntuacion' => 100,
             'tags' => 'examen',
-            'nombre' => 'Superada 60',
             'plantilla' => true,
         ]);
 
         $tarea3 = $actividad3->duplicate();
 
         $user->actividades()->attach($tarea3, [
-            'estado' => 20,
+            'estado' => 60,
             'puntuacion' => 80,
         ]);
 
@@ -102,9 +135,11 @@ class ResultTest extends TestCase
         $response->assertSeeInOrder([
             __('Results'),
             __('Mandatory activities'),
-            'Completadas',
+            trans_choice('tasks.completed', 2),
             __('Assessment tests'),
+            trans_choice('tasks.passed', 2),
             __('Calification'),
+            '8,75',
             __('Continuous evaluation'),
             trans_choice('tasks.passed', 1),
         ]);
