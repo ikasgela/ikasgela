@@ -39,7 +39,7 @@ class ResultTest extends TestCase
         // Curso
         $curso = factory(Curso::class)->create();
 
-        setting_usuario(['curso_actual' => $curso->id]);
+        setting_usuario(['curso_actual' => $curso->id], $user);
 
         // Organización
         $organization = $curso->category->period->organization;
