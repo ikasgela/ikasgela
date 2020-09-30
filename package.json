@@ -26,13 +26,13 @@
     "dependencies": {
         "@coreui/coreui": "^3.3.0",
         "@fancyapps/fancybox": "^3.5.7",
-        "@fortawesome/fontawesome-free": "^5.14.0",
-        "@popperjs/core": "^2.5.2",
+        "@fortawesome/fontawesome-free": "^5.15.0",
+        "@popperjs/core": "^2.5.3",
         "chart.js": "^2.9.3",
         "jquery-countdown": "^2.2.0",
         "perfect-scrollbar": "^1.5.0",
         "prismjs": "^1.21.0",
-        "tinymce": "^5.4.2",
+        "tinymce": "^5.5.0",
         "tinymce-i18n": "^20.4.4",
         "vue-toasted": "^1.1.28"
     }
