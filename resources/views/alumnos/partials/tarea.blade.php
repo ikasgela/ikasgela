@@ -101,10 +101,12 @@
                             @case(21)   {{-- Feedback leído --}}
                             @if($actividad->envioPermitido())
                                 @if(!isset($actividad->unidad->curso->fecha_fin) || $actividad->unidad->curso->fecha_fin->gt(\Carbon\Carbon::now()) || $actividad->hasEtiqueta('examen'))
-                                    <button type="submit" name="nuevoestado" value="30"
-                                            class="btn btn-primary mr-2 single_click">
-                                        <i class="fas fa-spinner fa-spin"
-                                           style="display:none;"></i> {{ __('Submit for review') }}</button>
+                                    @if(!$actividad->tarea->is_expired)
+                                        <button type="submit" name="nuevoestado" value="30"
+                                                class="btn btn-primary mr-2 single_click">
+                                            <i class="fas fa-spinner fa-spin"
+                                               style="display:none;"></i> {{ __('Submit for review') }}</button>
+                                    @endif
                                 @else
                                     <div class="alert alert-danger pb-0" role="alert">
                                         <p>El curso ha finalizado, no se admiten más envíos.</p>
