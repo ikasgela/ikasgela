@@ -89,10 +89,13 @@
                         @method('PUT')
                         @switch($actividad->tarea->estado)
                             @case(10)   {{-- Nueva --}}
-                            <button type="submit" name="nuevoestado" value="20"
-                                    class="btn btn-primary single_click">
-                                <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Accept activity') }}
-                            </button>
+                            @if(!$actividad->tarea->is_expired)
+                                <button type="submit" name="nuevoestado" value="20"
+                                        class="btn btn-primary single_click">
+                                    <i class="fas fa-spinner fa-spin" style="display:none;"></i>
+                                    {{ __('Accept activity') }}
+                                </button>
+                            @endif
                             @break
                             @case(20)   {{-- Aceptada --}}
                             @case(21)   {{-- Feedback leído --}}
