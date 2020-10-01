@@ -59,7 +59,11 @@
                             <span data-countdown="{{ $actividad->fecha_entrega }}"></span>
                         </div>
                     @else
-                        <span>{{ __('Task expired') }}</span>
+                        <span>
+                            <i class="fas fa-exclamation-triangle text-warning"></i>
+                            {{ __('Task expired') }}
+                            <i class="fas fa-exclamation-triangle text-warning"></i>
+                        </span>
                     @endif
                 @endif
                 @if(isset($num_actividad))
@@ -85,19 +89,24 @@
                         @method('PUT')
                         @switch($actividad->tarea->estado)
                             @case(10)   {{-- Nueva --}}
-                            <button type="submit" name="nuevoestado" value="20"
-                                    class="btn btn-primary single_click">
-                                <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Accept activity') }}
-                            </button>
+                            @if(!$actividad->tarea->is_expired)
+                                <button type="submit" name="nuevoestado" value="20"
+                                        class="btn btn-primary single_click">
+                                    <i class="fas fa-spinner fa-spin" style="display:none;"></i>
+                                    {{ __('Accept activity') }}
+                                </button>
+                            @endif
                             @break
                             @case(20)   {{-- Aceptada --}}
                             @case(21)   {{-- Feedback leído --}}
                             @if($actividad->envioPermitido())
                                 @if(!isset($actividad->unidad->curso->fecha_fin) || $actividad->unidad->curso->fecha_fin->gt(\Carbon\Carbon::now()) || $actividad->hasEtiqueta('examen'))
-                                    <button type="submit" name="nuevoestado" value="30"
-                                            class="btn btn-primary mr-2 single_click">
-                                        <i class="fas fa-spinner fa-spin"
-                                           style="display:none;"></i> {{ __('Submit for review') }}</button>
+                                    @if(!$actividad->tarea->is_expired)
+                                        <button type="submit" name="nuevoestado" value="30"
+                                                class="btn btn-primary mr-2 single_click">
+                                            <i class="fas fa-spinner fa-spin"
+                                               style="display:none;"></i> {{ __('Submit for review') }}</button>
+                                    @endif
                                 @else
                                     <div class="alert alert-danger pb-0" role="alert">
                                         <p>El curso ha finalizado, no se admiten más envíos.</p>
@@ -248,11 +257,19 @@
             @switch($actividad->tarea->estado)
                 @case(20)   {{-- Aceptada --}}
                 @case(21)   {{-- Feedback leído --}}
+                @if(!$actividad->tarea->is_expired)
+                    <hr class="mt-0 mb-2">
+                    @include('partials.tarjetas_actividad')
+                @else
+                    <div class="mb-2"></div>
+                @endif
+                @break
                 @case(60)   {{-- Archivada --}}
                 <hr class="mt-0 mb-2">
                 @include('partials.tarjetas_actividad')
                 @break
                 @default
+                <div class="mb-2"></div>
             @endswitch
             @if($actividad->tarea->estado > 10 && $actividad->tarea->estado != 30)
                 @if(!is_null($actividad->tarea->feedback))

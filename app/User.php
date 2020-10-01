@@ -147,8 +147,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->actividades()
             ->where(function ($query) {
                 $query
-                    ->estados([10, 20, 21])
-                    ->enPlazo();
+                    ->estados([10, 20, 21]);
             })
             ->orWhere(function ($query) {
                 $query
@@ -162,8 +161,7 @@ class User extends Authenticatable implements MustVerifyEmail
             ->orWhere(function ($query) {
                 $query
                     ->estados([30])
-                    ->autoAvance()
-                    ->enPlazo();
+                    ->autoAvance();
             });
     }
 
@@ -177,8 +175,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->actividades()
             ->wherePivotIn('estado', [30])
-            ->where('auto_avance', false)
-            ->enPlazo();
+            ->where('auto_avance', false);
     }
 
     public function actividades_revisadas()
