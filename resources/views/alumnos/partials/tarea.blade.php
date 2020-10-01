@@ -59,7 +59,11 @@
                             <span data-countdown="{{ $actividad->fecha_entrega }}"></span>
                         </div>
                     @else
-                        <span>{{ __('Task expired') }}</span>
+                        <span>
+                            <i class="fas fa-exclamation-triangle text-warning"></i>
+                            {{ __('Task expired') }}
+                            <i class="fas fa-exclamation-triangle text-warning"></i>
+                        </span>
                     @endif
                 @endif
                 @if(isset($num_actividad))
@@ -248,11 +252,19 @@
             @switch($actividad->tarea->estado)
                 @case(20)   {{-- Aceptada --}}
                 @case(21)   {{-- Feedback leído --}}
+                @if(!$actividad->tarea->is_expired)
+                    <hr class="mt-0 mb-2">
+                    @include('partials.tarjetas_actividad')
+                @else
+                    <div class="mb-2"></div>
+                @endif
+                @break
                 @case(60)   {{-- Archivada --}}
                 <hr class="mt-0 mb-2">
                 @include('partials.tarjetas_actividad')
                 @break
                 @default
+                <div class="mb-2"></div>
             @endswitch
             @if($actividad->tarea->estado > 10 && $actividad->tarea->estado != 30)
                 @if(!is_null($actividad->tarea->feedback))
