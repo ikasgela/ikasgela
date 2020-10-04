@@ -14,9 +14,15 @@
         <tbody>
         @foreach($actividades as $actividad)
             <tr>
-                <td>{{ $actividad->unidad->nombre }}</td>
-                <td>{{ $actividad->nombre }}</td>
-                <td>{{ $actividad->tags }}</td>
+                <td style="border: 1px solid black; {{ $actividad->destacada ?: 'background-color: #ffc107' }}">
+                    {{ $actividad->unidad->nombre }}
+                </td>
+                <td style="border: 1px solid black; {{ $actividad->destacada ?: 'background-color: #ffc107' }}">
+                    {{ $actividad->nombre }}
+                </td>
+                <td style="border: 1px solid black; {{ $actividad->destacada ?: 'background-color: #ffc107' }}">
+                    {{ $actividad->tags }}
+                </td>
             </tr>
         @endforeach
         </tbody>
