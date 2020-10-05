@@ -78,8 +78,8 @@ class ActividadController extends Controller
 
     public function create()
     {
-        $unidades = Unidad::cursoActual()->orderBy('nombre')->get();
-        $actividades = Actividad::cursoActual()->plantilla()->orderBy('nombre')->get();
+        $unidades = Unidad::cursoActual()->orderBy('codigo')->orderBy('slug')->get();
+        $actividades = Actividad::cursoActual()->plantilla()->orderBy('slug')->orderBy('id')->get();
         $qualifications = Qualification::organizacionActual()->orderBy('name')->get();
 
         return view('actividades.create', compact(['unidades', 'actividades', 'qualifications']));
@@ -151,10 +151,10 @@ class ActividadController extends Controller
 
     public function edit(Actividad $actividad)
     {
-        $unidades = Unidad::orderBy('curso_id')->orderBy('codigo')->orderBy('nombre')->get();
+        $unidades = Unidad::cursoActual()->orderBy('codigo')->orderBy('slug')->get();
         $siguiente = $actividad->siguiente;
-        $actividades = Actividad::cursoActual()->where('id', '!=', $actividad->id)->orderBy('nombre')->get();
-        $plantillas = Actividad::cursoActual()->plantilla()->where('id', '!=', $actividad->id)->orderBy('nombre')->get();
+        $actividades = Actividad::cursoActual()->where('id', '!=', $actividad->id)->orderBy('slug')->orderBy('id')->get();
+        $plantillas = Actividad::cursoActual()->plantilla()->where('id', '!=', $actividad->id)->orderBy('slug')->orderBy('id')->get();
         $qualifications = Qualification::organizacionActual()->orderBy('name')->get();
 
         return view('actividades.edit', compact(['actividad', 'unidades', 'actividades', 'plantillas', 'qualifications']));

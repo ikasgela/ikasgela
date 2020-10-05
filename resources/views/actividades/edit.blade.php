@@ -16,9 +16,6 @@
                         @foreach($unidades as $unidad)
                             <option
                                 value="{{ $unidad->id }}" {{ $actividad->unidad_id == $unidad->id ? 'selected' : '' }}>
-                                {{ $unidad->curso->category->period->organization->name }}
-                                - {{ $unidad->curso->category->period->name }}
-                                - {{ $unidad->curso->nombre }} -
                                 @isset($unidad->codigo)
                                     {{ $unidad->codigo }} -
                                 @endisset
