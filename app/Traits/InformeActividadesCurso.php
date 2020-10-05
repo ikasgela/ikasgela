@@ -12,7 +12,7 @@ trait InformeActividadesCurso
     {
         $curso = Curso::find(setting_usuario('curso_actual'));
 
-        $actividades = Actividad::cursoActual()->plantilla()->orderBy('orden')->get();
+        $actividades = Actividad::cursoActual()->plantilla()->orderBy('orden')->orderBy('id')->get();
 
         return compact(['curso', 'actividades']);
     }
