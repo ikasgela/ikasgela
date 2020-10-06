@@ -25,7 +25,8 @@
                     @foreach ($file_upload->files as $file)
                         <tr>
                             <td>
-                                <a data-fancybox="gallery" href="{{ $file->imageUrl('images') }}">
+                                <a data-fancybox="gallery_{{ $file_upload->id }}"
+                                   href="{{ $file->imageUrl('images') }}">
                                     <img style="width:64px" src="{{ $file->imageUrl('thumbnails') }}"
                                          alt="{{ $file->title }}" title="{{ $file->title }}"
                                          onerror="this.onerror=null;this.src='{{ url("/svg/missing_image.svg") }}';">
