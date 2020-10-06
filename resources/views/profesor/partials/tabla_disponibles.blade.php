@@ -28,6 +28,7 @@
                 <td>{{ $actividad->id }}</td>
                 <td>
                     @include('actividades.partials.nombre_con_etiquetas')
+                    @include('actividades.partials.caducada')
                 </td>
                 <td>{{ $actividad->slug }}</td>
                 <td>{{ formato_decimales($actividad->puntuacion * ($actividad->multiplicador ?: 1)) }}</td>
