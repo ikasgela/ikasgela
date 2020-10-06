@@ -26,7 +26,7 @@ class T5_AmazonS3Test extends DuskTestCase
             // Subir el archivo
             $browser->attach('file', base_path("public/icons/android-chrome-512x512.png"));
             $browser->press(__('Upload'));
-            $browser->assertSee('16.45 KB');
+            $browser->assertSee('21,58 KB');
 
             // Borrar el fichero
             $browser->press('borrar');
