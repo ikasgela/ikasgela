@@ -101,6 +101,7 @@
                                 </div>
                                 <div>
                                     <button type="button" id="boton_feedback"
+                                            {{ $feedbacks_curso->count() == 0 ? 'disabled' : '' }}
                                             class="btn btn-primary">{{ __('Add') }}</button>
                                 </div>
                             </div>
@@ -121,6 +122,7 @@
                                 </div>
                                 <div>
                                     <button type="button" id="boton_feedback_actividad"
+                                            {{ $feedbacks_actividad->count() == 0 ? 'disabled' : '' }}
                                             class="btn btn-primary">{{ __('Add') }}</button>
                                 </div>
                             </div>
