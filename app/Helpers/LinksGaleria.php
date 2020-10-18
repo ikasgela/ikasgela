@@ -6,7 +6,9 @@ if (!function_exists('links_galeria')) {
     {
         // REF: Envolver un elemento HTML en otro usando DOM: https://stackoverflow.com/a/2120923/14378620
         $dom = new DOMDocument();
-        $dom->loadHTML($texto_enlace);
+
+        // REF: Usar la codificación adecuada: https://stackoverflow.com/a/8218649/14378620
+        $dom->loadHTML('<?xml encoding="utf-8" ?>' . $texto_enlace);
 
         foreach ($dom->getElementsByTagName('img') as $img) {
             $clone = $img->cloneNode();
