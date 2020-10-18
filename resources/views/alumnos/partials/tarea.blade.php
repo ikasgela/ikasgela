@@ -47,6 +47,11 @@
     ])
 @endif
 
+@section('fancybox')
+    <link rel="stylesheet" href="{{ asset('/js/jquery.fancybox.min.css') }}"/>
+    <script src="{{ asset('/js/jquery.fancybox.min.js') }}" defer></script>
+@endsection
+
 <div class="row">
     <div class="col-md-12">
         {{-- Tarjeta --}}
@@ -287,7 +292,7 @@
                                 <div class="mx-3 mt-3 p-1">
                                     <div class="media rounded line-numbers">
                                         <div class="media-body overflow-auto">
-                                            {!! $actividad->tarea->feedback !!}
+                                            {!! links_galeria($actividad->tarea->feedback) !!}
                                         </div>
                                     </div>
                                     <hr class="mt-0 mb-2">

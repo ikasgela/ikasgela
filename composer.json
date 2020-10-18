@@ -17,6 +17,7 @@
     "type": "project",
     "require": {
         "php": "^7.4",
+        "ext-dom": "*",
         "ext-gd": "*",
         "ext-intl": "*",
         "ext-json": "*",

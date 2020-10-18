@@ -33,7 +33,7 @@
         <div class="media rounded bg-light mx-3 mb-3 line-numbers">
             <div class="media-body px-3 pt-3 overflow-auto"
                  style="border-left: 4px solid #c8ced3; border-radius: 0.25em">
-                {!! $thread->latestMessage->body !!}
+                {!! links_galeria($thread->latestMessage->body, $thread->id) !!}
             </div>
         </div>
     @endif
