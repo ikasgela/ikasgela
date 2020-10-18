@@ -50,7 +50,7 @@ class ItemController extends Controller
 
     public function show(Item $item)
     {
-        return abort(501, __('Not implemented.'));
+        return abort(501);
     }
 
     public function edit(Item $item)

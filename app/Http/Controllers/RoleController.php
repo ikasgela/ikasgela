@@ -36,7 +36,7 @@ class RoleController extends Controller
 
     public function show(Role $role)
     {
-        return abort(501, __('Not implemented.'));
+        return abort(501);
     }
 
     public function edit(Role $role)

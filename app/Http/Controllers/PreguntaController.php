@@ -54,7 +54,7 @@ class PreguntaController extends Controller
 
     public function show(Pregunta $pregunta)
     {
-        return abort(501, __('Not implemented.'));
+        return abort(501);
     }
 
     public function edit(Pregunta $pregunta)

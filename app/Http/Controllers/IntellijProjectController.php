@@ -55,7 +55,7 @@ class IntellijProjectController extends Controller
 
     public function show(IntellijProject $intellij_project)
     {
-        return abort(501, __('Not implemented.'));
+        return abort(501);
     }
 
     public function edit(IntellijProject $intellij_project)

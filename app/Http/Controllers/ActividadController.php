@@ -14,8 +14,6 @@ use App\Traits\InformeActividadesCurso;
 use App\Traits\PaginarUltima;
 use App\Unidad;
 use App\User;
-use BadMethodCallException;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -135,7 +133,7 @@ class ActividadController extends Controller
      */
     public function show(Actividad $actividad)
     {
-        return abort(501, __('Not implemented.'));
+        return abort(501);
     }
 
     public function preview(Actividad $actividad)
@@ -216,8 +214,6 @@ class ActividadController extends Controller
 
         $estado_anterior = $tarea->estado;
 
-        $tarea->estado = $nuevoestado;
-
         $actividad = $tarea->actividad;
         $usuario = $tarea->user;
 
@@ -230,10 +226,33 @@ class ActividadController extends Controller
 
         switch ($nuevoestado) {
             case 10:
+                if (!in_array($estado_anterior, [11])) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
+                $tarea->estado = $nuevoestado;
                 break;
             case 20:
+                if (!in_array($estado_anterior, [10])) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
+                $tarea->estado = $nuevoestado;
+                break;
+            case 21:
+                if (!in_array($estado_anterior, [41])) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
+                $tarea->estado = $nuevoestado;
                 break;
             case 30:
+                if (!in_array($estado_anterior, [20, 21])) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
+                $tarea->estado = $nuevoestado;
+
                 // Notificar que hay una actividad para corregir
                 if (!$tarea->actividad->auto_avance) {
                     foreach ($tarea->actividad->unidad->curso->profesores as $profesor) {
@@ -256,11 +275,21 @@ class ActividadController extends Controller
 
             // Reiniciada (botón de reset, para cuando se confunden y envian sin querer)
             case 31:
+                if (!in_array($estado_anterior, [30])) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
                 $tarea->estado = 20;
+
+                $this->bloquearRepositorios($tarea, false);
                 break;
 
             // Reabierta (consume un intento y resta puntuación)
             case 32:
+                if (!in_array($estado_anterior, [30])) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
                 $tarea->estado = 20;
 
                 $this->bloquearRepositorios($tarea, false);
@@ -282,10 +311,22 @@ class ActividadController extends Controller
 
             // Revisada: ERROR
             case 41:
+                if (!in_array($estado_anterior, [30, 31])) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
+                $tarea->estado = $nuevoestado;
+
                 $this->bloquearRepositorios($tarea, false);
 
             // Revisada: OK
             case 40:
+                if (!in_array($estado_anterior, [30, 31])) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
+                $tarea->estado = $nuevoestado;
+
                 $tarea->puntuacion = $request->input('puntuacion');
                 $tarea->feedback = $request->input('feedback');
                 $tarea->increment('intentos');
@@ -308,28 +349,49 @@ class ActividadController extends Controller
 
             // Avance automático
             case 42:
+                if (!in_array($estado_anterior, [30, 31])) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
+                $tarea->estado = $nuevoestado;
+
                 $tarea->feedback = __('Automatically completed task, not reviewed by any teacher.');
                 $tarea->puntuacion = $actividad->puntuacion;
                 break;
             case 50:
+                if (!in_array($estado_anterior, [40, 41, 42])) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
+                $tarea->estado = $nuevoestado;
                 break;
             case 60:
             case 62:
+                if (!in_array($estado_anterior, [40, 41, 42, 50])) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
+                $tarea->estado = $nuevoestado;
+
                 $tarea->save();
                 $this->bloquearRepositorios($tarea, true);
                 $tarea->archiveFiles();
                 $this->mostrarSiguienteActividad($actividad, $usuario);
                 break;
             case 70:
+                $tarea->estado = $nuevoestado;
+
                 $actividad->final = !$actividad->final;
                 $actividad->save();
                 return back();
                 break;
             case 71:
                 $tarea->estado = $estado_anterior;
+
                 $this->mostrarSiguienteActividad($actividad, $usuario, true);
                 break;
             default:
+                return abort(400, __('Invalid task state.'));
         }
 
         $tarea->save();
