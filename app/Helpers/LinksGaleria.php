@@ -2,7 +2,7 @@
 
 if (!function_exists('links_galeria')) {
 
-    function links_galeria($texto_enlace, $id_galeria)
+    function links_galeria($texto_enlace, $id_galeria = '')
     {
         // REF: Envolver un elemento HTML en otro usando DOM: https://stackoverflow.com/a/2120923/14378620
         $dom = new DOMDocument();
