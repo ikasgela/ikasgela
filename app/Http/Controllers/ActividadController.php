@@ -216,8 +216,6 @@ class ActividadController extends Controller
 
         $estado_anterior = $tarea->estado;
 
-        $tarea->estado = $nuevoestado;
-
         $actividad = $tarea->actividad;
         $usuario = $tarea->user;
 
@@ -232,6 +230,11 @@ class ActividadController extends Controller
             case 10:
                 break;
             case 20:
+                if (!in_array($estado_anterior, [10])) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
+                $tarea->estado = 20;
                 break;
             case 30:
                 // Notificar que hay una actividad para corregir
