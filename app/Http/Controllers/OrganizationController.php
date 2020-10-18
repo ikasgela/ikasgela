@@ -46,7 +46,7 @@ class OrganizationController extends Controller
 
     public function show(Organization $organization)
     {
-        return abort(501, __('Not implemented.'));
+        return abort(501);
     }
 
     public function edit(Organization $organization)

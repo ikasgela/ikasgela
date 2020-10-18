@@ -44,7 +44,7 @@ class YoutubeVideoController extends Controller
 
     public function show(YoutubeVideo $youtube_video)
     {
-        return abort(501, __('Not implemented.'));
+        return abort(501);
     }
 
     public function edit(YoutubeVideo $youtube_video)

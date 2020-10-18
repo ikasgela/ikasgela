@@ -48,7 +48,7 @@ class TeamController extends Controller
 
     public function show(Team $team)
     {
-        return abort(501, __('Not implemented.'));
+        return abort(501);
     }
 
     public function edit(Team $team)
