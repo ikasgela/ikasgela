@@ -14,8 +14,6 @@ use App\Traits\InformeActividadesCurso;
 use App\Traits\PaginarUltima;
 use App\Unidad;
 use App\User;
-use BadMethodCallException;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -241,8 +239,15 @@ class ActividadController extends Controller
 
                 $tarea->estado = $nuevoestado;
                 break;
+            case 21:
+                if (!in_array($estado_anterior, [41])) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
+                $tarea->estado = $nuevoestado;
+                break;
             case 30:
-                if (!in_array($estado_anterior, [20])) {
+                if (!in_array($estado_anterior, [20, 21])) {
                     return abort(400, __('Invalid task state.'));
                 }
 
@@ -306,7 +311,7 @@ class ActividadController extends Controller
 
             // Revisada: ERROR
             case 41:
-                if (!in_array($estado_anterior, [30, 31, 32])) {
+                if (!in_array($estado_anterior, [30, 31])) {
                     return abort(400, __('Invalid task state.'));
                 }
 
@@ -316,7 +321,7 @@ class ActividadController extends Controller
 
             // Revisada: OK
             case 40:
-                if (!in_array($estado_anterior, [30, 31, 32])) {
+                if (!in_array($estado_anterior, [30, 31])) {
                     return abort(400, __('Invalid task state.'));
                 }
 
@@ -344,7 +349,7 @@ class ActividadController extends Controller
 
             // Avance automático
             case 42:
-                if (!in_array($estado_anterior, [30, 31, 32])) {
+                if (!in_array($estado_anterior, [30, 31])) {
                     return abort(400, __('Invalid task state.'));
                 }
 
@@ -362,7 +367,7 @@ class ActividadController extends Controller
                 break;
             case 60:
             case 62:
-                if (!in_array($estado_anterior, [40, 41, 42])) {
+                if (!in_array($estado_anterior, [40, 41, 42, 50])) {
                     return abort(400, __('Invalid task state.'));
                 }
 
@@ -386,6 +391,7 @@ class ActividadController extends Controller
                 $this->mostrarSiguienteActividad($actividad, $usuario, true);
                 break;
             default:
+                return abort(400, __('Invalid task state.'));
         }
 
         $tarea->save();
