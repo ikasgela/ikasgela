@@ -40,7 +40,7 @@
                     class="ml-2 badge badge-danger">{{ $user->actividades_en_curso_autoavance()->tag('extra', false)->tag('examen', false)->count() }}</span>
             </a>
         </li>
-        @if($user->actividades()->tag('extra')->count() > 0)
+        @if($user->actividades_en_curso_autoavance()->tag('extra')->count() > 0)
             <li class="nav-item">
                 <a class="nav-link" id="pills-extra-tab" data-toggle="tab" href="#pills-extra" role="tab"
                    aria-controls="pills-contact" aria-selected="false">{{ __('Extra') }}
