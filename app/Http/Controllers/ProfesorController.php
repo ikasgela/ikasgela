@@ -231,36 +231,21 @@ class ProfesorController extends Controller
             // Sacar un duplicado de la actividad y poner el campo plantilla a false
             // REF: https://github.com/BKWLD/cloner
 
-            $primero = true;
-            $anterior = null;
+            $clon = $actividad->duplicate();
+            $clon->plantilla_id = $actividad->id;
 
-            while ($actividad != null) {
+            $ahora = now();
+            $clon->fecha_disponibilidad = $ahora;
+            $plazo = $ahora->addDays($actividad->unidad->curso->plazo_actividad);
+            $clon->fecha_entrega = $plazo;
+            $clon->fecha_limite = $plazo;
+            $clon->save();
+            $clon->orden = $clon->id;
+            $clon->save();
 
-                $clon = $actividad->duplicate();
-                $clon->plantilla_id = $actividad->id;
-
-                $ahora = now();
-                $clon->fecha_disponibilidad = $ahora;
-                $plazo = $ahora->addDays($actividad->unidad->curso->plazo_actividad);
-                $clon->fecha_entrega = $plazo;
-                $clon->fecha_limite = $plazo;
-                $clon->save();
-                $clon->orden = $clon->id;
-                $clon->save();
-
-                if ($primero) {
-                    $asignadas .= "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";
-                    $user->actividades()->attach($clon);
-                    $tarea = Tarea::where('user_id', $user->id)->where('actividad_id', $clon->id)->first();
-                } else {
-                    $clon->siguiente_id = $anterior->id;
-                    $clon->save();
-                }
-
-                $actividad = null;
-                $anterior = $clon;
-                $primero = false;
-            }
+            $asignadas .= "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";
+            $user->actividades()->attach($clon);
+            $tarea = Tarea::where('user_id', $user->id)->where('actividad_id', $clon->id)->first();
 
             Registro::create([
                 'user_id' => $user->id,
