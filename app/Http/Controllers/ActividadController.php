@@ -210,6 +210,11 @@ class ActividadController extends Controller
 
     public function actualizarEstado(Tarea $tarea, Request $request)
     {
+        $usuario_actual = Auth::user();
+
+        if ($tarea->user_id != $usuario_actual->id && !Auth::user()->hasAnyRole(['admin', 'profesor']))
+            return abort('403');
+
         $nuevoestado = $request->input('nuevoestado');
 
         $estado_anterior = $tarea->estado;
@@ -222,7 +227,7 @@ class ActividadController extends Controller
         $registro->tarea_id = $tarea->id;
         $registro->timestamp = now();
         $registro->estado = $nuevoestado;
-        $registro->curso_id = Auth::user()->curso_actual()->id;
+        $registro->curso_id = $usuario_actual->curso_actual()->id;
 
         switch ($nuevoestado) {
             case 10:
