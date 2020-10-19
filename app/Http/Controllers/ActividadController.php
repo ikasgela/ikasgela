@@ -460,28 +460,33 @@ class ActividadController extends Controller
 
             if ($plantilla->siguiente_id != $actividad->siguiente_id && !$actividad->siguiente_overriden) {
                 $clon = $plantilla->siguiente->duplicate();
+                $clon->plantilla_id = $plantilla->siguiente->id;
             } else {
                 $clon = $actividad->siguiente->duplicate();
+                $clon->plantilla_id = $actividad->siguiente->id;
             }
 
-            $clon->plantilla_id = $actividad->siguiente->id;
             $ahora = now();
             $clon->fecha_disponibilidad = $ahora;
             $plazo = $ahora->addDays($actividad->unidad->curso->plazo_actividad);
             $clon->fecha_entrega = $plazo;
             $clon->fecha_limite = $plazo;
             $clon->save();
+            $clon->orden = $clon->id;
+            $clon->save();
 
             $actividad->siguiente_id = null;
             $actividad->save();
 
             if (!$actividad->final) {
-                $usuario->actividades()->attach($clon);
+                // Pendiente de aceptar
+                $usuario->actividades()->attach($clon, ['estado' => 10]);
 
                 // Notificar
-                $asignada = "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";
-                if (setting_usuario('notificacion_actividad_asignada', $usuario))
+                if (setting_usuario('notificacion_actividad_asignada', $usuario)) {
+                    $asignada = "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";
                     Mail::to($usuario->email)->queue(new ActividadAsignada($usuario->name, $asignada));
+                }
             } else {
                 // Oculta
                 $usuario->actividades()->attach($clon, ['estado' => 11]);

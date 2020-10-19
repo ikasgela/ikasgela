@@ -238,11 +238,14 @@ class ProfesorController extends Controller
 
                 $clon = $actividad->duplicate();
                 $clon->plantilla_id = $actividad->id;
+
                 $ahora = now();
                 $clon->fecha_disponibilidad = $ahora;
                 $plazo = $ahora->addDays($actividad->unidad->curso->plazo_actividad);
                 $clon->fecha_entrega = $plazo;
                 $clon->fecha_limite = $plazo;
+                $clon->save();
+                $clon->orden = $clon->id;
                 $clon->save();
 
                 if ($primero) {
