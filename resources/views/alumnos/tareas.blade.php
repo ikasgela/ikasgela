@@ -23,19 +23,19 @@
 
     <ul class="nav nav-tabs" id="pills-tab" role="tablist">
         {{-- Examen --}}
-        @if($user->actividades_en_curso_autoavance()->enPlazo()->orCorregida()->tag('examen')->count() > 0)
+        @if($user->actividades_en_curso_autoavance()->enPlazoOrCorregida()->tag('examen')->count() > 0)
             <li class="nav-item">
-                <a class="nav-link {{ $user->actividades_en_curso_autoavance()->enPlazo()->orCorregida()->tag('examen')->count() > 0 ? 'active' : '' }}"
+                <a class="nav-link {{ $user->actividades_en_curso_autoavance()->enPlazoOrCorregida()->tag('examen')->count() > 0 ? 'active' : '' }}"
                    id="pills-examen-tab" data-toggle="tab" href="#pills-examen" role="tab"
                    aria-controls="pills-contact" aria-selected="false">{{ __('Exam') }}
                     <span
-                        class="ml-2 badge badge-danger">{{ $user->actividades_en_curso_autoavance()->enPlazo()->orCorregida()->tag('examen')->count() }}</span>
+                        class="ml-2 badge badge-danger">{{ $user->actividades_en_curso_autoavance()->enPlazoOrCorregida()->tag('examen')->count() }}</span>
                 </a>
             </li>
         @endif
         {{-- En curso --}}
         <li class="nav-item">
-            <a class="nav-link {{ $user->actividades_en_curso_autoavance()->enPlazo()->orCorregida()->tag('examen')->count() > 0 ? '' : 'active' }}"
+            <a class="nav-link {{ $user->actividades_en_curso_autoavance()->enPlazoOrCorregida()->tag('examen')->count() > 0 ? '' : 'active' }}"
                id="pills-en-curso-tab" data-toggle="tab" href="#pills-en-curso" role="tab"
                aria-controls="pills-profile" aria-selected="true">{{ __('In progress') }}
                 <span
@@ -63,12 +63,12 @@
     </ul>
     <div class="tab-content border-bottom border-left border-right" id="pills-tab-content">
         {{-- Examen --}}
-        @if($user->actividades_en_curso_autoavance()->enPlazo()->orCorregida()->tag('examen')->count() > 0)
+        @if($user->actividades_en_curso_autoavance()->enPlazoOrCorregida()->tag('examen')->count() > 0)
             <div
-                class="tab-pane fade {{ $user->actividades_en_curso_autoavance()->enPlazo()->orCorregida()->tag('examen')->count() > 0 ? 'show active' : '' }}"
+                class="tab-pane fade {{ $user->actividades_en_curso_autoavance()->enPlazoOrCorregida()->tag('examen')->count() > 0 ? 'show active' : '' }}"
                 id="pills-examen" role="tabpanel" aria-labelledby="pills-examen-tab">
                 <div class="p-3">
-                    @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_autoavance()->enPlazo()->orCorregida()->tag('examen')->get(),
+                    @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_autoavance()->enPlazoOrCorregida()->tag('examen')->get(),
                     'mensaje_ninguna' => 'No hay actividades de examen en curso.'
                     ])
                 </div>
@@ -76,7 +76,7 @@
         @endif
         {{-- En curso --}}
         <div
-            class="tab-pane fade {{ $user->actividades_en_curso_autoavance()->enPlazo()->orCorregida()->tag('examen')->count() > 0 ? '' : 'show active' }}"
+            class="tab-pane fade {{ $user->actividades_en_curso_autoavance()->enPlazoOrCorregida()->tag('examen')->count() > 0 ? '' : 'show active' }}"
             id="pills-en-curso" role="tabpanel" aria-labelledby="pills-en-curso-tab">
             <div class="p-3">
                 @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_autoavance()->tag('extra', false)->tag('examen', false)->get(),

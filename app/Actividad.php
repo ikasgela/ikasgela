@@ -215,9 +215,15 @@ class Actividad extends Model
         });
     }
 
-    public function scopeOrCorregida($query)
+    public function scopeEnPlazoOrCorregida($query)
     {
-        return $query->orWhereIn('estado', [40, 41, 42]);
+        return $query->where(function ($query) {
+            $query->where('fecha_disponibilidad', '<=', now())->orWhereNull('fecha_disponibilidad')
+                ->orWhereIn('estado', [40, 41, 42]);
+        })->where(function ($query) {
+            $query->where('fecha_limite', '>=', now())->orWhereNull('fecha_limite')
+                ->orWhereIn('estado', [40, 41, 42]);
+        });
     }
 
     public function scopeCaducada($query)
