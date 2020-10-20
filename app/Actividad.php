@@ -215,6 +215,11 @@ class Actividad extends Model
         });
     }
 
+    public function scopeOrCorregida($query)
+    {
+        return $query->orWhereIn('estado', [40, 41, 42]);
+    }
+
     public function scopeCaducada($query)
     {
         return $query->where('fecha_limite', '<', now());
