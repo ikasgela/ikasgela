@@ -4,6 +4,6 @@
     @if($diff_seconds > 0)
         {{ trans_choice('fechas.remaining', $diff_days, ['days' => $diff_days]) }}
     @else
-        {{ __('fechas.expired') }}
+        {{ trans('fechas.expired') }}
     @endif
 @endif
