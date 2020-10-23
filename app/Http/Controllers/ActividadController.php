@@ -383,6 +383,17 @@ class ActividadController extends Controller
                 $tarea->archiveFiles();
                 $this->mostrarSiguienteActividad($actividad, $usuario);
                 break;
+            case 63:
+                if (!$tarea->is_expired) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
+                $dias = $request->input('ampliacion_plazo', 7);
+                $plazo = now()->addDays($dias);
+                $actividad->fecha_entrega = $plazo;
+                $actividad->fecha_limite = $plazo;
+                $actividad->save();
+                break;
             case 70:
                 $tarea->estado = $nuevoestado;
 

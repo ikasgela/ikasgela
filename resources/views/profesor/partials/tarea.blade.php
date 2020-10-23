@@ -52,10 +52,20 @@
                             </button>
                             @if($tarea->is_expired)
                                 <button type="submit" name="nuevoestado" value="62"
-                                        class="btn btn-secondary mr-3 single_click">
+                                        class="btn btn-secondary ml-3 single_click">
                                     <i class="fas fa-spinner fa-spin"
                                        style="display:none;"></i> {{ __('Archive expired') }}
                                 </button>
+                                <button type="submit" name="nuevoestado" value="63"
+                                        class="btn btn-secondary ml-3 single_click">
+                                    <i class="fas fa-spinner fa-spin"
+                                       style="display:none;"></i> {{ __('Extend deadline') }}
+                                </button>
+                                <label class="mx-2">{{ __('by') }}</label>
+                                <input class="mr-2 form-control" type="number" min="0" max="90" step="1"
+                                       name="ampliacion_plazo"
+                                       value="7"/>
+                                <label class="mr-2">{{ __('days') }}.</label>
                             @endif
                         </div>
                         @if(!is_null($actividad->siguiente))
