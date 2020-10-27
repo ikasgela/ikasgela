@@ -393,6 +393,8 @@ class ActividadController extends Controller
                 $actividad->fecha_entrega = $plazo;
                 $actividad->fecha_limite = $plazo;
                 $actividad->save();
+
+                $this->bloquearRepositorios($tarea, false);
                 break;
             case 70:
                 $tarea->estado = $nuevoestado;
