@@ -75,16 +75,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.158.19",
+            "version": "3.158.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "b1c3c763e227e518768f0416cbd2b29c11f79561"
+                "reference": "a2aba95a428f9e478d08b3f8dc1a70837b46785a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/b1c3c763e227e518768f0416cbd2b29c11f79561",
-                "reference": "b1c3c763e227e518768f0416cbd2b29c11f79561",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a2aba95a428f9e478d08b3f8dc1a70837b46785a",
+                "reference": "a2aba95a428f9e478d08b3f8dc1a70837b46785a",
                 "shasum": ""
             },
             "require": {
@@ -159,9 +159,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.158.19"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.158.21"
             },
-            "time": "2020-11-02T19:49:21+00:00"
+            "time": "2020-11-05T19:24:22+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -3701,16 +3701,16 @@
         },
         {
             "name": "mongodb/mongodb",
-            "version": "1.7.1",
+            "version": "1.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mongodb/mongo-php-library.git",
-                "reference": "b35af66631a11ee730ff1fde295f71e89f01f121"
+                "reference": "38b685191c047a57275d6ccd2ea5c50f23638485"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mongodb/mongo-php-library/zipball/b35af66631a11ee730ff1fde295f71e89f01f121",
-                "reference": "b35af66631a11ee730ff1fde295f71e89f01f121",
+                "url": "https://api.github.com/repos/mongodb/mongo-php-library/zipball/38b685191c047a57275d6ccd2ea5c50f23638485",
+                "reference": "38b685191c047a57275d6ccd2ea5c50f23638485",
                 "shasum": ""
             },
             "require": {
@@ -3764,9 +3764,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mongodb/mongo-php-library/issues",
-                "source": "https://github.com/mongodb/mongo-php-library/tree/1.7.1"
+                "source": "https://github.com/mongodb/mongo-php-library/tree/1.7.2"
             },
-            "time": "2020-09-22T13:26:09+00:00"
+            "time": "2020-10-08T10:06:19+00:00"
         },
         {
             "name": "monolog/monolog",
