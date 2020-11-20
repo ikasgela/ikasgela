@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App;
 use App\Actividad;
+use App\Curso;
 use App\Gitea\GiteaClient;
 use App\IntellijProject;
 use App\Jobs\ForkGiteaRepo;
@@ -269,15 +270,49 @@ class IntellijProjectController extends Controller
 
         if ($request->has('unidad_id')) {
 
-            $fichero = "prueba.sh";
+            $unidad = Unidad::findOrFail($request->get('unidad_id'));
 
-            $datos = "#!/bin/bash\n\n";
-            $datos .= "git clone https://gitea.ikasgela.com/root/programacion.programacion-modular.examen.calculos.git\n";
-            $datos .= "git clone https://gitea.ikasgela.com/root/programacion.programacion-modular.examen.calculos.git\n";
+            $fichero = $unidad->slug . ".sh";
+            $datos = "#!/bin/sh\n\n";
 
-            return response()->streamDownload(function () use ($datos) {
-                echo $datos;
-            }, $fichero);
+            $curso_actual = Curso::find(setting_usuario('curso_actual'));
+
+            if ($curso_actual != null) {
+
+                $datos .= "mkdir '" . $unidad->slug . "'\n";
+                $datos .= "cd '" . $unidad->slug . "'\n";
+                $datos .= "\n";
+
+                $alumnos = $curso_actual->users()->rolAlumno()->noBloqueado()->get();
+
+                foreach ($alumnos as $alumno) {
+                    $datos .= "mkdir '" . $alumno->username . "'\n";
+                    $datos .= "cd '" . $alumno->username . "'\n";
+
+                    $actividades = $alumno->actividades()->where('unidad_id', $unidad->id)->get();
+
+                    foreach ($actividades as $actividad) {
+                        foreach ($actividad->intellij_projects()->get() as $project) {
+                            $datos .= "git clone ";
+                            $datos .= "'https://gitea.ikasgela.test/";
+                            $datos .= $project->pivot->fork;
+                            $datos .= ".git'\n";
+                        }
+                    }
+
+                    $datos .= "cd ..";
+                    $datos .= "\n\n";
+                }
+
+                $datos .= "cd ..";
+                $datos .= "\n\n";
+
+                return response()->streamDownload(function () use ($datos) {
+                    echo $datos;
+                }, $fichero);
+
+//                return $datos;
+            }
         }
 
         return view('intellij_projects.descargar', compact(['unidades']));
