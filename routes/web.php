@@ -153,7 +153,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/intellij_projects/descargar', 'IntellijProjectController@descargar')
             ->name('intellij_projects.descargar');
         Route::post('/intellij_projects/descargar', 'IntellijProjectController@descargar')
-            ->name('intellij_projects.descargar');
+            ->name('intellij_projects.descargar.repos');
 
         // IntellijProject
         Route::resource('intellij_projects', 'IntellijProjectController');

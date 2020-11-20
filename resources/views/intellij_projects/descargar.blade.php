@@ -27,7 +27,7 @@
                     </td>
                     <td>
                         <div class='btn-group'>
-                            {!! Form::open(['route' => ['intellij_projects.descargar'], 'method' => 'POST']) !!}
+                            {!! Form::open(['route' => ['intellij_projects.descargar.repos'], 'method' => 'POST']) !!}
                             {!! Form::button('<i class="fas fa-download"></i>', ['type' => 'submit',
                                 'class' => 'btn btn-light btn-sm', 'title' => __('Download projects')
                             ]) !!}
