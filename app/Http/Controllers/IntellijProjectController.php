@@ -288,8 +288,16 @@ class IntellijProjectController extends Controller
                 $alumnos = $curso_actual->users()->rolAlumno()->noBloqueado()->get();
 
                 foreach ($alumnos as $alumno) {
-                    $datos .= "mkdir '" . $alumno->username . "'\n";
-                    $datos .= "cd '" . $alumno->username . "'\n";
+
+                    $tags = "";
+                    if (count($alumno->etiquetas()) > 0) {
+                        foreach ($alumno->etiquetas() as $etiqueta) {
+                            $tags .= $etiqueta . "-";
+                        }
+                    }
+
+                    $datos .= "mkdir '" . $tags . $alumno->username . "'\n";
+                    $datos .= "cd '" . $tags . $alumno->username . "'\n";
 
                     $actividades = $alumno->actividades()->where('unidad_id', $unidad->id)->get();
 

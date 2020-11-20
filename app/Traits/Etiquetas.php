@@ -2,11 +2,16 @@
 
 namespace App\Traits;
 
+use Illuminate\Support\Str;
+
 trait Etiquetas
 {
     public function etiquetas()
     {
-        return array_map('trim', explode(',', $this->tags));
+        $limit = 1024;
+        if (Str::length($this->tags) == 0)
+            $limit = -1;
+        return array_map('trim', explode(',', $this->tags, $limit));
     }
 
     public function hasEtiqueta($etiqueta)
