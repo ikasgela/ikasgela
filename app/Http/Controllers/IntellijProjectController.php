@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App;
 use App\Actividad;
+use App\Curso;
 use App\Gitea\GiteaClient;
 use App\IntellijProject;
 use App\Jobs\ForkGiteaRepo;
 use App\Jobs\ForkGitLabRepo;
 use App\Traits\ClonarRepoGitea;
 use App\Traits\PaginarUltima;
+use App\Unidad;
 use Auth;
-use BadMethodCallException;
 use Cache;
 use GitLab;
 use Illuminate\Http\Request;
@@ -261,5 +262,60 @@ class IntellijProjectController extends Controller
         return response()->streamDownload(function () use ($repositorio) {
             echo GiteaClient::download($repositorio['owner'], $repositorio['name'], 'master.zip');
         }, $repositorio['name'] . '.zip');
+    }
+
+    public function descargar(Request $request)
+    {
+        $unidades = Unidad::cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
+
+        if ($request->has('unidad_id')) {
+
+            $unidad = Unidad::findOrFail($request->get('unidad_id'));
+
+            $fichero = $unidad->slug . ".sh";
+            $datos = "#!/bin/sh\n\n";
+
+            $curso_actual = Curso::find(setting_usuario('curso_actual'));
+
+            if ($curso_actual != null) {
+                $fecha = now()->format('Ymd-His');
+                $datos .= "mkdir '" . $fecha . "-" . $unidad->slug . "'\n";
+                $datos .= "cd '" . $fecha . "-" . $unidad->slug . "'\n";
+                $datos .= "\n";
+
+                $alumnos = $curso_actual->users()->rolAlumno()->noBloqueado()->get();
+
+                foreach ($alumnos as $alumno) {
+                    $datos .= "mkdir '" . $alumno->username . "'\n";
+                    $datos .= "cd '" . $alumno->username . "'\n";
+
+                    $actividades = $alumno->actividades()->where('unidad_id', $unidad->id)->get();
+
+                    foreach ($actividades as $actividad) {
+                        foreach ($actividad->intellij_projects()->get() as $project) {
+                            $datos .= "git clone ";
+
+                            $repositorio = GiteaClient::repo($project->pivot->fork);
+
+                            $datos .= "'" . $repositorio['http_url_to_repo'] . "'\n";
+                        }
+                    }
+
+                    $datos .= "cd ..";
+                    $datos .= "\n\n";
+                }
+
+                $datos .= "cd ..";
+                $datos .= "\n";
+
+                return response()->streamDownload(function () use ($datos) {
+                    echo $datos;
+                }, $fichero);
+
+//                return $datos;
+            }
+        }
+
+        return view('intellij_projects.descargar', compact(['unidades']));
     }
 }
