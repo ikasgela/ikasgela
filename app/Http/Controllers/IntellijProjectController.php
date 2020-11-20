@@ -278,9 +278,9 @@ class IntellijProjectController extends Controller
             $curso_actual = Curso::find(setting_usuario('curso_actual'));
 
             if ($curso_actual != null) {
-
-                $datos .= "mkdir '" . $unidad->slug . "'\n";
-                $datos .= "cd '" . $unidad->slug . "'\n";
+                $fecha = now()->format('Ymd-His');
+                $datos .= "mkdir '" . $fecha . "-" . $unidad->slug . "'\n";
+                $datos .= "cd '" . $fecha . "-" . $unidad->slug . "'\n";
                 $datos .= "\n";
 
                 $alumnos = $curso_actual->users()->rolAlumno()->noBloqueado()->get();
@@ -294,9 +294,10 @@ class IntellijProjectController extends Controller
                     foreach ($actividades as $actividad) {
                         foreach ($actividad->intellij_projects()->get() as $project) {
                             $datos .= "git clone ";
-                            $datos .= "'https://gitea.ikasgela.test/";
-                            $datos .= $project->pivot->fork;
-                            $datos .= ".git'\n";
+
+                            $repositorio = GiteaClient::repo($project->pivot->fork);
+
+                            $datos .= "'" . $repositorio['http_url_to_repo'] . "'\n";
                         }
                     }
 
@@ -305,7 +306,7 @@ class IntellijProjectController extends Controller
                 }
 
                 $datos .= "cd ..";
-                $datos .= "\n\n";
+                $datos .= "\n";
 
                 return response()->streamDownload(function () use ($datos) {
                     echo $datos;
