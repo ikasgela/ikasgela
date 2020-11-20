@@ -10,8 +10,8 @@ use App\Jobs\ForkGiteaRepo;
 use App\Jobs\ForkGitLabRepo;
 use App\Traits\ClonarRepoGitea;
 use App\Traits\PaginarUltima;
+use App\Unidad;
 use Auth;
-use BadMethodCallException;
 use Cache;
 use GitLab;
 use Illuminate\Http\Request;
@@ -261,5 +261,25 @@ class IntellijProjectController extends Controller
         return response()->streamDownload(function () use ($repositorio) {
             echo GiteaClient::download($repositorio['owner'], $repositorio['name'], 'master.zip');
         }, $repositorio['name'] . '.zip');
+    }
+
+    public function descargar(Request $request)
+    {
+        $unidades = Unidad::cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
+
+        if ($request->has('unidad_id')) {
+
+            $fichero = "prueba.sh";
+
+            $datos = "#!/bin/bash\n\n";
+            $datos .= "git clone https://gitea.ikasgela.com/root/programacion.programacion-modular.examen.calculos.git\n";
+            $datos .= "git clone https://gitea.ikasgela.com/root/programacion.programacion-modular.examen.calculos.git\n";
+
+            return response()->streamDownload(function () use ($datos) {
+                echo $datos;
+            }, $fichero);
+        }
+
+        return view('intellij_projects.descargar', compact(['unidades']));
     }
 }

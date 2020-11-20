@@ -149,6 +149,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/intellij_projects/borrar/{id}', 'IntellijProjectController@borrar')
             ->name('intellij_projects.borrar');
 
+        // Descargar proyectos de IntellijProject
+        Route::get('/intellij_projects/descargar', 'IntellijProjectController@descargar')
+            ->name('intellij_projects.descargar');
+        Route::post('/intellij_projects/descargar', 'IntellijProjectController@descargar')
+            ->name('intellij_projects.descargar');
+
         // IntellijProject
         Route::resource('intellij_projects', 'IntellijProjectController');
         Route::get('/intellij_projects/{actividad}/actividad', 'IntellijProjectController@actividad')
