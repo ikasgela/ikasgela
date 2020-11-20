@@ -16,6 +16,7 @@ use Auth;
 use Cache;
 use GitLab;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Log;
 
 class IntellijProjectController extends Controller
@@ -293,11 +294,11 @@ class IntellijProjectController extends Controller
 
                     foreach ($actividades as $actividad) {
                         foreach ($actividad->intellij_projects()->get() as $project) {
-                            $datos .= "git clone ";
-
-                            $repositorio = GiteaClient::repo($project->pivot->fork);
-
-                            $datos .= "'" . $repositorio['http_url_to_repo'] . "'\n";
+                            if (Str::length($project->pivot->fork) > 0) {
+                                $datos .= "git clone ";
+                                $repositorio = GiteaClient::repo($project->pivot->fork);
+                                $datos .= "'" . $repositorio['http_url_to_repo'] . "'\n";
+                            }
                         }
                     }
 
