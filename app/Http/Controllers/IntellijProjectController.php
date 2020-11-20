@@ -271,15 +271,16 @@ class IntellijProjectController extends Controller
 
         if ($request->has('unidad_id')) {
 
+            $fecha = now()->format('Ymd-His');
+
             $unidad = Unidad::findOrFail($request->get('unidad_id'));
 
-            $fichero = $unidad->slug . ".sh";
+            $fichero = $fecha . "-" . $unidad->slug . ".sh";
             $datos = "#!/bin/sh\n\n";
 
             $curso_actual = Curso::find(setting_usuario('curso_actual'));
 
             if ($curso_actual != null) {
-                $fecha = now()->format('Ymd-His');
                 $datos .= "mkdir '" . $fecha . "-" . $unidad->slug . "'\n";
                 $datos .= "cd '" . $fecha . "-" . $unidad->slug . "'\n";
                 $datos .= "\n";
