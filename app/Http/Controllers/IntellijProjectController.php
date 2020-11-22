@@ -283,6 +283,7 @@ class IntellijProjectController extends Controller
             if ($curso_actual != null) {
                 $datos .= "mkdir '" . $fecha . "-" . $unidad->slug . "'\n";
                 $datos .= "cd '" . $fecha . "-" . $unidad->slug . "'\n";
+                $datos .= "RUTA=\"\$PWD\"\n";
                 $datos .= "\n";
 
                 $alumnos = $curso_actual->users()->rolAlumno()->noBloqueado()->get();
@@ -290,14 +291,21 @@ class IntellijProjectController extends Controller
                 foreach ($alumnos as $alumno) {
 
                     $tags = "";
-                    if (count($alumno->etiquetas()) > 0) {
-                        foreach ($alumno->etiquetas() as $etiqueta) {
-                            $tags .= $etiqueta . "-";
+                    $etiquetas = $alumno->etiquetas();
+                    if (count($etiquetas) > 0) {
+                        foreach ($etiquetas as $etiqueta) {
+                            $tags .= $etiqueta;
+                            if ($etiqueta !== end($etiquetas)) {
+                                $tags .= "-";
+                            }
                         }
                     }
 
-                    $datos .= "mkdir '" . $tags . $alumno->username . "'\n";
-                    $datos .= "cd '" . $tags . $alumno->username . "'\n";
+                    $datos .= "mkdir -p '" . $tags . "'\n";
+                    $datos .= "cd '" . $tags . "'\n";
+
+                    $datos .= "mkdir -p '" . $alumno->username . "'\n";
+                    $datos .= "cd '" . $alumno->username . "'\n";
 
                     $actividades = $alumno->actividades()->where('unidad_id', $unidad->id)->get();
 
@@ -311,7 +319,7 @@ class IntellijProjectController extends Controller
                         }
                     }
 
-                    $datos .= "cd ..";
+                    $datos .= "cd \$RUTA";
                     $datos .= "\n\n";
                 }
 
