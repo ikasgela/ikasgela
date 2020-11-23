@@ -24,7 +24,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "@coreui/coreui": "^3.3.0",
+        "@coreui/coreui": "^3.4.0",
         "@fancyapps/fancybox": "^3.5.7",
         "@fortawesome/fontawesome-free": "^5.15.1",
         "@popperjs/core": "^2.5.4",
