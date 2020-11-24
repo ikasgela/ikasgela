@@ -6,6 +6,7 @@ use App\Actividad;
 use App\Exports\ActividadesCursoExport;
 use App\Mail\ActividadAsignada;
 use App\Mail\FeedbackRecibido;
+use App\Mail\PlazoAmpliado;
 use App\Mail\TareaEnviada;
 use App\Qualification;
 use App\Registro;
@@ -383,6 +384,8 @@ class ActividadController extends Controller
                 $tarea->archiveFiles();
                 $this->mostrarSiguienteActividad($actividad, $usuario);
                 break;
+
+            // Ampliar plazo
             case 63:
                 if (!$tarea->is_expired) {
                     return abort(400, __('Invalid task state.'));
@@ -395,6 +398,9 @@ class ActividadController extends Controller
                 $actividad->save();
 
                 $this->bloquearRepositorios($tarea, false);
+
+                if (setting_usuario('notificacion_actividad_asignada', $usuario))
+                    Mail::to($usuario->email)->queue(new PlazoAmpliado($usuario->name, $actividad->nombre));
                 break;
             case 70:
                 $tarea->estado = $nuevoestado;
