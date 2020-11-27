@@ -9,7 +9,7 @@ return [
     'gitea_enabled' => env('GITEA_ENABLED', false),
 
     'version' => env('VERSION', '0.0'),
-    'commit' => env('COMMIT', 'local'),
+    'commit' => env('COMMIT', env('APP_ENV', 'unknown')),
 
     'tinymce_apikey' => env('TINYMCE_APIKEY', 'none'),
 
