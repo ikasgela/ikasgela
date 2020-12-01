@@ -213,7 +213,7 @@ class ActividadController extends Controller
     {
         $usuario_actual = Auth::user();
 
-        if ($tarea->user_id != $usuario_actual->id && !Auth::user()->hasAnyRole(['admin', 'profesor']))
+        if ($tarea->user_id != $usuario_actual->id && !$usuario_actual->hasAnyRole(['admin', 'profesor']))
             return abort('403');
 
         $nuevoestado = $request->input('nuevoestado');
@@ -422,9 +422,9 @@ class ActividadController extends Controller
 
         $registro->save();
 
-        if (Auth::user()->hasRole('alumno')) {
+        if ($usuario_actual->hasRole('alumno')) {
             return redirect(route('users.home'));
-        } else if (Auth::user()->hasRole('profesor')) {
+        } else if ($usuario_actual->hasRole('profesor')) {
             return redirect(route('profesor.tareas', ['user' => $tarea->user->id]));
         } else {
             return redirect(route('home'));
