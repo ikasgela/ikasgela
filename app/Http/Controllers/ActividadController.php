@@ -213,7 +213,9 @@ class ActividadController extends Controller
     {
         $usuario_actual = Auth::user();
 
-        if ($tarea->user_id != $usuario_actual->id && !$usuario_actual->hasAnyRole(['admin', 'profesor']))
+        $override_allowed = $usuario_actual->hasAnyRole(['admin', 'profesor']);
+
+        if ($tarea->user_id != $usuario_actual->id && !$override_allowed)
             return abort('403');
 
         $nuevoestado = $request->input('nuevoestado');
@@ -232,28 +234,28 @@ class ActividadController extends Controller
 
         switch ($nuevoestado) {
             case 10:
-                if (!in_array($estado_anterior, [11])) {
+                if (!in_array($estado_anterior, [11]) && !$override_allowed) {
                     return abort(400, __('Invalid task state.'));
                 }
 
                 $tarea->estado = $nuevoestado;
                 break;
             case 20:
-                if (!in_array($estado_anterior, [10])) {
+                if (!in_array($estado_anterior, [10]) && !$override_allowed) {
                     return abort(400, __('Invalid task state.'));
                 }
 
                 $tarea->estado = $nuevoestado;
                 break;
             case 21:
-                if (!in_array($estado_anterior, [41])) {
+                if (!in_array($estado_anterior, [41]) && !$override_allowed) {
                     return abort(400, __('Invalid task state.'));
                 }
 
                 $tarea->estado = $nuevoestado;
                 break;
             case 30:
-                if (!in_array($estado_anterior, [20, 21])) {
+                if (!in_array($estado_anterior, [20, 21]) && !$override_allowed) {
                     return abort(400, __('Invalid task state.'));
                 }
 
@@ -281,7 +283,7 @@ class ActividadController extends Controller
 
             // Reiniciada (botón de reset, para cuando se confunden y envian sin querer)
             case 31:
-                if (!in_array($estado_anterior, [30])) {
+                if (!in_array($estado_anterior, [30]) && !$override_allowed) {
                     return abort(400, __('Invalid task state.'));
                 }
 
@@ -292,7 +294,7 @@ class ActividadController extends Controller
 
             // Reabierta (consume un intento y resta puntuación)
             case 32:
-                if (!in_array($estado_anterior, [30])) {
+                if (!in_array($estado_anterior, [30]) && !$override_allowed) {
                     return abort(400, __('Invalid task state.'));
                 }
 
@@ -316,8 +318,9 @@ class ActividadController extends Controller
                 break;
 
             // Revisada: ERROR
+            /** @noinspection PhpMissingBreakStatementInspection */
             case 41:
-                if (!in_array($estado_anterior, [30, 31])) {
+                if (!in_array($estado_anterior, [30, 31]) && !$override_allowed) {
                     return abort(400, __('Invalid task state.'));
                 }
 
@@ -327,7 +330,7 @@ class ActividadController extends Controller
 
             // Revisada: OK
             case 40:
-                if (!in_array($estado_anterior, [30, 31])) {
+                if (!in_array($estado_anterior, [30, 31]) && !$override_allowed) {
                     return abort(400, __('Invalid task state.'));
                 }
 
@@ -355,7 +358,7 @@ class ActividadController extends Controller
 
             // Avance automático
             case 42:
-                if (!in_array($estado_anterior, [30, 31])) {
+                if (!in_array($estado_anterior, [30, 31]) && !$override_allowed) {
                     return abort(400, __('Invalid task state.'));
                 }
 
@@ -365,7 +368,7 @@ class ActividadController extends Controller
                 $tarea->puntuacion = $actividad->puntuacion;
                 break;
             case 50:
-                if (!in_array($estado_anterior, [40, 41, 42])) {
+                if (!in_array($estado_anterior, [40, 41, 42]) && !$override_allowed) {
                     return abort(400, __('Invalid task state.'));
                 }
 
@@ -373,7 +376,7 @@ class ActividadController extends Controller
                 break;
             case 60:
             case 62:
-                if (!in_array($estado_anterior, [40, 41, 42, 50])) {
+                if (!in_array($estado_anterior, [40, 41, 42, 50]) && !$override_allowed) {
                     return abort(400, __('Invalid task state.'));
                 }
 
@@ -387,7 +390,7 @@ class ActividadController extends Controller
 
             // Ampliar plazo
             case 63:
-                if (!$tarea->is_expired) {
+                if (!$tarea->is_expired && !$override_allowed) {
                     return abort(400, __('Invalid task state.'));
                 }
 
