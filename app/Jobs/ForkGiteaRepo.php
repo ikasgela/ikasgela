@@ -62,9 +62,17 @@ class ForkGiteaRepo implements ShouldQueue
                 $fork = null;
 
                 $ruta = $this->actividad->unidad->curso->slug
-                    . '-' . $this->actividad->unidad->slug
-                    . '-' . $this->actividad->slug
-                    . '-' . pathinfo(basename($this->intellij_project->repositorio), PATHINFO_EXTENSION);
+                    . '-' . $this->actividad->unidad->slug;
+
+                $nombre_repo = pathinfo(basename($this->intellij_project->repositorio), PATHINFO_EXTENSION);
+
+                if ($this->actividad->slug != $nombre_repo) {
+                    $ruta .= '-' . $this->actividad->slug;
+                }
+
+                $ruta .= '-' . $nombre_repo;
+
+                $ruta .= '-' . bin2hex(openssl_random_pseudo_bytes(2));
 
                 $fork = $this->clonar_repositorio($this->intellij_project->repositorio, $username, Str::slug($ruta));
 
