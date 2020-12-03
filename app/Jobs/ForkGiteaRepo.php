@@ -72,7 +72,7 @@ class ForkGiteaRepo implements ShouldQueue
 
                 $ruta .= '-' . $nombre_repo;
 
-                $ruta .= '-' . bin2hex(openssl_random_pseudo_bytes(2));
+                $ruta .= '-' . bin2hex(openssl_random_pseudo_bytes(3));
 
                 $fork = $this->clonar_repositorio($this->intellij_project->repositorio, $username, Str::slug($ruta));
 
