@@ -7,6 +7,7 @@ use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Cache;
 use Lab404\Impersonate\Models\Impersonate;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -111,10 +112,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function hasRole($role)
     {
-        if ($this->roles()->where('name', $role)->first()) {
-            return true;
-        }
-        return false;
+        $key = 'role_' . $this->id . '_' . $role;
+
+        return Cache::remember($key, now()->addDays(config('ikasgela.markdown_cache_days')), function () use ($role) {
+            return $this->roles()->where('name', $role)->first() ? true : false;
+        });
     }
 
     public function actividades_nuevas()
