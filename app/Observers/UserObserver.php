@@ -15,7 +15,6 @@ class UserObserver
      */
     public function saved(User $user)
     {
-        $user->load('roles');
         Cache::put("user.{$user->id}", $user, 60);
     }
 
@@ -32,7 +31,6 @@ class UserObserver
      */
     public function restored(User $user)
     {
-        $user->load('roles');
         Cache::put("user.{$user->id}", $user, 60);
     }
 
@@ -41,7 +39,6 @@ class UserObserver
      */
     public function retrieved(User $user)
     {
-        $user->load('roles');
         Cache::add("user.{$user->id}", $user, 60);
     }
 }
