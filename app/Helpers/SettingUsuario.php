@@ -18,14 +18,26 @@ if (!function_exists('setting_usuario')) {
                 setting($key);
             } else {
                 setting()->forget(array_key_first($key));
+                Cache::forget('setting_' . array_key_first($key));
             }
             setting()->save();
         } else {
             if (!is_null($usuario)) {
-                $result = DB::table('settings')->where('user_id', $usuario)->where('key', $key)->first();
+
+                $cache_key = 'setting_' . $key . '_' . $usuario;
+
+                $result = Cache::remember($cache_key, 60, function () use ($key, $usuario) {
+                    return DB::table('settings')->where('user_id', $usuario)->where('key', $key)->first();
+                });
+
                 return !is_null($result) ? $result->value : null;
             } else if (!is_null(Auth::user())) {
-                return DB::table('settings')->where('key', $key)->first()->value;
+
+                $cache_key = 'setting_' . $key;
+
+                return Cache::remember($cache_key, 60, function () use ($key) {
+                    return DB::table('settings')->where('key', $key)->first()->value;
+                });
             }
         }
 

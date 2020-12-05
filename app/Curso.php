@@ -3,9 +3,21 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Watson\Rememberable\Rememberable;
 
 class Curso extends Model
 {
+    use Rememberable;
+
+    protected $rememberFor;
+    protected $rememberCacheTag = 'curso';
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->rememberFor = config('ikasgela.eloquent_cache_time', 60);
+    }
+
     protected $fillable = [
         'category_id', 'nombre', 'descripcion', 'slug', 'qualification_id', 'max_simultaneas',
         'fecha_inicio', 'fecha_fin', 'plazo_actividad', 'minimo_entregadas'
