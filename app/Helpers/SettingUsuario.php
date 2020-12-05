@@ -18,16 +18,15 @@ if (!function_exists('setting_usuario')) {
                 setting($key);
             } else {
                 setting()->forget(array_key_first($key));
+                Cache::forget('setting_' . array_key_first($key));
             }
             setting()->save();
-            Cache::forget('setting_' . $key);
-            Cache::forget('setting_' . $key . '_' . $usuario);
         } else {
             if (!is_null($usuario)) {
 
                 $cache_key = 'setting_' . $key . '_' . $usuario;
 
-                $result = Cache::remember($cache_key, config('ikasgela.eloquent_cache_time'), function () use ($key, $usuario) {
+                $result = Cache::remember($cache_key, 60, function () use ($key, $usuario) {
                     return DB::table('settings')->where('user_id', $usuario)->where('key', $key)->first();
                 });
 
@@ -36,7 +35,7 @@ if (!function_exists('setting_usuario')) {
 
                 $cache_key = 'setting_' . $key;
 
-                return Cache::remember($cache_key, config('ikasgela.eloquent_cache_time'), function () use ($key) {
+                return Cache::remember($cache_key, 60, function () use ($key) {
                     return DB::table('settings')->where('key', $key)->first()->value;
                 });
             }
