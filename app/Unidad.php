@@ -4,10 +4,19 @@ namespace App;
 
 use App\Traits\Etiquetas;
 use Illuminate\Database\Eloquent\Model;
+use Watson\Rememberable\Rememberable;
 
 class Unidad extends Model
 {
     use Etiquetas;
+    use Rememberable;
+
+    protected $rememberFor;
+
+    public function __construct()
+    {
+        $this->rememberFor = config('ikasgela.eloquent_cache_time', 60);
+    }
 
     protected $table = 'unidades';
 
