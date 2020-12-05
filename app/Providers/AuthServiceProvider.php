@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Auth\CacheUserProvider;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class AuthServiceProvider extends ServiceProvider
@@ -23,6 +25,11 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Caching user
+        Auth::provider('cache-user', function () {
+            return resolve(CacheUserProvider::class);
+        });
+
         $this->registerPolicies();
 
         Validator::extend('allowed_domains', function ($attribute, $value, $parameters, $validator) {

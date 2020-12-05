@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Observers\TareaObserver;
+use App\Observers\UserObserver;
 use App\Organization;
+use App\Tarea;
+use App\User;
 use Form;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -34,6 +38,9 @@ class AppServiceProvider extends ServiceProvider
             $organization = Organization::where('slug', subdominio())->first();
             View::share('current_organization', $organization);
         }
+
+        User::observe(UserObserver::class);
+        Tarea::observe(TareaObserver::class);
     }
 
     /**

@@ -4,6 +4,7 @@ return [
 
     'repo_cache_days' => env('REPO_CACHE_DAYS', 7),
     'markdown_cache_days' => env('MARKDOWN_CACHE_DAYS', 7),
+    'eloquent_cache_time' => env('ELOQUENT_CACHE_TIME', 7200),
 
     'gitlab_enabled' => env('GITLAB_ENABLED', false),
     'gitea_enabled' => env('GITEA_ENABLED', false),

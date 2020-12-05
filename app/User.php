@@ -7,6 +7,7 @@ use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Cache;
 use Lab404\Impersonate\Models\Impersonate;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -111,10 +112,13 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function hasRole($role)
     {
-        if ($this->roles()->where('name', $role)->first()) {
-            return true;
-        }
-        return false;
+        $key = 'roles_' . $this->id;
+
+        $cached_roles = Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->roles()->get();
+        });
+
+        return $cached_roles->contains('name', $role);
     }
 
     public function actividades_nuevas()
@@ -349,5 +353,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function newThreadsCount()
     {
         return Hilo::forUserWithNewMessages($this->id)->cursoActual()->count();
+    }
+
+    public function num_actividades_asignadas_total()
+    {
+        $key = 'num_actividades_asignadas_total_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_en_curso_autoavance()->enPlazoOrCorregida()->tag('extra', false)->count() ?: 0;
+        });
     }
 }
