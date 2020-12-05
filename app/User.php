@@ -112,11 +112,13 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function hasRole($role)
     {
-        $key = 'role_' . $this->id . '_' . $role;
+        $key = 'roles_' . $this->id;
 
-        return Cache::remember($key, now()->addDays(config('ikasgela.markdown_cache_days')), function () use ($role) {
-            return $this->roles()->where('name', $role)->first() ? true : false;
+        $cached_roles = Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->roles()->get();
         });
+
+        return $cached_roles->contains('name', $role);
     }
 
     public function actividades_nuevas()

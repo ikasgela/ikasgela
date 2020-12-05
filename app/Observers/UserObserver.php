@@ -16,6 +16,7 @@ class UserObserver
     public function saved(User $user)
     {
         Cache::put("user.{$user->id}", $user, 60);
+        Cache::forget("roles_{$user->id}");
     }
 
     /**
@@ -24,6 +25,7 @@ class UserObserver
     public function deleted(User $user)
     {
         Cache::forget("user.{$user->id}");
+        Cache::forget("roles_{$user->id}");
     }
 
     /**
@@ -32,6 +34,7 @@ class UserObserver
     public function restored(User $user)
     {
         Cache::put("user.{$user->id}", $user, 60);
+        Cache::forget("roles_{$user->id}");
     }
 
     /**
