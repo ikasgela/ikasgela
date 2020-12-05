@@ -12,9 +12,11 @@ class Unidad extends Model
     use Rememberable;
 
     protected $rememberFor;
+    protected $rememberCacheTag = 'unidad';
 
-    public function __construct()
+    public function __construct(array $attributes = [])
     {
+        parent::__construct($attributes);
         $this->rememberFor = config('ikasgela.eloquent_cache_time', 60);
     }
 

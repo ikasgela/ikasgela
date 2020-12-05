@@ -10,9 +10,11 @@ class Category extends Model
     use Rememberable;
 
     protected $rememberFor;
+    protected $rememberCacheTag = 'category';
 
-    public function __construct()
+    public function __construct(array $attributes = [])
     {
+        parent::__construct($attributes);
         $this->rememberFor = config('ikasgela.eloquent_cache_time', 60);
     }
 
