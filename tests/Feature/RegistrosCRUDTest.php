@@ -32,7 +32,7 @@ class RegistrosCRUDTest extends TestCase
         $response = $this->get(route('registros.index'));
 
         // Then
-        $response->assertSee($registro->texto);
+        $response->assertSee($registro->timestamp);
     }
 
     public function testNotAdminNotIndex()

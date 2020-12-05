@@ -8,6 +8,7 @@ use App\Organization;
 use App\Tarea;
 use App\User;
 use Form;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -41,6 +42,8 @@ class AppServiceProvider extends ServiceProvider
 
         User::observe(UserObserver::class);
         Tarea::observe(TareaObserver::class);
+
+        Paginator::useBootstrap();
     }
 
     /**
