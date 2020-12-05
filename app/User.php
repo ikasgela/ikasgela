@@ -352,4 +352,13 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return Hilo::forUserWithNewMessages($this->id)->cursoActual()->count();
     }
+
+    public function num_actividades_asignadas_total()
+    {
+        $key = 'num_actividades_asignadas_total_' . $this->id;
+
+        return Cache::remember($key, 60, function () {
+            return $this->actividades_en_curso_autoavance()->enPlazoOrCorregida()->tag('extra', false)->count() ?: 0;
+        });
+    }
 }

@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Observers\TareaObserver;
 use App\Observers\UserObserver;
 use App\Organization;
+use App\Tarea;
 use App\User;
 use Form;
 use Illuminate\Support\Facades\View;
@@ -38,6 +40,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         User::observe(UserObserver::class);
+        Tarea::observe(TareaObserver::class);
     }
 
     /**
