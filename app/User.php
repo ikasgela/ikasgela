@@ -359,7 +359,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $key = 'num_actividades_asignadas_total_' . $this->id;
 
-        return Cache::remember($key, 60, function () {
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
             return $this->actividades_en_curso_autoavance()->enPlazoOrCorregida()->tag('extra', false)->count() ?: 0;
         });
     }

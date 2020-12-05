@@ -15,7 +15,7 @@ class UserObserver
      */
     public function saved(User $user)
     {
-        Cache::put("user.{$user->id}", $user, 60);
+        Cache::put("user.{$user->id}", $user, config('ikasgela.eloquent_cache_time'));
         Cache::forget("roles_{$user->id}");
     }
 
@@ -33,7 +33,7 @@ class UserObserver
      */
     public function restored(User $user)
     {
-        Cache::put("user.{$user->id}", $user, 60);
+        Cache::put("user.{$user->id}", $user, config('ikasgela.eloquent_cache_time'));
         Cache::forget("roles_{$user->id}");
     }
 
@@ -42,6 +42,6 @@ class UserObserver
      */
     public function retrieved(User $user)
     {
-        Cache::add("user.{$user->id}", $user, 60);
+        Cache::add("user.{$user->id}", $user, config('ikasgela.eloquent_cache_time'));
     }
 }
