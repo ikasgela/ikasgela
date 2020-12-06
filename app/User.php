@@ -127,10 +127,28 @@ class User extends Authenticatable implements MustVerifyEmail
             ->wherePivot('estado', 10);
     }
 
+    public function num_actividades_nuevas()
+    {
+        $key = 'num_actividades_nuevas_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_nuevas()->count();
+        });
+    }
+
     public function actividades_ocultas()
     {
         return $this->actividades()
             ->wherePivot('estado', 11);
+    }
+
+    public function num_actividades_ocultas()
+    {
+        $key = 'num_actividades_ocultas_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_ocultas()->count();
+        });
     }
 
     public function actividades_aceptadas()
@@ -139,11 +157,29 @@ class User extends Authenticatable implements MustVerifyEmail
             ->wherePivotIn('estado', [20, 21]);
     }
 
+    public function num_actividades_aceptadas()
+    {
+        $key = 'num_actividades_aceptadas_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_aceptadas()->count();
+        });
+    }
+
     public function actividades_caducadas()
     {
         return $this->actividades()
             ->caducada()
             ->wherePivotNotIn('estado', [30, 40, 60, 62]);
+    }
+
+    public function num_actividades_caducadas()
+    {
+        $key = 'num_actividades_caducadas_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_caducadas()->count();
+        });
     }
 
     public function actividades_en_curso()
@@ -159,6 +195,15 @@ class User extends Authenticatable implements MustVerifyEmail
             });
     }
 
+    public function num_actividades_en_curso()
+    {
+        $key = 'num_actividades_en_curso_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_en_curso()->count();
+        });
+    }
+
     public function actividades_en_curso_autoavance()
     {
         return $this->actividades_en_curso()
@@ -167,6 +212,15 @@ class User extends Authenticatable implements MustVerifyEmail
                     ->estados([30])
                     ->autoAvance();
             });
+    }
+
+    public function num_actividades_en_curso_autoavance()
+    {
+        $key = 'num_actividades_en_curso_autoavance_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_en_curso_autoavance()->count();
+        });
     }
 
     public function actividades_enviadas()
@@ -182,11 +236,29 @@ class User extends Authenticatable implements MustVerifyEmail
             ->where('auto_avance', false);
     }
 
+    public function num_actividades_enviadas_noautoavance()
+    {
+        $key = 'num_actividades_enviadas_noautoavance_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_enviadas_noautoavance()->count();
+        });
+    }
+
     public function actividades_revisadas()
     {
         return $this->actividades()
             ->where('auto_avance', false)
             ->wherePivotIn('estado', [40, 41]);
+    }
+
+    public function num_actividades_revisadas()
+    {
+        $key = 'num_actividades_revisadas_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_revisadas()->count();
+        });
     }
 
     public function actividades_archivadas()
@@ -195,10 +267,28 @@ class User extends Authenticatable implements MustVerifyEmail
             ->wherePivotIn('estado', [60, 62]);
     }
 
+    public function num_actividades_archivadas()
+    {
+        $key = 'num_actividades_archivadas_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_archivadas()->count();
+        });
+    }
+
     public function actividades_completadas()
     {
         return $this->actividades()
             ->wherePivotIn('estado', [40, 60, 62]);
+    }
+
+    public function num_actividades_completadas()
+    {
+        $key = 'num_actividades_completadas_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_completadas()->count();
+        });
     }
 
     public function actividades_sin_completar()
@@ -206,6 +296,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->actividades()
             ->wherePivotNotIn('estado', [40, 60, 62])
             ->tag('base');
+    }
+
+    public function num_actividades_sin_completar()
+    {
+        $key = 'num_actividades_sin_completar_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_sin_completar()->count();
+        });
     }
 
     public function actividades_asignadas()
@@ -361,6 +460,71 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
             return $this->actividades_en_curso_autoavance()->enPlazoOrCorregida()->tag('extra', false)->count() ?: 0;
+        });
+    }
+
+    public function siguiente_actividad()
+    {
+        $key = 'siguiente_actividad_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_asignadas()->orderBy('id', 'desc')->first();
+        });
+    }
+
+    public function actividades_en_curso_examen()
+    {
+        return $this->actividades_en_curso_autoavance()->enPlazoOrCorregida()->tag('examen');
+    }
+
+    public function num_actividades_en_curso_examen()
+    {
+        $key = 'num_actividades_en_curso_examen_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_en_curso_examen()->count();
+        });
+    }
+
+    public function actividades_en_curso_no_extra_examen()
+    {
+        return $this->actividades_en_curso_autoavance()->tag('extra', false)->tag('examen', false);
+    }
+
+    public function num_actividades_en_curso_no_extra_examen()
+    {
+        $key = 'num_actividades_en_curso_no_extra_examen_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_en_curso_no_extra_examen()->count();
+        });
+    }
+
+    public function actividades_en_curso_extra()
+    {
+        return $this->actividades_en_curso_autoavance()->tag('extra');
+    }
+
+    public function num_actividades_en_curso_extra()
+    {
+        $key = 'num_actividades_en_curso_extra_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_en_curso_extra()->count();
+        });
+    }
+
+    public function actividades_en_curso_enviadas()
+    {
+        return $this->actividades_enviadas_noautoavance();
+    }
+
+    public function num_actividades_en_curso_enviadas()
+    {
+        $key = 'num_actividades_en_curso_enviadas_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_en_curso_enviadas()->count();
         });
     }
 }

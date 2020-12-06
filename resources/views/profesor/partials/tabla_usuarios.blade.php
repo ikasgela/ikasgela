@@ -42,9 +42,9 @@
             @endif
             <tr class="table-cell-click" data-href="{{ route('profesor.tareas', [$user->id]) }}">
                 <td class="p-0 pl-1
-                    @if($user->actividades_sin_completar()->count() == 0)
+                    @if($user->num_actividades_sin_completar() == 0)
                     bg-success
-                    @elseif($user->actividades_enviadas_noautoavance()->count() > 0)
+                    @elseif($user->num_actividades_enviadas_noautoavance() > 0)
                     bg-danger
                     @endif
                     ">
@@ -61,18 +61,18 @@
                     {{ $user->name }} {{ $user->surname }}
                     @include('profesor.partials.status_usuario_filtro')
                 </td>
-                <td class="clickable text-center">{{ $user->actividades_ocultas()->count() }}</td>
-                <td class="clickable text-center">{{ $user->actividades_nuevas()->count() }}</td>
-                <td class="clickable text-center">{{ $user->actividades_aceptadas()->count() }}</td>
-                <td class="clickable text-center {{ $user->actividades_enviadas_noautoavance()->count() > 0 ? 'bg-danger text-white' : '' }}">{{ $user->actividades_enviadas_noautoavance()->count() }}</td>
-                @php($total_enviadas += $user->actividades_enviadas_noautoavance()->count())
-                <td class="clickable text-center">{{ $user->actividades_revisadas()->count() }}</td>
-                <td class="clickable text-center">{{ $user->actividades_archivadas()->count() }}</td>
-                <td class="clickable text-center {{ $user->actividades_caducadas()->count() > 0 ? 'bg-warning text-black' : '' }}">{{ $user->actividades_caducadas()->count() }}</td>
+                <td class="clickable text-center">{{ $user->num_actividades_ocultas() }}</td>
+                <td class="clickable text-center">{{ $user->num_actividades_nuevas() }}</td>
+                <td class="clickable text-center">{{ $user->num_actividades_aceptadas() }}</td>
+                <td class="clickable text-center {{ $user->num_actividades_enviadas_noautoavance() > 0 ? 'bg-danger text-white' : '' }}">{{ $user->num_actividades_enviadas_noautoavance() }}</td>
+                @php($total_enviadas += $user->num_actividades_enviadas_noautoavance())
+                <td class="clickable text-center">{{ $user->num_actividades_revisadas() }}</td>
+                <td class="clickable text-center">{{ $user->num_actividades_archivadas() }}</td>
+                <td class="clickable text-center {{ $user->num_actividades_caducadas() > 0 ? 'bg-warning text-black' : '' }}">{{ $user->num_actividades_caducadas() }}</td>
                 <td class="clickable text-center">{{ $user->max_simultaneas }}</td>
                 <td class="clickable">{{ $user->last_active_time }}</td>
-                <td class="clickable">{{ $user->actividades_asignadas()->orderBy('id', 'desc')->first()->slug ?? '' }}</td>
-                @include('profesor.partials.siguiente_actividad', ['actividad' => $user->actividades_asignadas()->orderBy('id', 'desc')->first()])
+                <td class="clickable">{{ $user->siguiente_actividad()->slug ?? '' }}</td>
+                @include('profesor.partials.siguiente_actividad', ['actividad' => $user->siguiente_actividad()])
                 @if(Auth::user()->hasRole('admin'))
                     <td class="text-center">
                         @include('users.partials.acciones')
