@@ -13,7 +13,7 @@
 
                 <form method="POST" action="{{ route('password.email') }}">
                     @csrf
-
+                    <x-honey/>
                     <div class="input-group mb-4">
                         <div class="input-group-prepend">
                             <span class="input-group-text" style="width:2.75em">
