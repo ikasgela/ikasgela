@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Actividad;
 use App\Curso;
-use App\Feedback;
 use App\Mail\ActividadAsignada;
 use App\Organization;
 use App\Registro;
@@ -12,7 +11,6 @@ use App\Tarea;
 use App\Traits\PaginarUltima;
 use App\Unidad;
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -153,7 +151,7 @@ class ProfesorController extends Controller
             $actividades = $actividades->tag('examen', false);
         }
 
-        $actividades = $this->paginate_ultima($actividades, 10, 'asignadas');
+        $actividades = $this->paginate_ultima($actividades, config('ikasgela.pagination_assigned_activities'), 'asignadas');
 
         $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
 
@@ -281,6 +279,6 @@ class ProfesorController extends Controller
             $disponibles = $actividades_curso;
         }
 
-        return $this->paginate_ultima($disponibles, 10, 'disponibles');
+        return $this->paginate_ultima($disponibles, config('ikasgela.pagination_available_activities'), 'disponibles');
     }
 }

@@ -16,4 +16,6 @@ return [
 
     'message_preview_max_length' => env('MESSAGE_PREVIEW_MAX_LENGTH', 300),
 
+    'pagination_assigned_activities' => env('PAGINATION_ASSIGNED_ACTIVITIES', 20),
+    'pagination_available_activities' => env('PAGINATION_AVAILABLE_ACTIVITIES', 10),
 ];
