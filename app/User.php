@@ -471,4 +471,60 @@ class User extends Authenticatable implements MustVerifyEmail
             return $this->actividades_asignadas()->orderBy('id', 'desc')->first();
         });
     }
+
+    public function actividades_en_curso_examen()
+    {
+        return $this->actividades_en_curso_autoavance()->enPlazoOrCorregida()->tag('examen');
+    }
+
+    public function num_actividades_en_curso_examen()
+    {
+        $key = 'num_actividades_en_curso_examen_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_en_curso_examen()->count();
+        });
+    }
+
+    public function actividades_en_curso_no_extra_examen()
+    {
+        return $this->actividades_en_curso_autoavance()->tag('extra', false)->tag('examen', false);
+    }
+
+    public function num_actividades_en_curso_no_extra_examen()
+    {
+        $key = 'num_actividades_en_curso_no_extra_examen_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_en_curso_no_extra_examen()->count();
+        });
+    }
+
+    public function actividades_en_curso_extra()
+    {
+        return $this->actividades_en_curso_autoavance()->tag('extra');
+    }
+
+    public function num_actividades_en_curso_extra()
+    {
+        $key = 'num_actividades_en_curso_extra_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_en_curso_extra()->count();
+        });
+    }
+
+    public function actividades_en_curso_enviadas()
+    {
+        return $this->actividades_enviadas_noautoavance();
+    }
+
+    public function num_actividades_en_curso_enviadas()
+    {
+        $key = 'num_actividades_en_curso_enviadas_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_en_curso_enviadas()->count();
+        });
+    }
 }
