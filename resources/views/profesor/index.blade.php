@@ -30,16 +30,18 @@
                 {!! Form::hidden('filtro_alumnos','P') !!}
                 {!! Form::close() !!}
 
+                <span class="mx-1"></span>
+
                 {!! Form::open(['route' => ['profesor.index.filtro'], 'method' => 'POST']) !!}
-                {!! Form::button(__('Show blocked'), ['type' => 'submit',
-                    'class' => session('profesor_filtro_alumnos_bloqueados') == 'B' ? 'btn btn-sm mx-1 btn-secondary' : 'btn btn-sm mx-1 btn-outline-secondary'
+                {!! Form::button(session('profesor_filtro_alumnos_bloqueados') == 'B' ? __('Hide blocked') : __('Show blocked'), ['type' => 'submit',
+                    'class' => session('profesor_filtro_alumnos_bloqueados') == 'B' ? 'btn btn-sm mx-1 btn-primary' : 'btn btn-sm mx-1 btn-outline-secondary'
                 ]) !!}
                 {!! Form::hidden('filtro_alumnos_bloqueados','B') !!}
                 {!! Form::close() !!}
 
                 {!! Form::open(['route' => ['profesor.index.filtro'], 'method' => 'POST']) !!}
                 {!! Form::button(__('Clear filters'), ['type' => 'submit',
-                    'class' => session('profesor_filtro_etiquetas') == 'S' ? 'btn btn-sm mx-1 btn-secondary' : 'btn btn-sm mx-1 btn-outline-secondary'
+                    'class' => session('profesor_filtro_etiquetas') == 'S' ? 'btn btn-sm mx-1 btn-primary' : 'btn btn-sm mx-1 btn-outline-secondary'
                 ]) !!}
                 {!! Form::hidden('filtro_etiquetas','N') !!}
                 {!! Form::close() !!}
