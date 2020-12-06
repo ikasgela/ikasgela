@@ -35,17 +35,20 @@
         @endif
         {{-- En curso --}}
         <li class="nav-item">
-            <a class="nav-link {{ $user->num_actividades_en_curso_examen() > 0 ? '' : 'active' }}"
+            <a class="nav-link {{ $user->num_actividades_en_curso_examen() > 0 ? '' : ($user->num_actividades_en_curso_no_extra_examen() > 0 ? 'active' : '') }}
+            {{ $user->num_actividades_en_curso_examen() == 0 && $user->num_actividades_en_curso_extra() == 0 ? 'active':'' }}"
                id="pills-en-curso-tab" data-toggle="tab" href="#pills-en-curso" role="tab"
                aria-controls="pills-profile" aria-selected="true">{{ __('In progress') }}
                 <span
-                    class="ml-2 badge badge-danger">{{ $user->num_actividades_en_curso_no_extra_examen() }}</span>
+                    class="ml-2 badge {{ $user->num_actividades_en_curso_no_extra_examen() > 0 ? 'badge-danger' : 'badge-secondary' }}">{{ $user->num_actividades_en_curso_no_extra_examen() }}</span>
             </a>
         </li>
         {{-- Extra --}}
         @if($user->num_actividades_en_curso_extra() > 0)
             <li class="nav-item">
-                <a class="nav-link" id="pills-extra-tab" data-toggle="tab" href="#pills-extra" role="tab"
+                <a class="nav-link
+                   {{ $user->num_actividades_en_curso_examen() == 0 && $user->num_actividades_en_curso_no_extra_examen() == 0 && $user->num_actividades_en_curso_extra() > 0 ? 'active' : '' }}"
+                   id="pills-extra-tab" data-toggle="tab" href="#pills-extra" role="tab"
                    aria-controls="pills-contact" aria-selected="false">{{ __('Extra') }}
                     <span
                         class="ml-2 badge badge-secondary">{{ $user->num_actividades_en_curso_extra() }}</span>
@@ -76,7 +79,8 @@
         @endif
         {{-- En curso --}}
         <div
-            class="tab-pane fade {{ $user->num_actividades_en_curso_examen() > 0 ? '' : 'show active' }}"
+            class="tab-pane fade {{ $user->num_actividades_en_curso_examen() > 0 ? '' : ($user->num_actividades_en_curso_no_extra_examen() > 0 ? 'show active' : '') }}
+            {{ $user->num_actividades_en_curso_examen() == 0 && $user->num_actividades_en_curso_extra() == 0 ? 'show active':'' }}"
             id="pills-en-curso" role="tabpanel" aria-labelledby="pills-en-curso-tab">
             <div class="p-3">
                 @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_no_extra_examen()->get(),
@@ -86,7 +90,9 @@
         </div>
         {{-- Extra --}}
         @if($user->num_actividades_en_curso_extra() > 0)
-            <div class="tab-pane fade" id="pills-extra" role="tabpanel" aria-labelledby="pills-extra-tab">
+            <div
+                class="tab-pane fade {{ $user->num_actividades_en_curso_examen() == 0 && $user->num_actividades_en_curso_no_extra_examen() == 0 && $user->num_actividades_en_curso_extra() > 0 ? 'show active' : '' }}"
+                id="pills-extra" role="tabpanel" aria-labelledby="pills-extra-tab">
                 <div class="p-3">
                     @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_extra()->get(),
                     'mensaje_ninguna' => 'No hay actividades extra en curso.'
