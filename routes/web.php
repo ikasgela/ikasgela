@@ -9,6 +9,13 @@ Route::get('/', 'HomeController@index')
 
 // Gestión de usuarios
 Auth::routes(['verify' => true]);
+
+# Honey
+Route::post('login', 'Auth\LoginController@login')->middleware(['honey']);
+Route::post('register', 'Auth\RegisterController@register')->middleware(['honey']);
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->middleware(['honey'])->name('password.email');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset')->middleware(['honey'])->name('password.update');
+
 require __DIR__ . '/profile/profile.php';
 
 // Control de la barra lateral
