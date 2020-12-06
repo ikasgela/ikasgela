@@ -132,16 +132,25 @@ class ProfesorController extends Controller
             session(['profesor_filtro_alumnos' => $request->input('filtro_alumnos')]);
         }
 
+        if ($request->has('filtro_actividades_examen')) {
+            if (session('profesor_filtro_actividades_examen') == 'E') {
+                session(['profesor_filtro_actividades_examen' => '']);
+            } else {
+                session(['profesor_filtro_actividades_examen' => 'E']);
+            }
+        }
+
         switch (session('profesor_filtro_alumnos')) {
             case 'R':
                 $actividades = $user->actividades_enviadas_noautoavance();
                 break;
-            case 'E':
-                $actividades = $user->actividades_examen();
-                break;
             default:
                 $actividades = $user->actividades();
                 break;
+        }
+
+        if (!session('profesor_filtro_actividades_examen') == 'E') {
+            $actividades = $actividades->tag('examen', false);
         }
 
         $actividades = $this->paginate_ultima($actividades, 10, 'asignadas');
