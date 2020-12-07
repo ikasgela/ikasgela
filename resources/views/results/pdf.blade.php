@@ -49,19 +49,6 @@
                 <table
                     class="tabla-marcador {{ ($actividades_obligatorias || $num_actividades_obligatorias == 0)
                 && ($pruebas_evaluacion || $num_pruebas_evaluacion == 0)
-                && $competencias_50_porciento ? $nota_final >= 5 ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
-                    <tr>
-                        <th>{{ __('Calification') }}</th>
-                    </tr>
-                    <tr>
-                        <td class="text-center">{{ $competencias_50_porciento ? $nota_final : __('Unavailable') }}</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <table
-                    class="tabla-marcador {{ ($actividades_obligatorias || $num_actividades_obligatorias == 0)
-                && ($pruebas_evaluacion || $num_pruebas_evaluacion == 0)
                 && $competencias_50_porciento && $nota_final >= 5 ? 'bg-success text-white' : 'bg-warning text-dark' }}">
                     <tr>
                         <th>{{ __('Continuous evaluation') }}</th>
@@ -70,6 +57,19 @@
                         <td class="text-center">{{ ($actividades_obligatorias || $num_actividades_obligatorias == 0)
                 && ($pruebas_evaluacion || $num_pruebas_evaluacion == 0)
                 && $competencias_50_porciento && $nota_final >= 5 ? trans_choice('tasks.passed', 1) : trans_choice('tasks.not_passed', 1) }}</td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table
+                    class="tabla-marcador {{ ($actividades_obligatorias || $num_actividades_obligatorias == 0)
+                && ($pruebas_evaluacion || $num_pruebas_evaluacion == 0)
+                && $competencias_50_porciento ? $nota_final >= 5 ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
+                    <tr>
+                        <th>{{ __('Calification') }}</th>
+                    </tr>
+                    <tr>
+                        <td class="text-center">{{ $competencias_50_porciento ? $nota_final : __('Unavailable') }}</td>
                     </tr>
                 </table>
             </td>

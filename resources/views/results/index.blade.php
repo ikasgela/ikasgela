@@ -63,16 +63,6 @@
             <div
                 class="card mb-3 {{ ($actividades_obligatorias || $num_actividades_obligatorias == 0)
                 && ($pruebas_evaluacion || $num_pruebas_evaluacion == 0)
-                && $competencias_50_porciento ? $nota_final >= 5 ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
-                <div class="card-header">{{ __('Calification') }}</div>
-                <div class="card-body text-center">
-                    <p class="card-text"
-                       style="font-size:150%;">{{ $competencias_50_porciento ? $nota_final : __('Unavailable') }}</p>
-                </div>
-            </div>
-            <div
-                class="card mb-3 {{ ($actividades_obligatorias || $num_actividades_obligatorias == 0)
-                && ($pruebas_evaluacion || $num_pruebas_evaluacion == 0)
                 && $competencias_50_porciento && $nota_final >= 5 ? 'bg-success text-white' : 'bg-warning text-dark' }}">
                 <div class="card-header">{{ __('Continuous evaluation') }}</div>
                 <div class="card-body text-center">
@@ -80,6 +70,16 @@
                        style="font-size:150%;">{{ ($actividades_obligatorias || $num_actividades_obligatorias == 0)
                 && ($pruebas_evaluacion || $num_pruebas_evaluacion == 0)
                 && $competencias_50_porciento && $nota_final >= 5 ? trans_choice('tasks.passed', 1) : trans_choice('tasks.not_passed', 1) }}</p>
+                </div>
+            </div>
+            <div
+                class="card mb-3 {{ ($actividades_obligatorias || $num_actividades_obligatorias == 0)
+                && ($pruebas_evaluacion || $num_pruebas_evaluacion == 0)
+                && $competencias_50_porciento ? $nota_final >= 5 ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
+                <div class="card-header">{{ __('Calification') }}</div>
+                <div class="card-body text-center">
+                    <p class="card-text"
+                       style="font-size:150%;">{{ $competencias_50_porciento ? $nota_final : __('Unavailable') }}</p>
                 </div>
             </div>
         </div>
