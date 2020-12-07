@@ -3,7 +3,9 @@
 use App\Actividad;
 use App\Curso;
 use App\Qualification;
+use App\Registro;
 use App\Skill;
+use App\Tarea;
 use App\Unidad;
 use App\User;
 use Illuminate\Database\Seeder;
@@ -105,6 +107,7 @@ class NoaSeeder extends Seeder
         $actividad3 = factory(Actividad::class)->create([
             'unidad_id' => $unidad3->id,
             'puntuacion' => 100,
+            'multiplicador' => '2',
             'tags' => 'examen',
             'plantilla' => true,
         ]);
@@ -114,6 +117,45 @@ class NoaSeeder extends Seeder
         $user->actividades()->attach($tarea3, [
             'estado' => 60,
             'puntuacion' => 40,
+        ]);
+
+        factory(Registro::class)->create([
+            'user_id' => $user->id,
+            'tarea_id' => Tarea::max('id'),
+            'estado' => 30,
+            'timestamp' => now()->addDays(-2),
+        ]);
+
+        $unidad4 = factory(Unidad::class)->create([
+            'curso_id' => $curso->id,
+            'nombre' => 'U3',
+        ]);
+
+        for ($i = 0; $i < 3; $i++) {
+            $actividad4 = factory(Actividad::class)->create([
+                'unidad_id' => $unidad4->id,
+                'puntuacion' => 100,
+                'tags' => 'base',
+                'plantilla' => true,
+            ]);
+            $tarea4 = $actividad4->duplicate();
+            $user->actividades()->attach($tarea4, [
+                'estado' => 60,
+                'puntuacion' => 50,
+            ]);
+        }
+
+        $actividad5 = factory(Actividad::class)->create([
+            'unidad_id' => $unidad4->id,
+            'puntuacion' => 100,
+            'tags' => 'base',
+            'plantilla' => true,
+        ]);
+
+        $tarea5 = $actividad5->duplicate();
+
+        $user->actividades()->attach($tarea5, [
+            'estado' => 20,
         ]);
     }
 }
