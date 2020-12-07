@@ -23,7 +23,7 @@ class FeedbackController extends Controller
         $feedbacks = $curso_actual->feedbacks()->get();
 
         $actividades = Actividad::cursoActual()->where('plantilla', true)->with(['unidad' => function ($q) {
-            $q->orderBy('codigo')->orderBy('nombre');
+            $q->orderBy('codigo');
         }])->get();
 
         return view('feedbacks.index', compact(['feedbacks', 'actividades']));
