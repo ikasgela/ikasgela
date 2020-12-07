@@ -4,17 +4,19 @@ namespace App\Http\Controllers;
 
 use App;
 use App\Actividad;
+use App\Curso;
 use App\Gitea\GiteaClient;
 use App\IntellijProject;
 use App\Jobs\ForkGiteaRepo;
 use App\Jobs\ForkGitLabRepo;
 use App\Traits\ClonarRepoGitea;
 use App\Traits\PaginarUltima;
+use App\Unidad;
 use Auth;
-use BadMethodCallException;
 use Cache;
 use GitLab;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Log;
 
 class IntellijProjectController extends Controller
@@ -55,7 +57,7 @@ class IntellijProjectController extends Controller
 
     public function show(IntellijProject $intellij_project)
     {
-        return abort(501, __('Not implemented.'));
+        return abort(501);
     }
 
     public function edit(IntellijProject $intellij_project)
@@ -261,5 +263,77 @@ class IntellijProjectController extends Controller
         return response()->streamDownload(function () use ($repositorio) {
             echo GiteaClient::download($repositorio['owner'], $repositorio['name'], 'master.zip');
         }, $repositorio['name'] . '.zip');
+    }
+
+    public function descargar(Request $request)
+    {
+        $unidades = Unidad::cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
+
+        if ($request->has('unidad_id')) {
+
+            $fecha = now()->format('Ymd-His');
+
+            $unidad = Unidad::findOrFail($request->get('unidad_id'));
+
+            $fichero = $fecha . "-" . $unidad->slug . ".sh";
+            $datos = "#!/bin/sh\n\n";
+
+            $curso_actual = Curso::find(setting_usuario('curso_actual'));
+
+            if ($curso_actual != null) {
+                $datos .= "mkdir '" . $fecha . "-" . $unidad->slug . "'\n";
+                $datos .= "cd '" . $fecha . "-" . $unidad->slug . "'\n";
+                $datos .= "RUTA=\"\$PWD\"\n";
+                $datos .= "\n";
+
+                $alumnos = $curso_actual->users()->rolAlumno()->noBloqueado()->get();
+
+                foreach ($alumnos as $alumno) {
+
+                    $tags = "";
+                    $etiquetas = $alumno->etiquetas();
+                    if (count($etiquetas) > 0) {
+                        foreach ($etiquetas as $etiqueta) {
+                            $tags .= $etiqueta;
+                            if ($etiqueta !== end($etiquetas)) {
+                                $tags .= "-";
+                            }
+                        }
+                    }
+
+                    $datos .= "mkdir -p '" . $tags . "'\n";
+                    $datos .= "cd '" . $tags . "'\n";
+
+                    $datos .= "mkdir -p '" . $alumno->username . "'\n";
+                    $datos .= "cd '" . $alumno->username . "'\n";
+
+                    $actividades = $alumno->actividades()->where('unidad_id', $unidad->id)->get();
+
+                    foreach ($actividades as $actividad) {
+                        foreach ($actividad->intellij_projects()->get() as $project) {
+                            if (Str::length($project->pivot->fork) > 0) {
+                                $datos .= "git clone ";
+                                $repositorio = GiteaClient::repo($project->pivot->fork);
+                                $datos .= "'" . $repositorio['http_url_to_repo'] . "'\n";
+                            }
+                        }
+                    }
+
+                    $datos .= "cd \$RUTA";
+                    $datos .= "\n\n";
+                }
+
+                $datos .= "cd ..";
+                $datos .= "\n";
+
+                return response()->streamDownload(function () use ($datos) {
+                    echo $datos;
+                }, $fichero);
+
+//                return $datos;
+            }
+        }
+
+        return view('intellij_projects.descargar', compact(['unidades']));
     }
 }

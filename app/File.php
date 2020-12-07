@@ -30,7 +30,7 @@ class File extends Model
 
     public function getSizeInKbAttribute()
     {
-        return round($this->size / 1024, 2);
+        return formato_decimales($this->size / 1024, 2);
     }
 
     public function file_upload()

@@ -73,6 +73,9 @@
                             @case(62)   {{-- Caducada --}}
                             Caducada
                             @break
+                            @case(63)   {{-- Reabierta --}}
+                            Reabierta
+                            @break
                             @case(70)   {{-- En pausa --}}
                             En pausa
                             @break

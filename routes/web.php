@@ -9,6 +9,13 @@ Route::get('/', 'HomeController@index')
 
 // Gestión de usuarios
 Auth::routes(['verify' => true]);
+
+# Honey
+Route::post('login', 'Auth\LoginController@login')->middleware(['honey']);
+Route::post('register', 'Auth\RegisterController@register')->middleware(['honey']);
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->middleware(['honey'])->name('password.email');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset')->middleware(['honey'])->name('password.update');
+
 require __DIR__ . '/profile/profile.php';
 
 // Control de la barra lateral
@@ -148,6 +155,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('intellij_projects.duplicar');
         Route::delete('/intellij_projects/borrar/{id}', 'IntellijProjectController@borrar')
             ->name('intellij_projects.borrar');
+
+        // Descargar proyectos de IntellijProject
+        Route::get('/intellij_projects/descargar', 'IntellijProjectController@descargar')
+            ->name('intellij_projects.descargar');
+        Route::post('/intellij_projects/descargar', 'IntellijProjectController@descargar')
+            ->name('intellij_projects.descargar.repos');
 
         // IntellijProject
         Route::resource('intellij_projects', 'IntellijProjectController');

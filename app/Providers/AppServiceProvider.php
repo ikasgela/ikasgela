@@ -2,8 +2,22 @@
 
 namespace App\Providers;
 
+use App\Category;
+use App\Curso;
+use App\Observers\CategoryObserver;
+use App\Observers\CursoObserver;
+use App\Observers\OrganizationObserver;
+use App\Observers\PeriodObserver;
+use App\Observers\TareaObserver;
+use App\Observers\UnidadObserver;
+use App\Observers\UserObserver;
 use App\Organization;
+use App\Period;
+use App\Tarea;
+use App\Unidad;
+use App\User;
 use Form;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -34,6 +48,17 @@ class AppServiceProvider extends ServiceProvider
             $organization = Organization::where('slug', subdominio())->first();
             View::share('current_organization', $organization);
         }
+
+        User::observe(UserObserver::class);
+        Tarea::observe(TareaObserver::class);
+
+        Organization::observe(OrganizationObserver::class);
+        Period::observe(PeriodObserver::class);
+        Category::observe(CategoryObserver::class);
+        Curso::observe(CursoObserver::class);
+        Unidad::observe(UnidadObserver::class);
+
+        Paginator::useBootstrap();
     }
 
     /**

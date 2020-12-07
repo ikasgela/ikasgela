@@ -21,11 +21,13 @@
                 {!! Form::hidden('filtro_alumnos','R') !!}
                 {!! Form::close() !!}
 
+                <span class="mx-1"></span>
+
                 {!! Form::open(['route' => ['profesor.tareas.filtro', $user->id], 'method' => 'POST']) !!}
                 {!! Form::button(__('Exams'), ['type' => 'submit',
-                    'class' => session('profesor_filtro_alumnos') == 'E' ? 'btn btn-sm mx-1 btn-secondary' : 'btn btn-sm mx-1 btn-outline-secondary'
+                    'class' => session('profesor_filtro_actividades_examen') == 'E' ? 'btn btn-sm mx-1 btn-primary' : 'btn btn-sm mx-1 btn-outline-secondary'
                 ]) !!}
-                {!! Form::hidden('filtro_alumnos','E') !!}
+                {!! Form::hidden('filtro_actividades_examen','E') !!}
                 {!! Form::close() !!}
             </div>
         </div>

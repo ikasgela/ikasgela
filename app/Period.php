@@ -3,9 +3,21 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Watson\Rememberable\Rememberable;
 
 class Period extends Model
 {
+    use Rememberable;
+
+    protected $rememberFor;
+    protected $rememberCacheTag = 'period';
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->rememberFor = config('ikasgela.eloquent_cache_time', 60);
+    }
+
     protected $fillable = [
         'organization_id', 'name', 'slug'
     ];

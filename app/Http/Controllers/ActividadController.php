@@ -6,6 +6,7 @@ use App\Actividad;
 use App\Exports\ActividadesCursoExport;
 use App\Mail\ActividadAsignada;
 use App\Mail\FeedbackRecibido;
+use App\Mail\PlazoAmpliado;
 use App\Mail\TareaEnviada;
 use App\Qualification;
 use App\Registro;
@@ -14,8 +15,6 @@ use App\Traits\InformeActividadesCurso;
 use App\Traits\PaginarUltima;
 use App\Unidad;
 use App\User;
-use BadMethodCallException;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -64,9 +63,9 @@ class ActividadController extends Controller
         }
 
         if (session('profesor_unidad_actual')) {
-            $actividades = Actividad::cursoActual()->plantilla()->where('unidad_id', session('profesor_unidad_actual'))->orderBy('orden');
+            $actividades = Actividad::cursoActual()->plantilla()->where('unidad_id', session('profesor_unidad_actual'))->orderBy('orden')->orderBy('id');
         } else {
-            $actividades = Actividad::cursoActual()->plantilla()->where('plantilla', true)->orderBy('orden');
+            $actividades = Actividad::cursoActual()->plantilla()->where('plantilla', true)->orderBy('orden')->orderBy('id');
         }
 
         $actividades = $this->paginate_ultima($actividades, 250);
@@ -78,8 +77,8 @@ class ActividadController extends Controller
 
     public function create()
     {
-        $unidades = Unidad::cursoActual()->orderBy('nombre')->get();
-        $actividades = Actividad::cursoActual()->plantilla()->orderBy('nombre')->get();
+        $unidades = Unidad::cursoActual()->orderBy('codigo')->orderBy('slug')->get();
+        $actividades = Actividad::cursoActual()->plantilla()->orderBy('slug')->orderBy('id')->get();
         $qualifications = Qualification::organizacionActual()->orderBy('name')->get();
 
         return view('actividades.create', compact(['unidades', 'actividades', 'qualifications']));
@@ -135,7 +134,7 @@ class ActividadController extends Controller
      */
     public function show(Actividad $actividad)
     {
-        return abort(501, __('Not implemented.'));
+        return abort(501);
     }
 
     public function preview(Actividad $actividad)
@@ -151,10 +150,10 @@ class ActividadController extends Controller
 
     public function edit(Actividad $actividad)
     {
-        $unidades = Unidad::orderBy('curso_id')->orderBy('codigo')->orderBy('nombre')->get();
+        $unidades = Unidad::cursoActual()->orderBy('codigo')->orderBy('slug')->get();
         $siguiente = $actividad->siguiente;
-        $actividades = Actividad::cursoActual()->where('id', '!=', $actividad->id)->orderBy('nombre')->get();
-        $plantillas = Actividad::cursoActual()->plantilla()->where('id', '!=', $actividad->id)->orderBy('nombre')->get();
+        $actividades = Actividad::cursoActual()->where('id', '!=', $actividad->id)->orderBy('slug')->orderBy('id')->get();
+        $plantillas = Actividad::cursoActual()->plantilla()->where('id', '!=', $actividad->id)->orderBy('slug')->orderBy('id')->get();
         $qualifications = Qualification::organizacionActual()->orderBy('name')->get();
 
         return view('actividades.edit', compact(['actividad', 'unidades', 'actividades', 'plantillas', 'qualifications']));
@@ -212,11 +211,16 @@ class ActividadController extends Controller
 
     public function actualizarEstado(Tarea $tarea, Request $request)
     {
+        $usuario_actual = Auth::user();
+
+        $override_allowed = $usuario_actual->hasAnyRole(['admin', 'profesor']);
+
+        if ($tarea->user_id != $usuario_actual->id && !$override_allowed)
+            return abort('403');
+
         $nuevoestado = $request->input('nuevoestado');
 
         $estado_anterior = $tarea->estado;
-
-        $tarea->estado = $nuevoestado;
 
         $actividad = $tarea->actividad;
         $usuario = $tarea->user;
@@ -226,14 +230,37 @@ class ActividadController extends Controller
         $registro->tarea_id = $tarea->id;
         $registro->timestamp = now();
         $registro->estado = $nuevoestado;
-        $registro->curso_id = Auth::user()->curso_actual()->id;
+        $registro->curso_id = $usuario_actual->curso_actual()->id;
 
         switch ($nuevoestado) {
             case 10:
+                if (!in_array($estado_anterior, [11]) && !$override_allowed) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
+                $tarea->estado = $nuevoestado;
                 break;
             case 20:
+                if (!in_array($estado_anterior, [10]) && !$override_allowed) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
+                $tarea->estado = $nuevoestado;
+                break;
+            case 21:
+                if (!in_array($estado_anterior, [41]) && !$override_allowed) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
+                $tarea->estado = $nuevoestado;
                 break;
             case 30:
+                if (!in_array($estado_anterior, [20, 21]) && !$override_allowed) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
+                $tarea->estado = $nuevoestado;
+
                 // Notificar que hay una actividad para corregir
                 if (!$tarea->actividad->auto_avance) {
                     foreach ($tarea->actividad->unidad->curso->profesores as $profesor) {
@@ -256,11 +283,21 @@ class ActividadController extends Controller
 
             // Reiniciada (botón de reset, para cuando se confunden y envian sin querer)
             case 31:
+                if (!in_array($estado_anterior, [30]) && !$override_allowed) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
                 $tarea->estado = 20;
+
+                $this->bloquearRepositorios($tarea, false);
                 break;
 
             // Reabierta (consume un intento y resta puntuación)
             case 32:
+                if (!in_array($estado_anterior, [30]) && !$override_allowed) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
                 $tarea->estado = 20;
 
                 $this->bloquearRepositorios($tarea, false);
@@ -281,11 +318,24 @@ class ActividadController extends Controller
                 break;
 
             // Revisada: ERROR
+            /** @noinspection PhpMissingBreakStatementInspection */
             case 41:
+                if (!in_array($estado_anterior, [30, 31]) && !$override_allowed) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
+                $tarea->estado = $nuevoestado;
+
                 $this->bloquearRepositorios($tarea, false);
 
             // Revisada: OK
             case 40:
+                if (!in_array($estado_anterior, [30, 31]) && !$override_allowed) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
+                $tarea->estado = $nuevoestado;
+
                 $tarea->puntuacion = $request->input('puntuacion');
                 $tarea->feedback = $request->input('feedback');
                 $tarea->increment('intentos');
@@ -308,37 +358,76 @@ class ActividadController extends Controller
 
             // Avance automático
             case 42:
+                if (!in_array($estado_anterior, [30, 31]) && !$override_allowed) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
+                $tarea->estado = $nuevoestado;
+
                 $tarea->feedback = __('Automatically completed task, not reviewed by any teacher.');
                 $tarea->puntuacion = $actividad->puntuacion;
                 break;
             case 50:
+                if (!in_array($estado_anterior, [40, 41, 42]) && !$override_allowed) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
+                $tarea->estado = $nuevoestado;
                 break;
             case 60:
             case 62:
+                if (!in_array($estado_anterior, [40, 41, 42, 50]) && !$override_allowed) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
+                $tarea->estado = $nuevoestado;
+
                 $tarea->save();
                 $this->bloquearRepositorios($tarea, true);
                 $tarea->archiveFiles();
                 $this->mostrarSiguienteActividad($actividad, $usuario);
                 break;
+
+            // Ampliar plazo
+            case 63:
+                if (!$tarea->is_expired && !$override_allowed) {
+                    return abort(400, __('Invalid task state.'));
+                }
+
+                $dias = $request->input('ampliacion_plazo', 7);
+                $plazo = now()->addDays($dias);
+                $actividad->fecha_entrega = $plazo;
+                $actividad->fecha_limite = $plazo;
+                $actividad->save();
+
+                $this->bloquearRepositorios($tarea, false);
+
+                if (setting_usuario('notificacion_actividad_asignada', $usuario))
+                    Mail::to($usuario->email)->queue(new PlazoAmpliado($usuario->name, $actividad->nombre));
+                break;
             case 70:
+                $tarea->estado = $nuevoestado;
+
                 $actividad->final = !$actividad->final;
                 $actividad->save();
                 return back();
                 break;
             case 71:
                 $tarea->estado = $estado_anterior;
+
                 $this->mostrarSiguienteActividad($actividad, $usuario, true);
                 break;
             default:
+                return abort(400, __('Invalid task state.'));
         }
 
         $tarea->save();
 
         $registro->save();
 
-        if (Auth::user()->hasRole('alumno')) {
+        if ($usuario_actual->hasRole('alumno')) {
             return redirect(route('users.home'));
-        } else if (Auth::user()->hasRole('profesor')) {
+        } else if ($usuario_actual->hasRole('profesor')) {
             return redirect(route('profesor.tareas', ['user' => $tarea->user->id]));
         } else {
             return redirect(route('home'));
@@ -398,28 +487,33 @@ class ActividadController extends Controller
 
             if ($plantilla->siguiente_id != $actividad->siguiente_id && !$actividad->siguiente_overriden) {
                 $clon = $plantilla->siguiente->duplicate();
+                $clon->plantilla_id = $plantilla->siguiente->id;
             } else {
                 $clon = $actividad->siguiente->duplicate();
+                $clon->plantilla_id = $actividad->siguiente->id;
             }
 
-            $clon->plantilla_id = $actividad->siguiente->id;
             $ahora = now();
             $clon->fecha_disponibilidad = $ahora;
             $plazo = $ahora->addDays($actividad->unidad->curso->plazo_actividad);
             $clon->fecha_entrega = $plazo;
             $clon->fecha_limite = $plazo;
             $clon->save();
+            $clon->orden = $clon->id;
+            $clon->save();
 
             $actividad->siguiente_id = null;
             $actividad->save();
 
             if (!$actividad->final) {
-                $usuario->actividades()->attach($clon);
+                // Pendiente de aceptar
+                $usuario->actividades()->attach($clon, ['estado' => 10]);
 
                 // Notificar
-                $asignada = "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";
-                if (setting_usuario('notificacion_actividad_asignada', $usuario))
+                if (setting_usuario('notificacion_actividad_asignada', $usuario)) {
+                    $asignada = "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";
                     Mail::to($usuario->email)->queue(new ActividadAsignada($usuario->name, $asignada));
+                }
             } else {
                 // Oculta
                 $usuario->actividades()->attach($clon, ['estado' => 11]);

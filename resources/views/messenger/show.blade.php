@@ -6,6 +6,11 @@
     @include('messenger.partials.tinymce')
 @endsection
 
+@section('fancybox')
+    <link rel="stylesheet" href="{{ asset('/js/jquery.fancybox.min.css') }}"/>
+    <script src="{{ asset('/js/jquery.fancybox.min.js') }}" defer></script>
+@endsection
+
 @section('content')
     <h1>{{ $thread->subject }}</h1>
     <div>

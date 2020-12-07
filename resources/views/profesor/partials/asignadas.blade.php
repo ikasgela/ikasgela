@@ -100,7 +100,7 @@
             <tfoot class="thead-dark">
             <tr>
                 <th colspan="6"></th>
-                <th class="text-center">{{ $user->actividades_enviadas_noautoavance()->count() > 0 ? $user->actividades_enviadas_noautoavance()->count() : '0' }}</th>
+                <th class="text-center">{{ $user->num_actividades_enviadas_noautoavance() > 0 ? $user->num_actividades_enviadas_noautoavance() : '0' }}</th>
                 <th colspan="7"></th>
             </tr>
             <tr>

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Actividad;
 use App\Curso;
-use App\Feedback;
 use App\Mail\ActividadAsignada;
 use App\Organization;
 use App\Registro;
@@ -12,7 +11,6 @@ use App\Tarea;
 use App\Traits\PaginarUltima;
 use App\Unidad;
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -132,19 +130,28 @@ class ProfesorController extends Controller
             session(['profesor_filtro_alumnos' => $request->input('filtro_alumnos')]);
         }
 
+        if ($request->has('filtro_actividades_examen')) {
+            if (session('profesor_filtro_actividades_examen') == 'E') {
+                session(['profesor_filtro_actividades_examen' => '']);
+            } else {
+                session(['profesor_filtro_actividades_examen' => 'E']);
+            }
+        }
+
         switch (session('profesor_filtro_alumnos')) {
             case 'R':
                 $actividades = $user->actividades_enviadas_noautoavance();
-                break;
-            case 'E':
-                $actividades = $user->actividades_examen();
                 break;
             default:
                 $actividades = $user->actividades();
                 break;
         }
 
-        $actividades = $this->paginate_ultima($actividades, 10, 'asignadas');
+        if (!session('profesor_filtro_actividades_examen') == 'E') {
+            $actividades = $actividades->tag('examen', false);
+        }
+
+        $actividades = $this->paginate_ultima($actividades, config('ikasgela.pagination_assigned_activities'), 'asignadas');
 
         $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
 
@@ -231,33 +238,23 @@ class ProfesorController extends Controller
             // Sacar un duplicado de la actividad y poner el campo plantilla a false
             // REF: https://github.com/BKWLD/cloner
 
-            $primero = true;
-            $anterior = null;
+            $clon = $actividad->duplicate();
+            $clon->plantilla_id = $actividad->id;
+            $clon->orden = $clon->id;
 
-            while ($actividad != null) {
-
-                $clon = $actividad->duplicate();
-                $clon->plantilla_id = $actividad->id;
+            if (!isset($clon->fecha_disponibilidad)) {
                 $ahora = now();
                 $clon->fecha_disponibilidad = $ahora;
                 $plazo = $ahora->addDays($actividad->unidad->curso->plazo_actividad);
                 $clon->fecha_entrega = $plazo;
                 $clon->fecha_limite = $plazo;
-                $clon->save();
-
-                if ($primero) {
-                    $asignadas .= "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";
-                    $user->actividades()->attach($clon);
-                    $tarea = Tarea::where('user_id', $user->id)->where('actividad_id', $clon->id)->first();
-                } else {
-                    $clon->siguiente_id = $anterior->id;
-                    $clon->save();
-                }
-
-                $actividad = null;
-                $anterior = $clon;
-                $primero = false;
             }
+
+            $clon->save();
+
+            $asignadas .= "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";
+            $user->actividades()->attach($clon);
+            $tarea = Tarea::where('user_id', $user->id)->where('actividad_id', $clon->id)->first();
 
             Registro::create([
                 'user_id' => $user->id,
@@ -282,6 +279,6 @@ class ProfesorController extends Controller
             $disponibles = $actividades_curso;
         }
 
-        return $this->paginate_ultima($disponibles, 10, 'disponibles');
+        return $this->paginate_ultima($disponibles, config('ikasgela.pagination_available_activities'), 'disponibles');
     }
 }

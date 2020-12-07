@@ -19,12 +19,10 @@ class T6_FiltradoActividadesTest extends DuskTestCase
             // Buscar al usuario
             $usuario = User::where('email', 'marc@ikasgela.com')->first();
 
-            // Ocultar la tarea de bienvenida
-            $tarea_bienvenida = Tarea::where('user_id', $usuario->id)->whereHas('actividad', function ($query) {
-                $query->where('slug', 'tarea-de-bienvenida');
-            })->first();
-            $tarea_bienvenida->estado = 11;
-            $tarea_bienvenida->save();
+            // Borrar todas las actividades
+            $tareas = Actividad::all();
+            foreach ($tareas as $tarea)
+                $tarea->delete();
 
             // Crear una unidad nueva en el curso actual
             $curso_actual = Curso::find(setting_usuario('curso_actual', $usuario));
@@ -76,7 +74,8 @@ class T6_FiltradoActividadesTest extends DuskTestCase
                 $usuario->actividades()->attach($actividad, ['estado' => $estado]);
 
                 $browser->refresh();
-                $browser->assertDontSee($nombre);
+                $browser->assertDontSee(__('Accept activity'));
+                $browser->assertDontSee(__('Submit for review'));
 
                 $actividad->delete();
             }
@@ -137,8 +136,7 @@ class T6_FiltradoActividadesTest extends DuskTestCase
             $usuario->actividades()->attach($actividad, ['estado' => $estado]);
 
             $browser->refresh();
-
-            $browser->assertDontSee($nombre);
+            $browser->assertDontSee(__('Reopen activity'));
 
             $actividad->delete();
             // Fin del test
@@ -159,7 +157,9 @@ class T6_FiltradoActividadesTest extends DuskTestCase
                 $usuario->actividades()->attach($actividad, ['estado' => $estado]);
 
                 $browser->refresh();
-                $browser->assertDontSee($nombre);
+                $browser->assertDontSee(__('Accept activity'));
+                $browser->assertDontSee(__('Submit for review'));
+                $browser->assertDontSee(__('Reopen activity'));
 
                 $actividad->delete();
             }
@@ -187,12 +187,6 @@ class T6_FiltradoActividadesTest extends DuskTestCase
             }
             // Fin del test -----------------------------------------------------------------------
 
-            // Restaurar la tarea de bienvenida
-            $tarea_bienvenida->estado = 10;
-            $tarea_bienvenida->save();
-
-            $browser->refresh();
-            $browser->assertSee('Tarea de bienvenida');
         });
     }
 }

@@ -21,7 +21,7 @@
             </div>
         </h5>
         <div class="c-callout c-callout-secondary bg-light py-3 line-numbers">
-            {!! $message->body !!}
+            {!! links_galeria($message->body, $message->thread->id) !!}
         </div>
         <div class="text-muted">
             <small>{{ __('Posted') }} {{ $message->created_at->diffForHumans() }}</small>

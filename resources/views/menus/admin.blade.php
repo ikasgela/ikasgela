@@ -14,6 +14,11 @@
                 <i class="c-sidebar-nav-icon fas fa-copy"></i> {{ __('Project cloner') }}
             </a>
         </li>
+        <li class="c-sidebar-nav-item">
+            <a class="c-sidebar-nav-link bg-dark" href="{{ route('intellij_projects.descargar') }}">
+                <i class="c-sidebar-nav-icon fas fa-download"></i> {{ __('Download projects') }}
+            </a>
+        </li>
     </ul>
 </li>
 <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">

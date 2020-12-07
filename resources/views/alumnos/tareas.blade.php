@@ -22,74 +22,88 @@
     </div>
 
     <ul class="nav nav-tabs" id="pills-tab" role="tablist">
-        @if($user->actividades_en_curso_autoavance()->tag('examen')->count() > 0)
+        {{-- Examen --}}
+        @if($user->num_actividades_en_curso_examen() > 0)
             <li class="nav-item">
-                <a class="nav-link {{ $user->actividades_en_curso_autoavance()->tag('examen')->count() > 0 ? 'active' : '' }}"
+                <a class="nav-link {{ $user->num_actividades_en_curso_examen() > 0 ? 'active' : '' }}"
                    id="pills-examen-tab" data-toggle="tab" href="#pills-examen" role="tab"
                    aria-controls="pills-contact" aria-selected="false">{{ __('Exam') }}
                     <span
-                        class="ml-2 badge badge-danger">{{ $user->actividades_en_curso_autoavance()->tag('examen')->count() }}</span>
+                        class="ml-2 badge badge-danger">{{ $user->num_actividades_en_curso_examen() }}</span>
                 </a>
             </li>
         @endif
+        {{-- En curso --}}
         <li class="nav-item">
-            <a class="nav-link {{ $user->actividades_en_curso_autoavance()->tag('examen')->count() > 0 ? '' : 'active' }}"
+            <a class="nav-link {{ $user->num_actividades_en_curso_examen() > 0 ? '' : ($user->num_actividades_en_curso_no_extra_examen() > 0 ? 'active' : '') }}
+            {{ $user->num_actividades_en_curso_examen() == 0 && $user->num_actividades_en_curso_extra() == 0 ? 'active':'' }}"
                id="pills-en-curso-tab" data-toggle="tab" href="#pills-en-curso" role="tab"
                aria-controls="pills-profile" aria-selected="true">{{ __('In progress') }}
                 <span
-                    class="ml-2 badge badge-danger">{{ $user->actividades_en_curso_autoavance()->tag('extra', false)->tag('examen', false)->count() }}</span>
+                    class="ml-2 badge {{ $user->num_actividades_en_curso_no_extra_examen() > 0 ? 'badge-danger' : 'badge-secondary' }}">{{ $user->num_actividades_en_curso_no_extra_examen() }}</span>
             </a>
         </li>
-        @if($user->actividades()->tag('extra')->count() > 0)
+        {{-- Extra --}}
+        @if($user->num_actividades_en_curso_extra() > 0)
             <li class="nav-item">
-                <a class="nav-link" id="pills-extra-tab" data-toggle="tab" href="#pills-extra" role="tab"
+                <a class="nav-link
+                   {{ $user->num_actividades_en_curso_examen() == 0 && $user->num_actividades_en_curso_no_extra_examen() == 0 && $user->num_actividades_en_curso_extra() > 0 ? 'active' : '' }}"
+                   id="pills-extra-tab" data-toggle="tab" href="#pills-extra" role="tab"
                    aria-controls="pills-contact" aria-selected="false">{{ __('Extra') }}
                     <span
-                        class="ml-2 badge badge-secondary">{{ $user->actividades_en_curso_autoavance()->tag('extra')->count() }}</span>
+                        class="ml-2 badge badge-secondary">{{ $user->num_actividades_en_curso_extra() }}</span>
                 </a>
             </li>
         @endif
+        {{-- Enviadas --}}
         <li class="nav-item">
             <a class="nav-link" id="pills-enviadas-tab" data-toggle="tab" href="#pills-enviadas" role="tab"
                aria-controls="pills-contact" aria-selected="false">{{ trans_choice('tasks.sent', 2) }}
                 <span
-                    class="ml-2 badge badge-secondary">{{ $user->actividades_enviadas_noautoavance()->count() }}</span>
+                    class="ml-2 badge badge-secondary">{{ $user->num_actividades_en_curso_enviadas() }}</span>
             </a>
         </li>
     </ul>
     <div class="tab-content border-bottom border-left border-right" id="pills-tab-content">
-        @if($user->actividades_en_curso_autoavance()->tag('examen')->count() > 0)
+        {{-- Examen --}}
+        @if($user->num_actividades_en_curso_examen() > 0)
             <div
-                class="tab-pane fade {{ $user->actividades_en_curso_autoavance()->tag('examen')->count() > 0 ? 'show active' : '' }}"
+                class="tab-pane fade {{ $user->num_actividades_en_curso_examen() > 0 ? 'show active' : '' }}"
                 id="pills-examen" role="tabpanel" aria-labelledby="pills-examen-tab">
                 <div class="p-3">
-                    @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_autoavance()->tag('examen')->get(),
+                    @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_examen()->get(),
                     'mensaje_ninguna' => 'No hay actividades de examen en curso.'
                     ])
                 </div>
             </div>
         @endif
+        {{-- En curso --}}
         <div
-            class="tab-pane fade {{ $user->actividades_en_curso_autoavance()->tag('examen')->count() > 0 ? '' : 'show active' }}"
+            class="tab-pane fade {{ $user->num_actividades_en_curso_examen() > 0 ? '' : ($user->num_actividades_en_curso_no_extra_examen() > 0 ? 'show active' : '') }}
+            {{ $user->num_actividades_en_curso_examen() == 0 && $user->num_actividades_en_curso_extra() == 0 ? 'show active':'' }}"
             id="pills-en-curso" role="tabpanel" aria-labelledby="pills-en-curso-tab">
             <div class="p-3">
-                @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_autoavance()->tag('extra', false)->tag('examen', false)->get(),
+                @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_no_extra_examen()->get(),
                 'mensaje_ninguna' => 'No hay actividades en curso.'
                 ])
             </div>
         </div>
-        @if($user->actividades()->tag('extra')->count() > 0)
-            <div class="tab-pane fade" id="pills-extra" role="tabpanel" aria-labelledby="pills-extra-tab">
+        {{-- Extra --}}
+        @if($user->num_actividades_en_curso_extra() > 0)
+            <div
+                class="tab-pane fade {{ $user->num_actividades_en_curso_examen() == 0 && $user->num_actividades_en_curso_no_extra_examen() == 0 && $user->num_actividades_en_curso_extra() > 0 ? 'show active' : '' }}"
+                id="pills-extra" role="tabpanel" aria-labelledby="pills-extra-tab">
                 <div class="p-3">
-                    @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_autoavance()->tag('extra')->get(),
+                    @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_extra()->get(),
                     'mensaje_ninguna' => 'No hay actividades extra en curso.'
                     ])
                 </div>
             </div>
         @endif
+        {{-- Enviadas --}}
         <div class="tab-pane fade" id="pills-enviadas" role="tabpanel" aria-labelledby="pills-enviadas-tab">
             <div class="p-3">
-                @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_enviadas_noautoavance()->get(),
+                @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_enviadas()->get(),
                 'mensaje_ninguna' => 'No hay actividades enviadas.'])
             </div>
         </div>

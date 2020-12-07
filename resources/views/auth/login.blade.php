@@ -14,6 +14,7 @@
 
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
+                        <x-honey/>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                             <span class="input-group-text" style="width:2.75em">

@@ -455,7 +455,8 @@ var _ = {
 	 *
 	 * The following hooks will be run:
 	 * 1. `before-highlightall`
-	 * 2. All hooks of {@link Prism.highlightElement} for each element.
+	 * 2. `before-all-elements-highlight`
+	 * 3. All hooks of {@link Prism.highlightElement} for each element.
 	 *
 	 * @param {ParentNode} container The root element, whose descendants that have a `.language-xxxx` class will be highlighted.
 	 * @param {boolean} [async=false] Whether each element is to be highlighted asynchronously using Web Workers.
@@ -487,10 +488,13 @@ var _ = {
 	 * The following hooks will be run:
 	 * 1. `before-sanity-check`
 	 * 2. `before-highlight`
-	 * 3. All hooks of {@link Prism.highlight}. These hooks will only be run by the current worker if `async` is `true`.
+	 * 3. All hooks of {@link Prism.highlight}. These hooks will be run by an asynchronous worker if `async` is `true`.
 	 * 4. `before-insert`
 	 * 5. `after-highlight`
 	 * 6. `complete`
+	 *
+	 * Some the above hooks will be skipped if the element doesn't contain any text or there is no grammar loaded for
+	 * the element's language.
 	 *
 	 * @param {Element} element The element containing the code.
 	 * It must have a class of `language-xxxx` to be processed, where `xxxx` is a valid language identifier.
@@ -1631,6 +1635,7 @@ Prism.languages.py = Prism.languages.python;
 			"markup",
 			"csharp"
 		],
+		"birb": "clike",
 		"bison": "c",
 		"c": "clike",
 		"csharp": "clike",
@@ -1691,6 +1696,7 @@ Prism.languages.py = Prism.languages.python;
 		"lilypond": "scheme",
 		"markdown": "markup",
 		"markup-templating": "markup",
+		"mongodb": "javascript",
 		"n4js": "javascript",
 		"nginx": "clike",
 		"objectivec": "c",
@@ -1713,6 +1719,7 @@ Prism.languages.py = Prism.languages.python;
 			"javascript"
 		],
 		"purebasic": "clike",
+		"purescript": "haskell",
 		"qml": "javascript",
 		"qore": "clike",
 		"racket": "scheme",
@@ -1775,6 +1782,7 @@ Prism.languages.py = Prism.languages.python;
 		"shell": "bash",
 		"shortcode": "bbcode",
 		"rbnf": "bnf",
+		"oscript": "bsl",
 		"cs": "csharp",
 		"dotnet": "csharp",
 		"coffee": "coffeescript",
@@ -1802,6 +1810,7 @@ Prism.languages.py = Prism.languages.python;
 		"md": "markdown",
 		"moon": "moonscript",
 		"n4jsd": "n4js",
+		"nani": "naniscript",
 		"objc": "objectivec",
 		"objectpascal": "pascal",
 		"px": "pcaxis",
@@ -1809,17 +1818,22 @@ Prism.languages.py = Prism.languages.python;
 		"pq": "powerquery",
 		"mscript": "powerquery",
 		"pbfasm": "purebasic",
+		"purs": "purescript",
 		"py": "python",
 		"rkt": "racket",
 		"rpy": "renpy",
 		"robot": "robotframework",
 		"rb": "ruby",
+		"sh-session": "shell-session",
+		"shellsession": "shell-session",
+		"smlnj": "sml",
 		"sol": "solidity",
 		"sln": "solution-file",
 		"rq": "sparql",
 		"t4": "t4-cs",
 		"trig": "turtle",
 		"ts": "typescript",
+		"tsconfig": "typoscript",
 		"uscript": "unrealscript",
 		"uc": "unrealscript",
 		"vb": "visual-basic",
@@ -1842,8 +1856,8 @@ Prism.languages.py = Prism.languages.python;
 
 	var script = Prism.util.currentScript();
 	if (script) {
-		var autoloaderFile = /\bplugins\/autoloader\/prism-autoloader\.(?:min\.)js(?:\?[^\r\n/]*)?$/i;
-		var prismFile = /(^|\/)[\w-]+\.(?:min\.)js(?:\?[^\r\n/]*)?$/i;
+		var autoloaderFile = /\bplugins\/autoloader\/prism-autoloader\.(?:min\.)?js(?:\?[^\r\n/]*)?$/i;
+		var prismFile = /(^|\/)[\w-]+\.(?:min\.)?js(?:\?[^\r\n/]*)?$/i;
 
 		var autoloaderPath = script.getAttribute('data-autoloader-path');
 		if (autoloaderPath != null) {

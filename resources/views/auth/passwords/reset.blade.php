@@ -12,7 +12,7 @@
 
                 <form method="POST" action="{{ route('password.update') }}">
                     @csrf
-
+                    <x-honey/>
                     <input type="hidden" name="token" value="{{ $token }}">
 
                     <div class="input-group mb-3">

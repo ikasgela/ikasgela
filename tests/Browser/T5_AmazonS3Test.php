@@ -24,9 +24,25 @@ class T5_AmazonS3Test extends DuskTestCase
             $browser->assertSee(__('Image upload'));
 
             // Subir el archivo
-            $browser->attach('file', base_path("public/icons/android-chrome-512x512.png"));
+            $browser->attach('file', base_path("public/icons_debug/test.png"));
             $browser->press(__('Upload'));
-            $browser->assertSee('16.45 KB');
+            $browser->assertSee('38,59 KB');
+
+            // Borrar el fichero
+            $browser->press('borrar');
+            $browser->acceptDialog();
+
+            // Se vuelve a mostrar el botón de subir fichero
+            $browser->assertSee(__('Upload'));
+
+            // Abrir la actividad de subida de archivo
+            $browser->visit('/file_uploads/1');
+            $browser->assertSee(__('Image upload'));
+
+            // Subir el archivo
+            $browser->attach('file', base_path("public/icons_debug/test.jpg"));
+            $browser->press(__('Upload'));
+            $browser->assertSee('38,65 KB');
 
             // Borrar el fichero
             $browser->press('borrar');

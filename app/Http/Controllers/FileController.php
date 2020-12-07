@@ -32,12 +32,23 @@ class FileController extends Controller
         $filename = md5(time()) . '_' . $fichero->getClientOriginalName();
         $extension = $fichero->getClientOriginalExtension();
 
-        $imagen = Image::make($fichero)->orientate()->stream();
-        $thumbnail = Image::make($fichero)->orientate()
+        $imagen = Image::make($fichero)
+            ->orientate()
+            ->resize(2000, 2000, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })
+            ->encode('jpg', 80)
+            ->stream();
+
+        $thumbnail = Image::make($fichero)
+            ->orientate()
             ->resize(128, null, function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
-            })->crop(128, 128)
+            })
+            ->crop(128, 128)
+            ->encode('jpg', 80)
             ->stream();
 
         Storage::disk('s3')->put('images/' . $filename, $imagen->__toString());
@@ -48,7 +59,7 @@ class FileController extends Controller
         $file_upload->files()->create([
             'path' => $filename,
             'title' => $request->file->getClientOriginalName(),
-            'size' => $request->file->getSize(),
+            'size' => Storage::disk('s3')->size('images/' . $filename),
             'user_id' => Auth::user()->id,
             'file_upload_id' => request('file_upload_id')
         ]);

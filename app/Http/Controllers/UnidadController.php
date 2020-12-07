@@ -59,7 +59,7 @@ class UnidadController extends Controller
 
     public function show(Unidad $unidad)
     {
-        return abort(501, __('Not implemented.'));
+        return abort(501);
     }
 
     public function edit(Unidad $unidad)

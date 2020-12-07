@@ -13,6 +13,7 @@
 
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
+                        <x-honey/>
                         {!! RecaptchaV3::field('register') !!}
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">

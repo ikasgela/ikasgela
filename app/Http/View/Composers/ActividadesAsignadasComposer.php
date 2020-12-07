@@ -11,7 +11,7 @@ class ActividadesAsignadasComposer
     {
         $user = Auth::user();
 
-        $num_actividades = !is_null($user) ? $user->actividades_en_curso_autoavance()->tag('extra', false)->count() : 0;
+        $num_actividades = !is_null($user) ? $user->num_actividades_asignadas_total() : 0;
 
         $view->with('alumno_actividades_asignadas', $num_actividades);
     }
