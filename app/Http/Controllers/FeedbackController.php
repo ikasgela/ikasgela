@@ -20,7 +20,7 @@ class FeedbackController extends Controller
     {
         $curso_actual = Curso::find(setting_usuario('curso_actual'));
 
-        $feedbacks = $curso_actual->feedbacks()->orderBy('titulo')->get();
+        $feedbacks = $curso_actual->feedbacks()->get();
 
         $actividades = Actividad::cursoActual()->where('plantilla', true)->with(['unidad' => function ($q) {
             $q->orderBy('codigo')->orderBy('nombre');
