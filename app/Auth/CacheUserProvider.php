@@ -28,6 +28,15 @@ class CacheUserProvider extends EloquentUserProvider
      */
     public function retrieveById($identifier)
     {
-        return Cache::get("user.$identifier") ?? parent::retrieveById($identifier);
+        return Cache::remember("user.$identifier", config('ikasgela.eloquent_cache_time'), function () use ($identifier) {
+            return parent::retrieveById($identifier);
+        });
+    }
+
+    public function retrieveByToken($identifier, $token)
+    {
+        return Cache::remember("user.$identifier.$token", config('ikasgela.eloquent_cache_time'), function () use ($identifier, $token) {
+            parent::retrieveByToken($identifier, $token);
+        });
     }
 }
