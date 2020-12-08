@@ -282,10 +282,10 @@
                     <div class="row mt-3 mb-0 mx-2">
                         <div class="col-md-12">
                             <div class="card
-                            {{ $actividad->tarea->estado == 40 ? 'border-success' : '' }}
+                            {{ $actividad->tarea->estado == 40 ? !$actividad->hasEtiqueta('examen') ? 'border-success' : 'border-secondary' : '' }}
                             {{ $actividad->tarea->estado == 41 ? 'border-warning' : '' }}">
                                 <div class="card-header
-                                {{ $actividad->tarea->estado == 40 ? 'bg-success' : '' }}
+                                {{ $actividad->tarea->estado == 40 ? !$actividad->hasEtiqueta('examen') ? 'bg-success' : 'bg-secondary' : '' }}
                                 {{ $actividad->tarea->estado == 41 ? 'bg-warning text-dark' : '' }}">
                                     <i class="fas fa-bullhorn"></i> {{ __('Feedback') }}
                                 </div>
