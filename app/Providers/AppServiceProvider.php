@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Actividad;
 use App\Category;
 use App\Curso;
+use App\Observers\ActividadObserver;
 use App\Observers\CategoryObserver;
 use App\Observers\CursoObserver;
 use App\Observers\OrganizationObserver;
@@ -57,6 +59,8 @@ class AppServiceProvider extends ServiceProvider
         Category::observe(CategoryObserver::class);
         Curso::observe(CursoObserver::class);
         Unidad::observe(UnidadObserver::class);
+
+        Actividad::observe(ActividadObserver::class);
 
         Paginator::useBootstrap();
     }
