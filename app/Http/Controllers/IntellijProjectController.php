@@ -281,17 +281,26 @@ class IntellijProjectController extends Controller
             $curso_actual = Curso::find(setting_usuario('curso_actual'));
 
             if ($curso_actual != null) {
+
                 $datos .= "mkdir '" . $fecha . "-" . $unidad->slug . "'\n";
                 $datos .= "cd '" . $fecha . "-" . $unidad->slug . "'\n";
+                $datos .= "\n";
+
                 $datos .= "RUTA=\"\$PWD\"\n";
                 $datos .= "\n";
 
                 $alumnos = $curso_actual->users()->rolAlumno()->noBloqueado()->get();
 
+                $etiquetas_revisar = [];
+                $actividades_revisar = [];
+
                 foreach ($alumnos as $alumno) {
 
                     $tags = "";
                     $etiquetas = $alumno->etiquetas();
+
+                    $etiquetas_revisar = array_unique(array_merge($etiquetas_revisar, $etiquetas), SORT_REGULAR);
+
                     if (count($etiquetas) > 0) {
                         foreach ($etiquetas as $etiqueta) {
                             $tags .= $etiqueta;
@@ -303,25 +312,45 @@ class IntellijProjectController extends Controller
 
                     $datos .= "mkdir -p '" . $tags . "'\n";
                     $datos .= "cd '" . $tags . "'\n";
-
-                    $datos .= "mkdir -p '" . $alumno->username . "'\n";
-                    $datos .= "cd '" . $alumno->username . "'\n";
+                    $datos .= "\n";
 
                     $actividades = $alumno->actividades()->where('unidad_id', $unidad->id)->get();
 
                     foreach ($actividades as $actividad) {
+
+                        $datos .= "mkdir -p '" . $actividad->slug . "'\n";
+                        $datos .= "cd '" . $actividad->slug . "'\n";
+
                         foreach ($actividad->intellij_projects()->get() as $project) {
                             if (Str::length($project->pivot->fork) > 0) {
                                 $datos .= "git clone ";
                                 $repositorio = GiteaClient::repo($project->pivot->fork);
-                                $datos .= "'" . $repositorio['http_url_to_repo'] . "'\n";
+                                $datos .= "'" . $repositorio['http_url_to_repo'] . "'";
+                                $datos .= " $alumno->username-" . $repositorio['name'] . "\n";
                             }
                         }
+
+                        $datos .= "cd ..\n";
+
+                        $actividades_revisar = array_unique(array_merge($actividades_revisar, [$actividad->slug]), SORT_REGULAR);
                     }
 
-                    $datos .= "cd \$RUTA";
-                    $datos .= "\n\n";
+                    $datos .= "\n";
+
+                    $datos .= "cd \$RUTA\n";
+                    $datos .= "\n";
                 }
+
+                foreach ($etiquetas_revisar as $etiqueta) {
+                    foreach ($actividades_revisar as $actividad) {
+                        $datos .= "cd $etiqueta/$actividad\n";
+                        $datos .= "jplag\n";
+                        $datos .= "cd \$RUTA\n";
+                        $datos .= "\n";
+                    }
+                }
+
+                $datos .= "\n";
 
                 $datos .= "cd ..";
                 $datos .= "\n";
