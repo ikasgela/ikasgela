@@ -281,46 +281,49 @@ class IntellijProjectController extends Controller
             $curso_actual = Curso::find(setting_usuario('curso_actual'));
 
             if ($curso_actual != null) {
+
                 $datos .= "mkdir '" . $fecha . "-" . $unidad->slug . "'\n";
                 $datos .= "cd '" . $fecha . "-" . $unidad->slug . "'\n";
+                $datos .= "\n";
+
                 $datos .= "RUTA=\"\$PWD\"\n";
                 $datos .= "\n";
 
                 $alumnos = $curso_actual->users()->rolAlumno()->noBloqueado()->get();
 
+                $actividades_revisar = [];
+
                 foreach ($alumnos as $alumno) {
-
-                    $tags = "";
-                    $etiquetas = $alumno->etiquetas();
-                    if (count($etiquetas) > 0) {
-                        foreach ($etiquetas as $etiqueta) {
-                            $tags .= $etiqueta;
-                            if ($etiqueta !== end($etiquetas)) {
-                                $tags .= "-";
-                            }
-                        }
-                    }
-
-                    $datos .= "mkdir -p '" . $tags . "'\n";
-                    $datos .= "cd '" . $tags . "'\n";
-
-                    $datos .= "mkdir -p '" . $alumno->username . "'\n";
-                    $datos .= "cd '" . $alumno->username . "'\n";
 
                     $actividades = $alumno->actividades()->where('unidad_id', $unidad->id)->get();
 
                     foreach ($actividades as $actividad) {
+
+                        $datos .= "mkdir -p '" . $actividad->slug . "'\n";
+                        $datos .= "cd '" . $actividad->slug . "'\n";
+
                         foreach ($actividad->intellij_projects()->get() as $project) {
                             if (Str::length($project->pivot->fork) > 0) {
                                 $datos .= "git clone ";
                                 $repositorio = GiteaClient::repo($project->pivot->fork);
-                                $datos .= "'" . $repositorio['http_url_to_repo'] . "'\n";
+                                $datos .= "'" . $repositorio['http_url_to_repo'] . "'";
+                                $datos .= " $alumno->username-" . $repositorio['name'] . "\n";
                             }
                         }
-                    }
 
-                    $datos .= "cd \$RUTA";
-                    $datos .= "\n\n";
+                        $datos .= "cd \$RUTA\n";
+
+                        $actividades_revisar = array_unique(array_merge($actividades_revisar, [$actividad->slug]), SORT_REGULAR);
+                    }
+                }
+
+                $datos .= "\n";
+
+                foreach ($actividades_revisar as $actividad) {
+                    $datos .= "cd $actividad\n";
+                    $datos .= "jplag\n";
+                    $datos .= "cd \$RUTA\n";
+                    $datos .= "\n";
                 }
 
                 $datos .= "cd ..";
@@ -329,8 +332,6 @@ class IntellijProjectController extends Controller
                 return response()->streamDownload(function () use ($datos) {
                     echo $datos;
                 }, $fichero);
-
-//                return $datos;
             }
         }
 
