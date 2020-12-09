@@ -296,24 +296,6 @@ class IntellijProjectController extends Controller
 
                 foreach ($alumnos as $alumno) {
 
-                    $tags = "";
-                    $etiquetas = $alumno->etiquetas();
-
-                    $etiquetas_revisar = array_unique(array_merge($etiquetas_revisar, $etiquetas), SORT_REGULAR);
-
-                    if (count($etiquetas) > 0) {
-                        foreach ($etiquetas as $etiqueta) {
-                            $tags .= $etiqueta;
-                            if ($etiqueta !== end($etiquetas)) {
-                                $tags .= "-";
-                            }
-                        }
-                    }
-
-                    $datos .= "mkdir -p '" . $tags . "'\n";
-                    $datos .= "cd '" . $tags . "'\n";
-                    $datos .= "\n";
-
                     $actividades = $alumno->actividades()->where('unidad_id', $unidad->id)->get();
 
                     foreach ($actividades as $actividad) {
@@ -330,27 +312,20 @@ class IntellijProjectController extends Controller
                             }
                         }
 
-                        $datos .= "cd ..\n";
+                        $datos .= "cd \$RUTA\n";
 
                         $actividades_revisar = array_unique(array_merge($actividades_revisar, [$actividad->slug]), SORT_REGULAR);
-                    }
-
-                    $datos .= "\n";
-
-                    $datos .= "cd \$RUTA\n";
-                    $datos .= "\n";
-                }
-
-                foreach ($etiquetas_revisar as $etiqueta) {
-                    foreach ($actividades_revisar as $actividad) {
-                        $datos .= "cd $etiqueta/$actividad\n";
-                        $datos .= "jplag\n";
-                        $datos .= "cd \$RUTA\n";
-                        $datos .= "\n";
                     }
                 }
 
                 $datos .= "\n";
+
+                foreach ($actividades_revisar as $actividad) {
+                    $datos .= "cd $actividad\n";
+                    $datos .= "jplag\n";
+                    $datos .= "cd \$RUTA\n";
+                    $datos .= "\n";
+                }
 
                 $datos .= "cd ..";
                 $datos .= "\n";
