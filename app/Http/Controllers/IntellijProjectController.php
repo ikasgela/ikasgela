@@ -291,7 +291,6 @@ class IntellijProjectController extends Controller
 
                 $alumnos = $curso_actual->users()->rolAlumno()->noBloqueado()->get();
 
-                $etiquetas_revisar = [];
                 $actividades_revisar = [];
 
                 foreach ($alumnos as $alumno) {
@@ -333,8 +332,6 @@ class IntellijProjectController extends Controller
                 return response()->streamDownload(function () use ($datos) {
                     echo $datos;
                 }, $fichero);
-
-//                return $datos;
             }
         }
 
