@@ -199,6 +199,7 @@ class ResultController extends Controller
         // Pruebas de evaluación
 
         $pruebas_evaluacion = true;
+        $minimo_examenes = $curso->minimo_examenes;
         $num_pruebas_evaluacion = 0;
         foreach ($unidades as $unidad) {
             if ($unidad->hasEtiqueta('examen')
@@ -206,7 +207,7 @@ class ResultController extends Controller
                 && $resultados_unidades[$unidad->id]->actividad > 0) {
                 $num_pruebas_evaluacion += 1;
 
-                if (($resultados_unidades[$unidad->id]->tarea / $resultados_unidades[$unidad->id]->actividad) * 10 < 5) {
+                if (($resultados_unidades[$unidad->id]->tarea / $resultados_unidades[$unidad->id]->actividad) < $minimo_examenes / 100) {
                     $pruebas_evaluacion = false;
                 }
             }
@@ -270,6 +271,6 @@ class ResultController extends Controller
             'resultados', 'resultados_unidades', 'nota_final',
             'actividades_obligatorias_superadas', 'num_actividades_obligatorias', 'numero_actividades_completadas',
             'pruebas_evaluacion', 'num_pruebas_evaluacion',
-            'media_actividades_grupo', 'competencias_50_porciento', 'minimo_competencias', 'chart']);
+            'media_actividades_grupo', 'competencias_50_porciento', 'minimo_competencias', 'minimo_examenes', 'chart']);
     }
 }

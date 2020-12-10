@@ -24,9 +24,17 @@
                     @endif
                 </li>
             @endif
-            <li>Se deben haber superado todas las pruebas teórico-prácticas individuales de cada competencia.
-                <i class="fas fa-check text-success"></i><i class="fas fa-times text-danger"></i>
-            </li>
+            @if($curso->examenes_obligatorios)
+                <li>Se deben haber superado el {{ $curso->minimo_examenes }}% en las pruebas teórico-prácticas
+                    obligatorias de cada competencia.
+
+                    @if($pruebas_evaluacion)
+                        <i class="fas fa-check text-success"></i>
+                    @else
+                        <i class="fas fa-times text-danger"></i>
+                    @endif
+                </li>
+            @endif
         </ul>
     </div>
 </div>
