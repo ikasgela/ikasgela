@@ -19,7 +19,7 @@
                 @method('PUT')
 
                 <div class="card-body">
-                    <h2>{{ $actividad->nombre }}</h2>
+                    @include('actividades.partials.encabezado_con_etiquetas')
                     <p>{{ $actividad->descripcion }}</p>
                     <div class="form-inline">
                         @if($tarea->estado == 11)

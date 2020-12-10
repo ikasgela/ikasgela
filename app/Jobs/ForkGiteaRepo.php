@@ -62,15 +62,8 @@ class ForkGiteaRepo implements ShouldQueue
                 $fork = null;
 
                 $ruta = $this->actividad->unidad->curso->slug
-                    . '-' . $this->actividad->unidad->slug;
-
-                $nombre_repo = pathinfo(basename($this->intellij_project->repositorio), PATHINFO_EXTENSION);
-
-                if ($this->actividad->slug != $nombre_repo) {
-                    $ruta .= '-' . $this->actividad->slug;
-                }
-
-                $ruta .= '-' . $nombre_repo;
+                    . '-' . $this->actividad->unidad->slug
+                    . '-' . $this->actividad->slug;
 
                 $ruta .= '-' . bin2hex(openssl_random_pseudo_bytes(3));
 
