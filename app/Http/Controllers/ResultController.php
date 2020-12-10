@@ -145,14 +145,16 @@ class ResultController extends Controller
 
         // Actividades obligatorias
 
-        $actividades_obligatorias = true;
+        $minimo_entregadas = $curso->minimo_entregadas;
+
+        $actividades_obligatorias_superadas = true;
         $num_actividades_obligatorias = 0;
         foreach ($unidades as $unidad) {
             if ($unidad->num_actividades('base') > 0) {
                 $num_actividades_obligatorias += $unidad->num_actividades('base');
 
-                if ($user->num_completadas('base', $unidad->id) < $unidad->num_actividades('base')) {
-                    $actividades_obligatorias = false;
+                if ($user->num_completadas('base', $unidad->id) < $unidad->num_actividades('base') * $minimo_entregadas / 100) {
+                    $actividades_obligatorias_superadas = false;
                 }
             }
         }
@@ -265,7 +267,7 @@ class ResultController extends Controller
 
         return compact(['curso', 'skills_curso', 'unidades', 'user', 'users',
             'resultados', 'resultados_unidades', 'nota_final',
-            'actividades_obligatorias', 'num_actividades_obligatorias', 'numero_actividades_completadas',
+            'actividades_obligatorias_superadas', 'num_actividades_obligatorias', 'numero_actividades_completadas',
             'pruebas_evaluacion', 'num_pruebas_evaluacion',
             'media_actividades_grupo', 'competencias_50_porciento', 'chart']);
     }
