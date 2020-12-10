@@ -78,7 +78,10 @@
         ],
         "psr-4": {
             "App\\": "app/"
-        }
+        },
+        "files": [
+            "app/Helpers/CloudflareHelper.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
