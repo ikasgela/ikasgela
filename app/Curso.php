@@ -81,4 +81,10 @@ class Curso extends Model
     {
         return $this->hasManyThrough('App\Actividad', 'App\Unidad');
     }
+
+    public function disponible()
+    {
+        return isset($this->fecha_inicio) && $this->fecha_inicio->lt(now())
+            && isset($this->fecha_fin) && $this->fecha_fin->gt(now());
+    }
 }

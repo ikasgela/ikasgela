@@ -50,7 +50,7 @@
             <p class="card-text"
                style="font-size:150%;">{{ ($actividades_obligatorias_superadas || $num_actividades_obligatorias == 0)
                 && (!$curso->examenes_obligatorios || $pruebas_evaluacion || $num_pruebas_evaluacion == 0)
-                && $competencias_50_porciento ? $nota_final : __('Unavailable') }}</p>
+                && $competencias_50_porciento ? $nota_final : ($curso->disponible() ? __('Unavailable') : __('Fail')) }}</p>
         </div>
     </div>
 </div>
