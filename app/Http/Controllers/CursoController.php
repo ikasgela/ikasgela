@@ -39,6 +39,7 @@ class CursoController extends Controller
         $this->validate($request, [
             'category_id' => 'required',
             'nombre' => 'required',
+            'plazo_actividad' => 'required',
         ]);
 
         Curso::create([
@@ -82,8 +83,9 @@ class CursoController extends Controller
     public function update(Request $request, Curso $curso)
     {
         $this->validate($request, [
-            'nombre' => 'required',
             'category_id' => 'required',
+            'nombre' => 'required',
+            'plazo_actividad' => 'required',
         ]);
 
         $curso->update([
