@@ -11,7 +11,7 @@ class CursosCRUDTest extends TestCase
     use DatabaseTransactions;
 
     private $required = [
-        'nombre', 'category_id'
+        'nombre', 'category_id', 'plazo_actividad'
     ];
 
     public function setUp(): void

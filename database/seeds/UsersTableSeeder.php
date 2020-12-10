@@ -33,9 +33,9 @@ class UsersTableSeeder extends Seeder
         $egibide = Organization::where('slug', 'egibide')->first();
         $deusto = Organization::where('slug', 'deusto')->first();
 
-        $this->generarUsuario('Marc', 'Watney', 'marc@ikasgela.com', [$rol_alumno], [], [$curso_ikasgela], [$ikasgela]);
-        $this->generarUsuario('Noa', 'Ark', 'noa@ikasgela.com', [$rol_alumno], [], [$curso_ikasgela], [$ikasgela]);
-        $this->generarUsuario('Lucía', '', 'lucia@ikasgela.com', [$rol_profesor, $rol_admin, $rol_tutor], [], [$curso_ikasgela], [$ikasgela]);
+        $this->generarUsuario('Marc', 'Watney', 'marc@ikasgela.com', [$rol_alumno], [], [$curso_ikasgela], [$ikasgela], "B");
+        $this->generarUsuario('Noa', 'Ark', 'noa@ikasgela.com', [$rol_alumno], [], [$curso_ikasgela], [$ikasgela], "A");
+        $this->generarUsuario('Lucía', '', 'lucia@ikasgela.com', [$rol_profesor, $rol_admin, $rol_tutor], [], [$curso_ikasgela], [$ikasgela], "B");
 //        $this->generarUsuario('Administrador', 'admin@ikasgela.com', [$rol_admin], [], [], [$ikasgela]);
 //
 //        $this->generarUsuario('Deusto', 'ikasgela@deusto.es', [$rol_alumno], [], [$curso_deusto], [$deusto]);
@@ -46,7 +46,7 @@ class UsersTableSeeder extends Seeder
 //        $this->generarUsuario('Ion Jaureguialzo Sarasola', 'ijaureguialzo@deusto.es', [$rol_profesor, $rol_admin], [], [$curso_deusto], [$deusto]);
     }
 
-    private function generarUsuario(string $nombre, string $apellido, string $email, $roles, $equipos, $cursos, $organizations): void
+    private function generarUsuario(string $nombre, string $apellido, string $email, $roles, $equipos, $cursos, $organizations, $tags): void
     {
         $usuario = User::generar_username($email);
         $password = App::environment(['local', 'test', 'dusk.local']) ? '12345Abcde' : bin2hex(openssl_random_pseudo_bytes(16));;   // REF: https://stackoverflow.com/a/21498316
@@ -60,6 +60,7 @@ class UsersTableSeeder extends Seeder
         $user->email_verified_at = $fecha;
         $user->password = bcrypt($password);
         $user->tutorial = true;
+        $user->tags = $tags;
         $user->save();
 
         foreach ($roles as $rol) {

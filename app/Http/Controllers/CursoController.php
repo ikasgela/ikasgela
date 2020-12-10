@@ -39,6 +39,7 @@ class CursoController extends Controller
         $this->validate($request, [
             'category_id' => 'required',
             'nombre' => 'required',
+            'plazo_actividad' => 'required',
         ]);
 
         Curso::create([
@@ -52,6 +53,9 @@ class CursoController extends Controller
             'fecha_inicio' => request('fecha_inicio'),
             'fecha_fin' => request('fecha_fin'),
             'minimo_entregadas' => request('minimo_entregadas'),
+            'minimo_competencias' => request('minimo_competencias'),
+            'minimo_examenes' => request('minimo_examenes'),
+            'examenes_obligatorios' => $request->has('examenes_obligatorios'),
         ]);
 
         return retornar();
@@ -81,8 +85,9 @@ class CursoController extends Controller
     public function update(Request $request, Curso $curso)
     {
         $this->validate($request, [
-            'nombre' => 'required',
             'category_id' => 'required',
+            'nombre' => 'required',
+            'plazo_actividad' => 'required',
         ]);
 
         $curso->update([
@@ -98,6 +103,9 @@ class CursoController extends Controller
             'fecha_inicio' => request('fecha_inicio'),
             'fecha_fin' => request('fecha_fin'),
             'minimo_entregadas' => request('minimo_entregadas'),
+            'minimo_competencias' => request('minimo_competencias'),
+            'minimo_examenes' => request('minimo_examenes'),
+            'examenes_obligatorios' => $request->has('examenes_obligatorios'),
         ]);
 
         return retornar();

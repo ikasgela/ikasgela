@@ -25,12 +25,12 @@
         <tr>
             <td>
                 <table
-                    class="tabla-marcador {{ $num_actividades_obligatorias > 0 ? $actividades_obligatorias ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
+                    class="tabla-marcador {{ $num_actividades_obligatorias > 0 ? $actividades_obligatorias_superadas ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
                     <tr>
                         <th>{{ __('Mandatory activities') }}</th>
                     </tr>
                     <tr>
-                        <td class="text-center">{{ $num_actividades_obligatorias > 0 ? $actividades_obligatorias ? trans_choice('tasks.completed', 2) : ($numero_actividades_completadas+0)."/".($num_actividades_obligatorias+0)  : __('None') }}</td>
+                        <td class="text-center">{{ $num_actividades_obligatorias > 0 ? $actividades_obligatorias_superadas ? trans_choice('tasks.completed', 2) : ($numero_actividades_completadas+0)."/".($num_actividades_obligatorias+0)  : __('None') }}</td>
                     </tr>
                 </table>
             </td>
@@ -47,7 +47,22 @@
             </td>
             <td>
                 <table
-                    class="tabla-marcador {{ ($actividades_obligatorias || $num_actividades_obligatorias == 0)
+                    class="tabla-marcador {{ ($actividades_obligatorias_superadas || $num_actividades_obligatorias == 0)
+                && ($pruebas_evaluacion || $num_pruebas_evaluacion == 0)
+                && $competencias_50_porciento && $nota_final >= 5 ? 'bg-success text-white' : 'bg-warning text-dark' }}">
+                    <tr>
+                        <th>{{ __('Continuous evaluation') }}</th>
+                    </tr>
+                    <tr>
+                        <td class="text-center">{{ ($actividades_obligatorias_superadas || $num_actividades_obligatorias == 0)
+                && ($pruebas_evaluacion || $num_pruebas_evaluacion == 0)
+                && $competencias_50_porciento && $nota_final >= 5 ? trans_choice('tasks.passed', 1) : trans_choice('tasks.not_passed', 1) }}</td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table
+                    class="tabla-marcador {{ ($actividades_obligatorias_superadas || $num_actividades_obligatorias == 0)
                 && ($pruebas_evaluacion || $num_pruebas_evaluacion == 0)
                 && $competencias_50_porciento ? $nota_final >= 5 ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
                     <tr>
@@ -55,21 +70,6 @@
                     </tr>
                     <tr>
                         <td class="text-center">{{ $competencias_50_porciento ? $nota_final : __('Unavailable') }}</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <table
-                    class="tabla-marcador {{ ($actividades_obligatorias || $num_actividades_obligatorias == 0)
-                && ($pruebas_evaluacion || $num_pruebas_evaluacion == 0)
-                && $competencias_50_porciento && $nota_final >= 5 ? 'bg-success text-white' : 'bg-warning text-dark' }}">
-                    <tr>
-                        <th>{{ __('Continuous evaluation') }}</th>
-                    </tr>
-                    <tr>
-                        <td class="text-center">{{ ($actividades_obligatorias || $num_actividades_obligatorias == 0)
-                && ($pruebas_evaluacion || $num_pruebas_evaluacion == 0)
-                && $competencias_50_porciento && $nota_final >= 5 ? trans_choice('tasks.passed', 1) : trans_choice('tasks.not_passed', 1) }}</td>
                     </tr>
                 </table>
             </td>

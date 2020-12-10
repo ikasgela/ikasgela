@@ -25,7 +25,10 @@
                 <th>{{ __('Slug') }}</th>
                 <th>{{ __('Simultaneous activities') }}</th>
                 <th>{{ __('Activity deadline') }}</th>
-                <th>{{ __('Minimum percent') }}</th>
+                <th>{{ __('Minimum completed percent') }}</th>
+                <th>{{ __('Minimum skills percent') }}</th>
+                <th>{{ __('Minimum exams percent') }}</th>
+                <th>{{ __('Mandatory exams') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -42,6 +45,9 @@
                     <td>{{ $curso->max_simultaneas ?? __('Undefined') }}</td>
                     <td>{{ $curso->plazo_actividad ?? __('Undefined') }}</td>
                     <td>{{ $curso->minimo_entregadas ?? __('Undefined') }}</td>
+                    <td>{{ $curso->minimo_competencias ?? __('Undefined') }}</td>
+                    <td>{{ $curso->minimo_examenes ?? __('Undefined') }}</td>
+                    <td>{{ $curso->examenes_obligatorios ? __('Yes') : __('No') }}</td>
                     <td>
                         <form method="POST" action="{{ route('cursos.destroy', [$curso->id]) }}">
                             @csrf

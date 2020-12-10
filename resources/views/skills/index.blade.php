@@ -17,6 +17,7 @@
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Description') }}</th>
                 <th>{{ __('Exam weight') }}</th>
+                <th>{{ __('Minimum percent') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -28,6 +29,7 @@
                     <td>{{ $skill->name }}</td>
                     <td>{{ $skill->description }}</td>
                     <td>{{ $skill->peso_examen }}</td>
+                    <td>{{ $skill->minimo_competencias }}</td>
                     <td class="text-nowrap">
                         {!! Form::open(['route' => ['skills.destroy', $skill->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>
