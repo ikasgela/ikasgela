@@ -54,6 +54,8 @@ class CursoController extends Controller
             'fecha_fin' => request('fecha_fin'),
             'minimo_entregadas' => request('minimo_entregadas'),
             'minimo_competencias' => request('minimo_competencias'),
+            'minimo_examenes' => request('minimo_examenes'),
+            'examenes_obligatorios' => $request->has('examenes_obligatorios'),
         ]);
 
         return retornar();
@@ -102,6 +104,8 @@ class CursoController extends Controller
             'fecha_fin' => request('fecha_fin'),
             'minimo_entregadas' => request('minimo_entregadas'),
             'minimo_competencias' => request('minimo_competencias'),
+            'minimo_examenes' => request('minimo_examenes'),
+            'examenes_obligatorios' => $request->has('examenes_obligatorios'),
         ]);
 
         return retornar();
