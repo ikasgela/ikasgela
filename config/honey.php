@@ -19,8 +19,8 @@ return [
      * feature offered and the steps required to get it set up.
      */
     'features' => [
-        Features::spammerIpTracking(),
-        Features::blockSpammersGlobally(),
+//        Features::spammerIpTracking(),
+//        Features::blockSpammersGlobally(),
 //        Features::neverGonnaGiveYouUp(),
     ],
 
