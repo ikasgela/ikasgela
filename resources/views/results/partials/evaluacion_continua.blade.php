@@ -10,6 +10,17 @@
                style="font-size:150%;">{{ $num_actividades_obligatorias > 0 ? $actividades_obligatorias_superadas ? trans_choice('tasks.completed', 2) : ($numero_actividades_completadas+0)."/".($num_actividades_obligatorias+0)  : __('None') }}</p>
         </div>
     </div>
+    @if($minimo_competencias > 0)
+        <div
+            class="card mb-3 {{ $competencias_50_porciento ? 'bg-success text-white' : 'bg-warning text-dark' }}">
+            <div class="card-header">{{ __('Skills') }}</div>
+            <div class="card-body text-center">
+                <p class="card-text"
+                   style="font-size:150%;">
+                    {{ $competencias_50_porciento ? trans_choice('tasks.passed', 2) : trans_choice('tasks.not_passed', 2) }}</p>
+            </div>
+        </div>
+    @endif
     <div
         class="card mb-3 {{ $num_pruebas_evaluacion > 0 ? $pruebas_evaluacion ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
         <div class="card-header">{{ __('Assessment tests') }}</div>

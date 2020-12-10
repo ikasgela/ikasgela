@@ -13,9 +13,17 @@
                     @endif
                 </li>
             @endif
-            <li>Se debe superar el 50% en cada una de las competencias de forma individual.
-                <i class="fas fa-check text-success"></i><i class="fas fa-times text-danger"></i>
-            </li>
+            @if($curso->minimo_competencias > 0)
+                <li>Se debe superar el {{ $curso->minimo_competencias }}% en cada una de las competencias de forma
+                    individual.
+
+                    @if($competencias_50_porciento)
+                        <i class="fas fa-check text-success"></i>
+                    @else
+                        <i class="fas fa-times text-danger"></i>
+                    @endif
+                </li>
+            @endif
             <li>Se deben haber superado todas las pruebas teórico-prácticas individuales de cada competencia.
                 <i class="fas fa-check text-success"></i><i class="fas fa-times text-danger"></i>
             </li>

@@ -43,6 +43,7 @@
                     <td>{{ $curso->max_simultaneas ?? __('Undefined') }}</td>
                     <td>{{ $curso->plazo_actividad ?? __('Undefined') }}</td>
                     <td>{{ $curso->minimo_entregadas ?? __('Undefined') }}</td>
+                    <td>{{ $curso->minimo_competencias ?? __('Undefined') }}</td>
                     <td>
                         <form method="POST" action="{{ route('cursos.destroy', [$curso->id]) }}">
                             @csrf

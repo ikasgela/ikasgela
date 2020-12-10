@@ -63,6 +63,7 @@ class ResultController extends Controller
         $skills_curso = [];
         $resultados = [];
         $competencias_50_porciento = true;
+        $minimo_competencias = $curso->minimo_competencias;
 
         if (!is_null($curso) && !is_null($curso->qualification)) {
             $skills_curso = $curso->qualification->skills;
@@ -117,8 +118,8 @@ class ResultController extends Controller
 
                     }
 
-                    // TODO: Revisar como influye este ajuste cuando hay exámenes
-                    if ($resultados[$skill->id]->actividad > 0 && $resultados[$skill->id]->tarea / $resultados[$skill->id]->actividad < 0.5)
+                    // Aplicar el criterio del mínimo de competencias
+                    if ($resultados[$skill->id]->actividad > 0 && $resultados[$skill->id]->tarea / $resultados[$skill->id]->actividad < $minimo_competencias / 100)
                         $competencias_50_porciento = false;
                 }
             }
@@ -269,6 +270,6 @@ class ResultController extends Controller
             'resultados', 'resultados_unidades', 'nota_final',
             'actividades_obligatorias_superadas', 'num_actividades_obligatorias', 'numero_actividades_completadas',
             'pruebas_evaluacion', 'num_pruebas_evaluacion',
-            'media_actividades_grupo', 'competencias_50_porciento', 'chart']);
+            'media_actividades_grupo', 'competencias_50_porciento', 'minimo_competencias', 'chart']);
     }
 }

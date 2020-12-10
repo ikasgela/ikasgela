@@ -70,13 +70,13 @@
                 <div class="ml-5 progress" style="height: 24px;">
                     @php($porcentaje_competencia = $resultado->porcentaje_competencia())
                     <div
-                            class="progress-bar {{ $porcentaje_competencia<50 ? 'bg-warning text-dark' : 'bg-success' }}"
-                            role="progressbar"
-                            style="width: {{ $porcentaje_competencia }}%;"
-                            aria-valuenow="{{ $porcentaje_competencia }}"
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                            title="{{ $resultado->tarea }}/{{ $resultado->actividad }}">
+                        class="progress-bar {{ $porcentaje_competencia < $minimo_competencias ? 'bg-warning text-dark' : 'bg-success' }}"
+                        role="progressbar"
+                        style="width: {{ $porcentaje_competencia }}%;"
+                        aria-valuenow="{{ $porcentaje_competencia }}"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        title="{{ $resultado->tarea }}/{{ $resultado->actividad }}">
                         {{ formato_decimales($porcentaje_competencia) }}&thinsp;%
                     </div>
                 </div>
