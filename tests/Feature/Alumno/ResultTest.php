@@ -19,7 +19,7 @@ class ResultTest extends TestCase
 
     public function setUp(): void
     {
-        //$this->markTestSkipped('Tests desactivados.');
+        $this->markTestSkipped('Tests desactivados.');
 
         parent::setUp();
         parent::crearUsuarios();
