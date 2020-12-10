@@ -27,6 +27,8 @@
             {{ Form::campoTexto('description', __('Description')) }}
             {{ Form::campoTexto('peso_examen', __('Exam weight')) }}
 
+            {{ Form::campoTexto('minimo_competencias', __('Minimum percent')) }}
+
             @include('partials.guardar_cancelar')
 
             @include('layouts.errors')

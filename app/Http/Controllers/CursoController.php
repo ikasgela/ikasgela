@@ -52,6 +52,7 @@ class CursoController extends Controller
             'fecha_inicio' => request('fecha_inicio'),
             'fecha_fin' => request('fecha_fin'),
             'minimo_entregadas' => request('minimo_entregadas'),
+            'minimo_competencias' => request('minimo_competencias'),
         ]);
 
         return retornar();
@@ -98,6 +99,7 @@ class CursoController extends Controller
             'fecha_inicio' => request('fecha_inicio'),
             'fecha_fin' => request('fecha_fin'),
             'minimo_entregadas' => request('minimo_entregadas'),
+            'minimo_competencias' => request('minimo_competencias'),
         ]);
 
         return retornar();

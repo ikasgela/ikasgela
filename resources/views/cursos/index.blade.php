@@ -25,7 +25,8 @@
                 <th>{{ __('Slug') }}</th>
                 <th>{{ __('Simultaneous activities') }}</th>
                 <th>{{ __('Activity deadline') }}</th>
-                <th>{{ __('Minimum percent') }}</th>
+                <th>{{ __('Minimum completed percent') }}</th>
+                <th>{{ __('Minimum skills percent') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
