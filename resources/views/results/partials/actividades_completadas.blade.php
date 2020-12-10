@@ -58,12 +58,13 @@
                 <p class="ml-5">{{ $unidad->descripcion }}</p>
                 <div class="ml-5 progress" style="height: 24px;">
                     @php($porcentaje = $resultados_unidades[$unidad->id]->actividad > 0 ? round($resultados_unidades[$unidad->id]->tarea/$resultados_unidades[$unidad->id]->actividad*100) : 0)
-                    <div class="progress-bar {{ $porcentaje<50 ? 'bg-warning text-dark' : 'bg-success' }}"
-                         role="progressbar"
-                         style="width: {{ $porcentaje }}%;"
-                         aria-valuenow="{{ $porcentaje }}"
-                         aria-valuemin="0"
-                         aria-valuemax="100">@if($porcentaje>0){{ $porcentaje }}&thinsp;%@endif
+                    <div
+                        class="progress-bar {{ $porcentaje< ($unidad->hasEtiqueta('examen') ? $minimo_examenes : $minimo_competencias) ? 'bg-warning text-dark' : 'bg-success' }}"
+                        role="progressbar"
+                        style="width: {{ $porcentaje }}%;"
+                        aria-valuenow="{{ $porcentaje }}"
+                        aria-valuemin="0"
+                        aria-valuemax="100">@if($porcentaje>0){{ $porcentaje }}&thinsp;%@endif
                     </div>
                 </div>
                 <div class="text-muted small text-right">
