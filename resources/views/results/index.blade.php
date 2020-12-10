@@ -6,21 +6,23 @@
         <h1>{{ __('Results') }}
             @if(!is_null($user->curso_actual()))
 
-                @if(!Auth::user()->hasAnyRole(['profesor', 'tutor']))
-                    <a class="ml-3"
-                       style="color:#ed2224" {{-- https://www.schemecolor.com/adobe-inc-logo-colors.php --}}
-                       title="{{ __('Export to PDF') }}"
-                       href="{{ route('results.pdf') }}"><i class="fas fa-file-pdf"></i>
-                    </a>
-                @else
-                    {!! Form::open(['route' => ['results.pdf'], 'method' => 'POST', 'class'=>'d-inline']) !!}
-                    {!! Form::button('<i class="fas fa-file-pdf"></i>', [
-                        'type' => 'submit',
-                        'class'=>'btn btn-link',
-                        'style'=>'color:#ed2224; font-size:inherit; display:inline; padding-top:0;',
-                    ]) !!}
-                    {!! Form::hidden('user_id',request()->user_id) !!}
-                    {!! Form::close() !!}
+                @if(config('app.debug'))
+                    @if(!Auth::user()->hasAnyRole(['profesor', 'tutor']))
+                        <a class="ml-3"
+                           style="color:#ed2224" {{-- https://www.schemecolor.com/adobe-inc-logo-colors.php --}}
+                           title="{{ __('Export to PDF') }}"
+                           href="{{ route('results.pdf') }}"><i class="fas fa-file-pdf"></i>
+                        </a>
+                    @else
+                        {!! Form::open(['route' => ['results.pdf'], 'method' => 'POST', 'class'=>'d-inline']) !!}
+                        {!! Form::button('<i class="fas fa-file-pdf"></i>', [
+                            'type' => 'submit',
+                            'class'=>'btn btn-link',
+                            'style'=>'color:#ed2224; font-size:inherit; display:inline; padding-top:0;',
+                        ]) !!}
+                        {!! Form::hidden('user_id',request()->user_id) !!}
+                        {!! Form::close() !!}
+                    @endif
                 @endif
             @endif
         </h1>
