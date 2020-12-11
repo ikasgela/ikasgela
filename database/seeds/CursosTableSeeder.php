@@ -27,7 +27,9 @@ class CursosTableSeeder extends Seeder
             'category_id' => $category->id,
             'nombre' => $nombre,
             'descripcion' => 'Fundamentos de Programación con Java.',
-            'slug' => Str::slug($nombre)
+            'slug' => Str::slug($nombre),
+            'fecha_inicio' => now()->addDays(-7),
+            'fecha_fin' => now()->addMonths(3),
         ]);
 
         $category = Category::whereHas('period.organization', function ($query) {
@@ -42,7 +44,9 @@ class CursosTableSeeder extends Seeder
             'category_id' => $category->id,
             'nombre' => $nombre,
             'descripcion' => 'Asignatura: Programación I, Grado Dual en Industria Digital.',
-            'slug' => Str::slug($nombre)
+            'slug' => Str::slug($nombre),
+            'fecha_inicio' => now()->addDays(-7),
+            'fecha_fin' => now()->addMonths(3),
         ]);
 
         $category = Category::whereHas('period.organization', function ($query) {
@@ -57,7 +61,9 @@ class CursosTableSeeder extends Seeder
             'category_id' => $category->id,
             'nombre' => $nombre,
             'descripcion' => 'Módulo: Programación, CFGS en Desarrollo de Aplicaciones Multiplataforma.',
-            'slug' => Str::slug($nombre)
+            'slug' => Str::slug($nombre),
+            'fecha_inicio' => now()->addDays(-7),
+            'fecha_fin' => now()->addMonths(3),
         ]);
     }
 }

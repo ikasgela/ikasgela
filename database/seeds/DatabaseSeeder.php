@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PeriodsTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
         $this->call(CursosTableSeeder::class);
-//        $this->call(UnidadesTableSeeder::class);
+        $this->call(UnidadesTableSeeder::class);
 
         $this->call(FeedbacksTableSeeder::class);
 
@@ -33,13 +33,11 @@ class DatabaseSeeder extends Seeder
         $this->call(FileUploadsTableSeeder::class);
         $this->call(FileResourceSeeder::class);
 
-//        $this->call(ActividadesTableSeeder::class);
-//        $this->call(TareasTableSeeder::class);
-//        $this->call(RegistrosTableSeeder::class);
-//
-//        $this->call(QualificationsTableSeeder::class);
+        $this->call(ActividadesTableSeeder::class);
+        $this->call(TareasTableSeeder::class);
+        $this->call(RegistrosTableSeeder::class);
 
-        $this->call(NoaSeeder::class);
+        $this->call(QualificationsTableSeeder::class);
 
     }
 }
