@@ -105,7 +105,7 @@
                             @case(20)   {{-- Aceptada --}}
                             @case(21)   {{-- Feedback leído --}}
                             @if($actividad->envioPermitido())
-                                @if(!isset($actividad->unidad->curso->fecha_fin) || $actividad->unidad->curso->fecha_fin->gt(\Carbon\Carbon::now()) || $actividad->hasEtiqueta('examen'))
+                                @if($actividad->unidad->curso->disponible() || $actividad->hasEtiqueta('examen'))
                                     @if(!$actividad->tarea->is_expired)
                                         <button type="submit" name="nuevoestado" value="30"
                                                 class="btn btn-primary mr-2 single_click">
