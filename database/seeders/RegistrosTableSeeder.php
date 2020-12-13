@@ -1,18 +1,17 @@
 <?php
 
-use App\IntellijProject;
+namespace Database\Seeders;
+
 use App\Registro;
 use App\Tarea;
-use App\Team;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 
 class RegistrosTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */

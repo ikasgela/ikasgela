@@ -1,12 +1,14 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\FileUpload;
 use Illuminate\Database\Seeder;
 
 class FileUploadsTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */

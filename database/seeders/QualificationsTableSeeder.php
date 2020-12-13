@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Curso;
 use App\Organization;
 use App\Qualification;
@@ -10,7 +12,7 @@ use Illuminate\Database\Seeder;
 class QualificationsTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */

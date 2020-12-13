@@ -1,12 +1,14 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\YoutubeVideo;
 use Illuminate\Database\Seeder;
 
 class YoutubeVideosTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */

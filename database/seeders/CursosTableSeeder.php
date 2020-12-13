@@ -1,15 +1,16 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Category;
 use App\Curso;
-use App\Period;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 class CursosTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */

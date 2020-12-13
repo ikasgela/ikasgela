@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\IntellijProject;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -7,7 +9,7 @@ use Illuminate\Support\Str;
 class IntellijProjectsTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */

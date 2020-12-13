@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Curso;
 use App\Feedback;
 use Illuminate\Database\Seeder;
@@ -7,7 +9,7 @@ use Illuminate\Database\Seeder;
 class FeedbacksTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */

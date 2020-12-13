@@ -1,12 +1,14 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\FileResource;
 use Illuminate\Database\Seeder;
 
 class FileResourceSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */
