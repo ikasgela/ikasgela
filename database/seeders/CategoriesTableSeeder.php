@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Category;
 use App\Period;
 use Illuminate\Database\Seeder;
@@ -8,7 +10,7 @@ use Illuminate\Support\Str;
 class CategoriesTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */

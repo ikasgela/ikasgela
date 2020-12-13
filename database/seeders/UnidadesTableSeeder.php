@@ -1,8 +1,8 @@
 <?php
 
-use App\Category;
+namespace Database\Seeders;
+
 use App\Curso;
-use App\Period;
 use App\Unidad;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 class UnidadesTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */

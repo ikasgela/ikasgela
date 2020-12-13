@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Actividad;
 use App\Cuestionario;
 use App\FileUpload;
@@ -12,7 +14,7 @@ use Illuminate\Support\Str;
 class ActividadesTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */

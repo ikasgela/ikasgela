@@ -1,14 +1,15 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Cuestionario;
-use App\Curso;
 use App\Pregunta;
 use Illuminate\Database\Seeder;
 
 class PreguntasTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */

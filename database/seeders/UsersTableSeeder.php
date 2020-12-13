@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Curso;
 use App\Gitea\GiteaClient;
 use App\Organization;
@@ -9,6 +11,7 @@ use App\User;
 use Carbon\Carbon;
 use GrahamCampbell\GitLab\Facades\GitLab;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\App;
 
 class UsersTableSeeder extends Seeder
 {
