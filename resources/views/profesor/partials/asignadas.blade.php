@@ -1,5 +1,7 @@
 @include('partials.subtitulo', ['subtitulo' => __('Assigned activities')])
 
+@include('profesor.partials.selector_unidad',['nombre_variable' => 'unidad_id_asignadas'])
+
 @if($actividades->count() > 0 )
     <div class="table-responsive">
         <table class="table table-hover">

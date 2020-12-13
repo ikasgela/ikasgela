@@ -1,6 +1,6 @@
 @include('partials.subtitulo', ['subtitulo' => __('Available activities')])
 
-@include('profesor.partials.selector_unidad')
+@include('profesor.partials.selector_unidad',['nombre_variable' => 'unidad_id_disponibles'])
 
 @if($disponibles->count() > 0)
     <form method="POST" action="{{ route('profesor.asignar_tarea', ['user' => $user->id]) }}">

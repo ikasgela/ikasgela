@@ -88,8 +88,8 @@ class ProfesorController extends Controller
 
         $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
 
-        if ($request->has('unidad_id')) {
-            session(['profesor_unidad_actual' => $request->input('unidad_id')]);
+        if ($request->has('unidad_id_disponibles')) {
+            session(['profesor_unidad_id_disponibles' => $request->input('unidad_id_disponibles')]);
         }
 
         $disponibles = $this->actividadesDisponibles();
@@ -130,6 +130,14 @@ class ProfesorController extends Controller
             session(['profesor_filtro_alumnos' => $request->input('filtro_alumnos')]);
         }
 
+        if ($request->has('unidad_id_disponibles')) {
+            session(['profesor_unidad_id_disponibles' => $request->input('unidad_id_disponibles')]);
+        }
+
+        if ($request->has('unidad_id_asignadas')) {
+            session(['profesor_unidad_id_asignadas' => $request->input('unidad_id_asignadas')]);
+        }
+
         if ($request->has('filtro_actividades_examen')) {
             if (session('profesor_filtro_actividades_examen') == 'E') {
                 session(['profesor_filtro_actividades_examen' => '']);
@@ -151,6 +159,10 @@ class ProfesorController extends Controller
             $actividades = $actividades->tag('examen', false);
         }
 
+        if (session('profesor_unidad_id_asignadas')) {
+            $actividades = $actividades->where('unidad_id', session('profesor_unidad_id_asignadas'));
+        }
+
         $actividades = $this->paginate_ultima($actividades, config('ikasgela.pagination_assigned_activities'), 'asignadas');
 
         $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
@@ -169,10 +181,6 @@ class ProfesorController extends Controller
         $user_siguiente = null;
         if (isset($usuarios[$pos + 1])) {
             $user_siguiente = $usuarios[$pos + 1];
-        }
-
-        if ($request->has('unidad_id')) {
-            session(['profesor_unidad_actual' => $request->input('unidad_id')]);
         }
 
         $disponibles = $this->actividadesDisponibles();
@@ -273,8 +281,8 @@ class ProfesorController extends Controller
     {
         $actividades_curso = Actividad::plantilla()->cursoActual()->orderBy('orden');
 
-        if (session('profesor_unidad_actual')) {
-            $disponibles = $actividades_curso->where('unidad_id', session('profesor_unidad_actual'));
+        if (session('profesor_unidad_id_disponibles')) {
+            $disponibles = $actividades_curso->where('unidad_id', session('profesor_unidad_id_disponibles'));
         } else {
             $disponibles = $actividades_curso;
         }

@@ -58,12 +58,12 @@ class ActividadController extends Controller
 
         $todas_unidades = Unidad::orderBy('curso_id')->orderBy('codigo')->orderBy('nombre')->get();
 
-        if ($request->has('unidad_id')) {
-            session(['profesor_unidad_actual' => $request->input('unidad_id')]);
+        if ($request->has('unidad_id_disponibles')) {
+            session(['profesor_unidad_id_disponibles' => $request->input('unidad_id_disponibles')]);
         }
 
-        if (session('profesor_unidad_actual')) {
-            $actividades = Actividad::cursoActual()->plantilla()->where('unidad_id', session('profesor_unidad_actual'))->orderBy('orden')->orderBy('id');
+        if (session('profesor_unidad_id_disponibles')) {
+            $actividades = Actividad::cursoActual()->plantilla()->where('unidad_id', session('profesor_unidad_id_disponibles'))->orderBy('orden')->orderBy('id');
         } else {
             $actividades = Actividad::cursoActual()->plantilla()->where('plantilla', true)->orderBy('orden')->orderBy('id');
         }
