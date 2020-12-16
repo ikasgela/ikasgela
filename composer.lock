@@ -75,16 +75,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.169.0",
+            "version": "3.170.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "d15a231355e4435fc33bab83df075ec31edd0a9b"
+                "reference": "7f457a08219173eba4b856cb7aef3a903cd790cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/d15a231355e4435fc33bab83df075ec31edd0a9b",
-                "reference": "d15a231355e4435fc33bab83df075ec31edd0a9b",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/7f457a08219173eba4b856cb7aef3a903cd790cc",
+                "reference": "7f457a08219173eba4b856cb7aef3a903cd790cc",
                 "shasum": ""
             },
             "require": {
@@ -159,9 +159,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.169.0"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.170.0"
             },
-            "time": "2020-12-14T19:12:33+00:00"
+            "time": "2020-12-15T19:13:22+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -211,16 +211,16 @@
         },
         {
             "name": "bkwld/cloner",
-            "version": "3.9.0",
+            "version": "3.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BKWLD/cloner.git",
-                "reference": "d47d92c442a06a96d5971e2a74a9ca67d74ae7e3"
+                "reference": "e56d2c302cb5b53f8c09fa79e8d699c44f0e8971"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BKWLD/cloner/zipball/d47d92c442a06a96d5971e2a74a9ca67d74ae7e3",
-                "reference": "d47d92c442a06a96d5971e2a74a9ca67d74ae7e3",
+                "url": "https://api.github.com/repos/BKWLD/cloner/zipball/e56d2c302cb5b53f8c09fa79e8d699c44f0e8971",
+                "reference": "e56d2c302cb5b53f8c09fa79e8d699c44f0e8971",
                 "shasum": ""
             },
             "require": {
@@ -264,9 +264,9 @@
             "description": "A trait for Laravel Eloquent models that lets you clone of a model and it's relationships, including files.",
             "support": {
                 "issues": "https://github.com/BKWLD/cloner/issues",
-                "source": "https://github.com/BKWLD/cloner/tree/3.9.0"
+                "source": "https://github.com/BKWLD/cloner/tree/3.9.1"
             },
-            "time": "2020-09-13T19:46:22+00:00"
+            "time": "2020-12-15T16:16:31+00:00"
         },
         {
             "name": "brick/math",
@@ -2556,16 +2556,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.18.1",
+            "version": "v8.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "31747193c26ba0a9cb7929a912895d3cdefd10cf"
+                "reference": "f5f331cee60f1bbe672503b7eb9ba5b22b2ceacb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/31747193c26ba0a9cb7929a912895d3cdefd10cf",
-                "reference": "31747193c26ba0a9cb7929a912895d3cdefd10cf",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/f5f331cee60f1bbe672503b7eb9ba5b22b2ceacb",
+                "reference": "f5f331cee60f1bbe672503b7eb9ba5b22b2ceacb",
                 "shasum": ""
             },
             "require": {
@@ -2719,7 +2719,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2020-12-08T22:05:12+00:00"
+            "time": "2020-12-15T16:16:31+00:00"
         },
         {
             "name": "laravel/helpers",
@@ -2893,16 +2893,16 @@
         },
         {
             "name": "laravelcollective/html",
-            "version": "v6.2.0",
+            "version": "v6.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LaravelCollective/html.git",
-                "reference": "3bb99be7502feb2129b375cd026ccb0fa4b66628"
+                "reference": "ae15b9c4bf918ec3a78f092b8555551dd693fde3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/3bb99be7502feb2129b375cd026ccb0fa4b66628",
-                "reference": "3bb99be7502feb2129b375cd026ccb0fa4b66628",
+                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/ae15b9c4bf918ec3a78f092b8555551dd693fde3",
+                "reference": "ae15b9c4bf918ec3a78f092b8555551dd693fde3",
                 "shasum": ""
             },
             "require": {
@@ -2916,12 +2916,12 @@
             "require-dev": {
                 "illuminate/database": "^6.0|^7.0|^8.0",
                 "mockery/mockery": "~1.0",
-                "phpunit/phpunit": "~7.1"
+                "phpunit/phpunit": "~8.5"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "6.0-dev"
+                    "dev-master": "6.x-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -2961,7 +2961,7 @@
                 "issues": "https://github.com/LaravelCollective/html/issues",
                 "source": "https://github.com/LaravelCollective/html"
             },
-            "time": "2020-09-07T19:59:40+00:00"
+            "time": "2020-12-15T20:20:05+00:00"
         },
         {
             "name": "laraveles/spanish",
@@ -9280,23 +9280,23 @@
         },
         {
             "name": "beyondcode/laravel-dump-server",
-            "version": "1.6.0",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/beyondcode/laravel-dump-server.git",
-                "reference": "1d1b4c066a7f855d34a027f7af49aa77416c3c1b"
+                "reference": "e27c7b942ab62f6ac7168359393d328ec5215b89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/beyondcode/laravel-dump-server/zipball/1d1b4c066a7f855d34a027f7af49aa77416c3c1b",
-                "reference": "1d1b4c066a7f855d34a027f7af49aa77416c3c1b",
+                "url": "https://api.github.com/repos/beyondcode/laravel-dump-server/zipball/e27c7b942ab62f6ac7168359393d328ec5215b89",
+                "reference": "e27c7b942ab62f6ac7168359393d328ec5215b89",
                 "shasum": ""
             },
             "require": {
                 "illuminate/console": "5.6.*|5.7.*|5.8.*|^6.0|^7.0|^8.0",
                 "illuminate/http": "5.6.*|5.7.*|5.8.*|^6.0|^7.0|^8.0",
                 "illuminate/support": "5.6.*|5.7.*|5.8.*|^6.0|^7.0|^8.0",
-                "php": "^7.2.5",
+                "php": ">=7.2.5",
                 "symfony/var-dumper": "^5.0"
             },
             "require-dev": {
@@ -9339,22 +9339,22 @@
             ],
             "support": {
                 "issues": "https://github.com/beyondcode/laravel-dump-server/issues",
-                "source": "https://github.com/beyondcode/laravel-dump-server/tree/1.6.0"
+                "source": "https://github.com/beyondcode/laravel-dump-server/tree/1.7.0"
             },
-            "time": "2020-10-22T07:39:00+00:00"
+            "time": "2020-12-15T10:57:43+00:00"
         },
         {
             "name": "brianium/paratest",
-            "version": "v6.1.1",
+            "version": "v6.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paratestphp/paratest.git",
-                "reference": "01c32dd28e65d05d6740af1d7e583ad515c449c0"
+                "reference": "235db99a43401d68fdc4495b20b49291ea2e767d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/01c32dd28e65d05d6740af1d7e583ad515c449c0",
-                "reference": "01c32dd28e65d05d6740af1d7e583ad515c449c0",
+                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/235db99a43401d68fdc4495b20b49291ea2e767d",
+                "reference": "235db99a43401d68fdc4495b20b49291ea2e767d",
                 "shasum": ""
             },
             "require": {
@@ -9419,9 +9419,9 @@
             ],
             "support": {
                 "issues": "https://github.com/paratestphp/paratest/issues",
-                "source": "https://github.com/paratestphp/paratest/tree/v6.1.1"
+                "source": "https://github.com/paratestphp/paratest/tree/v6.1.2"
             },
-            "time": "2020-12-07T09:27:52+00:00"
+            "time": "2020-12-15T11:41:54+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -10359,16 +10359,16 @@
         },
         {
             "name": "laravel/dusk",
-            "version": "v6.9.1",
+            "version": "v6.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/dusk.git",
-                "reference": "13b22f13f4f18f9524e523ec5f06bbb3b2b3fdd9"
+                "reference": "68d0c889e4dc883a2661552234f8c7f03e6bd1e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/13b22f13f4f18f9524e523ec5f06bbb3b2b3fdd9",
-                "reference": "13b22f13f4f18f9524e523ec5f06bbb3b2b3fdd9",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/68d0c889e4dc883a2661552234f8c7f03e6bd1e9",
+                "reference": "68d0c889e4dc883a2661552234f8c7f03e6bd1e9",
                 "shasum": ""
             },
             "require": {
@@ -10425,9 +10425,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/dusk/issues",
-                "source": "https://github.com/laravel/dusk/tree/v6.9.1"
+                "source": "https://github.com/laravel/dusk/tree/v6.10.0"
             },
-            "time": "2020-11-24T16:48:27+00:00"
+            "time": "2020-12-15T18:35:13+00:00"
         },
         {
             "name": "laravel/tinker",
