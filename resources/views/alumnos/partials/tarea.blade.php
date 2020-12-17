@@ -282,11 +282,13 @@
                     <div class="row mt-3 mb-0 mx-2">
                         <div class="col-md-12">
                             <div class="card
-                            {{ $actividad->tarea->estado == 40 ? !$actividad->hasEtiqueta('examen') ? 'border-success' : 'border-secondary' : '' }}
-                            {{ $actividad->tarea->estado == 41 ? 'border-warning' : '' }}">
+                            {{ $actividad->unidad->curso->disponible() && $actividad->tarea->estado == 40 ? !$actividad->hasEtiqueta('examen') ? 'border-success' : 'border-secondary' : '' }}
+                            {{ $actividad->unidad->curso->disponible() && $actividad->tarea->estado == 41 ? 'border-warning' : '' }}
+                            {{ !$actividad->unidad->curso->disponible() ? 'border-secondary' : '' }}">
                                 <div class="card-header
-                                {{ $actividad->tarea->estado == 40 ? !$actividad->hasEtiqueta('examen') ? 'bg-success' : 'bg-secondary' : '' }}
-                                {{ $actividad->tarea->estado == 41 ? 'bg-warning text-dark' : '' }}">
+                                {{ $actividad->unidad->curso->disponible() && $actividad->tarea->estado == 40 ? !$actividad->hasEtiqueta('examen') ? 'bg-success' : 'bg-secondary' : '' }}
+                                {{ $actividad->unidad->curso->disponible() && $actividad->tarea->estado == 41 ? 'bg-warning text-dark' : '' }}
+                                {{ !$actividad->unidad->curso->disponible() ? 'bg-secondary' : '' }}">
                                     <i class="fas fa-bullhorn"></i> {{ __('Feedback') }}
                                 </div>
                                 <div class="mx-3 mt-3 p-1">
