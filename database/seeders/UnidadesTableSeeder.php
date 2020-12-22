@@ -18,20 +18,20 @@ class UnidadesTableSeeder extends Seeder
     {
         // Egibide
 
-        $curso = Curso::whereHas('category.period.organization', function ($query) {
-            $query->where('organizations.slug', 'egibide');
-        })
-            ->where('slug', 'programacion')
-            ->first();
-
-        $this->generarUnidades($curso);
+//        $curso = Curso::whereHas('category.period.organization', function ($query) {
+//            $query->where('organizations.slug', 'egibide');
+//        })
+//            ->where('slug', 'programacion')
+//            ->first();
+//
+//        $this->generarUnidades($curso);
 
         // Deusto
 
         $curso = Curso::whereHas('category.period.organization', function ($query) {
-            $query->where('organizations.slug', 'deusto');
+            $query->where('organizations.slug', 'ikasgela');
         })
-            ->where('slug', 'programacion-i')
+            ->where('slug', 'programacion')
             ->first();
 
         $codigo = 'Unidad 1';
@@ -70,15 +70,25 @@ class UnidadesTableSeeder extends Seeder
             'slug' => 'estructuras-datos'
         ]);
 
+        $codigo = '';
+        $nombre = 'Seguimiento U2';
+        factory(Unidad::class)->create([
+            'curso_id' => $curso->id,
+            'codigo' => $codigo,
+            'nombre' => $nombre,
+            'tags' => 'examen',
+            'slug' => 'seguimiento-u2'
+        ]);
+
         // Ikasgela
 
-        $curso = Curso::whereHas('category.period.organization', function ($query) {
-            $query->where('organizations.slug', 'ikasgela');
-        })
-            ->where('slug', 'programacion')
-            ->first();
-
-        $this->generarUnidades($curso);
+//        $curso = Curso::whereHas('category.period.organization', function ($query) {
+//            $query->where('organizations.slug', 'ikasgela');
+//        })
+//            ->where('slug', 'programacion')
+//            ->first();
+//
+//        $this->generarUnidades($curso);
 
     }
 
