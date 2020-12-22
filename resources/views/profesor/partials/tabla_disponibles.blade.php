@@ -30,7 +30,7 @@
                     @include('actividades.partials.nombre_con_etiquetas')
                     @include('actividades.partials.caducada')
                 </td>
-                <td>{{ $actividad->slug }}</td>
+                <td>{{ $actividad->unidad->slug.'/'.$actividad->slug }}</td>
                 <td>{{ formato_decimales($actividad->puntuacion * ($actividad->multiplicador ?: 1)) }}</td>
                 <td class="text-center">{!! $actividad->auto_avance ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
                 @include('profesor.partials.siguiente_actividad')
