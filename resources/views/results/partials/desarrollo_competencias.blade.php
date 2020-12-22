@@ -13,7 +13,7 @@
 
                 @php($resultado = $resultados[$skill->id])
 
-                @if(Auth::user()->hasRole('admin'))
+                @if(config('app.debug'))
                     <div><?php var_dump($resultado)?></div>
                     <div><?php var_dump($resultado->porcentaje_competencia()) ?></div>
                 @endif
