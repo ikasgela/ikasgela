@@ -102,21 +102,20 @@ class ResultController extends Controller
                         $resultados[$skill->id]->peso_examen = $skill->peso_examen;
 
                         if ($actividad->hasEtiqueta('base')) {
-                            $resultados[$skill->id]->puntos_tarea += $puntuacion_tarea;
-                            $resultados[$skill->id]->puntos_totales_tarea += $puntuacion_actividad;
+                            $resultados[$skill->id]->puntos_tarea += $puntuacion_tarea * ($porcentaje / 100);
+                            $resultados[$skill->id]->puntos_totales_tarea += $puntuacion_actividad * ($porcentaje / 100);
                             $resultados[$skill->id]->num_tareas += 1;
-
-                            $resultados[$skill->id]->tarea += ($puntuacion_tarea * $porcentaje / 100);
-                            $resultados[$skill->id]->actividad += ($puntuacion_actividad * $porcentaje / 100);
-
                         } else if ($actividad->hasEtiqueta('examen')) {
-                            $resultados[$skill->id]->puntos_examen += $puntuacion_tarea;
-                            $resultados[$skill->id]->puntos_totales_examen += $puntuacion_actividad;
+                            $resultados[$skill->id]->puntos_examen += $puntuacion_tarea * ($porcentaje / 100);
+                            $resultados[$skill->id]->puntos_totales_examen += $puntuacion_actividad * ($porcentaje / 100);
                             $resultados[$skill->id]->num_examenes += 1;
-
-                            $resultados[$skill->id]->tarea += ($puntuacion_tarea * $porcentaje / 100);
-                            $resultados[$skill->id]->actividad += ($puntuacion_actividad * $porcentaje / 100);
+                        } else if ($actividad->hasEtiqueta('extra') || $actividad->hasEtiqueta('repaso')) {
+                            $resultados[$skill->id]->puntos_tarea += $puntuacion_tarea * ($porcentaje / 100);
+                            $resultados[$skill->id]->num_tareas += 1;
                         }
+
+                        $resultados[$skill->id]->tarea += $puntuacion_tarea * ($porcentaje / 100);
+                        $resultados[$skill->id]->actividad += $puntuacion_actividad * ($porcentaje / 100);
                     }
                 }
             }
@@ -132,18 +131,11 @@ class ResultController extends Controller
 
         // Nota final
         $nota = 0;
-        $porcentaje_total = 0;
         foreach ($resultados as $resultado) {
             if ($resultado->actividad > 0) {
-                $nota += ($resultado->tarea / $resultado->actividad) * ($resultado->porcentaje / 100);
-                $porcentaje_total += $resultado->porcentaje;
+                $nota += ($resultado->porcentaje_competencia() / 100) * ($resultado->porcentaje / 100);
             }
         }
-
-        if ($porcentaje_total == 0)
-            $porcentaje_total = 100;
-
-        $nota = $nota / $porcentaje_total * 100;    // Por si el total de competencias suma más del 100%
 
         // Unidades
 
