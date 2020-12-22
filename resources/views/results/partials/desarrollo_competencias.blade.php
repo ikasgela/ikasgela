@@ -13,6 +13,11 @@
 
                 @php($resultado = $resultados[$skill->id])
 
+                @if(Auth::user()->hasRole('admin'))
+                    <div><?php var_dump($resultado)?></div>
+                    <div><?php var_dump($resultado->porcentaje_competencia()) ?></div>
+                @endif
+
                 <div class="row no-gutters ml-5">
                     <div class="col" style="flex: 0 0 {{ $peso_actividades }}%;">Actividades</div>
                     @if($peso_examenes>0)

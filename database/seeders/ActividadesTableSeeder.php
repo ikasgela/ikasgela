@@ -22,7 +22,7 @@ class ActividadesTableSeeder extends Seeder
     {
         // --- Tarea de bienvenida
 
-        foreach (['ikasgela', 'egibide', 'deusto'] as $organizacion) {
+        foreach (['ikasgela'] as $organizacion) {
 
             $unidad = Unidad::whereHas('curso.category.period.organization', function ($query) use ($organizacion) {
                 $query->where('organizations.slug', $organizacion);
@@ -49,7 +49,7 @@ class ActividadesTableSeeder extends Seeder
         $unidad = Unidad::whereHas('curso.category.period.organization', function ($query) {
             $query->where('organizations.slug', 'ikasgela');
         })
-            ->where('slug', 'gui')
+            ->where('slug', 'programacion-estructurada')
             ->first();
 
         $nombre = 'Agenda';
@@ -65,14 +65,14 @@ class ActividadesTableSeeder extends Seeder
         $proyecto = IntellijProject::where('repositorio', 'root/agenda')->first();
         $actividad->intellij_projects()->attach($proyecto);
 
-        $siguiente = $actividad;
+        $anterior = $actividad;
 
         // --- GUI - Tres en raya
 
         $unidad = Unidad::whereHas('curso.category.period.organization', function ($query) {
             $query->where('organizations.slug', 'ikasgela');
         })
-            ->where('slug', 'gui')
+            ->where('slug', 'programacion-estructurada')
             ->first();
 
         $nombre = 'Tres en raya';
@@ -88,15 +88,15 @@ class ActividadesTableSeeder extends Seeder
         $proyecto = IntellijProject::where('repositorio', 'root/tres-en-raya')->first();
         $actividad->intellij_projects()->attach($proyecto);
 
-        $actividad->siguiente_id = $siguiente->id;
-        $actividad->save();
+        $anterior->siguiente_id = $actividad->id;
+        $anterior->save();
 
         // --- Colecciones - Reservas
 
         $unidad = Unidad::whereHas('curso.category.period.organization', function ($query) {
             $query->where('organizations.slug', 'ikasgela');
         })
-            ->where('slug', 'colecciones')
+            ->where('slug', 'seguimiento-u2')
             ->first();
 
         $nombre = 'Reservas';
@@ -104,9 +104,10 @@ class ActividadesTableSeeder extends Seeder
         $actividad->nombre = $nombre;
         $actividad->descripcion = 'Reservas, huéspedes y hoteles.';
         $actividad->puntuacion = 100;
+        $actividad->multiplicador = 2;
         $actividad->slug = Str::slug($nombre);
         $actividad->plantilla = true;
-        $actividad->tags = 'base';
+        $actividad->tags = 'examen';
         $unidad->actividades()->save($actividad);
 
         $proyecto = IntellijProject::where('repositorio', 'root/reservas')->first();
@@ -117,7 +118,7 @@ class ActividadesTableSeeder extends Seeder
         $unidad = Unidad::whereHas('curso.category.period.organization', function ($query) {
             $query->where('organizations.slug', 'ikasgela');
         })
-            ->where('slug', 'programacion-estructurada')
+            ->where('slug', 'programacion-modular')
             ->first();
 
         $nombre = 'Alternativa simple';
@@ -127,7 +128,7 @@ class ActividadesTableSeeder extends Seeder
         $actividad->puntuacion = 100;
         $actividad->slug = Str::slug($nombre);
         $actividad->plantilla = true;
-        $actividad->tags = 'extra';
+        $actividad->tags = 'base';
         $unidad->actividades()->save($actividad);
 
         $cuestionario = Cuestionario::where('titulo', 'Cuestionario de ejemplo')->first();

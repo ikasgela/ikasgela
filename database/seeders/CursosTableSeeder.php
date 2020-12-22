@@ -31,9 +31,13 @@ class CursosTableSeeder extends Seeder
             'slug' => Str::slug($nombre),
             'fecha_inicio' => now()->addDays(-7),
             'fecha_fin' => now()->addMonths(3),
+            'minimo_entregadas' => 80,
+            'minimo_competencias' => 50,
+            'minimo_examenes' => 50,
+            'examenes_obligatorios' => false,
         ]);
 
-        $category = Category::whereHas('period.organization', function ($query) {
+/*        $category = Category::whereHas('period.organization', function ($query) {
             $query->where('organizations.slug', 'deusto');
         })
             ->where('slug', 'programacion')
@@ -65,6 +69,6 @@ class CursosTableSeeder extends Seeder
             'slug' => Str::slug($nombre),
             'fecha_inicio' => now()->addDays(-7),
             'fecha_fin' => now()->addMonths(3),
-        ]);
+        ]);*/
     }
 }

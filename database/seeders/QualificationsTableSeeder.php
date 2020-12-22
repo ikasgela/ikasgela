@@ -18,9 +18,9 @@ class QualificationsTableSeeder extends Seeder
      */
     public function run()
     {
-        // Deusto
+        // Ikasgela
 
-        $organization = Organization::where('slug', 'deusto')->first();
+        $organization = Organization::where('slug', 'ikasgela')->first();
 
         // Competencias
 
@@ -28,18 +28,21 @@ class QualificationsTableSeeder extends Seeder
             'organization_id' => $organization->id,
             'name' => 'CE1 - Diseño de algoritmos',
             'description' => 'Especificar, diseñar e implementar algoritmos en un lenguaje de programación, utilizando métodos eficientes, sistemáticos y organizados de resolución de problemas.',
+            'peso_examen' => 40,
         ]);
 
         $ce2 = factory(Skill::class)->create([
             'organization_id' => $organization->id,
             'name' => 'CE2 - Sintáxis del lenguaje',
             'description' => 'Escribir correctamente, compilar y ejecutar programas en un lenguaje de alto nivel.',
+            'peso_examen' => 40,
         ]);
 
         $ce3 = factory(Skill::class)->create([
             'organization_id' => $organization->id,
             'name' => 'CE3 - Estructuras de datos y de control',
             'description' => 'Conocer y dominar estructuras básicas fundamentales utilizadas en la programación, tanto estructuras de datos como estructuras de control del flujo del programa.',
+            'peso_examen' => 40,
         ]);
 
         // Cualificación
@@ -58,9 +61,9 @@ class QualificationsTableSeeder extends Seeder
         // Asociar la cualificación al curso
 
         $curso = Curso::whereHas('category.period.organization', function ($query) {
-            $query->where('organizations.slug', 'deusto');
+            $query->where('organizations.slug', 'ikasgela');
         })
-            ->where('slug', 'programacion-i')
+            ->where('slug', 'programacion')
             ->first();
 
         $curso->qualification()->associate($cualificacion);
@@ -88,11 +91,11 @@ class QualificationsTableSeeder extends Seeder
 
         // Ikasgela
 
-        $this->generarEstructuraCentro('ikasgela');
+        //$this->generarEstructuraCentro('ikasgela');
 
         // Egibide
 
-        $this->generarEstructuraCentro('egibide');
+        //$this->generarEstructuraCentro('egibide');
     }
 
     /**

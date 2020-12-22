@@ -62,8 +62,6 @@ class ResultController extends Controller
 
         $skills_curso = [];
         $resultados = [];
-        $competencias_50_porciento = true;
-        $minimo_competencias = $curso->minimo_competencias;
 
         if (!is_null($curso) && !is_null($curso->qualification)) {
             $skills_curso = $curso->qualification->skills;
@@ -101,28 +99,35 @@ class ResultController extends Controller
                         $peso_examen = $skill->peso_examen;
                         $peso_tarea = 100 - $skill->peso_examen;
 
-                        if (!$actividad->hasEtiqueta('examen')) {
+                        $resultados[$skill->id]->peso_examen = $skill->peso_examen;
+
+                        if ($actividad->hasEtiqueta('base')) {
                             $resultados[$skill->id]->puntos_tarea += $puntuacion_tarea;
                             $resultados[$skill->id]->puntos_totales_tarea += $puntuacion_actividad;
+                            $resultados[$skill->id]->num_tareas += 1;
 
-                            $resultados[$skill->id]->tarea += $puntuacion_tarea * ($peso_tarea / $puntuacion_actividad) * ($porcentaje / 100);
-                            $resultados[$skill->id]->actividad += $puntuacion_actividad * ($peso_tarea / $puntuacion_actividad) * ($porcentaje / 100);
+                            $resultados[$skill->id]->tarea += ($puntuacion_tarea * $porcentaje / 100);
+                            $resultados[$skill->id]->actividad += ($puntuacion_actividad * $porcentaje / 100);
 
-                        } else {
+                        } else if ($actividad->hasEtiqueta('examen')) {
                             $resultados[$skill->id]->puntos_examen += $puntuacion_tarea;
                             $resultados[$skill->id]->puntos_totales_examen += $puntuacion_actividad;
+                            $resultados[$skill->id]->num_examenes += 1;
 
-                            $resultados[$skill->id]->tarea += $puntuacion_tarea * ($peso_examen / $puntuacion_actividad) * ($porcentaje / 100);
-                            $resultados[$skill->id]->actividad += $puntuacion_actividad * ($peso_examen / $puntuacion_actividad) * ($porcentaje / 100);
+                            $resultados[$skill->id]->tarea += ($puntuacion_tarea * $porcentaje / 100);
+                            $resultados[$skill->id]->actividad += ($puntuacion_actividad * $porcentaje / 100);
                         }
-
                     }
-
-                    // Aplicar el criterio del mínimo de competencias
-                    if ($resultados[$skill->id]->actividad > 0 && $resultados[$skill->id]->tarea / $resultados[$skill->id]->actividad < $minimo_competencias / 100)
-                        $competencias_50_porciento = false;
                 }
             }
+        }
+
+        // Aplicar el criterio del mínimo de competencias
+        $competencias_50_porciento = true;
+        $minimo_competencias = $curso->minimo_competencias;
+        foreach ($resultados as $resultado) {
+            if ($resultado->porcentaje_competencia() < $minimo_competencias)
+                $competencias_50_porciento = false;
         }
 
         // Nota final
