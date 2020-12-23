@@ -106,7 +106,7 @@
                 <tr>
                     <td>{{ $skill->name }}</td>
                     <td class="text-center {{ $porcentaje_competencia < $minimo_competencias ? 'bg-warning text-dark' : 'bg-success' }}">
-                        {{ $porcentaje_competencia }}&thinsp;%
+                        {{ formato_decimales($porcentaje_competencia) }}&thinsp;%
                     </td>
                     <td class="text-center">
                         {{ $resultado->tarea }}/{{ $resultado->actividad }}
