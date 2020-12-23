@@ -12,7 +12,6 @@ use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use NumberFormatter;
 use PDF;
 
 class ResultController extends Controller
@@ -158,20 +157,11 @@ class ResultController extends Controller
         }
 
         // Ajustar la nota en función de las completadas 100% completadas - 100% de nota
-
         $numero_actividades_completadas = $user->num_completadas('base');
-
         if ($num_actividades_obligatorias > 0)
-            $nota = $nota * ($numero_actividades_completadas / $num_actividades_obligatorias);
+            $nota = $nota * ($numero_actividades_completadas / $num_actividades_obligatorias) * 10;
 
-        // Formateador con 2 decimales y en el idioma del usuario
-        $locale = app()->getLocale();
-        $formatStyle = NumberFormatter::DECIMAL;
-        $formatter = new NumberFormatter($locale, $formatStyle);
-        $formatter->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 2);
-        $formatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 2);
-
-        $nota_final = $formatter->format($nota * 10);
+        $nota_final = formato_decimales($nota, 2);
 
         // Resultados por unidades
 
@@ -216,7 +206,7 @@ class ResultController extends Controller
             $total_actividades_grupo += $usuario->num_completadas('base');
         }
 
-        $media_actividades_grupo = $formatter->format($users->count() > 0 ? $total_actividades_grupo / $users->count() : 0);
+        $media_actividades_grupo = formato_decimales($users->count() > 0 ? $total_actividades_grupo / $users->count() : 0, 2);
 
         // Gráfico de actividades
 
