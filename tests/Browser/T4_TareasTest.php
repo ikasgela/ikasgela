@@ -65,7 +65,7 @@ class T4_TareasTest extends DuskTestCase
 
             $browser->visit('/alumnos');
             $browser->pause(500)->check("input[name='usuarios_seleccionados[1]']");
-            $browser->check("input[name='seleccionadas[5]']");
+            $browser->check("input[name='seleccionadas[2]']");
 
             $browser->press('Guardar asignación');
             $browser->assertPathIs('/alumnos');
@@ -85,13 +85,13 @@ class T4_TareasTest extends DuskTestCase
             $browser->assertPathIs('/home');
 
             // Aceptar actividad
-            $browser->assertSee('Tres en raya');
+            $browser->assertSee('Agenda');
 
             $browser->press('Aceptar actividad');
             $browser->assertPathIs('/home');
 
             // Clonar el repositorio
-            $browser->assertSee('Juego de tres en raya');
+            $browser->assertSee('Agenda de contactos con varias ventanas que comparten datos.');
 
             $browser->clickLink('Clonar el proyecto');
             $browser->assertPathIs('/home');
@@ -105,7 +105,7 @@ class T4_TareasTest extends DuskTestCase
             $browser->assertPathIs('/home');
 
             // Aparece la siguiente actividad
-            $browser->assertSee('Agenda');
+            $browser->assertSee('Tres en raya');
 
             // Cerrar sesión
             $browser->logout();
@@ -140,13 +140,13 @@ class T4_TareasTest extends DuskTestCase
             $browser->assertPathIs('/home');
 
             // Aceptar actividad
-            $browser->assertSee('Tres en raya');
+            $browser->assertSee('Agenda');
 
             $browser->press('Archivar');
             $browser->assertPathIs('/home');
 
             // No hay más tareas
-            $browser->assertSee('Agenda');
+            $browser->assertSee('Tres en raya');
         });
     }
 }
