@@ -12,7 +12,6 @@ use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use NumberFormatter;
 use PDF;
 
 class ResultController extends Controller
@@ -158,20 +157,11 @@ class ResultController extends Controller
         }
 
         // Ajustar la nota en función de las completadas 100% completadas - 100% de nota
-
         $numero_actividades_completadas = $user->num_completadas('base');
-
         if ($num_actividades_obligatorias > 0)
-            $nota = $nota * ($numero_actividades_completadas / $num_actividades_obligatorias);
+            $nota = $nota * ($numero_actividades_completadas / $num_actividades_obligatorias) * 10;
 
-        // Formateador con 2 decimales y en el idioma del usuario
-        $locale = app()->getLocale();
-        $formatStyle = NumberFormatter::DECIMAL;
-        $formatter = new NumberFormatter($locale, $formatStyle);
-        $formatter->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 2);
-        $formatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 2);
-
-        $nota_final = $formatter->format($nota * 10);
+        $nota_final = formato_decimales($nota, 2);
 
         // Resultados por unidades
 
@@ -195,8 +185,9 @@ class ResultController extends Controller
 
         // Pruebas de evaluación
 
-        $pruebas_evaluacion = true;
         $minimo_examenes = $curso->minimo_examenes;
+
+        $pruebas_evaluacion = true;
         $num_pruebas_evaluacion = 0;
         foreach ($unidades as $unidad) {
             if ($unidad->hasEtiqueta('examen')
@@ -216,7 +207,13 @@ class ResultController extends Controller
             $total_actividades_grupo += $usuario->num_completadas('base');
         }
 
-        $media_actividades_grupo = $formatter->format($users->count() > 0 ? $total_actividades_grupo / $users->count() : 0);
+        $media_actividades_grupo = formato_decimales($users->count() > 0 ? $total_actividades_grupo / $users->count() : 0, 2);
+
+        // Evaluación continua
+
+        $evaluacion_continua_superada = ($actividades_obligatorias_superadas || $num_actividades_obligatorias == 0 || $curso->minimo_entregadas == 0)
+            && (!$curso->examenes_obligatorios || $pruebas_evaluacion || $num_pruebas_evaluacion == 0)
+            && $competencias_50_porciento && $nota_final >= 5;
 
         // Gráfico de actividades
 
@@ -268,6 +265,8 @@ class ResultController extends Controller
             'resultados', 'resultados_unidades', 'nota_final',
             'actividades_obligatorias_superadas', 'num_actividades_obligatorias', 'numero_actividades_completadas',
             'pruebas_evaluacion', 'num_pruebas_evaluacion',
-            'media_actividades_grupo', 'competencias_50_porciento', 'minimo_competencias', 'minimo_examenes', 'chart']);
+            'media_actividades_grupo', 'competencias_50_porciento', 'minimo_competencias', 'minimo_examenes', 'chart',
+            'evaluacion_continua_superada',
+        ]);
     }
 }
