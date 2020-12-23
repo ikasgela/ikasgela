@@ -211,16 +211,16 @@
         },
         {
             "name": "bkwld/cloner",
-            "version": "3.9.1",
+            "version": "3.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BKWLD/cloner.git",
-                "reference": "e56d2c302cb5b53f8c09fa79e8d699c44f0e8971"
+                "reference": "825ad2cb237660bdef4d4aad3c539efb9a7db0a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BKWLD/cloner/zipball/e56d2c302cb5b53f8c09fa79e8d699c44f0e8971",
-                "reference": "e56d2c302cb5b53f8c09fa79e8d699c44f0e8971",
+                "url": "https://api.github.com/repos/BKWLD/cloner/zipball/825ad2cb237660bdef4d4aad3c539efb9a7db0a8",
+                "reference": "825ad2cb237660bdef4d4aad3c539efb9a7db0a8",
                 "shasum": ""
             },
             "require": {
@@ -264,9 +264,9 @@
             "description": "A trait for Laravel Eloquent models that lets you clone of a model and it's relationships, including files.",
             "support": {
                 "issues": "https://github.com/BKWLD/cloner/issues",
-                "source": "https://github.com/BKWLD/cloner/tree/3.9.1"
+                "source": "https://github.com/BKWLD/cloner/tree/3.9.2"
             },
-            "time": "2020-12-15T16:16:31+00:00"
+            "time": "2020-12-23T18:24:13+00:00"
         },
         {
             "name": "brick/math",
