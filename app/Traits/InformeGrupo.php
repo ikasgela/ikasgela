@@ -79,6 +79,8 @@ trait InformeGrupo
 
         $competencias_50_porciento = [];
 
+        $evaluacion_continua_superada = [];
+
         foreach ($usuarios as $user) {
 
             // Resultados por competencias
@@ -221,6 +223,11 @@ trait InformeGrupo
                 }
             }
 
+            // Evaluación continua
+
+            $evaluacion_continua_superada[$user->id] = ($actividades_obligatorias[$user->id] || $num_actividades_obligatorias == 0 || $curso->minimo_entregadas == 0)
+                && (!$curso->examenes_obligatorios || $pruebas_evaluacion[$user->id] || $num_pruebas_evaluacion[$user->id] == 0)
+                && $competencias_50_porciento[$user->id] && $notas[$user->id] >= 5;
         }
 
         $media_actividades_grupo = $usuarios->count() > 0 ? $total_actividades_grupo / $usuarios->count() : 0;
@@ -229,6 +236,6 @@ trait InformeGrupo
         return compact(['usuarios', 'unidades', 'organization',
             'total_actividades_grupo', 'resultados_usuario_unidades', 'curso',
             'media_actividades_grupo', 'media_actividades_grupo_formato', 'notas', 'actividades_obligatorias', 'num_actividades_obligatorias',
-            'pruebas_evaluacion', 'num_pruebas_evaluacion', 'competencias_50_porciento']);
+            'pruebas_evaluacion', 'num_pruebas_evaluacion', 'competencias_50_porciento', 'evaluacion_continua_superada']);
     }
 }
