@@ -35,24 +35,18 @@
         </div>
     @endif
     <div
-        class="card mb-3 {{ ($actividades_obligatorias_superadas || $num_actividades_obligatorias == 0 || $curso->minimo_entregadas == 0)
-                && (!$curso->examenes_obligatorios || $pruebas_evaluacion || $num_pruebas_evaluacion == 0)
-                && $competencias_50_porciento && $nota_final >= 5 ? 'bg-success text-white' : 'bg-warning text-dark' }}">
+        class="card mb-3 {{ $evaluacion_continua_superada ? 'bg-success text-white' : 'bg-warning text-dark' }}">
         <div class="card-header">{{ __('Continuous evaluation') }}</div>
         <div class="card-body text-center">
             <p class="card-text"
-               style="font-size:150%;">{{ ($actividades_obligatorias_superadas || $num_actividades_obligatorias == 0 || $curso->minimo_entregadas == 0)
-                && (!$curso->examenes_obligatorios || $pruebas_evaluacion || $num_pruebas_evaluacion == 0)
-                && $competencias_50_porciento && $nota_final >= 5 ? trans_choice('tasks.passed', 1) : trans_choice('tasks.not_passed', 1) }}</p>
+               style="font-size:150%;">{{ $evaluacion_continua_superada ? trans_choice('tasks.passed', 1) : trans_choice('tasks.not_passed', 1) }}</p>
         </div>
     </div>
     <div class="card mb-3 bg-light text-dark">
         <div class="card-header">{{ __('Calification') }}</div>
         <div class="card-body text-center">
             <p class="card-text"
-               style="font-size:150%;">{{ ($actividades_obligatorias_superadas || $num_actividades_obligatorias == 0)
-                && (!$curso->examenes_obligatorios || $pruebas_evaluacion || $num_pruebas_evaluacion == 0)
-                && $competencias_50_porciento ? $nota_final : ($curso->disponible() ? __('Unavailable') : __('Fail')) }}</p>
+               style="font-size:150%;">{{ $evaluacion_continua_superada ? $nota_final : ($curso->disponible() ? __('Unavailable') : __('Fail')) }}</p>
         </div>
     </div>
 </div>

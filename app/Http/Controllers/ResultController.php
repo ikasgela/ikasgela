@@ -209,6 +209,12 @@ class ResultController extends Controller
 
         $media_actividades_grupo = formato_decimales($users->count() > 0 ? $total_actividades_grupo / $users->count() : 0, 2);
 
+        // Evaluación continua
+
+        $evaluacion_continua_superada = ($actividades_obligatorias_superadas || $num_actividades_obligatorias == 0 || $curso->minimo_entregadas == 0)
+            && (!$curso->examenes_obligatorios || $pruebas_evaluacion || $num_pruebas_evaluacion == 0)
+            && $competencias_50_porciento && $nota_final >= 5;
+
         // Gráfico de actividades
 
         if (!is_null($curso)) {
@@ -259,6 +265,8 @@ class ResultController extends Controller
             'resultados', 'resultados_unidades', 'nota_final',
             'actividades_obligatorias_superadas', 'num_actividades_obligatorias', 'numero_actividades_completadas',
             'pruebas_evaluacion', 'num_pruebas_evaluacion',
-            'media_actividades_grupo', 'competencias_50_porciento', 'minimo_competencias', 'minimo_examenes', 'chart']);
+            'media_actividades_grupo', 'competencias_50_porciento', 'minimo_competencias', 'minimo_examenes', 'chart',
+            'evaluacion_continua_superada',
+        ]);
     }
 }
