@@ -23,53 +23,64 @@
 
     <table class="tabla-marcador-contenedor">
         <tr>
+            @if($curso->minimo_entregadas > 0)
+                <td>
+                    <table
+                        class="tabla-marcador {{ $actividades_obligatorias_superadas ? 'bg-success text-white' : 'bg-warning text-dark' }}">
+                        <tr>
+                            <th>{{ __('Mandatory activities') }}</th>
+                        </tr>
+                        <tr>
+                            <td class="text-center">{{ $num_actividades_obligatorias > 0 ? $actividades_obligatorias_superadas ? trans_choice('tasks.completed', 2) : ($numero_actividades_completadas+0)."/".($num_actividades_obligatorias+0)  : __('None') }}</td>
+                        </tr>
+                    </table>
+                </td>
+            @endif
+            @if($minimo_competencias > 0)
+                <td>
+                    <table
+                        class="tabla-marcador {{ $competencias_50_porciento ? 'bg-success text-white' : 'bg-warning text-dark' }}">
+                        <tr>
+                            <th>{{ __('Skills') }}</th>
+                        </tr>
+                        <tr>
+                            <td class="text-center">{{ $competencias_50_porciento ? trans_choice('tasks.passed', 2) : trans_choice('tasks.not_passed', 2) }}</td>
+                        </tr>
+                    </table>
+                </td>
+            @endif
+            @if($num_pruebas_evaluacion > 0)
+                <td>
+                    <table
+                        class="tabla-marcador {{ $curso->examenes_obligatorios ? $pruebas_evaluacion ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
+                        <tr>
+                            <th>{{ __('Assessment tests') }}</th>
+                        </tr>
+                        <tr>
+                            <td class="text-center">{{ $num_pruebas_evaluacion > 0 ? $pruebas_evaluacion ? trans_choice('tasks.passed', 2) : trans_choice('tasks.not_passed', 2) : __('None') }}</td>
+                        </tr>
+                    </table>
+                </td>
+            @endif
             <td>
                 <table
-                    class="tabla-marcador {{ $num_actividades_obligatorias > 0 ? $actividades_obligatorias_superadas ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
-                    <tr>
-                        <th>{{ __('Mandatory activities') }}</th>
-                    </tr>
-                    <tr>
-                        <td class="text-center">{{ $num_actividades_obligatorias > 0 ? $actividades_obligatorias_superadas ? trans_choice('tasks.completed', 2) : ($numero_actividades_completadas+0)."/".($num_actividades_obligatorias+0)  : __('None') }}</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <table
-                    class="tabla-marcador {{ $num_pruebas_evaluacion > 0 ? $pruebas_evaluacion ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
-                    <tr>
-                        <th>{{ __('Assessment tests') }}</th>
-                    </tr>
-                    <tr>
-                        <td class="text-center">{{ $num_pruebas_evaluacion > 0 ? $pruebas_evaluacion ? trans_choice('tasks.passed', 2) : trans_choice('tasks.not_passed', 2) : __('None') }}</td>
-                    </tr>
-                </table>
-            </td>
-            <td>
-                <table
-                    class="tabla-marcador {{ ($actividades_obligatorias_superadas || $num_actividades_obligatorias == 0)
-                && ($pruebas_evaluacion || $num_pruebas_evaluacion == 0)
-                && $competencias_50_porciento && $nota_final >= 5 ? 'bg-success text-white' : 'bg-warning text-dark' }}">
+                    class="tabla-marcador {{ $evaluacion_continua_superada ? 'bg-success text-white' : 'bg-warning text-dark' }}">
                     <tr>
                         <th>{{ __('Continuous evaluation') }}</th>
                     </tr>
                     <tr>
-                        <td class="text-center">{{ ($actividades_obligatorias_superadas || $num_actividades_obligatorias == 0)
-                && ($pruebas_evaluacion || $num_pruebas_evaluacion == 0)
-                && $competencias_50_porciento && $nota_final >= 5 ? trans_choice('tasks.passed', 1) : trans_choice('tasks.not_passed', 1) }}</td>
+                        <td class="text-center">{{ $evaluacion_continua_superada ? trans_choice('tasks.passed', 1) : trans_choice('tasks.not_passed', 1) }}</td>
                     </tr>
                 </table>
             </td>
             <td>
                 <table
-                    class="tabla-marcador {{ ($actividades_obligatorias_superadas || $num_actividades_obligatorias == 0)
-                && ($pruebas_evaluacion || $num_pruebas_evaluacion == 0)
-                && $competencias_50_porciento ? $nota_final >= 5 ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
+                    class="tabla-marcador bg-light text-dark">
                     <tr>
                         <th>{{ __('Calification') }}</th>
                     </tr>
                     <tr>
-                        <td class="text-center">{{ $competencias_50_porciento ? $nota_final : __('Unavailable') }}</td>
+                        <td class="text-center">{{ $evaluacion_continua_superada ? $nota_final : ($curso->disponible() ? __('Unavailable') : __('Fail')) }}</td>
                     </tr>
                 </table>
             </td>
@@ -86,14 +97,18 @@
                 <th>{{ __('Score') }}</th>
             </tr>
             @foreach ($skills_curso as $skill)
-                @php($porcentaje = $resultados[$skill->id]->actividad > 0 ? round($resultados[$skill->id]->tarea/$resultados[$skill->id]->actividad*100) : 0)
+
+                @php($resultado = $resultados[$skill->id])
+
+                @php($porcentaje_competencia = $resultado->porcentaje_competencia())
                 <tr>
                     <td>{{ $skill->name }}</td>
-                    <td class="text-center {{ $porcentaje > 0 && $porcentaje<50 ? 'bg-warning text-dark' : ($porcentaje >= 50 ? 'bg-success' : '') }}">
-                        {{ $porcentaje }}&thinsp;%
+                    <td class="text-center {{ $porcentaje_competencia < $minimo_competencias ? 'bg-warning text-dark' : 'bg-success' }}">
+                        {{ $porcentaje_competencia }}&thinsp;%
                     </td>
                     <td class="text-center">
-                        {{ $resultados[$skill->id]->tarea + 0 }}/{{ $resultados[$skill->id]->actividad + 0 }}</td>
+                        {{ $resultado->tarea }}/{{ $resultado->actividad }}
+                    </td>
                 </tr>
             @endforeach
         </table>
