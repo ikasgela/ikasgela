@@ -205,16 +205,17 @@ trait InformeGrupo
 
             // Pruebas de evaluación
 
+            $minimo_examenes = $curso->minimo_examenes;
+
             $pruebas_evaluacion[$user->id] = true;
             $num_pruebas_evaluacion[$user->id] = 0;
-
             foreach ($unidades as $unidad) {
                 if ($unidad->hasEtiqueta('examen')
                     && $user->num_completadas('examen', $unidad->id) > 0
                     && $resultados_unidades[$unidad->id]->actividad > 0) {
                     $num_pruebas_evaluacion[$user->id] += 1;
 
-                    if (($resultados_unidades[$unidad->id]->tarea / $resultados_unidades[$unidad->id]->actividad) * 10 < 5) {
+                    if (($resultados_unidades[$unidad->id]->tarea / $resultados_unidades[$unidad->id]->actividad) < $minimo_examenes / 100) {
                         $pruebas_evaluacion[$user->id] = false;
                     }
                 }

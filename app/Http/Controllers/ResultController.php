@@ -185,8 +185,9 @@ class ResultController extends Controller
 
         // Pruebas de evaluación
 
-        $pruebas_evaluacion = true;
         $minimo_examenes = $curso->minimo_examenes;
+
+        $pruebas_evaluacion = true;
         $num_pruebas_evaluacion = 0;
         foreach ($unidades as $unidad) {
             if ($unidad->hasEtiqueta('examen')
