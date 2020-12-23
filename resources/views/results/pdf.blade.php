@@ -87,6 +87,8 @@
         </tr>
     </table>
 
+    @include('results.partials.criterios_calificacion')
+
     <h2>{{ __('Skills development')}}</h2>
 
     @if(count($skills_curso) > 0)
