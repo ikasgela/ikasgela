@@ -95,21 +95,35 @@
         <table class="tabla-datos">
             <tr>
                 <th class="text-left">{{ __('Skill') }}</th>
-                <th>{{ __('Progress') }}</th>
-                <th>{{ __('Score') }}</th>
+                <th>{{ __('Activities') }}</th>
+                @if($hayExamenes)
+                    <th>{{ __('Exams') }}</th>
+                @endif
+                <th>{{ __('Total') }}</th>
             </tr>
             @foreach ($skills_curso as $skill)
 
                 @php($resultado = $resultados[$skill->id])
+                @php($peso_examenes = $skill->peso_examen)
 
-                @php($porcentaje_competencia = $resultado->porcentaje_competencia())
                 <tr>
                     <td>{{ $skill->name }}</td>
+
+                    @php($porcentaje_tarea = $resultado->porcentaje_tarea())
+                    <td class="text-center">
+                        {{ formato_decimales($porcentaje_tarea) }}&thinsp;%
+                    </td>
+                    @if($peso_examenes>0)
+                        @php($porcentaje_examen = $resultado->porcentaje_examen())
+                        <td class="text-center">
+                            {{ formato_decimales($porcentaje_examen) }}&thinsp;%
+                        </td>
+                    @elseif($hayExamenes)
+                        <td class="text-center">-</td>
+                    @endif
+                    @php($porcentaje_competencia = $resultado->porcentaje_competencia())
                     <td class="text-center {{ $porcentaje_competencia < $minimo_competencias ? 'bg-warning text-dark' : 'bg-success' }}">
                         {{ formato_decimales($porcentaje_competencia) }}&thinsp;%
-                    </td>
-                    <td class="text-center">
-                        {{ $resultado->tarea }}/{{ $resultado->actividad }}
                     </td>
                 </tr>
             @endforeach
