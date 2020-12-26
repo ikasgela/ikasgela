@@ -161,8 +161,8 @@
         <table class="tabla-datos">
             <tr>
                 <th class="text-left">{{ __('Unit') }}</th>
-                <th>{{ __('Progress') }}</th>
                 <th>{{ __('Score') }}</th>
+                <th>{{ __('Total') }}</th>
             </tr>
             @foreach($unidades as $unidad)
 
@@ -175,12 +175,12 @@
                         @endisset
                         @include('unidades.partials.nombre_con_etiquetas', ['pdf' => true])
                     </td>
-                    <td class="text-center {{ $porcentaje< ($unidad->hasEtiqueta('examen') ? $minimo_examenes : $minimo_competencias) ? 'bg-warning text-dark' : 'bg-success' }}">
-                        {{ formato_decimales($porcentaje) }}&thinsp;%
-                    </td>
                     <td class="text-center">
                         {{ $resultados_unidades[$unidad->id]->tarea + 0
                      }}/{{ $resultados_unidades[$unidad->id]->actividad + 0 }}
+                    </td>
+                    <td class="text-center {{ $porcentaje< ($unidad->hasEtiqueta('examen') ? $minimo_examenes : $minimo_competencias) ? 'bg-warning text-dark' : 'bg-success' }}">
+                        {{ formato_decimales($porcentaje) }}&thinsp;%
                     </td>
                 </tr>
             @endforeach
