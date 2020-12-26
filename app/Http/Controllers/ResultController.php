@@ -62,12 +62,17 @@ class ResultController extends Controller
         $skills_curso = [];
         $resultados = [];
 
+        $hayExamenes = false;
+
         if (!is_null($curso) && !is_null($curso->qualification)) {
             $skills_curso = $curso->qualification->skills;
 
             foreach ($skills_curso as $skill) {
                 $resultados[$skill->id] = new Resultado();
                 $resultados[$skill->id]->porcentaje = $skill->pivot->percentage;
+
+                if ($skill->peso_examen > 0)
+                    $hayExamenes = true;
             }
 
             foreach ($user->actividades_completadas()->get() as $actividad) {
@@ -266,7 +271,7 @@ class ResultController extends Controller
             'actividades_obligatorias_superadas', 'num_actividades_obligatorias', 'numero_actividades_completadas',
             'pruebas_evaluacion', 'num_pruebas_evaluacion',
             'media_actividades_grupo', 'competencias_50_porciento', 'minimo_competencias', 'minimo_examenes', 'chart',
-            'evaluacion_continua_superada',
+            'evaluacion_continua_superada', 'hayExamenes'
         ]);
     }
 }
