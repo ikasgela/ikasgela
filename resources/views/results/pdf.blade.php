@@ -156,40 +156,35 @@
             </tr>
         </table>
 
-        {{--
-                @include('partials.subtitulo', ['subtitulo' => __('Content development')])
+        @include('partials.subtitulo', ['subtitulo' => __('Content development')])
 
-                <div class="card">
-                    <div class="card-body">
-                        @foreach ($unidades as $unidad)
-                            <h5 class="card-title">
-                                @isset($unidad->codigo)
-                                    {{ $unidad->codigo }} -
-                                @endisset
-                                @include('unidades.partials.nombre_con_etiquetas')
-                            </h5>
-                            <p class="ml-5">{{ $unidad->descripcion }}</p>
-                            <div class="ml-5 progress" style="height: 24px;">
-                                @php($porcentaje = $resultados_unidades[$unidad->id]->actividad > 0 ? round($resultados_unidades[$unidad->id]->tarea/$resultados_unidades[$unidad->id]->actividad*100) : 0)
-                                <div class="progress-bar {{ $porcentaje<50 ? 'bg-warning text-dark' : 'bg-success' }}"
-                                     role="progressbar"
-                                     style="width: {{ $porcentaje }}%;"
-                                     aria-valuenow="{{ $porcentaje }}"
-                                     aria-valuemin="0"
-                                     aria-valuemax="100">@if($porcentaje>0){{ $porcentaje }}&nbsp;%@endif
-                                </div>
-                            </div>
-                            <div class="text-muted small text-right">
-                                {{ $resultados_unidades[$unidad->id]->tarea + 0
-                                }}/{{ $resultados_unidades[$unidad->id]->actividad + 0 }}
-                            </div>
-                            @if(!$loop->last)
-                                <hr>
-                            @endif
-                        @endforeach
-                    </div>
-                </div>
-                --}}
+        <table class="tabla-datos">
+            <tr>
+                <th class="text-left">{{ __('Unit') }}</th>
+                <th>{{ __('Progress') }}</th>
+                <th>{{ __('Score') }}</th>
+            </tr>
+            @foreach($unidades as $unidad)
+
+                @php($porcentaje = $resultados_unidades[$unidad->id]->actividad > 0 ? round($resultados_unidades[$unidad->id]->tarea/$resultados_unidades[$unidad->id]->actividad*100) : 0)
+
+                <tr>
+                    <td>
+                        @isset($unidad->codigo)
+                            {{ $unidad->codigo }} -
+                        @endisset
+                        @include('unidades.partials.nombre_con_etiquetas', ['pdf' => true])
+                    </td>
+                    <td class="text-center {{ $porcentaje< ($unidad->hasEtiqueta('examen') ? $minimo_examenes : $minimo_competencias) ? 'bg-warning text-dark' : 'bg-success' }}">
+                        {{ formato_decimales($porcentaje) }}&thinsp;%
+                    </td>
+                    <td class="text-center">
+                        {{ $resultados_unidades[$unidad->id]->tarea + 0
+                     }}/{{ $resultados_unidades[$unidad->id]->actividad + 0 }}
+                    </td>
+                </tr>
+            @endforeach
+        </table>
 
     @else
         <div class="row">
