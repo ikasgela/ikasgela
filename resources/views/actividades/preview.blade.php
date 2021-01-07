@@ -27,5 +27,43 @@
             {{-- Fin tarjeta--}}
         </div>
     </div>
+
+    @if(Auth::user()->hasAnyRole(['admin','profesor']))
+        @if($actividad->feedbacks->count() > 0)
+
+            @include('partials.subtitulo', ['subtitulo' => __('Feedback messages')])
+
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>{{ __('Title') }}</th>
+                        <th>{{ __('Actions') }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($actividad->feedbacks as $feedback)
+                        <tr>
+                            <td>{{ $feedback->id }}</td>
+                            <td>{{ $feedback->titulo }}</td>
+                            <td>
+                                {!! Form::open(['route' => ['feedbacks.destroy', $feedback->id], 'method' => 'DELETE']) !!}
+                                <div class='btn-group'>
+                                    <a title="{{ __('Edit') }}"
+                                       href="{{ route('feedbacks.edit', [$feedback->id]) }}"
+                                       class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                                    @include('partials.boton_borrar')
+                                </div>
+                                {!! Form::close() !!}
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
+    @endif
+
     @include('partials.backbutton')
 @endsection

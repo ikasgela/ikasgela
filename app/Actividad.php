@@ -23,6 +23,7 @@ class Actividad extends Model
         'cuestionarios',
         'file_uploads',
         'file_resources',
+        'feedbacks',
     ];
 
     protected $clone_exempt_attributes = ['plantilla', 'siguiente_overriden'];
