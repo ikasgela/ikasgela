@@ -6,7 +6,10 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
+import Vue from 'vue/dist/vue'
+import Toasted from 'vue-toasted';
+
+window.Vue = Vue
 
 require('jquery-countdown');
 
@@ -15,8 +18,6 @@ require('jquery-countdown');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
-import Toasted from 'vue-toasted';
 
 Vue.use(Toasted)
 Vue.toasted.register('error', message => message, {
