@@ -123,7 +123,7 @@ class UsersTableSeeder extends Seeder
             try {
                 GiteaClient::borrar_usuario($usuario);
                 echo "  INFO: Usuario borrado: $nombre - $email - $password\n";
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 echo "  ERROR: Usuario no borrado: $nombre - $email - $password\n";
             }
         }
@@ -133,7 +133,7 @@ class UsersTableSeeder extends Seeder
                 $nombre_completo = $nombre . ' ' . $apellido;
                 GiteaClient::user($email, $usuario, $nombre_completo, $password);
                 echo "  INFO: Usuario generado: $nombre_completo - $email - $password\n";
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 echo "  ERROR: Usuario no generado: $nombre_completo - $email - $password\n";
             }
         }
