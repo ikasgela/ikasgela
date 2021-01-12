@@ -1,7 +1,6 @@
 @page {
   footer: page-footer;
 }
-
 body {
   font-size: 8pt;
 }
@@ -11,8 +10,7 @@ table {
   border-spacing: 0;
 }
 
-td,
-th {
+td, th {
   padding: 0;
 }
 
@@ -112,4 +110,3 @@ h2 {
   background-color: #fff;
   color: #2f353a;
 }
-
