@@ -166,8 +166,6 @@ class ResultController extends Controller
         if ($num_actividades_obligatorias > 0)
             $nota = $nota * ($numero_actividades_completadas / $num_actividades_obligatorias) * 10;
 
-        $nota_final = formato_decimales($nota, 2);
-
         // Resultados por unidades
 
         $resultados_unidades = [];
@@ -194,13 +192,27 @@ class ResultController extends Controller
 
         $pruebas_evaluacion = true;
         $num_pruebas_evaluacion = 0;
+
+        $examen_final = false;
+        $examen_final_superado = false;
         foreach ($unidades as $unidad) {
             if ($unidad->hasEtiqueta('examen')
                 && $user->num_completadas('examen', $unidad->id) > 0
                 && $resultados_unidades[$unidad->id]->actividad > 0) {
-                $num_pruebas_evaluacion += 1;
 
-                if (($resultados_unidades[$unidad->id]->tarea / $resultados_unidades[$unidad->id]->actividad) < $minimo_examenes / 100) {
+                $num_pruebas_evaluacion += 1;
+                $nota_examen = $resultados_unidades[$unidad->id]->tarea / $resultados_unidades[$unidad->id]->actividad;
+                $minimo_examenes_superado = $nota_examen >= $minimo_examenes / 100;
+
+                if ($unidad->hasEtiqueta('final')) {
+                    $examen_final = true;
+                    if ($minimo_examenes_superado) {
+                        $examen_final_superado = true;
+                        if ($nota_examen * 10 > $nota) {
+                            $nota = $nota_examen * 10;
+                        }
+                    }
+                } else if (!$minimo_examenes_superado) {
                     $pruebas_evaluacion = false;
                 }
             }
@@ -213,6 +225,9 @@ class ResultController extends Controller
         }
 
         $media_actividades_grupo = formato_decimales($users->count() > 0 ? $total_actividades_grupo / $users->count() : 0, 2);
+
+        // Formatear la nota final
+        $nota_final = formato_decimales($nota, 2);
 
         // Evaluación continua
 
@@ -271,7 +286,8 @@ class ResultController extends Controller
             'actividades_obligatorias_superadas', 'num_actividades_obligatorias', 'numero_actividades_completadas',
             'pruebas_evaluacion', 'num_pruebas_evaluacion',
             'media_actividades_grupo', 'competencias_50_porciento', 'minimo_competencias', 'minimo_examenes', 'chart',
-            'evaluacion_continua_superada', 'hayExamenes'
+            'evaluacion_continua_superada', 'hayExamenes',
+            'examen_final', 'examen_final_superado',
         ]);
     }
 }

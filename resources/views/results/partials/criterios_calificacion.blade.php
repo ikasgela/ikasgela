@@ -24,6 +24,12 @@
                     @include('results.partials.criterio_superado', ['criterio' => $pruebas_evaluacion])
                 </li>
             @endif
+            @if($examen_final)
+                <li>Se ha superado el {{ formato_decimales($curso->minimo_examenes) }}&thinsp;% en las pruebas de
+                    evaluación final, recuperando un máximo del 75&thinsp;% de la nota.
+                    @include('results.partials.criterio_superado', ['criterio' => $examen_final_superado])
+                </li>
+            @endif
         </ul>
     </div>
 </div>
