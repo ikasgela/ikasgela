@@ -29,6 +29,7 @@
                 <th>{{ __('Minimum skills percent') }}</th>
                 <th>{{ __('Minimum exams percent') }}</th>
                 <th>{{ __('Mandatory exams') }}</th>
+                <th>{{ __('Maximum recoverable percent') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -48,6 +49,7 @@
                     <td>{{ $curso->minimo_competencias ?? __('Undefined') }}</td>
                     <td>{{ $curso->minimo_examenes ?? __('Undefined') }}</td>
                     <td>{{ $curso->examenes_obligatorios ? __('Yes') : __('No') }}</td>
+                    <td>{{ $curso->maximo_recuperable_examenes_finales ?? __('Undefined') }}</td>
                     <td>
                         <form method="POST" action="{{ route('cursos.destroy', [$curso->id]) }}">
                             @csrf
