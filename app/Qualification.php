@@ -15,6 +15,9 @@ class Qualification extends Model
 
     protected $clone_exempt_attributes = ['template'];
 
+    protected $rememberFor;
+    protected $rememberCacheTag;
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);

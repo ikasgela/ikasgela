@@ -9,6 +9,9 @@ class Category extends Model
 {
     use Rememberable;
 
+    protected $rememberFor;
+    protected $rememberCacheTag;
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
