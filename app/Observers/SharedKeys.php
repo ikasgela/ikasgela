@@ -23,5 +23,7 @@ trait SharedKeys
         'num_actividades_en_curso_no_extra_examen_',
         'num_actividades_en_curso_extra_',
         'num_actividades_en_curso_enviadas_',
+
+        'calificaciones_',
     ];
 }

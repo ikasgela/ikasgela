@@ -10,11 +10,15 @@ use App\Observers\CategoryObserver;
 use App\Observers\CursoObserver;
 use App\Observers\OrganizationObserver;
 use App\Observers\PeriodObserver;
+use App\Observers\QualificationObserver;
+use App\Observers\SkillObserver;
 use App\Observers\TareaObserver;
 use App\Observers\UnidadObserver;
 use App\Observers\UserObserver;
 use App\Organization;
 use App\Period;
+use App\Qualification;
+use App\Skill;
 use App\Tarea;
 use App\Unidad;
 use App\User;
@@ -59,6 +63,8 @@ class AppServiceProvider extends ServiceProvider
         Category::observe(CategoryObserver::class);
         Curso::observe(CursoObserver::class);
         Unidad::observe(UnidadObserver::class);
+        Qualification::observe(QualificationObserver::class);
+        Skill::observe(SkillObserver::class);
 
         Actividad::observe(ActividadObserver::class);
 

@@ -4,14 +4,23 @@ namespace App;
 
 use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Model;
+use Watson\Rememberable\Rememberable;
 
 class Qualification extends Model
 {
     use Cloneable;
+    use Rememberable;
 
     protected $cloneable_relations = ['skills'];
 
     protected $clone_exempt_attributes = ['template'];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->rememberCacheTag = 'qualification';
+        $this->rememberFor = config('ikasgela.eloquent_cache_time', 60);
+    }
 
     protected $fillable = [
         'name', 'description', 'template', 'organization_id'

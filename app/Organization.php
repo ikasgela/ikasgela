@@ -9,12 +9,10 @@ class Organization extends Model
 {
     use Rememberable;
 
-    protected $rememberFor;
-    protected $rememberCacheTag = 'organization';
-
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
+        $this->rememberCacheTag = 'organization';
         $this->rememberFor = config('ikasgela.eloquent_cache_time', 60);
     }
 
