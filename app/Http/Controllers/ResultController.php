@@ -36,6 +36,7 @@ class ResultController extends Controller
     {
         $user = Auth::user();
 
+        // Hay otro usuario seleccionado para mostrar
         if (!empty($request->input('user_id'))) {
             $user_id = $request->input('user_id');
             if ($user_id == -1) {
@@ -48,7 +49,7 @@ class ResultController extends Controller
             $user = User::find(session('filtrar_user_actual'));
         }
 
-        // Lista de usuarios
+        // Lista de usuarios para el desplegable
         $curso = Curso::find(setting_usuario('curso_actual'));
 
         if (!is_null($curso)) {
@@ -57,187 +58,19 @@ class ResultController extends Controller
             $users = new Collection();
         }
 
-        // Resultados por competencias
-
-        $skills_curso = [];
-        $resultados = [];
-
-        $hayExamenes = false;
-
-        if (!is_null($curso) && !is_null($curso->qualification)) {
-            $skills_curso = $curso->qualification->skills;
-
-            foreach ($skills_curso as $skill) {
-                $resultados[$skill->id] = new Resultado();
-                $resultados[$skill->id]->porcentaje = $skill->pivot->percentage;
-
-                if ($skill->peso_examen > 0)
-                    $hayExamenes = true;
-            }
-
-            foreach ($user->actividades_completadas()->get() as $actividad) {
-
-                // Total de puntos de la actividad
-                $puntuacion_actividad = $actividad->puntuacion * ($actividad->multiplicador ?: 1);
-
-                // Puntos obtenidos
-                $puntuacion_tarea = $actividad->tarea->puntuacion * ($actividad->multiplicador ?: 1);
-
-                if ($puntuacion_actividad > 0) {
-
-                    // Obtener las competencias: Curso->Unidad->Actividad
-                    if (!is_null($actividad->qualification_id)) {
-                        $skills = $actividad->qualification->skills;
-                    } else if (!is_null($actividad->unidad->qualification_id)) {
-                        $skills = $actividad->unidad->qualification->skills;
-                    } else {
-                        $skills = $skills_curso;
-                    }
-
-                    foreach ($skills as $skill) {
-
-                        // Aportación de la competencia a la cualificación
-                        $porcentaje = $skill->pivot->percentage;
-
-                        // Peso relativo de las actividades de examen
-                        $peso_examen = $skill->peso_examen;
-                        $peso_tarea = 100 - $skill->peso_examen;
-
-                        $resultados[$skill->id]->peso_examen = $skill->peso_examen;
-
-                        if ($actividad->hasEtiqueta('base')) {
-                            $resultados[$skill->id]->puntos_tarea += $puntuacion_tarea * ($porcentaje / 100);
-                            $resultados[$skill->id]->puntos_totales_tarea += $puntuacion_actividad * ($porcentaje / 100);
-                            $resultados[$skill->id]->num_tareas += 1;
-                        } else if ($actividad->hasEtiqueta('examen')) {
-                            $resultados[$skill->id]->puntos_examen += $puntuacion_tarea * ($porcentaje / 100);
-                            $resultados[$skill->id]->puntos_totales_examen += $puntuacion_actividad * ($porcentaje / 100);
-                            $resultados[$skill->id]->num_examenes += 1;
-                        } else if ($actividad->hasEtiqueta('extra') || $actividad->hasEtiqueta('repaso')) {
-                            $resultados[$skill->id]->puntos_tarea += $puntuacion_tarea * ($porcentaje / 100);
-                            $resultados[$skill->id]->num_tareas += 1;
-                        }
-
-                        $resultados[$skill->id]->tarea += $puntuacion_tarea * ($porcentaje / 100);
-                        $resultados[$skill->id]->actividad += $puntuacion_actividad * ($porcentaje / 100);
-                    }
-                }
-            }
-        }
-
-        // Aplicar el criterio del mínimo de competencias
-        $competencias_50_porciento = true;
-        $minimo_competencias = $curso->minimo_competencias;
-        foreach ($resultados as $resultado) {
-            if ($resultado->porcentaje_competencia() < $minimo_competencias)
-                $competencias_50_porciento = false;
-        }
-
-        // Nota final
-        $nota = 0;
-        foreach ($resultados as $resultado) {
-            if ($resultado->actividad > 0) {
-                $nota += ($resultado->porcentaje_competencia() / 100) * ($resultado->porcentaje / 100);
-            }
-        }
-
-        // Unidades
-
+        // Unidades del curso actual
         $unidades = Unidad::cursoActual()->orderBy('orden')->get();
 
-        // Actividades obligatorias
+        // Obtener las calificaciones del usuario
+        $calificaciones = $user->calcular_calificaciones();
 
-        $minimo_entregadas = $curso->minimo_entregadas;
-
-        $actividades_obligatorias_superadas = true;
-        $num_actividades_obligatorias = 0;
-        foreach ($unidades as $unidad) {
-            if ($unidad->num_actividades('base') > 0) {
-                $num_actividades_obligatorias += $unidad->num_actividades('base');
-
-                if ($user->num_completadas('base', $unidad->id) < $unidad->num_actividades('base') * $minimo_entregadas / 100) {
-                    $actividades_obligatorias_superadas = false;
-                }
-            }
-        }
-
-        // Ajustar la nota en función de las completadas 100% completadas - 100% de nota
-        $numero_actividades_completadas = $user->num_completadas('base');
-        if ($num_actividades_obligatorias > 0)
-            $nota = $nota * ($numero_actividades_completadas / $num_actividades_obligatorias) * 10;
-
-        // Resultados por unidades
-
-        $resultados_unidades = [];
-
-        foreach ($unidades as $unidad) {
-            $resultados_unidades[$unidad->id] = new Resultado();
-
-            foreach ($user->actividades->where('unidad_id', $unidad->id) as $actividad) {
-
-                $puntuacion_actividad = $actividad->puntuacion * ($actividad->multiplicador ?: 1);
-                $puntuacion_tarea = $actividad->tarea->puntuacion * ($actividad->multiplicador ?: 1);
-                $completada = in_array($actividad->tarea->estado, [40, 60]);
-
-                if ($puntuacion_actividad > 0 && $completada) {
-                    $resultados_unidades[$unidad->id]->actividad += $puntuacion_actividad;
-                    $resultados_unidades[$unidad->id]->tarea += $puntuacion_tarea;
-                }
-            }
-        }
-
-        // Pruebas de evaluación
-
-        $minimo_examenes = $curso->minimo_examenes;
-
-        $pruebas_evaluacion = true;
-        $num_pruebas_evaluacion = 0;
-
-        $examen_final = false;
-        $examen_final_superado = false;
-        foreach ($unidades as $unidad) {
-            if ($unidad->hasEtiqueta('examen')
-                && $user->num_completadas('examen', $unidad->id) > 0
-                && $resultados_unidades[$unidad->id]->actividad > 0) {
-
-                $num_pruebas_evaluacion += 1;
-                $nota_examen = $resultados_unidades[$unidad->id]->tarea / $resultados_unidades[$unidad->id]->actividad;
-                $minimo_examenes_superado = $nota_examen >= $minimo_examenes / 100;
-
-                if ($unidad->hasEtiqueta('final')) {
-                    $examen_final = true;
-                    if ($minimo_examenes_superado) {
-                        $examen_final_superado = true;
-                        if ($nota_examen * 10 > $nota) {
-                            $nota = $nota_examen * 10;
-                        }
-                    }
-                } else if (!$minimo_examenes_superado) {
-                    $pruebas_evaluacion = false;
-                }
-            }
-        }
-
-        // Si la nota es por examen final, aplicar el porcentaje tope
-        if ($examen_final && isset($curso->maximo_recuperable_examenes_finales))
-            $nota = min($nota, $curso->maximo_recuperable_examenes_finales / 10);
-
-        // Total de actividades para el cálculo de la media
+        // Calcular la media de actividades del grupo
         $total_actividades_grupo = 0;
         foreach ($users as $usuario) {
             $total_actividades_grupo += $usuario->num_completadas('base');
         }
 
         $media_actividades_grupo = formato_decimales($users->count() > 0 ? $total_actividades_grupo / $users->count() : 0, 2);
-
-        // Formatear la nota final
-        $nota_final = formato_decimales($nota, 2);
-
-        // Evaluación continua
-
-        $evaluacion_continua_superada = ($actividades_obligatorias_superadas || $num_actividades_obligatorias == 0 || $curso->minimo_entregadas == 0)
-            && (!$curso->examenes_obligatorios || $pruebas_evaluacion || $num_pruebas_evaluacion == 0)
-            && $competencias_50_porciento && $nota_final >= 5;
 
         // Gráfico de actividades
 
@@ -285,13 +118,6 @@ class ResultController extends Controller
                 ->backgroundColor("#d6e9f8");
         }
 
-        return compact(['curso', 'skills_curso', 'unidades', 'user', 'users',
-            'resultados', 'resultados_unidades', 'nota_final',
-            'actividades_obligatorias_superadas', 'num_actividades_obligatorias', 'numero_actividades_completadas',
-            'pruebas_evaluacion', 'num_pruebas_evaluacion',
-            'media_actividades_grupo', 'competencias_50_porciento', 'minimo_competencias', 'minimo_examenes', 'chart',
-            'evaluacion_continua_superada', 'hayExamenes',
-            'examen_final', 'examen_final_superado',
-        ]);
+        return compact(['user', 'curso', 'users', 'unidades', 'calificaciones', 'media_actividades_grupo', 'chart']);
     }
 }

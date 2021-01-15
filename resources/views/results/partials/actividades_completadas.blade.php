@@ -36,7 +36,7 @@
             </tbody>
             <tfoot class="thead-dark">
             <tr>
-                <th colspan="4">{{ __('Completed activities') }}: {{ $numero_actividades_completadas }}
+                <th colspan="4">{{ __('Completed activities') }}: {{ $calificaciones->numero_actividades_completadas }}
                     - {{ __('Group mean') }}: {{ $media_actividades_grupo }}</th>
             </tr>
             </tfoot>
@@ -57,9 +57,9 @@
                 </h5>
                 <p class="ml-5">{{ $unidad->descripcion }}</p>
                 <div class="ml-5 progress" style="height: 24px;">
-                    @php($porcentaje = $resultados_unidades[$unidad->id]->actividad > 0 ? round($resultados_unidades[$unidad->id]->tarea/$resultados_unidades[$unidad->id]->actividad*100) : 0)
+                    @php($porcentaje = $calificaciones->resultados_unidades[$unidad->id]->actividad > 0 ? round($calificaciones->resultados_unidades[$unidad->id]->tarea/$calificaciones->resultados_unidades[$unidad->id]->actividad*100) : 0)
                     <div
-                        class="progress-bar {{ $porcentaje< ($unidad->hasEtiqueta('examen') ? $minimo_examenes : $minimo_competencias) ? 'bg-warning text-dark' : 'bg-success' }}"
+                        class="progress-bar {{ $porcentaje< ($unidad->hasEtiqueta('examen') ? $calificaciones->minimo_examenes : $calificaciones->minimo_competencias) ? 'bg-warning text-dark' : 'bg-success' }}"
                         role="progressbar"
                         style="width: {{ $porcentaje }}%;"
                         aria-valuenow="{{ $porcentaje }}"
@@ -68,8 +68,8 @@
                     </div>
                 </div>
                 <div class="text-muted small text-right">
-                    {{ $resultados_unidades[$unidad->id]->tarea + 0
-                    }}/{{ $resultados_unidades[$unidad->id]->actividad + 0 }}
+                    {{ $calificaciones->resultados_unidades[$unidad->id]->tarea + 0
+                    }}/{{ $calificaciones->resultados_unidades[$unidad->id]->actividad + 0 }}
                 </div>
                 @if(!$loop->last)
                     <hr>
