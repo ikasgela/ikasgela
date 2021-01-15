@@ -218,6 +218,10 @@ class ResultController extends Controller
             }
         }
 
+        // Si la nota es por examen final, aplicar el porcentaje tope
+        if ($examen_final && isset($curso->maximo_recuperable_examenes_finales))
+            $nota = min($nota, $curso->maximo_recuperable_examenes_finales / 10);
+
         // Total de actividades para el cálculo de la media
         $total_actividades_grupo = 0;
         foreach ($users as $usuario) {
