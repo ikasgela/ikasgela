@@ -6,7 +6,7 @@
                 <th></th>
             @endif
             <th>{{ __('Name') }}</th>
-            <th class="text-center">{{ __('Continuous evaluation') }}</th>
+            <th class="text-center">{{ __('Course evaluation') }}</th>
             <th class="text-center">{{ __('Mandatory activities') }}</th>
             <th class="text-center">{{ __('Calification') }}</th>
             @foreach($unidades as $unidad)
@@ -17,6 +17,7 @@
         <tbody>
         @php($media = false)
         @foreach($usuarios as $user)
+            @php($calificaciones_usuario = $user->calcular_calificaciones())
             @if(!$media && !isset($exportar) && session('tutor_filtro_alumnos') == 'P'
                     && $user->num_completadas('base') > $media_actividades_grupo)
                 @include('tutor.partials.fila_media')
@@ -36,19 +37,20 @@
                     @endif
                     @include('profesor.partials.status_usuario')
                 </td>
-                <td class="text-center {{ $evaluacion_continua_superada[$user->id] ? 'bg-success text-white' : 'bg-warning text-dark' }}">
-                    {{ $evaluacion_continua_superada[$user->id] ? trans_choice('tasks.passed', 1) : trans_choice('tasks.not_passed', 1) }}
+                <td class="text-center {{ ($calificaciones_usuario->evaluacion_continua_superada || $calificaciones_usuario->examen_final_superado) ? 'bg-success text-white' : 'bg-warning text-dark' }}">
+                    {{ ($calificaciones_usuario->evaluacion_continua_superada || $calificaciones_usuario->examen_final_superado) ? trans_choice('tasks.passed', 1) : trans_choice('tasks.not_passed', 1) }}
                 </td>
                 <td class="text-center {{ $user->num_completadas('base') < $media_actividades_grupo ? 'bg-warning text-dark' : '' }}">
                     {{ $user->num_completadas('base') }}
                 </td>
-                <td class="text-center {{ $notas[$user->id] < 5 ? 'bg-warning text-dark' : '' }}">
-                    {{ $notas[$user->id] }}
+                <td class="text-center {{ ($calificaciones_usuario->evaluacion_continua_superada || $calificaciones_usuario->examen_final_superado) ? 'bg-success text-white' : ($curso->disponible() ? 'bg-light text-dark' : 'bg-warning text-dark') }}">
+                    {{ $calificaciones_usuario->nota_final }}
                 </td>
                 @foreach($unidades as $unidad)
-                    @php($porcentaje = $resultados_usuario_unidades[$user->id][$unidad->id]->actividad > 0
-                    ? ($resultados_usuario_unidades[$user->id][$unidad->id]->tarea/$resultados_usuario_unidades[$user->id][$unidad->id]->actividad*100) : 0)
-                    @if($resultados_usuario_unidades[$user->id][$unidad->id]->actividad > 0)
+                    @php($resultados_unidades = $calificaciones_usuario->resultados_unidades)
+                    @php($porcentaje = $resultados_unidades[$unidad->id]->actividad > 0
+                    ? ($resultados_unidades[$unidad->id]->tarea/$resultados_unidades[$unidad->id]->actividad*100) : 0)
+                    @if($resultados_unidades[$unidad->id]->actividad > 0)
                         <td class="text-center {{ $porcentaje<50 ? 'bg-warning text-dark' : '' }}">
                             {{ number_format ( $porcentaje, 0 ) }}{{ !isset($exportar) ? ' %' : '' }}
                         </td>
