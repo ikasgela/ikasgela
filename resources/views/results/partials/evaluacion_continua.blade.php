@@ -42,7 +42,8 @@
                style="font-size:150%;">{{ $evaluacion_continua_superada ? trans_choice('tasks.passed', 1) : trans_choice('tasks.not_passed', 1) }}</p>
         </div>
     </div>
-    <div class="card mb-3 bg-light text-dark">
+    <div
+        class="card mb-3 {{ ($evaluacion_continua_superada || $examen_final_superado) ? 'bg-success text-white' : ($curso->disponible() ? 'bg-light text-dark' : 'bg-warning text-dark') }}">
         <div class="card-header">{{ __('Calification') }}</div>
         <div class="card-body text-center">
             <p class="card-text"
