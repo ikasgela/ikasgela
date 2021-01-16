@@ -26,6 +26,12 @@ class EventServiceProvider extends ServiceProvider
         'Illuminate\Auth\Events\Logout' => [
             'App\Listeners\LogoutSuccess',
         ],
+        'Lab404\Impersonate\Events\TakeImpersonation' => [
+            'App\Listeners\UserImpersonated',
+        ],
+        'Lab404\Impersonate\Events\LeaveImpersonation' => [
+            'App\Listeners\UserImpersonatedEnded',
+        ],
     ];
 
     /**

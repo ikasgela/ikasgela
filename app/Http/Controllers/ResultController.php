@@ -45,7 +45,7 @@ class ResultController extends Controller
                 $user = User::find($user_id);
                 session(['filtrar_user_actual' => $user_id]);
             }
-        } else if (!$user->isImpersonated() && !empty(session('filtrar_user_actual'))) {
+        } else if (!empty(session('filtrar_user_actual'))) {
             $user = User::find(session('filtrar_user_actual'));
         }
 
