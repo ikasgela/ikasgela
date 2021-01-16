@@ -43,7 +43,7 @@
         </table>
     </div>
 
-    @include('results.partials.desarrollo_contenidos')
+    @include('results.html.desarrollo_contenidos')
 
 @else
     <div class="row">

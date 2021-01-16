@@ -41,15 +41,15 @@
 
     @if(!is_null($user->curso_actual()))
 
-        @include('results.partials.evaluacion_continua')
+        @include('results.html.evaluacion_continua')
 
         @include('results.partials.criterios_calificacion')
 
-        @include('results.partials.desarrollo_competencias')
+        @include('results.html.desarrollo_competencias')
 
-        @include('results.partials.actividades_completadas')
+        @include('results.html.actividades_completadas')
 
-        @include('results.partials.actividades_dia')
+        @include('results.html.actividades_dia')
 
     @else
         <div class="row">
