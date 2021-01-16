@@ -4,7 +4,7 @@
 
     <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
         <h1>{{ __('Results') }}
-            @if(config('app.debug'))
+            @if(config('ikasgela.pdf_report_enabled'))
                 @if(!is_null($user->curso_actual()))
                     @if(!Auth::user()->hasAnyRole(['profesor', 'tutor']))
                         <a class="ml-3"
