@@ -5,7 +5,7 @@
         @if($curso->minimo_entregadas > 0)
             <td>
                 <table
-                        class="tabla-marcador {{ $calificaciones->examen_final ? 'bg-light text-dark' : ($calificaciones->actividades_obligatorias_superadas ? 'bg-success text-white' : 'bg-warning text-dark') }}">
+                        class="tabla-marcador {{ $calificaciones->examen_final ? 'bg-light text-dark' : ($calificaciones->actividades_obligatorias_superadas ? 'bg-success text-dark' : 'bg-warning text-dark') }}">
                     <tr>
                         <th class="text-left">{{ __('Mandatory activities') }}</th>
                     </tr>
@@ -18,7 +18,7 @@
         @if($calificaciones->minimo_competencias > 0)
             <td>
                 <table
-                        class="tabla-marcador {{ $calificaciones->examen_final ? 'bg-light text-dark' : ($calificaciones->competencias_50_porciento ? 'bg-success text-white' : 'bg-warning text-dark') }}">
+                        class="tabla-marcador {{ $calificaciones->examen_final ? 'bg-light text-dark' : ($calificaciones->competencias_50_porciento ? 'bg-success text-dark' : 'bg-warning text-dark') }}">
                     <tr>
                         <th class="text-left">{{ __('Skills') }}</th>
                     </tr>
@@ -31,7 +31,7 @@
         @if($calificaciones->num_pruebas_evaluacion > 0)
             <td>
                 <table
-                        class="tabla-marcador {{ ($curso->examenes_obligatorios || $calificaciones->examen_final) ? ($calificaciones->pruebas_evaluacion || $calificaciones->examen_final_superado) ? 'bg-success text-white' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
+                        class="tabla-marcador {{ ($curso->examenes_obligatorios || $calificaciones->examen_final) ? ($calificaciones->pruebas_evaluacion || $calificaciones->examen_final_superado) ? 'bg-success text-dark' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
                     <tr>
                         <th class="text-left">{{ __('Assessment tests') }}</th>
                     </tr>
@@ -43,7 +43,7 @@
         @endif
         <td>
             <table
-                    class="tabla-marcador {{ $calificaciones->examen_final ? 'bg-light text-dark' : ($calificaciones->evaluacion_continua_superada ? 'bg-success text-white' : 'bg-warning text-dark') }}">
+                    class="tabla-marcador {{ $calificaciones->examen_final ? 'bg-light text-dark' : ($calificaciones->evaluacion_continua_superada ? 'bg-success text-dark' : 'bg-warning text-dark') }}">
                 <tr>
                     <th class="text-left">{{ __('Continuous evaluation') }}</th>
                 </tr>
@@ -54,7 +54,7 @@
         </td>
         <td>
             <table
-                    class="tabla-marcador {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado) ? 'bg-success text-white' : ($curso->disponible() ? 'bg-light text-dark' : 'bg-warning text-dark') }}">
+                    class="tabla-marcador {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado) ? 'bg-success text-dark' : ($curso->disponible() ? 'bg-light text-dark' : 'bg-warning text-dark') }}">
                 <tr>
                     <th class="text-left">{{ __('Calification') }}</th>
                 </tr>
