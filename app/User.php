@@ -12,6 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Lab404\Impersonate\Models\Impersonate;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Watson\Rememberable\Rememberable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -20,6 +21,17 @@ class User extends Authenticatable implements MustVerifyEmail
     use Messagable;
     use Etiquetas;
     use Impersonate;
+    use Rememberable;
+
+    protected $rememberFor;
+    protected $rememberCacheTag;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->rememberCacheTag = 'remember_user';
+        $this->rememberFor = config('ikasgela.eloquent_cache_time', 60);
+    }
 
     /**
      * The attributes that are mass assignable.
