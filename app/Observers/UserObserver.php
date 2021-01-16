@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Curso;
 use App\Organization;
+use App\Unidad;
 use App\User;
 use Cache;
 
@@ -12,17 +13,13 @@ use Cache;
  */
 class UserObserver
 {
-    /**
-     * @param User $user
-     */
+    use SharedKeys;
+
     public function saved(User $user)
     {
         $this->clearCache($user);
     }
 
-    /**
-     * @param User $user
-     */
     public function deleted(User $user)
     {
         $this->clearCache($user);
@@ -32,11 +29,16 @@ class UserObserver
     {
         User::flushCache();
 
+        foreach ($this->keys as $key) {
+            Cache::forget($key . $user->id);
+        }
+
         Cache::forget("user.{$user->id}");
         Cache::forget("user.{$user->id}.{$user->getRememberToken()}");
         Cache::forget("roles_{$user->id}");
 
-        Curso::flushCache();
         Organization::flushCache();
+        Curso::flushCache();
+        Unidad::flushCache();
     }
 }
