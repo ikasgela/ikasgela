@@ -367,6 +367,7 @@ class UnidadesCRUDTest extends TestCase
         $this->delete(route('unidades.destroy', $unidad));
 
         // Then
+        unset($unidad->curso);
         $this->assertDatabaseMissing('unidades', $unidad->toArray());
     }
 
