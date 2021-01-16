@@ -27,7 +27,7 @@
                     <td class="text-center">
                         {{ formato_decimales($porcentaje_examen) }}&thinsp;%
                     </td>
-                @elseif($hayExamenes)
+                @elseif($calificaciones->hayExamenes)
                     <td class="text-center">-</td>
                 @endif
                 @php($porcentaje_competencia = $resultado->porcentaje_competencia())
