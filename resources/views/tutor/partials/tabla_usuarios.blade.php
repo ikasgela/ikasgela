@@ -31,7 +31,10 @@
                 @endif
                 <td>
                     @if(!isset($exportar))
-                        <a href="mailto:{{ $user->email }}" class="text-dark">{{ $user->name }} {{ $user->surname }}</a>
+                        {!! Form::open(['route' => ['results.alumno'], 'method' => 'POST', 'style' => 'display:inline']) !!}
+                        {!! Form::button($user->name.' '.$user->surname, ['type' => 'submit', 'class' => 'btn btn-link m-0 p-0 text-dark text-left']) !!}
+                        {!! Form::hidden('user_id',$user->id) !!}
+                        {!! Form::close() !!}
                     @else
                         {{ $user->name }} {{ $user->surname }}
                     @endif
