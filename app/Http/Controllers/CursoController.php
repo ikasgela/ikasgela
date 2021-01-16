@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Curso;
 use App\Qualification;
-use BadMethodCallException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -56,6 +55,7 @@ class CursoController extends Controller
             'minimo_competencias' => request('minimo_competencias'),
             'minimo_examenes' => request('minimo_examenes'),
             'examenes_obligatorios' => $request->has('examenes_obligatorios'),
+            'maximo_recuperable_examenes_finales' => request('maximo_recuperable_examenes_finales'),
         ]);
 
         return retornar();
@@ -106,6 +106,7 @@ class CursoController extends Controller
             'minimo_competencias' => request('minimo_competencias'),
             'minimo_examenes' => request('minimo_examenes'),
             'examenes_obligatorios' => $request->has('examenes_obligatorios'),
+            'maximo_recuperable_examenes_finales' => request('maximo_recuperable_examenes_finales'),
         ]);
 
         return retornar();

@@ -10,18 +10,19 @@ class Curso extends Model
     use Rememberable;
 
     protected $rememberFor;
-    protected $rememberCacheTag = 'curso';
+    protected $rememberCacheTag;
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
+        $this->rememberCacheTag = 'curso';
         $this->rememberFor = config('ikasgela.eloquent_cache_time', 60);
     }
 
     protected $fillable = [
         'category_id', 'nombre', 'descripcion', 'slug', 'qualification_id', 'max_simultaneas',
         'fecha_inicio', 'fecha_fin', 'plazo_actividad', 'minimo_entregadas', 'minimo_competencias',
-        'minimo_examenes', 'examenes_obligatorios'
+        'minimo_examenes', 'examenes_obligatorios', 'maximo_recuperable_examenes_finales'
     ];
 
     protected $dates = [

@@ -48,6 +48,7 @@
             {{ Form::campoTexto('minimo_competencias', __('Minimum skills percent')) }}
             {{ Form::campoTexto('minimo_examenes', __('Minimum exams percent')) }}
             {{ Form::campoCheck('examenes_obligatorios', __('Mandatory exams')) }}
+            {{ Form::campoTexto('maximo_recuperable_examenes_finales', __('Maximum recoverable percent')) }}
 
             {{ Form::campoTexto('fecha_inicio', __('Start date')) }}
             {{ Form::campoTexto('fecha_fin', __('End date')) }}

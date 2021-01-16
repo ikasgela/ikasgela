@@ -18,4 +18,7 @@ return [
 
     'pagination_assigned_activities' => env('PAGINATION_ASSIGNED_ACTIVITIES', 20),
     'pagination_available_activities' => env('PAGINATION_AVAILABLE_ACTIVITIES', 10),
+
+    'pdf_report_enabled' => env('PDF_REPORT_ENABLED', false),
+    'excel_report_enabled' => env('EXCEL_REPORT_ENABLED', false),
 ];
