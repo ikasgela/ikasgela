@@ -630,14 +630,6 @@ class User extends Authenticatable implements MustVerifyEmail
                     $r->competencias_50_porciento = false;
             }
 
-            // Nota final
-            $nota = 0;
-            foreach ($r->resultados as $resultado) {
-                if ($resultado->actividad > 0) {
-                    $nota += ($resultado->porcentaje_competencia() / 100) * ($resultado->porcentaje / 100);
-                }
-            }
-
             // Unidades
 
             $unidades = Unidad::cursoActual()->orderBy('orden')->get();
@@ -658,10 +650,30 @@ class User extends Authenticatable implements MustVerifyEmail
                 }
             }
 
+            // Nota final
+
+            $nota = 0;
+            $porcentaje_total = 0;
+            foreach ($r->resultados as $resultado) {
+                if ($resultado->actividad > 0) {
+                    $nota += ($resultado->porcentaje_competencia() / 100) * ($resultado->porcentaje / 100);
+                    $porcentaje_total += $resultado->porcentaje;
+                }
+            }
+
+            // Nota sobre 10
+            $nota = $nota * 10;
+
+            // Ajustar la nota si el porcentaje de las competencias suma más del 100%
+            if ($porcentaje_total == 0)
+                $porcentaje_total = 100;
+
+            $nota = ($nota / $porcentaje_total) * 100;
+
             // Ajustar la nota en función de las completadas 100% completadas - 100% de nota
             $r->numero_actividades_completadas = $user->num_completadas('base');
             if ($r->num_actividades_obligatorias > 0)
-                $nota = $nota * ($r->numero_actividades_completadas / $r->num_actividades_obligatorias) * 10;
+                $nota = $nota * ($r->numero_actividades_completadas / $r->num_actividades_obligatorias);
 
             // Resultados por unidades
 
