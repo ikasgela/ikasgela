@@ -19,6 +19,19 @@ trait Etiquetas
         return in_array($etiqueta, $this->etiquetas());
     }
 
+    public function hasEtiquetas($etiquetas)
+    {
+        $encontradas = true;
+
+        foreach ($etiquetas as $etiqueta) {
+            if (!$this->hasEtiqueta($etiqueta)) {
+                $encontradas = false;
+            }
+        }
+
+        return $encontradas;
+    }
+
     public function scopeTag($query, $tag, $exists = true)
     {
         return $this->buscarEtiqueta($query, $exists, $tag);
