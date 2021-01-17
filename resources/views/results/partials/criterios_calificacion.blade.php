@@ -20,10 +20,12 @@
                     </li>
                 @endif
                 @if($curso->examenes_obligatorios)
-                    <li>Se deben haber superado el {{ formato_decimales($curso->minimo_examenes) }}&thinsp;% en las
-                        pruebas teórico-prácticas obligatorias de cada competencia.
+                    <li>Se debe haber superado el {{ formato_decimales($curso->minimo_examenes) }}&thinsp;% en las
+                        pruebas de evaluación que lo requieran.
                         @include('results.partials.criterio_superado', ['criterio' => $calificaciones->pruebas_evaluacion])
                     </li>
+                @else
+                    <li>No hay pruebas de evaluación que requieran superar un porcentaje mínimo.</li>
                 @endif
             @else
                 <li>Se debe superar el {{ formato_decimales($curso->minimo_examenes) }}&thinsp;% en las pruebas de
