@@ -17,6 +17,7 @@
         </thead>
         <tbody>
         @php($media = false)
+        @php($aprobados = 0)
         @foreach($usuarios as $user)
             @php($calificaciones = $user->calcular_calificaciones())
             @if(!$media && !isset($exportar) && session('tutor_filtro_alumnos') == 'P'
@@ -41,6 +42,7 @@
                     @endif
                     @include('profesor.partials.status_usuario')
                 </td>
+                @php($aprobados += $calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado ? 1 : 0)
                 <td class="text-center {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado) ? 'bg-success text-dark' : 'bg-warning text-dark' }}">
                     {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado) ? __('Yes') : __('No') }}
                 </td>
@@ -74,7 +76,11 @@
                 @include('tutor.partials.fila_media')
             @endif
             <tr>
-                <th colspan="4">{{ __('Student total') }}: {{ $usuarios->count() }}</th>
+                <th colspan="2">{{ __('Student total') }}: {{ $usuarios->count() }}</th>
+                <th colspan="2">
+                    {{ __('Passed') }}: {{ $aprobados }}
+                    ({{ formato_decimales($aprobados/$usuarios->count()*100, 2) }}&thinsp;%)
+                </th>
                 <th class="text-center">{{ __('Total') }}: {{ $num_actividades_obligatorias }}</th>
                 <th colspan="{{ $unidades->count() + 1 }}"></th>
             </tr>
