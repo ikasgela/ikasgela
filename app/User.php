@@ -714,7 +714,10 @@ class User extends Authenticatable implements MustVerifyEmail
                     $minimo_examenes_superado = $nota_examen >= $r->minimo_examenes / 100;
 
                     if ($unidad->hasEtiqueta('final')) {
-                        $r->examen_final = true;
+                        if (!$r->examen_final) {
+                            $r->examen_final = true;
+                            $nota = 0;
+                        }
                         if ($minimo_examenes_superado) {
                             $r->examen_final_superado = true;
                             if ($nota_examen * 10 > $nota) {
