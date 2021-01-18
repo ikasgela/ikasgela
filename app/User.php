@@ -718,11 +718,11 @@ class User extends Authenticatable implements MustVerifyEmail
                             $r->examen_final = true;
                             $nota = 0;
                         }
+                        if ($nota_examen * 10 > $nota) {
+                            $nota = $nota_examen * 10;
+                        }
                         if ($minimo_examenes_superado) {
                             $r->examen_final_superado = true;
-                            if ($nota_examen * 10 > $nota) {
-                                $nota = $nota_examen * 10;
-                            }
                         }
                     } else if (!$minimo_examenes_superado) {
                         $r->pruebas_evaluacion = false;
