@@ -20,4 +20,5 @@ class ResultadoCalificaciones
     public $hayExamenes = null;
     public $examen_final = null;
     public $examen_final_superado = null;
+    public $hay_nota_manual = false;
 }
