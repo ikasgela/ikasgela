@@ -345,6 +345,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this
             ->belongsToMany(Curso::class)
+            ->withPivot('nota')
             ->withTimestamps();
     }
 
@@ -733,6 +734,16 @@ class User extends Authenticatable implements MustVerifyEmail
             // Si la nota es por examen final, aplicar el porcentaje tope
             if ($r->examen_final && isset($curso->maximo_recuperable_examenes_finales))
                 $nota = min($nota, $curso->maximo_recuperable_examenes_finales / 10);
+
+            // Nota manual
+            $temp = $user->cursos()->wherePivot('curso_id', $curso->id)->first();
+            if ($temp != null && isset($temp->pivot->nota)) {
+                $r->hay_nota_manual = true;
+                $nota = $temp->pivot->nota;
+                if ($nota >= 5) {
+                    $r->nota_manual_superada = true;
+                }
+            }
 
             // Formatear la nota final
             $r->nota_final = formato_decimales($nota, 2);

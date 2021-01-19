@@ -10,6 +10,9 @@
             <th class="text-center">{{ __('Continuous evaluation') }}</th>
             <th class="text-center">{{ __('Mandatory activities') }}</th>
             <th class="text-center">{{ __('Calification') }}</th>
+            @if(!isset($exportar) && Auth::user()->hasAnyRole(['profesor','admin']))
+                <th></th>
+            @endif
             @foreach($unidades as $unidad)
                 <th class="text-center">{{ $unidad->nombre }}</th>
             @endforeach
@@ -42,25 +45,38 @@
                     @endif
                     @include('profesor.partials.status_usuario')
                 </td>
-                @php($aprobados += $calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado ? 1 : 0)
-                <td class="text-center {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado) ? 'bg-success text-dark' : 'bg-warning text-dark' }}">
-                    {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado) ? __('Yes') : __('No') }}
+                @php($aprobados += $calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada ? 1 : 0)
+                <td class="text-center {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : 'bg-warning text-dark' }}">
+                    {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? __('Yes') : __('No') }}
                 </td>
-                <td class="text-center {{ $calificaciones->evaluacion_continua_superada ? 'bg-success text-dark' : 'bg-warning text-dark' }}">
+                <td class="text-center {{ $calificaciones->hay_nota_manual ? '' : ($calificaciones->evaluacion_continua_superada ? 'bg-success text-dark' : 'bg-warning text-dark') }}">
                     {{ $calificaciones->evaluacion_continua_superada ? trans_choice('tasks.passed', 1) : trans_choice('tasks.not_passed', 1) }}
                 </td>
-                <td class="text-center {{ $user->num_completadas('base') < $media_actividades_grupo ? 'bg-warning text-dark' : '' }}">
+                <td class="text-center {{ $calificaciones->hay_nota_manual ? '' : ($user->num_completadas('base') < $media_actividades_grupo ? 'bg-warning text-dark' : '') }}">
                     {{ $user->num_completadas('base') }}
                 </td>
-                <td class="text-center {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado) ? 'bg-success text-dark' : ($curso->disponible() ? '' : 'bg-warning text-dark') }}">
+                <td class="text-center {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : ($curso->disponible() ? '' : 'bg-warning text-dark') }}">
                     {{ $calificaciones->nota_final }}
                 </td>
+                @if(!isset($exportar))
+                    <td>
+                        @if(Auth::user()->hasAnyRole(['profesor','admin']))
+                            <a title="{{ __('Manual calification') }}"
+                               href="{{ route('profesor.nota_manual.edit', [$user->id, $curso->id]) }}"
+                               class="btn btn-sm {{ $calificaciones->hay_nota_manual ? 'btn-primary' : 'btn-light' }}">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                        @elseif($calificaciones->hay_nota_manual)
+                            <i title="{{ __('Manual calification') }}" class="fas fa-pen btn-sm bg-light }}"></i>
+                        @endif
+                    </td>
+                @endif
                 @foreach($unidades as $unidad)
                     @php($resultados_unidades = $calificaciones->resultados_unidades)
                     @php($porcentaje = $resultados_unidades[$unidad->id]->actividad > 0
                     ? ($resultados_unidades[$unidad->id]->tarea/$resultados_unidades[$unidad->id]->actividad*100) : 0)
                     @if($resultados_unidades[$unidad->id]->actividad > 0)
-                        <td class="text-center {{ $porcentaje<50 ? 'bg-warning text-dark' : ($unidad->hasEtiquetas(['examen','final']) ? 'bg-success text-dark' : '') }}">
+                        <td class="text-center {{ $calificaciones->hay_nota_manual ? '' : ($porcentaje<50 ? 'bg-warning text-dark' : ($unidad->hasEtiquetas(['examen','final']) ? 'bg-success text-dark' : '')) }}">
                             {{ number_format ( $porcentaje, 0 ) }}{{ !isset($exportar) ? ' %' : '' }}
                         </td>
                     @else
@@ -82,6 +98,9 @@
                     ({{ formato_decimales($aprobados/$usuarios->count()*100, 2) }}&thinsp;%)
                 </th>
                 <th class="text-center">{{ __('Total') }}: {{ $num_actividades_obligatorias }}</th>
+                @if(Auth::user()->hasAnyRole(['profesor','admin']))
+                    <th></th>
+                @endif
                 <th colspan="{{ $unidades->count() + 1 }}"></th>
             </tr>
             </tfoot>
