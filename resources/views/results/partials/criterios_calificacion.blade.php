@@ -6,7 +6,15 @@
             <h5 class="card-title">Criterios de calificación aplicados</h5>
         @endif
         <ul class="card-text mb-1">
-            @if(!$calificaciones->examen_final)
+            @if($calificaciones->hay_nota_manual)
+                <li>La calificación se ha establecido manualmente.</li>
+            @elseif($calificaciones->examen_final)
+                <li>Se debe superar el {{ formato_decimales($curso->minimo_examenes) }}&thinsp;% en las pruebas de
+                    evaluación final, recuperando un máximo del
+                    {{ formato_decimales($curso->maximo_recuperable_examenes_finales) }}&thinsp;% de la nota.
+                    @include('results.partials.criterio_superado', ['criterio' => $calificaciones->examen_final_superado])
+                </li>
+            @else
                 @if($curso->minimo_entregadas > 0)
                     <li>Se deben haber realizado al menos el {{ formato_decimales($curso->minimo_entregadas) }}&thinsp;%
                         de las actividades propuestas de cada unidad.
@@ -27,12 +35,6 @@
                 @else
                     <li>No hay pruebas de evaluación que requieran superar un porcentaje mínimo.</li>
                 @endif
-            @else
-                <li>Se debe superar el {{ formato_decimales($curso->minimo_examenes) }}&thinsp;% en las pruebas de
-                    evaluación final, recuperando un máximo del
-                    {{ formato_decimales($curso->maximo_recuperable_examenes_finales) }}&thinsp;% de la nota.
-                    @include('results.partials.criterio_superado', ['criterio' => $calificaciones->examen_final_superado])
-                </li>
             @endif
         </ul>
     </div>
