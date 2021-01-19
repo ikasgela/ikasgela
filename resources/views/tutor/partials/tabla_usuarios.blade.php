@@ -10,7 +10,7 @@
             <th class="text-center">{{ __('Continuous evaluation') }}</th>
             <th class="text-center">{{ __('Mandatory activities') }}</th>
             <th class="text-center">{{ __('Calification') }}</th>
-            @if(!isset($exportar) && Auth::user()->hasAnyRole(['profesor','admin']))
+            @if(!isset($exportar))
                 <th></th>
             @endif
             @foreach($unidades as $unidad)
@@ -99,10 +99,7 @@
                     ({{ formato_decimales($aprobados/$usuarios->count()*100, 2) }}&thinsp;%)
                 </th>
                 <th class="text-center">{{ __('Total') }}: {{ $num_actividades_obligatorias }}</th>
-                @if(Auth::user()->hasAnyRole(['profesor','admin']))
-                    <th></th>
-                @endif
-                <th colspan="{{ $unidades->count() + 1 }}"></th>
+                <th colspan="{{ $unidades->count() + 2 }}"></th>
             </tr>
             </tfoot>
         @endif
