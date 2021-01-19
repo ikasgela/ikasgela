@@ -3,7 +3,7 @@
 <div class="card-deck">
     @if($curso->minimo_entregadas > 0)
         <div
-            class="card mb-3 {{ $calificaciones->examen_final ? 'bg-light text-dark' : ($calificaciones->actividades_obligatorias_superadas ? 'bg-success text-dark' : 'bg-warning text-dark') }}">
+            class="card mb-3 {{ $calificaciones->examen_final || $calificaciones->hay_nota_manual ? 'bg-light text-dark' : ($calificaciones->actividades_obligatorias_superadas ? 'bg-success text-dark' : 'bg-warning text-dark') }}">
             <div
                 class="card-header">{{ __('Mandatory activities') }}</div>
             <div class="card-body text-center">
@@ -14,7 +14,7 @@
     @endif
     @if($calificaciones->minimo_competencias > 0)
         <div
-            class="card mb-3 {{ $calificaciones->examen_final ? 'bg-light text-dark' : ($calificaciones->competencias_50_porciento ? 'bg-success text-dark' : 'bg-warning text-dark') }}">
+            class="card mb-3 {{ $calificaciones->examen_final || $calificaciones->hay_nota_manual ? 'bg-light text-dark' : ($calificaciones->competencias_50_porciento ? 'bg-success text-dark' : 'bg-warning text-dark') }}">
             <div class="card-header">{{ __('Skills') }}</div>
             <div class="card-body text-center">
                 <p class="card-text"
@@ -25,7 +25,7 @@
     @endif
     @if($calificaciones->num_pruebas_evaluacion > 0)
         <div
-            class="card mb-3 {{ ($curso->examenes_obligatorios || $calificaciones->examen_final) ? ($calificaciones->pruebas_evaluacion || $calificaciones->examen_final_superado) ? 'bg-success text-dark' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
+            class="card mb-3 {{ ($curso->examenes_obligatorios || $calificaciones->examen_final) && !$calificaciones->hay_nota_manual ? ($calificaciones->pruebas_evaluacion || $calificaciones->examen_final_superado) ? 'bg-success text-dark' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
             <div class="card-header">{{ __('Assessment tests') }}</div>
             <div class="card-body text-center">
                 <p class="card-text"
@@ -35,7 +35,7 @@
         </div>
     @endif
     <div
-        class="card mb-3 {{ $calificaciones->examen_final ? 'bg-light text-dark' : ($calificaciones->evaluacion_continua_superada ? 'bg-success text-dark' : 'bg-warning text-dark') }}">
+        class="card mb-3 {{ $calificaciones->examen_final || $calificaciones->hay_nota_manual ? 'bg-light text-dark' : ($calificaciones->evaluacion_continua_superada ? 'bg-success text-dark' : 'bg-warning text-dark') }}">
         <div class="card-header">{{ __('Continuous evaluation') }}</div>
         <div class="card-body text-center">
             <p class="card-text"
@@ -43,11 +43,11 @@
         </div>
     </div>
     <div
-        class="card mb-3 {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado) ? 'bg-success text-dark' : ($curso->disponible() ? 'bg-light text-dark' : 'bg-warning text-dark') }}">
+        class="card mb-3 {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : ($curso->disponible() ? 'bg-light text-dark' : 'bg-warning text-dark') }}">
         <div class="card-header">{{ __('Calification') }}</div>
         <div class="card-body text-center">
             <p class="card-text"
-               style="font-size:150%;">{{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado) ? $calificaciones->nota_final : ($curso->disponible() ? __('Unavailable') : __('Fail')) }}</p>
+               style="font-size:150%;">{{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? $calificaciones->nota_final : ($curso->disponible() ? __('Unavailable') : __('Fail')) }}</p>
         </div>
     </div>
 </div>

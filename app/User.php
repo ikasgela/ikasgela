@@ -737,9 +737,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
             // Nota manual
             $temp = $user->cursos()->wherePivot('curso_id', $curso->id)->first();
-            if ($temp != null) {
+            if ($temp != null && isset($temp->pivot->nota)) {
                 $r->hay_nota_manual = true;
                 $nota = $temp->pivot->nota;
+                if ($nota >= 5) {
+                    $r->nota_manual_superada = true;
+                }
             }
 
             // Formatear la nota final
