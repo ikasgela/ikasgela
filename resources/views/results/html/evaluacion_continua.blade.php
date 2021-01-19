@@ -2,52 +2,39 @@
 
 <div class="card-deck">
     @if($curso->minimo_entregadas > 0)
-        <div
-            class="card mb-3 {{ $calificaciones->examen_final || $calificaciones->hay_nota_manual ? 'bg-light text-dark' : ($calificaciones->actividades_obligatorias_superadas ? 'bg-success text-dark' : 'bg-warning text-dark') }}">
-            <div
-                class="card-header">{{ __('Mandatory activities') }}</div>
+        <div class="card mb-3 {{ $actividades_obligatorias_fondo }}">
+            <div class="card-header">{{ __('Mandatory activities') }}</div>
             <div class="card-body text-center">
-                <p class="card-text"
-                   style="font-size:150%;">{{ $calificaciones->num_actividades_obligatorias > 0 ? $calificaciones->actividades_obligatorias_superadas ? trans_choice('tasks.completed', 2) : ($calificaciones->numero_actividades_completadas+0)."/".($calificaciones->num_actividades_obligatorias+0)  : __('None') }}</p>
+                <p class="card-text" style="font-size:150%;">{{ $actividades_obligatorias_dato }}</p>
             </div>
         </div>
     @endif
     @if($calificaciones->minimo_competencias > 0)
-        <div
-            class="card mb-3 {{ $calificaciones->examen_final || $calificaciones->hay_nota_manual ? 'bg-light text-dark' : ($calificaciones->competencias_50_porciento ? 'bg-success text-dark' : 'bg-warning text-dark') }}">
+        <div class="card mb-3 {{ $competencias_fondo }}">
             <div class="card-header">{{ __('Skills') }}</div>
             <div class="card-body text-center">
-                <p class="card-text"
-                   style="font-size:150%;">
-                    {{ $calificaciones->competencias_50_porciento ? trans_choice('tasks.passed', 2) : trans_choice('tasks.not_passed', 2) }}</p>
+                <p class="card-text" style="font-size:150%;">{{ $competencias_dato }}</p>
             </div>
         </div>
     @endif
     @if($calificaciones->num_pruebas_evaluacion > 0)
-        <div
-            class="card mb-3 {{ ($curso->examenes_obligatorios || $calificaciones->examen_final) && !$calificaciones->hay_nota_manual ? ($calificaciones->examen_final && !$calificaciones->examen_final_superado ? 'bg-warning text-dark': ($calificaciones->pruebas_evaluacion ? 'bg-success text-dark' : 'bg-warning text-dark')) : 'bg-light text-dark' }}">
+        <div class="card mb-3 {{ $pruebas_evaluacion_fondo }}">
             <div class="card-header">{{ __('Assessment tests') }}</div>
             <div class="card-body text-center">
-                <p class="card-text"
-                   style="font-size:150%;">
-                    {{ $calificaciones->num_pruebas_evaluacion > 0 ? ($calificaciones->examen_final && !$calificaciones->examen_final_superado ? trans_choice('tasks.not_passed', 2) : ($calificaciones->pruebas_evaluacion ? trans_choice('tasks.passed', 2) : trans_choice('tasks.not_passed', 2))) : __('None') }}</p>
+                <p class="card-text" style="font-size:150%;">{{ $pruebas_evaluacion_dato }}</p>
             </div>
         </div>
     @endif
-    <div
-        class="card mb-3 {{ $calificaciones->examen_final || $calificaciones->hay_nota_manual ? 'bg-light text-dark' : ($calificaciones->evaluacion_continua_superada ? 'bg-success text-dark' : 'bg-warning text-dark') }}">
+    <div class="card mb-3 {{ $evaluacion_continua_fondo }}">
         <div class="card-header">{{ __('Continuous evaluation') }}</div>
         <div class="card-body text-center">
-            <p class="card-text"
-               style="font-size:150%;">{{ $calificaciones->evaluacion_continua_superada ? trans_choice('tasks.passed', 1) : trans_choice('tasks.not_passed', 1) }}</p>
+            <p class="card-text" style="font-size:150%;">{{ $evaluacion_continua_dato }}</p>
         </div>
     </div>
-    <div
-        class="card mb-3 {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : ($curso->disponible() ? 'bg-light text-dark' : 'bg-warning text-dark') }}">
+    <div class="card mb-3 {{ $calificacion_fondo }}">
         <div class="card-header">{{ __('Calification') }}</div>
         <div class="card-body text-center">
-            <p class="card-text"
-               style="font-size:150%;">{{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? $calificaciones->nota_final : ($curso->disponible() ? __('Unavailable') : __('Fail')) }}</p>
+            <p class="card-text" style="font-size:150%;">{{ $calificacion_dato }}</p>
         </div>
     </div>
 </div>
