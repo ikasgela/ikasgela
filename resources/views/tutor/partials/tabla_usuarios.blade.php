@@ -40,10 +40,11 @@
                         {!! Form::button($user->name.' '.$user->surname, ['type' => 'submit', 'class' => 'btn btn-link m-0 p-0 text-dark text-left']) !!}
                         {!! Form::hidden('user_id',$user->id) !!}
                         {!! Form::close() !!}
+
+                        @include('profesor.partials.status_usuario')
                     @else
                         {{ $user->name }} {{ $user->surname }}
                     @endif
-                    @include('profesor.partials.status_usuario')
                 </td>
                 @php($aprobados += $calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada ? 1 : 0)
                 <td class="text-center {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : 'bg-warning text-dark' }}">
