@@ -31,12 +31,12 @@
         @if($calificaciones->num_pruebas_evaluacion > 0)
             <td>
                 <table
-                    class="tabla-marcador {{ ($curso->examenes_obligatorios || $calificaciones->examen_final) && !$calificaciones->hay_nota_manual ? ($calificaciones->pruebas_evaluacion || $calificaciones->examen_final_superado) ? 'bg-success text-dark' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
+                    class="tabla-marcador {{ ($curso->examenes_obligatorios || $calificaciones->examen_final) && !$calificaciones->hay_nota_manual ? ($calificaciones->examen_final && !$calificaciones->examen_final_superado ? 'bg-warning text-dark': ($calificaciones->pruebas_evaluacion ? 'bg-success text-dark' : 'bg-warning text-dark')) : 'bg-light text-dark' }}">
                     <tr>
                         <th class="text-left">{{ __('Assessment tests') }}</th>
                     </tr>
                     <tr>
-                        <td class="text-center">{{ $calificaciones->num_pruebas_evaluacion > 0 ? ($calificaciones->pruebas_evaluacion || $calificaciones->examen_final_superado) ? trans_choice('tasks.passed', 2) : trans_choice('tasks.not_passed', 2) : __('None') }}</td>
+                        <td class="text-center">{{ $calificaciones->num_pruebas_evaluacion > 0 ? ($calificaciones->examen_final && !$calificaciones->examen_final_superado ? trans_choice('tasks.not_passed', 2) : ($calificaciones->pruebas_evaluacion ? trans_choice('tasks.passed', 2) : trans_choice('tasks.not_passed', 2))) : __('None') }}</td>
                     </tr>
                 </table>
             </td>

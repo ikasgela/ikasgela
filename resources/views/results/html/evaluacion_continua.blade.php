@@ -25,12 +25,12 @@
     @endif
     @if($calificaciones->num_pruebas_evaluacion > 0)
         <div
-            class="card mb-3 {{ ($curso->examenes_obligatorios || $calificaciones->examen_final) && !$calificaciones->hay_nota_manual ? ($calificaciones->pruebas_evaluacion || $calificaciones->examen_final_superado) ? 'bg-success text-dark' : 'bg-warning text-dark' : 'bg-light text-dark' }}">
+            class="card mb-3 {{ ($curso->examenes_obligatorios || $calificaciones->examen_final) && !$calificaciones->hay_nota_manual ? ($calificaciones->examen_final && !$calificaciones->examen_final_superado ? 'bg-warning text-dark': ($calificaciones->pruebas_evaluacion ? 'bg-success text-dark' : 'bg-warning text-dark')) : 'bg-light text-dark' }}">
             <div class="card-header">{{ __('Assessment tests') }}</div>
             <div class="card-body text-center">
                 <p class="card-text"
                    style="font-size:150%;">
-                    {{ $calificaciones->num_pruebas_evaluacion > 0 ? ($calificaciones->pruebas_evaluacion || $calificaciones->examen_final_superado) ? trans_choice('tasks.passed', 2) : trans_choice('tasks.not_passed', 2) : __('None') }}</p>
+                    {{ $calificaciones->num_pruebas_evaluacion > 0 ? ($calificaciones->examen_final && !$calificaciones->examen_final_superado ? trans_choice('tasks.not_passed', 2) : ($calificaciones->pruebas_evaluacion ? trans_choice('tasks.passed', 2) : trans_choice('tasks.not_passed', 2))) : __('None') }}</p>
             </div>
         </div>
     @endif
