@@ -222,6 +222,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Ver archivo de otros alumnos
         Route::post('/archivo', 'ArchivoController@index')
             ->name('archivo.alumno');
+
+        // Modificar la nota manualmente
+        Route::get('/profesor/{user}/{curso}/nota_manual', 'ProfesorController@editNotaManual')
+            ->name('profesor.nota_manual.edit');
+        Route::post('/profesor/{user}/{curso}/nota_manual', 'ProfesorController@updateNotaManual')
+            ->name('profesor.nota_manual.update');
     });
 
     // Administrador

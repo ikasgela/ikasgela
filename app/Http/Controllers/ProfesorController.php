@@ -289,4 +289,22 @@ class ProfesorController extends Controller
 
         return $this->paginate_ultima($disponibles, config('ikasgela.pagination_available_activities'), 'disponibles');
     }
+
+    public function editNotaManual(User $user, Curso $curso)
+    {
+        $nota = $user->cursos()->wherePivot('curso_id', $curso->id)->first()->pivot->nota;
+
+        return view('profesor.nota_manual', compact(['curso', 'user', 'nota']));
+    }
+
+    public function updateNotaManual(User $user, Curso $curso, Request $request)
+    {
+        if (!Auth::user()->hasAnyRole(['admin', 'profesor']))
+            abort('403');
+
+        $user->cursos()->sync([$curso->id => ['nota' => request('nota')]], false);
+        $user->save();  // Provocar que el observer limpie la caché
+
+        return retornar();
+    }
 }
