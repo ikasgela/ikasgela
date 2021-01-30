@@ -59,7 +59,7 @@
             <div class="card-header text-white bg-dark d-flex justify-content-between">
                 <span>{{ $actividad->unidad->curso->nombre }} » {{ $actividad->unidad->nombre }}</span>
                 @if(isset($actividad->fecha_entrega) && !$actividad->tarea->is_completada && !$actividad->tarea->is_enviada)
-                    @if($actividad->fecha_entrega->gt(\Carbon\Carbon::now()))
+                    @if(!$actividad->is_finished)
                         <div>{{ __('Remaining time') }}:
                             <span data-countdown="{{ $actividad->fecha_entrega }}"></span>
                         </div>
@@ -94,23 +94,23 @@
                         @method('PUT')
                         @switch($actividad->tarea->estado)
                             @case(10)   {{-- Nueva --}}
-                            @if(!$actividad->tarea->is_expired)
-                                <button type="submit" name="nuevoestado" value="20"
-                                        class="btn btn-primary single_click">
-                                    <i class="fas fa-spinner fa-spin" style="display:none;"></i>
-                                    {{ __('Accept activity') }}
-                                </button>
+                            @if(!$actividad->is_finished) {{-- Mostrar si no ha superado la fecha de entrega --}}
+                            <button type="submit" name="nuevoestado" value="20"
+                                    class="btn btn-primary single_click">
+                                <i class="fas fa-spinner fa-spin" style="display:none;"></i>
+                                {{ __('Accept activity') }}
+                            </button>
                             @endif
                             @break
                             @case(20)   {{-- Aceptada --}}
                             @case(21)   {{-- Feedback leído --}}
                             @if($actividad->envioPermitido())
                                 @if($actividad->unidad->curso->disponible() || $actividad->hasEtiqueta('examen'))
-                                    @if(!$actividad->tarea->is_expired)
-                                        <button type="submit" name="nuevoestado" value="30"
-                                                class="btn btn-primary mr-2 single_click">
-                                            <i class="fas fa-spinner fa-spin"
-                                               style="display:none;"></i> {{ __('Submit for review') }}</button>
+                                    @if(!$actividad->is_expired) {{-- Mostrar el botón si no ha superado el límite --}}
+                                    <button type="submit" name="nuevoestado" value="30"
+                                            class="btn btn-primary mr-2 single_click">
+                                        <i class="fas fa-spinner fa-spin"
+                                           style="display:none;"></i> {{ __('Submit for review') }}</button>
                                     @endif
                                 @else
                                     <div class="alert alert-danger pb-0" role="alert">
@@ -135,7 +135,7 @@
                                            style="display:none;"></i> {{ __('Next step') }}
                                     </button>
                                 </div>
-                            @elseif(!$actividad->tarea->is_expired)
+                            @elseif(!$actividad->is_finished)
                                 <button type="submit" name="nuevoestado" value="32"
                                         onclick="return confirm('{{ __('Are you sure?') }}\n\n{{ __('Reopening the activity cancels the submission and allows making corrections, but it has a 5 point penalty.') }}')"
                                         class="btn btn-secondary single_click">
@@ -262,7 +262,7 @@
             @switch($actividad->tarea->estado)
                 @case(20)   {{-- Aceptada --}}
                 @case(21)   {{-- Feedback leído --}}
-                @if(!$actividad->tarea->is_expired)
+                @if(!$actividad->is_expired)
                     <hr class="mt-0 mb-2">
                     @include('partials.tarjetas_actividad')
                 @else

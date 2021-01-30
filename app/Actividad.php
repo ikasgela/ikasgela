@@ -243,4 +243,21 @@ class Actividad extends Model
     {
         return $query->where('auto_avance', true);
     }
+
+    public function getIsAvailableAttribute()
+    {
+        return isset($this->fecha_disponibilidad) && $this->fecha_disponibilidad <= now();
+    }
+
+    public function getIsFinishedAttribute()
+    {
+        return isset($this->fecha_entrega) && $this->fecha_entrega < now()
+            || !isset($this->fecha_entrega) && isset($this->fecha_limite) && $this->fecha_limite < now();
+    }
+
+    public function getIsExpiredAttribute()
+    {
+        return isset($this->fecha_limite) && $this->fecha_limite < now()
+            || !isset($this->fecha_limite) && isset($this->fecha_entrega) && $this->fecha_entrega < now();
+    }
 }
