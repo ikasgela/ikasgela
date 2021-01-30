@@ -471,11 +471,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function num_actividades_asignadas_total()
     {
-        $key = 'num_actividades_asignadas_total_' . $this->id;
-
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
-            return $this->actividades_en_curso_autoavance()->enPlazoOrCorregida()->tag('extra', false)->count() ?: 0;
-        });
+        return $this->actividades_en_curso_autoavance()->enPlazoOrCorregida()->tag('extra', false)->count() ?: 0;
     }
 
     public function siguiente_actividad()
@@ -494,11 +490,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function num_actividades_en_curso_examen()
     {
-        $key = 'num_actividades_en_curso_examen_' . $this->id;
-
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
-            return $this->actividades_en_curso_examen()->count();
-        });
+        return $this->actividades_en_curso_examen()->count();
     }
 
     public function actividades_en_curso_no_extra_examen()
@@ -508,11 +500,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function num_actividades_en_curso_no_extra_examen()
     {
-        $key = 'num_actividades_en_curso_no_extra_examen_' . $this->id;
-
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
-            return $this->actividades_en_curso_no_extra_examen()->count();
-        });
+        return $this->actividades_en_curso_no_extra_examen()->count();
     }
 
     public function actividades_en_curso_extra()
