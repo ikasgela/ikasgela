@@ -16,11 +16,8 @@ trait SharedKeys
         'num_actividades_archivadas_',
         'num_actividades_completadas_',
         'num_actividades_sin_completar_',
-        'num_actividades_asignadas_total_',
         'siguiente_actividad_',
 
-        'num_actividades_en_curso_examen_',
-        'num_actividades_en_curso_no_extra_examen_',
         'num_actividades_en_curso_extra_',
         'num_actividades_en_curso_enviadas_',
 

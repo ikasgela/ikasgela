@@ -74,11 +74,6 @@ class Tarea extends Pivot
         return $this->puntuacion * ($this->actividad->multiplicador ?: 1);
     }
 
-    public function getIsExpiredAttribute()
-    {
-        return isset($this->actividad->fecha_limite) && $this->actividad->fecha_limite < now();
-    }
-
     public function archiveFiles()
     {
         foreach ($this->actividad->file_uploads()->get() as $file_upload) {
