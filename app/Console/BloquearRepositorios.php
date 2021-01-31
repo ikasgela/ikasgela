@@ -10,7 +10,7 @@ class BloquearRepositorios
     public function __invoke()
     {
         $actividades = Actividad::where('plantilla', false)
-            ->where('is_expired', true)->get();
+            ->where('fecha_limite', '<=', now())->get();
 
         $total = 0;
         $archivados = 0;
@@ -18,7 +18,7 @@ class BloquearRepositorios
         foreach ($actividades as $actividad) {
             foreach ($actividad->intellij_projects as $intellij_project) {
 
-                if (!$intellij_project->isArchivado() && $intellij_project->isForked()) {
+                if ($intellij_project->isForked() && !$intellij_project->isArchivado()) {
                     $intellij_project->archive();
                     $archivados += 1;
                 }
