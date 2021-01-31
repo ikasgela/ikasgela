@@ -50,7 +50,7 @@
                                     onclick="return validate_feedback();">
                                 <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Finished') }}
                             </button>
-                            @if($tarea->is_expired)
+                            @if($actividad->is_expired)
                                 <button type="submit" name="nuevoestado" value="62"
                                         class="btn btn-secondary ml-3 single_click">
                                     <i class="fas fa-spinner fa-spin"
@@ -64,7 +64,7 @@
                                 <label class="mx-2">{{ __('by') }}</label>
                                 <input class="mr-2 form-control" type="number" min="0" max="90" step="1"
                                        name="ampliacion_plazo"
-                                       value="7"/>
+                                       value="{{ $actividad->unidad->curso->plazo_actividad ?? 7 }}"/>
                                 <label class="mr-2">{{ __('days') }}.</label>
                             @endif
                         </div>
