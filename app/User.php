@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\CacheClear;
 use App\Models\Resultado;
 use App\Models\ResultadoCalificaciones;
 use App\Observers\SharedKeys;
@@ -758,6 +759,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
             return $r;
         });
+    }
+
+    public function cache_clears()
+    {
+        return $this->hasMany(CacheClear::class);
     }
 
     public function clearCache(): void
