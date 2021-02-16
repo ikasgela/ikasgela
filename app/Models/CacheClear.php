@@ -12,7 +12,8 @@ class CacheClear extends Model
     ];
 
     protected $dates = [
-        'fecha'
+        'created_at', 'updated_at',
+        'fecha',
     ];
 
     public function user()
