@@ -8,6 +8,7 @@ use App\Mail\ActividadAsignada;
 use App\Mail\FeedbackRecibido;
 use App\Mail\PlazoAmpliado;
 use App\Mail\TareaEnviada;
+use App\Models\CacheClear;
 use App\Qualification;
 use App\Registro;
 use App\Tarea;
@@ -504,6 +505,11 @@ class ActividadController extends Controller
 
             $actividad->siguiente_id = null;
             $actividad->save();
+
+            // Dejar pendiente el borrado de caché para cuando llegue la fecha
+            CacheClear::create(['fecha' => $clon->fecha_disponibilidad, 'user_id' => $usuario->id]);
+            CacheClear::create(['fecha' => $clon->fecha_entrega, 'user_id' => $usuario->id]);
+            CacheClear::create(['fecha' => $clon->fecha_limite, 'user_id' => $usuario->id]);
 
             if (!$actividad->final) {
                 // Pendiente de aceptar
