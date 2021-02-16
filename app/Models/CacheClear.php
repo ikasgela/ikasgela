@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class CacheClear extends Model
 {
+    public $timestamps = false;
+
     protected $fillable = [
         'user_id', 'fecha',
     ];
 
     protected $dates = [
-        'created_at', 'updated_at',
-        'fecha',
+        'fecha'
     ];
 
     public function user()
