@@ -4,6 +4,7 @@ namespace App;
 
 use App\Models\Resultado;
 use App\Models\ResultadoCalificaciones;
+use App\Observers\SharedKeys;
 use App\Traits\Etiquetas;
 use Cache;
 use Cmgmyr\Messenger\Traits\Messagable;
@@ -22,6 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use Etiquetas;
     use Impersonate;
     use Rememberable;
+    use SharedKeys;
 
     protected $rememberFor;
     protected $rememberCacheTag;
@@ -756,5 +758,24 @@ class User extends Authenticatable implements MustVerifyEmail
 
             return $r;
         });
+    }
+
+    public function clearCache(): void
+    {
+        $user = $this;
+
+        User::flushCache();
+
+        foreach ($this->keys as $key) {
+            Cache::forget($key . $user->id);
+        }
+
+        Cache::forget("user.{$user->id}");
+        Cache::forget("user.{$user->id}.{$user->getRememberToken()}");
+        Cache::forget("roles_{$user->id}");
+
+        Organization::flushCache();
+        Curso::flushCache();
+        Unidad::flushCache();
     }
 }
