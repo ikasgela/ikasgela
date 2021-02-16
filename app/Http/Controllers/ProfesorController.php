@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actividad;
 use App\Curso;
 use App\Mail\ActividadAsignada;
+use App\Models\CacheClear;
 use App\Organization;
 use App\Registro;
 use App\Tarea;
@@ -259,6 +260,11 @@ class ProfesorController extends Controller
             }
 
             $clon->save();
+
+            // Dejar pendiente el borrado de caché para cuando llegue la fecha
+            CacheClear::create(['fecha' => $clon->fecha_disponibilidad, 'user_id' => $user->id]);
+            CacheClear::create(['fecha' => $clon->fecha_entrega, 'user_id' => $user->id]);
+            CacheClear::create(['fecha' => $clon->fecha_limite, 'user_id' => $user->id]);
 
             $asignadas .= "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";
             $user->actividades()->attach($clon);

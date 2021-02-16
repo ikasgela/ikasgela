@@ -2,8 +2,10 @@
 
 namespace App;
 
+use App\Models\CacheClear;
 use App\Models\Resultado;
 use App\Models\ResultadoCalificaciones;
+use App\Observers\SharedKeys;
 use App\Traits\Etiquetas;
 use Cache;
 use Cmgmyr\Messenger\Traits\Messagable;
@@ -22,6 +24,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use Etiquetas;
     use Impersonate;
     use Rememberable;
+    use SharedKeys;
 
     protected $rememberFor;
     protected $rememberCacheTag;
@@ -471,7 +474,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function num_actividades_asignadas_total()
     {
-        return $this->actividades_en_curso_autoavance()->enPlazoOrCorregida()->tag('extra', false)->count() ?: 0;
+        $key = 'num_actividades_asignadas_total_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_en_curso_autoavance()->enPlazoOrCorregida()->tag('extra', false)->count() ?: 0;
+        });
     }
 
     public function siguiente_actividad()
@@ -490,7 +497,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function num_actividades_en_curso_examen()
     {
-        return $this->actividades_en_curso_examen()->count();
+        $key = 'num_actividades_en_curso_examen_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_en_curso_examen()->count();
+        });
     }
 
     public function actividades_en_curso_no_extra_examen()
@@ -500,7 +511,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function num_actividades_en_curso_no_extra_examen()
     {
-        return $this->actividades_en_curso_no_extra_examen()->count();
+        $key = 'num_actividades_en_curso_no_extra_examen_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_en_curso_no_extra_examen()->count();
+        });
     }
 
     public function actividades_en_curso_extra()
@@ -744,5 +759,29 @@ class User extends Authenticatable implements MustVerifyEmail
 
             return $r;
         });
+    }
+
+    public function cache_clears()
+    {
+        return $this->hasMany(CacheClear::class);
+    }
+
+    public function clearCache(): void
+    {
+        $user = $this;
+
+        User::flushCache();
+
+        foreach ($this->keys as $key) {
+            Cache::forget($key . $user->id);
+        }
+
+        Cache::forget("user.{$user->id}");
+        Cache::forget("user.{$user->id}.{$user->getRememberToken()}");
+        Cache::forget("roles_{$user->id}");
+
+        Organization::flushCache();
+        Curso::flushCache();
+        Unidad::flushCache();
     }
 }
