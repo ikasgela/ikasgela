@@ -39,6 +39,13 @@ class Tarea extends Pivot
         return $this->hasMany(Registro::class);
     }
 
+    public function scopeUsuarioNoBloqueado($query)
+    {
+        return $query->whereHas('user', function ($query) {
+            $query->where('blocked_date', null);
+        });
+    }
+
     public function scopeCursoActual($query)
     {
         return $query->whereHas('actividad.unidad.curso', function ($query) {

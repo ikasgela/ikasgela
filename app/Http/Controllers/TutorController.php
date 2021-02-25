@@ -31,7 +31,7 @@ class TutorController extends Controller
 
     private function recuento_enviadas(): void
     {
-        $tareas = Tarea::cursoActual()->noAutoAvance()->where('estado', 30)->get();
+        $tareas = Tarea::cursoActual()->usuarioNoBloqueado()->noAutoAvance()->where('estado', 30)->get();
 
         $num_enviadas = count($tareas);
         if ($num_enviadas > 0)
