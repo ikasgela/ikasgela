@@ -23,7 +23,7 @@
         "ext-json": "*",
         "ext-openssl": "*",
         "ext-redis": "*",
-        "akaunting/setting": "^1.0",
+        "akaunting/laravel-setting": "^1.0",
         "bkwld/cloner": "^3.4",
         "browner12/helpers": "^3.0",
         "cmgmyr/messenger": "^2.17",
