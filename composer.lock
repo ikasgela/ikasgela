@@ -75,16 +75,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.175.1",
+            "version": "3.175.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "fce65d31f033c39cd3615fd2d3e503e212d81a3e"
+                "reference": "a8e88eac60b403ed76643327e74f55831570a64b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/fce65d31f033c39cd3615fd2d3e503e212d81a3e",
-                "reference": "fce65d31f033c39cd3615fd2d3e503e212d81a3e",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a8e88eac60b403ed76643327e74f55831570a64b",
+                "reference": "a8e88eac60b403ed76643327e74f55831570a64b",
                 "shasum": ""
             },
             "require": {
@@ -159,9 +159,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.175.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.175.2"
             },
-            "time": "2021-03-22T18:13:37+00:00"
+            "time": "2021-03-23T18:18:49+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -10431,16 +10431,16 @@
         },
         {
             "name": "laravel/dusk",
-            "version": "v6.13.0",
+            "version": "v6.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/dusk.git",
-                "reference": "59f9febbaf9559a8a744187f38c53bbd425edd93"
+                "reference": "c0560c3b2ebcb491bf2b45d275817e80f1851f0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/59f9febbaf9559a8a744187f38c53bbd425edd93",
-                "reference": "59f9febbaf9559a8a744187f38c53bbd425edd93",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/c0560c3b2ebcb491bf2b45d275817e80f1851f0b",
+                "reference": "c0560c3b2ebcb491bf2b45d275817e80f1851f0b",
                 "shasum": ""
             },
             "require": {
@@ -10498,9 +10498,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/dusk/issues",
-                "source": "https://github.com/laravel/dusk/tree/v6.13.0"
+                "source": "https://github.com/laravel/dusk/tree/v6.14.0"
             },
-            "time": "2021-02-23T20:28:11+00:00"
+            "time": "2021-03-23T17:05:41+00:00"
         },
         {
             "name": "laravel/tinker",
