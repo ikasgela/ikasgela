@@ -75,16 +75,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.176.5",
+            "version": "3.176.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "45d69a8da4f55879f8a24b0b659a5bc7ad077725"
+                "reference": "17dc67514b148979994758fbfb54088a8a3393bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/45d69a8da4f55879f8a24b0b659a5bc7ad077725",
-                "reference": "45d69a8da4f55879f8a24b0b659a5bc7ad077725",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/17dc67514b148979994758fbfb54088a8a3393bf",
+                "reference": "17dc67514b148979994758fbfb54088a8a3393bf",
                 "shasum": ""
             },
             "require": {
@@ -159,9 +159,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.176.5"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.176.9"
             },
-            "time": "2021-03-31T18:15:22+00:00"
+            "time": "2021-04-06T18:13:47+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -2649,16 +2649,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.35.1",
+            "version": "v8.36.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "d118c0df39e7524131176aaf76493eae63a8a602"
+                "reference": "0debd8ad6b5aa1f61ccc73910adf049af4ca0444"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/d118c0df39e7524131176aaf76493eae63a8a602",
-                "reference": "d118c0df39e7524131176aaf76493eae63a8a602",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/0debd8ad6b5aa1f61ccc73910adf049af4ca0444",
+                "reference": "0debd8ad6b5aa1f61ccc73910adf049af4ca0444",
                 "shasum": ""
             },
             "require": {
@@ -2813,7 +2813,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-03-30T21:34:17+00:00"
+            "time": "2021-04-07T12:37:22+00:00"
         },
         {
             "name": "laravel/helpers",
@@ -3623,16 +3623,16 @@
         },
         {
             "name": "maatwebsite/excel",
-            "version": "3.1.29",
+            "version": "3.1.30",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
-                "reference": "1e567e6e19a04fd65b5876d5bc92f4015f09fab4"
+                "reference": "aa5d2e4d25c5c8218ea0a15103da95f5f8728953"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/1e567e6e19a04fd65b5876d5bc92f4015f09fab4",
-                "reference": "1e567e6e19a04fd65b5876d5bc92f4015f09fab4",
+                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/aa5d2e4d25c5c8218ea0a15103da95f5f8728953",
+                "reference": "aa5d2e4d25c5c8218ea0a15103da95f5f8728953",
                 "shasum": ""
             },
             "require": {
@@ -3685,7 +3685,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Maatwebsite/Laravel-Excel/issues",
-                "source": "https://github.com/Maatwebsite/Laravel-Excel/tree/3.1.29"
+                "source": "https://github.com/Maatwebsite/Laravel-Excel/tree/3.1.30"
             },
             "funding": [
                 {
@@ -3697,7 +3697,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-16T11:56:39+00:00"
+            "time": "2021-04-06T17:17:02+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -9160,16 +9160,16 @@
     "packages-dev": [
         {
             "name": "barryvdh/laravel-debugbar",
-            "version": "v3.5.2",
+            "version": "v3.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-debugbar.git",
-                "reference": "cae0a8d1cb89b0f0522f65e60465e16d738e069b"
+                "reference": "6420113d90bb746423fa70b9940e9e7c26ebc121"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/cae0a8d1cb89b0f0522f65e60465e16d738e069b",
-                "reference": "cae0a8d1cb89b0f0522f65e60465e16d738e069b",
+                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/6420113d90bb746423fa70b9940e9e7c26ebc121",
+                "reference": "6420113d90bb746423fa70b9940e9e7c26ebc121",
                 "shasum": ""
             },
             "require": {
@@ -9229,7 +9229,7 @@
             ],
             "support": {
                 "issues": "https://github.com/barryvdh/laravel-debugbar/issues",
-                "source": "https://github.com/barryvdh/laravel-debugbar/tree/v3.5.2"
+                "source": "https://github.com/barryvdh/laravel-debugbar/tree/v3.5.5"
             },
             "funding": [
                 {
@@ -9237,20 +9237,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-01-06T14:21:44+00:00"
+            "time": "2021-04-07T11:19:20+00:00"
         },
         {
             "name": "barryvdh/laravel-ide-helper",
-            "version": "v2.9.1",
+            "version": "v2.9.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-ide-helper.git",
-                "reference": "8d8302ff6adb55f8b844c798b8b1ffdee142f7e5"
+                "reference": "2f61602e7a7f88ad29b0f71355b4bb71396e923b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/8d8302ff6adb55f8b844c798b8b1ffdee142f7e5",
-                "reference": "8d8302ff6adb55f8b844c798b8b1ffdee142f7e5",
+                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/2f61602e7a7f88ad29b0f71355b4bb71396e923b",
+                "reference": "2f61602e7a7f88ad29b0f71355b4bb71396e923b",
                 "shasum": ""
             },
             "require": {
@@ -9319,7 +9319,7 @@
             ],
             "support": {
                 "issues": "https://github.com/barryvdh/laravel-ide-helper/issues",
-                "source": "https://github.com/barryvdh/laravel-ide-helper/tree/v2.9.1"
+                "source": "https://github.com/barryvdh/laravel-ide-helper/tree/v2.9.3"
             },
             "funding": [
                 {
@@ -9327,7 +9327,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-15T19:22:08+00:00"
+            "time": "2021-04-02T14:32:13+00:00"
         },
         {
             "name": "barryvdh/reflection-docblock",
@@ -10483,16 +10483,16 @@
         },
         {
             "name": "laravel/dusk",
-            "version": "v6.14.0",
+            "version": "v6.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/dusk.git",
-                "reference": "c0560c3b2ebcb491bf2b45d275817e80f1851f0b"
+                "reference": "45b55fa20321086c4f8cc4e712cbe54db644e21c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/c0560c3b2ebcb491bf2b45d275817e80f1851f0b",
-                "reference": "c0560c3b2ebcb491bf2b45d275817e80f1851f0b",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/45b55fa20321086c4f8cc4e712cbe54db644e21c",
+                "reference": "45b55fa20321086c4f8cc4e712cbe54db644e21c",
                 "shasum": ""
             },
             "require": {
@@ -10550,9 +10550,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/dusk/issues",
-                "source": "https://github.com/laravel/dusk/tree/v6.14.0"
+                "source": "https://github.com/laravel/dusk/tree/v6.15.0"
             },
-            "time": "2021-03-23T17:05:41+00:00"
+            "time": "2021-04-06T14:14:57+00:00"
         },
         {
             "name": "laravel/tinker",
