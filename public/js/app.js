@@ -11376,6 +11376,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -48988,6 +48995,8 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
       _c("form", { staticClass: "form-horizontal" }, [
+        _vm._m(1),
+        _vm._v(" "),
         _c("div", { staticClass: "form-group row" }, [
           _c("label", { staticClass: "col-md-3" }, [_vm._v("Nombre")]),
           _vm._v(" "),
@@ -49151,6 +49160,26 @@ var staticRenderFns = [
     return _c("div", { staticClass: "card-header" }, [
       _c("i", { staticClass: "fas fa-pencil-alt" }),
       _vm._v(" Editar perfil\n    ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group row" }, [
+      _c("label", { staticClass: "col-md-3" }, [_vm._v("Avatar")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-9" }, [
+        _c("p", { staticClass: "help-block" }, [
+          _vm._v("Puedes gestionar tu imagen de perfil en "),
+          _c(
+            "a",
+            { attrs: { href: "https://es.gravatar.com/", target: "_blank" } },
+            [_vm._v("Gravatar")]
+          ),
+          _vm._v(".")
+        ])
+      ])
     ])
   }
 ]

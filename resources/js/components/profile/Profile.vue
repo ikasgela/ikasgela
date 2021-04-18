@@ -6,6 +6,13 @@
         <div class="card-body">
             <form class="form-horizontal">
                 <div class="form-group row">
+                    <label class="col-md-3">Avatar</label>
+                    <div class="col-md-9">
+                        <p class="help-block">Puedes gestionar tu imagen de perfil en <a
+                            href="https://es.gravatar.com/" target="_blank">Gravatar</a>.</p>
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label class="col-md-3">Nombre</label>
                     <div class="col-md-9">
                         <input class="form-control" :class="{'is-invalid': errors.name}"
