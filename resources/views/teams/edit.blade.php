@@ -58,8 +58,6 @@
                 <a href="{{ url()->previous() }}" class="btn btn-link text-secondary">{{ __('Cancel') }}</a>
             </div>
 
-            {{--            @include('partials.guardar_cancelar')--}}
-
             @include('layouts.errors')
             {!! Form::close() !!}
 
