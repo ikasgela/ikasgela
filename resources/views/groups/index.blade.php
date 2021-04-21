@@ -23,7 +23,7 @@
             @foreach($groups as $group)
                 <tr>
                     <td>{{ $group->id }}</td>
-                    <td>{{ $group->period->name }}</td>
+                    <td>{{ $group->period->organization->name }} - {{ $group->period->name }}</td>
                     <td>{{ $group->name }}</td>
                     <td>{{ $group->slug }}</td>
                     <td>
