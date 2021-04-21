@@ -16,6 +16,7 @@
                 <th>{{ __('Group') }}</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Slug') }}</th>
+                <th>{{ __('Members') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -25,7 +26,14 @@
                     <td>{{ $team->id }}</td>
                     <td>{{ $team->group->name }}</td>
                     <td>{{ $team->name }}</td>
-                    <td>{{ $team->slug }}</td>
+                    <td>{{ $team->group->slug }}/{{ $team->slug }}</td>
+                    <td>
+                        @forelse($team->users as $user)
+                            <p class="m-0">{{ $user->name }} {{ $user->surname }}</p>
+                        @empty
+                            <p class="m-0">{{ trans_choice('genero.none', 1) }}</p>
+                        @endforelse
+                    </td>
                     <td>
                         {!! Form::open(['route' => ['teams.destroy', $team->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>
