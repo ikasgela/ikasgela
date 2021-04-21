@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Curso;
 use App\Group;
 use App\Team;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -53,7 +54,7 @@ class TeamController extends Controller
 
     public function edit(Team $team)
     {
-        $groups = Group::orderBy('name')->get();
+        $groups = Group::with('teams')->orderBy('name')->get();
 
         $curso_actual = Curso::find(setting_usuario('curso_actual'));
         $alumnos = $curso_actual->users()->rolAlumno()->orderBy('surname')->orderBy('name');
@@ -81,6 +82,8 @@ class TeamController extends Controller
         ]);
 
         $team->users()->sync($request->input('users_seleccionados'));
+
+        User::flushCache();
 
         return retornar();
     }
