@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Curso;
 use App\Group;
 use App\Team;
-use BadMethodCallException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -55,7 +55,14 @@ class TeamController extends Controller
     {
         $groups = Group::orderBy('name')->get();
 
-        return view('teams.edit', compact(['team', 'groups']));
+        $curso_actual = Curso::find(setting_usuario('curso_actual'));
+        $alumnos = $curso_actual->users()->rolAlumno()->orderBy('surname')->orderBy('name');
+
+        $users_seleccionados = $team->users()->orderBy('surname')->orderBy('name')->get();
+        $filtro = $team->users()->pluck('user_id')->unique()->flatten()->toArray();
+        $users_disponibles = $alumnos->whereNotIn('user_id', $filtro)->orderBy('name')->get();
+
+        return view('teams.edit', compact(['team', 'groups', 'users_seleccionados', 'users_disponibles']));
     }
 
     public function update(Request $request, Team $team)
@@ -72,6 +79,14 @@ class TeamController extends Controller
                 ? Str::slug(request('slug'))
                 : Str::slug(request('name'))
         ]);
+
+//        dd($request->input('users_seleccionados'));
+
+        $team->users()->sync($request->input('users_seleccionados'));
+
+//        foreach ($team->users()->get() as $user) {
+//            $user->clearCache();
+//        }
 
         return retornar();
     }
