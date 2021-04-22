@@ -57,11 +57,11 @@ class TeamController extends Controller
         $groups = Group::with('teams')->orderBy('name')->get();
 
         $curso_actual = Curso::find(setting_usuario('curso_actual'));
-        $alumnos = $curso_actual->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name');
+        $alumnos = $curso_actual?->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name');
 
         $users_seleccionados = $team->users()->dontRemember()->orderBy('surname')->orderBy('name')->get();
         $filtro = $team->users()->dontRemember()->pluck('user_id')->unique()->flatten()->toArray();
-        $users_disponibles = $alumnos->whereNotIn('user_id', $filtro)->orderBy('name')->get();
+        $users_disponibles = $alumnos?->whereNotIn('user_id', $filtro)->orderBy('name')->get() ?? [];
 
         return view('teams.edit', compact(['team', 'groups', 'users_seleccionados', 'users_disponibles']));
     }
