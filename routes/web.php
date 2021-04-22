@@ -276,6 +276,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // CRUD - Equipos
         Route::resource('teams', 'TeamController');
 
+        // Selector de unidad para equipos
+        Route::post('/teams', 'TeamController@index')
+            ->name('team.index.filtro');
+
         // Borrar entradas del registro
         Route::delete('registros/{registro}', 'RegistroController@destroy')
             ->name('registros.destroy');

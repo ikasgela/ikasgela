@@ -2,26 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Actividad;
 use App\Curso;
 use App\Group;
 use App\Team;
+use App\Traits\PaginarUltima;
+use App\Unidad;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class TeamController extends Controller
 {
+    use PaginarUltima;
+
     public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('role:admin');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $teams = Team::all();
 
-        return view('teams.index', compact('teams'));
+        $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
+
+        if ($request->has('unidad_id_disponibles')) {
+            session(['profesor_unidad_id_disponibles' => $request->input('unidad_id_disponibles')]);
+        }
+
+        $disponibles = $this->actividadesDisponibles();
+
+        return view('teams.index', compact(['teams', 'unidades', 'disponibles']));
     }
 
     public function create()
@@ -93,5 +106,18 @@ class TeamController extends Controller
         $team->delete();
 
         return back();
+    }
+
+    private function actividadesDisponibles()
+    {
+        $actividades_curso = Actividad::plantilla()->cursoActual()->orderBy('orden');
+
+        if (session('profesor_unidad_id_disponibles')) {
+            $disponibles = $actividades_curso->where('unidad_id', session('profesor_unidad_id_disponibles'));
+        } else {
+            $disponibles = $actividades_curso;
+        }
+
+        return $this->paginate_ultima($disponibles, config('ikasgela.pagination_available_activities'), 'disponibles');
     }
 }

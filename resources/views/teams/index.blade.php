@@ -49,4 +49,7 @@
             </tbody>
         </table>
     </div>
+
+    @include('teams.partials.disponibles_grupo')
+
 @endsection
