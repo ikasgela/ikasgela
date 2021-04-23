@@ -315,7 +315,7 @@ class GiteaClient
         return false;
     }
 
-    public static function password($email, $username, $password)
+    public static function password($username, $password)
     {
         self::init();
 
@@ -323,7 +323,7 @@ class GiteaClient
             self::$cliente->patch('admin/users/' . $username, [
                 'headers' => self::$headers,
                 'json' => [
-                    'email' => $email,
+                    'login_name' => $username,
                     'password' => $password,
                     'must_change_password' => false,
                 ]

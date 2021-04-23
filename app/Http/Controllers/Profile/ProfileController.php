@@ -82,7 +82,7 @@ class ProfileController extends Controller
 
         // Cambiar la contraseña en Gitea
         if (config('ikasgela.gitea_enabled')) {
-            GiteaClient::password($user->email, $user->username, $request->password);
+            GiteaClient::password($user->username, $request->password);
         }
 
         return $user;
