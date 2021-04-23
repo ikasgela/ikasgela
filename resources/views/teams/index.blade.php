@@ -12,7 +12,9 @@
         <table class="table table-hover">
             <thead class="thead-dark">
             <tr>
-                <th>#</th>
+                <th>
+                    <input type="checkbox" id="seleccionar_usuarios">
+                </th>
                 <th>{{ __('Group') }}</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Slug') }}</th>
@@ -23,7 +25,10 @@
             <tbody>
             @foreach($teams as $team)
                 <tr>
-                    <td>{{ $team->id }}</td>
+                    <td>
+                        <input form="asignar" type="checkbox"
+                               name="equipos_seleccionados[{{ $team->id }}]" value="{{ $team->id }}">
+                    </td>
                     <td>{{ $team->group->name }}</td>
                     <td>{{ $team->name }}</td>
                     <td>{{ $team->group->slug }}/{{ $team->slug }}</td>

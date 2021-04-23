@@ -9,6 +9,7 @@ use App\Models\CacheClear;
 use App\Organization;
 use App\Registro;
 use App\Tarea;
+use App\Team;
 use App\Traits\PaginarUltima;
 use App\Unidad;
 use App\User;
@@ -217,6 +218,21 @@ class ProfesorController extends Controller
         return redirect(route('profesor.index'));
     }
 
+    public function asignarTareasEquipo(Request $request)
+    {
+        $this->validate($request, [
+            'equipos_seleccionados' => 'required',
+            'seleccionadas' => 'required',
+        ]);
+
+        foreach (request('equipos_seleccionados') as $team_id) {
+            $team = Team::findOrFail($team_id);
+            $this->asignarTareasUsuarioEquipo($team);
+        }
+
+        return redirect(route('teams.index'));
+    }
+
     public function revisar(User $user, Tarea $tarea)
     {
         $actividad = $tarea->actividad;
@@ -281,6 +297,59 @@ class ProfesorController extends Controller
 
         if (request('notificar') && setting_usuario('notificacion_actividad_asignada', $user))
             Mail::to($user->email)->queue(new ActividadAsignada($user->name, $asignadas));
+    }
+
+    private function asignarTareasUsuarioEquipo($team): void
+    {
+        $asignadas = '';
+
+        foreach (request('seleccionadas') as $actividad_id) {
+            $actividad = Actividad::findOrFail($actividad_id);
+
+            // Sacar un duplicado de la actividad y poner el campo plantilla a false
+            // REF: https://github.com/BKWLD/cloner
+
+            $clon = $actividad->duplicate();
+            $clon->plantilla_id = $actividad->id;
+            $clon->orden = $clon->id;
+
+            if (!isset($clon->fecha_disponibilidad)) {
+                $ahora = now();
+                $clon->fecha_disponibilidad = $ahora;
+                $plazo = $ahora->addDays($actividad->unidad->curso->plazo_actividad);
+                $clon->fecha_entrega = $plazo;
+                $clon->fecha_limite = $plazo;
+            }
+
+            $clon->save();
+
+            $asignadas .= "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";
+
+            // Asociar la misma copia a todos los miembros del equipo
+            foreach ($team->users as $user) {
+
+                // Dejar pendiente el borrado de caché para cuando llegue la fecha
+                CacheClear::create(['fecha' => $clon->fecha_disponibilidad, 'user_id' => $user->id]);
+                CacheClear::create(['fecha' => $clon->fecha_entrega, 'user_id' => $user->id]);
+                CacheClear::create(['fecha' => $clon->fecha_limite, 'user_id' => $user->id]);
+
+                $user->actividades()->attach($clon);
+                $tarea = Tarea::where('user_id', $user->id)->where('actividad_id', $clon->id)->first();
+
+                Registro::create([
+                    'user_id' => $user->id,
+                    'tarea_id' => $tarea->id,
+                    'estado' => 10,
+                    'timestamp' => now(),
+                    'curso_id' => Auth::user()->curso_actual()->id,
+                ]);
+            }
+        }
+
+        foreach ($team->users as $user) {
+            if (request('notificar') && setting_usuario('notificacion_actividad_asignada', $user))
+                Mail::to($user->email)->queue(new ActividadAsignada($user->name, $asignadas));
+        }
     }
 
     private function actividadesDisponibles()

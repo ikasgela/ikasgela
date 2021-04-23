@@ -3,7 +3,7 @@
 @include('teams.partials.selector_unidad_grupo')
 
 @if($disponibles->count() > 0)
-    <form id="asignar" method="POST" action="{{ route('profesor.asignar_tareas_grupo') }}">
+    <form id="asignar" method="POST" action="{{ route('profesor.asignar_tareas_equipo') }}">
         @csrf
         @include('profesor.partials.tabla_disponibles')
         @include('layouts.errors')

@@ -228,6 +228,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('profesor.nota_manual.edit');
         Route::post('/profesor/{user}/{curso}/nota_manual', 'ProfesorController@updateNotaManual')
             ->name('profesor.nota_manual.update');
+
+        // Asignar tareas a equipos
+        Route::post('/teams/filtro', 'TeamController@index')
+            ->name('teams.index.filtro');
+        Route::post('/profesor/asignar_tareas_equipo', 'ProfesorController@asignarTareasEquipo')
+            ->name('profesor.asignar_tareas_equipo');
     });
 
     // Administrador
@@ -275,10 +281,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // CRUD - Equipos
         Route::resource('teams', 'TeamController');
-
-        // Selector de unidad para equipos
-        Route::post('/teams', 'TeamController@index')
-            ->name('team.index.filtro');
 
         // Borrar entradas del registro
         Route::delete('registros/{registro}', 'RegistroController@destroy')
