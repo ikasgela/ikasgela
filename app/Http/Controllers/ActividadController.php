@@ -216,7 +216,7 @@ class ActividadController extends Controller
 
         $override_allowed = $usuario_actual->hasAnyRole(['admin', 'profesor']);
 
-        if ($tarea->user_id != $usuario_actual->id && !$override_allowed)
+        if ($tarea->user_id != $usuario_actual->id && !$override_allowed && !$tarea->actividad->shared)
             return abort('403');
 
         $nuevoestado = $request->input('nuevoestado');
@@ -420,6 +420,21 @@ class ActividadController extends Controller
                 break;
             default:
                 return abort(400, __('Invalid task state.'));
+        }
+
+        // Si es compartida, sincronizar el estado con los demás componentes del equipo
+        if ($actividad->shared) {
+            $compartidas = Tarea::where('actividad_id', $actividad->id)->get();
+            foreach ($compartidas as $compartida) {
+                $compartida->estado = $tarea->estado;
+                $compartida->feedback = $tarea->feedback;
+                $compartida->puntuacion = $tarea->puntuacion;
+                $compartida->intentos = $tarea->intentos;
+                $compartida->save();
+            }
+
+            $compartida->user->last_active = now();
+            $compartida->user->save();
         }
 
         $tarea->save();

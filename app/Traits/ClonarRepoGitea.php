@@ -6,8 +6,6 @@ use App\Gitea\GiteaClient;
 
 trait ClonarRepoGitea
 {
-    public $test_gitlab = false;
-
     public function clonar_repositorio($repositorio, $username, $destino, $nombre = null)
     {
         $n = 2;

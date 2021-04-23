@@ -457,4 +457,26 @@ class GiteaClient
 
         return $response->getBody()->getContents();
     }
+
+    public static function add_collaborator($owner, $repo, $collaborator)
+    {
+        self::init();
+
+        $query = "repos/$owner/$repo/collaborators/$collaborator";
+
+        try {
+            self::$cliente->put($query, [
+                'headers' => self::$headers,
+                'json' => [
+                    'permission' => 'write',
+                ]
+            ]);
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Gitea: Error al añadir colaborador.', [
+                'exception' => $e->getMessage()
+            ]);
+        }
+        return false;
+    }
 }

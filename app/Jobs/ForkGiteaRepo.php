@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Actividad;
+use App\Gitea\GiteaClient;
 use App\IntellijProject;
 use App\Traits\ClonarRepoGitea;
 use App\User;
@@ -25,18 +26,19 @@ class ForkGiteaRepo implements ShouldQueue
     protected $actividad;
     protected $intellij_project;
     protected $user;
+    protected $team_users;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Actividad $actividad, IntellijProject $intellij_project, User $user, $test_gitlab = false)
+    public function __construct(Actividad $actividad, IntellijProject $intellij_project, User $user, $team_users = [])
     {
         $this->actividad = $actividad;
         $this->intellij_project = $intellij_project;
         $this->user = $user;
-        $this->test_gitlab = $test_gitlab;
+        $this->team_users = $team_users;
     }
 
     /**
@@ -71,6 +73,10 @@ class ForkGiteaRepo implements ShouldQueue
 
                 if (!is_null($fork) && isset($fork['id'])) {
                     $ij->setForkStatus(2, $fork['path_with_namespace']);  // Ok
+
+                    foreach ($this->team_users as $colaborador) {
+                        GiteaClient::add_collaborator($fork['owner'], $fork['name'], $colaborador->username);
+                    }
 
                     Cache::put($ij->cacheKey(), $fork, now()->addDays(config('ikasgela.repo_cache_days')));
 
