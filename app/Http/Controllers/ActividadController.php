@@ -216,7 +216,7 @@ class ActividadController extends Controller
 
         $override_allowed = $usuario_actual->hasAnyRole(['admin', 'profesor']);
 
-        if ($tarea->user_id != $usuario_actual->id && !$override_allowed)
+        if ($tarea->user_id != $usuario_actual->id && !$override_allowed && !$tarea->actividad->shared)
             return abort('403');
 
         $nuevoestado = $request->input('nuevoestado');
