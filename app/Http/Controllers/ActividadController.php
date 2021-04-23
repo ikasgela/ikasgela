@@ -427,6 +427,9 @@ class ActividadController extends Controller
             $compartidas = Tarea::where('actividad_id', $actividad->id)->get();
             foreach ($compartidas as $compartida) {
                 $compartida->estado = $tarea->estado;
+                $compartida->feedback = $tarea->feedback;
+                $compartida->puntuacion = $tarea->puntuacion;
+                $compartida->intentos = $tarea->intentos;
                 $compartida->save();
             }
         }
