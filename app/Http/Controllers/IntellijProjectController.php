@@ -9,6 +9,7 @@ use App\Gitea\GiteaClient;
 use App\IntellijProject;
 use App\Jobs\ForkGiteaRepo;
 use App\Jobs\ForkGitLabRepo;
+use App\Tarea;
 use App\Traits\ClonarRepoGitea;
 use App\Traits\PaginarUltima;
 use App\Unidad;
@@ -128,7 +129,14 @@ class IntellijProjectController extends Controller
             if ($intellij_project->host == 'gitlab') {
                 ForkGitLabRepo::dispatch($actividad, $intellij_project, Auth::user()); //->delay(10);
             } else {
-                ForkGiteaRepo::dispatch($actividad, $intellij_project, Auth::user());
+                $team_users = [];
+                if ($actividad->shared) {
+                    $compartidas = Tarea::where('actividad_id', $actividad->id)->get();
+                    foreach ($compartidas as $compartida) {
+                        array_push($team_users, $compartida->user);
+                    }
+                }
+                ForkGiteaRepo::dispatch($actividad, $intellij_project, Auth::user(), $team_users);
             }
         } else {
             if ($intellij_project->host == 'gitlab') {
