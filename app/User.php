@@ -204,11 +204,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->actividades()
             ->where(function ($query) {
                 $query
-                    ->estados([10, 20, 21]);
-            })
-            ->orWhere(function ($query) {
-                $query
-                    ->estados([40, 41, 42]);
+                    ->estados([10, 20, 21, 40, 41, 42]);
             });
     }
 

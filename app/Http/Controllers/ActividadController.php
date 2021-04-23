@@ -432,6 +432,9 @@ class ActividadController extends Controller
                 $compartida->intentos = $tarea->intentos;
                 $compartida->save();
             }
+
+            $compartida->user->last_active = now();
+            $compartida->user->save();
         }
 
         $tarea->save();
