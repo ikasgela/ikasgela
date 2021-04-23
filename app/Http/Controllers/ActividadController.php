@@ -422,6 +422,15 @@ class ActividadController extends Controller
                 return abort(400, __('Invalid task state.'));
         }
 
+        // Si es compartida, sincronizar el estado con los demás componentes del equipo
+        if ($actividad->shared) {
+            $compartidas = Tarea::where('actividad_id', $actividad->id)->get();
+            foreach ($compartidas as $compartida) {
+                $compartida->estado = $tarea->estado;
+                $compartida->save();
+            }
+        }
+
         $tarea->save();
 
         $registro->save();
