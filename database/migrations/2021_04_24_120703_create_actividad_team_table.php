@@ -17,7 +17,9 @@ class CreateActividadTeamTable extends Migration
             $table->id();
 
             $table->foreignId('team_id')->constrained()->onDelete('cascade');
-            $table->foreignId('actividad_id')->constrained()->onDelete('cascade');
+
+            $table->unsignedBigInteger('actividad_id');
+            $table->foreign('actividad_id')->references('id')->on('actividades')->onDelete('cascade');
 
             $table->timestamps();
         });
