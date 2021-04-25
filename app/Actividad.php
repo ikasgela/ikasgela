@@ -260,4 +260,11 @@ class Actividad extends Model
         return isset($this->fecha_limite) && $this->fecha_limite < now()
             || !isset($this->fecha_limite) && isset($this->fecha_entrega) && $this->fecha_entrega < now();
     }
+
+    public function teams()
+    {
+        return $this
+            ->belongsToMany(Team::class)
+            ->withTimestamps();
+    }
 }

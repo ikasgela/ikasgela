@@ -1,7 +1,5 @@
 <div class="media border rounded p-3 mb-3 bg-white">
-    <img width="64" src="{{ $message->user->avatar_url(128) }}"
-         alt="{{ $message->user->name }} {{ $message->user->surname }}"
-         onerror="this.onerror=null;this.src='{{ url("/svg/missing_avatar.svg") }}';">
+    @include('users.partials.avatar', ['user' => $message->user, 'width' => 64])
     <div class="media-body pl-3 overflow-auto">
         <h5 class="media-heading">
             <div class="d-flex justify-content-between">

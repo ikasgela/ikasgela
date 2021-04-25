@@ -22,8 +22,7 @@
             @foreach($users as $user)
                 <tr>
                     <td>{{ $user->id }}</td>
-                    <td><img style="height:35px;" src="{{ $user->avatar_url(70) }}"
-                             onerror="this.onerror=null;this.src='{{ url("/svg/missing_avatar.svg") }}';"/></td>
+                    <td>@include('users.partials.avatar', ['user' => $user, 'width' => 35])</td>
                     <td>
                         {{ $user->name }} {{ $user->surname }}
                         @include('profesor.partials.status_usuario')

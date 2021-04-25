@@ -327,6 +327,9 @@ class ProfesorController extends Controller
 
             $asignadas .= "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";
 
+            // Asociar la tarea al equipo
+            $team->actividades()->attach($clon);
+
             // Asociar la misma copia a todos los miembros del equipo
             foreach ($team->users as $user) {
 

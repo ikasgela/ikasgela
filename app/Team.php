@@ -21,4 +21,11 @@ class Team extends Model
             ->belongsToMany(User::class)
             ->withTimestamps();
     }
+
+    public function actividades()
+    {
+        return $this
+            ->belongsToMany(Actividad::class)
+            ->withTimestamps();
+    }
 }
