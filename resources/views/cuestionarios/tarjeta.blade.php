@@ -6,7 +6,7 @@ $en_blanco = $total - $respondidas;
 ?>
 
 <div class="card">
-    <div class="card-header"><i class="fas fa-question-circle"></i> {{ $cuestionario->titulo }}</div>
+    <div class="card-header"><i class="fas fa-question-circle mr-2"></i>{{ $cuestionario->titulo }}</div>
 
     {!! Form::model($cuestionario, ['route' => ['cuestionarios.respuesta', $cuestionario->id], 'method' => 'PUT']) !!}
 
@@ -27,7 +27,7 @@ $en_blanco = $total - $respondidas;
                         {{
                         !$pregunta->multiple && $pregunta->respondida && $item->seleccionado ? $item->correcto ? 'is-valid' : 'is-invalid' : ''
                         }}
-                                " type="{{
+                            " type="{{
                         $pregunta->multiple ? 'checkbox' : 'radio'
                         }}"
                                name="respuestas[{{ $pregunta->id }}][]" id="respuestas[{{ $pregunta->id }}]"

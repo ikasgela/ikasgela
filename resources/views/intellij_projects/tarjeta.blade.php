@@ -16,7 +16,7 @@
 @endif
 
 <div class="card">
-    <div class="card-header"><i class="fab fa-java"></i> {{ __('IntelliJ project') }}</div>
+    <div class="card-header"><i class="fab fa-java mr-2"></i>{{ __('IntelliJ project') }}</div>
     <div class="card-body">
         <h5 class="card-title">{{ $intellij_project->titulo }}</h5>
         <p class="card-text">{{ $intellij_project->descripcion }}</p>

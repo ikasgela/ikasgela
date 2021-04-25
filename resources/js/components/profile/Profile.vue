@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <div class="card-header">
-            <i class="fas fa-pencil-alt"></i> Editar perfil
+            <i class="fas fa-pencil-alt mr-2"></i> Editar perfil
         </div>
         <div class="card-body">
             <form class="form-horizontal">

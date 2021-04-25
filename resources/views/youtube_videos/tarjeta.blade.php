@@ -1,5 +1,5 @@
 <div class="card">
-    <div class="card-header"><i class="fab fa-youtube"></i> {{ __('Video') }}</div>
+    <div class="card-header"><i class="fab fa-youtube mr-2"></i>{{ __('Video') }}</div>
     <div class="card-body">
         <h5 class="card-title">{{ $youtube_video->titulo }}</h5>
         <p class="card-text">{{ $youtube_video->descripcion }}</p>
