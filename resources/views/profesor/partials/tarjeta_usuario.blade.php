@@ -12,8 +12,7 @@
                     <a href="mailto:{{ $user->email }}" class="card-link">{{ $user->email }}</a>
                 </div>
                 <div class="col-12 col-sm-6 text-center text-sm-right">
-                    <img style="width:100px" src="{{ $user->avatar_url(200)}}"
-                         onerror="this.onerror=null;this.src='{{ url("/svg/missing_avatar.svg") }}';">
+                    @include('users.partials.avatar', ['user' => $user, 'width' => 100])
                 </div>
             </div>
         </div>
