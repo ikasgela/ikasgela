@@ -66,6 +66,8 @@
 
             {{ Form::campoTexto('multiplicador', __('Multiplier')) }}
 
+            {{ Form::campoCheck('shared', trans_choice('tasks.shared', 1)) }}
+
             @include('partials.guardar_cancelar')
 
             @include('layouts.errors')

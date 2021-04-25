@@ -117,6 +117,8 @@ class ActividadController extends Controller
             'tags' => request('tags'),
 
             'multiplicador' => request('multiplicador'),
+
+            'shared' => $request->has('shared'),
         ]);
 
         $actividad->orden = $actividad->id;
@@ -198,6 +200,8 @@ class ActividadController extends Controller
             'multiplicador' => request('multiplicador'),
 
             'siguiente_overriden' => $actividad->siguiente_id != request('siguiente_id'),
+
+            'shared' => $request->has('shared'),
         ]);
 
         return retornar();
