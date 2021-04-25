@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "akaunting/laravel-setting",
-            "version": "1.2.5",
+            "version": "1.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/akaunting/laravel-setting.git",
-                "reference": "6faedfebd866c3f30efeda58e8a142979ed554b2"
+                "reference": "10186327e3b93fca56eaa9e4d8ee2ead189f0332"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/akaunting/laravel-setting/zipball/6faedfebd866c3f30efeda58e8a142979ed554b2",
-                "reference": "6faedfebd866c3f30efeda58e8a142979ed554b2",
+                "url": "https://api.github.com/repos/akaunting/laravel-setting/zipball/10186327e3b93fca56eaa9e4d8ee2ead189f0332",
+                "reference": "10186327e3b93fca56eaa9e4d8ee2ead189f0332",
                 "shasum": ""
             },
             "require": {
@@ -69,22 +69,22 @@
             ],
             "support": {
                 "issues": "https://github.com/akaunting/laravel-setting/issues",
-                "source": "https://github.com/akaunting/laravel-setting/tree/1.2.5"
+                "source": "https://github.com/akaunting/laravel-setting/tree/1.2.7"
             },
-            "time": "2021-03-05T12:10:57+00:00"
+            "time": "2021-04-23T22:38:26+00:00"
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.178.7",
+            "version": "3.178.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "9443aecbf56eb43e0c7a409494ae4c09f4cebf5f"
+                "reference": "89710500988a8a7d77f1282fcf6a1d0ad8297eaf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/9443aecbf56eb43e0c7a409494ae4c09f4cebf5f",
-                "reference": "9443aecbf56eb43e0c7a409494ae4c09f4cebf5f",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/89710500988a8a7d77f1282fcf6a1d0ad8297eaf",
+                "reference": "89710500988a8a7d77f1282fcf6a1d0ad8297eaf",
                 "shasum": ""
             },
             "require": {
@@ -159,9 +159,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.178.7"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.178.9"
             },
-            "time": "2021-04-21T18:37:31+00:00"
+            "time": "2021-04-23T18:28:02+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -9176,16 +9176,16 @@
         },
         {
             "name": "filp/whoops",
-            "version": "2.12.0",
+            "version": "2.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "d501fd2658d55491a2295ff600ae5978eaad7403"
+                "reference": "c13c0be93cff50f88bbd70827d993026821914dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/d501fd2658d55491a2295ff600ae5978eaad7403",
-                "reference": "d501fd2658d55491a2295ff600ae5978eaad7403",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/c13c0be93cff50f88bbd70827d993026821914dd",
+                "reference": "c13c0be93cff50f88bbd70827d993026821914dd",
                 "shasum": ""
             },
             "require": {
@@ -9235,7 +9235,7 @@
             ],
             "support": {
                 "issues": "https://github.com/filp/whoops/issues",
-                "source": "https://github.com/filp/whoops/tree/2.12.0"
+                "source": "https://github.com/filp/whoops/tree/2.12.1"
             },
             "funding": [
                 {
@@ -9243,7 +9243,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-30T12:00:00+00:00"
+            "time": "2021-04-25T12:00:00+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
