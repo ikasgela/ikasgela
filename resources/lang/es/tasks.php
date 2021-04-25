@@ -15,5 +15,4 @@ return [
     'passed' => 'Superada|Superadas',
     'not_passed' => 'No superada|No superadas',
     'expired' => 'Caducada|Caducadas',
-    'shared' => 'Compartida|Compartidas',
 ];
