@@ -1,4 +1,9 @@
 <div class="row mt-3 mb-0 mx-2">
+    @foreach($actividad->teams as $team)
+        <div class="col-md-6">
+            @include('teams.partials.tarjeta', ['team' => $team])
+        </div>
+    @endforeach
 @foreach($actividad->markdown_texts()->get() as $markdown_text)
     <div class="col-md-6">
         @include('markdown_texts.tarjeta', ['texto' => $markdown_text->markdown()])

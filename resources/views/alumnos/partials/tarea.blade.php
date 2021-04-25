@@ -76,9 +76,6 @@
                 @endif
             </div>
             <div class="card-body pb-1">
-                <div>
-                    <p>Equipo: {{ $actividad->teams?->first()?->name }}</p>
-                </div>
                 <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
                     <div>
                         @include('actividades.partials.encabezado_con_etiquetas')
