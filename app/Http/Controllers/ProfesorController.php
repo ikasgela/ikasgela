@@ -321,8 +321,6 @@ class ProfesorController extends Controller
                 $clon->fecha_limite = $plazo;
             }
 
-            $clon->shared = true;
-
             $clon->save();
 
             $asignadas .= "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";

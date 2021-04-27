@@ -130,7 +130,7 @@ class IntellijProjectController extends Controller
                 ForkGitLabRepo::dispatch($actividad, $intellij_project, Auth::user()); //->delay(10);
             } else {
                 $team_users = [];
-                if ($actividad->shared) {
+                if ($actividad->hasEtiqueta('trabajo en equipo')) {
                     $compartidas = Tarea::where('actividad_id', $actividad->id)->get();
                     foreach ($compartidas as $compartida) {
                         array_push($team_users, $compartida->user);

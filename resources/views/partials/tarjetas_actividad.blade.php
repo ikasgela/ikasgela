@@ -1,5 +1,5 @@
 <div class="row mt-3 mb-0 mx-2">
-    @if($actividad->shared)
+    @if($actividad->hasEtiqueta('trabajo en equipo'))
         <div class="col-md-6">
             @include('teams.partials.tarjeta', ['teams' => $actividad->teams])
         </div>

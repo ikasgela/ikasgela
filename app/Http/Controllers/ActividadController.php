@@ -216,7 +216,7 @@ class ActividadController extends Controller
 
         $override_allowed = $usuario_actual->hasAnyRole(['admin', 'profesor']);
 
-        if ($tarea->user_id != $usuario_actual->id && !$override_allowed && !$tarea->actividad->shared)
+        if ($tarea->user_id != $usuario_actual->id && !$override_allowed && !$tarea->actividad->hasEtiqueta('trabajo en equipo'))
             return abort('403');
 
         $nuevoestado = $request->input('nuevoestado');
@@ -423,7 +423,7 @@ class ActividadController extends Controller
         }
 
         // Si es compartida, sincronizar el estado con los demás componentes del equipo
-        if ($actividad->shared) {
+        if ($actividad->hasEtiqueta('trabajo en equipo')) {
             $compartidas = Tarea::where('actividad_id', $actividad->id)->get();
             foreach ($compartidas as $compartida) {
                 $compartida->estado = $tarea->estado;
