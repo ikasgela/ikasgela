@@ -48963,7 +48963,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
-      _c("i", { staticClass: "fas fa-pencil-alt" }),
+      _c("i", { staticClass: "fas fa-pencil-alt mr-2" }),
       _vm._v(" Cambiar la contraseña\n    ")
     ])
   }
@@ -49158,7 +49158,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
-      _c("i", { staticClass: "fas fa-pencil-alt" }),
+      _c("i", { staticClass: "fas fa-pencil-alt mr-2" }),
       _vm._v(" Editar perfil\n    ")
     ])
   },
