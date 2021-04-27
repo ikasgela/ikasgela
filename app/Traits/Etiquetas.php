@@ -59,4 +59,11 @@ trait Etiquetas
 
         return $query;
     }
+
+    public function addEtiqueta($etiqueta)
+    {
+        if (!$this->hasEtiqueta($etiqueta)) {
+            $this->tags .= ",$etiqueta";
+        }
+    }
 }

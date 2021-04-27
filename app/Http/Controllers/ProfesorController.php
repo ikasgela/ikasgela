@@ -321,6 +321,8 @@ class ProfesorController extends Controller
                 $clon->fecha_limite = $plazo;
             }
 
+            $clon->addEtiqueta('trabajo en equipo');
+
             $clon->save();
 
             $asignadas .= "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";
