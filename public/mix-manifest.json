@@ -60,7 +60,7 @@
     "/tinymce/langs/vi.js": "/tinymce/langs/vi.js",
     "/tinymce/langs/zh_CN.js": "/tinymce/langs/zh_CN.js",
     "/tinymce/langs/zh_TW.js": "/tinymce/langs/zh_TW.js",
-    "/js/Chart.min.js": "/js/Chart.min.js",
+    "/js/chart.min.js": "/js/chart.min.js",
     "/js/jquery.fancybox.min.css": "/js/jquery.fancybox.min.css",
     "/js/jquery.fancybox.min.js": "/js/jquery.fancybox.min.js"
 }
