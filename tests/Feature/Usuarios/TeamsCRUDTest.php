@@ -35,10 +35,10 @@ class TeamsCRUDTest extends TestCase
         $response->assertSee($team->name);
     }
 
-    public function testNotAdminNotIndex()
+    public function testNotAdminProfesorNotIndex()
     {
         // Auth
-        $this->actingAs($this->not_admin);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         // When
@@ -194,13 +194,13 @@ class TeamsCRUDTest extends TestCase
         $response = $this->get(route('teams.show', $team));
 
         // Then
-        $response->assertStatus(501);
+        $response->assertSee($team->name);
     }
 
-    public function testNotAdminNotShow()
+    public function testNotAdminProfesorNotShow()
     {
         // Auth
-        $this->actingAs($this->not_admin);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $team = factory(Team::class)->create();

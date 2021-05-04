@@ -19,7 +19,7 @@
 </li>
 
 <li class="c-sidebar-nav-item">
-    <a class="c-sidebar-nav-link" href="{{ route('archivo.index') }}">
-        <i class="c-sidebar-nav-icon fas fa-archive"></i> {{ __('Archived') }}
+    <a class="c-sidebar-nav-link" href="{{ route('teams.index') }}">
+        <i class="c-sidebar-nav-icon fas fa-users"></i> {{ __('Teams') }}
     </a>
 </li>
