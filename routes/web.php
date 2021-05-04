@@ -279,9 +279,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // CRUD - Grupos
         Route::resource('groups', 'GroupController');
 
-        // CRUD - Equipos
-        Route::resource('teams', 'TeamController');
-
         // Borrar entradas del registro
         Route::delete('registros/{registro}', 'RegistroController@destroy')
             ->name('registros.destroy');
@@ -390,6 +387,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Esquema del curso
         Route::get('/outline', 'ArchivoController@outline')
             ->name('archivo.outline');
+    });
+
+    // Profesor y administrador
+    Route::middleware(['role:profesor|admin'])->group(function () {
+
+        // CRUD - Equipos
+        Route::resource('teams', 'TeamController');
     });
 
     // Mensajes

@@ -19,7 +19,7 @@ class TeamController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:admin');
+        $this->middleware('role:admin')->except(['index', 'show']);
     }
 
     public function index(Request $request)
@@ -62,7 +62,7 @@ class TeamController extends Controller
 
     public function show(Team $team)
     {
-        return abort(501);
+        return view('teams.show', compact('team'));
     }
 
     public function edit(Team $team)
