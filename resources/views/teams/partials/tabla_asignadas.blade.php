@@ -16,15 +16,15 @@
         </thead>
         <tbody>
         @foreach($disponibles as $actividad)
-            <tr>
-                <td>{{ $actividad->id }}</td>
-                <td>
+            <tr class="table-cell-click" data-href="{{ route('actividades.preview', [$actividad->id]) }}">
+                <td class="clickable">{{ $actividad->id }}</td>
+                <td class="clickable">
                     @include('actividades.partials.nombre_con_etiquetas')
                     @include('actividades.partials.caducada')
                 </td>
-                <td>{{ $actividad->unidad->slug.'/'.$actividad->slug }}</td>
-                <td>{{ formato_decimales($actividad->puntuacion * ($actividad->multiplicador ?: 1)) }}</td>
-                <td class="text-center">{!! $actividad->auto_avance ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                <td class="clickable">{{ $actividad->unidad->slug.'/'.$actividad->slug }}</td>
+                <td class="clickable">{{ formato_decimales($actividad->puntuacion * ($actividad->multiplicador ?: 1)) }}</td>
+                <td class="text-center clickable">{!! $actividad->auto_avance ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
                 @include('profesor.partials.siguiente_actividad')
                 @if(Auth::user()->hasRole('admin'))
                     @include('partials.botones_recursos')
