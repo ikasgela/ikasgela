@@ -65,6 +65,10 @@ $(document).ready(function ($) {
         $("input[name='recipients[]']").not(this).prop('checked', this.checked);
     });
 
+    $('#seleccionar_equipos').change(function () {
+        $("input[name^='equipos_seleccionados']").not(this).prop('checked', this.checked);
+    });
+
     $('.add').click(function () {
         var prefijo = $(this).data("selector");
         return !$('#' + prefijo + '-select2 option:selected').remove().appendTo('#' + prefijo + '-select1');

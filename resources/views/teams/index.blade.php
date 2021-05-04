@@ -13,7 +13,7 @@
             <thead class="thead-dark">
             <tr>
                 <th>
-                    <input type="checkbox" id="seleccionar_usuarios">
+                    <input type="checkbox" id="seleccionar_equipos">
                 </th>
                 <th>{{ __('Group') }}</th>
                 <th>{{ __('Name') }}</th>
