@@ -4,9 +4,11 @@
 
     @include('partials.titular', ['titular' => __('Teams')])
 
-    <div class="mb-3">
-        <a class="btn btn-primary" href="{{ route('teams.create') }}">{{ __('New team') }}</a>
-    </div>
+    @if(Auth::user()?->hasRole('admin'))
+        <div class="mb-3">
+            <a class="btn btn-primary" href="{{ route('teams.create') }}">{{ __('New team') }}</a>
+        </div>
+    @endif
 
     <div class="table-responsive">
         <table class="table table-hover">
@@ -45,10 +47,12 @@
                             <a title="{{ __('Preview') }}"
                                href="{{ route('teams.show', [$team->id]) }}"
                                class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
-                            <a title="{{ __('Edit') }}"
-                               href="{{ route('teams.edit', [$team->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                            @include('partials.boton_borrar')
+                            @if(Auth::user()?->hasRole('admin'))
+                                <a title="{{ __('Edit') }}"
+                                   href="{{ route('teams.edit', [$team->id]) }}"
+                                   class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                                @include('partials.boton_borrar')
+                            @endif
                         </div>
                         {!! Form::close() !!}
                     </td>
