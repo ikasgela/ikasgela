@@ -2,20 +2,21 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => $team->group->name . $team->name ])
-
-    <div>
-        <p>Miembros</p>
-        @forelse($team->users as $user)
-            <p class="m-0">{{ $user->name }} {{ $user->surname }}</p>
-        @empty
-            <p class="m-0">{{ trans_choice('genero.none', 1) }}</p>
-        @endforelse
+    <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline">
+        @include('partials.titular', ['titular' => $team->name ])
+        <h2 class="text-muted font-xl">{{ $team->group->name ?? '?' }}</h2>
     </div>
 
-    <div>
-        <p>Tareas asignadas</p>
-    </div>
+    <ul class="list-group mb-4"> @foreach($team->users as $user)
+            <li class="list-group-item">
+                @include('users.partials.avatar', ['user' => $user, 'width' => 32])
+                <span class="mx-2">{{ $user->name }} {{ $user->surname }}</span>
+                <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
+            </li>
+        @endforeach
+    </ul>
+
+    @include('teams.partials.asignadas', ['disponibles' => $team->actividades()->paginate(config('ikasgela.pagination_assigned_activities'))])
 
     @include('partials.backbutton')
 
