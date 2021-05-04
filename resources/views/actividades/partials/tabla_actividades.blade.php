@@ -24,19 +24,19 @@
         </thead>
         <tbody>
         @foreach($actividades as $actividad)
-            <tr>
+            <tr class="table-cell-click" data-href="{{ route('actividades.preview', [$actividad->id]) }}">
                 <td class="p-0 pl-1 {{ $actividad->destacada ? 'bg-warning' : '' }}">&nbsp;</td>
                 <td>
                     <input form="multiple" type="checkbox" name="seleccionadas[]" value="{{ $actividad->id }}">
                 </td>
-                <td>{{ $actividad->id }}</td>
+                <td class="clickable">{{ $actividad->id }}</td>
                 @if(Route::currentRouteName() == 'actividades.index')
                     <td>{!! $actividad->plantilla ? '<i class="fas fa-file"></i>' : '' !!}</td>
                 @endif
-                <td>{{ $actividad->unidad->curso->category->period->organization->name }}
+                <td class="clickable">{{ $actividad->unidad->curso->category->period->organization->name }}
                     - {{ $actividad->unidad->curso->category->period->name }}
                     - {{ $actividad->unidad->curso->nombre }}</td>
-                <td>{{ $actividad->unidad->nombre }}</td>
+                <td class="clickable">{{ $actividad->unidad->nombre }}</td>
                 <td>
                     <div class='btn-group'>
                         {!! Form::open(['route' => ['actividades.reordenar', $ids[$loop->index], $ids[$loop->index-1] ?? -1], 'method' => 'POST']) !!}
@@ -57,14 +57,14 @@
                         {!! Form::close() !!}
                     </div>
                 </td>
-                <td>
+                <td class="clickable">
                     @include('actividades.partials.nombre_con_etiquetas')
                     @include('actividades.partials.caducada')
                 </td>
-                <td>{{ $actividad->slug }}</td>
-                <td>{{ formato_decimales($actividad->puntuacion * ($actividad->multiplicador ?: 1)) }}</td>
-                <td class="text-center">{!! $actividad->auto_avance ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
-                <td>
+                <td class="clickable">{{ $actividad->slug }}</td>
+                <td class="clickable">{{ formato_decimales($actividad->puntuacion * ($actividad->multiplicador ?: 1)) }}</td>
+                <td class="text-center clickable">{!! $actividad->auto_avance ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                <td class="clickable">
                     @include('actividades.partials.siguiente')
                 </td>
                 @include('partials.botones_recursos')
