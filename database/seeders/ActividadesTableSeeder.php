@@ -31,13 +31,16 @@ class ActividadesTableSeeder extends Seeder
                 ->first();
 
             $nombre = 'Tarea de bienvenida';
-            $actividad = new Actividad();
-            $actividad->nombre = $nombre;
-            $actividad->descripcion = 'Actividad de ejemplo que explica el flujo de trabajo.';
-            $actividad->puntuacion = 10;
-            $actividad->slug = Str::slug($nombre);
-            $actividad->plantilla = true;
-            $actividad->auto_avance = true;
+            $actividad = factory(Actividad::class)->create(
+                [
+                    'nombre' => $nombre,
+                    'descripcion' => 'Actividad de ejemplo que explica el flujo de trabajo.',
+                    'puntuacion' => 10,
+                    'slug' => Str::slug($nombre),
+                    'plantilla' => true,
+                    'auto_avance' => true,
+                ]
+            );
             $unidad->actividades()->save($actividad);
 
             $video = YoutubeVideo::where('titulo', 'Primeros pasos')->first();
@@ -53,13 +56,16 @@ class ActividadesTableSeeder extends Seeder
             ->first();
 
         $nombre = 'Agenda';
-        $actividad = new Actividad();
-        $actividad->nombre = $nombre;
-        $actividad->descripcion = 'Agenda de contactos con varias ventanas que comparten datos.';
-        $actividad->puntuacion = 100;
-        $actividad->slug = Str::slug($nombre);
-        $actividad->plantilla = true;
-        $actividad->tags = 'base';
+        $actividad = factory(Actividad::class)->create(
+            [
+                'nombre' => $nombre,
+                'descripcion' => 'Agenda de contactos con varias ventanas que comparten datos.',
+                'puntuacion' => 100,
+                'slug' => Str::slug($nombre),
+                'plantilla' => true,
+                'tags' => 'base',
+            ]
+        );
         $unidad->actividades()->save($actividad);
 
         $proyecto = IntellijProject::where('repositorio', 'root/agenda')->first();
@@ -76,13 +82,16 @@ class ActividadesTableSeeder extends Seeder
             ->first();
 
         $nombre = 'Tres en raya';
-        $actividad = new Actividad();
-        $actividad->nombre = $nombre;
-        $actividad->descripcion = 'Juego de tres en raya con GUI.';
-        $actividad->puntuacion = 100;
-        $actividad->slug = Str::slug($nombre);
-        $actividad->plantilla = true;
-        $actividad->tags = 'base';
+        $actividad = factory(Actividad::class)->create(
+            [
+                'nombre' => $nombre,
+                'descripcion' => 'Juego de tres en raya con GUI.',
+                'puntuacion' => 100,
+                'slug' => Str::slug($nombre),
+                'plantilla' => true,
+                'tags' => 'base',
+            ]
+        );
         $unidad->actividades()->save($actividad);
 
         $proyecto = IntellijProject::where('repositorio', 'root/tres-en-raya')->first();
@@ -100,14 +109,17 @@ class ActividadesTableSeeder extends Seeder
             ->first();
 
         $nombre = 'Reservas';
-        $actividad = new Actividad();
-        $actividad->nombre = $nombre;
-        $actividad->descripcion = 'Reservas, huéspedes y hoteles.';
-        $actividad->puntuacion = 100;
-        $actividad->multiplicador = 2;
-        $actividad->slug = Str::slug($nombre);
-        $actividad->plantilla = true;
-        $actividad->tags = 'examen';
+        $actividad = factory(Actividad::class)->create(
+            [
+                'nombre' => $nombre,
+                'descripcion' => 'Reservas, huéspedes y hoteles.',
+                'puntuacion' => 100,
+                'multiplicador' => 2,
+                'slug' => Str::slug($nombre),
+                'plantilla' => true,
+                'tags' => 'examen',
+            ]
+        );
         $unidad->actividades()->save($actividad);
 
         $proyecto = IntellijProject::where('repositorio', 'root/reservas')->first();
@@ -122,13 +134,16 @@ class ActividadesTableSeeder extends Seeder
             ->first();
 
         $nombre = 'Alternativa simple';
-        $actividad = new Actividad();
-        $actividad->nombre = $nombre;
-        $actividad->descripcion = 'Instrucción if-else.';
-        $actividad->puntuacion = 100;
-        $actividad->slug = Str::slug($nombre);
-        $actividad->plantilla = true;
-        $actividad->tags = 'base';
+        $actividad = factory(Actividad::class)->create(
+            [
+                'nombre' => $nombre,
+                'descripcion' => 'Instrucción if-else.',
+                'puntuacion' => 100,
+                'slug' => Str::slug($nombre),
+                'plantilla' => true,
+                'tags' => 'trabajo en equipo',
+            ]
+        );
         $unidad->actividades()->save($actividad);
 
         $cuestionario = Cuestionario::where('titulo', 'Cuestionario de ejemplo')->first();
