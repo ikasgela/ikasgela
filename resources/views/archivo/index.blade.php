@@ -39,7 +39,7 @@
                 <tbody>
                 @foreach($actividades as $actividad)
                     <tr class="table-row"
-                        @if(Auth::user()->hasRole('admin'))
+                        @if(Auth::user()->hasAnyRole(['admin', 'profesor', 'tutor']))
                         data-href="{{ route('actividades.preview', $actividad->id) }}">
                         @else
                             data-href="{{ route('archivo.show', $actividad->id) }}">
