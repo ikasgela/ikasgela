@@ -22,6 +22,7 @@
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Slug') }}</th>
                 <th>{{ __('Members') }}</th>
+                <th class="text-center">{{ __('Assigned activities') }}</th>
                 <th class="text-center">{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -43,6 +44,7 @@
                             <p class="m-0">{{ trans_choice('genero.none', 1) }}</p>
                         @endforelse
                     </td>
+                    <td class="clickable text-center">{{ $team->actividades->count() }}</td>
                     <td class="text-center">
                         {!! Form::open(['route' => ['teams.destroy', $team->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>
