@@ -17,6 +17,7 @@ abstract class TestCase extends BaseTestCase
     protected $not_profesor;
 
     protected $not_alumno_profesor;
+    protected $not_admin_profesor;
 
     public function crearUsuarios(): void
     {
@@ -47,5 +48,9 @@ abstract class TestCase extends BaseTestCase
         $this->not_alumno_profesor = factory(User::class)->create();
         $this->not_alumno_profesor->roles()->attach($rol_admin);
         $this->not_alumno_profesor->roles()->attach($rol_tutor);
+
+        $this->not_admin_profesor = factory(User::class)->create();
+        $this->not_admin_profesor->roles()->attach($rol_alumno);
+        $this->not_admin_profesor->roles()->attach($rol_tutor);
     }
 }
