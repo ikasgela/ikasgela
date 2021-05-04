@@ -29,26 +29,27 @@
             </thead>
             <tbody>
             @foreach($actividades as $actividad)
-                <tr class="table-cell-click">
+                <tr class="table-cell-click"
+                    data-href="{{ route('profesor.revisar', ['user' => $user->id, 'tarea' => $actividad->tarea->id]) }}">
                     <td class="p-0 pl-1 {{ $actividad->tarea->estado == 30 && !$actividad->auto_avance ? 'bg-danger' : '' }}">
                         &nbsp;
                     </td>
                     <td>
                         <input form="multiple" type="checkbox" name="asignadas[]" value="{{ $actividad->tarea->id }}">
                     </td>
-                    <td>{{ $actividad->tarea->id }}</td>
-                    <td>
+                    <td class="clickable">{{ $actividad->tarea->id }}</td>
+                    <td class="clickable">
                         <span class="mr-2">{{ $actividad->unidad->slug.'/'.$actividad->slug }}</span>
                         @foreach($actividad->etiquetas() as $etiqueta)
                             {!! '<span class="badge badge-secondary">'.$etiqueta.'</span>' !!}
                         @endforeach
                     </td>
-                    <td class="text-center">{!! $actividad->tarea->estado == 11 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-secondary"></i>' !!}</td>
-                    <td class="text-center">{!! $actividad->tarea->estado >= 20 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
-                    <td class="text-center {!! $actividad->tarea->estado == 30 && !$actividad->auto_avance ? 'bg-danger text-white' : '' !!}">
+                    <td class="text-center clickable">{!! $actividad->tarea->estado == 11 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-secondary"></i>' !!}</td>
+                    <td class="text-center clickable">{!! $actividad->tarea->estado >= 20 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                    <td class="text-center clickable {!! $actividad->tarea->estado == 30 && !$actividad->auto_avance ? 'bg-danger text-white' : '' !!}">
                         {!! $actividad->tarea->estado >= 30 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-danger"></i>' !!}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center clickable">
                         @switch($actividad->tarea->estado)
                             @case(40)
                             {!! '<i class="fas fa-check text-success"></i>' !!}
@@ -68,9 +69,9 @@
                             @endif
                         @endswitch
                     </td>
-                    <td class="text-center">{{ $actividad->tarea->puntuacion }}</td>
-                    <td class="text-center">{!! $actividad->tarea->estado >= 50 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
-                    <td class="text-center">{!! $actividad->is_expired && !$actividad->tarea->is_completada ? '<i class="fas fa-exclamation-triangle text-warning"></i>' : '<i class="fas fa-times text-secondary"></i>' !!}</td>
+                    <td class="text-center clickable">{{ $actividad->tarea->puntuacion }}</td>
+                    <td class="text-center clickable">{!! $actividad->tarea->estado >= 50 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                    <td class="text-center clickable">{!! $actividad->is_expired && !$actividad->tarea->is_completada ? '<i class="fas fa-exclamation-triangle text-warning"></i>' : '<i class="fas fa-times text-secondary"></i>' !!}</td>
                     @include('profesor.partials.siguiente_actividad')
                     @if(Auth::user()->hasRole('admin'))
                         @include('partials.botones_recursos')
