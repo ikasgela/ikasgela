@@ -14,6 +14,7 @@
         <table class="table table-hover">
             <thead class="thead-dark">
             <tr>
+                <th class="p-0"></th>
                 <th>
                     <input type="checkbox" id="seleccionar_equipos">
                 </th>
@@ -27,6 +28,7 @@
             <tbody>
             @foreach($teams as $team)
                 <tr>
+                    <td class="p-0 pl-1"></td>
                     <td>
                         <input form="asignar" type="checkbox"
                                name="equipos_seleccionados[{{ $team->id }}]" value="{{ $team->id }}">
