@@ -23,7 +23,7 @@
                 <th>{{ __('Slug') }}</th>
                 <th>{{ __('Members') }}</th>
                 <th class="text-center">{{ __('Assigned activities') }}</th>
-                <th class="text-center">{{ __('Actions') }}</th>
+                <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -45,7 +45,7 @@
                         @endforelse
                     </td>
                     <td class="clickable text-center">{{ $team->actividades->count() }}</td>
-                    <td class="text-center">
+                    <td>
                         {!! Form::open(['route' => ['teams.destroy', $team->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>
                             <a title="{{ __('Preview') }}"

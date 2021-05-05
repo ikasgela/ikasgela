@@ -15,7 +15,7 @@
             @if(Auth::user()->hasRole('admin'))
                 <th>{{ __('Resources') }}</th>
             @endif
-            <th class="text-center">{{ __('Actions') }}</th>
+            <th>{{ __('Actions') }}</th>
         </tr>
         </thead>
         <tbody>
@@ -37,7 +37,7 @@
                 @if(Auth::user()->hasRole('admin'))
                     @include('partials.botones_recursos')
                 @endif
-                <td class="text-center">
+                <td>
                     <div class='btn-group'>
                         <a title="{{ __('Preview') }}"
                            href="{{ route('actividades.preview', [$actividad->id]) }}"

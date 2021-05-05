@@ -20,7 +20,7 @@
             <th>{{ trans_choice('tasks.last', 1) }}</th>
             <th>{{ __('Next') }}</th>
             @if(Auth::user()->hasRole('admin'))
-                <th class="text-center">{{ __('Actions') }}</th>
+                <th>{{ __('Actions') }}</th>
             @endif
         </tr>
         </thead>
@@ -72,7 +72,7 @@
                 <td class="clickable">{{ $user->siguiente_actividad()->slug ?? '' }}</td>
                 @include('profesor.partials.siguiente_actividad', ['actividad' => $user->siguiente_actividad()])
                 @if(Auth::user()->hasRole('admin'))
-                    <td class="text-center">
+                    <td>
                         @include('users.partials.acciones')
                     </td>
                 @endif
