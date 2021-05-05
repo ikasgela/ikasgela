@@ -11,7 +11,7 @@
             @if(Auth::user()->hasRole('admin'))
                 <th>{{ __('Resources') }}</th>
             @endif
-            <th class="text-center">{{ __('Actions') }}</th>
+            <th>{{ __('Actions') }}</th>
         </tr>
         </thead>
         <tbody>
@@ -29,12 +29,26 @@
                 @if(Auth::user()->hasRole('admin'))
                     @include('partials.botones_recursos')
                 @endif
-                <td class="text-center">
-                    <div class='btn-group'>
-                        <a title="{{ __('Preview') }}"
-                           href="{{ route('actividades.preview', [$actividad->id]) }}"
-                           class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
-                    </div>
+                <td>
+                    @php
+                        $tarea = $user->actividades()->find($actividad->id)->tarea;
+                    @endphp
+                    <form method="POST"
+                          action="{{ route('tareas.destroy', ['user' => $user->id, 'tarea' => $tarea->id]) }}">
+                        @csrf
+                        @method('DELETE')
+                        <div class='btn-group'>
+                            <a title="{{ __('Review') }}"
+                               href="{{ route('profesor.revisar', ['user' => $user->id, 'tarea' => $tarea->id]) }}"
+                               class="btn btn-light btn-sm"><i class="fas fa-bullhorn"></i></a>
+                            @if(Auth::user()->hasRole('admin'))
+                                <a title="{{ __('Edit activity') }}"
+                                   href="{{ route('actividades.edit', [$actividad->id]) }}"
+                                   class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                            @endif
+                            @include('partials.boton_borrar')
+                        </div>
+                    </form>
                 </td>
             </tr>
         @endforeach
