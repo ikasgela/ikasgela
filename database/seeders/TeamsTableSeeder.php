@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Group;
 use App\Team;
+use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -19,10 +20,14 @@ class TeamsTableSeeder extends Seeder
         $group = Group::where('name', '147FA')->first();
 
         $name = 'Todos';
-        factory(Team::class)->create([
+        $todos = factory(Team::class)->create([
             'group_id' => $group->id,
             'name' => $name,
             'slug' => Str::slug($name)
         ]);
+
+        $users = User::whereIn('email', ['noa@ikasgela.com', 'marc@ikasgela.com'])->get();
+
+        $todos->users()->sync($users);
     }
 }

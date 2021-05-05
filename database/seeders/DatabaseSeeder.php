@@ -22,9 +22,9 @@ class DatabaseSeeder extends Seeder
         $this->call(FeedbacksTableSeeder::class);
 
         $this->call(GroupsTableSeeder::class);
-        $this->call(TeamsTableSeeder::class);
         $this->call(RolesTableSeeder::class);
         $this->call(UsersTableSeeder::class);
+        $this->call(TeamsTableSeeder::class);
 
         $this->call(YoutubeVideosTableSeeder::class);
         $this->call(IntellijProjectsTableSeeder::class);
