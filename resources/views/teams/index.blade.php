@@ -46,19 +46,30 @@
                     </td>
                     <td class="clickable text-center">{{ $team->actividades->count() }}</td>
                     <td>
-                        {!! Form::open(['route' => ['teams.destroy', $team->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>
                             <a title="{{ __('Preview') }}"
                                href="{{ route('teams.show', [$team->id]) }}"
                                class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
+
+                            @if(Auth::user()?->hasAnyRole(['profesor', 'admin']))
+                                {!! Form::open(['route' => ['messages.create-with-subject-team'], 'method' => 'POST']) !!}
+                                {!! Form::button('<i class="fas fa-envelope"></i>', ['type' => 'submit',
+                                    'class' => 'btn btn-light btn-sm', 'title' => __('Message')
+                                ]) !!}
+                                {!! Form::hidden('team_id', $team->id) !!}
+                                {!! Form::close() !!}
+                            @endif
+
                             @if(Auth::user()?->hasRole('admin'))
                                 <a title="{{ __('Edit') }}"
                                    href="{{ route('teams.edit', [$team->id]) }}"
                                    class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+
+                                {!! Form::open(['route' => ['teams.destroy', $team->id], 'method' => 'DELETE']) !!}
                                 @include('partials.boton_borrar')
+                                {!! Form::close() !!}
                             @endif
                         </div>
-                        {!! Form::close() !!}
                     </td>
                 </tr>
             @endforeach

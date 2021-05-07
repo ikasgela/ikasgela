@@ -6,6 +6,7 @@ use App\Curso;
 use App\Hilo;
 use App\Mail\Alerta;
 use App\Mail\NuevoMensaje;
+use App\Team;
 use App\User;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
@@ -106,9 +107,27 @@ class MessagesController extends Controller
 
         $titulo = request('titulo');
 
+        $selected_users = [request('user_id')];
+
+        return view('messenger.create', compact(['users', 'profesores', 'titulo', 'selected_users']));
+    }
+
+    public function create_team(Request $request)
+    {
+        $curso_actual = Curso::find(setting_usuario('curso_actual'));
+
+        $users = $curso_actual->users()->noBloqueado()->where('users.id', '!=', Auth::id())->orderBy('surname')->orderBy('name')->get();
+
+        $profesores = $curso_actual->users()->rolProfesor()->orderBy('surname')->orderBy('name')->get();
+
+        $titulo = request('titulo');
+
         $selected_user = request('user_id');
 
-        return view('messenger.create', compact(['users', 'profesores', 'titulo', 'selected_user']));
+        $team = Team::find(request('team_id'));
+        $selected_users = $team->users->pluck('id')->toArray();
+
+        return view('messenger.create', compact(['users', 'profesores', 'titulo', 'selected_users']));
     }
 
     /**
