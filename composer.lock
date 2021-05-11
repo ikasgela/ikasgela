@@ -75,16 +75,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.180.2",
+            "version": "3.180.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "88b91af651a9affd384b184332a4d52d69ab7c81"
+                "reference": "1a836be14ba664ea11eb965dec77715e9e607013"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/88b91af651a9affd384b184332a4d52d69ab7c81",
-                "reference": "88b91af651a9affd384b184332a4d52d69ab7c81",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/1a836be14ba664ea11eb965dec77715e9e607013",
+                "reference": "1a836be14ba664ea11eb965dec77715e9e607013",
                 "shasum": ""
             },
             "require": {
@@ -159,9 +159,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.180.2"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.180.6"
             },
-            "time": "2021-05-05T02:47:28+00:00"
+            "time": "2021-05-10T18:17:07+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -2364,16 +2364,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.40.0",
+            "version": "v8.41.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "a654897ad7f97aea9d7ef292803939798c4a02a4"
+                "reference": "05417155d886df8710e55c84e12622b52d83c47c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/a654897ad7f97aea9d7ef292803939798c4a02a4",
-                "reference": "a654897ad7f97aea9d7ef292803939798c4a02a4",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/05417155d886df8710e55c84e12622b52d83c47c",
+                "reference": "05417155d886df8710e55c84e12622b52d83c47c",
                 "shasum": ""
             },
             "require": {
@@ -2481,7 +2481,7 @@
                 "phpunit/phpunit": "Required to use assertions and run tests (^8.5.8|^9.3.3).",
                 "predis/predis": "Required to use the predis connector (^1.1.2).",
                 "psr/http-message": "Required to allow Storage::put to accept a StreamInterface (^1.0).",
-                "pusher/pusher-php-server": "Required to use the Pusher broadcast driver (^4.0|^5.0).",
+                "pusher/pusher-php-server": "Required to use the Pusher broadcast driver (^4.0|^5.0|^6.0).",
                 "symfony/cache": "Required to PSR-6 cache bridge (^5.1.4).",
                 "symfony/filesystem": "Required to enable support for relative symbolic links (^5.1.4).",
                 "symfony/psr-http-message-bridge": "Required to use PSR-7 bridging features (^2.0).",
@@ -2528,7 +2528,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-04-28T14:38:56+00:00"
+            "time": "2021-05-11T14:00:02+00:00"
         },
         {
             "name": "laravel/helpers",
@@ -2839,16 +2839,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "1.6.0",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "19a9673b833cc37770439097b381d86cd125bfe8"
+                "reference": "2651c497f005de305c7ba3f232cbd87b8c00ee8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/19a9673b833cc37770439097b381d86cd125bfe8",
-                "reference": "19a9673b833cc37770439097b381d86cd125bfe8",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/2651c497f005de305c7ba3f232cbd87b8c00ee8c",
+                "reference": "2651c497f005de305c7ba3f232cbd87b8c00ee8c",
                 "shasum": ""
             },
             "require": {
@@ -2936,7 +2936,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-01T19:00:49+00:00"
+            "time": "2021-05-08T16:08:00+00:00"
         },
         {
             "name": "league/flysystem",
@@ -11901,16 +11901,16 @@
         },
         {
             "name": "spatie/laravel-package-tools",
-            "version": "1.6.3",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-package-tools.git",
-                "reference": "97b53951e9623b3e38babf274c335913bf320a1a"
+                "reference": "a28108b61dac8a83de6c97f09a5a1e98f4d75522"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-package-tools/zipball/97b53951e9623b3e38babf274c335913bf320a1a",
-                "reference": "97b53951e9623b3e38babf274c335913bf320a1a",
+                "url": "https://api.github.com/repos/spatie/laravel-package-tools/zipball/a28108b61dac8a83de6c97f09a5a1e98f4d75522",
+                "reference": "a28108b61dac8a83de6c97f09a5a1e98f4d75522",
                 "shasum": ""
             },
             "require": {
@@ -11949,7 +11949,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-package-tools/issues",
-                "source": "https://github.com/spatie/laravel-package-tools/tree/1.6.3"
+                "source": "https://github.com/spatie/laravel-package-tools/tree/1.7.0"
             },
             "funding": [
                 {
@@ -11957,7 +11957,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-04-27T06:17:34+00:00"
+            "time": "2021-05-06T21:49:32+00:00"
         },
         {
             "name": "symfony/debug",
