@@ -49322,7 +49322,7 @@ function normalizeComponent (
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
 /*!
- * Vue.js v2.6.13
+ * Vue.js v2.6.14
  * (c) 2014-2021 Evan You
  * Released under the MIT License.
  */
@@ -51938,7 +51938,7 @@ function normalizeComponent (
       var vnode = res && res[0];
       return res && (
         !vnode ||
-        (vnode.isComment && !isAsyncPlaceholder(vnode)) // #9658, #10391
+        (res.length === 1 && vnode.isComment && !isAsyncPlaceholder(vnode)) // #9658, #10391
       ) ? undefined
         : res
     };
@@ -54809,7 +54809,7 @@ function normalizeComponent (
     value: FunctionalRenderContext
   });
 
-  Vue.version = '2.6.13';
+  Vue.version = '2.6.14';
 
   /*  */
 
