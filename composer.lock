@@ -75,16 +75,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.183.13",
+            "version": "3.183.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "0e0be404854482b7cae61ef9f707c7a876b43cdf"
+                "reference": "ca0865f4aed816dd54c2101acc32cd4daa176b09"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0e0be404854482b7cae61ef9f707c7a876b43cdf",
-                "reference": "0e0be404854482b7cae61ef9f707c7a876b43cdf",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ca0865f4aed816dd54c2101acc32cd4daa176b09",
+                "reference": "ca0865f4aed816dd54c2101acc32cd4daa176b09",
                 "shasum": ""
             },
             "require": {
@@ -159,9 +159,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.183.13"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.183.15"
             },
-            "time": "2021-06-04T18:12:54+00:00"
+            "time": "2021-06-08T18:14:14+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -2364,16 +2364,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.45.1",
+            "version": "v8.46.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "dc2f0bb02c3eb4b27669d626bb3e810db8e7749d"
+                "reference": "a18266c612e0e6aba5e0174b3c873d2d217dccfb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/dc2f0bb02c3eb4b27669d626bb3e810db8e7749d",
-                "reference": "dc2f0bb02c3eb4b27669d626bb3e810db8e7749d",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/a18266c612e0e6aba5e0174b3c873d2d217dccfb",
+                "reference": "a18266c612e0e6aba5e0174b3c873d2d217dccfb",
                 "shasum": ""
             },
             "require": {
@@ -2528,7 +2528,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-06-03T16:39:17+00:00"
+            "time": "2021-06-08T13:36:46+00:00"
         },
         {
             "name": "laravel/helpers",
@@ -3992,16 +3992,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.48.1",
+            "version": "2.49.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "8d1f50f1436fb4b05e7127360483dd9c6e73da16"
+                "reference": "93d9db91c0235c486875d22f1e08b50bdf3e6eee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/8d1f50f1436fb4b05e7127360483dd9c6e73da16",
-                "reference": "8d1f50f1436fb4b05e7127360483dd9c6e73da16",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/93d9db91c0235c486875d22f1e08b50bdf3e6eee",
+                "reference": "93d9db91c0235c486875d22f1e08b50bdf3e6eee",
                 "shasum": ""
             },
             "require": {
@@ -4081,20 +4081,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-26T22:08:38+00:00"
+            "time": "2021-06-02T07:31:40+00:00"
         },
         {
             "name": "niklasravnsborg/laravel-pdf",
-            "version": "v4.0.0",
+            "version": "v4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/niklasravnsborg/laravel-pdf.git",
-                "reference": "80cce12a3d9048759ec0d2ca87c57a56b4b4950f"
+                "reference": "a5f5c22dd5e10d8f536102cec01c21282e18ebae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/niklasravnsborg/laravel-pdf/zipball/80cce12a3d9048759ec0d2ca87c57a56b4b4950f",
-                "reference": "80cce12a3d9048759ec0d2ca87c57a56b4b4950f",
+                "url": "https://api.github.com/repos/niklasravnsborg/laravel-pdf/zipball/a5f5c22dd5e10d8f536102cec01c21282e18ebae",
+                "reference": "a5f5c22dd5e10d8f536102cec01c21282e18ebae",
                 "shasum": ""
             },
             "require": {
@@ -4133,9 +4133,9 @@
             ],
             "support": {
                 "issues": "https://github.com/niklasravnsborg/laravel-pdf/issues",
-                "source": "https://github.com/niklasravnsborg/laravel-pdf/tree/v4.0.0"
+                "source": "https://github.com/niklasravnsborg/laravel-pdf/tree/v4.1.0"
             },
-            "time": "2020-02-01T15:02:57+00:00"
+            "time": "2021-06-08T11:07:13+00:00"
         },
         {
             "name": "opis/closure",
@@ -8467,16 +8467,16 @@
         },
         {
             "name": "composer/ca-bundle",
-            "version": "1.2.9",
+            "version": "1.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "78a0e288fdcebf92aa2318a8d3656168da6ac1a5"
+                "reference": "9fdb22c2e97a614657716178093cd1da90a64aa8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/78a0e288fdcebf92aa2318a8d3656168da6ac1a5",
-                "reference": "78a0e288fdcebf92aa2318a8d3656168da6ac1a5",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/9fdb22c2e97a614657716178093cd1da90a64aa8",
+                "reference": "9fdb22c2e97a614657716178093cd1da90a64aa8",
                 "shasum": ""
             },
             "require": {
@@ -8523,7 +8523,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/ca-bundle/issues",
-                "source": "https://github.com/composer/ca-bundle/tree/1.2.9"
+                "source": "https://github.com/composer/ca-bundle/tree/1.2.10"
             },
             "funding": [
                 {
@@ -8539,20 +8539,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-12T12:10:35+00:00"
+            "time": "2021-06-07T13:58:28+00:00"
         },
         {
             "name": "composer/composer",
-            "version": "2.1.1",
+            "version": "2.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "e338749d4e6cc97e1136c210ce0212d4a59e3a58"
+                "reference": "1845e6854aa3f37f2c6c24bc525541b00b8b28e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/e338749d4e6cc97e1136c210ce0212d4a59e3a58",
-                "reference": "e338749d4e6cc97e1136c210ce0212d4a59e3a58",
+                "url": "https://api.github.com/repos/composer/composer/zipball/1845e6854aa3f37f2c6c24bc525541b00b8b28e4",
+                "reference": "1845e6854aa3f37f2c6c24bc525541b00b8b28e4",
                 "shasum": ""
             },
             "require": {
@@ -8621,7 +8621,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/composer/issues",
-                "source": "https://github.com/composer/composer/tree/2.1.1"
+                "source": "https://github.com/composer/composer/tree/2.1.2"
             },
             "funding": [
                 {
@@ -8637,7 +8637,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-06-04T06:46:46+00:00"
+            "time": "2021-06-07T14:03:06+00:00"
         },
         {
             "name": "composer/metadata-minifier",
