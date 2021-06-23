@@ -34,7 +34,7 @@
         "jquery-countdown": "^2.2.0",
         "perfect-scrollbar": "^1.5.1",
         "prismjs": "^1.23.0",
-        "tinymce": "^5.8.1",
+        "tinymce": "^5.8.2",
         "tinymce-i18n": "^20.12.25",
         "vue-toasted": "^1.1.28"
     }
