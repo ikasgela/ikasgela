@@ -129,54 +129,6 @@ class GiteaClient
         }
     }
 
-    public static function dump_gitlab($repositorio, $username, $destino)
-    {
-        self::init();
-
-        // Obtener el ID de usuario de destino
-        $request = self::$cliente->get('users/' . $username, [
-            'headers' => self::$headers
-        ]);
-
-        $response = json_decode($request->getBody(), true);
-        $uid = $response['id'];
-
-        try {// Hacer la copia del repositorio
-            $request = self::$cliente->post('repos/migrate', [
-                'headers' => self::$headers,
-                'json' => [
-                    "auth_username" => config('gitea.user'),
-                    "auth_password" => config('gitea.gitlab_password'),
-                    "clone_addr" => 'http://gitlab' . '/' . $repositorio['path_with_namespace'] . '.git',
-                    "uid" => $uid,
-                    "repo_name" => $destino,
-                    "description" => $repositorio['name'],
-                    "private" => true,
-                ]
-            ]);
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-        }
-
-        if ($request->getStatusCode() == 201) {
-            $response = json_decode($request->getBody(), true);
-
-            $data = [
-                'id' => $response['id'],
-                'name' => $response['name'],
-                'description' => $response['description'],
-                'http_url_to_repo' => $response['clone_url'],
-                'path_with_namespace' => $response['full_name'],
-                'web_url' => $response['html_url'],
-                'owner' => $response['owner']['login'],
-            ];
-
-            return $data;
-        } else {
-            return $request->getStatusCode() ?: 400;
-        }
-    }
-
     public static function repos()
     {
         self::init();
