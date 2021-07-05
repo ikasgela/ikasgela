@@ -88,24 +88,15 @@ class GiteaClient
     {
         self::init();
 
-        // Obtener el ID de usuario de destino
-        $request = self::$cliente->get('users/' . $username, [
-            'headers' => self::$headers
-        ]);
-
-        $response = json_decode($request->getBody(), true);
-        $uid = $response['id'];
-
-        try {// Hacer la copia del repositorio
-            $request = self::$cliente->post('repos/migrate', [
+        try {
+            // Hacer la copia del repositorio
+            $request = self::$cliente->post("repos/$repositorio/generate", [
                 'headers' => self::$headers,
                 'json' => [
-                    "auth_username" => config('gitea.user'),
-                    "auth_password" => config('gitea.password'),
-                    "clone_addr" => config('gitea.url') . '/' . $repositorio . '.git',
-                    "uid" => $uid,
-                    "repo_name" => $destino,
+                    "owner" => $username,
+                    "name" => $destino,
                     "private" => true,
+                    "git_content" => true,
                     "description" => $descripcion,
                 ]
             ]);
