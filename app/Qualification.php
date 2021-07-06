@@ -29,6 +29,12 @@ class Qualification extends Model
         'name', 'description', 'template', 'curso_id'
     ];
 
+    public function getFullNameAttribute()
+    {
+        return $this->curso->full_name . ' - '
+            . $this->name;
+    }
+
     public function curso()
     {
         return $this->belongsTo(Curso::class);
