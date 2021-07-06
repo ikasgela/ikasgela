@@ -114,4 +114,11 @@ class CursoController extends Controller
 
         return back();
     }
+
+    public function export()
+    {
+        $curso_actual = Curso::find(setting_usuario('curso_actual'));
+
+        return response('')->header('Content-Type', 'application/json');
+    }
 }

@@ -327,6 +327,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/actividades_export', 'ActividadController@export')
             ->name('actividades.export');
 
+        Route::get('/cursos.export', 'CursoController@export')
+            ->name('cursos.export');
     });
 
     // Alumnos y profesores
