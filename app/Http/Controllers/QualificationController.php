@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Organization;
+use App\Curso;
 use App\Qualification;
 use App\Skill;
-use BadMethodCallException;
 use Illuminate\Http\Request;
 
 class QualificationController extends Controller
@@ -27,20 +26,20 @@ class QualificationController extends Controller
     {
         $skills_disponibles = Skill::all();
 
-        $organizations = Organization::orderBy('name')->get();
+        $cursos = Curso::orderBy('nombre')->get();
 
-        return view('qualifications.create', compact(['skills_disponibles', 'organizations']));
+        return view('qualifications.create', compact(['skills_disponibles', 'cursos']));
     }
 
     public function store(Request $request)
     {
         $this->validate($request, [
-            'organization_id' => 'required',
+            'curso_id' => 'required',
             'name' => 'required',
         ]);
 
         $qualification = Qualification::create([
-            'organization_id' => $request->input('organization_id'),
+            'curso_id' => $request->input('curso_id'),
             'name' => $request->input('name'),
             'description' => $request->input('description'),
             'template' => $request->has('template'),
@@ -64,20 +63,20 @@ class QualificationController extends Controller
     {
         $skills_disponibles = Skill::all();
 
-        $organizations = Organization::orderBy('name')->get();
+        $cursos = Curso::orderBy('nombre')->get();
 
-        return view('qualifications.edit', compact(['qualification', 'skills_disponibles', 'organizations']));
+        return view('qualifications.edit', compact(['qualification', 'skills_disponibles', 'cursos']));
     }
 
     public function update(Request $request, Qualification $qualification)
     {
         $this->validate($request, [
-            'organization_id' => 'required',
+            'curso_id' => 'required',
             'name' => 'required',
         ]);
 
         $qualification->update([
-            'organization_id' => $request->input('organization_id'),
+            'curso_id' => $request->input('curso_id'),
             'name' => $request->input('name'),
             'description' => $request->input('description'),
             'template' => $request->has('template'),

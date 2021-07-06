@@ -10,11 +10,14 @@
             {!! Form::model($qualification, ['route' => ['qualifications.update', $qualification->id], 'method' => 'PUT']) !!}
 
             <div class="form-group row">
-                {!! Form::label('organization_id', __('Organization'), ['class' => 'col-sm-2 col-form-label']) !!}
+                {!! Form::label('curso_id', __('Course'), ['class' => 'col-sm-2 col-form-label']) !!}
                 <div class="col-sm-10">
-                    <select class="form-control" id="organization_id" name="organization_id">
-                        @foreach($organizations as $organization)
-                            <option value="{{ $organization->id }}" <?php if ($qualification->organization_id == $organization->id) echo 'selected'; ?>>{{ $organization->name }}</option>
+                    <select class="form-control" id="curso_id" name="curso_id">
+                        @foreach($cursos as $curso)
+                            <option
+                                value="{{ $curso->id }}" {{ $qualification->curso_id == $curso->id ? 'selected' : '' }}>
+                                {{ $curso->full_name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
