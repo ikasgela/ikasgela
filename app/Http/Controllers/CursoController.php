@@ -124,17 +124,17 @@ class CursoController extends Controller
     {
         $curso_actual = Curso::find(setting_usuario('curso_actual'));
 
-        $this->exportarFicheroJSON('curso.json', $curso_actual->toJson(JSON_PRETTY_PRINT));
-        $this->exportarFicheroJSON('qualifications.json', $curso_actual->qualifications->toJson(JSON_PRETTY_PRINT));
-        $this->exportarFicheroJSON('skills.json', $curso_actual->skills->toJson(JSON_PRETTY_PRINT));
-        $this->exportarFicheroJSON('qualification_skill.json', DB::table('qualification_skill')->get()->toJson(JSON_PRETTY_PRINT));
+        $this->exportarFicheroJSON('curso.json', $curso_actual);
+        $this->exportarFicheroJSON('qualifications.json', $curso_actual->qualifications);
+        $this->exportarFicheroJSON('skills.json', $curso_actual->skills);
+        $this->exportarFicheroJSON('qualification_skill.json', DB::table('qualification_skill')->get());
 
         return response('Ok')->header('Content-Type', 'application/json');
     }
 
-    private function exportarFicheroJSON(string $fichero, string $datos): void
+    private function exportarFicheroJSON(string $fichero, $datos): void
     {
-        File::put(storage_path('/temp/' . $fichero), $datos);
+        File::put(storage_path('/temp/' . $fichero), $datos->toJson(JSON_PRETTY_PRINT));
     }
 
     function replaceKeys($oldKey, $newKey, array $input)
@@ -150,6 +150,17 @@ class CursoController extends Controller
             $return[$key] = $value;
         }
         return $return;
+    }
+
+    // REF: https://stackoverflow.com/a/1708914
+    function removeKey(&$array, $unwanted_key)
+    {
+        unset($array[$unwanted_key]);
+        foreach ($array as &$value) {
+            if (is_array($value)) {
+                $this->removeKey($value, $unwanted_key);
+            }
+        }
     }
 
     public function import()
@@ -210,6 +221,9 @@ class CursoController extends Controller
         $path = storage_path() . $fichero;
         $json = json_decode(file_get_contents($path), true);
         $json = $this->replaceKeys('id', '__import_id', $json);
+        $this->removeKey($json, 'created_at');
+        $this->removeKey($json, 'updated_at');
+        $this->removeKey($json, 'deleted_at');
         return $json;
     }
 }
