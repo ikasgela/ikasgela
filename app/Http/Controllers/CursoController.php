@@ -133,4 +133,14 @@ class CursoController extends Controller
     {
         File::put(storage_path('/temp/' . $fichero), $datos);
     }
+
+    public function import()
+    {
+        // Iniciar una transacción
+        // Añadir la columna __import_id
+        // Cargar el fichero
+        // Recorrerlo
+        // Quitar la columna
+        // Terminar la transacción
+    }
 }

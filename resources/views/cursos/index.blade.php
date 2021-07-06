@@ -11,6 +11,7 @@
     <div class="mb-3">
         <a class="btn btn-primary" href="{{ route('cursos.create') }}">{{ __('New course') }}</a>
         <a class="btn btn-primary" href="{{ route('cursos.export') }}">{{ __('Export course') }}</a>
+        <a class="btn btn-primary" href="{{ route('cursos.import') }}">{{ __('Import course') }}</a>
     </div>
 
     <div class="table-responsive">
