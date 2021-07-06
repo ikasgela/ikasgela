@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Curso;
 use App\Qualification;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 class CursoController extends Controller
@@ -134,13 +136,46 @@ class CursoController extends Controller
         File::put(storage_path('/temp/' . $fichero), $datos);
     }
 
+    function replaceKeys($oldKey, $newKey, array $input)
+    {
+        $return = array();
+        foreach ($input as $key => $value) {
+            if ($key === $oldKey)
+                $key = $newKey;
+
+            if (is_array($value))
+                $value = $this->replaceKeys($oldKey, $newKey, $value);
+
+            $return[$key] = $value;
+        }
+        return $return;
+    }
+
     public function import()
     {
         // Iniciar una transacción
+
         // Añadir la columna __import_id
+        Schema::table('cursos', function (Blueprint $table) {
+            $table->bigInteger('__import_id')->unsigned()->nullable();
+        });
+
         // Cargar el fichero
+        $path = storage_path() . "/temp/curso.json";
+        $json = json_decode(file_get_contents($path), true);
+
+        $json = $this->replaceKeys('id', '__import_id', $json);
+
+        dump($json);
+
         // Recorrerlo
+        factory(Curso::class)->create($json);
+
         // Quitar la columna
+        Schema::table('cursos', function (Blueprint $table) {
+            $table->dropColumn('__import_id');
+        });
+
         // Terminar la transacción
     }
 }
