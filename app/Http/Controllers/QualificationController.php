@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Curso;
 use App\Qualification;
-use App\Skill;
 use Illuminate\Http\Request;
 
 class QualificationController extends Controller
@@ -24,11 +23,13 @@ class QualificationController extends Controller
 
     public function create()
     {
-        $skills_disponibles = Skill::all();
-
         $cursos = Curso::orderBy('nombre')->get();
 
-        return view('qualifications.create', compact(['skills_disponibles', 'cursos']));
+        $curso_actual = Curso::find(setting_usuario('curso_actual'));
+
+        $skills_disponibles = $curso_actual->skills;
+
+        return view('qualifications.create', compact(['skills_disponibles', 'cursos', 'curso_actual']));
     }
 
     public function store(Request $request)
@@ -61,9 +62,9 @@ class QualificationController extends Controller
 
     public function edit(Qualification $qualification)
     {
-        $skills_disponibles = Skill::all();
-
         $cursos = Curso::orderBy('nombre')->get();
+
+        $skills_disponibles = $qualification->curso->skills;
 
         return view('qualifications.edit', compact(['qualification', 'skills_disponibles', 'cursos']));
     }

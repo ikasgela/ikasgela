@@ -23,6 +23,12 @@ class Skill extends Model
         'name', 'description', 'curso_id', 'peso_examen', 'minimo_competencias'
     ];
 
+    public function getFullNameAttribute()
+    {
+        return $this->curso->full_name . ' - '
+            . $this->name;
+    }
+
     public function qualifications()
     {
         return $this
