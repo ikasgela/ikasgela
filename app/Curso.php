@@ -64,6 +64,11 @@ class Curso extends Model
         return $this->belongsTo(Qualification::class);
     }
 
+    public function skills()
+    {
+        return $this->hasMany(Skill::class);
+    }
+
     public function feedbacks()
     {
         return $this->morphMany('App\Feedback', 'curso');

@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Organization;
+use App\Curso;
 use App\Skill;
-use BadMethodCallException;
 use Illuminate\Http\Request;
 
 class SkillController extends Controller
@@ -24,15 +23,15 @@ class SkillController extends Controller
 
     public function create()
     {
-        $organizations = Organization::orderBy('name')->get();
+        $cursos = Curso::orderBy('nombre')->get();
 
-        return view('skills.create', compact(['organizations']));
+        return view('skills.create', compact(['cursos']));
     }
 
     public function store(Request $request)
     {
         $this->validate($request, [
-            'organization_id' => 'required',
+            'curso_id' => 'required',
             'name' => 'required',
         ]);
 
@@ -48,15 +47,15 @@ class SkillController extends Controller
 
     public function edit(Skill $skill)
     {
-        $organizations = Organization::orderBy('name')->get();
+        $cursos = Curso::orderBy('nombre')->get();
 
-        return view('skills.edit', compact(['skill', 'organizations']));
+        return view('skills.edit', compact(['skill', 'cursos']));
     }
 
     public function update(Request $request, Skill $skill)
     {
         $this->validate($request, [
-            'organization_id' => 'required',
+            'curso_id' => 'required',
             'name' => 'required',
         ]);
 

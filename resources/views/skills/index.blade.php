@@ -13,7 +13,7 @@
             <thead class="thead-dark">
             <tr>
                 <th>#</th>
-                <th>{{ __('Organization') }}</th>
+                <th>{{ __('Course') }}</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Description') }}</th>
                 <th>{{ __('Exam weight') }}</th>
@@ -25,7 +25,7 @@
             @foreach($skills as $skill)
                 <tr>
                     <td>{{ $skill->id }}</td>
-                    <td>{{ $skill->organization->name }}</td>
+                    <td>{{ $skill->curso->full_name }}</td>
                     <td>{{ $skill->name }}</td>
                     <td>{{ $skill->description }}</td>
                     <td>{{ $skill->peso_examen }}</td>

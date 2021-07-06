@@ -11,7 +11,7 @@ class SkillsCRUDTest extends TestCase
     use DatabaseTransactions;
 
     private $required = [
-        'name', 'organization_id'
+        'name', 'curso_id'
     ];
 
     public function setUp(): void
