@@ -173,9 +173,11 @@ class CursoController extends Controller
         $json['nombre'] .= '-' . bin2hex(openssl_random_pseudo_bytes(3));
         $json['slug'] = Str::slug($json['nombre']);
 
-        $curso_qualification_id = $json['qualification_id'];
-        $this->removeKey($json, 'qualification_id');
+        // Curso -- Qualification
+        $temp_curso_qualification_id = $json['qualification_id'];
 
+        // Curso
+        $this->removeKey($json, 'qualification_id');
         $curso = factory(Curso::class)->create($json);
 
         // Curso -- "*" Qualification
@@ -187,7 +189,7 @@ class CursoController extends Controller
         }
 
         // Curso -- Qualification
-        $qualification = Qualification::where('__import_id', $curso_qualification_id)->first();
+        $qualification = Qualification::where('__import_id', $temp_curso_qualification_id)->first();
         $curso->qualification_id = $qualification->id;
         $curso->save();
 
