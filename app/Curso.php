@@ -47,6 +47,11 @@ class Curso extends Model
             ->withTimestamps();
     }
 
+    public function qualifications()
+    {
+        return $this->hasMany(Qualification::class);
+    }
+
     public function qualification()
     {
         return $this->belongsTo(Qualification::class);
