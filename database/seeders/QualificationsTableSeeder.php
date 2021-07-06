@@ -22,6 +22,14 @@ class QualificationsTableSeeder extends Seeder
 
         $organization = Organization::where('slug', 'ikasgela')->first();
 
+        // Programación
+
+        $curso = Curso::whereHas('category.period.organization', function ($query) {
+            $query->where('organizations.slug', 'ikasgela');
+        })
+            ->where('slug', 'programacion')
+            ->first();
+
         // Competencias
 
         $ce1 = factory(Skill::class)->create([
@@ -48,7 +56,7 @@ class QualificationsTableSeeder extends Seeder
         // Cualificación
 
         $cualificacion = factory(Qualification::class)->create([
-            'organization_id' => $organization->id,
+            'curso_id' => $curso->id,
             'name' => 'General',
             'description' => 'Cualificación predeterminada para el curso.',
             'template' => true,
@@ -60,19 +68,13 @@ class QualificationsTableSeeder extends Seeder
 
         // Asociar la cualificación al curso
 
-        $curso = Curso::whereHas('category.period.organization', function ($query) {
-            $query->where('organizations.slug', 'ikasgela');
-        })
-            ->where('slug', 'programacion')
-            ->first();
-
         $curso->qualification()->associate($cualificacion);
         $curso->save();
 
         // Primera unidad
 
         $cualificacion = factory(Qualification::class)->create([
-            'organization_id' => $organization->id,
+            'curso_id' => $curso->id,
             'name' => 'Introducción a la programación',
             'description' => 'Presentación del curso, conceptos básicos y uso de las herramientas.',
             'template' => true,
