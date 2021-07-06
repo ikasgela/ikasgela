@@ -31,9 +31,8 @@ class CursoController extends Controller
     public function create()
     {
         $categories = Category::orderBy('name')->get();
-        $qualifications = Qualification::cursoActual()->orderBy('name')->get();
 
-        return view('cursos.create', compact(['categories', 'qualifications']));
+        return view('cursos.create', compact(['categories']));
     }
 
     public function store(Request $request)
@@ -78,7 +77,7 @@ class CursoController extends Controller
     public function edit(Curso $curso)
     {
         $categories = Category::orderBy('name')->get();
-        $qualifications = Qualification::cursoActual()->orderBy('name')->get();
+        $qualifications = $curso->qualifications()->orderBy('name')->get();
 
         return view('cursos.edit', compact(['curso', 'categories', 'qualifications']));
     }
