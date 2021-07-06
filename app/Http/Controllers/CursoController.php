@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Curso;
 use App\Qualification;
+use App\Skill;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -153,29 +154,62 @@ class CursoController extends Controller
 
     public function import()
     {
-        // Iniciar una transacción
+        $this->addImportId('cursos');
+        $this->addImportId('qualifications');
+        $this->addImportId('skills');
 
-        // Añadir la columna __import_id
-        Schema::table('cursos', function (Blueprint $table) {
-            $table->bigInteger('__import_id')->unsigned()->nullable();
-        });
-
-        // Cargar el fichero
-        $path = storage_path() . "/temp/curso.json";
-        $json = json_decode(file_get_contents($path), true);
-
-        $json = $this->replaceKeys('id', '__import_id', $json);
-
+        $json = $this->cargarFichero('/temp/curso.json');
+        $json['slug'] .= '-' . bin2hex(openssl_random_pseudo_bytes(3));
         dump($json);
-
-        // Recorrerlo
         factory(Curso::class)->create($json);
 
-        // Quitar la columna
-        Schema::table('cursos', function (Blueprint $table) {
-            $table->dropColumn('__import_id');
-        });
+        $json = $this->cargarFichero('/temp/qualifications.json');
+        dump($json);
+        factory(Qualification::class)->createMany($json);
 
-        // Terminar la transacción
+        $json = $this->cargarFichero('/temp/skills.json');
+        dump($json);
+        factory(Skill::class)->createMany($json);
+
+        $json = $this->cargarFichero('/temp/qualification_skill.json');
+        dump($json);
+        foreach ($json as $objeto) {
+            $qualification = Qualification::where('__import_id', $objeto['qualification_id'])->first();
+            $skill = Skill::where('__import_id', $objeto['skill_id'])->first();
+            $qualification->skills()->attach($skill, ['percentage' => $objeto['percentage']]);
+        }
+
+        $this->removeImportId('cursos');
+        $this->removeImportId('qualifications');
+        $this->removeImportId('skills');
+    }
+
+    private function addImportId($tabla): void
+    {
+        // Añadir la columna __import_id
+        if (!Schema::hasColumn($tabla, '__import_id')) {
+            Schema::table($tabla, function (Blueprint $table) {
+                $table->bigInteger('__import_id')->unsigned()->nullable();
+            });
+        }
+    }
+
+    private function removeImportId($tabla): void
+    {
+        // Quitar la columna
+        if (Schema::hasColumn($tabla, '__import_id')) {
+            Schema::table($tabla, function (Blueprint $table) {
+                $table->dropColumn('__import_id');
+            });
+        }
+    }
+
+    private function cargarFichero($fichero): array
+    {
+        // Cargar el fichero
+        $path = storage_path() . $fichero;
+        $json = json_decode(file_get_contents($path), true);
+        $json = $this->replaceKeys('id', '__import_id', $json);
+        return $json;
     }
 }
