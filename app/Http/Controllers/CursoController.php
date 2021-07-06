@@ -170,7 +170,12 @@ class CursoController extends Controller
 
         // Curso
         $json = $this->cargarFichero('/temp/curso.json');
-        $json['slug'] .= '-' . bin2hex(openssl_random_pseudo_bytes(3));
+        $json['nombre'] .= '-' . bin2hex(openssl_random_pseudo_bytes(3));
+        $json['slug'] = Str::slug($json['nombre']);
+
+        $curso_qualification_id = $json['qualification_id'];
+        $this->removeKey($json, 'qualification_id');
+
         $curso = factory(Curso::class)->create($json);
 
         // Curso -- "*" Qualification
@@ -181,9 +186,18 @@ class CursoController extends Controller
             $curso->qualifications()->save($qualification);
         }
 
-        // Skill
+        // Curso -- Qualification
+        $qualification = Qualification::where('__import_id', $curso_qualification_id)->first();
+        $curso->qualification_id = $qualification->id;
+        $curso->save();
+
+        // Curso -- "*" Skill
         $json = $this->cargarFichero('/temp/skills.json');
-        factory(Skill::class)->createMany($json);
+        foreach ($json as $objeto) {
+            $this->removeKey($json, 'curso_id');
+            $skill = factory(Skill::class)->create($objeto);
+            $curso->skills()->save($skill);
+        }
 
         // Qualification "*" -- "*" Skill
         $json = $this->cargarFichero('/temp/qualification_skill.json');
