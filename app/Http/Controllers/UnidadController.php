@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Curso;
 use App\Qualification;
 use App\Unidad;
-use BadMethodCallException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -27,7 +26,7 @@ class UnidadController extends Controller
     public function create()
     {
         $cursos = Curso::orderBy('nombre')->get();
-        $qualifications = Qualification::organizacionActual()->orderBy('name')->get();
+        $qualifications = Qualification::cursoActual()->orderBy('name')->get();
 
         return view('unidades.create', compact(['cursos', 'qualifications']));
     }
@@ -65,7 +64,7 @@ class UnidadController extends Controller
     public function edit(Unidad $unidad)
     {
         $cursos = Curso::orderBy('nombre')->get();
-        $qualifications = Qualification::organizacionActual()->orderBy('name')->get();
+        $qualifications = Qualification::cursoActual()->orderBy('name')->get();
 
         return view('unidades.edit', compact(['unidad', 'cursos', 'qualifications']));
     }

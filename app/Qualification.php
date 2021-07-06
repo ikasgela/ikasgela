@@ -58,4 +58,9 @@ class Qualification extends Model
     {
         return $this->hasMany(Unidad::class);
     }
+
+    public function scopeCursoActual($query)
+    {
+        return $query->where('curso_id', setting_usuario('curso_actual'));
+    }
 }
