@@ -129,7 +129,7 @@ class CursoController extends Controller
         $this->exportarFicheroJSON('skills.json', $curso_actual->skills);
         $this->exportarFicheroJSON('qualification_skill.json', DB::table('qualification_skill')->get());
 
-        return response('Ok')->header('Content-Type', 'application/json');
+        return back();
     }
 
     private function exportarFicheroJSON(string $fichero, $datos): void
@@ -169,21 +169,25 @@ class CursoController extends Controller
         $this->addImportId('qualifications');
         $this->addImportId('skills');
 
+        // Curso
         $json = $this->cargarFichero('/temp/curso.json');
         $json['slug'] .= '-' . bin2hex(openssl_random_pseudo_bytes(3));
-        dump($json);
-        factory(Curso::class)->create($json);
+        $curso = factory(Curso::class)->create($json);
 
+        // Curso -- "*" Qualification
         $json = $this->cargarFichero('/temp/qualifications.json');
-        dump($json);
-        factory(Qualification::class)->createMany($json);
+        foreach ($json as $objeto) {
+            $this->removeKey($json, 'curso_id');
+            $qualification = factory(Qualification::class)->create($objeto);
+            $curso->qualifications()->save($qualification);
+        }
 
+        // Skill
         $json = $this->cargarFichero('/temp/skills.json');
-        dump($json);
         factory(Skill::class)->createMany($json);
 
+        // Qualification "*" -- "*" Skill
         $json = $this->cargarFichero('/temp/qualification_skill.json');
-        dump($json);
         foreach ($json as $objeto) {
             $qualification = Qualification::where('__import_id', $objeto['qualification_id'])->first();
             $skill = Skill::where('__import_id', $objeto['skill_id'])->first();
@@ -193,6 +197,8 @@ class CursoController extends Controller
         $this->removeImportId('cursos');
         $this->removeImportId('qualifications');
         $this->removeImportId('skills');
+
+        return back();
     }
 
     private function addImportId($tabla): void
