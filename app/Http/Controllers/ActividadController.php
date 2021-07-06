@@ -80,7 +80,7 @@ class ActividadController extends Controller
     {
         $unidades = Unidad::cursoActual()->orderBy('codigo')->orderBy('slug')->get();
         $actividades = Actividad::cursoActual()->plantilla()->orderBy('slug')->orderBy('id')->get();
-        $qualifications = Qualification::organizacionActual()->orderBy('name')->get();
+        $qualifications = Qualification::cursoActual()->orderBy('name')->get();
 
         return view('actividades.create', compact(['unidades', 'actividades', 'qualifications']));
     }
@@ -155,7 +155,7 @@ class ActividadController extends Controller
         $siguiente = $actividad->siguiente;
         $actividades = Actividad::cursoActual()->where('id', '!=', $actividad->id)->orderBy('slug')->orderBy('id')->get();
         $plantillas = Actividad::cursoActual()->plantilla()->where('id', '!=', $actividad->id)->orderBy('slug')->orderBy('id')->get();
-        $qualifications = Qualification::organizacionActual()->orderBy('name')->get();
+        $qualifications = Qualification::cursoActual()->orderBy('name')->get();
 
         return view('actividades.edit', compact(['actividad', 'unidades', 'actividades', 'plantillas', 'qualifications']));
     }

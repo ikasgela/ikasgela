@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Organization;
+use App\Curso;
 use App\Qualification;
-use App\Skill;
-use BadMethodCallException;
 use Illuminate\Http\Request;
 
 class QualificationController extends Controller
@@ -25,22 +23,24 @@ class QualificationController extends Controller
 
     public function create()
     {
-        $skills_disponibles = Skill::all();
+        $cursos = Curso::orderBy('nombre')->get();
 
-        $organizations = Organization::orderBy('name')->get();
+        $curso_actual = Curso::find(setting_usuario('curso_actual'));
 
-        return view('qualifications.create', compact(['skills_disponibles', 'organizations']));
+        $skills_disponibles = $curso_actual?->skills ?: [];
+
+        return view('qualifications.create', compact(['skills_disponibles', 'cursos', 'curso_actual']));
     }
 
     public function store(Request $request)
     {
         $this->validate($request, [
-            'organization_id' => 'required',
+            'curso_id' => 'required',
             'name' => 'required',
         ]);
 
         $qualification = Qualification::create([
-            'organization_id' => $request->input('organization_id'),
+            'curso_id' => $request->input('curso_id'),
             'name' => $request->input('name'),
             'description' => $request->input('description'),
             'template' => $request->has('template'),
@@ -62,22 +62,22 @@ class QualificationController extends Controller
 
     public function edit(Qualification $qualification)
     {
-        $skills_disponibles = Skill::all();
+        $cursos = Curso::orderBy('nombre')->get();
 
-        $organizations = Organization::orderBy('name')->get();
+        $skills_disponibles = $qualification->curso->skills;
 
-        return view('qualifications.edit', compact(['qualification', 'skills_disponibles', 'organizations']));
+        return view('qualifications.edit', compact(['qualification', 'skills_disponibles', 'cursos']));
     }
 
     public function update(Request $request, Qualification $qualification)
     {
         $this->validate($request, [
-            'organization_id' => 'required',
+            'curso_id' => 'required',
             'name' => 'required',
         ]);
 
         $qualification->update([
-            'organization_id' => $request->input('organization_id'),
+            'curso_id' => $request->input('curso_id'),
             'name' => $request->input('name'),
             'description' => $request->input('description'),
             'template' => $request->has('template'),

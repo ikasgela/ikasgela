@@ -20,8 +20,14 @@ class Skill extends Model
     }
 
     protected $fillable = [
-        'name', 'description', 'organization_id', 'peso_examen', 'minimo_competencias'
+        'name', 'description', 'curso_id', 'peso_examen', 'minimo_competencias'
     ];
+
+    public function getFullNameAttribute()
+    {
+        return $this->curso->full_name . ' - '
+            . $this->name;
+    }
 
     public function qualifications()
     {
@@ -33,8 +39,8 @@ class Skill extends Model
             ]);
     }
 
-    public function organization()
+    public function curso()
     {
-        return $this->belongsTo(Organization::class);
+        return $this->belongsTo(Curso::class);
     }
 }

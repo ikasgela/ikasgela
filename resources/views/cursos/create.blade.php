@@ -32,7 +32,7 @@
                         <option value="">{{ __('--- None ---') }}</option>
                         @foreach($qualifications as $qualification)
                             <option value="{{ $qualification->id }}">
-                                {{ $qualification->organization->name }} - {{ $qualification->name }}
+                                {{ $qualification->full_name }}
                             </option>
                         @endforeach
                     </select>

@@ -26,8 +26,19 @@ class Qualification extends Model
     }
 
     protected $fillable = [
-        'name', 'description', 'template', 'organization_id'
+        'name', 'description', 'template', 'curso_id'
     ];
+
+    public function getFullNameAttribute()
+    {
+        return $this->curso->full_name . ' - '
+            . $this->name;
+    }
+
+    public function curso()
+    {
+        return $this->belongsTo(Curso::class);
+    }
 
     public function skills()
     {
@@ -54,13 +65,8 @@ class Qualification extends Model
         return $this->hasMany(Unidad::class);
     }
 
-    public function organization()
+    public function scopeCursoActual($query)
     {
-        return $this->belongsTo(Organization::class);
-    }
-
-    public function scopeOrganizacionActual($query)
-    {
-        return $query->where('organization_id', setting_usuario('_organization_id'));
+        return $query->where('curso_id', setting_usuario('curso_actual'));
     }
 }

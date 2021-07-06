@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Qualification;
 use App\Skill;
 use Cache;
 
@@ -11,12 +12,16 @@ class SkillObserver
     {
         Skill::flushCache();
         $this->clearCache($skill);
+
+        Qualification::flushCache();
     }
 
     public function deleted(Skill $skill)
     {
         Skill::flushCache();
         $this->clearCache($skill);
+
+        Qualification::flushCache();
     }
 
     private function clearCache(Skill $skill): void

@@ -10,13 +10,13 @@
             {!! Form::model($skill, ['route' => ['skills.update', $skill->id], 'method' => 'PUT']) !!}
 
             <div class="form-group row">
-                {!! Form::label('organization_id', __('Organization'), ['class' => 'col-sm-2 col-form-label']) !!}
+                {!! Form::label('curso_id', __('Course'), ['class' => 'col-sm-2 col-form-label']) !!}
                 <div class="col-sm-10">
-                    <select class="form-control" id="organization_id" name="organization_id">
-                        @foreach($organizations as $organization)
+                    <select class="form-control" id="curso_id" name="curso_id">
+                        @foreach($cursos as $curso)
                             <option
-                                value="{{ $organization->id }}" {{ $skill->organization_id == $organization->id ? 'selected' : '' }}>
-                                {{ $organization->name }}
+                                value="{{ $curso->id }}" {{ $skill->curso_id == $curso->id ? 'selected' : '' }}>
+                                {{ $curso->full_name }}
                             </option>
                         @endforeach
                     </select>

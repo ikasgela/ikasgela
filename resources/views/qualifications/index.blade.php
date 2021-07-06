@@ -13,7 +13,7 @@
             <thead class="thead-dark">
             <tr>
                 <th>#</th>
-                <th>{{ __('Organization') }}</th>
+                <th>{{ __('Course') }}</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Description') }}</th>
                 <th class="text-center">{{ __('Template') }}</th>
@@ -24,7 +24,7 @@
             @foreach($qualifications as $qualification)
                 <tr>
                     <td>{{ $qualification->id }}</td>
-                    <td>{{ $qualification->organization->name }}</td>
+                    <td>{{ $qualification->curso->full_name }}</td>
                     <td>{{ $qualification->name }}</td>
                     <td>{{ $qualification->description }}</td>
                     <td class="text-center">{!! $qualification->template ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>

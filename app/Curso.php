@@ -30,6 +30,13 @@ class Curso extends Model
         'fecha_inicio', 'fecha_fin'
     ];
 
+    public function getFullNameAttribute()
+    {
+        return $this->category->period->organization->name . ' - '
+            . $this->category->period->name . ' - '
+            . $this->nombre;
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -47,9 +54,19 @@ class Curso extends Model
             ->withTimestamps();
     }
 
+    public function qualifications()
+    {
+        return $this->hasMany(Qualification::class);
+    }
+
     public function qualification()
     {
         return $this->belongsTo(Qualification::class);
+    }
+
+    public function skills()
+    {
+        return $this->hasMany(Skill::class);
     }
 
     public function feedbacks()
