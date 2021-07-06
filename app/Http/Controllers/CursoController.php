@@ -6,6 +6,8 @@ use App\Category;
 use App\Curso;
 use App\Qualification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class CursoController extends Controller
@@ -119,6 +121,16 @@ class CursoController extends Controller
     {
         $curso_actual = Curso::find(setting_usuario('curso_actual'));
 
-        return response('')->header('Content-Type', 'application/json');
+        $this->exportarFicheroJSON('curso.json', $curso_actual->toJson(JSON_PRETTY_PRINT));
+        $this->exportarFicheroJSON('qualifications.json', $curso_actual->qualifications->toJson(JSON_PRETTY_PRINT));
+        $this->exportarFicheroJSON('skills.json', $curso_actual->skills->toJson(JSON_PRETTY_PRINT));
+        $this->exportarFicheroJSON('qualification_skill.json', DB::table('qualification_skill')->get()->toJson(JSON_PRETTY_PRINT));
+
+        return response('Ok')->header('Content-Type', 'application/json');
+    }
+
+    private function exportarFicheroJSON(string $fichero, string $datos): void
+    {
+        File::put(storage_path('/temp/' . $fichero), $datos);
     }
 }
