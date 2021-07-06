@@ -27,7 +27,7 @@ class QualificationController extends Controller
 
         $curso_actual = Curso::find(setting_usuario('curso_actual'));
 
-        $skills_disponibles = $curso_actual->skills;
+        $skills_disponibles = $curso_actual?->skills ?: [];
 
         return view('qualifications.create', compact(['skills_disponibles', 'cursos', 'curso_actual']));
     }
