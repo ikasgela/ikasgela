@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actividad;
 use App\Category;
 use App\Curso;
+use App\IntellijProject;
 use App\Qualification;
 use App\Skill;
 use App\Unidad;
@@ -137,15 +138,6 @@ class CursoController extends Controller
 
         $this->exportarFicheroJSON('actividades.json', $actividades);
 
-//        $intellij_projects = new Collection();
-//        foreach ($actividades as $actividad) {
-//            $proyectos = $actividad->intellij_projects()->get();
-//            foreach ($proyectos as $proyecto) {
-//                $intellij_projects->add($proyecto);
-//            }
-//        }
-//        $this->exportarFicheroJSON('intellij_projects.json', $intellij_projects);
-
         $recursos = [
             'intellij_projects',
             'youtube_videos',
@@ -157,6 +149,19 @@ class CursoController extends Controller
 
         foreach ($recursos as $recurso) {
             $this->exportarFicheroJSON($recurso . '.json', $curso_actual->$recurso);
+        }
+
+        $asociaciones = [
+            'actividad_intellij_project',
+            'actividad_markdown_text',
+            'actividad_cuestionario',
+            'actividad_file_resource',
+            'actividad_file_upload',
+            'actividad_youtube_video',
+        ];
+
+        foreach ($asociaciones as $asociacion) {
+            $this->exportarFicheroJSON($asociacion . '.json', DB::table($asociacion)->get());
         }
 
         return back();
@@ -195,11 +200,14 @@ class CursoController extends Controller
 
     public function import()
     {
-        $this->addImportId('cursos');
-        $this->addImportId('qualifications');
-        $this->addImportId('skills');
-        $this->addImportId('unidades');
-        $this->addImportId('actividades');
+        $import_ids = [
+            'cursos', 'qualifications', 'skills', 'unidades', 'actividades',
+            'intellij_projects',
+        ];
+
+        foreach ($import_ids as $import_id) {
+            $this->addImportId($import_id);
+        }
 
         // Curso
         $json = $this->cargarFichero('/temp/curso.json');
@@ -274,13 +282,25 @@ class CursoController extends Controller
             $actividad->save();
         }
 
-        // Actividad "*" - "*" IntellijProject
+        // Curso -- "*" IntellijProject
+        $json = $this->cargarFichero('/temp/intellij_projects.json');
+        foreach ($json as $objeto) {
+            IntellijProject::create(array_merge($objeto, [
+                'curso_id' => $curso->id,
+            ]));
+        }
 
-        $this->removeImportId('cursos');
-        $this->removeImportId('qualifications');
-        $this->removeImportId('skills');
-        $this->removeImportId('unidades');
-        $this->removeImportId('actividades');
+        // Actividad "*" - "*" IntellijProject
+        $json = $this->cargarFichero('/temp/actividad_intellij_project.json');
+        foreach ($json as $objeto) {
+            $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
+            $intellij_project = !is_null($objeto['intellij_project_id']) ? IntellijProject::where('__import_id', $objeto['intellij_project_id'])->first() : null;
+            $actividad?->intellij_projects()->attach($intellij_project);
+        }
+
+        foreach ($import_ids as $import_id) {
+            $this->removeImportId($import_id);
+        }
 
         return back();
     }
