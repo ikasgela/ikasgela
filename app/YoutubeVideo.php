@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class YoutubeVideo extends Model
 {
     protected $fillable = [
-        'titulo', 'descripcion', 'codigo'
+        'titulo', 'descripcion', 'codigo',
+        '__import_id', 'curso_id',
     ];
 
     public function actividades()
@@ -28,5 +29,10 @@ class YoutubeVideo extends Model
         $embed->setAttribute(['rel' => 0, 'modestbranding' => 1]);
 
         return $embed->getHtml();
+    }
+
+    public function curso()
+    {
+        return $this->belongsTo(Curso::class);
     }
 }

@@ -13,7 +13,8 @@ class Cuestionario extends Model
     protected $clone_exempt_attributes = ['plantilla', 'respondido'];
 
     protected $fillable = [
-        'titulo', 'descripcion', 'plantilla', 'respondido'
+        'titulo', 'descripcion', 'plantilla', 'respondido',
+        '__import_id', 'curso_id',
     ];
 
     public function actividades()
@@ -31,5 +32,10 @@ class Cuestionario extends Model
     public function scopePlantilla($query)
     {
         return $query->where('plantilla', true);
+    }
+
+    public function curso()
+    {
+        return $this->belongsTo(Curso::class);
     }
 }

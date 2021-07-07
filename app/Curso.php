@@ -106,4 +106,34 @@ class Curso extends Model
         return isset($this->fecha_inicio) && $this->fecha_inicio->lt(now())
             && isset($this->fecha_fin) && $this->fecha_fin->gt(now());
     }
+
+    public function intellij_projects()
+    {
+        return $this->hasMany(IntellijProject::class);
+    }
+
+    public function youtube_videos()
+    {
+        return $this->hasMany(YoutubeVideo::class);
+    }
+
+    public function markdown_texts()
+    {
+        return $this->hasMany(MarkdownText::class);
+    }
+
+    public function cuestionarios()
+    {
+        return $this->hasMany(Cuestionario::class);
+    }
+
+    public function file_uploads()
+    {
+        return $this->hasMany(FileUpload::class);
+    }
+
+    public function file_resources()
+    {
+        return $this->hasMany(FileResource::class);
+    }
 }
