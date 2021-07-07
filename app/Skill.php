@@ -20,7 +20,8 @@ class Skill extends Model
     }
 
     protected $fillable = [
-        'name', 'description', 'curso_id', 'peso_examen', 'minimo_competencias'
+        'name', 'description', 'curso_id', 'peso_examen', 'minimo_competencias',
+        '__import_id',
     ];
 
     public function getFullNameAttribute()

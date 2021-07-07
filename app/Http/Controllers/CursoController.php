@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Actividad;
 use App\Category;
 use App\Curso;
 use App\Qualification;
 use App\Skill;
+use App\Unidad;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -127,6 +129,12 @@ class CursoController extends Controller
         $this->exportarFicheroJSON('qualifications.json', $curso_actual->qualifications);
         $this->exportarFicheroJSON('skills.json', $curso_actual->skills);
         $this->exportarFicheroJSON('qualification_skill.json', DB::table('qualification_skill')->get());
+        $this->exportarFicheroJSON('unidades.json', $curso_actual->unidades);
+        $this->exportarFicheroJSON('actividades.json',
+            Actividad::whereHas('unidad.curso', function ($query) use ($curso_actual) {
+                $query->where('curso_id', $curso_actual->id);
+            })->plantilla()->get()
+        );
 
         return back();
     }
@@ -167,6 +175,7 @@ class CursoController extends Controller
         $this->addImportId('cursos');
         $this->addImportId('qualifications');
         $this->addImportId('skills');
+        $this->addImportId('unidades');
 
         // Curso
         $json = $this->cargarFichero('/temp/curso.json');
@@ -177,41 +186,53 @@ class CursoController extends Controller
         $temp_curso_qualification_id = $json['qualification_id'];
 
         // Curso
-        $this->removeKey($json, 'qualification_id');
-        $curso = factory(Curso::class)->create($json);
+        $curso = Curso::create(array_merge($json, [
+            'qualification_id' => null,
+        ]));
 
         // Curso -- "*" Qualification
         $json = $this->cargarFichero('/temp/qualifications.json');
         foreach ($json as $objeto) {
-            $this->removeKey($json, 'curso_id');
-            $qualification = factory(Qualification::class)->create($objeto);
-            $curso->qualifications()->save($qualification);
+            Qualification::create(array_merge($objeto, [
+                'curso_id' => $curso->id,
+            ]));
         }
 
         // Curso -- Qualification
-        $qualification = Qualification::where('__import_id', $temp_curso_qualification_id)->first();
-        $curso->qualification_id = $qualification->id;
+        $qualification = !is_null($temp_curso_qualification_id) ? Qualification::where('__import_id', $temp_curso_qualification_id)->first() : null;
+        $curso->qualification_id = $qualification?->id;
         $curso->save();
 
         // Curso -- "*" Skill
         $json = $this->cargarFichero('/temp/skills.json');
         foreach ($json as $objeto) {
-            $this->removeKey($json, 'curso_id');
-            $skill = factory(Skill::class)->create($objeto);
-            $curso->skills()->save($skill);
+            Skill::create(array_merge($objeto, [
+                'curso_id' => $curso->id,
+            ]));
         }
 
         // Qualification "*" -- "*" Skill
         $json = $this->cargarFichero('/temp/qualification_skill.json');
         foreach ($json as $objeto) {
-            $qualification = Qualification::where('__import_id', $objeto['qualification_id'])->first();
+            $qualification = !is_null($objeto['qualification_id']) ? Qualification::where('__import_id', $objeto['qualification_id'])->first() : null;
             $skill = Skill::where('__import_id', $objeto['skill_id'])->first();
-            $qualification->skills()->attach($skill, ['percentage' => $objeto['percentage']]);
+            $qualification?->skills()->attach($skill, ['percentage' => $objeto['percentage']]);
+        }
+
+        // Curso -- "*" Unidad
+        $json = $this->cargarFichero('/temp/unidades.json');
+        foreach ($json as $objeto) {
+            $qualification = !is_null($objeto['qualification_id']) ? Qualification::where('__import_id', $objeto['qualification_id'])->first() : null;
+            Unidad::create(array_merge($objeto, [
+                'curso_id' => $curso->id,
+                'qualification_id' => $qualification?->id,
+            ]));
         }
 
         $this->removeImportId('cursos');
         $this->removeImportId('qualifications');
         $this->removeImportId('skills');
+        $this->removeImportId('unidades');
 
         return back();
     }

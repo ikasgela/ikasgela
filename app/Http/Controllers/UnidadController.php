@@ -64,7 +64,7 @@ class UnidadController extends Controller
     public function edit(Unidad $unidad)
     {
         $cursos = Curso::orderBy('nombre')->get();
-        $qualifications = Qualification::cursoActual()->orderBy('name')->get();
+        $qualifications = $unidad->curso->qualifications()->orderBy('name')->get();
 
         return view('unidades.edit', compact(['unidad', 'cursos', 'qualifications']));
     }

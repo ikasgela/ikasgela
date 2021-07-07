@@ -26,7 +26,8 @@ class Qualification extends Model
     }
 
     protected $fillable = [
-        'name', 'description', 'template', 'curso_id'
+        'name', 'description', 'template', 'curso_id',
+        '__import_id',
     ];
 
     public function getFullNameAttribute()
