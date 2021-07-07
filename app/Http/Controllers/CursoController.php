@@ -176,6 +176,7 @@ class CursoController extends Controller
         $this->addImportId('qualifications');
         $this->addImportId('skills');
         $this->addImportId('unidades');
+        $this->addImportId('actividades');
 
         // Curso
         $json = $this->cargarFichero('/temp/curso.json');
@@ -230,10 +231,23 @@ class CursoController extends Controller
             ]));
         }
 
+        // Unidad -- "*" Actividad
+        // Unidad -- Qualification
+        $json = $this->cargarFichero('/temp/actividades.json');
+        foreach ($json as $objeto) {
+            $unidad = !is_null($objeto['unidad_id']) ? Unidad::where('__import_id', $objeto['unidad_id'])->first() : null;
+            $qualification = !is_null($objeto['qualification_id']) ? Qualification::where('__import_id', $objeto['qualification_id'])->first() : null;
+            Actividad::create(array_merge($objeto, [
+                'unidad_id' => $unidad->id,
+                'qualification_id' => $qualification?->id,
+            ]));
+        }
+
         $this->removeImportId('cursos');
         $this->removeImportId('qualifications');
         $this->removeImportId('skills');
         $this->removeImportId('unidades');
+        $this->removeImportId('actividades');
 
         return back();
     }
