@@ -10,7 +10,6 @@ use App\Skill;
 use App\Unidad;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
@@ -138,14 +137,27 @@ class CursoController extends Controller
 
         $this->exportarFicheroJSON('actividades.json', $actividades);
 
-        $intellij_projects = new Collection();
-        foreach ($actividades as $actividad) {
-            $proyectos = $actividad->intellij_projects()->get();
-            foreach ($proyectos as $proyecto) {
-                $intellij_projects->add($proyecto);
-            }
+//        $intellij_projects = new Collection();
+//        foreach ($actividades as $actividad) {
+//            $proyectos = $actividad->intellij_projects()->get();
+//            foreach ($proyectos as $proyecto) {
+//                $intellij_projects->add($proyecto);
+//            }
+//        }
+//        $this->exportarFicheroJSON('intellij_projects.json', $intellij_projects);
+
+        $recursos = [
+            'intellij_projects',
+            'youtube_videos',
+            'markdown_texts',
+            'cuestionarios',
+            'file_uploads',
+            'file_resources',
+        ];
+
+        foreach ($recursos as $recurso) {
+            $this->exportarFicheroJSON($recurso . '.json', $curso_actual->$recurso);
         }
-        $this->exportarFicheroJSON('intellij_projects.json', $intellij_projects);
 
         return back();
     }
