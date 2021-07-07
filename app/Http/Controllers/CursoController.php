@@ -154,23 +154,25 @@ class CursoController extends Controller
             $this->exportarFicheroJSON($recurso . '.json', $curso_actual->$recurso);
         }
 
-        $cuestionarios = Cuestionario::where('curso_id', $curso_actual->id)->plantilla()->get();
-        $this->exportarFicheroJSON('cuestionarios.json', $cuestionarios);
-
-        $file_uploads = FileUpload::where('curso_id', $curso_actual->id)->plantilla()->get();
-        $this->exportarFicheroJSON('file_uploads.json', $file_uploads);
-
         $asociaciones = [
             'actividad_intellij_project',
-            'actividad_markdown_text',
-            'actividad_cuestionario',
-            'actividad_file_resource',
             'actividad_youtube_video',
+            'actividad_markdown_text',
+            'actividad_file_resource',
         ];
 
         foreach ($asociaciones as $asociacion) {
             $this->exportarFicheroJSON($asociacion . '.json', DB::table($asociacion)->get());
         }
+
+        $cuestionarios = Cuestionario::where('curso_id', $curso_actual->id)->plantilla()->get();
+        $this->exportarFicheroJSON('cuestionarios.json', $cuestionarios);
+
+        // TODO: Cuestionario
+        // 'actividad_cuestionario',
+
+        $file_uploads = FileUpload::where('curso_id', $curso_actual->id)->plantilla()->get();
+        $this->exportarFicheroJSON('file_uploads.json', $file_uploads);
 
         $actividad_file_uploads = DB::table('actividad_file_upload')
             ->join('actividades', 'actividad_file_upload.actividad_id', '=', 'actividades.id')
@@ -178,8 +180,6 @@ class CursoController extends Controller
             ->select('actividad_file_upload.*')
             ->get();
         $this->exportarFicheroJSON('actividad_file_upload.json', $actividad_file_uploads);
-
-        // TODO: Cuestionario
 
         return back();
     }
