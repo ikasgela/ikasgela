@@ -18,6 +18,7 @@ class CuestionariosTableSeeder extends Seeder
             'titulo' => 'Cuestionario de ejemplo',
             'descripcion' => 'Preguntas de repaso sencillas.',
             'plantilla' => true,
+            'curso_id' => 1,
         ]);
     }
 }

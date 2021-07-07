@@ -19,6 +19,7 @@ class FileUploadsTableSeeder extends Seeder
             'descripcion' => 'Dibuja el diagrama del enunciado en papel y sube una foto para calificar.',
             'max_files' => 1,
             'plantilla' => true,
+            'curso_id' => 1,
         ]);
     }
 }

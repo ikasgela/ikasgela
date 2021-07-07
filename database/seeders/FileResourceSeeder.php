@@ -17,6 +17,7 @@ class FileResourceSeeder extends Seeder
         factory(FileResource::class)->create([
             'titulo' => 'Presentaciones',
             'descripcion' => 'Archivos PDF con las presentaciones.',
+            'curso_id' => 1,
         ]);
     }
 }

@@ -14,15 +14,18 @@ class YoutubeVideosTableSeeder extends Seeder
      */
     public function run()
     {
-        $video = new YoutubeVideo();
-        $video->titulo = 'Primeros pasos';
-        $video->descripcion = 'En este vídeo te explicamos cómo funciona Ikasgela.';
-        $video->codigo = 'https://youtu.be/uhDQNbaVpt4';
-        $video->save();
+        factory(YoutubeVideo::class)->create([
+            'titulo' => 'Primeros pasos',
+            'descripcion' => 'En este vídeo te explicamos cómo funciona Ikasgela.',
+            'codigo' => 'https://youtu.be/uhDQNbaVpt4',
+            'curso_id' => 1,
+        ]);
 
-        $video = new YoutubeVideo();
-        $video->titulo = 'How Not to Land an Orbital Rocket Booster';
-        $video->codigo = 'https://youtu.be/bvim4rsNHkQ';
-        $video->save();
+        factory(YoutubeVideo::class)->create([
+            'titulo' => 'How Not to Land an Orbital Rocket Booster',
+            'descripcion' => null,
+            'codigo' => 'https://youtu.be/bvim4rsNHkQ',
+            'curso_id' => 1,
+        ]);
     }
 }
