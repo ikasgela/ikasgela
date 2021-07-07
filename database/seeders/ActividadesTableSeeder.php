@@ -39,9 +39,9 @@ class ActividadesTableSeeder extends Seeder
                     'slug' => Str::slug($nombre),
                     'plantilla' => true,
                     'auto_avance' => true,
+                    'unidad_id' => $unidad->id,
                 ]
             );
-            $unidad->actividades()->save($actividad);
 
             $video = YoutubeVideo::where('titulo', 'Primeros pasos')->first();
             $actividad->youtube_videos()->attach($video);
@@ -64,9 +64,9 @@ class ActividadesTableSeeder extends Seeder
                 'slug' => Str::slug($nombre),
                 'plantilla' => true,
                 'tags' => 'base',
+                'unidad_id' => $unidad->id,
             ]
         );
-        $unidad->actividades()->save($actividad);
 
         $proyecto = IntellijProject::where('repositorio', 'root/agenda')->first();
         $actividad->intellij_projects()->attach($proyecto);
@@ -90,9 +90,9 @@ class ActividadesTableSeeder extends Seeder
                 'slug' => Str::slug($nombre),
                 'plantilla' => true,
                 'tags' => 'base',
+                'unidad_id' => $unidad->id,
             ]
         );
-        $unidad->actividades()->save($actividad);
 
         $proyecto = IntellijProject::where('repositorio', 'root/tres-en-raya')->first();
         $actividad->intellij_projects()->attach($proyecto);
@@ -118,9 +118,9 @@ class ActividadesTableSeeder extends Seeder
                 'slug' => Str::slug($nombre),
                 'plantilla' => true,
                 'tags' => 'examen',
+                'unidad_id' => $unidad->id,
             ]
         );
-        $unidad->actividades()->save($actividad);
 
         $proyecto = IntellijProject::where('repositorio', 'root/reservas')->first();
         $actividad->intellij_projects()->attach($proyecto);
@@ -142,9 +142,9 @@ class ActividadesTableSeeder extends Seeder
                 'slug' => Str::slug($nombre),
                 'plantilla' => true,
                 'tags' => 'trabajo en equipo',
+                'unidad_id' => $unidad->id,
             ]
         );
-        $unidad->actividades()->save($actividad);
 
         $cuestionario = Cuestionario::where('titulo', 'Cuestionario de ejemplo')->first();
         $actividad->cuestionarios()->attach($cuestionario);
