@@ -220,6 +220,7 @@ class CursoController extends Controller
         }
 
         // Curso -- "*" Unidad
+        // Unidad -- Qualification
         $json = $this->cargarFichero('/temp/unidades.json');
         foreach ($json as $objeto) {
             $qualification = !is_null($objeto['qualification_id']) ? Qualification::where('__import_id', $objeto['qualification_id'])->first() : null;
