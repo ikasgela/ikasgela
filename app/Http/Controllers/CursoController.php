@@ -10,6 +10,7 @@ use App\Skill;
 use App\Unidad;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
@@ -130,11 +131,21 @@ class CursoController extends Controller
         $this->exportarFicheroJSON('skills.json', $curso_actual->skills);
         $this->exportarFicheroJSON('qualification_skill.json', DB::table('qualification_skill')->get());
         $this->exportarFicheroJSON('unidades.json', $curso_actual->unidades);
-        $this->exportarFicheroJSON('actividades.json',
-            Actividad::whereHas('unidad.curso', function ($query) use ($curso_actual) {
-                $query->where('curso_id', $curso_actual->id);
-            })->plantilla()->get()
-        );
+
+        $actividades = Actividad::whereHas('unidad.curso', function ($query) use ($curso_actual) {
+            $query->where('curso_id', $curso_actual->id);
+        })->plantilla()->get();
+
+        $this->exportarFicheroJSON('actividades.json', $actividades);
+
+        $intellij_projects = new Collection();
+        foreach ($actividades as $actividad) {
+            $proyectos = $actividad->intellij_projects()->get();
+            foreach ($proyectos as $proyecto) {
+                $intellij_projects->add($proyecto);
+            }
+        }
+        $this->exportarFicheroJSON('intellij_projects.json', $intellij_projects);
 
         return back();
     }
@@ -250,6 +261,8 @@ class CursoController extends Controller
             $actividad->siguiente_id = $siguiente?->id;
             $actividad->save();
         }
+
+        // Actividad "*" - "*" IntellijProject
 
         $this->removeImportId('cursos');
         $this->removeImportId('qualifications');
