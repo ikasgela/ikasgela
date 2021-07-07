@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Actividad;
 use App\Category;
+use App\Cuestionario;
 use App\Curso;
 use App\FileResource;
+use App\FileUpload;
 use App\IntellijProject;
 use App\MarkdownText;
 use App\Qualification;
@@ -145,14 +147,18 @@ class CursoController extends Controller
             'intellij_projects',
             'youtube_videos',
             'markdown_texts',
-            'cuestionarios',
-            'file_uploads',
             'file_resources',
         ];
 
         foreach ($recursos as $recurso) {
             $this->exportarFicheroJSON($recurso . '.json', $curso_actual->$recurso);
         }
+
+        $cuestionarios = Cuestionario::where('curso_id', $curso_actual->id)->plantilla()->get();
+        $this->exportarFicheroJSON('cuestionarios.json', $cuestionarios);
+
+        $file_uploads = FileUpload::where('curso_id', $curso_actual->id)->plantilla()->get();
+        $this->exportarFicheroJSON('file_uploads.json', $file_uploads);
 
         $asociaciones = [
             'actividad_intellij_project',
