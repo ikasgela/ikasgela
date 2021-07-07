@@ -41,6 +41,12 @@ class Actividad extends Model
         'fecha_disponibilidad', 'fecha_entrega', 'fecha_limite'
     ];
 
+    public function getFullNameAttribute()
+    {
+        return $this->unidad->nombre . ' - '
+            . $this->nombre;
+    }
+
     public function setCloneableRelations($relations)
     {
         $this->cloneable_relations = $relations;

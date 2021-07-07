@@ -243,6 +243,14 @@ class CursoController extends Controller
             ]));
         }
 
+        // Actividad --> Actividad: siguiente
+        $actividades = Actividad::whereNotNull('__import_id')->get();
+        foreach ($actividades as $actividad) {
+            $siguiente = !is_null($actividad->siguiente_id) ? Actividad::where('__import_id', $actividad->siguiente_id)->first() : null;
+            $actividad->siguiente_id = $siguiente?->id;
+            $actividad->save();
+        }
+
         $this->removeImportId('cursos');
         $this->removeImportId('qualifications');
         $this->removeImportId('skills');
