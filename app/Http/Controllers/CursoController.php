@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Actividad;
 use App\Category;
 use App\Curso;
+use App\FileResource;
 use App\IntellijProject;
+use App\MarkdownText;
 use App\Qualification;
 use App\Skill;
 use App\Unidad;
+use App\YoutubeVideo;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -202,7 +205,8 @@ class CursoController extends Controller
     {
         $import_ids = [
             'cursos', 'qualifications', 'skills', 'unidades', 'actividades',
-            'intellij_projects',
+            'intellij_projects', 'markdown_texts', 'youtube_videos', 'file_resources',
+            'file_uploads', 'cuestionarios'
         ];
 
         foreach ($import_ids as $import_id) {
@@ -296,6 +300,54 @@ class CursoController extends Controller
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $intellij_project = !is_null($objeto['intellij_project_id']) ? IntellijProject::where('__import_id', $objeto['intellij_project_id'])->first() : null;
             $actividad?->intellij_projects()->attach($intellij_project);
+        }
+
+        // Curso -- "*" MarkdownText
+        $json = $this->cargarFichero('/temp/markdown_texts.json');
+        foreach ($json as $objeto) {
+            MarkdownText::create(array_merge($objeto, [
+                'curso_id' => $curso->id,
+            ]));
+        }
+
+        // Actividad "*" - "*" MarkdownText
+        $json = $this->cargarFichero('/temp/actividad_markdown_text.json');
+        foreach ($json as $objeto) {
+            $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
+            $markdown_text = !is_null($objeto['markdown_text_id']) ? MarkdownText::where('__import_id', $objeto['markdown_text_id'])->first() : null;
+            $actividad?->markdown_texts()->attach($markdown_text);
+        }
+
+        // Curso -- "*" YoutubeVideo
+        $json = $this->cargarFichero('/temp/youtube_videos.json');
+        foreach ($json as $objeto) {
+            YoutubeVideo::create(array_merge($objeto, [
+                'curso_id' => $curso->id,
+            ]));
+        }
+
+        // Actividad "*" - "*" YoutubeVideo
+        $json = $this->cargarFichero('/temp/actividad_youtube_video.json');
+        foreach ($json as $objeto) {
+            $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
+            $youtube_video = !is_null($objeto['youtube_video_id']) ? YoutubeVideo::where('__import_id', $objeto['youtube_video_id'])->first() : null;
+            $actividad?->youtube_videos()->attach($youtube_video);
+        }
+
+        // Curso -- "*" FileResource
+        $json = $this->cargarFichero('/temp/file_resources.json');
+        foreach ($json as $objeto) {
+            FileResource::create(array_merge($objeto, [
+                'curso_id' => $curso->id,
+            ]));
+        }
+
+        // Actividad "*" - "*" FileResource
+        $json = $this->cargarFichero('/temp/actividad_file_resource.json');
+        foreach ($json as $objeto) {
+            $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
+            $file_resource = !is_null($objeto['file_resource_id']) ? FileResource::where('__import_id', $objeto['file_resource_id'])->first() : null;
+            $actividad?->file_resources()->attach($file_resource);
         }
 
         foreach ($import_ids as $import_id) {
