@@ -132,32 +132,47 @@ class CursoController extends Controller
 
     public function export(Curso $curso)
     {
+        // Curso
         $this->exportarFicheroJSON('curso.json', $curso);
-        $this->exportarFicheroJSON('qualifications.json', $curso->qualifications);
-        $this->exportarFicheroJSON('skills.json', $curso->skills);
-        $this->exportarFicheroJSON('qualification_skill.json', DB::table('qualification_skill')->get());
+
+        // Unidad
         $this->exportarFicheroJSON('unidades.json', $curso->unidades);
 
         // Actividad
         $this->exportarFicheroJSON('actividades.json', $curso->actividades()->plantilla()->get());
 
+        // Qualification
+        $this->exportarFicheroJSON('qualifications.json', $curso->qualifications()->plantilla()->get());
+
+        // Skill
+        $this->exportarFicheroJSON('skills.json', $curso->skills);
+
+        // Qualification "*" -- "*" Skill
+        $datos = DB::table('qualification_skill')
+            ->join('qualifications', 'qualification_skill.qualification_id', '=', 'qualifications.id')
+            ->where('qualifications.curso_id', '=', $curso->id)
+            ->where('qualifications.template', '=', true)
+            ->select("qualification_skill.*")
+            ->get();
+        $this->exportarFicheroJSON('qualification_skill.json', $datos);
+
         // IntellijProject
         $this->exportarFicheroJSON('intellij_projects.json', $curso->intellij_projects);
 
         // Actividad "*" -- "*" IntellijProject
-        $this->exportarRelacionJSON('intellij_project');
+        $this->exportarRelacionJSON($curso, 'intellij_project');
 
         // MarkdownText
         $this->exportarFicheroJSON('markdown_texts.json', $curso->markdown_texts);
 
         // Actividad "*" -- "*" MarkdownText
-        $this->exportarRelacionJSON('markdown_text');
+        $this->exportarRelacionJSON($curso, 'markdown_text');
 
         // YoutubeVideo
         $this->exportarFicheroJSON('youtube_videos.json', $curso->youtube_videos);
 
         // Actividad "*" -- "*" YoutubeVideo
-        $this->exportarRelacionJSON('youtube_video');
+        $this->exportarRelacionJSON($curso, 'youtube_video');
 
         // FileResources
         $this->exportarFicheroJSON('file_resources.json', $curso->file_resources);
@@ -166,7 +181,7 @@ class CursoController extends Controller
         $this->exportarFicheroJSON('file_resources_files.json', $curso->file_resources_files);
 
         // Actividad "*" -- "*" FileResources
-        $this->exportarRelacionJSON('file_resource');
+        $this->exportarRelacionJSON($curso, 'file_resource');
 
         // Cuestionario
         $cuestionarios = $curso->cuestionarios()->plantilla()->get();
@@ -179,14 +194,14 @@ class CursoController extends Controller
         $this->exportarFicheroJSON('items.json', $curso->items()->plantilla()->get());
 
         // Actividad "*" -- "*" Cuestionario
-        $this->exportarRelacionJSON('cuestionario');
+        $this->exportarRelacionJSON($curso, 'cuestionario');
 
         // FileUpload
         $file_uploads = $curso->file_uploads()->plantilla()->get();
         $this->exportarFicheroJSON('file_uploads.json', $file_uploads);
 
         // Actividad "*" -- "*" FileUpload
-        $this->exportarRelacionJSON('file_upload');
+        $this->exportarRelacionJSON($curso, 'file_upload');
 
         return back();
     }
@@ -479,11 +494,13 @@ class CursoController extends Controller
         return $json;
     }
 
-    private function exportarRelacionJSON($tabla): void
+    private function exportarRelacionJSON($curso, $tabla): void
     {
         $datos = DB::table("actividad_{$tabla}")
             ->join('actividades', "actividad_{$tabla}.actividad_id", '=', 'actividades.id')
             ->where('actividades.plantilla', '=', true)
+            ->join($tabla . 's', "actividad_{$tabla}.{$tabla}_id", '=', $tabla . 's.id')
+            ->where($tabla . 's.curso_id', '=', $curso->id)
             ->select("actividad_{$tabla}.*")
             ->get();
         $this->exportarFicheroJSON("actividad_{$tabla}.json", $datos);

@@ -70,4 +70,9 @@ class Qualification extends Model
     {
         return $query->where('curso_id', setting_usuario('curso_actual'));
     }
+
+    public function scopePlantilla($query)
+    {
+        return $query->where('template', true);
+    }
 }
