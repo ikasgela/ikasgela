@@ -282,11 +282,7 @@ class CursoController extends Controller
             $zip->close();
         }
 
-        // Borrar el directorio temporal
-        //Storage::disk('temp')->deleteDirectory($directorio);
-
-        return back();
-
+        // Importar los datos desde los archivos JSON
         $import_ids = [
             'cursos', 'unidades', 'actividades',
             'qualifications', 'skills',
@@ -301,7 +297,7 @@ class CursoController extends Controller
         }
 
         // Curso
-        $json = $this->cargarFichero('/temp/curso.json');
+        $json = $this->cargarFichero($ruta, 'curso.json');
         $json['nombre'] .= '-' . bin2hex(openssl_random_pseudo_bytes(3));
         $json['slug'] = Str::slug($json['nombre']);
 
@@ -315,7 +311,7 @@ class CursoController extends Controller
         ]));
 
         // Curso -- "*" Qualification
-        $json = $this->cargarFichero('/temp/qualifications.json');
+        $json = $this->cargarFichero($ruta, 'qualifications.json');
         foreach ($json as $objeto) {
             Qualification::create(array_merge($objeto, [
                 'curso_id' => $curso->id,
@@ -328,7 +324,7 @@ class CursoController extends Controller
         $curso->save();
 
         // Curso -- "*" Skill
-        $json = $this->cargarFichero('/temp/skills.json');
+        $json = $this->cargarFichero($ruta, 'skills.json');
         foreach ($json as $objeto) {
             Skill::create(array_merge($objeto, [
                 'curso_id' => $curso->id,
@@ -336,7 +332,7 @@ class CursoController extends Controller
         }
 
         // Qualification "*" -- "*" Skill
-        $json = $this->cargarFichero('/temp/qualification_skill.json');
+        $json = $this->cargarFichero($ruta, 'qualification_skill.json');
         foreach ($json as $objeto) {
             $qualification = !is_null($objeto['qualification_id']) ? Qualification::where('__import_id', $objeto['qualification_id'])->first() : null;
             $skill = Skill::where('__import_id', $objeto['skill_id'])->first();
@@ -345,7 +341,7 @@ class CursoController extends Controller
 
         // Curso -- "*" Unidad
         // Unidad -- Qualification
-        $json = $this->cargarFichero('/temp/unidades.json');
+        $json = $this->cargarFichero($ruta, 'unidades.json');
         foreach ($json as $objeto) {
             $qualification = !is_null($objeto['qualification_id']) ? Qualification::where('__import_id', $objeto['qualification_id'])->first() : null;
             Unidad::create(array_merge($objeto, [
@@ -359,7 +355,7 @@ class CursoController extends Controller
 
         Schema::disableForeignKeyConstraints();
 
-        $json = $this->cargarFichero('/temp/actividades.json');
+        $json = $this->cargarFichero($ruta, 'actividades.json');
         foreach ($json as $objeto) {
             $unidad = !is_null($objeto['unidad_id']) ? Unidad::where('__import_id', $objeto['unidad_id'])->first() : null;
             $qualification = !is_null($objeto['qualification_id']) ? Qualification::where('__import_id', $objeto['qualification_id'])->first() : null;
@@ -380,7 +376,7 @@ class CursoController extends Controller
         Schema::enableForeignKeyConstraints();
 
         // Curso -- "*" IntellijProject
-        $json = $this->cargarFichero('/temp/intellij_projects.json');
+        $json = $this->cargarFichero($ruta, 'intellij_projects.json');
         foreach ($json as $objeto) {
             IntellijProject::create(array_merge($objeto, [
                 'curso_id' => $curso->id,
@@ -388,7 +384,7 @@ class CursoController extends Controller
         }
 
         // Actividad "*" - "*" IntellijProject
-        $json = $this->cargarFichero('/temp/actividad_intellij_project.json');
+        $json = $this->cargarFichero($ruta, 'actividad_intellij_project.json');
         foreach ($json as $objeto) {
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $intellij_project = !is_null($objeto['intellij_project_id']) ? IntellijProject::where('__import_id', $objeto['intellij_project_id'])->first() : null;
@@ -396,7 +392,7 @@ class CursoController extends Controller
         }
 
         // Curso -- "*" MarkdownText
-        $json = $this->cargarFichero('/temp/markdown_texts.json');
+        $json = $this->cargarFichero($ruta, 'markdown_texts.json');
         foreach ($json as $objeto) {
             MarkdownText::create(array_merge($objeto, [
                 'curso_id' => $curso->id,
@@ -404,7 +400,7 @@ class CursoController extends Controller
         }
 
         // Actividad "*" - "*" MarkdownText
-        $json = $this->cargarFichero('/temp/actividad_markdown_text.json');
+        $json = $this->cargarFichero($ruta, 'actividad_markdown_text.json');
         foreach ($json as $objeto) {
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $markdown_text = !is_null($objeto['markdown_text_id']) ? MarkdownText::where('__import_id', $objeto['markdown_text_id'])->first() : null;
@@ -412,7 +408,7 @@ class CursoController extends Controller
         }
 
         // Curso -- "*" YoutubeVideo
-        $json = $this->cargarFichero('/temp/youtube_videos.json');
+        $json = $this->cargarFichero($ruta, 'youtube_videos.json');
         foreach ($json as $objeto) {
             YoutubeVideo::create(array_merge($objeto, [
                 'curso_id' => $curso->id,
@@ -420,7 +416,7 @@ class CursoController extends Controller
         }
 
         // Actividad "*" - "*" YoutubeVideo
-        $json = $this->cargarFichero('/temp/actividad_youtube_video.json');
+        $json = $this->cargarFichero($ruta, 'actividad_youtube_video.json');
         foreach ($json as $objeto) {
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $youtube_video = !is_null($objeto['youtube_video_id']) ? YoutubeVideo::where('__import_id', $objeto['youtube_video_id'])->first() : null;
@@ -428,7 +424,7 @@ class CursoController extends Controller
         }
 
         // Curso -- "*" FileResource
-        $json = $this->cargarFichero('/temp/file_resources.json');
+        $json = $this->cargarFichero($ruta, 'file_resources.json');
         foreach ($json as $objeto) {
             FileResource::create(array_merge($objeto, [
                 'curso_id' => $curso->id,
@@ -436,7 +432,7 @@ class CursoController extends Controller
         }
 
         // Actividad "*" - "*" FileResource
-        $json = $this->cargarFichero('/temp/actividad_file_resource.json');
+        $json = $this->cargarFichero($ruta, 'actividad_file_resource.json');
         foreach ($json as $objeto) {
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $file_resource = !is_null($objeto['file_resource_id']) ? FileResource::where('__import_id', $objeto['file_resource_id'])->first() : null;
@@ -444,7 +440,7 @@ class CursoController extends Controller
         }
 
         // FileResource -- "*" File
-        $json = $this->cargarFichero('/temp/file_resources_files.json');
+        $json = $this->cargarFichero($ruta, 'file_resources_files.json');
         foreach ($json as $objeto) {
             $file_resource = !is_null($objeto['file_upload_id']) ? FileResource::where('__import_id', $objeto['file_upload_id'])->first() : null;
             File::create(array_merge($objeto, [
@@ -454,7 +450,7 @@ class CursoController extends Controller
         }
 
         // Curso -- "*" FileUpload
-        $json = $this->cargarFichero('/temp/file_uploads.json');
+        $json = $this->cargarFichero($ruta, 'file_uploads.json');
         foreach ($json as $objeto) {
             FileUpload::create(array_merge($objeto, [
                 'curso_id' => $curso->id,
@@ -462,7 +458,7 @@ class CursoController extends Controller
         }
 
         // Actividad "*" - "*" FileUpload
-        $json = $this->cargarFichero('/temp/actividad_file_upload.json');
+        $json = $this->cargarFichero($ruta, 'actividad_file_upload.json');
         foreach ($json as $objeto) {
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $file_upload = !is_null($objeto['file_upload_id']) ? FileUpload::where('__import_id', $objeto['file_upload_id'])->first() : null;
@@ -470,7 +466,7 @@ class CursoController extends Controller
         }
 
         // Curso -- "*" Cuestionario
-        $json = $this->cargarFichero('/temp/cuestionarios.json');
+        $json = $this->cargarFichero($ruta, 'cuestionarios.json');
         foreach ($json as $objeto) {
             Cuestionario::create(array_merge($objeto, [
                 'curso_id' => $curso->id,
@@ -478,7 +474,7 @@ class CursoController extends Controller
         }
 
         // Cuestionario -- "*" Pregunta
-        $json = $this->cargarFichero('/temp/preguntas.json');
+        $json = $this->cargarFichero($ruta, 'preguntas.json');
         foreach ($json as $objeto) {
             $cuestionario = !is_null($objeto['cuestionario_id']) ? Cuestionario::where('__import_id', $objeto['cuestionario_id'])->first() : null;
             Pregunta::create(array_merge($objeto, [
@@ -487,7 +483,7 @@ class CursoController extends Controller
         }
 
         // Pregunta -- "*" Item
-        $json = $this->cargarFichero('/temp/items.json');
+        $json = $this->cargarFichero($ruta, 'items.json');
         foreach ($json as $objeto) {
             $pregunta = !is_null($objeto['pregunta_id']) ? Pregunta::where('__import_id', $objeto['pregunta_id'])->first() : null;
             Item::create(array_merge($objeto, [
@@ -496,7 +492,7 @@ class CursoController extends Controller
         }
 
         // Actividad "*" - "*" Cuestionario
-        $json = $this->cargarFichero('/temp/actividad_cuestionario.json');
+        $json = $this->cargarFichero($ruta, 'actividad_cuestionario.json');
         foreach ($json as $objeto) {
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $cuestionario = !is_null($objeto['cuestionario_id']) ? Cuestionario::where('__import_id', $objeto['cuestionario_id'])->first() : null;
@@ -506,6 +502,9 @@ class CursoController extends Controller
         foreach ($import_ids as $import_id) {
             $this->removeImportId($import_id);
         }
+
+        // Borrar el directorio temporal
+        Storage::disk('temp')->deleteDirectory($directorio);
 
         return back();
     }
@@ -530,10 +529,10 @@ class CursoController extends Controller
         }
     }
 
-    private function cargarFichero($fichero): array
+    private function cargarFichero(string $ruta, $fichero): array
     {
         // Cargar el fichero
-        $path = storage_path() . $fichero;
+        $path = $ruta . '/' . $fichero;
         $json = json_decode(file_get_contents($path), true);
         $json = $this->replaceKeys('id', '__import_id', $json);
         $this->removeKey($json, 'created_at');
