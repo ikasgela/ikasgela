@@ -13,7 +13,8 @@ class Pregunta extends Model
     protected $clone_exempt_attributes = ['plantilla', 'respondida', 'correcta'];
 
     protected $fillable = [
-        'titulo', 'texto', 'multiple', 'imagen', 'cuestionario_id', 'respondida', 'correcta'
+        'titulo', 'texto', 'multiple', 'imagen', 'cuestionario_id', 'respondida', 'correcta',
+        '__import_id',
     ];
 
     public function cuestionario()
@@ -24,5 +25,12 @@ class Pregunta extends Model
     public function items()
     {
         return $this->hasMany(Item::class)->orderBy('orden');
+    }
+
+    public function scopePlantilla($query)
+    {
+        return $query->whereHas('cuestionario', function ($query) {
+            $query->where('plantilla', true);
+        });
     }
 }

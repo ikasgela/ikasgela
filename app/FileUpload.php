@@ -12,7 +12,8 @@ class FileUpload extends Model
     protected $clone_exempt_attributes = ['plantilla'];
 
     protected $fillable = [
-        'titulo', 'descripcion', 'max_files', 'plantilla'
+        'titulo', 'descripcion', 'max_files', 'plantilla',
+        '__import_id', 'curso_id',
     ];
 
     public function actividades()
@@ -35,5 +36,10 @@ class FileUpload extends Model
     public function getNotArchivedFilesAttribute()
     {
         return $this->files()->where('archived', false)->get();
+    }
+
+    public function curso()
+    {
+        return $this->belongsTo(Curso::class);
     }
 }

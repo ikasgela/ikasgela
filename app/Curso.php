@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Watson\Rememberable\Rememberable;
 
 class Curso extends Model
@@ -11,6 +12,8 @@ class Curso extends Model
 
     protected $rememberFor;
     protected $rememberCacheTag;
+
+    use HasRelationships;
 
     public function __construct(array $attributes = [])
     {
@@ -22,7 +25,8 @@ class Curso extends Model
     protected $fillable = [
         'category_id', 'nombre', 'descripcion', 'slug', 'qualification_id', 'max_simultaneas',
         'fecha_inicio', 'fecha_fin', 'plazo_actividad', 'minimo_entregadas', 'minimo_competencias',
-        'minimo_examenes', 'examenes_obligatorios', 'maximo_recuperable_examenes_finales'
+        'minimo_examenes', 'examenes_obligatorios', 'maximo_recuperable_examenes_finales',
+        '__import_id',
     ];
 
     protected $dates = [
@@ -32,8 +36,8 @@ class Curso extends Model
 
     public function getFullNameAttribute()
     {
-        return $this->category->period->organization->name . ' - '
-            . $this->category->period->name . ' - '
+        return $this->category?->period->organization->name . ' - '
+            . $this->category?->period->name . ' - '
             . $this->nombre;
     }
 
@@ -104,5 +108,50 @@ class Curso extends Model
     {
         return isset($this->fecha_inicio) && $this->fecha_inicio->lt(now())
             && isset($this->fecha_fin) && $this->fecha_fin->gt(now());
+    }
+
+    public function intellij_projects()
+    {
+        return $this->hasMany(IntellijProject::class);
+    }
+
+    public function youtube_videos()
+    {
+        return $this->hasMany(YoutubeVideo::class);
+    }
+
+    public function markdown_texts()
+    {
+        return $this->hasMany(MarkdownText::class);
+    }
+
+    public function cuestionarios()
+    {
+        return $this->hasMany(Cuestionario::class);
+    }
+
+    public function preguntas()
+    {
+        return $this->hasManyThrough('App\Pregunta', 'App\Cuestionario');
+    }
+
+    public function items()
+    {
+        return $this->hasManyDeep('App\Item', ['App\Cuestionario', 'App\Pregunta']);
+    }
+
+    public function file_uploads()
+    {
+        return $this->hasMany(FileUpload::class);
+    }
+
+    public function file_resources()
+    {
+        return $this->hasMany(FileResource::class);
+    }
+
+    public function file_resources_files()
+    {
+        return $this->hasManyDeep('App\File', ['App\FileResource'], [null, ['file_upload_type', 'file_upload_id']]);
     }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b5ee9baeb99b61d1f8173db8602fbeda",
+    "content-hash": "2c809fd43ba09b0b8b04c85d26c9da04",
     "packages": [
         {
             "name": "akaunting/laravel-setting",
@@ -75,16 +75,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.185.6",
+            "version": "3.185.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "35310302912fdc3b4a0e829b84424c41e3fd9727"
+                "reference": "b92714fbe995195e9ba970cf52a2fa601b334725"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/35310302912fdc3b4a0e829b84424c41e3fd9727",
-                "reference": "35310302912fdc3b4a0e829b84424c41e3fd9727",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/b92714fbe995195e9ba970cf52a2fa601b334725",
+                "reference": "b92714fbe995195e9ba970cf52a2fa601b334725",
                 "shasum": ""
             },
             "require": {
@@ -159,9 +159,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.185.6"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.185.9"
             },
-            "time": "2021-07-02T18:13:18+00:00"
+            "time": "2021-07-08T18:21:21+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -2365,16 +2365,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.49.1",
+            "version": "v8.49.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "62aee1bfeefd82f160c7aa3b4c63cb2f053215c0"
+                "reference": "d9b43ee080b4d51344b2e578aa667f85040471a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/62aee1bfeefd82f160c7aa3b4c63cb2f053215c0",
-                "reference": "62aee1bfeefd82f160c7aa3b4c63cb2f053215c0",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/d9b43ee080b4d51344b2e578aa667f85040471a2",
+                "reference": "d9b43ee080b4d51344b2e578aa667f85040471a2",
                 "shasum": ""
             },
             "require": {
@@ -2529,7 +2529,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-07-02T16:50:12+00:00"
+            "time": "2021-07-06T14:06:38+00:00"
         },
         {
             "name": "laravel/helpers",
@@ -3194,16 +3194,16 @@
         },
         {
             "name": "lukeraymonddowning/honey",
-            "version": "0.3.3",
+            "version": "0.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lukeraymonddowning/honey.git",
-                "reference": "59541754d534888e9d327a733508f48bb3de8073"
+                "reference": "3b46c5ad77fd32b38c18b556421c810184ac641b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lukeraymonddowning/honey/zipball/59541754d534888e9d327a733508f48bb3de8073",
-                "reference": "59541754d534888e9d327a733508f48bb3de8073",
+                "url": "https://api.github.com/repos/lukeraymonddowning/honey/zipball/3b46c5ad77fd32b38c18b556421c810184ac641b",
+                "reference": "3b46c5ad77fd32b38c18b556421c810184ac641b",
                 "shasum": ""
             },
             "require": {
@@ -3244,7 +3244,7 @@
             "description": "Reduce spam on your Laravel site.",
             "support": {
                 "issues": "https://github.com/lukeraymonddowning/honey/issues",
-                "source": "https://github.com/lukeraymonddowning/honey/tree/0.3.3"
+                "source": "https://github.com/lukeraymonddowning/honey/tree/0.3.4"
             },
             "funding": [
                 {
@@ -3252,20 +3252,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-06-27T13:40:21+00:00"
+            "time": "2021-07-07T08:08:09+00:00"
         },
         {
             "name": "maatwebsite/excel",
-            "version": "3.1.31",
+            "version": "3.1.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
-                "reference": "cbe6370af70f93bd017f77ef92d32bd492a47fcb"
+                "reference": "9dc29b63a77fb7f2f514ef754af3a1b57e83cadf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/cbe6370af70f93bd017f77ef92d32bd492a47fcb",
-                "reference": "cbe6370af70f93bd017f77ef92d32bd492a47fcb",
+                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/9dc29b63a77fb7f2f514ef754af3a1b57e83cadf",
+                "reference": "9dc29b63a77fb7f2f514ef754af3a1b57e83cadf",
                 "shasum": ""
             },
             "require": {
@@ -3318,7 +3318,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Maatwebsite/Laravel-Excel/issues",
-                "source": "https://github.com/Maatwebsite/Laravel-Excel/tree/3.1.31"
+                "source": "https://github.com/Maatwebsite/Laravel-Excel/tree/3.1.32"
             },
             "funding": [
                 {
@@ -3330,7 +3330,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-06-02T17:31:29+00:00"
+            "time": "2021-07-08T10:11:21+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -5518,6 +5518,120 @@
                 }
             ],
             "time": "2021-03-02T16:49:06+00:00"
+        },
+        {
+            "name": "staudenmeir/eloquent-has-many-deep",
+            "version": "v1.13.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/staudenmeir/eloquent-has-many-deep.git",
+                "reference": "c0c9b6bd5c39d08e8adddc7eb8625962bd67a3da"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/staudenmeir/eloquent-has-many-deep/zipball/c0c9b6bd5c39d08e8adddc7eb8625962bd67a3da",
+                "reference": "c0c9b6bd5c39d08e8adddc7eb8625962bd67a3da",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^8.0",
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "illuminate/pagination": "^8.0",
+                "phpunit/phpunit": "^9.3",
+                "staudenmeir/eloquent-eager-limit": "^1.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Staudenmeir\\EloquentHasManyDeep\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonas Staudenmeir",
+                    "email": "mail@jonas-staudenmeir.de"
+                }
+            ],
+            "description": "Laravel Eloquent HasManyThrough relationships with unlimited levels",
+            "support": {
+                "issues": "https://github.com/staudenmeir/eloquent-has-many-deep/issues",
+                "source": "https://github.com/staudenmeir/eloquent-has-many-deep/tree/v1.13.1"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/JonasStaudenmeir",
+                    "type": "custom"
+                }
+            ],
+            "time": "2020-11-22T18:51:29+00:00"
+        },
+        {
+            "name": "stechstudio/laravel-zipstream",
+            "version": "4.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stechstudio/laravel-zipstream.git",
+                "reference": "f147788df01bdfed00360b1c2b349f7317f06f23"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stechstudio/laravel-zipstream/zipball/f147788df01bdfed00360b1c2b349f7317f06f23",
+                "reference": "f147788df01bdfed00360b1c2b349f7317f06f23",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.0|^7.0",
+                "illuminate/support": "^5.6|^6.0|^7.0|^8.0",
+                "maennchen/zipstream-php": "^v2.0",
+                "php": "^7.1|^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^5.0|^6.0",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "STS\\ZipStream\\ZipStreamServiceProvider"
+                    ],
+                    "aliases": {
+                        "Zip": "STS\\ZipStream\\ZipStreamFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "STS\\ZipStream\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joseph Szobody",
+                    "email": "joseph@stechstudio.com"
+                }
+            ],
+            "description": "Build",
+            "homepage": "https://github.com/stechstudio/laravel-zipstream",
+            "keywords": [
+                "laravel-zipstream",
+                "stechstudio"
+            ],
+            "support": {
+                "issues": "https://github.com/stechstudio/laravel-zipstream/issues",
+                "source": "https://github.com/stechstudio/laravel-zipstream/tree/4.4"
+            },
+            "time": "2021-07-06T20:59:08+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -9202,16 +9316,16 @@
         },
         {
             "name": "fakerphp/faker",
-            "version": "v1.14.1",
+            "version": "v1.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FakerPHP/Faker.git",
-                "reference": "ed22aee8d17c7b396f74a58b1e7fefa4f90d5ef1"
+                "reference": "89c6201c74db25fa759ff16e78a4d8f32547770e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/ed22aee8d17c7b396f74a58b1e7fefa4f90d5ef1",
-                "reference": "ed22aee8d17c7b396f74a58b1e7fefa4f90d5ef1",
+                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/89c6201c74db25fa759ff16e78a4d8f32547770e",
+                "reference": "89c6201c74db25fa759ff16e78a4d8f32547770e",
                 "shasum": ""
             },
             "require": {
@@ -9261,9 +9375,9 @@
             ],
             "support": {
                 "issues": "https://github.com/FakerPHP/Faker/issues",
-                "source": "https://github.com/FakerPHP/Faker/tree/v.1.14.1"
+                "source": "https://github.com/FakerPHP/Faker/tree/v1.15.0"
             },
-            "time": "2021-03-30T06:27:33+00:00"
+            "time": "2021-07-06T20:39:40+00:00"
         },
         {
             "name": "filp/whoops",
@@ -9459,16 +9573,16 @@
         },
         {
             "name": "laravel/dusk",
-            "version": "v6.15.0",
+            "version": "v6.15.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/dusk.git",
-                "reference": "45b55fa20321086c4f8cc4e712cbe54db644e21c"
+                "reference": "6978f331f526e84f06b803ed4407d372a6db065f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/45b55fa20321086c4f8cc4e712cbe54db644e21c",
-                "reference": "45b55fa20321086c4f8cc4e712cbe54db644e21c",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/6978f331f526e84f06b803ed4407d372a6db065f",
+                "reference": "6978f331f526e84f06b803ed4407d372a6db065f",
                 "shasum": ""
             },
             "require": {
@@ -9526,9 +9640,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/dusk/issues",
-                "source": "https://github.com/laravel/dusk/tree/v6.15.0"
+                "source": "https://github.com/laravel/dusk/tree/v6.15.1"
             },
-            "time": "2021-04-06T14:14:57+00:00"
+            "time": "2021-07-06T16:42:00+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -12225,7 +12339,8 @@
         "ext-intl": "*",
         "ext-json": "*",
         "ext-openssl": "*",
-        "ext-redis": "*"
+        "ext-redis": "*",
+        "ext-zip": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.1.0"

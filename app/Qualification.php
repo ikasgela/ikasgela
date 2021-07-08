@@ -26,7 +26,8 @@ class Qualification extends Model
     }
 
     protected $fillable = [
-        'name', 'description', 'template', 'curso_id'
+        'name', 'description', 'template', 'curso_id',
+        '__import_id',
     ];
 
     public function getFullNameAttribute()
@@ -68,5 +69,10 @@ class Qualification extends Model
     public function scopeCursoActual($query)
     {
         return $query->where('curso_id', setting_usuario('curso_actual'));
+    }
+
+    public function scopePlantilla($query)
+    {
+        return $query->where('template', true);
     }
 }

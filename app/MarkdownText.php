@@ -11,7 +11,8 @@ use Illuminate\Database\Eloquent\Model;
 class MarkdownText extends Model
 {
     protected $fillable = [
-        'titulo', 'descripcion', 'repositorio', 'rama', 'archivo'
+        'titulo', 'descripcion', 'repositorio', 'rama', 'archivo',
+        '__import_id', 'curso_id',
     ];
 
     public function actividades()
@@ -75,5 +76,10 @@ class MarkdownText extends Model
 
             return $texto;
         });
+    }
+
+    public function curso()
+    {
+        return $this->belongsTo(Curso::class);
     }
 }

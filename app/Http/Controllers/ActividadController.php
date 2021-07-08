@@ -151,11 +151,16 @@ class ActividadController extends Controller
 
     public function edit(Actividad $actividad)
     {
-        $unidades = Unidad::cursoActual()->orderBy('codigo')->orderBy('slug')->get();
+        $unidades = $actividad->unidad->curso->unidades()->orderBy('codigo')->orderBy('slug')->get();
         $siguiente = $actividad->siguiente;
-        $actividades = Actividad::cursoActual()->where('id', '!=', $actividad->id)->orderBy('slug')->orderBy('id')->get();
-        $plantillas = Actividad::cursoActual()->plantilla()->where('id', '!=', $actividad->id)->orderBy('slug')->orderBy('id')->get();
-        $qualifications = Qualification::cursoActual()->orderBy('name')->get();
+        $actividades = $actividad->unidad->curso->actividades()
+            ->where('actividades.id', '!=', $actividad->id)
+            ->orderBy('slug')->orderBy('id')->get();
+        $plantillas = $actividad->unidad->curso->actividades()
+            ->plantilla()
+            ->where('actividades.id', '!=', $actividad->id)
+            ->orderBy('slug')->orderBy('id')->get();
+        $qualifications = $actividad->unidad->curso->qualifications()->orderBy('name')->get();
 
         return view('actividades.edit', compact(['actividad', 'unidades', 'actividades', 'plantillas', 'qualifications']));
     }

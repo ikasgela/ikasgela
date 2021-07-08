@@ -11,7 +11,8 @@ use Log;
 class IntellijProject extends Model
 {
     protected $fillable = [
-        'repositorio', 'titulo', 'descripcion', 'host'
+        'repositorio', 'titulo', 'descripcion', 'host',
+        '__import_id', 'curso_id',
     ];
 
     public function actividades()
@@ -171,5 +172,10 @@ class IntellijProject extends Model
             $key = $this->host . '_' . $this->id;
 
         return $key;
+    }
+
+    public function curso()
+    {
+        return $this->belongsTo(Curso::class);
     }
 }

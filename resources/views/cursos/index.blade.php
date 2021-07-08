@@ -37,9 +37,9 @@
             @foreach($cursos as $curso)
                 <tr>
                     <td>{{ $curso->id }}</td>
-                    <td>{{ $curso->category->period->organization->name }}</td>
-                    <td>{{ $curso->category->period->name }}</td>
-                    <td>{{ $curso->category->name }}</td>
+                    <td>{{ $curso->category?->period->organization->name }}</td>
+                    <td>{{ $curso->category?->period->name }}</td>
+                    <td>{{ $curso->category?->name }}</td>
                     <td>{{ $curso->nombre }}</td>
                     <td>{{ $curso->descripcion }}</td>
                     <td>{{ $curso->slug }}</td>
@@ -51,16 +51,21 @@
                     <td>{{ $curso->examenes_obligatorios ? __('Yes') : __('No') }}</td>
                     <td>{{ $curso->maximo_recuperable_examenes_finales ?? __('Undefined') }}</td>
                     <td>
-                        <form method="POST" action="{{ route('cursos.destroy', [$curso->id]) }}">
-                            @csrf
-                            @method('DELETE')
-                            <div class='btn-group'>
-                                <a title="{{ __('Edit') }}"
-                                   href="{{ route('cursos.edit', [$curso->id]) }}"
-                                   class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                                @include('partials.boton_borrar')
-                            </div>
-                        </form>
+                        <div class='btn-group'>
+                            <a title="{{ __('Edit') }}"
+                               href="{{ route('cursos.edit', [$curso->id]) }}"
+                               class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+
+                            {!! Form::open(['route' => ['cursos.export', [$curso->id]], 'method' => 'POST']) !!}
+                            {!! Form::button('<i class="fas fa-download"></i>', ['type' => 'submit',
+                                'class' => 'btn btn-light btn-sm', 'title' => __('Export course')
+                            ]) !!}
+                            {!! Form::close() !!}
+
+                            {!! Form::open(['route' => ['cursos.destroy', [$curso->id]], 'method' => 'DELETE']) !!}
+                            @include('partials.boton_borrar')
+                            {!! Form::close() !!}
+                        </div>
                     </td>
                 </tr>
             @endforeach

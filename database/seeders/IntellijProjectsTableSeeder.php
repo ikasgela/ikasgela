@@ -19,24 +19,28 @@ class IntellijProjectsTableSeeder extends Seeder
         factory(IntellijProject::class)->create([
             'titulo' => $nombre,
             'repositorio' => 'root/' . Str::slug($nombre),
+            'curso_id' => 1,
         ]);
 
         $nombre = 'Tres en raya';
         factory(IntellijProject::class)->create([
             'titulo' => $nombre,
             'repositorio' => 'root/' . Str::slug($nombre),
+            'curso_id' => 1,
         ]);
 
         $nombre = 'Reservas';
         factory(IntellijProject::class)->create([
             'titulo' => $nombre,
             'repositorio' => 'root/' . Str::slug($nombre),
+            'curso_id' => 1,
         ]);
 
         $nombre = 'Apuntes';
         factory(IntellijProject::class)->create([
             'titulo' => $nombre,
             'repositorio' => 'root/' . Str::slug($nombre),
+            'curso_id' => 1,
         ]);
     }
 }

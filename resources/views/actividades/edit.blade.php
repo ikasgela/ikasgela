@@ -67,8 +67,8 @@
                         <option value="">{{ __('--- None ---') }}</option>
                         @foreach($qualifications as $qualification)
                             <option
-                                value="{{ $qualification->id }}" <?php if ($actividad->qualification_id == $qualification->id) echo 'selected'; ?>>
-                                {{ $qualification->name }}
+                                value="{{ $qualification->id }}" {{ $actividad->qualification_id == $qualification->id ? 'selected' : '' }}>
+                                {{ $qualification->full_name }}
                             </option>
                         @endforeach
                     </select>

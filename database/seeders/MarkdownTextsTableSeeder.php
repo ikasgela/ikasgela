@@ -19,7 +19,8 @@ class MarkdownTextsTableSeeder extends Seeder
             'descripcion' => null,
             'repositorio' => 'root/apuntes',
             'rama' => 'master',
-            'archivo' => 'README.md'
+            'archivo' => 'README.md',
+            'curso_id' => 1,
         ]);
     }
 }
