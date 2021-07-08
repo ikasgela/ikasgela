@@ -330,7 +330,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Exportar/importar cursos
         Route::post('/cursos/{curso}/export', 'CursoController@export')
             ->name('cursos.export');
-        Route::get('/cursos.import', 'CursoController@import')
+        Route::post('/cursos.import', 'CursoController@import')
             ->name('cursos.import');
     });
 

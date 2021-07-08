@@ -9,6 +9,7 @@ use App\Curso;
 use App\File;
 use App\FileResource;
 use App\FileUpload;
+use App\Http\Requests\StoreFile;
 use App\IntellijProject;
 use App\Item;
 use App\MarkdownText;
@@ -24,6 +25,7 @@ use Illuminate\Support\Facades\File as SystemFile;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Madzipper;
 use Zip;
 
 class CursoController extends Controller
@@ -258,8 +260,27 @@ class CursoController extends Controller
         }
     }
 
-    public function import()
+    public function import(StoreFile $request)
     {
+        // Crear el directorio temporal
+        $directorio = '/' . Str::uuid() . '/';
+        Storage::disk('temp')->makeDirectory($directorio);
+
+        $ruta = Storage::disk('temp')->path($directorio);
+
+        $fichero = $request->file;
+        $filename = $directorio . '/' . $fichero->getClientOriginalName();
+        $filename_full = Storage::disk('temp')->path($filename);
+
+        Storage::disk('temp')->put($filename, file_get_contents($fichero));
+
+        // Descomprimir el archivo zip
+
+        // Borrar el directorio temporal
+        //Storage::disk('temp')->deleteDirectory($directorio);
+
+        return back();
+
         $import_ids = [
             'cursos', 'unidades', 'actividades',
             'qualifications', 'skills',

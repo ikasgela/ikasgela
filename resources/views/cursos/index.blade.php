@@ -10,7 +10,16 @@
 
     <div class="mb-3">
         <a class="btn btn-primary" href="{{ route('cursos.create') }}">{{ __('New course') }}</a>
-        <a class="btn btn-primary" href="{{ route('cursos.import') }}">{{ __('Import course') }}</a>
+
+        <form action="{{ route('cursos.import') }}" enctype="multipart/form-data" method="post">
+            @csrf
+            <div class="form-group">
+                <input type="file" name="file" id="file">
+                <span class="help-block text-danger">{{ $errors->first('file') }}</span>
+            </div>
+            <button class="btn btn-primary single_click">
+                <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Import course') }}</button>
+        </form>
     </div>
 
     <div class="table-responsive">
