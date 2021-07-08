@@ -9,7 +9,9 @@ use App\Curso;
 use App\FileResource;
 use App\FileUpload;
 use App\IntellijProject;
+use App\Item;
 use App\MarkdownText;
+use App\Pregunta;
 use App\Qualification;
 use App\Skill;
 use App\Unidad;
@@ -382,7 +384,39 @@ class CursoController extends Controller
             $actividad?->file_uploads()->attach($file_upload);
         }
 
-        // TODO: Cuestionario
+        // Curso -- "*" Cuestionario
+        $json = $this->cargarFichero('/temp/cuestionarios.json');
+        foreach ($json as $objeto) {
+            Cuestionario::create(array_merge($objeto, [
+                'curso_id' => $curso->id,
+            ]));
+        }
+
+        // Cuestionario -- "*" Pregunta
+        $json = $this->cargarFichero('/temp/preguntas.json');
+        foreach ($json as $objeto) {
+            $cuestionario = !is_null($objeto['cuestionario_id']) ? Cuestionario::where('__import_id', $objeto['cuestionario_id'])->first() : null;
+            Pregunta::create(array_merge($objeto, [
+                'cuestionario_id' => $cuestionario?->id,
+            ]));
+        }
+
+        // Pregunta -- "*" Item
+        $json = $this->cargarFichero('/temp/items.json');
+        foreach ($json as $objeto) {
+            $pregunta = !is_null($objeto['pregunta_id']) ? Pregunta::where('__import_id', $objeto['pregunta_id'])->first() : null;
+            Item::create(array_merge($objeto, [
+                'pregunta_id' => $pregunta?->id,
+            ]));
+        }
+
+        // Actividad "*" - "*" Cuestionario
+        $json = $this->cargarFichero('/temp/actividad_cuestionario.json');
+        foreach ($json as $objeto) {
+            $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
+            $cuestionario = !is_null($objeto['cuestionario_id']) ? Cuestionario::where('__import_id', $objeto['cuestionario_id'])->first() : null;
+            $actividad?->cuestionarios()->attach($cuestionario);
+        }
 
         foreach ($import_ids as $import_id) {
             $this->removeImportId($import_id);
