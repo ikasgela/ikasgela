@@ -17,7 +17,7 @@
                 <th>{{ __('Period') }}</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Slug') }}</th>
-                <th>{{ __('Actions') }}</th>
+                <th colspan="2">{{ __('Actions') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -29,13 +29,27 @@
                     <td>{{ $category->name }}</td>
                     <td>{{ $category->slug }}</td>
                     <td>
-                        {!! Form::open(['route' => ['categories.destroy', $category->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>
                             <a title="{{ __('Edit') }}"
                                href="{{ route('categories.edit', [$category->id]) }}"
                                class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+
+                            {!! Form::open(['route' => ['categories.destroy', $category->id], 'method' => 'DELETE']) !!}
                             @include('partials.boton_borrar')
+                            {!! Form::close() !!}
                         </div>
+                    </td>
+                    <td>
+                        {!! Form::open(['route' => ['cursos.import'], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                        <div class="form-group form-inline">
+                            <span class="d-flex flex-column">
+                                <input type="file" name="file" id="file">
+                                <span class="help-block text-danger">{{ $errors->first('file') }}</span>
+                            </span>
+                            {!! Form::button('<i class="fas fa-spinner fa-spin" style="display:none;"></i>' . __('Import course'),
+                                ['type' => 'submit', 'class' => 'btn btn-primary single_click' ]) !!}
+                        </div>
+                        {!! Form::hidden('category_id', $category->id) !!}
                         {!! Form::close() !!}
                     </td>
                 </tr>

@@ -263,6 +263,11 @@ class CursoController extends Controller
 
     public function import(StoreFile $request)
     {
+        $this->validate($request, [
+            'file' => 'required',
+            'category_id' => 'required',
+        ]);
+
         // Crear el directorio temporal
         $directorio = '/' . Str::uuid() . '/';
         Storage::disk('temp')->makeDirectory($directorio);
