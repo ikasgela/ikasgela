@@ -138,11 +138,7 @@ class CursoController extends Controller
         $this->exportarFicheroJSON('unidades.json', $curso_actual->unidades);
 
         // Actividad
-        $actividades = Actividad::whereHas('unidad.curso', function ($query) use ($curso_actual) {
-            $query->where('curso_id', $curso_actual->id);
-        })->plantilla()->get();
-
-        $this->exportarFicheroJSON('actividades.json', $actividades);
+        $this->exportarFicheroJSON('actividades.json', $curso_actual->actividades()->plantilla()->get());
 
         // IntellijProject
         $this->exportarFicheroJSON('intellij_projects.json', $curso_actual->intellij_projects);
