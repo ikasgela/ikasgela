@@ -13,7 +13,6 @@
                 {!! Form::label('category_id', __('Category'), ['class' => 'col-sm-2 col-form-label']) !!}
                 <div class="col-sm-10">
                     <select class="form-control" id="category_id" name="category_id">
-                        <option value="">{{ __('--- None ---') }}</option>
                         @foreach($categories as $category)
                             <option
                                 value="{{ $category->id }}" <?php if ($curso->category_id == $category->id) echo 'selected'; ?>>{{ $category->period->organization->name }}
