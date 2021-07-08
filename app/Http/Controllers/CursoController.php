@@ -279,6 +279,9 @@ class CursoController extends Controller
 
         // Unidad -- "*" Actividad
         // Unidad -- Qualification
+
+        Schema::disableForeignKeyConstraints();
+
         $json = $this->cargarFichero('/temp/actividades.json');
         foreach ($json as $objeto) {
             $unidad = !is_null($objeto['unidad_id']) ? Unidad::where('__import_id', $objeto['unidad_id'])->first() : null;
@@ -296,6 +299,8 @@ class CursoController extends Controller
             $actividad->siguiente_id = $siguiente?->id;
             $actividad->save();
         }
+
+        Schema::enableForeignKeyConstraints();
 
         // Curso -- "*" IntellijProject
         $json = $this->cargarFichero('/temp/intellij_projects.json');
