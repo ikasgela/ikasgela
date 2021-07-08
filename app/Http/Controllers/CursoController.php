@@ -167,8 +167,14 @@ class CursoController extends Controller
         $this->exportarRelacionJSON('file_resource');
 
         // Cuestionario
-        $cuestionarios = Cuestionario::where('curso_id', $curso_actual->id)->plantilla()->get();
+        $cuestionarios = $curso_actual->cuestionarios()->plantilla()->get();
         $this->exportarFicheroJSON('cuestionarios.json', $cuestionarios);
+
+        // Pregunta
+        $this->exportarFicheroJSON('preguntas.json', $curso_actual->preguntas()->plantilla()->get());
+
+        // Item
+        $this->exportarFicheroJSON('items.json', $curso_actual->items()->plantilla()->get());
 
         // Actividad "*" -- "*" Cuestionario
         $this->exportarRelacionJSON('cuestionario');
@@ -219,7 +225,7 @@ class CursoController extends Controller
         $import_ids = [
             'cursos', 'qualifications', 'skills', 'unidades', 'actividades',
             'intellij_projects', 'markdown_texts', 'youtube_videos', 'file_resources',
-            'file_uploads', 'cuestionarios'
+            'file_uploads', 'cuestionarios', 'preguntas', 'items'
         ];
 
         foreach ($import_ids as $import_id) {

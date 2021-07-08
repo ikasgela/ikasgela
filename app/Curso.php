@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Watson\Rememberable\Rememberable;
 
 class Curso extends Model
@@ -11,6 +12,8 @@ class Curso extends Model
 
     protected $rememberFor;
     protected $rememberCacheTag;
+
+    use HasRelationships;
 
     public function __construct(array $attributes = [])
     {
@@ -125,6 +128,16 @@ class Curso extends Model
     public function cuestionarios()
     {
         return $this->hasMany(Cuestionario::class);
+    }
+
+    public function preguntas()
+    {
+        return $this->hasManyThrough('App\Pregunta', 'App\Cuestionario');
+    }
+
+    public function items()
+    {
+        return $this->hasManyDeep('App\Item', ['App\Cuestionario', 'App\Pregunta']);
     }
 
     public function file_uploads()
