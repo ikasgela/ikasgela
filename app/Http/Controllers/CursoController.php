@@ -22,7 +22,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File as SystemFile;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Zip;
 
 class CursoController extends Controller
 {
@@ -132,20 +134,25 @@ class CursoController extends Controller
 
     public function export(Curso $curso)
     {
+        // Crear el directorio temporal
+        $directorio = '/' . Str::uuid() . '/';
+        Storage::disk('temp')->makeDirectory($directorio);
+        $ruta = Storage::disk('temp')->path($directorio);
+
         // Curso
-        $this->exportarFicheroJSON('curso.json', $curso);
+        $this->exportarFicheroJSON($ruta, 'curso.json', $curso);
 
         // Unidad
-        $this->exportarFicheroJSON('unidades.json', $curso->unidades);
+        $this->exportarFicheroJSON($ruta, 'unidades.json', $curso->unidades);
 
         // Actividad
-        $this->exportarFicheroJSON('actividades.json', $curso->actividades()->plantilla()->get());
+        $this->exportarFicheroJSON($ruta, 'actividades.json', $curso->actividades()->plantilla()->get());
 
         // Qualification
-        $this->exportarFicheroJSON('qualifications.json', $curso->qualifications()->plantilla()->get());
+        $this->exportarFicheroJSON($ruta, 'qualifications.json', $curso->qualifications()->plantilla()->get());
 
         // Skill
-        $this->exportarFicheroJSON('skills.json', $curso->skills);
+        $this->exportarFicheroJSON($ruta, 'skills.json', $curso->skills);
 
         // Qualification "*" -- "*" Skill
         $datos = DB::table('qualification_skill')
@@ -154,61 +161,75 @@ class CursoController extends Controller
             ->where('qualifications.template', '=', true)
             ->select("qualification_skill.*")
             ->get();
-        $this->exportarFicheroJSON('qualification_skill.json', $datos);
+        $this->exportarFicheroJSON($ruta, 'qualification_skill.json', $datos);
 
         // IntellijProject
-        $this->exportarFicheroJSON('intellij_projects.json', $curso->intellij_projects);
+        $this->exportarFicheroJSON($ruta, 'intellij_projects.json', $curso->intellij_projects);
 
         // Actividad "*" -- "*" IntellijProject
-        $this->exportarRelacionJSON($curso, 'intellij_project');
+        $this->exportarRelacionJSON($ruta, $curso, 'intellij_project');
 
         // MarkdownText
-        $this->exportarFicheroJSON('markdown_texts.json', $curso->markdown_texts);
+        $this->exportarFicheroJSON($ruta, 'markdown_texts.json', $curso->markdown_texts);
 
         // Actividad "*" -- "*" MarkdownText
-        $this->exportarRelacionJSON($curso, 'markdown_text');
+        $this->exportarRelacionJSON($ruta, $curso, 'markdown_text');
 
         // YoutubeVideo
-        $this->exportarFicheroJSON('youtube_videos.json', $curso->youtube_videos);
+        $this->exportarFicheroJSON($ruta, 'youtube_videos.json', $curso->youtube_videos);
 
         // Actividad "*" -- "*" YoutubeVideo
-        $this->exportarRelacionJSON($curso, 'youtube_video');
+        $this->exportarRelacionJSON($ruta, $curso, 'youtube_video');
 
         // FileResources
-        $this->exportarFicheroJSON('file_resources.json', $curso->file_resources);
+        $this->exportarFicheroJSON($ruta, 'file_resources.json', $curso->file_resources);
 
         // Files
-        $this->exportarFicheroJSON('file_resources_files.json', $curso->file_resources_files);
+        $this->exportarFicheroJSON($ruta, 'file_resources_files.json', $curso->file_resources_files);
 
         // Actividad "*" -- "*" FileResources
-        $this->exportarRelacionJSON($curso, 'file_resource');
+        $this->exportarRelacionJSON($ruta, $curso, 'file_resource');
 
         // Cuestionario
         $cuestionarios = $curso->cuestionarios()->plantilla()->get();
-        $this->exportarFicheroJSON('cuestionarios.json', $cuestionarios);
+        $this->exportarFicheroJSON($ruta, 'cuestionarios.json', $cuestionarios);
 
         // Pregunta
-        $this->exportarFicheroJSON('preguntas.json', $curso->preguntas()->plantilla()->get());
+        $this->exportarFicheroJSON($ruta, 'preguntas.json', $curso->preguntas()->plantilla()->get());
 
         // Item
-        $this->exportarFicheroJSON('items.json', $curso->items()->plantilla()->get());
+        $this->exportarFicheroJSON($ruta, 'items.json', $curso->items()->plantilla()->get());
 
         // Actividad "*" -- "*" Cuestionario
-        $this->exportarRelacionJSON($curso, 'cuestionario');
+        $this->exportarRelacionJSON($ruta, $curso, 'cuestionario');
 
         // FileUpload
         $file_uploads = $curso->file_uploads()->plantilla()->get();
-        $this->exportarFicheroJSON('file_uploads.json', $file_uploads);
+        $this->exportarFicheroJSON($ruta, 'file_uploads.json', $file_uploads);
 
         // Actividad "*" -- "*" FileUpload
-        $this->exportarRelacionJSON($curso, 'file_upload');
+        $this->exportarRelacionJSON($ruta, $curso, 'file_upload');
 
-        return back();
+        // Crear el zip
+        $fecha = now()->format('YmdHis');
+        $nombre = Str::slug($curso->full_name);
+
+        $ficheros = Storage::disk('temp')->files($directorio);
+
+        $ficheros_ruta_completa = [];
+        foreach ($ficheros as $fichero) {
+            array_push($ficheros_ruta_completa, Storage::disk('temp')->path($fichero));
+        }
+
+        // Borrar el directorio temporal
+        //Storage::disk('temp')->deleteDirectory($directorio);
+
+        return Zip::create("ikasgela-{$nombre}-{$fecha}.zip", $ficheros_ruta_completa);
     }
 
-    private function exportarFicheroJSON(string $fichero, $datos): void
+    private function exportarFicheroJSON(string $ruta, string $fichero, $datos): void
     {
-        SystemFile::put(storage_path('/temp/' . $fichero), $datos->toJson(JSON_PRETTY_PRINT));
+        SystemFile::put($ruta . $fichero, $datos->toJson(JSON_PRETTY_PRINT));
     }
 
     function replaceKeys($oldKey, $newKey, array $input)
@@ -494,7 +515,7 @@ class CursoController extends Controller
         return $json;
     }
 
-    private function exportarRelacionJSON($curso, $tabla): void
+    private function exportarRelacionJSON(string $ruta, $curso, $tabla): void
     {
         $datos = DB::table("actividad_{$tabla}")
             ->join('actividades', "actividad_{$tabla}.actividad_id", '=', 'actividades.id')
@@ -503,6 +524,6 @@ class CursoController extends Controller
             ->where($tabla . 's.curso_id', '=', $curso->id)
             ->select("actividad_{$tabla}.*")
             ->get();
-        $this->exportarFicheroJSON("actividad_{$tabla}.json", $datos);
+        $this->exportarFicheroJSON($ruta, "actividad_{$tabla}.json", $datos);
     }
 }
