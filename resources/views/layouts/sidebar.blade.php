@@ -27,7 +27,7 @@
             @if(Auth::user()->hasRole('admin'))
                 @include('menus.admin')
                 @if(config('app.debug'))
-                    @include('menus.pruebas')
+                    {{-- @include('menus.pruebas') --}}
                 @endif
             @endif
         @endauth
@@ -55,6 +55,14 @@
                 <li class="c-sidebar-nav-item">
                     <a class="c-sidebar-nav-link" href="{{ route('settings.editar') }}">
                         <i class="c-sidebar-nav-icon fas fa-cog"></i> {{ __('Settings') }}
+                    </a>
+                </li>
+            @endif
+            @if(Auth::user()->hasRole('admin'))
+                <li class="c-sidebar-nav-item">
+                    <a class="c-sidebar-nav-link c-sidebar-nav-link-warning text-dark" href="{{ route('logs') }}"
+                       target="_blank">
+                        <i class="c-sidebar-nav-icon fas fa-bug text-dark"></i> {{ __('Logs') }}
                     </a>
                 </li>
             @endif

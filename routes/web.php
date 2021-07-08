@@ -295,7 +295,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('feedback.save');
 
         // Visor de logs: https://github.com/rap2hpoutre/laravel-log-viewer
-        Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+        Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')
+            ->name('logs');
 
         // Ver entradas en el registro
         Route::get('/registros', 'RegistroController@index')
