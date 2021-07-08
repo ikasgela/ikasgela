@@ -6,6 +6,7 @@ use App\Actividad;
 use App\Category;
 use App\Cuestionario;
 use App\Curso;
+use App\File;
 use App\FileResource;
 use App\FileUpload;
 use App\IntellijProject;
@@ -19,7 +20,7 @@ use App\YoutubeVideo;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\File as SystemFile;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
@@ -163,6 +164,9 @@ class CursoController extends Controller
         // FileResources
         $this->exportarFicheroJSON('file_resources.json', $curso_actual->file_resources);
 
+        // Files
+        $this->exportarFicheroJSON('file_resources_files.json', $curso_actual->file_resources_files);
+
         // Actividad "*" -- "*" FileResources
         $this->exportarRelacionJSON('file_resource');
 
@@ -191,7 +195,7 @@ class CursoController extends Controller
 
     private function exportarFicheroJSON(string $fichero, $datos): void
     {
-        File::put(storage_path('/temp/' . $fichero), $datos->toJson(JSON_PRETTY_PRINT));
+        SystemFile::put(storage_path('/temp/' . $fichero), $datos->toJson(JSON_PRETTY_PRINT));
     }
 
     function replaceKeys($oldKey, $newKey, array $input)
@@ -223,9 +227,12 @@ class CursoController extends Controller
     public function import()
     {
         $import_ids = [
-            'cursos', 'qualifications', 'skills', 'unidades', 'actividades',
-            'intellij_projects', 'markdown_texts', 'youtube_videos', 'file_resources',
-            'file_uploads', 'cuestionarios', 'preguntas', 'items'
+            'cursos', 'unidades', 'actividades',
+            'qualifications', 'skills',
+            'intellij_projects', 'markdown_texts', 'youtube_videos',
+            'file_resources', 'files',
+            'file_uploads',
+            'cuestionarios', 'preguntas', 'items'
         ];
 
         foreach ($import_ids as $import_id) {
@@ -373,6 +380,16 @@ class CursoController extends Controller
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $file_resource = !is_null($objeto['file_resource_id']) ? FileResource::where('__import_id', $objeto['file_resource_id'])->first() : null;
             $actividad?->file_resources()->attach($file_resource);
+        }
+
+        // FileResource -- "*" File
+        $json = $this->cargarFichero('/temp/file_resources_files.json');
+        foreach ($json as $objeto) {
+            $file_resource = !is_null($objeto['file_upload_id']) ? FileResource::where('__import_id', $objeto['file_upload_id'])->first() : null;
+            File::create(array_merge($objeto, [
+                'file_upload_id' => $file_resource->id,
+                'user_id' => null,
+            ]));
         }
 
         // Curso -- "*" FileUpload

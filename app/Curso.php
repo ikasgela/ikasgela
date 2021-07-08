@@ -149,4 +149,9 @@ class Curso extends Model
     {
         return $this->hasMany(FileResource::class);
     }
+
+    public function file_resources_files()
+    {
+        return $this->hasManyDeep('App\File', ['App\FileResource'], [null, ['file_upload_type', 'file_upload_id']]);
+    }
 }

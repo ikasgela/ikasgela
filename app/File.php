@@ -33,7 +33,7 @@ class File extends Model
         return formato_decimales($this->size / 1024, 2);
     }
 
-    public function file_upload()
+    public function file_upload()   // Debería ser uploadable
     {
         return $this->morphTo();
     }
