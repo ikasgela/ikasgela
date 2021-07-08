@@ -312,7 +312,7 @@ class CursoController extends Controller
         // Curso
         $curso = Curso::create(array_merge($json, [
             'qualification_id' => null,
-            'category_id' => null,
+            'category_id' => request('category_id'),
         ]));
 
         // Curso -- "*" Qualification
@@ -511,7 +511,7 @@ class CursoController extends Controller
         // Borrar el directorio temporal
         Storage::disk('temp')->deleteDirectory($directorio);
 
-        return back();
+        return redirect()->route('cursos.index');
     }
 
     private function addImportId($tabla): void

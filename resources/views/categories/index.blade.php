@@ -46,7 +46,7 @@
                                 <input type="file" name="file" id="file">
                                 <span class="help-block text-danger">{{ $errors->first('file') }}</span>
                             </span>
-                            {!! Form::button('<i class="fas fa-spinner fa-spin" style="display:none;"></i>' . __('Import course'),
+                            {!! Form::button('<i class="fas fa-spinner fa-spin" style="display:none;"></i> ' . __('Import course'),
                                 ['type' => 'submit', 'class' => 'btn btn-primary single_click' ]) !!}
                         </div>
                         {!! Form::hidden('category_id', $category->id) !!}
