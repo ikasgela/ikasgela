@@ -137,49 +137,50 @@ class CursoController extends Controller
         $this->exportarFicheroJSON('qualification_skill.json', DB::table('qualification_skill')->get());
         $this->exportarFicheroJSON('unidades.json', $curso_actual->unidades);
 
+        // Actividad
         $actividades = Actividad::whereHas('unidad.curso', function ($query) use ($curso_actual) {
             $query->where('curso_id', $curso_actual->id);
         })->plantilla()->get();
 
         $this->exportarFicheroJSON('actividades.json', $actividades);
 
-        $recursos = [
-            'intellij_projects',
-            'youtube_videos',
-            'markdown_texts',
-            'file_resources',
-        ];
+        // IntellijProject
+        $this->exportarFicheroJSON('intellij_projects.json', $curso_actual->intellij_projects);
 
-        foreach ($recursos as $recurso) {
-            $this->exportarFicheroJSON($recurso . '.json', $curso_actual->$recurso);
-        }
+        // Actividad "*" -- "*" IntellijProject
+        $this->exportarRelacionJSON('intellij_project');
 
-        $asociaciones = [
-            'actividad_intellij_project',
-            'actividad_youtube_video',
-            'actividad_markdown_text',
-            'actividad_file_resource',
-        ];
+        // MarkdownText
+        $this->exportarFicheroJSON('markdown_texts.json', $curso_actual->markdown_texts);
 
-        foreach ($asociaciones as $asociacion) {
-            $this->exportarFicheroJSON($asociacion . '.json', DB::table($asociacion)->get());
-        }
+        // Actividad "*" -- "*" MarkdownText
+        $this->exportarRelacionJSON('markdown_text');
 
+        // YoutubeVideo
+        $this->exportarFicheroJSON('youtube_videos.json', $curso_actual->youtube_videos);
+
+        // Actividad "*" -- "*" YoutubeVideo
+        $this->exportarRelacionJSON('youtube_video');
+
+        // FileResources
+        $this->exportarFicheroJSON('file_resources.json', $curso_actual->file_resources);
+
+        // Actividad "*" -- "*" FileResources
+        $this->exportarRelacionJSON('file_resource');
+
+        // Cuestionario
         $cuestionarios = Cuestionario::where('curso_id', $curso_actual->id)->plantilla()->get();
         $this->exportarFicheroJSON('cuestionarios.json', $cuestionarios);
 
-        // TODO: Cuestionario
-        // 'actividad_cuestionario',
+        // Actividad "*" -- "*" Cuestionario
+        $this->exportarRelacionJSON('cuestionario');
 
+        // FileUpload
         $file_uploads = FileUpload::where('curso_id', $curso_actual->id)->plantilla()->get();
         $this->exportarFicheroJSON('file_uploads.json', $file_uploads);
 
-        $actividad_file_uploads = DB::table('actividad_file_upload')
-            ->join('actividades', 'actividad_file_upload.actividad_id', '=', 'actividades.id')
-            ->where('actividades.plantilla', '=', true)
-            ->select('actividad_file_upload.*')
-            ->get();
-        $this->exportarFicheroJSON('actividad_file_upload.json', $actividad_file_uploads);
+        // Actividad "*" -- "*" FileUpload
+        $this->exportarRelacionJSON('file_upload');
 
         return back();
     }
@@ -419,5 +420,15 @@ class CursoController extends Controller
         $this->removeKey($json, 'updated_at');
         $this->removeKey($json, 'deleted_at');
         return $json;
+    }
+
+    private function exportarRelacionJSON($tabla): void
+    {
+        $datos = DB::table("actividad_{$tabla}")
+            ->join('actividades', "actividad_{$tabla}.actividad_id", '=', 'actividades.id')
+            ->where('actividades.plantilla', '=', true)
+            ->select("actividad_{$tabla}.*")
+            ->get();
+        $this->exportarFicheroJSON("actividad_{$tabla}.json", $datos);
     }
 }
