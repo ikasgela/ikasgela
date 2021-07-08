@@ -36,8 +36,8 @@ class Curso extends Model
 
     public function getFullNameAttribute()
     {
-        return $this->category->period->organization->name . ' - '
-            . $this->category->period->name . ' - '
+        return $this->category?->period->organization->name . ' - '
+            . $this->category?->period->name . ' - '
             . $this->nombre;
     }
 

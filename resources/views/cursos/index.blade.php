@@ -39,9 +39,9 @@
             @foreach($cursos as $curso)
                 <tr>
                     <td>{{ $curso->id }}</td>
-                    <td>{{ $curso->category->period->organization->name }}</td>
-                    <td>{{ $curso->category->period->name }}</td>
-                    <td>{{ $curso->category->name }}</td>
+                    <td>{{ $curso->category?->period->organization->name }}</td>
+                    <td>{{ $curso->category?->period->name }}</td>
+                    <td>{{ $curso->category?->name }}</td>
                     <td>{{ $curso->nombre }}</td>
                     <td>{{ $curso->descripcion }}</td>
                     <td>{{ $curso->slug }}</td>

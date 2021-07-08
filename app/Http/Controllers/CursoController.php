@@ -243,6 +243,7 @@ class CursoController extends Controller
         // Curso
         $curso = Curso::create(array_merge($json, [
             'qualification_id' => null,
+            'category_id' => null,
         ]));
 
         // Curso -- "*" Qualification
