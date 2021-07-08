@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Madzipper;
 use Zip;
+use ZipArchive;
 
 class CursoController extends Controller
 {
@@ -275,6 +276,11 @@ class CursoController extends Controller
         Storage::disk('temp')->put($filename, file_get_contents($fichero));
 
         // Descomprimir el archivo zip
+        $zip = new ZipArchive();
+        if ($zip->open($filename_full)) {
+            $zip->extractTo($ruta);
+            $zip->close();
+        }
 
         // Borrar el directorio temporal
         //Storage::disk('temp')->deleteDirectory($directorio);
