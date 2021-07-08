@@ -130,61 +130,59 @@ class CursoController extends Controller
         return back();
     }
 
-    public function export()
+    public function export(Curso $curso)
     {
-        $curso_actual = Curso::find(setting_usuario('curso_actual'));
-
-        $this->exportarFicheroJSON('curso.json', $curso_actual);
-        $this->exportarFicheroJSON('qualifications.json', $curso_actual->qualifications);
-        $this->exportarFicheroJSON('skills.json', $curso_actual->skills);
+        $this->exportarFicheroJSON('curso.json', $curso);
+        $this->exportarFicheroJSON('qualifications.json', $curso->qualifications);
+        $this->exportarFicheroJSON('skills.json', $curso->skills);
         $this->exportarFicheroJSON('qualification_skill.json', DB::table('qualification_skill')->get());
-        $this->exportarFicheroJSON('unidades.json', $curso_actual->unidades);
+        $this->exportarFicheroJSON('unidades.json', $curso->unidades);
 
         // Actividad
-        $this->exportarFicheroJSON('actividades.json', $curso_actual->actividades()->plantilla()->get());
+        $this->exportarFicheroJSON('actividades.json', $curso->actividades()->plantilla()->get());
 
         // IntellijProject
-        $this->exportarFicheroJSON('intellij_projects.json', $curso_actual->intellij_projects);
+        $this->exportarFicheroJSON('intellij_projects.json', $curso->intellij_projects);
 
         // Actividad "*" -- "*" IntellijProject
         $this->exportarRelacionJSON('intellij_project');
 
         // MarkdownText
-        $this->exportarFicheroJSON('markdown_texts.json', $curso_actual->markdown_texts);
+        $this->exportarFicheroJSON('markdown_texts.json', $curso->markdown_texts);
 
         // Actividad "*" -- "*" MarkdownText
         $this->exportarRelacionJSON('markdown_text');
 
         // YoutubeVideo
-        $this->exportarFicheroJSON('youtube_videos.json', $curso_actual->youtube_videos);
+        $this->exportarFicheroJSON('youtube_videos.json', $curso->youtube_videos);
 
         // Actividad "*" -- "*" YoutubeVideo
         $this->exportarRelacionJSON('youtube_video');
 
         // FileResources
-        $this->exportarFicheroJSON('file_resources.json', $curso_actual->file_resources);
+        $this->exportarFicheroJSON('file_resources.json', $curso->file_resources);
 
         // Files
-        $this->exportarFicheroJSON('file_resources_files.json', $curso_actual->file_resources_files);
+        $this->exportarFicheroJSON('file_resources_files.json', $curso->file_resources_files);
 
         // Actividad "*" -- "*" FileResources
         $this->exportarRelacionJSON('file_resource');
 
         // Cuestionario
-        $cuestionarios = $curso_actual->cuestionarios()->plantilla()->get();
+        $cuestionarios = $curso->cuestionarios()->plantilla()->get();
         $this->exportarFicheroJSON('cuestionarios.json', $cuestionarios);
 
         // Pregunta
-        $this->exportarFicheroJSON('preguntas.json', $curso_actual->preguntas()->plantilla()->get());
+        $this->exportarFicheroJSON('preguntas.json', $curso->preguntas()->plantilla()->get());
 
         // Item
-        $this->exportarFicheroJSON('items.json', $curso_actual->items()->plantilla()->get());
+        $this->exportarFicheroJSON('items.json', $curso->items()->plantilla()->get());
 
         // Actividad "*" -- "*" Cuestionario
         $this->exportarRelacionJSON('cuestionario');
 
         // FileUpload
-        $file_uploads = FileUpload::where('curso_id', $curso_actual->id)->plantilla()->get();
+        $file_uploads = $curso->file_uploads()->plantilla()->get();
         $this->exportarFicheroJSON('file_uploads.json', $file_uploads);
 
         // Actividad "*" -- "*" FileUpload
