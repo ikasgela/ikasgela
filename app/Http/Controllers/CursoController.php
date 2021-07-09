@@ -135,8 +135,16 @@ class CursoController extends Controller
                 ->where('actividad_id', '=', $actividad->id)
                 ->delete();
 
+            DB::table('actividad_team')
+                ->where('actividad_id', '=', $actividad->id)
+                ->delete();
+
             $actividad->feedbacks()->delete();
         }
+
+        DB::table('curso_user')
+            ->where('curso_id', '=', $curso->id)
+            ->delete();
 
         $curso->intellij_projects()->forceDelete();
         $curso->markdown_texts()->forceDelete();
@@ -145,6 +153,7 @@ class CursoController extends Controller
 
         $curso->file_resources_files()->forceDelete();
         $curso->file_resources()->forceDelete();
+        $curso->file_uploads_files()->forceDelete();
         $curso->file_uploads()->forceDelete();
 
         Schema::disableForeignKeyConstraints();
