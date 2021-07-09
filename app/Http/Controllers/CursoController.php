@@ -170,11 +170,23 @@ class CursoController extends Controller
         $curso->skills()->forceDelete();
         Schema::enableForeignKeyConstraints();
 
+        $curso->feedbacks()->delete();
+
+        foreach ($curso->hilos()->get() as $hilo) {
+            DB::table('messages')
+                ->where('thread_id', '=', $hilo->id)
+                ->delete();
+
+            DB::table('participants')
+                ->where('thread_id', '=', $hilo->id)
+                ->delete();
+        }
+
+        $curso->hilos()->forceDelete();
+
         Schema::disableForeignKeyConstraints();
         $curso->forceDelete();
         Schema::enableForeignKeyConstraints();
-
-        $curso->feedbacks()->delete();
 
         return back();
     }
