@@ -130,7 +130,42 @@ class CursoController extends Controller
 
     public function destroy(Curso $curso)
     {
-        $curso->delete();
+        foreach ($curso->actividades()->get() as $actividad) {
+            DB::table('tareas')
+                ->where('actividad_id', '=', $actividad->id)
+                ->delete();
+
+            $actividad->feedbacks()->delete();
+        }
+
+        $curso->intellij_projects()->forceDelete();
+        $curso->markdown_texts()->forceDelete();
+        $curso->youtube_videos()->forceDelete();
+        $curso->cuestionarios()->forceDelete();
+
+        $curso->file_resources_files()->forceDelete();
+        $curso->file_resources()->forceDelete();
+        $curso->file_uploads()->forceDelete();
+
+        Schema::disableForeignKeyConstraints();
+        $curso->actividades()->forceDelete();
+        Schema::enableForeignKeyConstraints();
+
+        $curso->unidades()->forceDelete();
+
+        Schema::disableForeignKeyConstraints();
+        foreach ($curso->qualifications()->get() as $qualification) {
+            $qualification->skills()->sync([]);
+        }
+        $curso->qualifications()->forceDelete();
+        $curso->skills()->forceDelete();
+        Schema::enableForeignKeyConstraints();
+
+        Schema::disableForeignKeyConstraints();
+        $curso->forceDelete();
+        Schema::enableForeignKeyConstraints();
+
+        $curso->feedbacks()->delete();
 
         return back();
     }
