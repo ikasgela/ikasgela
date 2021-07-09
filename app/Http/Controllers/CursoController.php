@@ -6,6 +6,7 @@ use App\Actividad;
 use App\Category;
 use App\Cuestionario;
 use App\Curso;
+use App\Feedback;
 use App\File;
 use App\FileResource;
 use App\FileUpload;
@@ -362,7 +363,8 @@ class CursoController extends Controller
             'intellij_projects', 'markdown_texts', 'youtube_videos',
             'file_resources', 'files',
             'file_uploads',
-            'cuestionarios', 'preguntas', 'items'
+            'cuestionarios', 'preguntas', 'items',
+            'feedback'
         ];
 
         foreach ($import_ids as $import_id) {
@@ -570,6 +572,23 @@ class CursoController extends Controller
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $cuestionario = !is_null($objeto['cuestionario_id']) ? Cuestionario::where('__import_id', $objeto['cuestionario_id'])->first() : null;
             $actividad?->cuestionarios()->attach($cuestionario);
+        }
+
+        // Curso -- "*" Feedback
+        $json = $this->cargarFichero($ruta, 'feedbacks_curso.json');
+        foreach ($json as $objeto) {
+            Feedback::create(array_merge($objeto, [
+                'curso_id' => $curso->id,
+            ]));
+        }
+
+        // Actividad -- "*" Feedback
+        $json = $this->cargarFichero($ruta, 'feedbacks_actividades.json');
+        foreach ($json as $objeto) {
+            $actividad = !is_null($objeto['curso_id']) ? Actividad::where('__import_id', $objeto['curso_id'])->first() : null;
+            Feedback::create(array_merge($objeto, [
+                'curso_id' => $actividad->id,
+            ]));
         }
 
         foreach ($import_ids as $import_id) {
