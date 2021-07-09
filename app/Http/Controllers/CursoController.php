@@ -20,6 +20,7 @@ use App\Unidad;
 use App\YoutubeVideo;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File as SystemFile;
 use Illuminate\Support\Facades\Schema;
@@ -268,6 +269,17 @@ class CursoController extends Controller
 
         // Actividad "*" -- "*" FileUpload
         $this->exportarRelacionJSON($ruta, $curso, 'file_upload');
+
+        // Feedback
+        $this->exportarFicheroJSON($ruta, 'feedbacks_curso.json', $curso->feedbacks()->get());
+
+        $datos = new Collection();
+        foreach ($curso->actividades()->get() as $actividad) {
+            foreach ($actividad->feedbacks()->get() as $feedback) {
+                $datos->add($feedback);
+            }
+        }
+        $this->exportarFicheroJSON($ruta, 'feedbacks_actividades.json', $datos);
 
         // Crear el zip
         $fecha = now()->format('YmdHis');
