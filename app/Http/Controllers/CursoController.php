@@ -586,9 +586,11 @@ class CursoController extends Controller
         $json = $this->cargarFichero($ruta, 'feedbacks_actividades.json');
         foreach ($json as $objeto) {
             $actividad = !is_null($objeto['curso_id']) ? Actividad::where('__import_id', $objeto['curso_id'])->first() : null;
-            Feedback::create(array_merge($objeto, [
-                'curso_id' => $actividad->id,
-            ]));
+            if (!is_null($actividad)) {
+                Feedback::create(array_merge($objeto, [
+                    'curso_id' => $actividad->id,
+                ]));
+            }
         }
 
         foreach ($import_ids as $import_id) {
