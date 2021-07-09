@@ -6,6 +6,7 @@ use App\Actividad;
 use App\Category;
 use App\Cuestionario;
 use App\Curso;
+use App\Feedback;
 use App\File;
 use App\FileResource;
 use App\FileUpload;
@@ -20,6 +21,7 @@ use App\Unidad;
 use App\YoutubeVideo;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File as SystemFile;
 use Illuminate\Support\Facades\Schema;
@@ -130,7 +132,63 @@ class CursoController extends Controller
 
     public function destroy(Curso $curso)
     {
-        $curso->delete();
+        foreach ($curso->actividades()->get() as $actividad) {
+            DB::table('tareas')
+                ->where('actividad_id', '=', $actividad->id)
+                ->delete();
+
+            DB::table('actividad_team')
+                ->where('actividad_id', '=', $actividad->id)
+                ->delete();
+
+            $actividad->feedbacks()->delete();
+        }
+
+        DB::table('curso_user')
+            ->where('curso_id', '=', $curso->id)
+            ->delete();
+
+        $curso->intellij_projects()->forceDelete();
+        $curso->markdown_texts()->forceDelete();
+        $curso->youtube_videos()->forceDelete();
+        $curso->cuestionarios()->forceDelete();
+
+        $curso->file_resources_files()->forceDelete();
+        $curso->file_resources()->forceDelete();
+        $curso->file_uploads_files()->forceDelete();
+        $curso->file_uploads()->forceDelete();
+
+        Schema::disableForeignKeyConstraints();
+        $curso->actividades()->forceDelete();
+        Schema::enableForeignKeyConstraints();
+
+        $curso->unidades()->forceDelete();
+
+        Schema::disableForeignKeyConstraints();
+        foreach ($curso->qualifications()->get() as $qualification) {
+            $qualification->skills()->sync([]);
+        }
+        $curso->qualifications()->forceDelete();
+        $curso->skills()->forceDelete();
+        Schema::enableForeignKeyConstraints();
+
+        $curso->feedbacks()->delete();
+
+        foreach ($curso->hilos()->get() as $hilo) {
+            DB::table('messages')
+                ->where('thread_id', '=', $hilo->id)
+                ->delete();
+
+            DB::table('participants')
+                ->where('thread_id', '=', $hilo->id)
+                ->delete();
+        }
+
+        $curso->hilos()->forceDelete();
+
+        Schema::disableForeignKeyConstraints();
+        $curso->forceDelete();
+        Schema::enableForeignKeyConstraints();
 
         return back();
     }
@@ -213,6 +271,17 @@ class CursoController extends Controller
         // Actividad "*" -- "*" FileUpload
         $this->exportarRelacionJSON($ruta, $curso, 'file_upload');
 
+        // Feedback
+        $this->exportarFicheroJSON($ruta, 'feedbacks_curso.json', $curso->feedbacks()->get());
+
+        $datos = new Collection();
+        foreach ($curso->actividades()->get() as $actividad) {
+            foreach ($actividad->feedbacks()->get() as $feedback) {
+                $datos->add($feedback);
+            }
+        }
+        $this->exportarFicheroJSON($ruta, 'feedbacks_actividades.json', $datos);
+
         // Crear el zip
         $fecha = now()->format('YmdHis');
         $nombre = Str::slug($curso->full_name);
@@ -294,7 +363,8 @@ class CursoController extends Controller
             'intellij_projects', 'markdown_texts', 'youtube_videos',
             'file_resources', 'files',
             'file_uploads',
-            'cuestionarios', 'preguntas', 'items'
+            'cuestionarios', 'preguntas', 'items',
+            'feedback'
         ];
 
         foreach ($import_ids as $import_id) {
@@ -502,6 +572,23 @@ class CursoController extends Controller
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $cuestionario = !is_null($objeto['cuestionario_id']) ? Cuestionario::where('__import_id', $objeto['cuestionario_id'])->first() : null;
             $actividad?->cuestionarios()->attach($cuestionario);
+        }
+
+        // Curso -- "*" Feedback
+        $json = $this->cargarFichero($ruta, 'feedbacks_curso.json');
+        foreach ($json as $objeto) {
+            Feedback::create(array_merge($objeto, [
+                'curso_id' => $curso->id,
+            ]));
+        }
+
+        // Actividad -- "*" Feedback
+        $json = $this->cargarFichero($ruta, 'feedbacks_actividades.json');
+        foreach ($json as $objeto) {
+            $actividad = !is_null($objeto['curso_id']) ? Actividad::where('__import_id', $objeto['curso_id'])->first() : null;
+            Feedback::create(array_merge($objeto, [
+                'curso_id' => $actividad->id,
+            ]));
         }
 
         foreach ($import_ids as $import_id) {

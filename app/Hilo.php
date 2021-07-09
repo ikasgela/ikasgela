@@ -12,5 +12,9 @@ class Hilo extends Thread
     {
         return $query->where('curso_id', setting_usuario('curso_actual'));
     }
-}
 
+    public function curso()
+    {
+        return $this->belongsTo(Curso::class);
+    }
+}
