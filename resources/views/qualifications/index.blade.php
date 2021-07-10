@@ -4,6 +4,12 @@
 
     @include('partials.titular', ['titular' => __('Qualifications')])
 
+    @if(Auth::user()->hasAnyRole(['admin']))
+        {!! Form::open(['route' => ['qualifications.index'], 'method' => 'POST']) !!}
+        @include('partials.desplegable_cursos')
+        {!! Form::close() !!}
+    @endif
+
     <div class="mb-3">
         <a class="btn btn-primary" href="{{ route('qualifications.create') }}">{{ __('New qualification') }}</a>
     </div>

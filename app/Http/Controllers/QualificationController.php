@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Curso;
 use App\Qualification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class QualificationController extends Controller
 {
@@ -14,11 +15,21 @@ class QualificationController extends Controller
         $this->middleware('role:admin');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $qualifications = Qualification::all();
+        $cursos = Curso::orderBy('nombre')->get();
 
-        return view('qualifications.index', compact('qualifications'));
+        if (request('curso_id') > 0) {
+            session(['filtrar_curso_actual' => request('curso_id')]);
+        } else if (!session('filtrar_curso_actual') > 0) {
+            session(['filtrar_curso_actual' => Auth::user()->curso_actual()?->id]);
+        } else if (request('curso_id') == -1) {
+            session()->forget('filtrar_curso_actual');
+        }
+
+        $qualifications = Qualification::where('curso_id', session('filtrar_curso_actual'))->get();
+
+        return view('qualifications.index', compact(['qualifications', 'cursos']));
     }
 
     public function create()
