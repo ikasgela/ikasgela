@@ -15,8 +15,9 @@
                     <select class="form-control" id="category_id" name="category_id">
                         @foreach($categories as $category)
                             <option
-                                value="{{ $category->id }}" <?php if ($curso->category_id == $category->id) echo 'selected'; ?>>{{ $category->period->organization->name }}
-                                - {{ $category->period->name }} - {{ $category->name }}</option>
+                                value="{{ $category->id }}" {{ $curso->category_id == $category->id ? 'selected' : '' }}>
+                                {{ $category->full_name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>

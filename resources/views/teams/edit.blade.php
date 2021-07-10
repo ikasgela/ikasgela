@@ -15,7 +15,7 @@
                     <select class="form-control" id="group_id" name="group_id">
                         @foreach($groups as $group)
                             <option
-                                value="{{ $group->id }}" <?php if ($team->group_id == $group->id) echo 'selected'; ?>>{{ $group->name }}</option>
+                                value="{{ $group->id }}" {{ $team->group_id == $group->id ? 'selected' : ''}}>{{ $group->full_name }}</option>
                         @endforeach
                     </select>
                 </div>

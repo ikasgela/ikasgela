@@ -34,7 +34,7 @@
                         <input form="asignar" type="checkbox"
                                name="equipos_seleccionados[{{ $team->id }}]" value="{{ $team->id }}">
                     </td>
-                    <td class="clickable">{{ $team->group->name }}</td>
+                    <td class="clickable">{{ $team->group->full_name }}</td>
                     <td class="clickable">{{ $team->name }}</td>
                     <td class="clickable">{{ $team->group->slug }}/{{ $team->slug }}</td>
                     <td class="clickable">

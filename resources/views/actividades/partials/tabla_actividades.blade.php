@@ -33,10 +33,8 @@
                 @if(Route::currentRouteName() == 'actividades.index')
                     <td>{!! $actividad->plantilla ? '<i class="fas fa-file"></i>' : '' !!}</td>
                 @endif
-                <td class="clickable">{{ $actividad->unidad->curso->category->period->organization->name }}
-                    - {{ $actividad->unidad->curso->category->period->name }}
-                    - {{ $actividad->unidad->curso->nombre }}</td>
-                <td class="clickable">{{ $actividad->unidad->nombre }}</td>
+                <td class="clickable">{{ $actividad->unidad->curso->full_name }}</td>
+                <td class="clickable">{{ $actividad->unidad->full_name }}</td>
                 <td>
                     <div class='btn-group'>
                         {!! Form::open(['route' => ['actividades.reordenar', $ids[$loop->index], $ids[$loop->index-1] ?? -1], 'method' => 'POST']) !!}

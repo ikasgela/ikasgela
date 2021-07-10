@@ -17,11 +17,7 @@
             <thead class="thead-dark">
             <tr>
                 <th>#</th>
-                <th>{{ __('Organization') }}</th>
-                <th>{{ __('Period') }}</th>
-                <th>{{ __('Category') }}</th>
                 <th>{{ __('Name') }}</th>
-                <th>{{ __('Description') }}</th>
                 <th>{{ __('Slug') }}</th>
                 <th>{{ __('Simultaneous activities') }}</th>
                 <th>{{ __('Activity deadline') }}</th>
@@ -37,11 +33,7 @@
             @foreach($cursos as $curso)
                 <tr>
                     <td>{{ $curso->id }}</td>
-                    <td>{{ $curso->category?->period->organization->name }}</td>
-                    <td>{{ $curso->category?->period->name }}</td>
-                    <td>{{ $curso->category?->name }}</td>
-                    <td>{{ $curso->nombre }}</td>
-                    <td>{{ $curso->descripcion }}</td>
+                    <td>{{ $curso->full_name }}</td>
                     <td>{{ $curso->slug }}</td>
                     <td>{{ $curso->max_simultaneas ?? __('Undefined') }}</td>
                     <td>{{ $curso->plazo_actividad ?? __('Undefined') }}</td>

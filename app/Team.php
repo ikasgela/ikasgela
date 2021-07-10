@@ -28,4 +28,10 @@ class Team extends Model
             ->belongsToMany(Actividad::class)
             ->withTimestamps();
     }
+
+    public function getFullNameAttribute()
+    {
+        return $this->group->fullname . ' - '
+            . $this->name;
+    }
 }

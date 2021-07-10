@@ -23,6 +23,12 @@ class Period extends Model
         'organization_id', 'name', 'slug'
     ];
 
+    public function getFullNameAttribute()
+    {
+        return $this->organization->name . ' - '
+            . $this->name;
+    }
+
     public function organization()
     {
         return $this->belongsTo(Organization::class);

@@ -19,4 +19,11 @@ class Group extends Model
     {
         return $this->hasMany(Team::class);
     }
+
+    public function getFullNameAttribute()
+    {
+        return $this->period->organization->name . ' - '
+            . $this->period->name . ' - '
+            . $this->name;
+    }
 }
