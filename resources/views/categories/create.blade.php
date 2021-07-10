@@ -14,7 +14,7 @@
                 <div class="col-sm-10">
                     <select class="form-control" id="period_id" name="period_id">
                         @foreach($periods as $period)
-                            <option value="{{ $period->id }}">{{ $period->organization->name }} - {{ $period->name }}</option>
+                            <option value="{{ $period->id }}">{{ $period->full_name }}</option>
                         @endforeach
                     </select>
                 </div>

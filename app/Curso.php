@@ -36,9 +36,14 @@ class Curso extends Model
 
     public function getFullNameAttribute()
     {
-        return $this->category?->period->organization->name . ' - '
-            . $this->category?->period->name . ' - '
-            . $this->nombre;
+        $full_name = $this->nombre;
+
+        if (!is_null($this->category)) {
+            $full_name = $this->category->period->name . ' - ' . $full_name;
+            $full_name = $this->category->period->organization->name . ' - ' . $full_name;
+        }
+
+        return $full_name;
     }
 
     public function category()

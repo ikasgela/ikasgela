@@ -29,6 +29,17 @@ class Unidad extends Model
         '__import_id',
     ];
 
+    public function getFullNameAttribute()
+    {
+        $full_name = $this->nombre;
+
+        if (!is_null($this->codigo)) {
+            $full_name = $this->codigo . ' - ' . $full_name;
+        }
+
+        return $full_name;
+    }
+
     protected $dates = [
         'created_at', 'updated_at', 'deleted_at',
         'fecha_disponibilidad', 'fecha_entrega', 'fecha_limite'

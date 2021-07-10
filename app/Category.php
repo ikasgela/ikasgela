@@ -23,6 +23,13 @@ class Category extends Model
         'period_id', 'name', 'slug'
     ];
 
+    public function getFullNameAttribute()
+    {
+        return $this->period->organization->name . ' - '
+            . $this->period->name . ' - '
+            . $this->name;
+    }
+
     public function period()
     {
         return $this->belongsTo(Period::class);

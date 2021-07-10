@@ -7,10 +7,7 @@
             @foreach($unidades as $unidad)
                 <option
                     value="{{ $unidad->id }}" {{ session('profesor_'. $nombre_variable ?? 'unidad_id') == $unidad->id ? 'selected' : '' }}>
-                    @isset($unidad->codigo)
-                        {{ $unidad->codigo }} -
-                    @endisset
-                    {{ $unidad->nombre }}
+                    {{ $unidad->full_name }}
                 </option>
             @endforeach
         </select>

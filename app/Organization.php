@@ -23,6 +23,11 @@ class Organization extends Model
         'name', 'slug', 'current_period_id', 'registration_open', 'seats'
     ];
 
+    public function getFullNameAttribute()
+    {
+        return $this->name;
+    }
+
     public function periods()
     {
         return $this->hasMany(Period::class);

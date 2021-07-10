@@ -16,10 +16,7 @@
                         @foreach($unidades as $unidad)
                             <option
                                 value="{{ $unidad->id }}" {{ $actividad->unidad_id == $unidad->id ? 'selected' : '' }}>
-                                @isset($unidad->codigo)
-                                    {{ $unidad->codigo }} -
-                                @endisset
-                                {{ $unidad->nombre }}</option>
+                                {{ $unidad->full_name }}</option>
                         @endforeach
                     </select>
                 </div>
