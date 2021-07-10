@@ -15,8 +15,9 @@
                     <select class="form-control" id="period_id" name="period_id">
                         @foreach($periods as $period)
                             <option
-                                value="{{ $period->id }}" <?php if ($group->period_id == $period->id) echo 'selected'; ?>>{{ $period->organization->name }}
-                                - {{ $period->name }}</option>
+                                value="{{ $period->id }}" {{ $group->period_id == $period->id ? 'selected' : '' }}>
+                                {{ $period->full_name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
