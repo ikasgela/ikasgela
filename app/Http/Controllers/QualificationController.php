@@ -17,17 +17,23 @@ class QualificationController extends Controller
 
     public function index(Request $request)
     {
+        $request->validate([
+            'curso_id' => 'numeric|integer',
+        ]);
+
         $cursos = Curso::orderBy('nombre')->get();
 
-        if (request('curso_id') > 0) {
+        if (request('curso_id') >= -1) {
             session(['filtrar_curso_actual' => request('curso_id')]);
-        } else if (!session('filtrar_curso_actual') > 0) {
+        } else if (empty(session('filtrar_curso_actual'))) {
             session(['filtrar_curso_actual' => Auth::user()->curso_actual()?->id]);
-        } else if (request('curso_id') == -1) {
-            session()->forget('filtrar_curso_actual');
         }
 
-        $qualifications = Qualification::where('curso_id', session('filtrar_curso_actual'))->get();
+        if (session('filtrar_curso_actual') == -1) {
+            $qualifications = Qualification::all();
+        } else {
+            $qualifications = Qualification::where('curso_id', session('filtrar_curso_actual'))->get();
+        }
 
         return view('qualifications.index', compact(['qualifications', 'cursos']));
     }
