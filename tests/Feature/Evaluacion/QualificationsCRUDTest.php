@@ -28,6 +28,7 @@ class QualificationsCRUDTest extends TestCase
 
         // Given
         $qualification = factory(Qualification::class)->create();
+        session(['filtrar_curso_actual' => $qualification->curso_id]);
 
         // When
         $response = $this->get(route('qualifications.index'));
