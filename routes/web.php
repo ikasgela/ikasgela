@@ -283,12 +283,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('registros/{registro}', 'RegistroController@destroy')
             ->name('registros.destroy');
 
-        // Filtrar cualificaciones por curso
-        Route::post('/qualifications', 'QualificationController@index')
-            ->name('qualifications.index.filtro');
-
         // CRUD - Cualificaciones
         Route::resource('qualifications', 'QualificationController');
+
+        // Filtrar cualificaciones por curso
+        Route::post('/qualifications/filtro', 'QualificationController@index')
+            ->name('qualifications.index.filtro');
 
         // CRUD - Competencias
         Route::resource('skills', 'SkillController');

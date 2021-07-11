@@ -5,7 +5,7 @@
     @include('partials.titular', ['titular' => __('Qualifications')])
 
     @if(Auth::user()->hasAnyRole(['admin']))
-        {!! Form::open(['route' => ['qualifications.index'], 'method' => 'POST']) !!}
+        {!! Form::open(['route' => ['qualifications.index.filtro'], 'method' => 'POST']) !!}
         @include('partials.desplegable_cursos')
         {!! Form::close() !!}
     @endif
