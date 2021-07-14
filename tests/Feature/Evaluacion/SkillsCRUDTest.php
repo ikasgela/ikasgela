@@ -27,6 +27,7 @@ class SkillsCRUDTest extends TestCase
 
         // Given
         $skill = factory(Skill::class)->create();
+        session(['filtrar_curso_actual' => $skill->curso_id]);
 
         // When
         $response = $this->get(route('skills.index'));

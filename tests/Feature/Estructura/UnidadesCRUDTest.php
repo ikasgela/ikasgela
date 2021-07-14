@@ -27,6 +27,7 @@ class UnidadesCRUDTest extends TestCase
 
         // Given
         $unidad = factory(Unidad::class)->create();
+        session(['filtrar_curso_actual' => $unidad->curso_id]);
 
         // When
         $response = $this->get(route('unidades.index'));
