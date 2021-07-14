@@ -293,9 +293,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/skills/filtro', 'SkillController@index')
             ->name('skills.index.filtro');
 
-        // CRUD - Unidades
+        // Filtros por curso
         Route::post('/unidades/filtro', 'UnidadController@index')
             ->name('unidades.index.filtro');
+        Route::post('/actividades/filtro', 'ActividadController@index')
+            ->name('actividades.index.filtro');
 
         // CRUD - Feedbacks
         Route::resource('feedbacks', 'FeedbackController');

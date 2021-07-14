@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
+use App\Curso;
 use App\Exports\ActividadesCursoExport;
 use App\Mail\ActividadAsignada;
 use App\Mail\FeedbackRecibido;
@@ -33,9 +34,29 @@ class ActividadController extends Controller
         $this->middleware('role:admin')->except(['actualizarEstado', 'preview']);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $actividades = $this->paginate_ultima(Actividad::query(), 250);
+        $cursos = Curso::orderBy('nombre')->get();
+
+        $request->validate([
+            'curso_id' => 'numeric|integer',
+        ]);
+
+        if (request('curso_id') >= -1) {
+            session(['filtrar_curso_actual' => request('curso_id')]);
+        } else if (empty(session('filtrar_curso_actual'))) {
+            session(['filtrar_curso_actual' => Auth::user()->curso_actual()?->id]);
+        }
+
+        if (session('filtrar_curso_actual') == -1) {
+            $results = Actividad::query();
+        } else {
+            $results = Actividad::whereHas('unidad', function ($query) {
+                return $query->where('curso_id', session('filtrar_curso_actual'));
+            });
+        }
+
+        $actividades = $this->paginate_ultima($results, 250);
 
         session(['ubicacion' => 'actividades.index']);
 
@@ -43,7 +64,7 @@ class ActividadController extends Controller
 
         $todas_unidades = Unidad::orderBy('curso_id')->orderBy('codigo')->orderBy('nombre')->get();
 
-        return view('actividades.index', compact(['actividades', 'ids', 'todas_unidades']));
+        return view('actividades.index', compact(['actividades', 'ids', 'todas_unidades', 'cursos']));
     }
 
     public function export()
