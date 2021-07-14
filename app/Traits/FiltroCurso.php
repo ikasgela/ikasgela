@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 trait FiltroCurso
 {
-    public function filtrar_por_curso(Request $request, string $model): mixed
+    public function filtrar_por_curso(Request $request, string $model, string $order_by = 'id')
     {
         $request->validate([
             'curso_id' => 'numeric|integer',
@@ -20,11 +20,11 @@ trait FiltroCurso
         }
 
         if (session('filtrar_curso_actual') == -1) {
-            $results = $model::all();
+            $results = $model::query();
         } else {
-            $results = $model::where('curso_id', session('filtrar_curso_actual'))->get();
+            $results = $model::where('curso_id', session('filtrar_curso_actual'));
         }
 
-        return $results;
+        return $results->orderBy($order_by)->get();
     }
 }
