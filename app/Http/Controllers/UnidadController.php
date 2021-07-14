@@ -4,23 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Curso;
 use App\Qualification;
+use App\Traits\FiltroCurso;
 use App\Unidad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class UnidadController extends Controller
 {
+    use FiltroCurso;
+
     public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('role:admin');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $unidades = Unidad::all();
+        $cursos = Curso::orderBy('nombre')->get();
 
-        return view('unidades.index', compact('unidades'));
+        $unidades = $this->filtrar_por_curso($request, Unidad::class);
+
+        return view('unidades.index', compact('unidades', 'cursos'));
     }
 
     public function create()

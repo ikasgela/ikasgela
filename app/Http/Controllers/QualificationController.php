@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Curso;
 use App\Qualification;
+use App\Traits\FiltroCurso;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class QualificationController extends Controller
 {
+    use FiltroCurso;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -17,23 +19,9 @@ class QualificationController extends Controller
 
     public function index(Request $request)
     {
-        $request->validate([
-            'curso_id' => 'numeric|integer',
-        ]);
-
         $cursos = Curso::orderBy('nombre')->get();
 
-        if (request('curso_id') >= -1) {
-            session(['filtrar_curso_actual' => request('curso_id')]);
-        } else if (empty(session('filtrar_curso_actual'))) {
-            session(['filtrar_curso_actual' => Auth::user()->curso_actual()?->id]);
-        }
-
-        if (session('filtrar_curso_actual') == -1) {
-            $qualifications = Qualification::all();
-        } else {
-            $qualifications = Qualification::where('curso_id', session('filtrar_curso_actual'))->get();
-        }
+        $qualifications = $this->filtrar_por_curso($request, Qualification::class);
 
         return view('qualifications.index', compact(['qualifications', 'cursos']));
     }

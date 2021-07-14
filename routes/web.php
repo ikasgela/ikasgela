@@ -285,13 +285,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // CRUD - Cualificaciones
         Route::resource('qualifications', 'QualificationController');
-
-        // Filtrar cualificaciones por curso
         Route::post('/qualifications/filtro', 'QualificationController@index')
             ->name('qualifications.index.filtro');
 
         // CRUD - Competencias
         Route::resource('skills', 'SkillController');
+        Route::post('/skills/filtro', 'SkillController@index')
+            ->name('skills.index.filtro');
+
+        // CRUD - Unidades
+        Route::post('/unidades/filtro', 'UnidadController@index')
+            ->name('unidades.index.filtro');
 
         // CRUD - Feedbacks
         Route::resource('feedbacks', 'FeedbackController');

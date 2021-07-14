@@ -8,6 +8,12 @@
         </div>
     </div>
 
+    @if(Auth::user()->hasAnyRole(['admin']))
+        {!! Form::open(['route' => ['unidades.index.filtro'], 'method' => 'POST']) !!}
+        @include('partials.desplegable_cursos')
+        {!! Form::close() !!}
+    @endif
+
     <div class="mb-3">
         <a class="btn btn-primary" href="{{ route('unidades.create') }}">{{ __('New unit') }}</a>
     </div>

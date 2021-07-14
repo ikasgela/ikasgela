@@ -4,6 +4,12 @@
 
     @include('partials.titular', ['titular' => __('Skills')])
 
+    @if(Auth::user()->hasAnyRole(['admin']))
+        {!! Form::open(['route' => ['skills.index.filtro'], 'method' => 'POST']) !!}
+        @include('partials.desplegable_cursos')
+        {!! Form::close() !!}
+    @endif
+
     <div class="mb-3">
         <a class="btn btn-primary" href="{{ route('skills.create') }}">{{ __('New skill') }}</a>
     </div>

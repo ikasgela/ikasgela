@@ -4,21 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Curso;
 use App\Skill;
+use App\Traits\FiltroCurso;
 use Illuminate\Http\Request;
 
 class SkillController extends Controller
 {
+    use FiltroCurso;
+
     public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('role:admin');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $skills = Skill::all();
+        $cursos = Curso::orderBy('nombre')->get();
 
-        return view('skills.index', compact('skills'));
+        $skills = $this->filtrar_por_curso($request, Skill::class);
+
+        return view('skills.index', compact('skills', 'cursos'));
     }
 
     public function create()
