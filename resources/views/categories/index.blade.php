@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Categories')])
+    @include('partials.titular', ['titular' => __('Categories'), 'subtitulo' => ''])
 
     <div class="mb-3">
         <a class="btn btn-primary" href="{{ route('categories.create') }}">{{ __('New category') }}</a>

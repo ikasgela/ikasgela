@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Periods')])
+    @include('partials.titular', ['titular' => __('Periods'), 'subtitulo' => ''])
 
     <div class="mb-3">
         <a class="btn btn-primary" href="{{ route('periods.create') }}">{{ __('New period') }}</a>

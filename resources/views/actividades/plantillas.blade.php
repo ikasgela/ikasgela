@@ -10,6 +10,7 @@
                href="{{ route('actividades.export') }}"><i class="fas fa-file-excel"></i>
             </a>
         </h1>
+        <h2 class="text-muted font-xl">{{ Auth::user()->curso_actual()?->pretty_name }}</h2>
     </div>
 
     @include('actividades.selector_unidad')

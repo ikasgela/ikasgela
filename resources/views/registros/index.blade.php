@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Records')])
+    @include('partials.titular', ['titular' => __('Records'), 'subtitulo' => ''])
 
     @if(Auth::user()->hasAnyRole(['admin']))
         {!! Form::open(['route' => ['registros_alumno.alumno'], 'method' => 'POST']) !!}

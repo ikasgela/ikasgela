@@ -3,6 +3,6 @@
     @if(isset($subtitulo))
         <h2 class="text-muted font-xl">{{ $subtitulo }}</h2>
     @else
-        <h2 class="text-muted font-xl">{{ Auth::user()->curso_actual()?->full_name }}</h2>
+        <h2 class="text-muted font-xl">{{ Auth::user()->curso_actual()?->pretty_name }}</h2>
     @endif
 </div>

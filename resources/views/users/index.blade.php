@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Users')])
+    @include('partials.titular', ['titular' => __('Users'), 'subtitulo' => ''])
 
     <div class="table-responsive">
         <table class="table table-hover">

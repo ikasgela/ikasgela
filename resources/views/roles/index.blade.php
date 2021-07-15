@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Roles')])
+    @include('partials.titular', ['titular' => __('Roles'), 'subtitulo' => ''])
 
     <div class="mb-3">
         <a class="btn btn-primary" href="{{ route('roles.create') }}">{{ __('New role') }}</a>
