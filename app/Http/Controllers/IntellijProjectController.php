@@ -39,7 +39,7 @@ class IntellijProjectController extends Controller
 
         $intellij_projects = $this->filtrar_por_curso($request, IntellijProject::class);
 
-        return view('intellij_projects.index', compact('intellij_projects', 'cursos'));
+        return view('intellij_projects.index', compact(['intellij_projects', 'cursos']));
     }
 
     public function create()

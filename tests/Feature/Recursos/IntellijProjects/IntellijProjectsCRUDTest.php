@@ -35,6 +35,21 @@ class IntellijProjectsCRUDTest extends TestCase
         $response->assertSee($intellij_project->repositorio);
     }
 
+    public function testIndexAdminFiltro()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $intellij_project = factory(IntellijProject::class)->create();
+
+        // When
+        $response = $this->post(route('intellij_projects.index.filtro', ['curso_id' => $intellij_project->curso_id]));
+
+        // Then
+        $response->assertSee($intellij_project->repositorio);
+    }
+
     public function testNotProfesorNotIndex()
     {
         // Auth
