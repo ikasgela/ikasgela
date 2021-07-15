@@ -35,6 +35,21 @@ class YoutubeVideosCRUDTest extends TestCase
         $response->assertSee($youtube_video->titulo);
     }
 
+    public function testIndexAdminFiltro()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $youtube_video = factory(YoutubeVideo::class)->create();
+
+        // When
+        $response = $this->post(route('youtube_videos.index.filtro', ['curso_id' => $youtube_video->curso_id]));
+
+        // Then
+        $response->assertSee($youtube_video->titulo);
+    }
+
     public function testNotProfesorNotIndex()
     {
         // Auth

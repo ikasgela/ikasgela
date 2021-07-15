@@ -4,6 +4,12 @@
 
     @include('partials.titular', ['titular' => __('Resources: YouTube videos')])
 
+    @if(Auth::user()->hasAnyRole(['admin']))
+        {!! Form::open(['route' => ['youtube_videos.index.filtro'], 'method' => 'POST']) !!}
+        @include('partials.desplegable_cursos')
+        {!! Form::close() !!}
+    @endif
+
     <div class="mb-3">
         <a class="btn btn-primary"
            href="{{ route('youtube_videos.create') }}">{{ __('New YouTube video') }}</a>

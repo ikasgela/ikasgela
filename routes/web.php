@@ -302,6 +302,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('intellij_projects.index.filtro');
         Route::post('/markdown_texts/filtro', 'MarkdownTextController@index')
             ->name('markdown_texts.index.filtro');
+        Route::post('/youtube_videos/filtro', 'YoutubeVideoController@index')
+            ->name('youtube_videos.index.filtro');
 
         // CRUD - Feedbacks
         Route::resource('feedbacks', 'FeedbackController');
