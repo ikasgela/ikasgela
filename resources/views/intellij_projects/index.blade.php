@@ -4,6 +4,12 @@
 
     @include('partials.titular', ['titular' => __('Resources: IntelliJ projects')])
 
+    @if(Auth::user()->hasAnyRole(['admin']))
+        {!! Form::open(['route' => ['intellij_projects.index.filtro'], 'method' => 'POST']) !!}
+        @include('partials.desplegable_cursos')
+        {!! Form::close() !!}
+    @endif
+
     <div class="mb-3">
         <a class="btn btn-primary" href="{{ route('intellij_projects.create') }}">{{ __('New IntelliJ project') }}</a>
     </div>

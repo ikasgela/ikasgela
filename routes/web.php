@@ -298,6 +298,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('unidades.index.filtro');
         Route::post('/actividades/filtro', 'ActividadController@index')
             ->name('actividades.index.filtro');
+        Route::post('/intellij_projects/filtro', 'IntellijProjectController@index')
+            ->name('intellij_projects.index.filtro');
 
         // CRUD - Feedbacks
         Route::resource('feedbacks', 'FeedbackController');
