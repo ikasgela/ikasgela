@@ -31,7 +31,7 @@
                 {!! Form::close() !!}
             </div>
         </div>
-        <h2 class="text-muted font-xl"></h2>
+        <h2 class="text-muted font-xl">{{ Auth::user()->curso_actual()?->pretty_name }}</h2>
     </div>
 
     @include('profesor.partials.selector_usuario')
