@@ -25,6 +25,6 @@ trait FiltroCurso
             $results = $model::where('curso_id', session('filtrar_curso_actual'));
         }
 
-        return $results->orderBy($order_by)->get();
+        return $results->orderBy($order_by);
     }
 }
