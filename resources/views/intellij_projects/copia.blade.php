@@ -39,7 +39,7 @@
                     <td>{{ $proyecto['id'] }}</td>
                     <td>{{ $proyecto['name'] }}</td>
                     <td>{{ $proyecto['description'] }}</td>
-                    <td>@include('partials.link_gitlab', ['proyecto' => $proyecto ])</td>
+                    <td>@include('partials.link_gitea', ['proyecto' => $proyecto ])</td>
                     <td class="text-nowrap">
                         {!! Form::open(['route' => ['intellij_projects.borrar', $proyecto['id']], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>

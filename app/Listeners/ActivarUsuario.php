@@ -6,7 +6,6 @@ use App\Actividad;
 use App\Curso;
 use App\Gitea\GiteaClient;
 use App\Organization;
-use GitLab;
 use Illuminate\Auth\Events\Verified;
 
 class ActivarUsuario
@@ -29,17 +28,6 @@ class ActivarUsuario
      */
     public function handle(Verified $event)
     {
-        // Activar el usuario de GitLab
-        if (config('ikasgela.gitlab_enabled')) {
-            $desactivados = GitLab::users()->all([
-                'search' => $event->user['email']
-            ]);
-
-            foreach ($desactivados as $usuario) {
-                GitLab::users()->unblock($usuario['id']);
-            }
-        }
-
         // Activar el usuario de Gitea
         if (config('ikasgela.gitea_enabled')) {
             GiteaClient::unblock($event->user['email'], $event->user['username']);

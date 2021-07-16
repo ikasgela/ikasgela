@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Profile;
 use App\Gitea\GiteaClient;
 use App\Http\Controllers\Controller;
 use App\User;
-use GitLab;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -28,18 +27,6 @@ class ProfileController extends Controller
         $user->name = $request->name;
         $user->surname = $request->surname;
         $user->save();
-
-        if (config('ikasgela.gitlab_enabled')) {
-            $gitlab = GitLab::users()->all([
-                'search' => $user->email
-            ]);
-
-            foreach ($gitlab as $usuario) {
-                GitLab::users()->update($usuario['id'], [
-                    'name' => $request->name,
-                ]);
-            }
-        }
 
         if (config('ikasgela.gitea_enabled')) {
             $nombre_completo = $request->name . ' ' . $request->surname;
@@ -65,20 +52,6 @@ class ProfileController extends Controller
 
         $user->password = Hash::make($request->password);
         $user->save();
-
-        // Cambiar la contraseña en GitLab
-        // REF: Parche para que GitLab no pida cambiarla de nuevo: https://stackoverflow.com/a/50278167
-        if (config('ikasgela.gitlab_enabled')) {
-            $gitlab = GitLab::users()->all([
-                'search' => $user->email
-            ]);
-
-            foreach ($gitlab as $usuario) {
-                GitLab::users()->update($usuario['id'], [
-                    'password' => $request->password
-                ]);
-            }
-        }
 
         // Cambiar la contraseña en Gitea
         if (config('ikasgela.gitea_enabled')) {

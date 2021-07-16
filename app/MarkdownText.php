@@ -4,7 +4,6 @@ namespace App;
 
 use App\Gitea\GiteaClient;
 use Cache;
-use GitLab;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 
@@ -33,25 +32,7 @@ class MarkdownText extends Model
                 $rama = isset($this->rama) ? $this->rama : 'master';
                 $archivo = $this->archivo;
 
-                if (config('ikasgela.gitlab_enabled')) {
-                    $servidor = config('app.debug') ? 'https://gitlab.ikasgela.test/' : 'https://gitlab.ikasgela.com/';
-
-                    $proyecto = GitLab::projects()->show($repositorio);
-                    $texto = GitLab::repositoryfiles()->getRawFile($proyecto['id'], $archivo, $rama);
-
-                    // Imagen
-                    $texto = preg_replace('/(!\[.*\]\((?!http))/', '${1}' . $servidor
-                        . $repositorio
-                        . "/raw/$rama/"
-                        , $texto);
-
-                    // Link
-                    $texto = preg_replace('/(\s+\[.*\]\((?!http))/', '${1}' . $servidor
-                        . $repositorio
-                        . "/blob/$rama/"
-                        , $texto);
-
-                } elseif (config('ikasgela.gitea_enabled')) {
+                if (config('ikasgela.gitea_enabled')) {
                     $servidor = config('app.debug') ? 'https://gitea.ikasgela.test/' : 'https://gitea.ikasgela.com/';
 
                     $proyecto = GiteaClient::repo($repositorio);

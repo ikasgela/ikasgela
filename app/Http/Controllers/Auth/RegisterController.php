@@ -9,7 +9,6 @@ use App\Organization;
 use App\Role;
 use App\User;
 use Carbon\Carbon;
-use GitLab;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -106,23 +105,6 @@ class RegisterController extends Controller
 
         // Generar el nombre de usuario a partir del email
         $nombre_usuario = User::generar_username($data['email']);
-
-        // Crear el usuario de GitLab y dejarlo bloqueado
-        if (config('ikasgela.gitlab_enabled')) {
-            try {
-                $gitlab = GitLab::users()->create($data['email'], $data['password'], [
-                    'name' => $data['name'],
-                    'username' => $nombre_usuario,
-                    'skip_confirmation' => true
-                ]);
-                GitLab::users()->block($gitlab['id']);
-            } catch (\Exception $e) {
-                Log::error('GitLab: Error al crear el usuario.', [
-                    'username' => $nombre_usuario,
-                    'exception' => $e->getMessage()
-                ]);
-            }
-        }
 
         // Crear el usuario de Gitea y dejarlo bloqueado
         if (config('ikasgela.gitea_enabled')) {

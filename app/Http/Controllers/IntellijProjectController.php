@@ -8,7 +8,6 @@ use App\Curso;
 use App\Gitea\GiteaClient;
 use App\IntellijProject;
 use App\Jobs\ForkGiteaRepo;
-use App\Jobs\ForkGitLabRepo;
 use App\Tarea;
 use App\Traits\ClonarRepoGitea;
 use App\Traits\FiltroCurso;
@@ -16,7 +15,6 @@ use App\Traits\PaginarUltima;
 use App\Unidad;
 use Auth;
 use Cache;
-use GitLab;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Log;
@@ -130,24 +128,16 @@ class IntellijProjectController extends Controller
         $proyecto->setForkStatus(1);  // Forking
 
         if (!App::environment('testing')) {
-            if ($intellij_project->host == 'gitlab') {
-                ForkGitLabRepo::dispatch($actividad, $intellij_project, Auth::user()); //->delay(10);
-            } else {
-                $team_users = [];
-                if ($actividad->hasEtiqueta('trabajo en equipo')) {
-                    $compartidas = Tarea::where('actividad_id', $actividad->id)->get();
-                    foreach ($compartidas as $compartida) {
-                        array_push($team_users, $compartida->user);
-                    }
+            $team_users = [];
+            if ($actividad->hasEtiqueta('trabajo en equipo')) {
+                $compartidas = Tarea::where('actividad_id', $actividad->id)->get();
+                foreach ($compartidas as $compartida) {
+                    array_push($team_users, $compartida->user);
                 }
-                ForkGiteaRepo::dispatch($actividad, $intellij_project, Auth::user(), $team_users);
             }
+            ForkGiteaRepo::dispatch($actividad, $intellij_project, Auth::user(), $team_users);
         } else {
-            if ($intellij_project->host == 'gitlab') {
-                ForkGitLabRepo::dispatchNow($actividad, $intellij_project, Auth::user());
-            } else {
-                ForkGiteaRepo::dispatchNow($actividad, $intellij_project, Auth::user());
-            }
+            ForkGiteaRepo::dispatchSync($actividad, $intellij_project, Auth::user());
         }
 
         return redirect(route('users.home'));
@@ -164,28 +154,14 @@ class IntellijProjectController extends Controller
     {
         // Solo los proyectos del root
 
-        if (config('ikasgela.gitlab_enabled')) {
-            $proyectos = GitLab::projects()->all([
-                'membership' => true
-            ]);
-        }
-
-        if (config('ikasgela.gitea_enabled')) {
-            $proyectos = GiteaClient::repos_usuario('root');
-        }
+        $proyectos = GiteaClient::repos_usuario('root');
 
         return view('intellij_projects.copia', compact('proyectos'));
     }
 
     public function borrar($id)
     {
-        if (config('ikasgela.gitlab_enabled')) {
-            GitLab::projects()->remove($id);
-        }
-
-        if (config('ikasgela.gitea_enabled')) {
-            GiteaClient::borrar_repo($id);
-        }
+        GiteaClient::borrar_repo($id);
 
         return back();
     }
@@ -230,24 +206,6 @@ class IntellijProjectController extends Controller
         }
 
         return redirect(route('intellij_projects.copia'));
-    }
-
-    public function testGitLab(Request $request)
-    {
-        $n = 0 + $request->input('n');
-
-        for ($i = 0; $i < $n; $i++) {
-            $actividad = factory(Actividad::class)->create();
-            $intellij_project = factory(IntellijProject::class)->create();
-
-            $actividad->intellij_projects()->attach($intellij_project, ['is_forking' => true]);
-
-            Auth::user()->actividades()->attach($actividad);
-
-            ForkGitLabRepo::dispatch($actividad, $intellij_project, Auth::user(), true);
-        }
-
-        return 'ok';
     }
 
     public function lock(IntellijProject $intellij_project, Actividad $actividad)

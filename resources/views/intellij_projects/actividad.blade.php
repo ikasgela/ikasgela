@@ -28,7 +28,7 @@
                     <th>#</th>
                     <th>{{ __('Title') }}</th>
                     <th>{{ __('Description') }}</th>
-                    <th>{{ __('GitLab') }}</th>
+                    <th>{{ __('Gitea') }}</th>
                     <th>{{ __('Actions') }}</th>
                 </tr>
                 </thead>
@@ -38,7 +38,7 @@
                         <td>{{ $intellij_project->id }}</td>
                         <td>{{ $intellij_project->titulo }}</td>
                         <td>{{ $intellij_project->descripcion }}</td>
-                        <td>@include('partials.link_gitlab', ['proyecto' => $intellij_project->repository() ])</td>
+                        <td>@include('partials.link_gitea', ['proyecto' => $intellij_project->repository() ])</td>
                         <td>
                             <form method="POST"
                                   action="{{ route('intellij_projects.desasociar', ['actividad' => $actividad->id, 'intellij_project' => $intellij_project->id]) }}">
@@ -76,7 +76,7 @@
                         <th>#</th>
                         <th>{{ __('Title') }}</th>
                         <th>{{ __('Description') }}</th>
-                        <th>{{ __('GitLab') }}</th>
+                        <th>{{ __('Gitea') }}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -86,7 +86,7 @@
                             <td>{{ $intellij_project->id }}</td>
                             <td>{{ $intellij_project->titulo }}</td>
                             <td>{{ $intellij_project->descripcion }}</td>
-                            <td>@include('partials.link_gitlab', ['proyecto' => $intellij_project->repository() ])</td>
+                            <td>@include('partials.link_gitea', ['proyecto' => $intellij_project->repository() ])</td>
                         </tr>
                     @endforeach
                     </tbody>

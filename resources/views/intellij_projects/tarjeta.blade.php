@@ -42,7 +42,7 @@
             <a href="jetbrains://idea/checkout/git?checkout.repo={{ str_replace('https://',"https://".Auth::user()->username."@",$repositorio['http_url_to_repo']) }}&idea.required.plugins.id=Git4Idea"
                class="btn btn-primary">{{ __('Open in IntelliJ IDEA') }}</a>
             <a href="{{ $repositorio['web_url']  }}" target="_blank"
-               class="btn btn-secondary">{{ $intellij_project->host == 'gitlab' ? __('Open in GitLab') : __('Open in Gitea') }}</a>
+               class="btn btn-secondary">{{ __('Open in Gitea') }}</a>
             <div class='btn-group'>
                 @if(Auth::user()->hasRole('profesor'))
                     @if($intellij_project->isArchivado())
