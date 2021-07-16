@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Cuestionario;
 use App\Pregunta;
-use BadMethodCallException;
 use Illuminate\Http\Request;
 
 class PreguntaController extends Controller
@@ -17,9 +16,7 @@ class PreguntaController extends Controller
 
     public function index()
     {
-        $preguntas = Pregunta::all();
-
-        return view('preguntas.index', compact('preguntas'));
+        abort(404);
     }
 
     public function create()
@@ -54,7 +51,7 @@ class PreguntaController extends Controller
 
     public function show(Pregunta $pregunta)
     {
-        return abort(501);
+        abort(404);
     }
 
     public function edit(Pregunta $pregunta)
