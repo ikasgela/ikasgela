@@ -304,6 +304,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('markdown_texts.index.filtro');
         Route::post('/youtube_videos/filtro', 'YoutubeVideoController@index')
             ->name('youtube_videos.index.filtro');
+        Route::post('/file_resources/filtro', 'FileResourceController@index')
+            ->name('file_resources.index.filtro');
+        Route::post('/file_uploads/filtro', 'FileUploadController@index')
+            ->name('file_uploads.index.filtro');
 
         // CRUD - Feedbacks
         Route::resource('feedbacks', 'FeedbackController');

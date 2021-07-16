@@ -1,17 +1,17 @@
 <?php
 
-namespace Tests\Feature\Recursos\FileUploads;
+namespace Tests\Feature\Recursos\FileResources;
 
-use App\FileUpload;
+use App\FileResource;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
-class FileUploadsCRUDTest extends TestCase
+class FileResourcesCRUDTest extends TestCase
 {
     use DatabaseTransactions;
 
     private $required = [
-        'titulo', 'max_files'
+        'titulo'
     ];
 
     public function setUp(): void
@@ -26,31 +26,13 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->create([
-            'plantilla' => true,
-        ]);
+        $file_resource = factory(FileResource::class)->create();
 
         // When
-        $response = $this->get(route('file_uploads.index'));
+        $response = $this->get(route('file_resources.index'));
 
         // Then
-        $response->assertSee($file_upload->titulo);
-    }
-
-    public function testNotPlantillaNotIndex()
-    {
-        // Auth
-        $this->actingAs($this->profesor);
-
-        // Given
-        $file_upload = factory(FileUpload::class)->create();
-        session(['filtrar_curso_actual' => $file_upload->curso_id]);
-
-        // When
-        $response = $this->get(route('file_uploads.index'));
-
-        // Then
-        $response->assertDontSee($file_upload->titulo);
+        $response->assertSee($file_resource->titulo);
     }
 
     public function testNotProfesorNotIndex()
@@ -60,7 +42,7 @@ class FileUploadsCRUDTest extends TestCase
 
         // Given
         // When
-        $response = $this->get(route('file_uploads.index'));
+        $response = $this->get(route('file_resources.index'));
 
         // Then
         $response->assertForbidden();
@@ -71,7 +53,7 @@ class FileUploadsCRUDTest extends TestCase
         // Auth
         // Given
         // When
-        $response = $this->get(route('file_uploads.index'));
+        $response = $this->get(route('file_resources.index'));
 
         // Then
         $response->assertRedirect(route('login'));
@@ -84,10 +66,10 @@ class FileUploadsCRUDTest extends TestCase
 
         // Given
         // When
-        $response = $this->get(route('file_uploads.create'));
+        $response = $this->get(route('file_resources.create'));
 
         // Then
-        $response->assertSeeInOrder([__('New image upload'), __('Save')]);
+        $response->assertSeeInOrder([__('New files resource'), __('Save')]);
     }
 
     public function testNotProfesorNotCreate()
@@ -97,7 +79,7 @@ class FileUploadsCRUDTest extends TestCase
 
         // Given
         // When
-        $response = $this->get(route('file_uploads.create'));
+        $response = $this->get(route('file_resources.create'));
 
         // Then
         $response->assertForbidden();
@@ -108,7 +90,7 @@ class FileUploadsCRUDTest extends TestCase
         // Auth
         // Given
         // When
-        $response = $this->get(route('file_uploads.create'));
+        $response = $this->get(route('file_resources.create'));
 
         // Then
         $response->assertRedirect(route('login'));
@@ -120,14 +102,14 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->make();
-        $total = FileUpload::all()->count();
+        $file_resource = factory(FileResource::class)->make();
+        $total = FileResource::all()->count();
 
         // When
-        $this->post(route('file_uploads.store'), $file_upload->toArray());
+        $this->post(route('file_resources.store'), $file_resource->toArray());
 
         // Then
-        $this->assertEquals($total + 1, FileUpload::all()->count());
+        $this->assertEquals($total + 1, FileResource::all()->count());
     }
 
     public function testNotProfesorNotStore()
@@ -136,10 +118,10 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->make();
+        $file_resource = factory(FileResource::class)->make();
 
         // When
-        $response = $this->post(route('file_uploads.store'), $file_upload->toArray());
+        $response = $this->post(route('file_resources.store'), $file_resource->toArray());
 
         // Then
         $response->assertForbidden();
@@ -149,10 +131,10 @@ class FileUploadsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $file_upload = factory(FileUpload::class)->make();
+        $file_resource = factory(FileResource::class)->make();
 
         // When
-        $response = $this->post(route('file_uploads.store'), $file_upload->toArray());
+        $response = $this->post(route('file_resources.store'), $file_resource->toArray());
 
         // Then
         $response->assertRedirect(route('login'));
@@ -164,18 +146,18 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $total = FileUpload::all()->count();
+        $total = FileResource::all()->count();
 
-        $empty = new FileUpload();
+        $empty = new FileResource();
         foreach ($this->required as $field) {
             $empty->$field = '0';
         }
 
         // When
-        $this->post(route('file_uploads.store'), $empty->toArray());
+        $this->post(route('file_resources.store'), $empty->toArray());
 
         // Then
-        $this->assertCount($total + 1, FileUpload::all());
+        $this->assertCount($total + 1, FileResource::all());
     }
 
     private function storeRequires(string $field)
@@ -184,10 +166,10 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->make([$field => null]);
+        $file_resource = factory(FileResource::class)->make([$field => null]);
 
         // When
-        $response = $this->post(route('file_uploads.store'), $file_upload->toArray());
+        $response = $this->post(route('file_resources.store'), $file_resource->toArray());
 
         // Then
         $response->assertSessionHasErrors($field);
@@ -206,13 +188,13 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->create();
+        $file_resource = factory(FileResource::class)->create();
 
         // When
-        $response = $this->get(route('file_uploads.show', $file_upload));
+        $response = $this->get(route('file_resources.show', $file_resource));
 
         // Then
-        $response->assertSeeInOrder([__('Image upload'), $file_upload->titulo]);
+        $response->assertSeeInOrder([$file_resource->titulo, __('Upload')]);
     }
 
     public function testNotProfesorNotShow()
@@ -221,10 +203,10 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->create();
+        $file_resource = factory(FileResource::class)->create();
 
         // When
-        $response = $this->get(route('file_uploads.show', $file_upload));
+        $response = $this->get(route('file_resources.show', $file_resource));
 
         // Then
         $response->assertForbidden();
@@ -233,10 +215,10 @@ class FileUploadsCRUDTest extends TestCase
     public function testNotAuthNotShow()
     {
         // Given
-        $file_upload = factory(FileUpload::class)->create();
+        $file_resource = factory(FileResource::class)->create();
 
         // When
-        $response = $this->get(route('file_uploads.show', $file_upload));
+        $response = $this->get(route('file_resources.show', $file_resource));
 
         // Then
         $response->assertRedirect(route('login'));
@@ -248,13 +230,13 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->create();
+        $file_resource = factory(FileResource::class)->create();
 
         // When
-        $response = $this->get(route('file_uploads.edit', $file_upload), $file_upload->toArray());
+        $response = $this->get(route('file_resources.edit', $file_resource), $file_resource->toArray());
 
         // Then
-        $response->assertSeeInOrder([$file_upload->titulo, __('Save')]);
+        $response->assertSeeInOrder([$file_resource->titulo, __('Save')]);
     }
 
     public function testNotProfesorNotEdit()
@@ -263,10 +245,10 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->create();
+        $file_resource = factory(FileResource::class)->create();
 
         // When
-        $response = $this->get(route('file_uploads.edit', $file_upload), $file_upload->toArray());
+        $response = $this->get(route('file_resources.edit', $file_resource), $file_resource->toArray());
 
         // Then
         $response->assertForbidden();
@@ -276,10 +258,10 @@ class FileUploadsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $file_upload = factory(FileUpload::class)->create();
+        $file_resource = factory(FileResource::class)->create();
 
         // When
-        $response = $this->get(route('file_uploads.edit', $file_upload), $file_upload->toArray());
+        $response = $this->get(route('file_resources.edit', $file_resource), $file_resource->toArray());
 
         // Then
         $response->assertRedirect(route('login'));
@@ -291,14 +273,14 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->create();
-        $file_upload->titulo = "Updated";
+        $file_resource = factory(FileResource::class)->create();
+        $file_resource->titulo = "Updated";
 
         // When
-        $this->put(route('file_uploads.update', $file_upload), $file_upload->toArray());
+        $this->put(route('file_resources.update', $file_resource), $file_resource->toArray());
 
         // Then
-        $this->assertDatabaseHas('file_uploads', ['id' => $file_upload->id, 'titulo' => $file_upload->titulo]);
+        $this->assertDatabaseHas('file_resources', ['id' => $file_resource->id, 'titulo' => $file_resource->titulo]);
     }
 
     public function testNotProfesorNotUpdate()
@@ -307,11 +289,11 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->create();
-        $file_upload->titulo = "Updated";
+        $file_resource = factory(FileResource::class)->create();
+        $file_resource->titulo = "Updated";
 
         // When
-        $response = $this->put(route('file_uploads.update', $file_upload), $file_upload->toArray());
+        $response = $this->put(route('file_resources.update', $file_resource), $file_resource->toArray());
 
         // Then
         $response->assertForbidden();
@@ -321,11 +303,11 @@ class FileUploadsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $file_upload = factory(FileUpload::class)->create();
-        $file_upload->titulo = "Updated";
+        $file_resource = factory(FileResource::class)->create();
+        $file_resource->titulo = "Updated";
 
         // When
-        $response = $this->put(route('file_uploads.update', $file_upload), $file_upload->toArray());
+        $response = $this->put(route('file_resources.update', $file_resource), $file_resource->toArray());
 
         // Then
         $response->assertRedirect(route('login'));
@@ -337,14 +319,14 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->create();
-        $empty = new FileUpload();
+        $file_resource = factory(FileResource::class)->create();
+        $empty = new FileResource();
         foreach ($this->required as $field) {
             $empty->$field = '0';
         }
 
         // When
-        $response = $this->put(route('file_uploads.update', $file_upload), $empty->toArray());
+        $response = $this->put(route('file_resources.update', $file_resource), $empty->toArray());
 
         // Then
         $response->assertSessionDoesntHaveErrors();
@@ -356,11 +338,11 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->create();
-        $file_upload->$field = null;
+        $file_resource = factory(FileResource::class)->create();
+        $file_resource->$field = null;
 
         // When
-        $response = $this->put(route('file_uploads.update', $file_upload), $file_upload->toArray());
+        $response = $this->put(route('file_resources.update', $file_resource), $file_resource->toArray());
 
         // Then
         $response->assertSessionHasErrors($field);
@@ -379,13 +361,13 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->create();
+        $file_resource = factory(FileResource::class)->create();
 
         // When
-        $this->delete(route('file_uploads.destroy', $file_upload));
+        $this->delete(route('file_resources.destroy', $file_resource));
 
         // Then
-        $this->assertDatabaseMissing('file_uploads', $file_upload->toArray());
+        $this->assertDatabaseMissing('file_resources', $file_resource->toArray());
     }
 
     public function testNotProfesorNotDelete()
@@ -394,10 +376,10 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->create();
+        $file_resource = factory(FileResource::class)->create();
 
         // When
-        $response = $this->delete(route('file_uploads.destroy', $file_upload));
+        $response = $this->delete(route('file_resources.destroy', $file_resource));
 
         // Then
         $response->assertForbidden();
@@ -407,10 +389,10 @@ class FileUploadsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $file_upload = factory(FileUpload::class)->create();
+        $file_resource = factory(FileResource::class)->create();
 
         // When
-        $response = $this->delete(route('file_uploads.destroy', $file_upload));
+        $response = $this->delete(route('file_resources.destroy', $file_resource));
 
         // Then
         $response->assertRedirect(route('login'));
