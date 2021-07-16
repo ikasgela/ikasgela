@@ -126,18 +126,18 @@ class ResultController extends Controller
         $competencias_fondo = $calificaciones->examen_final || $calificaciones->hay_nota_manual ? 'bg-light text-dark' : ($calificaciones->competencias_50_porciento ? 'bg-success text-dark' : 'bg-warning text-dark');
         $competencias_dato = $calificaciones->competencias_50_porciento ? trans_choice('tasks.passed', 2) : trans_choice('tasks.not_passed', 2);
 
-        $pruebas_evaluacion_fondo = ($curso->examenes_obligatorios || $calificaciones->examen_final) && !$calificaciones->hay_nota_manual
+        $pruebas_evaluacion_fondo = ($curso?->examenes_obligatorios || $calificaciones->examen_final) && !$calificaciones->hay_nota_manual
             ? ($calificaciones->examen_final ? ($calificaciones->examen_final_superado ? 'bg-success text-dark' : 'bg-warning text-dark')
                 : ($calificaciones->pruebas_evaluacion ? 'bg-success text-dark' : 'bg-warning text-dark')) : 'bg-light text-dark';
-        $pruebas_evaluacion_dato = ($calificaciones->num_pruebas_evaluacion > 0 || $curso->examenes_obligatorios || $calificaciones->examen_final)
+        $pruebas_evaluacion_dato = ($calificaciones->num_pruebas_evaluacion > 0 || $curso?->examenes_obligatorios || $calificaciones->examen_final)
             ? ($calificaciones->examen_final ? ($calificaciones->examen_final_superado ? trans_choice('tasks.passed', 2) : trans_choice('tasks.not_passed', 2))
                 : ($calificaciones->pruebas_evaluacion ? trans_choice('tasks.passed', 2) : trans_choice('tasks.not_passed', 2))) : __('None');
 
         $evaluacion_continua_fondo = $calificaciones->examen_final || $calificaciones->hay_nota_manual ? 'bg-light text-dark' : ($calificaciones->evaluacion_continua_superada ? 'bg-success text-dark' : 'bg-warning text-dark');
         $evaluacion_continua_dato = $calificaciones->evaluacion_continua_superada ? trans_choice('tasks.passed', 1) : trans_choice('tasks.not_passed', 1);
 
-        $calificacion_fondo = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : ($curso->disponible() ? 'bg-light text-dark' : 'bg-warning text-dark');
-        $calificacion_dato = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? $calificaciones->nota_final : ($curso->disponible() ? __('Unavailable') : __('Fail'));
+        $calificacion_fondo = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : ($curso?->disponible() ? 'bg-light text-dark' : 'bg-warning text-dark');
+        $calificacion_dato = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? $calificaciones->nota_final : ($curso?->disponible() ? __('Unavailable') : __('Fail'));
 
         return compact(['user', 'curso', 'users', 'unidades', 'calificaciones', 'media_actividades_grupo', 'chart',
             'actividades_obligatorias_fondo', 'actividades_obligatorias_dato',

@@ -17,6 +17,8 @@
                 @else
                     <h2 class="text-muted font-xl">Tienes {{ $alumno_actividades_asignadas }} actividades asignadas</h2>
                 @endif
+            @elseif(is_null(Auth::user()->curso_actual()))
+                <h2 class="font-xl text-danger">{{ __('No course selected') }}</h2>
             @endif
         </div>
     </div>
