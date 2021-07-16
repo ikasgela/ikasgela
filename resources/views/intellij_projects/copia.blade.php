@@ -9,9 +9,8 @@
 
             {!! Form::open(['route' => 'intellij_projects.duplicar']) !!}
 
-            {{ Form::campoTexto('origen', __('Project'), session('intellij_origen', 'root/programacion.plantillas.proyecto-intellij-java'), ['placeholder' => 'root/programacion.plantillas.proyecto-intellij-java']) }}
-            {{ Form::campoTexto('destino', __('User'), session('intellij_destino'), ['placeholder' => 'marc.ikasgela.com (opcional, por defecto copia en root)']) }}
-            {{ Form::campoTexto('ruta', __('New project name'), '', ['placeholder' => 'hola-mundo (opcional, mantiene el original)']) }}
+            {{ Form::campoTexto('origen', __('Source'), session('intellij_origen', 'root/programacion.plantillas.proyecto-intellij-java'), ['placeholder' => 'root/programacion.plantillas.proyecto-intellij-java']) }}
+            {{ Form::campoTexto('destino', __('Destination'), session('intellij_destino'), ['placeholder' => 'root/copia (opcional)']) }}
             {{ Form::campoTexto('nombre', __('New project description'), '', ['placeholder' => 'Hola Mundo (opcional, mantiene el original)']) }}
             {{ Form::campoCheck('crear_recurso', __('Create associated resource'), true) }}
 

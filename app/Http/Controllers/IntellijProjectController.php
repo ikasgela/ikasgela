@@ -168,19 +168,27 @@ class IntellijProjectController extends Controller
 
     public function duplicar(Request $request)
     {
-        $origen = $request->input('origen');
-        $destino = $request->input('destino');
-        $ruta = $request->input('ruta');
-        $nombre = $request->input('nombre');
+        $origen = $request->input('origen');    // root/origen
+        $destino = $request->input('destino');  // root/copia
+        $nombre = $request->input('nombre');    // Nuevo proyecto
+
+        $split = explode("/", $destino);
+
+        $usuario = $split[0] ?? '';
+        $ruta = $split[1] ?? '';
 
         // Guardar en la sesión los datos para prerellenar el formulario
         session([
             'intellij_origen' => $origen,
-            'intellij_destino' => $destino
+            'intellij_destino' => $destino,
         ]);
 
         try {
             $proyecto = GiteaClient::repo($origen);
+
+            if (empty($usuario)) {
+                $usuario = $proyecto['owner'];
+            }
 
             if (empty($ruta)) {
                 $ruta = $proyecto['name'];
@@ -190,7 +198,7 @@ class IntellijProjectController extends Controller
                 $nombre = $proyecto['description'];
             }
 
-            $clonado = $this->clonar_repositorio($proyecto['path_with_namespace'], $destino, $ruta, $nombre);
+            $clonado = $this->clonar_repositorio($proyecto['path_with_namespace'], $usuario, $ruta, $nombre);
 
             // Crear el recurso asociado al nuevo repositorio
             if ($request->has('crear_recurso')) {
