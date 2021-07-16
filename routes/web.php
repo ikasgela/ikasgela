@@ -308,6 +308,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('file_resources.index.filtro');
         Route::post('/file_uploads/filtro', 'FileUploadController@index')
             ->name('file_uploads.index.filtro');
+        Route::post('/cuestionarios/filtro', 'CuestionarioController@index')
+            ->name('cuestionarios.index.filtro');
 
         // CRUD - Feedbacks
         Route::resource('feedbacks', 'FeedbackController');
