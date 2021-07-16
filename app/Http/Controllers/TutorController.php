@@ -49,8 +49,8 @@ class TutorController extends Controller
     {
         $curso = Curso::find(setting_usuario('curso_actual'));
 
-        $fecha_inicio = $curso->fecha_inicio ?: Carbon::now()->subMonths(3);
-        $fecha_fin = $curso->fecha_fin ?: Carbon::now();
+        $fecha_inicio = $curso?->fecha_inicio ?: Carbon::now()->subMonths(3);
+        $fecha_fin = $curso?->fecha_fin ?: Carbon::now();
 
         $chart = new TareasEnviadas();
 

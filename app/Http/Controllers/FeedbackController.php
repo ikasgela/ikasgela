@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Actividad;
 use App\Curso;
 use App\Feedback;
-use BadMethodCallException;
 use Illuminate\Http\Request;
 
 class FeedbackController extends Controller
@@ -20,7 +19,7 @@ class FeedbackController extends Controller
     {
         $curso_actual = Curso::find(setting_usuario('curso_actual'));
 
-        $feedbacks = $curso_actual->feedbacks()->get();
+        $feedbacks = $curso_actual?->feedbacks()->get() ?? [];
 
         $actividades = Actividad::cursoActual()->where('plantilla', true)->with(['unidad' => function ($q) {
             $q->orderBy('codigo');

@@ -18,7 +18,7 @@
                 <div class="col-sm-10">
                     <select class="form-control" id="curso_id" name="curso_id">
                         @foreach($cursos as $curso)
-                            <option value="{{ $curso->id }}" {{ $curso->id == $curso_actual->id ? 'selected' : '' }}>
+                            <option value="{{ $curso?->id }}" {{ $curso?->id == $curso_actual?->id ? 'selected' : '' }}>
                                 {{ $curso->category->period->organization->name }}
                                 - {{ $curso->category->period->name }} - {{ $curso->nombre }}
                             </option>

@@ -94,7 +94,7 @@
                 <th colspan="2">{{ __('Student total') }}: {{ $usuarios->count() }}</th>
                 <th colspan="2">
                     {{ __('Passed') }}: {{ $aprobados }}
-                    ({{ formato_decimales($aprobados/$usuarios->count()*100, 2) }}&thinsp;%)
+                    ({{ formato_decimales($usuarios->count() > 0 ? $aprobados/$usuarios->count()*100 : 0, 2) }}&thinsp;%)
                 </th>
                 <th class="text-center">{{ __('Total') }}: {{ $num_actividades_obligatorias }}</th>
                 <th colspan="{{ $unidades->count() + 2 }}"></th>

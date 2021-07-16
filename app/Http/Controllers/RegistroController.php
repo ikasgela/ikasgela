@@ -7,7 +7,6 @@ use App\Registro;
 use App\Traits\PaginarUltima;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class RegistroController extends Controller
 {
@@ -23,7 +22,7 @@ class RegistroController extends Controller
     {
         // Lista de usuarios
         $curso = Curso::find(setting_usuario('curso_actual'));
-        $users = $curso->users()->orderBy('name')->get();
+        $users = $curso?->users()->orderBy('name')->get() ?? [];
 
         $user = null;
 
@@ -40,9 +39,9 @@ class RegistroController extends Controller
         }
 
         if (!is_null($user)) {
-            $registros = $this->paginate_ultima(Registro::where('curso_id', $curso->id)->where('user_id', $user->id), 100);
+            $registros = $this->paginate_ultima(Registro::where('curso_id', $curso?->id)->where('user_id', $user->id), 100);
         } else {
-            $registros = $this->paginate_ultima(Registro::where('curso_id', $curso->id), 100);
+            $registros = $this->paginate_ultima(Registro::where('curso_id', $curso?->id), 100);
         }
 
         return view('registros.index', compact(['registros', 'users']));

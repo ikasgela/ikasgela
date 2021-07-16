@@ -6,6 +6,7 @@ use App\Curso;
 use App\Organization;
 use App\Unidad;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 trait InformeGrupo
 {
@@ -21,10 +22,10 @@ trait InformeGrupo
 
         switch (session('tutor_filtro_alumnos')) {
             case 'P':
-                $usuarios = $curso->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name')->get()->sortBy('num_completadas_base');
+                $usuarios = $curso?->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name')->get()->sortBy('num_completadas_base') ?? new Collection();
                 break;
             default:
-                $usuarios = $curso->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name')->get();
+                $usuarios = $curso?->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name')->get() ?? new Collection();
                 break;
         }
 
