@@ -2,7 +2,7 @@
     {!! Form::label('curso', __('Course'), ['class' => 'col-form-label']) !!}
     <div class="flex-fill mx-3">
         <select class="form-control" id="curso_id" name="curso_id">
-            <option value="-1">{{ __('--- None ---') }}</option>
+            <option value="-1">{{ __('--- None --- ') }}</option>
             @foreach($cursos as $curso)
                 <option
                     value="{{ $curso->id }}" {{ session('filtrar_curso_actual') == $curso->id ? 'selected' : '' }}>
