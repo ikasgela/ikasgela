@@ -72,9 +72,9 @@
                 @endif
                 @foreach($unidades as $unidad)
                     @php($resultados_unidades = $calificaciones->resultados_unidades)
-                    @php($porcentaje = $resultados_unidades[$unidad->id]->actividad > 0
-                    ? ($resultados_unidades[$unidad->id]->tarea/$resultados_unidades[$unidad->id]->actividad*100) : 0)
-                    @if($resultados_unidades[$unidad->id]->actividad > 0)
+                    @php($porcentaje = $resultados_unidades[$unidad->id]?->actividad > 0
+                        ? ($resultados_unidades[$unidad->id]?->tarea/$resultados_unidades[$unidad->id]?->actividad*100) : 0)
+                    @if($resultados_unidades[$unidad->id]?->actividad > 0)
                         <td class="text-center {{ $calificaciones->hay_nota_manual ? '' : ($porcentaje<50 ? 'bg-warning text-dark' : ($unidad->hasEtiquetas(['examen','final']) ? 'bg-success text-dark' : '')) }}">
                             {{ number_format ( $porcentaje, 0 ) }}{{ !isset($exportar) ? ' %' : '' }}
                         </td>
