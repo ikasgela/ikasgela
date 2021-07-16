@@ -6,6 +6,7 @@ namespace Database\Factories;
 
 use App\IntellijProject;
 use Faker\Generator as Faker;
+use Illuminate\Support\Str;
 
 $factory->define(IntellijProject::class, function (Faker $faker) {
 
@@ -16,4 +17,9 @@ $factory->define(IntellijProject::class, function (Faker $faker) {
         'titulo' => $nombre,
         'host' => 'gitea',
     ];
+});
+
+$factory->afterCreating(IntellijProject::class, function ($intellij_project, Faker $faker) {
+    $intellij_project->orden = Str::orderedUuid();
+    $intellij_project->save();
 });
