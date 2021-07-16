@@ -23,7 +23,7 @@ class SkillController extends Controller
 
         $skills = $this->filtrar_por_curso($request, Skill::class);
 
-        return view('skills.index', compact('skills', 'cursos'));
+        return view('skills.index', compact(['skills', 'cursos']));
     }
 
     public function create()
