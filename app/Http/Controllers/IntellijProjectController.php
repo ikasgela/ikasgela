@@ -8,6 +8,7 @@ use App\Curso;
 use App\Gitea\GiteaClient;
 use App\IntellijProject;
 use App\Jobs\ForkGiteaRepo;
+use App\MarkdownText;
 use App\Tarea;
 use App\Traits\ClonarRepoGitea;
 use App\Traits\FiltroCurso;
@@ -168,19 +169,27 @@ class IntellijProjectController extends Controller
 
     public function duplicar(Request $request)
     {
-        $origen = $request->input('origen');
-        $destino = $request->input('destino');
-        $ruta = $request->input('ruta');
-        $nombre = $request->input('nombre');
+        $origen = $request->input('origen');    // root/origen
+        $destino = $request->input('destino');  // root/copia
+        $nombre = $request->input('nombre');    // Nuevo proyecto
+
+        $split = explode("/", $destino);
+
+        $usuario = $split[0] ?? '';
+        $ruta = $split[1] ?? '';
 
         // Guardar en la sesión los datos para prerellenar el formulario
         session([
             'intellij_origen' => $origen,
-            'intellij_destino' => $destino
+            'intellij_destino' => $destino,
         ]);
 
         try {
             $proyecto = GiteaClient::repo($origen);
+
+            if (empty($usuario)) {
+                $usuario = $proyecto['owner'];
+            }
 
             if (empty($ruta)) {
                 $ruta = $proyecto['name'];
@@ -190,16 +199,31 @@ class IntellijProjectController extends Controller
                 $nombre = $proyecto['description'];
             }
 
-            $clonado = $this->clonar_repositorio($proyecto['path_with_namespace'], $destino, $ruta, $nombre);
+            $clonado = $this->clonar_repositorio($proyecto['path_with_namespace'], $usuario, $ruta, $nombre);
 
             // Crear el recurso asociado al nuevo repositorio
-            if ($request->has('crear_recurso')) {
-                IntellijProject::create([
-                    'titulo' => $clonado['description'],
-                    'descripcion' => 'Clona el repositorio y abre el proyecto en IntelliJ. El enunciado está dentro del proyecto, en el archivo README.md.',
-                    'repositorio' => $clonado['path_with_namespace'],
-                    'host' => 'gitea',
-                ]);
+            switch (request('recurso_type')) {
+                case 'intellij_project':
+                    IntellijProject::create([
+                        'titulo' => $clonado['description'],
+                        'descripcion' => 'Clona el repositorio y abre el proyecto en IntelliJ. El enunciado está dentro del proyecto, en el archivo README.md.',
+                        'repositorio' => $clonado['path_with_namespace'],
+                        'host' => 'gitea',
+                        'curso_id' => Auth::user()->curso_actual()->id,
+                    ]);
+                    break;
+                case 'markdown_text':
+                    MarkdownText::create([
+                        'titulo' => $clonado['description'],
+                        'repositorio' => $clonado['path_with_namespace'],
+                        'host' => 'gitea',
+                        'curso_id' => Auth::user()->curso_actual()->id,
+                        'rama' => 'master',
+                        'archivo' => 'README.md',
+                    ]);
+                    break;
+                default:
+                    // Ok, no crear nada
             }
         } catch (\Exception $e) {
             Log::error($e);
