@@ -24,7 +24,7 @@ class YoutubeVideoController extends Controller
     {
         $cursos = Curso::orderBy('nombre')->get();
 
-        $youtube_videos = $this->filtrar_por_curso($request, YoutubeVideo::class);
+        $youtube_videos = $this->filtrar_por_curso($request, YoutubeVideo::class)->get();
 
         return view('youtube_videos.index', compact(['youtube_videos', 'cursos']));
     }

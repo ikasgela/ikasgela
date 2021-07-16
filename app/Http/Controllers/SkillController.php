@@ -21,7 +21,7 @@ class SkillController extends Controller
     {
         $cursos = Curso::orderBy('nombre')->get();
 
-        $skills = $this->filtrar_por_curso($request, Skill::class);
+        $skills = $this->filtrar_por_curso($request, Skill::class)->get();
 
         return view('skills.index', compact(['skills', 'cursos']));
     }

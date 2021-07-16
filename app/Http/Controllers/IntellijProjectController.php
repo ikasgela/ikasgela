@@ -37,7 +37,7 @@ class IntellijProjectController extends Controller
     {
         $cursos = Curso::orderBy('nombre')->get();
 
-        $intellij_projects = $this->filtrar_por_curso($request, IntellijProject::class);
+        $intellij_projects = $this->filtrar_por_curso($request, IntellijProject::class)->get();
 
         return view('intellij_projects.index', compact(['intellij_projects', 'cursos']));
     }

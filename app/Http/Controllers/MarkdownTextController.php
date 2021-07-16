@@ -24,7 +24,7 @@ class MarkdownTextController extends Controller
     {
         $cursos = Curso::orderBy('nombre')->get();
 
-        $markdown_texts = $this->filtrar_por_curso($request, MarkdownText::class);
+        $markdown_texts = $this->filtrar_por_curso($request, MarkdownText::class)->get();
 
         return view('markdown_texts.index', compact(['markdown_texts', 'cursos']));
     }
