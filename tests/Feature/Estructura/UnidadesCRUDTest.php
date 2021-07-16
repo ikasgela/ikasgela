@@ -195,7 +195,7 @@ class UnidadesCRUDTest extends TestCase
         $response = $this->get(route('unidades.show', $unidad));
 
         // Then
-        $response->assertStatus(501);
+        $response->assertStatus(404);
     }
 
     public function testNotAdminNotShow()

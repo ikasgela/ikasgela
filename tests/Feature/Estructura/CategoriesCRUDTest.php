@@ -194,7 +194,7 @@ class CategoriesCRUDTest extends TestCase
         $response = $this->get(route('categories.show', $category));
 
         // Then
-        $response->assertStatus(501);
+        $response->assertStatus(404);
     }
 
     public function testNotAdminNotShow()

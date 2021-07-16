@@ -48,7 +48,7 @@ class GroupController extends Controller
 
     public function show(Group $group)
     {
-        return abort(501);
+        abort(404);
     }
 
     public function edit(Group $group)

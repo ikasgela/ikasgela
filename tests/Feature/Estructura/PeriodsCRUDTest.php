@@ -194,7 +194,7 @@ class PeriodsCRUDTest extends TestCase
         $response = $this->get(route('periods.show', $period));
 
         // Then
-        $response->assertStatus(501);
+        $response->assertStatus(404);
     }
 
     public function testNotAdminNotShow()

@@ -63,7 +63,7 @@ class UnidadController extends Controller
 
     public function show(Unidad $unidad)
     {
-        return abort(501);
+        abort(404);
     }
 
     public function edit(Unidad $unidad)

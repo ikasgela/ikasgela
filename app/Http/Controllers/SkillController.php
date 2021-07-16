@@ -47,7 +47,7 @@ class SkillController extends Controller
 
     public function show(Skill $skill)
     {
-        return abort(501);
+        abort(404);
     }
 
     public function edit(Skill $skill)

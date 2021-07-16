@@ -62,7 +62,7 @@ class QualificationController extends Controller
 
     public function show(Qualification $qualification)
     {
-        return abort(501);
+        abort(404);
     }
 
     public function edit(Qualification $qualification)

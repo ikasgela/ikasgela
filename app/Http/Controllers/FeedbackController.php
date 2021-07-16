@@ -52,7 +52,7 @@ class FeedbackController extends Controller
 
     public function show(Feedback $feedback)
     {
-        return abort(501);
+        abort(404);
     }
 
     public function edit(Feedback $feedback)

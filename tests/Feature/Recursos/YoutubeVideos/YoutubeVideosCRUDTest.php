@@ -209,7 +209,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $response = $this->get(route('youtube_videos.show', $youtube_video));
 
         // Then
-        $response->assertStatus(501);
+        $response->assertStatus(404);
     }
 
     public function testNotProfesorNotShow()

@@ -48,7 +48,7 @@ class YoutubeVideoController extends Controller
 
     public function show(YoutubeVideo $youtube_video)
     {
-        return abort(501);
+        abort(404);
     }
 
     public function edit(YoutubeVideo $youtube_video)

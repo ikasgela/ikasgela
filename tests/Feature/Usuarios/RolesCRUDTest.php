@@ -194,7 +194,7 @@ class RolesCRUDTest extends TestCase
         $response = $this->get(route('roles.show', $role));
 
         // Then
-        $response->assertStatus(501);
+        $response->assertStatus(404);
     }
 
     public function testNotAdminNotShow()

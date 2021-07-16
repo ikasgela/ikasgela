@@ -83,7 +83,7 @@ class CursoController extends Controller
 
     public function show(Curso $curso)
     {
-        return abort(501);
+        abort(404);
     }
 
     /**
