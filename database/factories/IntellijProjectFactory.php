@@ -2,24 +2,30 @@
 
 namespace Database\Factories;
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-
 use App\IntellijProject;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-$factory->define(IntellijProject::class, function (Faker $faker) {
+class IntellijProjectFactory extends Factory
+{
+    protected $model = IntellijProject::class;
 
-    $nombre = $faker->words(3, true);
+    public function definition()
+    {
+        $nombre = $this->faker->words(3, true);
 
-    return [
-        'repositorio' => 'root/test',
-        'titulo' => $nombre,
-        'host' => 'gitea',
-    ];
-});
+        return [
+            'repositorio' => 'root/test',
+            'titulo' => $nombre,
+            'host' => 'gitea',
+        ];
+    }
 
-$factory->afterCreating(IntellijProject::class, function ($intellij_project, Faker $faker) {
-    $intellij_project->orden = Str::orderedUuid();
-    $intellij_project->save();
-});
+    public function configure()
+    {
+        return $this->afterCreating(function (IntellijProject $model) {
+            $model->orden = Str::orderedUuid();
+            $model->save();
+        });
+    }
+}

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Curso;
 use App\Unidad;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -23,9 +24,9 @@ class UnidadFactory extends Factory
 
     public function configure()
     {
-        return $this->afterCreating(function (Unidad $unidad) {
-            $unidad->orden = $unidad->id;
-            $unidad->save();
+        return $this->afterCreating(function (Unidad $model) {
+            $model->orden = $model->id;
+            $model->save();
         });
     }
 }

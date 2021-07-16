@@ -16,28 +16,28 @@ class IntellijProjectsTableSeeder extends Seeder
     public function run()
     {
         $nombre = 'Agenda';
-        factory(IntellijProject::class)->create([
+        IntellijProject::factory()->create([
             'titulo' => $nombre,
             'repositorio' => 'root/' . Str::slug($nombre),
             'curso_id' => 1,
         ]);
 
         $nombre = 'Tres en raya';
-        factory(IntellijProject::class)->create([
+        IntellijProject::factory()->create([
             'titulo' => $nombre,
             'repositorio' => 'root/' . Str::slug($nombre),
             'curso_id' => 1,
         ]);
 
         $nombre = 'Reservas';
-        factory(IntellijProject::class)->create([
+        IntellijProject::factory()->create([
             'titulo' => $nombre,
             'repositorio' => 'root/' . Str::slug($nombre),
             'curso_id' => 1,
         ]);
 
         $nombre = 'Apuntes';
-        factory(IntellijProject::class)->create([
+        IntellijProject::factory()->create([
             'titulo' => $nombre,
             'repositorio' => 'root/' . Str::slug($nombre),
             'curso_id' => 1,
