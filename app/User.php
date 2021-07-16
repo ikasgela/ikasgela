@@ -624,7 +624,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
             // Aplicar el criterio del mínimo de competencias
             $r->competencias_50_porciento = true;
-            $r->minimo_competencias = $curso->minimo_competencias;
+            $r->minimo_competencias = $curso?->minimo_competencias;
             foreach ($r->resultados as $resultado) {
                 if ($resultado->porcentaje_competencia() < $r->minimo_competencias)
                     $r->competencias_50_porciento = false;
@@ -636,7 +636,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
             // Actividades obligatorias
 
-            $minimo_entregadas = $curso->minimo_entregadas;
+            $minimo_entregadas = $curso?->minimo_entregadas;
 
             $r->actividades_obligatorias_superadas = true;
             $r->num_actividades_obligatorias = 0;
@@ -697,7 +697,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
             // Pruebas de evaluación
 
-            $r->minimo_examenes = $curso->minimo_examenes;
+            $r->minimo_examenes = $curso?->minimo_examenes;
 
             $r->pruebas_evaluacion = true;
             $r->num_pruebas_evaluacion = 0;
@@ -735,7 +735,7 @@ class User extends Authenticatable implements MustVerifyEmail
                 $nota = min($nota, $curso->maximo_recuperable_examenes_finales / 10);
 
             // Nota manual
-            $temp = $user->cursos()->wherePivot('curso_id', $curso->id)->first();
+            $temp = $user->cursos()->wherePivot('curso_id', $curso?->id)->first();
             if ($temp != null && isset($temp->pivot->nota)) {
                 $r->hay_nota_manual = true;
                 $nota = $temp->pivot->nota;
@@ -750,7 +750,7 @@ class User extends Authenticatable implements MustVerifyEmail
             // Evaluación continua
 
             $r->evaluacion_continua_superada = ($r->actividades_obligatorias_superadas || $r->num_actividades_obligatorias == 0 || $curso->minimo_entregadas == 0)
-                && (!$curso->examenes_obligatorios || $r->pruebas_evaluacion || $r->num_pruebas_evaluacion == 0)
+                && (!$curso?->examenes_obligatorios || $r->pruebas_evaluacion || $r->num_pruebas_evaluacion == 0)
                 && $r->competencias_50_porciento && $nota >= 5;
 
             return $r;

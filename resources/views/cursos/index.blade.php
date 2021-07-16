@@ -2,11 +2,7 @@
 
 @section('content')
 
-    <div class="row mb-3">
-        <div class="col-md">
-            <h1>{{ __('Courses') }}</h1>
-        </div>
-    </div>
+    @include('partials.titular', ['titular' => __('Courses'), 'subtitulo' => ''])
 
     <div class="mb-3">
         <a class="btn btn-primary" href="{{ route('cursos.create') }}">{{ __('New course') }}</a>

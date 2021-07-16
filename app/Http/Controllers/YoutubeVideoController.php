@@ -3,26 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
+use App\Curso;
+use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
 use App\YoutubeVideo;
-use BadMethodCallException;
 use Illuminate\Http\Request;
 
 class YoutubeVideoController extends Controller
 {
     use PaginarUltima;
+    use FiltroCurso;
 
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:profesor');
+        $this->middleware('role:profesor|admin');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $youtube_videos = YoutubeVideo::all();
+        $cursos = Curso::orderBy('nombre')->get();
 
-        return view('youtube_videos.index', compact('youtube_videos'));
+        $youtube_videos = $this->filtrar_por_curso($request, YoutubeVideo::class)->get();
+
+        return view('youtube_videos.index', compact(['youtube_videos', 'cursos']));
     }
 
     public function create()
@@ -44,7 +48,7 @@ class YoutubeVideoController extends Controller
 
     public function show(YoutubeVideo $youtube_video)
     {
-        return abort(501);
+        abort(404);
     }
 
     public function edit(YoutubeVideo $youtube_video)

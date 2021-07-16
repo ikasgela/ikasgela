@@ -27,6 +27,7 @@ class ActividadesCRUDTest extends TestCase
 
         // Given
         $actividad = factory(Actividad::class)->create();
+        session(['filtrar_curso_actual' => $actividad->unidad->curso_id]);
 
         // When
         $response = $this->get(route('actividades.index'));
@@ -194,7 +195,7 @@ class ActividadesCRUDTest extends TestCase
         $response = $this->get(route('actividades.show', $actividad));
 
         // Then
-        $response->assertStatus(501);
+        $response->assertStatus(404);
     }
 
     public function testNotAdminNotShow()

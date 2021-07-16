@@ -11,6 +11,7 @@ use App\Jobs\ForkGiteaRepo;
 use App\Jobs\ForkGitLabRepo;
 use App\Tarea;
 use App\Traits\ClonarRepoGitea;
+use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
 use App\Unidad;
 use Auth;
@@ -24,18 +25,21 @@ class IntellijProjectController extends Controller
 {
     use ClonarRepoGitea;
     use PaginarUltima;
+    use FiltroCurso;
 
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:profesor', ['except' => ['fork', 'is_forking', 'download']]);
+        $this->middleware('role:profesor|admin', ['except' => ['fork', 'is_forking', 'download']]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $intellij_projects = IntellijProject::all();
+        $cursos = Curso::orderBy('nombre')->get();
 
-        return view('intellij_projects.index', compact('intellij_projects'));
+        $intellij_projects = $this->filtrar_por_curso($request, IntellijProject::class)->get();
+
+        return view('intellij_projects.index', compact(['intellij_projects', 'cursos']));
     }
 
     public function create()
@@ -58,7 +62,7 @@ class IntellijProjectController extends Controller
 
     public function show(IntellijProject $intellij_project)
     {
-        return abort(501);
+        abort(404);
     }
 
     public function edit(IntellijProject $intellij_project)

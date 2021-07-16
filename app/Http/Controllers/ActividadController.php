@@ -156,7 +156,7 @@ class ActividadController extends Controller
      */
     public function show(Actividad $actividad)
     {
-        return abort(501);
+        abort(404);
     }
 
     public function preview(Actividad $actividad)

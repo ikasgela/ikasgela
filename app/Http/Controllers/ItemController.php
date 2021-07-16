@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Item;
 use App\Pregunta;
-use BadMethodCallException;
 use Illuminate\Http\Request;
 
 class ItemController extends Controller
@@ -17,9 +16,7 @@ class ItemController extends Controller
 
     public function index()
     {
-        $items = Item::all();
-
-        return view('items.index', compact('items'));
+        abort(404);
     }
 
     public function create()
@@ -50,7 +47,7 @@ class ItemController extends Controller
 
     public function show(Item $item)
     {
-        return abort(501);
+        abort(404);
     }
 
     public function edit(Item $item)

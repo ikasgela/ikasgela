@@ -48,7 +48,7 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        return abort(501);
+        abort(404);
     }
 
     public function edit(Category $category)

@@ -23,7 +23,7 @@ class UnidadController extends Controller
     {
         $cursos = Curso::orderBy('nombre')->get();
 
-        $unidades = $this->filtrar_por_curso($request, Unidad::class, 'orden');
+        $unidades = $this->filtrar_por_curso($request, Unidad::class, 'orden')->get();
 
         return view('unidades.index', compact('unidades', 'cursos'));
     }
@@ -63,7 +63,7 @@ class UnidadController extends Controller
 
     public function show(Unidad $unidad)
     {
-        return abort(501);
+        abort(404);
     }
 
     public function edit(Unidad $unidad)

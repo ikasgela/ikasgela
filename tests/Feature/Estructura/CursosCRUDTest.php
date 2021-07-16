@@ -194,7 +194,7 @@ class CursosCRUDTest extends TestCase
         $response = $this->get(route('cursos.show', $curso));
 
         // Then
-        $response->assertStatus(501);
+        $response->assertStatus(404);
     }
 
     public function testNotAdminNotShow()

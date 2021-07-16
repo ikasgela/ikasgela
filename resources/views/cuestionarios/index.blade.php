@@ -4,6 +4,12 @@
 
     @include('partials.titular', ['titular' => __('Questionnaires')])
 
+    @if(Auth::user()->hasAnyRole(['admin']))
+        {!! Form::open(['route' => ['cuestionarios.index.filtro'], 'method' => 'POST']) !!}
+        @include('partials.desplegable_cursos')
+        {!! Form::close() !!}
+    @endif
+
     <div class="mb-3">
         <a class="btn btn-primary" href="{{ route('cuestionarios.create') }}">{{ __('New questionnaire') }}</a>
     </div>

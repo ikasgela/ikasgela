@@ -25,7 +25,7 @@
                 @endif
             @endif
         </h1>
-        <h2 class="text-muted font-xl">{{ !is_null($curso) ? $curso->category->period->organization->name.' » '.$curso->category->period->name.' » '.$curso->nombre : '' }}</h2>
+        <h2 class="text-muted font-xl">{{ $curso?->pretty_name }}</h2>
     </div>
 
     @include('partials.tutorial', [

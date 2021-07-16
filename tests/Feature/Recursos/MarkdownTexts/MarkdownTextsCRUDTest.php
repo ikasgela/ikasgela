@@ -35,6 +35,21 @@ class MarkdownTextsCRUDTest extends TestCase
         $response->assertSee($markdown_text->titulo);
     }
 
+    public function testIndexAdminFiltro()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $markdown_text = factory(MarkdownText::class)->create();
+
+        // When
+        $response = $this->post(route('markdown_texts.index.filtro', ['curso_id' => $markdown_text->curso_id]));
+
+        // Then
+        $response->assertSee($markdown_text->titulo);
+    }
+
     public function testNotProfesorNotIndex()
     {
         // Auth

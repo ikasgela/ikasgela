@@ -21,7 +21,7 @@ class QualificationController extends Controller
     {
         $cursos = Curso::orderBy('nombre')->get();
 
-        $qualifications = $this->filtrar_por_curso($request, Qualification::class);
+        $qualifications = $this->filtrar_por_curso($request, Qualification::class)->get();
 
         return view('qualifications.index', compact(['qualifications', 'cursos']));
     }
@@ -62,7 +62,7 @@ class QualificationController extends Controller
 
     public function show(Qualification $qualification)
     {
-        return abort(501);
+        abort(404);
     }
 
     public function edit(Qualification $qualification)

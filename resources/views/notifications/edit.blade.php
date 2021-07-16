@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Notification settings')])
+    @include('partials.titular', ['titular' => __('Notification settings'), 'subtitulo' => ''])
 
     {!! Form::open(['route' => ['notifications.update'], 'method' => 'PUT']) !!}
 

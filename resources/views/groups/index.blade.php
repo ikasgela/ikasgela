@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Groups')])
+    @include('partials.titular', ['titular' => __('Groups'), 'subtitulo' => ''])
 
     <div class="mb-3">
         <a class="btn btn-primary" href="{{ route('groups.create') }}">{{ __('New group') }}</a>

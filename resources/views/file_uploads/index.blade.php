@@ -4,6 +4,12 @@
 
     @include('partials.titular', ['titular' => __('Resources: Image uploads')])
 
+    @if(Auth::user()->hasAnyRole(['admin']))
+        {!! Form::open(['route' => ['file_uploads.index.filtro'], 'method' => 'POST']) !!}
+        @include('partials.desplegable_cursos')
+        {!! Form::close() !!}
+    @endif
+
     <div class="mb-3">
         <a class="btn btn-primary" href="{{ route('file_uploads.create') }}">{{ __('New image upload') }}</a>
     </div>

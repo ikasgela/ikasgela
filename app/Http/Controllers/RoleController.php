@@ -36,7 +36,7 @@ class RoleController extends Controller
 
     public function show(Role $role)
     {
-        return abort(501);
+        abort(404);
     }
 
     public function edit(Role $role)

@@ -49,6 +49,8 @@ class SettingController extends Controller
             setting_usuario(['curso_actual' => $primer_curso ? $primer_curso->id : null]);
         }
 
+        session()->forget('filtrar_curso_actual');
+
         return redirect(route('settings.editar'));
     }
 

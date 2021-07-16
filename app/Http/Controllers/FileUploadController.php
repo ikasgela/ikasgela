@@ -3,25 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
+use App\Curso;
 use App\FileUpload;
+use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
 
 class FileUploadController extends Controller
 {
     use PaginarUltima;
+    use FiltroCurso;
 
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:profesor');
+        $this->middleware('role:profesor|admin');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $file_uploads = FileUpload::plantilla()->get();
+        $cursos = Curso::orderBy('nombre')->get();
 
-        return view('file_uploads.index', compact('file_uploads'));
+        $file_uploads = $this->filtrar_por_curso($request, FileUpload::class)->plantilla()->get();
+
+        return view('file_uploads.index', compact(['file_uploads', 'cursos']));
     }
 
     public function create()

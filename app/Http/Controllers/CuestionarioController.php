@@ -4,25 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Actividad;
 use App\Cuestionario;
+use App\Curso;
 use App\Pregunta;
+use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
 
 class CuestionarioController extends Controller
 {
     use PaginarUltima;
+    use FiltroCurso;
 
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:profesor')->except(['respuesta']);
+        $this->middleware('role:profesor|admin')->except(['respuesta']);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $cuestionarios = Cuestionario::plantilla()->get();
+        $cursos = Curso::orderBy('nombre')->get();
 
-        return view('cuestionarios.index', compact('cuestionarios'));
+        $cuestionarios = $this->filtrar_por_curso($request, Cuestionario::class)->plantilla()->get();
+
+        return view('cuestionarios.index', compact(['cuestionarios', 'cursos']));
     }
 
     public function create()

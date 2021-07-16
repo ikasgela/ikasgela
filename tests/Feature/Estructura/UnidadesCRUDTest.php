@@ -27,6 +27,7 @@ class UnidadesCRUDTest extends TestCase
 
         // Given
         $unidad = factory(Unidad::class)->create();
+        session(['filtrar_curso_actual' => $unidad->curso_id]);
 
         // When
         $response = $this->get(route('unidades.index'));
@@ -194,7 +195,7 @@ class UnidadesCRUDTest extends TestCase
         $response = $this->get(route('unidades.show', $unidad));
 
         // Then
-        $response->assertStatus(501);
+        $response->assertStatus(404);
     }
 
     public function testNotAdminNotShow()

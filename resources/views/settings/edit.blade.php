@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Settings')])
+    @include('partials.titular', ['titular' => __('Settings'), 'subtitulo' => ''])
 
     @include('partials.tutorial', [
         'color' => 'c-callout-success',

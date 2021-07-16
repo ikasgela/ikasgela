@@ -2,11 +2,7 @@
 
 @section('content')
 
-    <div class="row mb-3">
-        <div class="col-md">
-            <h1>{{ __('Units') }}</h1>
-        </div>
-    </div>
+    @include('partials.titular', ['titular' => __('Units')])
 
     <div class="table-responsive">
         <table class="table table-hover">

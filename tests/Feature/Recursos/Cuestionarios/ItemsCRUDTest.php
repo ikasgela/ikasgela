@@ -32,7 +32,7 @@ class ItemsCRUDTest extends TestCase
         $response = $this->get(route('items.index'));
 
         // Then
-        $response->assertSee($item->texto);
+        $response->assertStatus(404);
     }
 
     public function testNotProfesorNotIndex()
@@ -194,7 +194,7 @@ class ItemsCRUDTest extends TestCase
         $response = $this->get(route('items.show', $item));
 
         // Then
-        $response->assertStatus(501);
+        $response->assertStatus(404);
     }
 
     public function testNotProfesorNotShow()

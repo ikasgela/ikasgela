@@ -298,6 +298,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('unidades.index.filtro');
         Route::post('/actividades/filtro', 'ActividadController@index')
             ->name('actividades.index.filtro');
+        Route::post('/intellij_projects/filtro', 'IntellijProjectController@index')
+            ->name('intellij_projects.index.filtro');
+        Route::post('/markdown_texts/filtro', 'MarkdownTextController@index')
+            ->name('markdown_texts.index.filtro');
+        Route::post('/youtube_videos/filtro', 'YoutubeVideoController@index')
+            ->name('youtube_videos.index.filtro');
+        Route::post('/file_resources/filtro', 'FileResourceController@index')
+            ->name('file_resources.index.filtro');
+        Route::post('/file_uploads/filtro', 'FileUploadController@index')
+            ->name('file_uploads.index.filtro');
+        Route::post('/cuestionarios/filtro', 'CuestionarioController@index')
+            ->name('cuestionarios.index.filtro');
 
         // CRUD - Feedbacks
         Route::resource('feedbacks', 'FeedbackController');

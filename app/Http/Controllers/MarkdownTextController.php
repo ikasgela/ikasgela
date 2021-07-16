@@ -3,25 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
+use App\Curso;
 use App\MarkdownText;
+use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
 
 class MarkdownTextController extends Controller
 {
     use PaginarUltima;
+    use FiltroCurso;
 
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:profesor');
+        $this->middleware('role:profesor|admin');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $markdown_texts = MarkdownText::all();
+        $cursos = Curso::orderBy('nombre')->get();
 
-        return view('markdown_texts.index', compact('markdown_texts'));
+        $markdown_texts = $this->filtrar_por_curso($request, MarkdownText::class)->get();
+
+        return view('markdown_texts.index', compact(['markdown_texts', 'cursos']));
     }
 
     public function create()

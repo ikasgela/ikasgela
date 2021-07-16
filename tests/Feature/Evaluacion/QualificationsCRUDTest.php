@@ -222,7 +222,7 @@ class QualificationsCRUDTest extends TestCase
         $response = $this->get(route('qualifications.show', $qualification));
 
         // Then
-        $response->assertStatus(501);
+        $response->assertStatus(404);
     }
 
     public function testNotAdminNotShow()

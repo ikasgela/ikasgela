@@ -3,25 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
+use App\Curso;
 use App\FileResource;
+use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
 
 class FileResourceController extends Controller
 {
     use PaginarUltima;
+    use FiltroCurso;
 
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:profesor');
+        $this->middleware('role:profesor|admin');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $file_resources = FileResource::all();
+        $cursos = Curso::orderBy('nombre')->get();
 
-        return view('file_resources.index', compact('file_resources'));
+        $file_resources = $this->filtrar_por_curso($request, FileResource::class)->get();
+
+        return view('file_resources.index', compact(['file_resources', 'cursos']));
     }
 
     public function create()

@@ -46,6 +46,18 @@ class Curso extends Model
         return $full_name;
     }
 
+    public function getPrettyNameAttribute()
+    {
+        $full_name = $this->nombre;
+
+        if (!is_null($this->category)) {
+            $full_name = $this->category->period->name . ' » ' . $full_name;
+            $full_name = $this->category->period->organization->name . ' » ' . $full_name;
+        }
+
+        return $full_name;
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);

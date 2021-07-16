@@ -194,7 +194,7 @@ class GroupsCRUDTest extends TestCase
         $response = $this->get(route('groups.show', $group));
 
         // Then
-        $response->assertStatus(501);
+        $response->assertStatus(404);
     }
 
     public function testNotAdminNotShow()
