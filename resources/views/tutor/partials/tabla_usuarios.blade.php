@@ -54,14 +54,14 @@
                 <td class="text-center {{ $calificaciones->hay_nota_manual ? '' : ($user->num_completadas('base') < $media_actividades_grupo ? 'bg-warning text-dark' : '') }}">
                     {{ $user->num_completadas('base') }}
                 </td>
-                <td class="text-center {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : ($curso->disponible() ? '' : 'bg-warning text-dark') }}">
+                <td class="text-center {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : ($curso?->disponible() ? '' : 'bg-warning text-dark') }}">
                     {{ $calificaciones->nota_final }}
                 </td>
                 @if(!isset($exportar))
                     <td>
                         @if(Auth::user()->hasAnyRole(['profesor','admin']))
                             <a title="{{ __('Manual calification') }}"
-                               href="{{ route('profesor.nota_manual.edit', [$user->id, $curso->id]) }}"
+                               href="{{ route('profesor.nota_manual.edit', [$user->id, $curso?->id]) }}"
                                class="btn btn-sm {{ $calificaciones->hay_nota_manual ? 'btn-primary' : 'btn-light' }}">
                                 <i class="fas fa-pen"></i>
                             </a>
