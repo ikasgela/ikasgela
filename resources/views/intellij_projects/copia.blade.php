@@ -12,7 +12,17 @@
             {{ Form::campoTexto('origen', __('Source'), session('intellij_origen', 'root/programacion.plantillas.proyecto-intellij-java'), ['placeholder' => 'root/programacion.plantillas.proyecto-intellij-java']) }}
             {{ Form::campoTexto('destino', __('Destination'), session('intellij_destino'), ['placeholder' => 'root/copia (opcional)']) }}
             {{ Form::campoTexto('nombre', __('New project description'), '', ['placeholder' => 'Hola Mundo (opcional, mantiene el original)']) }}
-            {{ Form::campoCheck('crear_recurso', __('Create associated resource'), true) }}
+
+            <div class="form-group row">
+                {!! Form::label('recurso_type', __('Create associated resource'), ['class' => 'col-sm-2 col-form-label']) !!}
+                <div class="col-sm-10">
+                    <select class="form-control" id="recurso_type" name="recurso_type">
+                        <option value="-1">{{ __('--- No ---') }}</option>
+                        <option value="intellij_project" selected>{{ __('IntelliJ project') }}</option>
+                        <option value="markdown_text">{{ __('Markdown text') }}</option>
+                    </select>
+                </div>
+            </div>
 
             <button type="submit" class="btn btn-primary">{{ __('Clone') }}</button>
 
