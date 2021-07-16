@@ -7,11 +7,6 @@ use Illuminate\Database\Seeder;
 
 class YoutubeVideosTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeders.
-     *
-     * @return void
-     */
     public function run()
     {
         YoutubeVideo::factory()->create([

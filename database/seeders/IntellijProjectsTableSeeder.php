@@ -8,11 +8,6 @@ use Illuminate\Support\Str;
 
 class IntellijProjectsTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeders.
-     *
-     * @return void
-     */
     public function run()
     {
         $nombre = 'Agenda';

@@ -9,25 +9,8 @@ use Illuminate\Support\Str;
 
 class UnidadesTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeders.
-     *
-     * @return void
-     */
     public function run()
     {
-        // Egibide
-
-//        $curso = Curso::whereHas('category.period.organization', function ($query) {
-//            $query->where('organizations.slug', 'egibide');
-//        })
-//            ->where('slug', 'programacion')
-//            ->first();
-//
-//        $this->generarUnidades($curso);
-
-        // Deusto
-
         $curso = Curso::whereHas('category.period.organization', function ($query) {
             $query->where('organizations.slug', 'ikasgela');
         })
@@ -79,17 +62,6 @@ class UnidadesTableSeeder extends Seeder
             'tags' => 'examen',
             'slug' => 'seguimiento-u2'
         ]);
-
-        // Ikasgela
-
-//        $curso = Curso::whereHas('category.period.organization', function ($query) {
-//            $query->where('organizations.slug', 'ikasgela');
-//        })
-//            ->where('slug', 'programacion')
-//            ->first();
-//
-//        $this->generarUnidades($curso);
-
     }
 
     private function generarUnidades($curso): void

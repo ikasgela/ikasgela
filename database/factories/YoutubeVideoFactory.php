@@ -16,14 +16,7 @@ class YoutubeVideoFactory extends Factory
             'titulo' => $this->faker->sentence(3),
             'descripcion' => $this->faker->sentence(8),
             'codigo' => $this->faker->regexify('[A-Za-z0-9]{12}'),
+            'orden' => Str::orderedUuid(),
         ];
-    }
-
-    public function configure()
-    {
-        return $this->afterCreating(function (YoutubeVideo $model) {
-            $model->orden = Str::orderedUuid();
-            $model->save();
-        });
     }
 }

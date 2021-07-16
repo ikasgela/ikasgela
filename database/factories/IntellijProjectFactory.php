@@ -18,14 +18,7 @@ class IntellijProjectFactory extends Factory
             'repositorio' => 'root/test',
             'titulo' => $nombre,
             'host' => 'gitea',
+            'orden' => Str::orderedUuid(),
         ];
-    }
-
-    public function configure()
-    {
-        return $this->afterCreating(function (IntellijProject $model) {
-            $model->orden = Str::orderedUuid();
-            $model->save();
-        });
     }
 }
