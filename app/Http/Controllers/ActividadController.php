@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
+use App\Cuestionario;
 use App\Curso;
 use App\Exports\ActividadesCursoExport;
+use App\FileResource;
+use App\FileUpload;
+use App\IntellijProject;
 use App\Mail\ActividadAsignada;
 use App\Mail\FeedbackRecibido;
 use App\Mail\PlazoAmpliado;
 use App\Mail\TareaEnviada;
+use App\MarkdownText;
 use App\Models\CacheClear;
 use App\Qualification;
 use App\Registro;
@@ -17,6 +22,7 @@ use App\Traits\InformeActividadesCurso;
 use App\Traits\PaginarUltima;
 use App\Unidad;
 use App\User;
+use App\YoutubeVideo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -36,6 +42,36 @@ class ActividadController extends Controller
 
     public function index(Request $request)
     {
+        foreach (YoutubeVideo::all() as $recurso) {
+            $recurso->orden = Str::orderedUuid();
+            $recurso->save();
+        }
+
+        foreach (IntellijProject::all() as $recurso) {
+            $recurso->orden = Str::orderedUuid();
+            $recurso->save();
+        }
+
+        foreach (MarkdownText::all() as $recurso) {
+            $recurso->orden = Str::orderedUuid();
+            $recurso->save();
+        }
+
+        foreach (FileResource::all() as $recurso) {
+            $recurso->orden = Str::orderedUuid();
+            $recurso->save();
+        }
+
+        foreach (FileUpload::all() as $recurso) {
+            $recurso->orden = Str::orderedUuid();
+            $recurso->save();
+        }
+
+        foreach (Cuestionario::all() as $recurso) {
+            $recurso->orden = Str::orderedUuid();
+            $recurso->save();
+        }
+
         $cursos = Curso::orderBy('nombre')->get();
 
         $request->validate([
@@ -589,8 +625,10 @@ class ActividadController extends Controller
 
     public function reordenar_recursos(Request $request, Actividad $actividad)
     {
-        $a1 = $actividad->recursos->get(request('a1'));
-        $a2 = $actividad->recursos->get(request('a2'));
+        $recursos = $actividad->recursos->keyBy('orden');
+
+        $a1 = $recursos->get(request('a1'));
+        $a2 = $recursos->get(request('a2'));
 
         $temp = $a1->orden;
         $a1->orden = $a2->orden;
