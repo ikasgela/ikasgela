@@ -26,7 +26,7 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->create([
+        $file_upload = FileUpload::factory()->create([
             'plantilla' => true,
         ]);
 
@@ -43,7 +43,7 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->create();
+        $file_upload = FileUpload::factory()->create();
         session(['filtrar_curso_actual' => $file_upload->curso_id]);
 
         // When
@@ -120,7 +120,7 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->make();
+        $file_upload = FileUpload::factory()->make();
         $total = FileUpload::all()->count();
 
         // When
@@ -136,7 +136,7 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->make();
+        $file_upload = FileUpload::factory()->make();
 
         // When
         $response = $this->post(route('file_uploads.store'), $file_upload->toArray());
@@ -149,7 +149,7 @@ class FileUploadsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $file_upload = factory(FileUpload::class)->make();
+        $file_upload = FileUpload::factory()->make();
 
         // When
         $response = $this->post(route('file_uploads.store'), $file_upload->toArray());
@@ -184,7 +184,7 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->make([$field => null]);
+        $file_upload = FileUpload::factory()->make([$field => null]);
 
         // When
         $response = $this->post(route('file_uploads.store'), $file_upload->toArray());
@@ -206,7 +206,7 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->create();
+        $file_upload = FileUpload::factory()->create();
 
         // When
         $response = $this->get(route('file_uploads.show', $file_upload));
@@ -221,7 +221,7 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->create();
+        $file_upload = FileUpload::factory()->create();
 
         // When
         $response = $this->get(route('file_uploads.show', $file_upload));
@@ -233,7 +233,7 @@ class FileUploadsCRUDTest extends TestCase
     public function testNotAuthNotShow()
     {
         // Given
-        $file_upload = factory(FileUpload::class)->create();
+        $file_upload = FileUpload::factory()->create();
 
         // When
         $response = $this->get(route('file_uploads.show', $file_upload));
@@ -248,7 +248,7 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->create();
+        $file_upload = FileUpload::factory()->create();
 
         // When
         $response = $this->get(route('file_uploads.edit', $file_upload), $file_upload->toArray());
@@ -263,7 +263,7 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->create();
+        $file_upload = FileUpload::factory()->create();
 
         // When
         $response = $this->get(route('file_uploads.edit', $file_upload), $file_upload->toArray());
@@ -276,7 +276,7 @@ class FileUploadsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $file_upload = factory(FileUpload::class)->create();
+        $file_upload = FileUpload::factory()->create();
 
         // When
         $response = $this->get(route('file_uploads.edit', $file_upload), $file_upload->toArray());
@@ -291,7 +291,7 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->create();
+        $file_upload = FileUpload::factory()->create();
         $file_upload->titulo = "Updated";
 
         // When
@@ -307,7 +307,7 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->create();
+        $file_upload = FileUpload::factory()->create();
         $file_upload->titulo = "Updated";
 
         // When
@@ -321,7 +321,7 @@ class FileUploadsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $file_upload = factory(FileUpload::class)->create();
+        $file_upload = FileUpload::factory()->create();
         $file_upload->titulo = "Updated";
 
         // When
@@ -337,7 +337,7 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->create();
+        $file_upload = FileUpload::factory()->create();
         $empty = new FileUpload();
         foreach ($this->required as $field) {
             $empty->$field = '0';
@@ -356,7 +356,7 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->create();
+        $file_upload = FileUpload::factory()->create();
         $file_upload->$field = null;
 
         // When
@@ -379,7 +379,7 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->create();
+        $file_upload = FileUpload::factory()->create();
 
         // When
         $this->delete(route('file_uploads.destroy', $file_upload));
@@ -394,7 +394,7 @@ class FileUploadsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $file_upload = factory(FileUpload::class)->create();
+        $file_upload = FileUpload::factory()->create();
 
         // When
         $response = $this->delete(route('file_uploads.destroy', $file_upload));
@@ -407,7 +407,7 @@ class FileUploadsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $file_upload = factory(FileUpload::class)->create();
+        $file_upload = FileUpload::factory()->create();
 
         // When
         $response = $this->delete(route('file_uploads.destroy', $file_upload));

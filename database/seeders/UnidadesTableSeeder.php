@@ -9,25 +9,8 @@ use Illuminate\Support\Str;
 
 class UnidadesTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeders.
-     *
-     * @return void
-     */
     public function run()
     {
-        // Egibide
-
-//        $curso = Curso::whereHas('category.period.organization', function ($query) {
-//            $query->where('organizations.slug', 'egibide');
-//        })
-//            ->where('slug', 'programacion')
-//            ->first();
-//
-//        $this->generarUnidades($curso);
-
-        // Deusto
-
         $curso = Curso::whereHas('category.period.organization', function ($query) {
             $query->where('organizations.slug', 'ikasgela');
         })
@@ -36,7 +19,7 @@ class UnidadesTableSeeder extends Seeder
 
         $codigo = 'Unidad 1';
         $nombre = 'Introducción a la programación';
-        factory(Unidad::class)->create([
+        Unidad::factory()->create([
             'curso_id' => $curso->id,
             'codigo' => $codigo,
             'nombre' => $nombre,
@@ -45,7 +28,7 @@ class UnidadesTableSeeder extends Seeder
 
         $codigo = 'Unidad 2';
         $nombre = 'Programación estructurada';
-        factory(Unidad::class)->create([
+        Unidad::factory()->create([
             'curso_id' => $curso->id,
             'codigo' => $codigo,
             'nombre' => $nombre,
@@ -54,7 +37,7 @@ class UnidadesTableSeeder extends Seeder
 
         $codigo = 'Unidad 3';
         $nombre = 'Programación modular';
-        factory(Unidad::class)->create([
+        Unidad::factory()->create([
             'curso_id' => $curso->id,
             'codigo' => $codigo,
             'nombre' => $nombre,
@@ -63,7 +46,7 @@ class UnidadesTableSeeder extends Seeder
 
         $codigo = 'Unidad 4';
         $nombre = 'Estructuras de datos';
-        factory(Unidad::class)->create([
+        Unidad::factory()->create([
             'curso_id' => $curso->id,
             'codigo' => $codigo,
             'nombre' => $nombre,
@@ -72,31 +55,20 @@ class UnidadesTableSeeder extends Seeder
 
         $codigo = '';
         $nombre = 'Seguimiento U2';
-        factory(Unidad::class)->create([
+        Unidad::factory()->create([
             'curso_id' => $curso->id,
             'codigo' => $codigo,
             'nombre' => $nombre,
             'tags' => 'examen',
             'slug' => 'seguimiento-u2'
         ]);
-
-        // Ikasgela
-
-//        $curso = Curso::whereHas('category.period.organization', function ($query) {
-//            $query->where('organizations.slug', 'ikasgela');
-//        })
-//            ->where('slug', 'programacion')
-//            ->first();
-//
-//        $this->generarUnidades($curso);
-
     }
 
     private function generarUnidades($curso): void
     {
         $codigo = 'UD1';
         $nombre = 'Introducción a la programación';
-        factory(Unidad::class)->create([
+        Unidad::factory()->create([
             'curso_id' => $curso->id,
             'codigo' => $codigo,
             'nombre' => $nombre,
@@ -105,7 +77,7 @@ class UnidadesTableSeeder extends Seeder
 
         $codigo = 'UD2';
         $nombre = 'Programación estructurada';
-        factory(Unidad::class)->create([
+        Unidad::factory()->create([
             'curso_id' => $curso->id,
             'codigo' => $codigo,
             'nombre' => $nombre,
@@ -114,7 +86,7 @@ class UnidadesTableSeeder extends Seeder
 
         $codigo = 'UD3';
         $nombre = 'Programación modular';
-        factory(Unidad::class)->create([
+        Unidad::factory()->create([
             'curso_id' => $curso->id,
             'codigo' => $codigo,
             'nombre' => $nombre,
@@ -123,7 +95,7 @@ class UnidadesTableSeeder extends Seeder
 
         $codigo = 'UD4';
         $nombre = 'Estructuras de datos I';
-        factory(Unidad::class)->create([
+        Unidad::factory()->create([
             'curso_id' => $curso->id,
             'codigo' => $codigo,
             'nombre' => $nombre,
@@ -132,7 +104,7 @@ class UnidadesTableSeeder extends Seeder
 
         $codigo = 'UD5';
         $nombre = 'Programación orientada a objetos';
-        factory(Unidad::class)->create([
+        Unidad::factory()->create([
             'curso_id' => $curso->id,
             'codigo' => $codigo,
             'nombre' => $nombre,
@@ -141,7 +113,7 @@ class UnidadesTableSeeder extends Seeder
 
         $codigo = 'UD6';
         $nombre = 'Estructuras de datos II';
-        factory(Unidad::class)->create([
+        Unidad::factory()->create([
             'curso_id' => $curso->id,
             'codigo' => $codigo,
             'nombre' => $nombre,
@@ -150,7 +122,7 @@ class UnidadesTableSeeder extends Seeder
 
         $codigo = 'UD7';
         $nombre = 'Programación funcional';
-        factory(Unidad::class)->create([
+        Unidad::factory()->create([
             'curso_id' => $curso->id,
             'codigo' => $codigo,
             'nombre' => $nombre,
@@ -159,7 +131,7 @@ class UnidadesTableSeeder extends Seeder
 
         $codigo = 'UD8';
         $nombre = 'GUI';
-        factory(Unidad::class)->create([
+        Unidad::factory()->create([
             'curso_id' => $curso->id,
             'codigo' => $codigo,
             'nombre' => $nombre,
@@ -168,7 +140,7 @@ class UnidadesTableSeeder extends Seeder
 
         $codigo = 'UD9';
         $nombre = 'Persistencia';
-        factory(Unidad::class)->create([
+        Unidad::factory()->create([
             'curso_id' => $curso->id,
             'codigo' => $codigo,
             'nombre' => $nombre,

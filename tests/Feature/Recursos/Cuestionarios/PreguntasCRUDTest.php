@@ -26,7 +26,7 @@ class PreguntasCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $pregunta = factory(Pregunta::class)->create();
+        $pregunta = Pregunta::factory()->create();
 
         // When
         $response = $this->get(route('preguntas.index'));
@@ -102,7 +102,7 @@ class PreguntasCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $pregunta = factory(Pregunta::class)->make();
+        $pregunta = Pregunta::factory()->make();
         $total = Pregunta::all()->count();
 
         // When
@@ -118,7 +118,7 @@ class PreguntasCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $pregunta = factory(Pregunta::class)->make();
+        $pregunta = Pregunta::factory()->make();
 
         // When
         $response = $this->post(route('preguntas.store'), $pregunta->toArray());
@@ -134,7 +134,7 @@ class PreguntasCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $pregunta = factory(Pregunta::class)->make();
+        $pregunta = Pregunta::factory()->make();
 
         // When
         $response = $this->post(route('preguntas.store'), $pregunta->toArray());
@@ -147,7 +147,7 @@ class PreguntasCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $pregunta = factory(Pregunta::class)->make();
+        $pregunta = Pregunta::factory()->make();
 
         // When
         $response = $this->post(route('preguntas.store'), $pregunta->toArray());
@@ -182,7 +182,7 @@ class PreguntasCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $pregunta = factory(Pregunta::class)->make([$field => null]);
+        $pregunta = Pregunta::factory()->make([$field => null]);
 
         // When
         $response = $this->post(route('preguntas.store'), $pregunta->toArray());
@@ -204,7 +204,7 @@ class PreguntasCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $pregunta = factory(Pregunta::class)->create();
+        $pregunta = Pregunta::factory()->create();
 
         // When
         $response = $this->get(route('preguntas.show', $pregunta));
@@ -219,7 +219,7 @@ class PreguntasCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $pregunta = factory(Pregunta::class)->create();
+        $pregunta = Pregunta::factory()->create();
 
         // When
         $response = $this->get(route('preguntas.show', $pregunta));
@@ -231,7 +231,7 @@ class PreguntasCRUDTest extends TestCase
     public function testNotAuthNotShow()
     {
         // Given
-        $pregunta = factory(Pregunta::class)->create();
+        $pregunta = Pregunta::factory()->create();
 
         // When
         $response = $this->get(route('preguntas.show', $pregunta));
@@ -246,7 +246,7 @@ class PreguntasCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $pregunta = factory(Pregunta::class)->create();
+        $pregunta = Pregunta::factory()->create();
 
         // When
         $response = $this->get(route('preguntas.edit', $pregunta), $pregunta->toArray());
@@ -261,7 +261,7 @@ class PreguntasCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $pregunta = factory(Pregunta::class)->create();
+        $pregunta = Pregunta::factory()->create();
 
         // When
         $response = $this->get(route('preguntas.edit', $pregunta), $pregunta->toArray());
@@ -274,7 +274,7 @@ class PreguntasCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $pregunta = factory(Pregunta::class)->create();
+        $pregunta = Pregunta::factory()->create();
 
         // When
         $response = $this->get(route('preguntas.edit', $pregunta), $pregunta->toArray());
@@ -289,7 +289,7 @@ class PreguntasCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $pregunta = factory(Pregunta::class)->create();
+        $pregunta = Pregunta::factory()->create();
         $pregunta->texto = "Updated";
 
         // When
@@ -305,7 +305,7 @@ class PreguntasCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $pregunta = factory(Pregunta::class)->create();
+        $pregunta = Pregunta::factory()->create();
         $pregunta->texto = "Updated";
 
         // When
@@ -319,7 +319,7 @@ class PreguntasCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $pregunta = factory(Pregunta::class)->create();
+        $pregunta = Pregunta::factory()->create();
         $pregunta->texto = "Updated";
 
         // When
@@ -335,7 +335,7 @@ class PreguntasCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $pregunta = factory(Pregunta::class)->create();
+        $pregunta = Pregunta::factory()->create();
         $empty = new Pregunta();
         foreach ($this->required as $field) {
             $empty->$field = '0';
@@ -354,7 +354,7 @@ class PreguntasCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $pregunta = factory(Pregunta::class)->create();
+        $pregunta = Pregunta::factory()->create();
         $pregunta->$field = null;
 
         // When
@@ -377,7 +377,7 @@ class PreguntasCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $pregunta = factory(Pregunta::class)->create();
+        $pregunta = Pregunta::factory()->create();
 
         // When
         $this->delete(route('preguntas.destroy', $pregunta));
@@ -392,7 +392,7 @@ class PreguntasCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $pregunta = factory(Pregunta::class)->create();
+        $pregunta = Pregunta::factory()->create();
 
         // When
         $response = $this->delete(route('preguntas.destroy', $pregunta));
@@ -405,7 +405,7 @@ class PreguntasCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $pregunta = factory(Pregunta::class)->create();
+        $pregunta = Pregunta::factory()->create();
 
         // When
         $response = $this->delete(route('preguntas.destroy', $pregunta));

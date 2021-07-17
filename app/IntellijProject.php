@@ -4,14 +4,18 @@ namespace App;
 
 use App\Gitea\GiteaClient;
 use Cache;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Log;
 
 class IntellijProject extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'repositorio', 'titulo', 'descripcion', 'host',
         '__import_id', 'curso_id',
+        'orden',
     ];
 
     public function actividades()

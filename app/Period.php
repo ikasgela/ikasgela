@@ -2,11 +2,13 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Watson\Rememberable\Rememberable;
 
 class Period extends Model
 {
+    use HasFactory;
     use Rememberable;
 
     protected $rememberFor;

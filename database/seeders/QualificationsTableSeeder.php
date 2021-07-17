@@ -27,21 +27,21 @@ class QualificationsTableSeeder extends Seeder
 
         // Competencias
 
-        $ce1 = factory(Skill::class)->create([
+        $ce1 = Skill::factory()->create([
             'curso_id' => $curso->id,
             'name' => 'CE1 - Diseño de algoritmos',
             'description' => 'Especificar, diseñar e implementar algoritmos en un lenguaje de programación, utilizando métodos eficientes, sistemáticos y organizados de resolución de problemas.',
             'peso_examen' => 40,
         ]);
 
-        $ce2 = factory(Skill::class)->create([
+        $ce2 = Skill::factory()->create([
             'curso_id' => $curso->id,
             'name' => 'CE2 - Sintáxis del lenguaje',
             'description' => 'Escribir correctamente, compilar y ejecutar programas en un lenguaje de alto nivel.',
             'peso_examen' => 40,
         ]);
 
-        $ce3 = factory(Skill::class)->create([
+        $ce3 = Skill::factory()->create([
             'curso_id' => $curso->id,
             'name' => 'CE3 - Estructuras de datos y de control',
             'description' => 'Conocer y dominar estructuras básicas fundamentales utilizadas en la programación, tanto estructuras de datos como estructuras de control del flujo del programa.',
@@ -50,7 +50,7 @@ class QualificationsTableSeeder extends Seeder
 
         // Cualificación
 
-        $cualificacion = factory(Qualification::class)->create([
+        $cualificacion = Qualification::factory()->create([
             'curso_id' => $curso->id,
             'name' => 'General',
             'description' => 'Cualificación predeterminada para el curso.',
@@ -68,7 +68,7 @@ class QualificationsTableSeeder extends Seeder
 
         // Primera unidad
 
-        $cualificacion = factory(Qualification::class)->create([
+        $cualificacion = Qualification::factory()->create([
             'curso_id' => $curso->id,
             'name' => 'Introducción a la programación',
             'description' => 'Presentación del curso, conceptos básicos y uso de las herramientas.',

@@ -2,16 +2,19 @@
 
 namespace Database\Factories;
 
-/* @var $factory \Illuminate\Database\Eloquent\Factory */
-
 use App\Item;
 use App\Pregunta;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Item::class, function (Faker $faker) {
+class ItemFactory extends Factory
+{
+    protected $model = Item::class;
 
-    return [
-        'pregunta_id' => factory(Pregunta::class),
-        'texto' => $faker->sentence(3),
-    ];
-});
+    public function definition()
+    {
+        return [
+            'pregunta_id' => Pregunta::factory(),
+            'texto' => $this->faker->sentence(3),
+        ];
+    }
+}

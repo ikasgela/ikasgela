@@ -43,7 +43,6 @@
         "lab404/laravel-impersonate": "^1.6",
         "laravel/framework": "^8.0",
         "laravel/helpers": "^1.1",
-        "laravel/legacy-factories": "^1.1",
         "laravel/ui": "^3.0",
         "laravelcollective/html": "^6.0",
         "laraveles/spanish": "^1.1",

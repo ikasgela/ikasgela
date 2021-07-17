@@ -18,7 +18,7 @@
             <th>{{ __('Score') }}</th>
             <th class="text-center">{{ __('Auto') }}</th>
             <th>{{ __('Next') }}</th>
-            <th>{{ __('Resources') }}</th>
+            <th colspan="2">{{ __('Resources') }}</th>
             <th>{{ __('Actions') }}</th>
         </tr>
         </thead>
@@ -66,6 +66,13 @@
                     @include('actividades.partials.siguiente')
                 </td>
                 @include('partials.botones_recursos')
+                <td>
+                    <div class='btn-group'>
+                        <a title="{{ __('Sort') }}"
+                           href="{{ route('actividades.show', [$actividad->id]) }}"
+                           class='btn btn-light btn-sm'><i class="fas fa-sort"></i></a>
+                    </div>
+                </td>
                 <td>
                     <div class='btn-group'>
                         <a title="{{ __('Preview') }}"

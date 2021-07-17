@@ -3,11 +3,13 @@
 namespace App;
 
 use App\Traits\Etiquetas;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Watson\Rememberable\Rememberable;
 
 class Unidad extends Model
 {
+    use HasFactory;
     use Etiquetas;
     use Rememberable;
 

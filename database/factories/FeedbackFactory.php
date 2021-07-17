@@ -2,17 +2,20 @@
 
 namespace Database\Factories;
 
-/* @var $factory \Illuminate\Database\Eloquent\Factory */
-
 use App\Curso;
 use App\Feedback;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Feedback::class, function (Faker $faker) {
+class FeedbackFactory extends Factory
+{
+    protected $model = Feedback::class;
 
-    return [
-        'curso_id' => factory(Curso::class),
-        'titulo' => $faker->sentence(3, true),
-        'mensaje' => $faker->sentence(8, true),
-    ];
-});
+    public function definition()
+    {
+        return [
+            'curso_id' => Curso::factory(),
+            'titulo' => $this->faker->sentence(3, true),
+            'mensaje' => $this->faker->sentence(8, true),
+        ];
+    }
+}

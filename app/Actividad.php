@@ -4,13 +4,16 @@ namespace App;
 
 use App\Traits\Etiquetas;
 use Bkwld\Cloner\Cloneable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Actividad extends Model
 {
+    use HasFactory;
     use Cloneable;
     use LogsActivity;
     use SoftDeletes;
@@ -273,5 +276,36 @@ class Actividad extends Model
         return $this
             ->belongsToMany(Team::class)
             ->withTimestamps();
+    }
+
+    public function getRecursosAttribute()
+    {
+        $recursos = new Collection();
+
+        foreach ($this->youtube_videos()->get() as $recurso) {
+            $recursos->add($recurso);
+        }
+
+        foreach ($this->intellij_projects()->get() as $recurso) {
+            $recursos->add($recurso);
+        }
+
+        foreach ($this->markdown_texts()->get() as $recurso) {
+            $recursos->add($recurso);
+        }
+
+        foreach ($this->file_resources()->get() as $recurso) {
+            $recursos->add($recurso);
+        }
+
+        foreach ($this->file_uploads()->get() as $recurso) {
+            $recursos->add($recurso);
+        }
+
+        foreach ($this->cuestionarios()->get() as $recurso) {
+            $recursos->add($recurso);
+        }
+
+        return $recursos->sortBy('orden')->keyBy('orden');
     }
 }

@@ -2,7 +2,9 @@
 
 namespace Tests\Feature;
 
+use App;
 use App\Registro;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
@@ -18,6 +20,8 @@ class RegistrosCRUDTest extends TestCase
     {
         parent::setUp();
         parent::crearUsuarios();
+
+        App::setLocale('es');
     }
 
     public function testIndex()
@@ -26,13 +30,13 @@ class RegistrosCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $registro = factory(Registro::class)->create();
+        $registro = Registro::factory()->create();
 
         // When
         $response = $this->get(route('registros.index'));
 
         // Then
-        $response->assertSee($registro->timestamp);
+        $response->assertSee(Carbon::parse($registro->timestamp)->format('d/m/Y H:i:s'));
     }
 
     public function testNotAdminNotIndex()
@@ -79,7 +83,7 @@ class RegistrosCRUDTest extends TestCase
         $this->actingAs($this->alumno);
 
         // Given
-        $registro = factory(Registro::class)->make();
+        $registro = Registro::factory()->make();
         $total = Registro::all()->count();
 
         // When
@@ -95,7 +99,7 @@ class RegistrosCRUDTest extends TestCase
         $this->actingAs($this->not_alumno_profesor);
 
         // Given
-        $registro = factory(Registro::class)->make();
+        $registro = Registro::factory()->make();
 
         // When
         $response = $this->post(route('registros.store'), $registro->toArray());
@@ -108,7 +112,7 @@ class RegistrosCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $registro = factory(Registro::class)->make();
+        $registro = Registro::factory()->make();
 
         // When
         $response = $this->post(route('registros.store'), $registro->toArray());
@@ -143,7 +147,7 @@ class RegistrosCRUDTest extends TestCase
         $this->actingAs($this->alumno);
 
         // Given
-        $registro = factory(Registro::class)->make([$field => null]);
+        $registro = Registro::factory()->make([$field => null]);
 
         // When
         $response = $this->post(route('registros.store'), $registro->toArray());
@@ -207,7 +211,7 @@ class RegistrosCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $registro = factory(Registro::class)->create();
+        $registro = Registro::factory()->create();
 
         // When
         $this->delete(route('registros.destroy', $registro));
@@ -222,7 +226,7 @@ class RegistrosCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $registro = factory(Registro::class)->create();
+        $registro = Registro::factory()->create();
 
         // When
         $response = $this->delete(route('registros.destroy', $registro));
@@ -235,7 +239,7 @@ class RegistrosCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $registro = factory(Registro::class)->create();
+        $registro = Registro::factory()->create();
 
         // When
         $response = $this->delete(route('registros.destroy', $registro));

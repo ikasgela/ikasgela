@@ -14,7 +14,7 @@ class FileUploadsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(FileUpload::class)->create([
+        FileUpload::factory()->create([
             'titulo' => 'Diagrama de flujo',
             'descripcion' => 'Dibuja el diagrama del enunciado en papel y sube una foto para calificar.',
             'max_files' => 1,

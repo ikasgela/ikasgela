@@ -2,24 +2,31 @@
 
 namespace Database\Factories;
 
-/* @var $factory \Illuminate\Database\Eloquent\Factory */
-
 use App\Curso;
 use App\Unidad;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-$factory->define(Unidad::class, function (Faker $faker) {
+class UnidadFactory extends Factory
+{
+    protected $model = Unidad::class;
 
-    $nombre = $faker->words(3, true);
+    public function definition()
+    {
+        $nombre = $this->faker->words(3, true);
 
-    return [
-        'curso_id' => factory(Curso::class),
-        'nombre' => $nombre,
-        'slug' => Str::slug($nombre)
-    ];
-});
+        return [
+            'curso_id' => Curso::factory(),
+            'nombre' => $nombre,
+            'slug' => Str::slug($nombre)
+        ];
+    }
 
-$factory->afterCreating(Unidad::class, function ($unidad, Faker $faker) {
-    $unidad->orden = $unidad->id;
-});
+    public function configure()
+    {
+        return $this->afterCreating(function (Unidad $model) {
+            $model->orden = $model->id;
+            $model->save();
+        });
+    }
+}

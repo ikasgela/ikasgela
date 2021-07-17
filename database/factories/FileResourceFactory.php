@@ -2,14 +2,20 @@
 
 namespace Database\Factories;
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-
 use App\FileResource;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
-$factory->define(FileResource::class, function (Faker $faker) {
-    return [
-        'titulo' => $faker->words(3, true),
-        'descripcion' => $faker->sentence(6),
-    ];
-});
+class FileResourceFactory extends Factory
+{
+    protected $model = FileResource::class;
+
+    public function definition()
+    {
+        return [
+            'titulo' => $this->faker->words(3, true),
+            'descripcion' => $this->faker->sentence(6),
+            'orden' => Str::orderedUuid(),
+        ];
+    }
+}

@@ -27,15 +27,15 @@ class MensajeDirectoAlumnoTest extends TestCase
         // Given
         $user = $this->alumno;
 
-        $curso = factory(Curso::class)->create();
+        $curso = Curso::factory()->create();
 
         setting_usuario(['curso_actual' => $curso->id], $user); // Alumno
         setting_usuario(['curso_actual' => $curso->id]);        // Profesor
 
-        $alumnos = factory(User::class, 3)
+        $alumnos = User::factory()->count(3)
             ->create()
             ->each(function ($user) {
-                $user->roles()->attach(factory(Role::class)->create([
+                $user->roles()->attach(Role::factory()->create([
                     'name' => 'alumno'
                 ]));
             });

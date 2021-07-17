@@ -26,7 +26,7 @@ class MarkdownTextsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $markdown_text = factory(MarkdownText::class)->create();
+        $markdown_text = MarkdownText::factory()->create();
 
         // When
         $response = $this->get(route('markdown_texts.index'));
@@ -41,7 +41,7 @@ class MarkdownTextsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $markdown_text = factory(MarkdownText::class)->create();
+        $markdown_text = MarkdownText::factory()->create();
 
         // When
         $response = $this->post(route('markdown_texts.index.filtro', ['curso_id' => $markdown_text->curso_id]));
@@ -117,7 +117,7 @@ class MarkdownTextsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $markdown_text = factory(MarkdownText::class)->make();
+        $markdown_text = MarkdownText::factory()->make();
         $total = MarkdownText::all()->count();
 
         // When
@@ -133,7 +133,7 @@ class MarkdownTextsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $markdown_text = factory(MarkdownText::class)->make();
+        $markdown_text = MarkdownText::factory()->make();
 
         // When
         $response = $this->post(route('markdown_texts.store'), $markdown_text->toArray());
@@ -146,7 +146,7 @@ class MarkdownTextsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $markdown_text = factory(MarkdownText::class)->make();
+        $markdown_text = MarkdownText::factory()->make();
 
         // When
         $response = $this->post(route('markdown_texts.store'), $markdown_text->toArray());
@@ -181,7 +181,7 @@ class MarkdownTextsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $markdown_text = factory(MarkdownText::class)->make([$field => null]);
+        $markdown_text = MarkdownText::factory()->make([$field => null]);
 
         // When
         $response = $this->post(route('markdown_texts.store'), $markdown_text->toArray());
@@ -203,7 +203,7 @@ class MarkdownTextsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $markdown_text = factory(MarkdownText::class)->create();
+        $markdown_text = MarkdownText::factory()->create();
 
         // When
         $response = $this->get(route('markdown_texts.show', $markdown_text));
@@ -218,7 +218,7 @@ class MarkdownTextsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $markdown_text = factory(MarkdownText::class)->create();
+        $markdown_text = MarkdownText::factory()->create();
 
         // When
         $response = $this->get(route('markdown_texts.show', $markdown_text));
@@ -230,7 +230,7 @@ class MarkdownTextsCRUDTest extends TestCase
     public function testNotAuthNotShow()
     {
         // Given
-        $markdown_text = factory(MarkdownText::class)->create();
+        $markdown_text = MarkdownText::factory()->create();
 
         // When
         $response = $this->get(route('markdown_texts.show', $markdown_text));
@@ -245,7 +245,7 @@ class MarkdownTextsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $markdown_text = factory(MarkdownText::class)->create();
+        $markdown_text = MarkdownText::factory()->create();
 
         // When
         $response = $this->get(route('markdown_texts.edit', $markdown_text), $markdown_text->toArray());
@@ -260,7 +260,7 @@ class MarkdownTextsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $markdown_text = factory(MarkdownText::class)->create();
+        $markdown_text = MarkdownText::factory()->create();
 
         // When
         $response = $this->get(route('markdown_texts.edit', $markdown_text), $markdown_text->toArray());
@@ -273,7 +273,7 @@ class MarkdownTextsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $markdown_text = factory(MarkdownText::class)->create();
+        $markdown_text = MarkdownText::factory()->create();
 
         // When
         $response = $this->get(route('markdown_texts.edit', $markdown_text), $markdown_text->toArray());
@@ -288,7 +288,7 @@ class MarkdownTextsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $markdown_text = factory(MarkdownText::class)->create();
+        $markdown_text = MarkdownText::factory()->create();
         $markdown_text->titulo = "Updated";
 
         // When
@@ -304,7 +304,7 @@ class MarkdownTextsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $markdown_text = factory(MarkdownText::class)->create();
+        $markdown_text = MarkdownText::factory()->create();
         $markdown_text->titulo = "Updated";
 
         // When
@@ -318,7 +318,7 @@ class MarkdownTextsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $markdown_text = factory(MarkdownText::class)->create();
+        $markdown_text = MarkdownText::factory()->create();
         $markdown_text->titulo = "Updated";
 
         // When
@@ -334,7 +334,7 @@ class MarkdownTextsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $markdown_text = factory(MarkdownText::class)->create();
+        $markdown_text = MarkdownText::factory()->create();
         $empty = new MarkdownText();
         foreach ($this->required as $field) {
             $empty->$field = '0';
@@ -353,7 +353,7 @@ class MarkdownTextsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $markdown_text = factory(MarkdownText::class)->create();
+        $markdown_text = MarkdownText::factory()->create();
         $markdown_text->$field = null;
 
         // When
@@ -376,7 +376,7 @@ class MarkdownTextsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $markdown_text = factory(MarkdownText::class)->create();
+        $markdown_text = MarkdownText::factory()->create();
 
         // When
         $this->delete(route('markdown_texts.destroy', $markdown_text));
@@ -391,7 +391,7 @@ class MarkdownTextsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $markdown_text = factory(MarkdownText::class)->create();
+        $markdown_text = MarkdownText::factory()->create();
 
         // When
         $response = $this->delete(route('markdown_texts.destroy', $markdown_text));
@@ -404,7 +404,7 @@ class MarkdownTextsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $markdown_text = factory(MarkdownText::class)->create();
+        $markdown_text = MarkdownText::factory()->create();
 
         // When
         $response = $this->delete(route('markdown_texts.destroy', $markdown_text));

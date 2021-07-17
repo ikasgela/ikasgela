@@ -26,30 +26,30 @@ abstract class TestCase extends BaseTestCase
         $rol_profesor = Role::create(['name' => 'profesor', 'description' => 'Profesor']);
         $rol_tutor = Role::create(['name' => 'tutor', 'description' => 'Tutor']);
 
-        $this->admin = factory(User::class)->create();
+        $this->admin = User::factory()->create();
         $this->admin->roles()->attach($rol_admin);
 
-        $this->alumno = factory(User::class)->create();
+        $this->alumno = User::factory()->create();
         $this->alumno->roles()->attach($rol_alumno);
 
-        $this->profesor = factory(User::class)->create();
+        $this->profesor = User::factory()->create();
         $this->profesor->roles()->attach($rol_profesor);
 
-        $this->not_admin = factory(User::class)->create();
+        $this->not_admin = User::factory()->create();
         $this->not_admin->roles()->attach($rol_alumno);
         $this->not_admin->roles()->attach($rol_profesor);
         $this->not_admin->roles()->attach($rol_tutor);
 
-        $this->not_profesor = factory(User::class)->create();
+        $this->not_profesor = User::factory()->create();
         $this->not_profesor->roles()->attach($rol_alumno);
         $this->not_profesor->roles()->attach($rol_admin);
         $this->not_profesor->roles()->attach($rol_tutor);
 
-        $this->not_alumno_profesor = factory(User::class)->create();
+        $this->not_alumno_profesor = User::factory()->create();
         $this->not_alumno_profesor->roles()->attach($rol_admin);
         $this->not_alumno_profesor->roles()->attach($rol_tutor);
 
-        $this->not_admin_profesor = factory(User::class)->create();
+        $this->not_admin_profesor = User::factory()->create();
         $this->not_admin_profesor->roles()->attach($rol_alumno);
         $this->not_admin_profesor->roles()->attach($rol_tutor);
     }

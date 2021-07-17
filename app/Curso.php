@@ -2,12 +2,14 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Watson\Rememberable\Rememberable;
 
 class Curso extends Model
 {
+    use HasFactory;
     use Rememberable;
 
     protected $rememberFor;

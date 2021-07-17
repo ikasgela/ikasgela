@@ -24,7 +24,7 @@ class CursosTableSeeder extends Seeder
 
         $nombre = 'Programación';
 
-        factory(Curso::class)->create([
+        Curso::factory()->create([
             'category_id' => $category->id,
             'nombre' => $nombre,
             'descripcion' => 'Fundamentos de Programación con Java.',
@@ -45,7 +45,7 @@ class CursosTableSeeder extends Seeder
 
         $nombre = 'Programación I';
 
-        factory(Curso::class)->create([
+        Curso::factory()->create([
             'category_id' => $category->id,
             'nombre' => $nombre,
             'descripcion' => 'Asignatura: Programación I, Grado Dual en Industria Digital.',
@@ -62,7 +62,7 @@ class CursosTableSeeder extends Seeder
 
         $nombre = 'Programación';
 
-        factory(Curso::class)->create([
+        Curso::factory()->create([
             'category_id' => $category->id,
             'nombre' => $nombre,
             'descripcion' => 'Módulo: Programación, CFGS en Desarrollo de Aplicaciones Multiplataforma.',

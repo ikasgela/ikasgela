@@ -26,7 +26,7 @@ class ActividadesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
+        $actividad = Actividad::factory()->create();
         session(['filtrar_curso_actual' => $actividad->unidad->curso_id]);
 
         // When
@@ -103,7 +103,7 @@ class ActividadesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $actividad = factory(Actividad::class)->make();
+        $actividad = Actividad::factory()->make();
         $total = Actividad::all()->count();
 
         // When
@@ -119,7 +119,7 @@ class ActividadesCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $actividad = factory(Actividad::class)->make();
+        $actividad = Actividad::factory()->make();
 
         // When
         $response = $this->post(route('actividades.store'), $actividad->toArray());
@@ -132,7 +132,7 @@ class ActividadesCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $actividad = factory(Actividad::class)->make();
+        $actividad = Actividad::factory()->make();
 
         // When
         $response = $this->post(route('actividades.store'), $actividad->toArray());
@@ -167,7 +167,7 @@ class ActividadesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $actividad = factory(Actividad::class)->make([$field => null]);
+        $actividad = Actividad::factory()->make([$field => null]);
 
         // When
         $response = $this->post(route('actividades.store'), $actividad->toArray());
@@ -189,13 +189,13 @@ class ActividadesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
+        $actividad = Actividad::factory()->create();
 
         // When
         $response = $this->get(route('actividades.show', $actividad));
 
         // Then
-        $response->assertStatus(404);
+        $response->assertSee($actividad->nombre);
     }
 
     public function testNotAdminNotShow()
@@ -204,7 +204,7 @@ class ActividadesCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
+        $actividad = Actividad::factory()->create();
 
         // When
         $response = $this->get(route('actividades.show', $actividad));
@@ -216,7 +216,7 @@ class ActividadesCRUDTest extends TestCase
     public function testNotAuthNotShow()
     {
         // Given
-        $actividad = factory(Actividad::class)->create();
+        $actividad = Actividad::factory()->create();
 
         // When
         $response = $this->get(route('actividades.show', $actividad));
@@ -231,7 +231,7 @@ class ActividadesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
+        $actividad = Actividad::factory()->create();
 
         // When
         $response = $this->get(route('actividades.edit', $actividad), $actividad->toArray());
@@ -246,7 +246,7 @@ class ActividadesCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
+        $actividad = Actividad::factory()->create();
 
         // When
         $response = $this->get(route('actividades.edit', $actividad), $actividad->toArray());
@@ -259,7 +259,7 @@ class ActividadesCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $actividad = factory(Actividad::class)->create();
+        $actividad = Actividad::factory()->create();
 
         // When
         $response = $this->get(route('actividades.edit', $actividad), $actividad->toArray());
@@ -274,7 +274,7 @@ class ActividadesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
+        $actividad = Actividad::factory()->create();
         $actividad->nombre = "Updated";
 
         // When
@@ -290,7 +290,7 @@ class ActividadesCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
+        $actividad = Actividad::factory()->create();
         $actividad->nombre = "Updated";
 
         // When
@@ -304,7 +304,7 @@ class ActividadesCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $actividad = factory(Actividad::class)->create();
+        $actividad = Actividad::factory()->create();
         $actividad->nombre = "Updated";
 
         // When
@@ -320,7 +320,7 @@ class ActividadesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
+        $actividad = Actividad::factory()->create();
         $empty = new Actividad();
         foreach ($this->required as $field) {
             $empty->$field = '0';
@@ -339,7 +339,7 @@ class ActividadesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
+        $actividad = Actividad::factory()->create();
         $actividad->$field = null;
 
         // When
@@ -362,7 +362,7 @@ class ActividadesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
+        $actividad = Actividad::factory()->create();
 
         // When
         $this->delete(route('actividades.destroy', $actividad));
@@ -377,7 +377,7 @@ class ActividadesCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
+        $actividad = Actividad::factory()->create();
 
         // When
         $response = $this->delete(route('actividades.destroy', $actividad));
@@ -390,7 +390,7 @@ class ActividadesCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $actividad = factory(Actividad::class)->create();
+        $actividad = Actividad::factory()->create();
 
         // When
         $response = $this->delete(route('actividades.destroy', $actividad));

@@ -3,10 +3,12 @@
 namespace App;
 
 use Bkwld\Cloner\Cloneable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Cuestionario extends Model
 {
+    use HasFactory;
     use Cloneable;
 
     protected $cloneable_relations = ['preguntas'];
@@ -15,6 +17,7 @@ class Cuestionario extends Model
     protected $fillable = [
         'titulo', 'descripcion', 'plantilla', 'respondido',
         '__import_id', 'curso_id',
+        'orden',
     ];
 
     public function actividades()

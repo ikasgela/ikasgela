@@ -16,19 +16,19 @@ class OrganizationsTableSeeder extends Seeder
     public function run()
     {
         $name = 'ikasgela';
-        factory(Organization::class)->create([
+        Organization::factory()->create([
             'name' => $name,
             'slug' => Str::slug($name)
         ]);
 
         $name = 'Egibide';
-        factory(Organization::class)->create([
+        Organization::factory()->create([
             'name' => $name,
             'slug' => Str::slug($name)
         ]);
 
         $name = 'Deusto';
-        factory(Organization::class)->create([
+        Organization::factory()->create([
             'name' => $name,
             'slug' => Str::slug($name)
         ]);

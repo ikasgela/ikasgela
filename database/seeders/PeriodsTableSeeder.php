@@ -21,7 +21,7 @@ class PeriodsTableSeeder extends Seeder
         $deusto = Organization::where('slug', 'deusto')->first();
 
         $name = '2019';
-        $periodo = factory(Period::class)->create([
+        $periodo = Period::factory()->create([
             'organization_id' => $ikasgela->id,
             'name' => $name,
             'slug' => Str::slug($name)
@@ -31,7 +31,7 @@ class PeriodsTableSeeder extends Seeder
         $ikasgela->save();
 
         $name = '2019';
-        $periodo = factory(Period::class)->create([
+        $periodo = Period::factory()->create([
             'organization_id' => $egibide->id,
             'name' => $name,
             'slug' => Str::slug($name)
@@ -41,7 +41,7 @@ class PeriodsTableSeeder extends Seeder
         $egibide->save();
 
         $name = '2019';
-        $periodo = factory(Period::class)->create([
+        $periodo = Period::factory()->create([
             'organization_id' => $deusto->id,
             'name' => $name,
             'slug' => Str::slug($name)

@@ -24,7 +24,7 @@ class CuestionariosRespuestasTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $cuestionario = factory(Cuestionario::class)->create();
+        $cuestionario = Cuestionario::factory()->create();
 
         // When
         $response = $this->put(route('cuestionarios.respuesta', $cuestionario), ['respuestas' => null]);
@@ -40,7 +40,7 @@ class CuestionariosRespuestasTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $item = factory(Item::class)->create([
+        $item = Item::factory()->create([
             'correcto' => true,
             'feedback' => 'Feedback OK',
         ]);
@@ -66,7 +66,7 @@ class CuestionariosRespuestasTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $item = factory(Item::class)->create([
+        $item = Item::factory()->create([
             'correcto' => false,
             'feedback' => 'Feedback ERROR',
         ]);
@@ -92,12 +92,12 @@ class CuestionariosRespuestasTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $item = factory(Item::class)->create([
+        $item = Item::factory()->create([
             'correcto' => false,
             'feedback' => 'Feedback ERROR',
         ]);
 
-        $item2 = factory(Item::class)->create([
+        $item2 = Item::factory()->create([
             'correcto' => true,
             'feedback' => 'Feedback OK no seleccionado',
         ]);

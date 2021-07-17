@@ -15,7 +15,7 @@ class FileResourceSeeder extends Seeder
      */
     public function run()
     {
-        $file_resource = factory(FileResource::class)->create([
+        $file_resource = FileResource::factory()->create([
             'titulo' => 'Presentaciones',
             'descripcion' => 'Archivos PDF con las presentaciones.',
             'curso_id' => 1,

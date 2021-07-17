@@ -2,16 +2,21 @@
 
 namespace Database\Factories;
 
-/* @var $factory \Illuminate\Database\Eloquent\Factory */
-
 use App\FileUpload;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
-$factory->define(FileUpload::class, function (Faker $faker) {
+class FileUploadFactory extends Factory
+{
+    protected $model = FileUpload::class;
 
-    return [
-        'titulo' => $faker->words(3, true),
-        'descripcion' => $faker->sentence(6),
-        'max_files' => 1
-    ];
-});
+    public function definition()
+    {
+        return [
+            'titulo' => $this->faker->words(3, true),
+            'descripcion' => $this->faker->sentence(6),
+            'max_files' => 1,
+            'orden' => Str::orderedUuid(),
+        ];
+    }
+}

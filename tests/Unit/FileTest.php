@@ -37,8 +37,8 @@ class FileTest extends TestCase
     {
         // Auth
         // Given
-        $user = factory(User::class)->create();
-        $file = factory(File::class)->create(['user_id' => $user->id]);
+        $user = User::factory()->create();
+        $file = File::factory()->create(['user_id' => $user->id]);
 
         // When
         // Then

@@ -23,10 +23,10 @@ class CuestionariosAsociarActividadTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
-        $cuestionario1 = factory(Cuestionario::class)->create();
-        $cuestionario2 = factory(Cuestionario::class)->create();
-        $cuestionario3 = factory(Cuestionario::class)->create();
+        $actividad = Actividad::factory()->create();
+        $cuestionario1 = Cuestionario::factory()->create();
+        $cuestionario2 = Cuestionario::factory()->create();
+        $cuestionario3 = Cuestionario::factory()->create();
 
         $actividad->cuestionarios()->attach($cuestionario1);
         $actividad->cuestionarios()->attach($cuestionario3);
@@ -51,9 +51,9 @@ class CuestionariosAsociarActividadTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
-        $cuestionario1 = factory(Cuestionario::class)->create();
-        $cuestionario2 = factory(Cuestionario::class)->create();
+        $actividad = Actividad::factory()->create();
+        $cuestionario1 = Cuestionario::factory()->create();
+        $cuestionario2 = Cuestionario::factory()->create();
 
         // When
         $this->post(route('cuestionarios.asociar', $actividad), ['seleccionadas' => [$cuestionario1, $cuestionario2]]);
@@ -68,7 +68,7 @@ class CuestionariosAsociarActividadTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
+        $actividad = Actividad::factory()->create();
 
         // When
         $response = $this->post(route('cuestionarios.asociar', $actividad), ['seleccionadas' => null]);
@@ -83,9 +83,9 @@ class CuestionariosAsociarActividadTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
-        $cuestionario1 = factory(Cuestionario::class)->create();
-        $cuestionario2 = factory(Cuestionario::class)->create();
+        $actividad = Actividad::factory()->create();
+        $cuestionario1 = Cuestionario::factory()->create();
+        $cuestionario2 = Cuestionario::factory()->create();
 
         $actividad->cuestionarios()->attach($cuestionario1);
         $actividad->cuestionarios()->attach($cuestionario2);

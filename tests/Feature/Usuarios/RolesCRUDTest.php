@@ -26,7 +26,7 @@ class RolesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
 
         // When
         $response = $this->get(route('roles.index'));
@@ -102,7 +102,7 @@ class RolesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $role = factory(Role::class)->make();
+        $role = Role::factory()->make();
         $total = Role::all()->count();
 
         // When
@@ -118,7 +118,7 @@ class RolesCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $role = factory(Role::class)->make();
+        $role = Role::factory()->make();
 
         // When
         $response = $this->post(route('roles.store'), $role->toArray());
@@ -131,7 +131,7 @@ class RolesCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $role = factory(Role::class)->make();
+        $role = Role::factory()->make();
 
         // When
         $response = $this->post(route('roles.store'), $role->toArray());
@@ -166,7 +166,7 @@ class RolesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $role = factory(Role::class)->make([$field => null]);
+        $role = Role::factory()->make([$field => null]);
 
         // When
         $response = $this->post(route('roles.store'), $role->toArray());
@@ -188,7 +188,7 @@ class RolesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
 
         // When
         $response = $this->get(route('roles.show', $role));
@@ -203,7 +203,7 @@ class RolesCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
 
         // When
         $response = $this->get(route('roles.show', $role));
@@ -215,7 +215,7 @@ class RolesCRUDTest extends TestCase
     public function testNotAuthNotShow()
     {
         // Given
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
 
         // When
         $response = $this->get(route('roles.show', $role));
@@ -230,7 +230,7 @@ class RolesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
 
         // When
         $response = $this->get(route('roles.edit', $role), $role->toArray());
@@ -245,7 +245,7 @@ class RolesCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
 
         // When
         $response = $this->get(route('roles.edit', $role), $role->toArray());
@@ -258,7 +258,7 @@ class RolesCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
 
         // When
         $response = $this->get(route('roles.edit', $role), $role->toArray());
@@ -273,7 +273,7 @@ class RolesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
         $role->name = "Updated";
 
         // When
@@ -289,7 +289,7 @@ class RolesCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
         $role->name = "Updated";
 
         // When
@@ -303,7 +303,7 @@ class RolesCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
         $role->name = "Updated";
 
         // When
@@ -319,7 +319,7 @@ class RolesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
         $empty = new Role();
         foreach ($this->required as $field) {
             $empty->$field = '0';
@@ -338,7 +338,7 @@ class RolesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
         $role->$field = null;
 
         // When
@@ -361,7 +361,7 @@ class RolesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
 
         // When
         $this->delete(route('roles.destroy', $role));
@@ -376,7 +376,7 @@ class RolesCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
 
         // When
         $response = $this->delete(route('roles.destroy', $role));
@@ -389,7 +389,7 @@ class RolesCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
 
         // When
         $response = $this->delete(route('roles.destroy', $role));

@@ -2,18 +2,21 @@
 
 namespace Database\Factories;
 
-/* @var $factory \Illuminate\Database\Eloquent\Factory */
-
 use App\Actividad;
 use App\Tarea;
 use App\User;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Tarea::class, function (Faker $faker) {
+class TareaFactory extends Factory
+{
+    protected $model = Tarea::class;
 
-    return [
-        'user_id' => factory(User::class),
-        'actividad_id' => factory(Actividad::class),
-        'estado' => $faker->unique()->randomNumber(2),
-    ];
-});
+    public function definition()
+    {
+        return [
+            'user_id' => User::factory(),
+            'actividad_id' => Actividad::factory(),
+            'estado' => $this->faker->unique()->randomNumber(2),
+        ];
+    }
+}

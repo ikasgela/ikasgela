@@ -2,18 +2,23 @@
 
 namespace Database\Factories;
 
-/* @var $factory \Illuminate\Database\Eloquent\Factory */
-
 use App\MarkdownText;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
-$factory->define(MarkdownText::class, function (Faker $faker) {
+class MarkdownTextFactory extends Factory
+{
+    protected $model = MarkdownText::class;
 
-    return [
-        'titulo' => $faker->words(3, true),
-        'descripcion' => $faker->sentence(6),
-        'repositorio' => $faker->words(3, true),
-        'rama' => 'master',
-        'archivo' => 'README.md'
-    ];
-});
+    public function definition()
+    {
+        return [
+            'titulo' => $this->faker->words(3, true),
+            'descripcion' => $this->faker->sentence(6),
+            'repositorio' => $this->faker->words(3, true),
+            'rama' => 'master',
+            'archivo' => 'README.md',
+            'orden' => Str::orderedUuid(),
+        ];
+    }
+}

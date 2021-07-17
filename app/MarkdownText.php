@@ -5,13 +5,17 @@ namespace App;
 use App\Gitea\GiteaClient;
 use Cache;
 use GrahamCampbell\Markdown\Facades\Markdown;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class MarkdownText extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'titulo', 'descripcion', 'repositorio', 'rama', 'archivo',
         '__import_id', 'curso_id',
+        'orden',
     ];
 
     public function actividades()

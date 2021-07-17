@@ -148,15 +148,11 @@ class ActividadController extends Controller
 
     protected $table = 'actividades';
 
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Actividad $actividad
-     * @return \Illuminate\Http\Response
-     */
     public function show(Actividad $actividad)
     {
-        abort(404);
+        $ids = $actividad->recursos->pluck('orden')->toArray();
+
+        return view('actividades.show', compact(['actividad', 'ids']));
     }
 
     public function preview(Actividad $actividad)
@@ -243,7 +239,7 @@ class ActividadController extends Controller
         $override_allowed = $usuario_actual->hasAnyRole(['admin', 'profesor']);
 
         if ($tarea->user_id != $usuario_actual->id && !$override_allowed && !$tarea->actividad->hasEtiqueta('trabajo en equipo'))
-            return abort('403');
+            abort('403');
 
         $nuevoestado = $request->input('nuevoestado');
 
@@ -262,28 +258,28 @@ class ActividadController extends Controller
         switch ($nuevoestado) {
             case 10:
                 if (!in_array($estado_anterior, [11]) && !$override_allowed) {
-                    return abort(400, __('Invalid task state.'));
+                    abort(400, __('Invalid task state.'));
                 }
 
                 $tarea->estado = $nuevoestado;
                 break;
             case 20:
                 if (!in_array($estado_anterior, [10]) && !$override_allowed) {
-                    return abort(400, __('Invalid task state.'));
+                    abort(400, __('Invalid task state.'));
                 }
 
                 $tarea->estado = $nuevoestado;
                 break;
             case 21:
                 if (!in_array($estado_anterior, [41]) && !$override_allowed) {
-                    return abort(400, __('Invalid task state.'));
+                    abort(400, __('Invalid task state.'));
                 }
 
                 $tarea->estado = $nuevoestado;
                 break;
             case 30:
                 if (!in_array($estado_anterior, [20, 21]) && !$override_allowed) {
-                    return abort(400, __('Invalid task state.'));
+                    abort(400, __('Invalid task state.'));
                 }
 
                 $tarea->estado = $nuevoestado;
@@ -311,7 +307,7 @@ class ActividadController extends Controller
             // Reiniciada (botón de reset, para cuando se confunden y envian sin querer)
             case 31:
                 if (!in_array($estado_anterior, [30]) && !$override_allowed) {
-                    return abort(400, __('Invalid task state.'));
+                    abort(400, __('Invalid task state.'));
                 }
 
                 $tarea->estado = 20;
@@ -322,7 +318,7 @@ class ActividadController extends Controller
             // Reabierta (consume un intento y resta puntuación)
             case 32:
                 if (!in_array($estado_anterior, [30]) && !$override_allowed) {
-                    return abort(400, __('Invalid task state.'));
+                    abort(400, __('Invalid task state.'));
                 }
 
                 $tarea->estado = 20;
@@ -348,7 +344,7 @@ class ActividadController extends Controller
             /** @noinspection PhpMissingBreakStatementInspection */
             case 41:
                 if (!in_array($estado_anterior, [30, 31]) && !$override_allowed) {
-                    return abort(400, __('Invalid task state.'));
+                    abort(400, __('Invalid task state.'));
                 }
 
                 $tarea->estado = $nuevoestado;
@@ -358,7 +354,7 @@ class ActividadController extends Controller
             // Revisada: OK
             case 40:
                 if (!in_array($estado_anterior, [30, 31]) && !$override_allowed) {
-                    return abort(400, __('Invalid task state.'));
+                    abort(400, __('Invalid task state.'));
                 }
 
                 $tarea->estado = $nuevoestado;
@@ -386,7 +382,7 @@ class ActividadController extends Controller
             // Avance automático
             case 42:
                 if (!in_array($estado_anterior, [30, 31]) && !$override_allowed) {
-                    return abort(400, __('Invalid task state.'));
+                    abort(400, __('Invalid task state.'));
                 }
 
                 $tarea->estado = $nuevoestado;
@@ -396,7 +392,7 @@ class ActividadController extends Controller
                 break;
             case 50:
                 if (!in_array($estado_anterior, [40, 41, 42]) && !$override_allowed) {
-                    return abort(400, __('Invalid task state.'));
+                    abort(400, __('Invalid task state.'));
                 }
 
                 $tarea->estado = $nuevoestado;
@@ -404,7 +400,7 @@ class ActividadController extends Controller
             case 60:
             case 62:
                 if (!in_array($estado_anterior, [40, 41, 42, 50]) && !$override_allowed) {
-                    return abort(400, __('Invalid task state.'));
+                    abort(400, __('Invalid task state.'));
                 }
 
                 $tarea->estado = $nuevoestado;
@@ -418,7 +414,7 @@ class ActividadController extends Controller
             // Ampliar plazo
             case 63:
                 if (!$tarea->is_expired && !$override_allowed) {
-                    return abort(400, __('Invalid task state.'));
+                    abort(400, __('Invalid task state.'));
                 }
 
                 $dias = $request->input('ampliacion_plazo', 7);
@@ -445,7 +441,7 @@ class ActividadController extends Controller
                 $this->mostrarSiguienteActividad($actividad, $usuario, true);
                 break;
             default:
-                return abort(400, __('Invalid task state.'));
+                abort(400, __('Invalid task state.'));
         }
 
         // Si es compartida, sincronizar el estado con los demás componentes del equipo
@@ -581,6 +577,21 @@ class ActividadController extends Controller
 
     public function reordenar(Actividad $a1, Actividad $a2)
     {
+        $temp = $a1->orden;
+        $a1->orden = $a2->orden;
+        $a2->orden = $temp;
+
+        $a1->save();
+        $a2->save();
+
+        return back();
+    }
+
+    public function reordenar_recursos(Request $request, Actividad $actividad)
+    {
+        $a1 = $actividad->recursos->get(request('a1'));
+        $a2 = $actividad->recursos->get(request('a2'));
+
         $temp = $a1->orden;
         $a1->orden = $a2->orden;
         $a2->orden = $temp;

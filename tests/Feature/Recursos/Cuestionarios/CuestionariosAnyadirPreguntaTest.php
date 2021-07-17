@@ -23,7 +23,7 @@ class CuestionariosAnyadirPreguntaTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $cuestionario = factory(Cuestionario::class)->create();
+        $cuestionario = Cuestionario::factory()->create();
 
         // When
         $response = $this->get(route('preguntas.anyadir', $cuestionario));

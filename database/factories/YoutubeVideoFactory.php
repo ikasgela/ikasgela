@@ -2,16 +2,21 @@
 
 namespace Database\Factories;
 
-/* @var $factory \Illuminate\Database\Eloquent\Factory */
-
 use App\YoutubeVideo;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
-$factory->define(YoutubeVideo::class, function (Faker $faker) {
+class YoutubeVideoFactory extends Factory
+{
+    protected $model = YoutubeVideo::class;
 
-    return [
-        'titulo' => $faker->sentence(3),
-        'descripcion' => $faker->sentence(8),
-        'codigo' => $faker->regexify('[A-Za-z0-9]{12}'),
-    ];
-});
+    public function definition()
+    {
+        return [
+            'titulo' => $this->faker->sentence(3),
+            'descripcion' => $this->faker->sentence(8),
+            'codigo' => $this->faker->regexify('[A-Za-z0-9]{12}'),
+            'orden' => Str::orderedUuid(),
+        ];
+    }
+}

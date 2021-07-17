@@ -23,7 +23,7 @@ class GroupsTableSeeder extends Seeder
             ->first();
 
         $name = '147FA';
-        factory(Group::class)->create([
+        Group::factory()->create([
             'period_id' => $period->id,
             'name' => $name,
             'slug' => Str::slug($name)

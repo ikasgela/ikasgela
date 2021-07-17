@@ -26,7 +26,7 @@ class GroupsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $group = factory(Group::class)->create();
+        $group = Group::factory()->create();
 
         // When
         $response = $this->get(route('groups.index'));
@@ -102,7 +102,7 @@ class GroupsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $group = factory(Group::class)->make();
+        $group = Group::factory()->make();
         $total = Group::all()->count();
 
         // When
@@ -118,7 +118,7 @@ class GroupsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $group = factory(Group::class)->make();
+        $group = Group::factory()->make();
 
         // When
         $response = $this->post(route('groups.store'), $group->toArray());
@@ -131,7 +131,7 @@ class GroupsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $group = factory(Group::class)->make();
+        $group = Group::factory()->make();
 
         // When
         $response = $this->post(route('groups.store'), $group->toArray());
@@ -166,7 +166,7 @@ class GroupsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $group = factory(Group::class)->make([$field => null]);
+        $group = Group::factory()->make([$field => null]);
 
         // When
         $response = $this->post(route('groups.store'), $group->toArray());
@@ -188,7 +188,7 @@ class GroupsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $group = factory(Group::class)->create();
+        $group = Group::factory()->create();
 
         // When
         $response = $this->get(route('groups.show', $group));
@@ -203,7 +203,7 @@ class GroupsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $group = factory(Group::class)->create();
+        $group = Group::factory()->create();
 
         // When
         $response = $this->get(route('groups.show', $group));
@@ -215,7 +215,7 @@ class GroupsCRUDTest extends TestCase
     public function testNotAuthNotShow()
     {
         // Given
-        $group = factory(Group::class)->create();
+        $group = Group::factory()->create();
 
         // When
         $response = $this->get(route('groups.show', $group));
@@ -230,7 +230,7 @@ class GroupsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $group = factory(Group::class)->create();
+        $group = Group::factory()->create();
 
         // When
         $response = $this->get(route('groups.edit', $group), $group->toArray());
@@ -245,7 +245,7 @@ class GroupsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $group = factory(Group::class)->create();
+        $group = Group::factory()->create();
 
         // When
         $response = $this->get(route('groups.edit', $group), $group->toArray());
@@ -258,7 +258,7 @@ class GroupsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $group = factory(Group::class)->create();
+        $group = Group::factory()->create();
 
         // When
         $response = $this->get(route('groups.edit', $group), $group->toArray());
@@ -273,7 +273,7 @@ class GroupsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $group = factory(Group::class)->create();
+        $group = Group::factory()->create();
         $group->name = "Updated";
 
         // When
@@ -289,7 +289,7 @@ class GroupsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $group = factory(Group::class)->create();
+        $group = Group::factory()->create();
         $group->name = "Updated";
 
         // When
@@ -303,7 +303,7 @@ class GroupsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $group = factory(Group::class)->create();
+        $group = Group::factory()->create();
         $group->name = "Updated";
 
         // When
@@ -319,7 +319,7 @@ class GroupsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $group = factory(Group::class)->create();
+        $group = Group::factory()->create();
         $empty = new Group();
         foreach ($this->required as $field) {
             $empty->$field = '0';
@@ -338,7 +338,7 @@ class GroupsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $group = factory(Group::class)->create();
+        $group = Group::factory()->create();
         $group->$field = null;
 
         // When
@@ -361,7 +361,7 @@ class GroupsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $group = factory(Group::class)->create();
+        $group = Group::factory()->create();
 
         // When
         $this->delete(route('groups.destroy', $group));
@@ -376,7 +376,7 @@ class GroupsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $group = factory(Group::class)->create();
+        $group = Group::factory()->create();
 
         // When
         $response = $this->delete(route('groups.destroy', $group));
@@ -389,7 +389,7 @@ class GroupsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $group = factory(Group::class)->create();
+        $group = Group::factory()->create();
 
         // When
         $response = $this->delete(route('groups.destroy', $group));

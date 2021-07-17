@@ -26,7 +26,7 @@ class SkillsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $skill = factory(Skill::class)->create();
+        $skill = Skill::factory()->create();
         session(['filtrar_curso_actual' => $skill->curso_id]);
 
         // When
@@ -103,7 +103,7 @@ class SkillsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $skill = factory(Skill::class)->make();
+        $skill = Skill::factory()->make();
         $total = Skill::all()->count();
 
         // When
@@ -119,7 +119,7 @@ class SkillsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $skill = factory(Skill::class)->make();
+        $skill = Skill::factory()->make();
 
         // When
         $response = $this->post(route('skills.store'), $skill->toArray());
@@ -132,7 +132,7 @@ class SkillsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $skill = factory(Skill::class)->make();
+        $skill = Skill::factory()->make();
 
         // When
         $response = $this->post(route('skills.store'), $skill->toArray());
@@ -167,7 +167,7 @@ class SkillsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $skill = factory(Skill::class)->make([$field => null]);
+        $skill = Skill::factory()->make([$field => null]);
 
         // When
         $response = $this->post(route('skills.store'), $skill->toArray());
@@ -189,7 +189,7 @@ class SkillsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $skill = factory(Skill::class)->create();
+        $skill = Skill::factory()->create();
 
         // When
         $response = $this->get(route('skills.show', $skill));
@@ -204,7 +204,7 @@ class SkillsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $skill = factory(Skill::class)->create();
+        $skill = Skill::factory()->create();
 
         // When
         $response = $this->get(route('skills.show', $skill));
@@ -216,7 +216,7 @@ class SkillsCRUDTest extends TestCase
     public function testNotAuthNotShow()
     {
         // Given
-        $skill = factory(Skill::class)->create();
+        $skill = Skill::factory()->create();
 
         // When
         $response = $this->get(route('skills.show', $skill));
@@ -231,7 +231,7 @@ class SkillsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $skill = factory(Skill::class)->create();
+        $skill = Skill::factory()->create();
 
         // When
         $response = $this->get(route('skills.edit', $skill), $skill->toArray());
@@ -246,7 +246,7 @@ class SkillsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $skill = factory(Skill::class)->create();
+        $skill = Skill::factory()->create();
 
         // When
         $response = $this->get(route('skills.edit', $skill), $skill->toArray());
@@ -259,7 +259,7 @@ class SkillsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $skill = factory(Skill::class)->create();
+        $skill = Skill::factory()->create();
 
         // When
         $response = $this->get(route('skills.edit', $skill), $skill->toArray());
@@ -274,7 +274,7 @@ class SkillsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $skill = factory(Skill::class)->create();
+        $skill = Skill::factory()->create();
         sleep(2);
         $skill->name = "Updated";
         // When
@@ -290,7 +290,7 @@ class SkillsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $skill = factory(Skill::class)->create();
+        $skill = Skill::factory()->create();
 
         // When
         $skill->name = "Updated";
@@ -304,7 +304,7 @@ class SkillsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $skill = factory(Skill::class)->create();
+        $skill = Skill::factory()->create();
 
         // When
         $skill->name = "Updated";
@@ -320,7 +320,7 @@ class SkillsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $skill = factory(Skill::class)->create();
+        $skill = Skill::factory()->create();
         $empty = new Skill();
         foreach ($this->required as $field) {
             $empty->$field = '0';
@@ -339,7 +339,7 @@ class SkillsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $skill = factory(Skill::class)->create();
+        $skill = Skill::factory()->create();
 
         // When
         $skill->$field = null;
@@ -362,7 +362,7 @@ class SkillsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $skill = factory(Skill::class)->create();
+        $skill = Skill::factory()->create();
 
         // When
         $this->delete(route('skills.destroy', $skill));
@@ -377,7 +377,7 @@ class SkillsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $skill = factory(Skill::class)->create();
+        $skill = Skill::factory()->create();
 
         // When
         $response = $this->delete(route('skills.destroy', $skill));
@@ -390,7 +390,7 @@ class SkillsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $skill = factory(Skill::class)->create();
+        $skill = Skill::factory()->create();
 
         // When
         $response = $this->delete(route('skills.destroy', $skill));

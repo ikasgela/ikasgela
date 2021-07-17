@@ -27,7 +27,7 @@ class UsersCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         // When
         $response = $this->get(route('users.index'));
@@ -108,7 +108,7 @@ class UsersCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         // When
         $response = $this->get(route('users.edit', $user), $user->toArray());
@@ -123,7 +123,7 @@ class UsersCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         // When
         $response = $this->get(route('users.edit', $user), $user->toArray());
@@ -136,7 +136,7 @@ class UsersCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         // When
         $response = $this->get(route('users.edit', $user), $user->toArray());
@@ -151,7 +151,7 @@ class UsersCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $user->name = "Updated";
 
         $rol_admin = Role::create(['name' => 'admin', 'description' => 'Administrador']);
@@ -181,7 +181,7 @@ class UsersCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $user->name = "Updated";
 
         // When
@@ -195,7 +195,7 @@ class UsersCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $user->name = "Updated";
 
         // When
@@ -211,7 +211,7 @@ class UsersCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $empty = new User();
         foreach ($this->required as $field) {
             $empty->$field = '0';
@@ -230,7 +230,7 @@ class UsersCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $user->$field = null;
 
         // When
@@ -253,7 +253,7 @@ class UsersCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         // When
         $this->delete(route('users.destroy', $user));
@@ -269,7 +269,7 @@ class UsersCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         // When
         $response = $this->delete(route('users.destroy', $user));
@@ -282,7 +282,7 @@ class UsersCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         // When
         $response = $this->delete(route('users.destroy', $user));

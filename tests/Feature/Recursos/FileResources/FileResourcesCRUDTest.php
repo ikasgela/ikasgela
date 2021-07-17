@@ -26,7 +26,7 @@ class FileResourcesCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_resource = factory(FileResource::class)->create();
+        $file_resource = FileResource::factory()->create();
 
         // When
         $response = $this->get(route('file_resources.index'));
@@ -102,7 +102,7 @@ class FileResourcesCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_resource = factory(FileResource::class)->make();
+        $file_resource = FileResource::factory()->make();
         $total = FileResource::all()->count();
 
         // When
@@ -118,7 +118,7 @@ class FileResourcesCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $file_resource = factory(FileResource::class)->make();
+        $file_resource = FileResource::factory()->make();
 
         // When
         $response = $this->post(route('file_resources.store'), $file_resource->toArray());
@@ -131,7 +131,7 @@ class FileResourcesCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $file_resource = factory(FileResource::class)->make();
+        $file_resource = FileResource::factory()->make();
 
         // When
         $response = $this->post(route('file_resources.store'), $file_resource->toArray());
@@ -166,7 +166,7 @@ class FileResourcesCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_resource = factory(FileResource::class)->make([$field => null]);
+        $file_resource = FileResource::factory()->make([$field => null]);
 
         // When
         $response = $this->post(route('file_resources.store'), $file_resource->toArray());
@@ -188,7 +188,7 @@ class FileResourcesCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_resource = factory(FileResource::class)->create();
+        $file_resource = FileResource::factory()->create();
 
         // When
         $response = $this->get(route('file_resources.show', $file_resource));
@@ -203,7 +203,7 @@ class FileResourcesCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $file_resource = factory(FileResource::class)->create();
+        $file_resource = FileResource::factory()->create();
 
         // When
         $response = $this->get(route('file_resources.show', $file_resource));
@@ -215,7 +215,7 @@ class FileResourcesCRUDTest extends TestCase
     public function testNotAuthNotShow()
     {
         // Given
-        $file_resource = factory(FileResource::class)->create();
+        $file_resource = FileResource::factory()->create();
 
         // When
         $response = $this->get(route('file_resources.show', $file_resource));
@@ -230,7 +230,7 @@ class FileResourcesCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_resource = factory(FileResource::class)->create();
+        $file_resource = FileResource::factory()->create();
 
         // When
         $response = $this->get(route('file_resources.edit', $file_resource), $file_resource->toArray());
@@ -245,7 +245,7 @@ class FileResourcesCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $file_resource = factory(FileResource::class)->create();
+        $file_resource = FileResource::factory()->create();
 
         // When
         $response = $this->get(route('file_resources.edit', $file_resource), $file_resource->toArray());
@@ -258,7 +258,7 @@ class FileResourcesCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $file_resource = factory(FileResource::class)->create();
+        $file_resource = FileResource::factory()->create();
 
         // When
         $response = $this->get(route('file_resources.edit', $file_resource), $file_resource->toArray());
@@ -273,7 +273,7 @@ class FileResourcesCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_resource = factory(FileResource::class)->create();
+        $file_resource = FileResource::factory()->create();
         $file_resource->titulo = "Updated";
 
         // When
@@ -289,7 +289,7 @@ class FileResourcesCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $file_resource = factory(FileResource::class)->create();
+        $file_resource = FileResource::factory()->create();
         $file_resource->titulo = "Updated";
 
         // When
@@ -303,7 +303,7 @@ class FileResourcesCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $file_resource = factory(FileResource::class)->create();
+        $file_resource = FileResource::factory()->create();
         $file_resource->titulo = "Updated";
 
         // When
@@ -319,7 +319,7 @@ class FileResourcesCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_resource = factory(FileResource::class)->create();
+        $file_resource = FileResource::factory()->create();
         $empty = new FileResource();
         foreach ($this->required as $field) {
             $empty->$field = '0';
@@ -338,7 +338,7 @@ class FileResourcesCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_resource = factory(FileResource::class)->create();
+        $file_resource = FileResource::factory()->create();
         $file_resource->$field = null;
 
         // When
@@ -361,7 +361,7 @@ class FileResourcesCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $file_resource = factory(FileResource::class)->create();
+        $file_resource = FileResource::factory()->create();
 
         // When
         $this->delete(route('file_resources.destroy', $file_resource));
@@ -376,7 +376,7 @@ class FileResourcesCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $file_resource = factory(FileResource::class)->create();
+        $file_resource = FileResource::factory()->create();
 
         // When
         $response = $this->delete(route('file_resources.destroy', $file_resource));
@@ -389,7 +389,7 @@ class FileResourcesCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $file_resource = factory(FileResource::class)->create();
+        $file_resource = FileResource::factory()->create();
 
         // When
         $response = $this->delete(route('file_resources.destroy', $file_resource));

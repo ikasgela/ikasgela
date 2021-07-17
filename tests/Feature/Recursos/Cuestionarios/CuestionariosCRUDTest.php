@@ -26,7 +26,7 @@ class CuestionariosCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $cuestionario = factory(Cuestionario::class)->create([
+        $cuestionario = Cuestionario::factory()->create([
             'plantilla' => true,
         ]);
 
@@ -43,7 +43,7 @@ class CuestionariosCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $cuestionario = factory(Cuestionario::class)->create();
+        $cuestionario = Cuestionario::factory()->create();
 
         // When
         $response = $this->get(route('cuestionarios.index'));
@@ -119,7 +119,7 @@ class CuestionariosCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $cuestionario = factory(Cuestionario::class)->make();
+        $cuestionario = Cuestionario::factory()->make();
         $total = Cuestionario::all()->count();
 
         // When
@@ -135,7 +135,7 @@ class CuestionariosCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $cuestionario = factory(Cuestionario::class)->make();
+        $cuestionario = Cuestionario::factory()->make();
 
         // When
         $response = $this->post(route('cuestionarios.store'), $cuestionario->toArray());
@@ -151,7 +151,7 @@ class CuestionariosCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $cuestionario = factory(Cuestionario::class)->make();
+        $cuestionario = Cuestionario::factory()->make();
 
         // When
         $response = $this->post(route('cuestionarios.store'), $cuestionario->toArray());
@@ -164,7 +164,7 @@ class CuestionariosCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $cuestionario = factory(Cuestionario::class)->make();
+        $cuestionario = Cuestionario::factory()->make();
 
         // When
         $response = $this->post(route('cuestionarios.store'), $cuestionario->toArray());
@@ -199,7 +199,7 @@ class CuestionariosCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $cuestionario = factory(Cuestionario::class)->make([$field => null]);
+        $cuestionario = Cuestionario::factory()->make([$field => null]);
 
         // When
         $response = $this->post(route('cuestionarios.store'), $cuestionario->toArray());
@@ -221,7 +221,7 @@ class CuestionariosCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $cuestionario = factory(Cuestionario::class)->create();
+        $cuestionario = Cuestionario::factory()->create();
 
         // When
         $response = $this->get(route('cuestionarios.show', $cuestionario));
@@ -236,7 +236,7 @@ class CuestionariosCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $cuestionario = factory(Cuestionario::class)->create();
+        $cuestionario = Cuestionario::factory()->create();
 
         // When
         $response = $this->get(route('cuestionarios.show', $cuestionario));
@@ -248,7 +248,7 @@ class CuestionariosCRUDTest extends TestCase
     public function testNotAuthNotShow()
     {
         // Given
-        $cuestionario = factory(Cuestionario::class)->create();
+        $cuestionario = Cuestionario::factory()->create();
 
         // When
         $response = $this->get(route('cuestionarios.show', $cuestionario));
@@ -263,7 +263,7 @@ class CuestionariosCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $cuestionario = factory(Cuestionario::class)->create();
+        $cuestionario = Cuestionario::factory()->create();
 
         // When
         $response = $this->get(route('cuestionarios.edit', $cuestionario), $cuestionario->toArray());
@@ -278,7 +278,7 @@ class CuestionariosCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $cuestionario = factory(Cuestionario::class)->create();
+        $cuestionario = Cuestionario::factory()->create();
 
         // When
         $response = $this->get(route('cuestionarios.edit', $cuestionario), $cuestionario->toArray());
@@ -291,7 +291,7 @@ class CuestionariosCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $cuestionario = factory(Cuestionario::class)->create();
+        $cuestionario = Cuestionario::factory()->create();
 
         // When
         $response = $this->get(route('cuestionarios.edit', $cuestionario), $cuestionario->toArray());
@@ -306,7 +306,7 @@ class CuestionariosCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $cuestionario = factory(Cuestionario::class)->create();
+        $cuestionario = Cuestionario::factory()->create();
         $cuestionario->titulo = "Updated";
 
         // When
@@ -322,7 +322,7 @@ class CuestionariosCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $cuestionario = factory(Cuestionario::class)->create();
+        $cuestionario = Cuestionario::factory()->create();
         $cuestionario->titulo = "Updated";
 
         // When
@@ -336,7 +336,7 @@ class CuestionariosCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $cuestionario = factory(Cuestionario::class)->create();
+        $cuestionario = Cuestionario::factory()->create();
         $cuestionario->titulo = "Updated";
 
         // When
@@ -352,7 +352,7 @@ class CuestionariosCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $cuestionario = factory(Cuestionario::class)->create();
+        $cuestionario = Cuestionario::factory()->create();
         $empty = new Cuestionario();
         foreach ($this->required as $field) {
             $empty->$field = '0';
@@ -371,7 +371,7 @@ class CuestionariosCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $cuestionario = factory(Cuestionario::class)->create();
+        $cuestionario = Cuestionario::factory()->create();
         $cuestionario->$field = null;
 
         // When
@@ -394,7 +394,7 @@ class CuestionariosCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $cuestionario = factory(Cuestionario::class)->create();
+        $cuestionario = Cuestionario::factory()->create();
 
         // When
         $this->delete(route('cuestionarios.destroy', $cuestionario));
@@ -409,7 +409,7 @@ class CuestionariosCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $cuestionario = factory(Cuestionario::class)->create();
+        $cuestionario = Cuestionario::factory()->create();
 
         // When
         $response = $this->delete(route('cuestionarios.destroy', $cuestionario));
@@ -422,7 +422,7 @@ class CuestionariosCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $cuestionario = factory(Cuestionario::class)->create();
+        $cuestionario = Cuestionario::factory()->create();
 
         // When
         $response = $this->delete(route('cuestionarios.destroy', $cuestionario));

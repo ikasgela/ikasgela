@@ -26,7 +26,7 @@ class CategoriesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
 
         // When
         $response = $this->get(route('categories.index'));
@@ -102,7 +102,7 @@ class CategoriesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $category = factory(Category::class)->make();
+        $category = Category::factory()->make();
         $total = Category::all()->count();
 
         // When
@@ -118,7 +118,7 @@ class CategoriesCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $category = factory(Category::class)->make();
+        $category = Category::factory()->make();
 
         // When
         $response = $this->post(route('categories.store'), $category->toArray());
@@ -131,7 +131,7 @@ class CategoriesCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $category = factory(Category::class)->make();
+        $category = Category::factory()->make();
 
         // When
         $response = $this->post(route('categories.store'), $category->toArray());
@@ -166,7 +166,7 @@ class CategoriesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $category = factory(Category::class)->make([$field => null]);
+        $category = Category::factory()->make([$field => null]);
 
         // When
         $response = $this->post(route('categories.store'), $category->toArray());
@@ -188,7 +188,7 @@ class CategoriesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
 
         // When
         $response = $this->get(route('categories.show', $category));
@@ -203,7 +203,7 @@ class CategoriesCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
 
         // When
         $response = $this->get(route('categories.show', $category));
@@ -215,7 +215,7 @@ class CategoriesCRUDTest extends TestCase
     public function testNotAuthNotShow()
     {
         // Given
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
 
         // When
         $response = $this->get(route('categories.show', $category));
@@ -230,7 +230,7 @@ class CategoriesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
 
         // When
         $response = $this->get(route('categories.edit', $category), $category->toArray());
@@ -245,7 +245,7 @@ class CategoriesCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
 
         // When
         $response = $this->get(route('categories.edit', $category), $category->toArray());
@@ -258,7 +258,7 @@ class CategoriesCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
 
         // When
         $response = $this->get(route('categories.edit', $category), $category->toArray());
@@ -273,7 +273,7 @@ class CategoriesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
         $category->name = "Updated";
 
         // When
@@ -289,7 +289,7 @@ class CategoriesCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
         $category->name = "Updated";
 
         // When
@@ -303,7 +303,7 @@ class CategoriesCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
         $category->name = "Updated";
 
         // When
@@ -319,7 +319,7 @@ class CategoriesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
         $empty = new Category();
         foreach ($this->required as $field) {
             $empty->$field = '0';
@@ -338,7 +338,7 @@ class CategoriesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
         $category->$field = null;
 
         // When
@@ -361,7 +361,7 @@ class CategoriesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
 
         // When
         $this->delete(route('categories.destroy', $category));
@@ -376,7 +376,7 @@ class CategoriesCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
 
         // When
         $response = $this->delete(route('categories.destroy', $category));
@@ -389,7 +389,7 @@ class CategoriesCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $category = factory(Category::class)->create();
+        $category = Category::factory()->create();
 
         // When
         $response = $this->delete(route('categories.destroy', $category));

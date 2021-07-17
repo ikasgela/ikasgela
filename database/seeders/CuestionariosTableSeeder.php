@@ -14,7 +14,7 @@ class CuestionariosTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Cuestionario::class)->create([
+        Cuestionario::factory()->create([
             'titulo' => 'Cuestionario de ejemplo',
             'descripcion' => 'Preguntas de repaso sencillas.',
             'plantilla' => true,

@@ -2,20 +2,24 @@
 
 namespace Database\Factories;
 
-/* @var $factory \Illuminate\Database\Eloquent\Factory */
-
 use App\Organization;
 use App\Period;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-$factory->define(Period::class, function (Faker $faker) {
+class PeriodFactory extends Factory
+{
+    protected $model = Period::class;
 
-    $name = $faker->unique()->year;
+    public function definition()
+    {
+        $name = $this->faker->unique()->year;
 
-    return [
-        'organization_id' => factory(Organization::class),
-        'name' => $name,
-        'slug' => Str::slug($name)
-    ];
-});
+        return [
+            'organization_id' => Organization::factory(),
+            'name' => $name,
+            'slug' => Str::slug($name)
+        ];
+    }
+}
+

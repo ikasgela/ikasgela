@@ -26,7 +26,7 @@ class UnidadesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $unidad = factory(Unidad::class)->create();
+        $unidad = Unidad::factory()->create();
         session(['filtrar_curso_actual' => $unidad->curso_id]);
 
         // When
@@ -103,7 +103,7 @@ class UnidadesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $unidad = factory(Unidad::class)->make();
+        $unidad = Unidad::factory()->make();
         $total = Unidad::all()->count();
 
         // When
@@ -119,7 +119,7 @@ class UnidadesCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $unidad = factory(Unidad::class)->make();
+        $unidad = Unidad::factory()->make();
 
         // When
         $response = $this->post(route('unidades.store'), $unidad->toArray());
@@ -132,7 +132,7 @@ class UnidadesCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $unidad = factory(Unidad::class)->make();
+        $unidad = Unidad::factory()->make();
 
         // When
         $response = $this->post(route('unidades.store'), $unidad->toArray());
@@ -167,7 +167,7 @@ class UnidadesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $unidad = factory(Unidad::class)->make([$field => null]);
+        $unidad = Unidad::factory()->make([$field => null]);
 
         // When
         $response = $this->post(route('unidades.store'), $unidad->toArray());
@@ -189,7 +189,7 @@ class UnidadesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $unidad = factory(Unidad::class)->create();
+        $unidad = Unidad::factory()->create();
 
         // When
         $response = $this->get(route('unidades.show', $unidad));
@@ -204,7 +204,7 @@ class UnidadesCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $unidad = factory(Unidad::class)->create();
+        $unidad = Unidad::factory()->create();
 
         // When
         $response = $this->get(route('unidades.show', $unidad));
@@ -216,7 +216,7 @@ class UnidadesCRUDTest extends TestCase
     public function testNotAuthNotShow()
     {
         // Given
-        $unidad = factory(Unidad::class)->create();
+        $unidad = Unidad::factory()->create();
 
         // When
         $response = $this->get(route('unidades.show', $unidad));
@@ -231,7 +231,7 @@ class UnidadesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $unidad = factory(Unidad::class)->create();
+        $unidad = Unidad::factory()->create();
 
         // When
         $response = $this->get(route('unidades.edit', $unidad), $unidad->toArray());
@@ -246,7 +246,7 @@ class UnidadesCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $unidad = factory(Unidad::class)->create();
+        $unidad = Unidad::factory()->create();
 
         // When
         $response = $this->get(route('unidades.edit', $unidad), $unidad->toArray());
@@ -259,7 +259,7 @@ class UnidadesCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $unidad = factory(Unidad::class)->create();
+        $unidad = Unidad::factory()->create();
 
         // When
         $response = $this->get(route('unidades.edit', $unidad), $unidad->toArray());
@@ -274,7 +274,7 @@ class UnidadesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $unidad = factory(Unidad::class)->create();
+        $unidad = Unidad::factory()->create();
         $unidad->nombre = "Updated";
 
         // When
@@ -290,7 +290,7 @@ class UnidadesCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $unidad = factory(Unidad::class)->create();
+        $unidad = Unidad::factory()->create();
         $unidad->nombre = "Updated";
 
         // When
@@ -304,7 +304,7 @@ class UnidadesCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $unidad = factory(Unidad::class)->create();
+        $unidad = Unidad::factory()->create();
         $unidad->nombre = "Updated";
 
         // When
@@ -320,7 +320,7 @@ class UnidadesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $unidad = factory(Unidad::class)->create();
+        $unidad = Unidad::factory()->create();
         $empty = new Unidad();
         foreach ($this->required as $field) {
             $empty->$field = '0';
@@ -339,7 +339,7 @@ class UnidadesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $unidad = factory(Unidad::class)->create();
+        $unidad = Unidad::factory()->create();
         $unidad->$field = null;
 
         // When
@@ -362,7 +362,7 @@ class UnidadesCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $unidad = factory(Unidad::class)->create();
+        $unidad = Unidad::factory()->create();
 
         // When
         $this->delete(route('unidades.destroy', $unidad));
@@ -378,7 +378,7 @@ class UnidadesCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $unidad = factory(Unidad::class)->create();
+        $unidad = Unidad::factory()->create();
 
         // When
         $response = $this->delete(route('unidades.destroy', $unidad));
@@ -391,7 +391,7 @@ class UnidadesCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $unidad = factory(Unidad::class)->create();
+        $unidad = Unidad::factory()->create();
 
         // When
         $response = $this->delete(route('unidades.destroy', $unidad));

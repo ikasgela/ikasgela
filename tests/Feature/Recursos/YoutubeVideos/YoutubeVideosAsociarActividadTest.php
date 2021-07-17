@@ -23,10 +23,10 @@ class YoutubeVideosAsociarActividadTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
-        $youtube_video1 = factory(YoutubeVideo::class)->create();
-        $youtube_video2 = factory(YoutubeVideo::class)->create();
-        $youtube_video3 = factory(YoutubeVideo::class)->create();
+        $actividad = Actividad::factory()->create();
+        $youtube_video1 = YoutubeVideo::factory()->create();
+        $youtube_video2 = YoutubeVideo::factory()->create();
+        $youtube_video3 = YoutubeVideo::factory()->create();
 
         $actividad->youtube_videos()->attach($youtube_video1);
         $actividad->youtube_videos()->attach($youtube_video3);
@@ -51,9 +51,9 @@ class YoutubeVideosAsociarActividadTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
-        $youtube_video1 = factory(YoutubeVideo::class)->create();
-        $youtube_video2 = factory(YoutubeVideo::class)->create();
+        $actividad = Actividad::factory()->create();
+        $youtube_video1 = YoutubeVideo::factory()->create();
+        $youtube_video2 = YoutubeVideo::factory()->create();
 
         // When
         $this->post(route('youtube_videos.asociar', $actividad), ['seleccionadas' => [$youtube_video1, $youtube_video2]]);
@@ -68,7 +68,7 @@ class YoutubeVideosAsociarActividadTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
+        $actividad = Actividad::factory()->create();
 
         // When
         $response = $this->post(route('youtube_videos.asociar', $actividad), ['seleccionadas' => null]);
@@ -83,9 +83,9 @@ class YoutubeVideosAsociarActividadTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
-        $youtube_video1 = factory(YoutubeVideo::class)->create();
-        $youtube_video2 = factory(YoutubeVideo::class)->create();
+        $actividad = Actividad::factory()->create();
+        $youtube_video1 = YoutubeVideo::factory()->create();
+        $youtube_video2 = YoutubeVideo::factory()->create();
 
         $actividad->youtube_videos()->attach($youtube_video1);
         $actividad->youtube_videos()->attach($youtube_video2);
