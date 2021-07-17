@@ -12,6 +12,7 @@ class FileResource extends Model
     protected $fillable = [
         'titulo', 'descripcion',
         '__import_id', 'curso_id',
+        'orden',
     ];
 
     public function actividades()

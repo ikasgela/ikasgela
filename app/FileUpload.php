@@ -16,6 +16,7 @@ class FileUpload extends Model
     protected $fillable = [
         'titulo', 'descripcion', 'max_files', 'plantilla',
         '__import_id', 'curso_id',
+        'orden',
     ];
 
     public function actividades()

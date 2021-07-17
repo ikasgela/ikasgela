@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Cuestionario;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class CuestionarioFactory extends Factory
 {
@@ -14,6 +15,7 @@ class CuestionarioFactory extends Factory
         return [
             'titulo' => $this->faker->words(3, true),
             'descripcion' => $this->faker->sentence(8),
+            'orden' => Str::orderedUuid(),
         ];
     }
 }
