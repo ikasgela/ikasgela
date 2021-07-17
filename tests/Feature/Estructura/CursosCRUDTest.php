@@ -26,7 +26,7 @@ class CursosCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $curso = factory(Curso::class)->create();
+        $curso = Curso::factory()->create();
 
         // When
         $response = $this->get(route('cursos.index'));
@@ -102,7 +102,7 @@ class CursosCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $curso = factory(Curso::class)->make();
+        $curso = Curso::factory()->make();
         $total = Curso::all()->count();
 
         // When
@@ -118,7 +118,7 @@ class CursosCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $curso = factory(Curso::class)->make();
+        $curso = Curso::factory()->make();
 
         // When
         $response = $this->post(route('cursos.store'), $curso->toArray());
@@ -131,7 +131,7 @@ class CursosCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $curso = factory(Curso::class)->make();
+        $curso = Curso::factory()->make();
 
         // When
         $response = $this->post(route('cursos.store'), $curso->toArray());
@@ -166,7 +166,7 @@ class CursosCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $curso = factory(Curso::class)->make([$field => null]);
+        $curso = Curso::factory()->make([$field => null]);
 
         // When
         $response = $this->post(route('cursos.store'), $curso->toArray());
@@ -188,7 +188,7 @@ class CursosCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $curso = factory(Curso::class)->create();
+        $curso = Curso::factory()->create();
 
         // When
         $response = $this->get(route('cursos.show', $curso));
@@ -203,7 +203,7 @@ class CursosCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $curso = factory(Curso::class)->create();
+        $curso = Curso::factory()->create();
 
         // When
         $response = $this->get(route('cursos.show', $curso));
@@ -215,7 +215,7 @@ class CursosCRUDTest extends TestCase
     public function testNotAuthNotShow()
     {
         // Given
-        $curso = factory(Curso::class)->create();
+        $curso = Curso::factory()->create();
 
         // When
         $response = $this->get(route('cursos.show', $curso));
@@ -230,7 +230,7 @@ class CursosCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $curso = factory(Curso::class)->create();
+        $curso = Curso::factory()->create();
 
         // When
         $response = $this->get(route('cursos.edit', $curso), $curso->toArray());
@@ -245,7 +245,7 @@ class CursosCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $curso = factory(Curso::class)->create();
+        $curso = Curso::factory()->create();
 
         // When
         $response = $this->get(route('cursos.edit', $curso), $curso->toArray());
@@ -258,7 +258,7 @@ class CursosCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $curso = factory(Curso::class)->create();
+        $curso = Curso::factory()->create();
 
         // When
         $response = $this->get(route('cursos.edit', $curso), $curso->toArray());
@@ -273,7 +273,7 @@ class CursosCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $curso = factory(Curso::class)->create();
+        $curso = Curso::factory()->create();
         $curso->nombre = "Updated";
 
         // When
@@ -289,7 +289,7 @@ class CursosCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $curso = factory(Curso::class)->create();
+        $curso = Curso::factory()->create();
         $curso->nombre = "Updated";
 
         // When
@@ -303,7 +303,7 @@ class CursosCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $curso = factory(Curso::class)->create();
+        $curso = Curso::factory()->create();
         $curso->nombre = "Updated";
 
         // When
@@ -319,7 +319,7 @@ class CursosCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $curso = factory(Curso::class)->create();
+        $curso = Curso::factory()->create();
         $empty = new Curso();
         foreach ($this->required as $field) {
             $empty->$field = '0';
@@ -338,7 +338,7 @@ class CursosCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $curso = factory(Curso::class)->create();
+        $curso = Curso::factory()->create();
         $curso->$field = null;
 
         // When
@@ -361,7 +361,7 @@ class CursosCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $curso = factory(Curso::class)->create();
+        $curso = Curso::factory()->create();
 
         // When
         $this->delete(route('cursos.destroy', $curso));
@@ -376,7 +376,7 @@ class CursosCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $curso = factory(Curso::class)->create();
+        $curso = Curso::factory()->create();
 
         // When
         $response = $this->delete(route('cursos.destroy', $curso));
@@ -389,7 +389,7 @@ class CursosCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $curso = factory(Curso::class)->create();
+        $curso = Curso::factory()->create();
 
         // When
         $response = $this->delete(route('cursos.destroy', $curso));

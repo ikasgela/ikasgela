@@ -23,14 +23,14 @@ class CategoriesTableSeeder extends Seeder
             ->first();
 
         $name = 'Programación';
-        factory(Category::class)->create([
+        Category::factory()->create([
             'period_id' => $period->id,
             'name' => $name,
             'slug' => Str::slug($name)
         ]);
 
         $name = 'Sistemas';
-        factory(Category::class)->create([
+        Category::factory()->create([
             'period_id' => $period->id,
             'name' => $name,
             'slug' => Str::slug($name)
@@ -43,7 +43,7 @@ class CategoriesTableSeeder extends Seeder
             ->first();
 
         $name = 'Programación';
-        factory(Category::class)->create([
+        Category::factory()->create([
             'period_id' => $period->id,
             'name' => $name,
             'slug' => Str::slug($name)
@@ -56,7 +56,7 @@ class CategoriesTableSeeder extends Seeder
             ->first();
 
         $name = 'Programación';
-        factory(Category::class)->create([
+        Category::factory()->create([
             'period_id' => $period->id,
             'name' => $name,
             'slug' => Str::slug($name)

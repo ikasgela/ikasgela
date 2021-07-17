@@ -2,21 +2,24 @@
 
 namespace Database\Factories;
 
-/* @var $factory \Illuminate\Database\Eloquent\Factory */
-
 use App\Registro;
 use App\Tarea;
 use App\User;
 use Carbon\Carbon;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Registro::class, function (Faker $faker) {
+class RegistroFactory extends Factory
+{
+    protected $model = Registro::class;
 
-    return [
-        'user_id' => factory(User::class),
-        'tarea_id' => factory(Tarea::class),
-        'estado' => $faker->unique()->randomNumber(2),
-        'timestamp' => Carbon::now(),
-        'detalles' => $faker->sentence(),
-    ];
-});
+    public function definition()
+    {
+        return [
+            'user_id' => User::factory(),
+            'tarea_id' => Tarea::factory(),
+            'estado' => $this->faker->unique()->randomNumber(2),
+            'timestamp' => Carbon::now(),
+            'detalles' => $this->faker->sentence(),
+        ];
+    }
+}

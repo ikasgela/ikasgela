@@ -26,7 +26,7 @@ class ItemsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $item = factory(Item::class)->create();
+        $item = Item::factory()->create();
 
         // When
         $response = $this->get(route('items.index'));
@@ -102,7 +102,7 @@ class ItemsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $item = factory(Item::class)->make();
+        $item = Item::factory()->make();
         $total = Item::all()->count();
 
         // When
@@ -118,7 +118,7 @@ class ItemsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $item = factory(Item::class)->make();
+        $item = Item::factory()->make();
 
         // When
         $response = $this->post(route('items.store'), $item->toArray());
@@ -131,7 +131,7 @@ class ItemsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $item = factory(Item::class)->make();
+        $item = Item::factory()->make();
 
         // When
         $response = $this->post(route('items.store'), $item->toArray());
@@ -166,7 +166,7 @@ class ItemsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $item = factory(Item::class)->make([$field => null]);
+        $item = Item::factory()->make([$field => null]);
 
         // When
         $response = $this->post(route('items.store'), $item->toArray());
@@ -188,7 +188,7 @@ class ItemsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $item = factory(Item::class)->create();
+        $item = Item::factory()->create();
 
         // When
         $response = $this->get(route('items.show', $item));
@@ -203,7 +203,7 @@ class ItemsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $item = factory(Item::class)->create();
+        $item = Item::factory()->create();
 
         // When
         $response = $this->get(route('items.show', $item));
@@ -215,7 +215,7 @@ class ItemsCRUDTest extends TestCase
     public function testNotAuthNotShow()
     {
         // Given
-        $item = factory(Item::class)->create();
+        $item = Item::factory()->create();
 
         // When
         $response = $this->get(route('items.show', $item));
@@ -230,7 +230,7 @@ class ItemsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $item = factory(Item::class)->create();
+        $item = Item::factory()->create();
 
         // When
         $response = $this->get(route('items.edit', $item), $item->toArray());
@@ -245,7 +245,7 @@ class ItemsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $item = factory(Item::class)->create();
+        $item = Item::factory()->create();
 
         // When
         $response = $this->get(route('items.edit', $item), $item->toArray());
@@ -258,7 +258,7 @@ class ItemsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $item = factory(Item::class)->create();
+        $item = Item::factory()->create();
 
         // When
         $response = $this->get(route('items.edit', $item), $item->toArray());
@@ -273,7 +273,7 @@ class ItemsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $item = factory(Item::class)->create();
+        $item = Item::factory()->create();
         $item->texto = "Updated";
 
         // When
@@ -289,7 +289,7 @@ class ItemsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $item = factory(Item::class)->create();
+        $item = Item::factory()->create();
         $item->texto = "Updated";
 
         // When
@@ -303,7 +303,7 @@ class ItemsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $item = factory(Item::class)->create();
+        $item = Item::factory()->create();
         $item->texto = "Updated";
 
         // When
@@ -319,7 +319,7 @@ class ItemsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $item = factory(Item::class)->create();
+        $item = Item::factory()->create();
         $empty = new Item();
         foreach ($this->required as $field) {
             $empty->$field = '0';
@@ -338,7 +338,7 @@ class ItemsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $item = factory(Item::class)->create();
+        $item = Item::factory()->create();
         $item->$field = null;
 
         // When
@@ -361,7 +361,7 @@ class ItemsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $item = factory(Item::class)->create();
+        $item = Item::factory()->create();
 
         // When
         $this->delete(route('items.destroy', $item));
@@ -376,7 +376,7 @@ class ItemsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $item = factory(Item::class)->create();
+        $item = Item::factory()->create();
 
         // When
         $response = $this->delete(route('items.destroy', $item));
@@ -389,7 +389,7 @@ class ItemsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $item = factory(Item::class)->create();
+        $item = Item::factory()->create();
 
         // When
         $response = $this->delete(route('items.destroy', $item));

@@ -3,11 +3,13 @@
 namespace App;
 
 use Bkwld\Cloner\Cloneable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Watson\Rememberable\Rememberable;
 
 class Qualification extends Model
 {
+    use HasFactory;
     use Cloneable;
     use Rememberable;
 

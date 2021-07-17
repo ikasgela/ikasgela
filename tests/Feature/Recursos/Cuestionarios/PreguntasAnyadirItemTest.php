@@ -23,7 +23,7 @@ class PreguntasAnyadirItemTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $pregunta = factory(Pregunta::class)->create();
+        $pregunta = Pregunta::factory()->create();
 
         // When
         $response = $this->get(route('items.anyadir', $pregunta));

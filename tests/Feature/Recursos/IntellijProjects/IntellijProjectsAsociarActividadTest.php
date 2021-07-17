@@ -23,10 +23,10 @@ class IntellijProjectsAsociarActividadTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
-        $intellij_project1 = factory(IntellijProject::class)->create();
-        $intellij_project2 = factory(IntellijProject::class)->create();
-        $intellij_project3 = factory(IntellijProject::class)->create();
+        $actividad = Actividad::factory()->create();
+        $intellij_project1 = IntellijProject::factory()->create();
+        $intellij_project2 = IntellijProject::factory()->create();
+        $intellij_project3 = IntellijProject::factory()->create();
 
         $actividad->intellij_projects()->attach($intellij_project1);
         $actividad->intellij_projects()->attach($intellij_project3);
@@ -51,9 +51,9 @@ class IntellijProjectsAsociarActividadTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
-        $intellij_project1 = factory(IntellijProject::class)->create();
-        $intellij_project2 = factory(IntellijProject::class)->create();
+        $actividad = Actividad::factory()->create();
+        $intellij_project1 = IntellijProject::factory()->create();
+        $intellij_project2 = IntellijProject::factory()->create();
 
         // When
         $this->post(route('intellij_projects.asociar', $actividad), ['seleccionadas' => [$intellij_project1, $intellij_project2]]);
@@ -68,7 +68,7 @@ class IntellijProjectsAsociarActividadTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
+        $actividad = Actividad::factory()->create();
 
         // When
         $response = $this->post(route('intellij_projects.asociar', $actividad), ['seleccionadas' => null]);
@@ -83,9 +83,9 @@ class IntellijProjectsAsociarActividadTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
-        $intellij_project1 = factory(IntellijProject::class)->create();
-        $intellij_project2 = factory(IntellijProject::class)->create();
+        $actividad = Actividad::factory()->create();
+        $intellij_project1 = IntellijProject::factory()->create();
+        $intellij_project2 = IntellijProject::factory()->create();
 
         $actividad->intellij_projects()->attach($intellij_project1);
         $actividad->intellij_projects()->attach($intellij_project2);

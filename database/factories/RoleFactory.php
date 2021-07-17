@@ -2,15 +2,18 @@
 
 namespace Database\Factories;
 
-/* @var $factory \Illuminate\Database\Eloquent\Factory */
-
 use App\Role;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Role::class, function (Faker $faker) {
+class RoleFactory extends Factory
+{
+    protected $model = Role::class;
 
-    return [
-        'name' => $faker->word(),
-        'description' => $faker->sentence(),
-    ];
-});
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->word(),
+            'description' => $this->faker->sentence(),
+        ];
+    }
+}

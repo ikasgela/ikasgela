@@ -2,10 +2,13 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class FileResource extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'titulo', 'descripcion',
         '__import_id', 'curso_id',

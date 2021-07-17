@@ -2,15 +2,18 @@
 
 namespace Database\Factories;
 
-/* @var $factory \Illuminate\Database\Eloquent\Factory */
-
 use App\Cuestionario;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Cuestionario::class, function (Faker $faker) {
+class CuestionarioFactory extends Factory
+{
+    protected $model = Cuestionario::class;
 
-    return [
-        'titulo' => $faker->words(3, true),
-        'descripcion' => $faker->sentence(8),
-    ];
-});
+    public function definition()
+    {
+        return [
+            'titulo' => $this->faker->words(3, true),
+            'descripcion' => $this->faker->sentence(8),
+        ];
+    }
+}

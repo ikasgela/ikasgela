@@ -26,7 +26,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $youtube_video = factory(YoutubeVideo::class)->create();
+        $youtube_video = YoutubeVideo::factory()->create();
 
         // When
         $response = $this->get(route('youtube_videos.index'));
@@ -41,7 +41,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $youtube_video = factory(YoutubeVideo::class)->create();
+        $youtube_video = YoutubeVideo::factory()->create();
 
         // When
         $response = $this->post(route('youtube_videos.index.filtro', ['curso_id' => $youtube_video->curso_id]));
@@ -117,7 +117,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $youtube_video = factory(YoutubeVideo::class)->make();
+        $youtube_video = YoutubeVideo::factory()->make();
         $total = YoutubeVideo::all()->count();
 
         // When
@@ -133,7 +133,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $youtube_video = factory(YoutubeVideo::class)->make();
+        $youtube_video = YoutubeVideo::factory()->make();
 
         // When
         $response = $this->post(route('youtube_videos.store'), $youtube_video->toArray());
@@ -146,7 +146,7 @@ class YoutubeVideosCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $youtube_video = factory(YoutubeVideo::class)->make();
+        $youtube_video = YoutubeVideo::factory()->make();
 
         // When
         $response = $this->post(route('youtube_videos.store'), $youtube_video->toArray());
@@ -181,7 +181,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $youtube_video = factory(YoutubeVideo::class)->make([$field => null]);
+        $youtube_video = YoutubeVideo::factory()->make([$field => null]);
 
         // When
         $response = $this->post(route('youtube_videos.store'), $youtube_video->toArray());
@@ -203,7 +203,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $youtube_video = factory(YoutubeVideo::class)->create();
+        $youtube_video = YoutubeVideo::factory()->create();
 
         // When
         $response = $this->get(route('youtube_videos.show', $youtube_video));
@@ -218,7 +218,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $youtube_video = factory(YoutubeVideo::class)->create();
+        $youtube_video = YoutubeVideo::factory()->create();
 
         // When
         $response = $this->get(route('youtube_videos.show', $youtube_video));
@@ -231,7 +231,7 @@ class YoutubeVideosCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $youtube_video = factory(YoutubeVideo::class)->create();
+        $youtube_video = YoutubeVideo::factory()->create();
 
         // When
         $response = $this->get(route('youtube_videos.show', $youtube_video));
@@ -246,7 +246,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $youtube_video = factory(YoutubeVideo::class)->create();
+        $youtube_video = YoutubeVideo::factory()->create();
 
         // When
         $response = $this->get(route('youtube_videos.edit', $youtube_video), $youtube_video->toArray());
@@ -261,7 +261,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $youtube_video = factory(YoutubeVideo::class)->create();
+        $youtube_video = YoutubeVideo::factory()->create();
 
         // When
         $response = $this->get(route('youtube_videos.edit', $youtube_video), $youtube_video->toArray());
@@ -274,7 +274,7 @@ class YoutubeVideosCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $youtube_video = factory(YoutubeVideo::class)->create();
+        $youtube_video = YoutubeVideo::factory()->create();
 
         // When
         $response = $this->get(route('youtube_videos.edit', $youtube_video), $youtube_video->toArray());
@@ -289,7 +289,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $youtube_video = factory(YoutubeVideo::class)->create();
+        $youtube_video = YoutubeVideo::factory()->create();
         $youtube_video->titulo = "Updated";
 
         // When
@@ -305,7 +305,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $youtube_video = factory(YoutubeVideo::class)->create();
+        $youtube_video = YoutubeVideo::factory()->create();
         $youtube_video->titulo = "Updated";
 
         // When
@@ -319,7 +319,7 @@ class YoutubeVideosCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $youtube_video = factory(YoutubeVideo::class)->create();
+        $youtube_video = YoutubeVideo::factory()->create();
         $youtube_video->titulo = "Updated";
 
         // When
@@ -335,7 +335,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $youtube_video = factory(YoutubeVideo::class)->create();
+        $youtube_video = YoutubeVideo::factory()->create();
         $empty = new YoutubeVideo();
         foreach ($this->required as $field) {
             $empty->$field = '0';
@@ -354,7 +354,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $youtube_video = factory(YoutubeVideo::class)->create();
+        $youtube_video = YoutubeVideo::factory()->create();
         $youtube_video->$field = null;
 
         // When
@@ -377,7 +377,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $youtube_video = factory(YoutubeVideo::class)->create();
+        $youtube_video = YoutubeVideo::factory()->create();
 
         // When
         $this->delete(route('youtube_videos.destroy', $youtube_video));
@@ -392,7 +392,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $youtube_video = factory(YoutubeVideo::class)->create();
+        $youtube_video = YoutubeVideo::factory()->create();
 
         // When
         $response = $this->delete(route('youtube_videos.destroy', $youtube_video));
@@ -405,7 +405,7 @@ class YoutubeVideosCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $youtube_video = factory(YoutubeVideo::class)->create();
+        $youtube_video = YoutubeVideo::factory()->create();
 
         // When
         $response = $this->delete(route('youtube_videos.destroy', $youtube_video));

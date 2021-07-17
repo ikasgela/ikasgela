@@ -23,10 +23,10 @@ class FileUploadsAsociarActividadTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
-        $file_upload1 = factory(FileUpload::class)->create();
-        $file_upload2 = factory(FileUpload::class)->create();
-        $file_upload3 = factory(FileUpload::class)->create();
+        $actividad = Actividad::factory()->create();
+        $file_upload1 = FileUpload::factory()->create();
+        $file_upload2 = FileUpload::factory()->create();
+        $file_upload3 = FileUpload::factory()->create();
 
         $actividad->file_uploads()->attach($file_upload1);
         $actividad->file_uploads()->attach($file_upload3);
@@ -51,9 +51,9 @@ class FileUploadsAsociarActividadTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
-        $file_upload1 = factory(FileUpload::class)->create();
-        $file_upload2 = factory(FileUpload::class)->create();
+        $actividad = Actividad::factory()->create();
+        $file_upload1 = FileUpload::factory()->create();
+        $file_upload2 = FileUpload::factory()->create();
 
         // When
         $this->post(route('file_uploads.asociar', $actividad), ['seleccionadas' => [$file_upload1, $file_upload2]]);
@@ -68,7 +68,7 @@ class FileUploadsAsociarActividadTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
+        $actividad = Actividad::factory()->create();
 
         // When
         $response = $this->post(route('file_uploads.asociar', $actividad), ['seleccionadas' => null]);
@@ -83,9 +83,9 @@ class FileUploadsAsociarActividadTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
-        $file_upload1 = factory(FileUpload::class)->create();
-        $file_upload2 = factory(FileUpload::class)->create();
+        $actividad = Actividad::factory()->create();
+        $file_upload1 = FileUpload::factory()->create();
+        $file_upload2 = FileUpload::factory()->create();
 
         $actividad->file_uploads()->attach($file_upload1);
         $actividad->file_uploads()->attach($file_upload2);

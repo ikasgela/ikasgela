@@ -26,7 +26,7 @@ class OrganizationsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $organization = factory(Organization::class)->create();
+        $organization = Organization::factory()->create();
 
         // When
         $response = $this->get(route('organizations.index'));
@@ -102,7 +102,7 @@ class OrganizationsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $organization = factory(Organization::class)->make();
+        $organization = Organization::factory()->make();
         $total = Organization::all()->count();
 
         // When
@@ -118,7 +118,7 @@ class OrganizationsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $organization = factory(Organization::class)->make();
+        $organization = Organization::factory()->make();
 
         // When
         $response = $this->post(route('organizations.store'), $organization->toArray());
@@ -131,7 +131,7 @@ class OrganizationsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $organization = factory(Organization::class)->make();
+        $organization = Organization::factory()->make();
 
         // When
         $response = $this->post(route('organizations.store'), $organization->toArray());
@@ -166,7 +166,7 @@ class OrganizationsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $organization = factory(Organization::class)->make([$field => null]);
+        $organization = Organization::factory()->make([$field => null]);
 
         // When
         $response = $this->post(route('organizations.store'), $organization->toArray());
@@ -188,7 +188,7 @@ class OrganizationsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $organization = factory(Organization::class)->create();
+        $organization = Organization::factory()->create();
 
         // When
         $response = $this->get(route('organizations.show', $organization));
@@ -203,7 +203,7 @@ class OrganizationsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $organization = factory(Organization::class)->create();
+        $organization = Organization::factory()->create();
 
         // When
         $response = $this->get(route('organizations.show', $organization));
@@ -215,7 +215,7 @@ class OrganizationsCRUDTest extends TestCase
     public function testNotAuthNotShow()
     {
         // Given
-        $organization = factory(Organization::class)->create();
+        $organization = Organization::factory()->create();
 
         // When
         $response = $this->get(route('organizations.show', $organization));
@@ -230,7 +230,7 @@ class OrganizationsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $organization = factory(Organization::class)->create();
+        $organization = Organization::factory()->create();
 
         // When
         $response = $this->get(route('organizations.edit', $organization), $organization->toArray());
@@ -245,7 +245,7 @@ class OrganizationsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $organization = factory(Organization::class)->create();
+        $organization = Organization::factory()->create();
 
         // When
         $response = $this->get(route('organizations.edit', $organization), $organization->toArray());
@@ -258,7 +258,7 @@ class OrganizationsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $organization = factory(Organization::class)->create();
+        $organization = Organization::factory()->create();
 
         // When
         $response = $this->get(route('organizations.edit', $organization), $organization->toArray());
@@ -273,7 +273,7 @@ class OrganizationsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $organization = factory(Organization::class)->create();
+        $organization = Organization::factory()->create();
         $organization->name = "Updated";
 
         // When
@@ -289,7 +289,7 @@ class OrganizationsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $organization = factory(Organization::class)->create();
+        $organization = Organization::factory()->create();
         $organization->name = "Updated";
 
         // When
@@ -303,7 +303,7 @@ class OrganizationsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $organization = factory(Organization::class)->create();
+        $organization = Organization::factory()->create();
         $organization->name = "Updated";
 
         // When
@@ -319,7 +319,7 @@ class OrganizationsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $organization = factory(Organization::class)->create();
+        $organization = Organization::factory()->create();
         $empty = new Organization();
         foreach ($this->required as $field) {
             $empty->$field = '0';
@@ -338,7 +338,7 @@ class OrganizationsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $organization = factory(Organization::class)->create();
+        $organization = Organization::factory()->create();
         $organization->$field = null;
 
         // When
@@ -361,7 +361,7 @@ class OrganizationsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $organization = factory(Organization::class)->create();
+        $organization = Organization::factory()->create();
 
         // When
         $this->delete(route('organizations.destroy', $organization));
@@ -376,7 +376,7 @@ class OrganizationsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $organization = factory(Organization::class)->create();
+        $organization = Organization::factory()->create();
 
         // When
         $response = $this->delete(route('organizations.destroy', $organization));
@@ -389,7 +389,7 @@ class OrganizationsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $organization = factory(Organization::class)->create();
+        $organization = Organization::factory()->create();
 
         // When
         $response = $this->delete(route('organizations.destroy', $organization));

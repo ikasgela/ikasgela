@@ -26,7 +26,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $intellij_project = factory(IntellijProject::class)->create();
+        $intellij_project = IntellijProject::factory()->create();
 
         // When
         $response = $this->get(route('intellij_projects.index'));
@@ -41,7 +41,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $intellij_project = factory(IntellijProject::class)->create();
+        $intellij_project = IntellijProject::factory()->create();
 
         // When
         $response = $this->post(route('intellij_projects.index.filtro', ['curso_id' => $intellij_project->curso_id]));
@@ -117,7 +117,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $intellij_project = factory(IntellijProject::class)->make();
+        $intellij_project = IntellijProject::factory()->make();
         $total = IntellijProject::all()->count();
 
         // When
@@ -133,7 +133,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $intellij_project = factory(IntellijProject::class)->make();
+        $intellij_project = IntellijProject::factory()->make();
 
         // When
         $response = $this->post(route('intellij_projects.store'), $intellij_project->toArray());
@@ -146,7 +146,7 @@ class IntellijProjectsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $intellij_project = factory(IntellijProject::class)->make();
+        $intellij_project = IntellijProject::factory()->make();
 
         // When
         $response = $this->post(route('intellij_projects.store'), $intellij_project->toArray());
@@ -181,7 +181,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $intellij_project = factory(IntellijProject::class)->make([$field => null]);
+        $intellij_project = IntellijProject::factory()->make([$field => null]);
 
         // When
         $response = $this->post(route('intellij_projects.store'), $intellij_project->toArray());
@@ -203,7 +203,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $intellij_project = factory(IntellijProject::class)->create();
+        $intellij_project = IntellijProject::factory()->create();
 
         // When
         $response = $this->get(route('intellij_projects.show', $intellij_project));
@@ -218,7 +218,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $intellij_project = factory(IntellijProject::class)->create();
+        $intellij_project = IntellijProject::factory()->create();
 
         // When
         $response = $this->get(route('intellij_projects.show', $intellij_project));
@@ -231,7 +231,7 @@ class IntellijProjectsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $intellij_project = factory(IntellijProject::class)->create();
+        $intellij_project = IntellijProject::factory()->create();
 
         // When
         $response = $this->get(route('intellij_projects.show', $intellij_project));
@@ -246,7 +246,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $intellij_project = factory(IntellijProject::class)->create();
+        $intellij_project = IntellijProject::factory()->create();
 
         // When
         $response = $this->get(route('intellij_projects.edit', $intellij_project), $intellij_project->toArray());
@@ -261,7 +261,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $intellij_project = factory(IntellijProject::class)->create();
+        $intellij_project = IntellijProject::factory()->create();
 
         // When
         $response = $this->get(route('intellij_projects.edit', $intellij_project), $intellij_project->toArray());
@@ -274,7 +274,7 @@ class IntellijProjectsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $intellij_project = factory(IntellijProject::class)->create();
+        $intellij_project = IntellijProject::factory()->create();
 
         // When
         $response = $this->get(route('intellij_projects.edit', $intellij_project), $intellij_project->toArray());
@@ -289,7 +289,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $intellij_project = factory(IntellijProject::class)->create();
+        $intellij_project = IntellijProject::factory()->create();
         $intellij_project->repositorio = "Updated";
 
         // When
@@ -305,7 +305,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $intellij_project = factory(IntellijProject::class)->create();
+        $intellij_project = IntellijProject::factory()->create();
         $intellij_project->repositorio = "Updated";
 
         // When
@@ -319,7 +319,7 @@ class IntellijProjectsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $intellij_project = factory(IntellijProject::class)->create();
+        $intellij_project = IntellijProject::factory()->create();
         $intellij_project->repositorio = "Updated";
 
         // When
@@ -335,7 +335,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $intellij_project = factory(IntellijProject::class)->create();
+        $intellij_project = IntellijProject::factory()->create();
         $empty = new IntellijProject();
         foreach ($this->required as $field) {
             $empty->$field = '0';
@@ -354,7 +354,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $intellij_project = factory(IntellijProject::class)->create();
+        $intellij_project = IntellijProject::factory()->create();
         $intellij_project->$field = null;
 
         // When
@@ -377,7 +377,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $intellij_project = factory(IntellijProject::class)->create();
+        $intellij_project = IntellijProject::factory()->create();
 
         // When
         $this->delete(route('intellij_projects.destroy', $intellij_project));
@@ -392,7 +392,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $this->actingAs($this->not_profesor);
 
         // Given
-        $intellij_project = factory(IntellijProject::class)->create();
+        $intellij_project = IntellijProject::factory()->create();
 
         // When
         $response = $this->delete(route('intellij_projects.destroy', $intellij_project));
@@ -405,7 +405,7 @@ class IntellijProjectsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $intellij_project = factory(IntellijProject::class)->create();
+        $intellij_project = IntellijProject::factory()->create();
 
         // When
         $response = $this->delete(route('intellij_projects.destroy', $intellij_project));

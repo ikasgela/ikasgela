@@ -3,10 +3,12 @@
 namespace App;
 
 use Bkwld\Cloner\Cloneable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class FileUpload extends Model
 {
+    use HasFactory;
     use Cloneable;
 
     protected $clone_exempt_attributes = ['plantilla'];

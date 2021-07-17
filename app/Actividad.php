@@ -4,6 +4,7 @@ namespace App;
 
 use App\Traits\Etiquetas;
 use Bkwld\Cloner\Cloneable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Actividad extends Model
 {
+    use HasFactory;
     use Cloneable;
     use LogsActivity;
     use SoftDeletes;

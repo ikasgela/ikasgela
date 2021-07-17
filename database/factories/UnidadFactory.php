@@ -16,7 +16,7 @@ class UnidadFactory extends Factory
         $nombre = $this->faker->words(3, true);
 
         return [
-            'curso_id' => factory(Curso::class),
+            'curso_id' => Curso::factory(),
             'nombre' => $nombre,
             'slug' => Str::slug($nombre)
         ];

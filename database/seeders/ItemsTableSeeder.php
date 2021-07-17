@@ -17,7 +17,7 @@ class ItemsTableSeeder extends Seeder
     {
         $pregunta = Pregunta::where('titulo', '¿Correcto?')->first();
 
-        factory(Item::class)->create([
+        Item::factory()->create([
             'pregunta_id' => $pregunta->id,
             'texto' => 'Sí',
             'correcto' => true,
@@ -25,7 +25,7 @@ class ItemsTableSeeder extends Seeder
             'orden' => 1,
         ]);
 
-        factory(Item::class)->create([
+        Item::factory()->create([
             'pregunta_id' => $pregunta->id,
             'texto' => 'No',
             'correcto' => false,
@@ -35,7 +35,7 @@ class ItemsTableSeeder extends Seeder
 
         $pregunta = Pregunta::where('titulo', '¿Son lenguajes de programación?')->first();
 
-        factory(Item::class)->create([
+        Item::factory()->create([
             'pregunta_id' => $pregunta->id,
             'texto' => 'Java',
             'correcto' => true,
@@ -43,7 +43,7 @@ class ItemsTableSeeder extends Seeder
             'orden' => 1,
         ]);
 
-        factory(Item::class)->create([
+        Item::factory()->create([
             'pregunta_id' => $pregunta->id,
             'texto' => 'C',
             'correcto' => true,
@@ -51,7 +51,7 @@ class ItemsTableSeeder extends Seeder
             'orden' => 2,
         ]);
 
-        factory(Item::class)->create([
+        Item::factory()->create([
             'pregunta_id' => $pregunta->id,
             'texto' => 'Google',
             'correcto' => false,
@@ -59,7 +59,7 @@ class ItemsTableSeeder extends Seeder
             'orden' => 3,
         ]);
 
-        factory(Item::class)->create([
+        Item::factory()->create([
             'pregunta_id' => $pregunta->id,
             'texto' => 'Python',
             'correcto' => true,

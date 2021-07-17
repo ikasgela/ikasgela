@@ -27,7 +27,7 @@ class QualificationsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $qualification = factory(Qualification::class)->create();
+        $qualification = Qualification::factory()->create();
         session(['filtrar_curso_actual' => $qualification->curso_id]);
 
         // When
@@ -104,7 +104,7 @@ class QualificationsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $qualification = factory(Qualification::class)->make();
+        $qualification = Qualification::factory()->make();
         $total = Qualification::all()->count();
 
         // When
@@ -120,9 +120,9 @@ class QualificationsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $qualification = factory(Qualification::class)->make();
-        $skill1 = factory(Skill::class)->create();
-        $skill2 = factory(Skill::class)->create();
+        $qualification = Qualification::factory()->make();
+        $skill1 = Skill::factory()->create();
+        $skill2 = Skill::factory()->create();
 
         $extra = [
             'skills_seleccionados' => [
@@ -146,7 +146,7 @@ class QualificationsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $qualification = factory(Qualification::class)->make();
+        $qualification = Qualification::factory()->make();
 
         // When
         $response = $this->post(route('qualifications.store'), $qualification->toArray());
@@ -159,7 +159,7 @@ class QualificationsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $qualification = factory(Qualification::class)->make();
+        $qualification = Qualification::factory()->make();
 
         // When
         $response = $this->post(route('qualifications.store'), $qualification->toArray());
@@ -194,7 +194,7 @@ class QualificationsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $qualification = factory(Qualification::class)->make([$field => null]);
+        $qualification = Qualification::factory()->make([$field => null]);
 
         // When
         $response = $this->post(route('qualifications.store'), $qualification->toArray());
@@ -216,7 +216,7 @@ class QualificationsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $qualification = factory(Qualification::class)->create();
+        $qualification = Qualification::factory()->create();
 
         // When
         $response = $this->get(route('qualifications.show', $qualification));
@@ -231,7 +231,7 @@ class QualificationsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $qualification = factory(Qualification::class)->create();
+        $qualification = Qualification::factory()->create();
 
         // When
         $response = $this->get(route('qualifications.show', $qualification));
@@ -243,7 +243,7 @@ class QualificationsCRUDTest extends TestCase
     public function testNotAuthNotShow()
     {
         // Given
-        $qualification = factory(Qualification::class)->create();
+        $qualification = Qualification::factory()->create();
 
         // When
         $response = $this->get(route('qualifications.show', $qualification));
@@ -258,7 +258,7 @@ class QualificationsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $qualification = factory(Qualification::class)->create();
+        $qualification = Qualification::factory()->create();
 
         // When
         $response = $this->get(route('qualifications.edit', $qualification), $qualification->toArray());
@@ -273,7 +273,7 @@ class QualificationsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $qualification = factory(Qualification::class)->create();
+        $qualification = Qualification::factory()->create();
 
         // When
         $response = $this->get(route('qualifications.edit', $qualification), $qualification->toArray());
@@ -286,7 +286,7 @@ class QualificationsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $qualification = factory(Qualification::class)->create();
+        $qualification = Qualification::factory()->create();
 
         // When
         $response = $this->get(route('qualifications.edit', $qualification), $qualification->toArray());
@@ -301,7 +301,7 @@ class QualificationsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $qualification = factory(Qualification::class)->create();
+        $qualification = Qualification::factory()->create();
         $qualification->name = "Updated";
 
         // When
@@ -317,10 +317,10 @@ class QualificationsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $qualification = factory(Qualification::class)->create();
+        $qualification = Qualification::factory()->create();
         $qualification->name = "Updated";
-        $skill1 = factory(Skill::class)->create();
-        $skill2 = factory(Skill::class)->create();
+        $skill1 = Skill::factory()->create();
+        $skill2 = Skill::factory()->create();
 
         $extra = [
             'skills_seleccionados' => [
@@ -343,7 +343,7 @@ class QualificationsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $qualification = factory(Qualification::class)->create();
+        $qualification = Qualification::factory()->create();
         $qualification->name = "Updated";
 
         // When
@@ -357,7 +357,7 @@ class QualificationsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $qualification = factory(Qualification::class)->create();
+        $qualification = Qualification::factory()->create();
         $qualification->name = "Updated";
 
         // When
@@ -373,7 +373,7 @@ class QualificationsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $qualification = factory(Qualification::class)->create();
+        $qualification = Qualification::factory()->create();
         $empty = new Qualification();
         foreach ($this->required as $field) {
             $empty->$field = '0';
@@ -392,7 +392,7 @@ class QualificationsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $qualification = factory(Qualification::class)->create();
+        $qualification = Qualification::factory()->create();
         $qualification->$field = null;
 
         // When
@@ -415,7 +415,7 @@ class QualificationsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $qualification = factory(Qualification::class)->create();
+        $qualification = Qualification::factory()->create();
 
         // When
         $this->delete(route('qualifications.destroy', $qualification));
@@ -430,7 +430,7 @@ class QualificationsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $qualification = factory(Qualification::class)->create();
+        $qualification = Qualification::factory()->create();
 
         // When
         $response = $this->delete(route('qualifications.destroy', $qualification));
@@ -443,7 +443,7 @@ class QualificationsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $qualification = factory(Qualification::class)->create();
+        $qualification = Qualification::factory()->create();
 
         // When
         $response = $this->delete(route('qualifications.destroy', $qualification));

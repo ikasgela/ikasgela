@@ -26,7 +26,7 @@ class PeriodsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $period = factory(Period::class)->create();
+        $period = Period::factory()->create();
 
         // When
         $response = $this->get(route('periods.index'));
@@ -102,7 +102,7 @@ class PeriodsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $period = factory(Period::class)->make();
+        $period = Period::factory()->make();
         $total = Period::all()->count();
 
         // When
@@ -118,7 +118,7 @@ class PeriodsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $period = factory(Period::class)->make();
+        $period = Period::factory()->make();
 
         // When
         $response = $this->post(route('periods.store'), $period->toArray());
@@ -131,7 +131,7 @@ class PeriodsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $period = factory(Period::class)->make();
+        $period = Period::factory()->make();
 
         // When
         $response = $this->post(route('periods.store'), $period->toArray());
@@ -166,7 +166,7 @@ class PeriodsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $period = factory(Period::class)->make([$field => null]);
+        $period = Period::factory()->make([$field => null]);
 
         // When
         $response = $this->post(route('periods.store'), $period->toArray());
@@ -188,7 +188,7 @@ class PeriodsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $period = factory(Period::class)->create();
+        $period = Period::factory()->create();
 
         // When
         $response = $this->get(route('periods.show', $period));
@@ -203,7 +203,7 @@ class PeriodsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $period = factory(Period::class)->create();
+        $period = Period::factory()->create();
 
         // When
         $response = $this->get(route('periods.show', $period));
@@ -215,7 +215,7 @@ class PeriodsCRUDTest extends TestCase
     public function testNotAuthNotShow()
     {
         // Given
-        $period = factory(Period::class)->create();
+        $period = Period::factory()->create();
 
         // When
         $response = $this->get(route('periods.show', $period));
@@ -230,7 +230,7 @@ class PeriodsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $period = factory(Period::class)->create();
+        $period = Period::factory()->create();
 
         // When
         $response = $this->get(route('periods.edit', $period), $period->toArray());
@@ -245,7 +245,7 @@ class PeriodsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $period = factory(Period::class)->create();
+        $period = Period::factory()->create();
 
         // When
         $response = $this->get(route('periods.edit', $period), $period->toArray());
@@ -258,7 +258,7 @@ class PeriodsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $period = factory(Period::class)->create();
+        $period = Period::factory()->create();
 
         // When
         $response = $this->get(route('periods.edit', $period), $period->toArray());
@@ -273,7 +273,7 @@ class PeriodsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $period = factory(Period::class)->create();
+        $period = Period::factory()->create();
         $period->name = "Updated";
 
         // When
@@ -289,7 +289,7 @@ class PeriodsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $period = factory(Period::class)->create();
+        $period = Period::factory()->create();
         $period->name = "Updated";
 
         // When
@@ -303,7 +303,7 @@ class PeriodsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $period = factory(Period::class)->create();
+        $period = Period::factory()->create();
         $period->name = "Updated";
 
         // When
@@ -319,7 +319,7 @@ class PeriodsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $period = factory(Period::class)->create();
+        $period = Period::factory()->create();
         $empty = new Period();
         foreach ($this->required as $field) {
             $empty->$field = '0';
@@ -338,7 +338,7 @@ class PeriodsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $period = factory(Period::class)->create();
+        $period = Period::factory()->create();
         $period->$field = null;
 
         // When
@@ -361,7 +361,7 @@ class PeriodsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $period = factory(Period::class)->create();
+        $period = Period::factory()->create();
 
         // When
         $this->delete(route('periods.destroy', $period));
@@ -376,7 +376,7 @@ class PeriodsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $period = factory(Period::class)->create();
+        $period = Period::factory()->create();
 
         // When
         $response = $this->delete(route('periods.destroy', $period));
@@ -389,7 +389,7 @@ class PeriodsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $period = factory(Period::class)->create();
+        $period = Period::factory()->create();
 
         // When
         $response = $this->delete(route('periods.destroy', $period));

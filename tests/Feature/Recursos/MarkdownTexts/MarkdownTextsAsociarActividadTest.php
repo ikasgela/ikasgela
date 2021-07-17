@@ -23,10 +23,10 @@ class MarkdownTextsAsociarActividadTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
-        $markdown_text1 = factory(MarkdownText::class)->create();
-        $markdown_text2 = factory(MarkdownText::class)->create();
-        $markdown_text3 = factory(MarkdownText::class)->create();
+        $actividad = Actividad::factory()->create();
+        $markdown_text1 = MarkdownText::factory()->create();
+        $markdown_text2 = MarkdownText::factory()->create();
+        $markdown_text3 = MarkdownText::factory()->create();
 
         $actividad->markdown_texts()->attach($markdown_text1);
         $actividad->markdown_texts()->attach($markdown_text3);
@@ -51,9 +51,9 @@ class MarkdownTextsAsociarActividadTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
-        $markdown_text1 = factory(MarkdownText::class)->create();
-        $markdown_text2 = factory(MarkdownText::class)->create();
+        $actividad = Actividad::factory()->create();
+        $markdown_text1 = MarkdownText::factory()->create();
+        $markdown_text2 = MarkdownText::factory()->create();
 
         // When
         $this->post(route('markdown_texts.asociar', $actividad), ['seleccionadas' => [$markdown_text1, $markdown_text2]]);
@@ -68,7 +68,7 @@ class MarkdownTextsAsociarActividadTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
+        $actividad = Actividad::factory()->create();
 
         // When
         $response = $this->post(route('markdown_texts.asociar', $actividad), ['seleccionadas' => null]);
@@ -83,9 +83,9 @@ class MarkdownTextsAsociarActividadTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $actividad = factory(Actividad::class)->create();
-        $markdown_text1 = factory(MarkdownText::class)->create();
-        $markdown_text2 = factory(MarkdownText::class)->create();
+        $actividad = Actividad::factory()->create();
+        $markdown_text1 = MarkdownText::factory()->create();
+        $markdown_text2 = MarkdownText::factory()->create();
 
         $actividad->markdown_texts()->attach($markdown_text1);
         $actividad->markdown_texts()->attach($markdown_text2);

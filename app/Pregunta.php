@@ -3,10 +3,12 @@
 namespace App;
 
 use Bkwld\Cloner\Cloneable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Pregunta extends Model
 {
+    use HasFactory;
     use Cloneable;
 
     protected $cloneable_relations = ['items'];

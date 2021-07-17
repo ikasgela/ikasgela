@@ -31,11 +31,12 @@ class ArchivoTest extends TestCase
         // Given
         $user = $this->not_admin;
 
-        $actividad1 = factory(Actividad::class)->create();
-        $actividad2 = factory(Actividad::class)->create();
+        $actividad1 = Actividad::factory()->create();
+        $actividad2 = Actividad::factory()->create();
+
         $actividad2->unidad->curso_id = $actividad1->unidad->curso->id;
         $actividad2->unidad->save();
-        $actividad3 = factory(Actividad::class)->create();
+        $actividad3 = Actividad::factory()->create();
         $actividad3->unidad->curso_id = $actividad1->unidad->curso->id;
         $actividad3->unidad->save();
 
@@ -65,11 +66,11 @@ class ArchivoTest extends TestCase
         // Given
         $user = $this->not_admin;
 
-        $actividad1 = factory(Actividad::class)->create();
-        $actividad2 = factory(Actividad::class)->create();
+        $actividad1 = Actividad::factory()->create();
+        $actividad2 = Actividad::factory()->create();
         $actividad2->unidad->curso_id = $actividad1->unidad->curso->id;
         $actividad2->unidad->save();
-        $actividad3 = factory(Actividad::class)->create();
+        $actividad3 = Actividad::factory()->create();
         $actividad3->unidad->curso_id = $actividad1->unidad->curso->id;
         $actividad3->unidad->save();
 
@@ -99,11 +100,11 @@ class ArchivoTest extends TestCase
         // Given
         $user = $this->not_admin;
 
-        $actividad1 = factory(Actividad::class)->create();
-        $actividad2 = factory(Actividad::class)->create();
+        $actividad1 = Actividad::factory()->create();
+        $actividad2 = Actividad::factory()->create();
         $actividad2->unidad->curso_id = $actividad1->unidad->curso->id;
         $actividad2->unidad->save();
-        $actividad3 = factory(Actividad::class)->create();
+        $actividad3 = Actividad::factory()->create();
         $actividad3->unidad->curso_id = $actividad1->unidad->curso->id;
         $actividad3->unidad->save();
 
@@ -129,11 +130,11 @@ class ArchivoTest extends TestCase
         // Given
         $user = $this->not_admin;
 
-        $actividad1 = factory(Actividad::class)->create();
-        $actividad2 = factory(Actividad::class)->create();
+        $actividad1 = Actividad::factory()->create();
+        $actividad2 = Actividad::factory()->create();
         $actividad2->unidad->curso_id = $actividad1->unidad->curso->id;
         $actividad2->unidad->save();
-        $actividad3 = factory(Actividad::class)->create();
+        $actividad3 = Actividad::factory()->create();
         $actividad3->unidad->curso_id = $actividad1->unidad->curso->id;
         $actividad3->unidad->save();
 
@@ -162,11 +163,11 @@ class ArchivoTest extends TestCase
         // Given
         $user = $this->not_admin;
 
-        $actividad1 = factory(Actividad::class)->create();
-        $actividad2 = factory(Actividad::class)->create();
+        $actividad1 = Actividad::factory()->create();
+        $actividad2 = Actividad::factory()->create();
         $actividad2->unidad->curso_id = $actividad1->unidad->curso->id;
         $actividad2->unidad->save();
-        $actividad3 = factory(Actividad::class)->create();
+        $actividad3 = Actividad::factory()->create();
         $actividad3->unidad->curso_id = $actividad1->unidad->curso->id;
         $actividad3->unidad->save();
 

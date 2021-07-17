@@ -20,7 +20,7 @@ class TeamsTableSeeder extends Seeder
         $group = Group::where('name', '147FA')->first();
 
         $name = 'Todos';
-        $todos = factory(Team::class)->create([
+        $todos = Team::factory()->create([
             'group_id' => $group->id,
             'name' => $name,
             'slug' => Str::slug($name)

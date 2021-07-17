@@ -17,14 +17,14 @@ class PreguntasTableSeeder extends Seeder
     {
         $cuestionario = Cuestionario::where('titulo', 'Cuestionario de ejemplo')->first();
 
-        factory(Pregunta::class)->create([
+        Pregunta::factory()->create([
             'cuestionario_id' => $cuestionario->id,
             'titulo' => '¿Correcto?',
             'texto' => 'Un bucle while puede no ejecutarse nunca.',
             'multiple' => false,
         ]);
 
-        factory(Pregunta::class)->create([
+        Pregunta::factory()->create([
             'cuestionario_id' => $cuestionario->id,
             'titulo' => '¿Son lenguajes de programación?',
             'texto' => 'Selecciona los nombres que corresponden a lenguajes de programación actuales.',

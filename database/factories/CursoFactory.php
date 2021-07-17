@@ -2,22 +2,25 @@
 
 namespace Database\Factories;
 
-/* @var $factory \Illuminate\Database\Eloquent\Factory */
-
 use App\Category;
 use App\Curso;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-$factory->define(Curso::class, function (Faker $faker) {
+class CursoFactory extends Factory
+{
+    protected $model = Curso::class;
 
-    $name = $faker->sentence(2);
+    public function definition()
+    {
+        $name = $this->faker->sentence(2);
 
-    return [
-        'category_id' => factory(Category::class),
-        'nombre' => $name,
-        'descripcion' => $faker->sentence(8),
-        'slug' => Str::slug($name),
-        'plazo_actividad' => 7,
-    ];
-});
+        return [
+            'category_id' => Category::factory(),
+            'nombre' => $name,
+            'descripcion' => $this->faker->sentence(8),
+            'slug' => Str::slug($name),
+            'plazo_actividad' => 7,
+        ];
+    }
+}

@@ -13,11 +13,6 @@ use Illuminate\Support\Str;
 
 class ActividadesTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeders.
-     *
-     * @return void
-     */
     public function run()
     {
         // --- Tarea de bienvenida
@@ -31,7 +26,7 @@ class ActividadesTableSeeder extends Seeder
                 ->first();
 
             $nombre = 'Tarea de bienvenida';
-            $actividad = factory(Actividad::class)->create(
+            $actividad = Actividad::factory()->create(
                 [
                     'nombre' => $nombre,
                     'descripcion' => 'Actividad de ejemplo que explica el flujo de trabajo.',
@@ -56,7 +51,7 @@ class ActividadesTableSeeder extends Seeder
             ->first();
 
         $nombre = 'Agenda';
-        $actividad = factory(Actividad::class)->create(
+        $actividad = Actividad::factory()->create(
             [
                 'nombre' => $nombre,
                 'descripcion' => 'Agenda de contactos con varias ventanas que comparten datos.',
@@ -82,7 +77,7 @@ class ActividadesTableSeeder extends Seeder
             ->first();
 
         $nombre = 'Tres en raya';
-        $actividad = factory(Actividad::class)->create(
+        $actividad = Actividad::factory()->create(
             [
                 'nombre' => $nombre,
                 'descripcion' => 'Juego de tres en raya con GUI.',
@@ -109,7 +104,7 @@ class ActividadesTableSeeder extends Seeder
             ->first();
 
         $nombre = 'Reservas';
-        $actividad = factory(Actividad::class)->create(
+        $actividad = Actividad::factory()->create(
             [
                 'nombre' => $nombre,
                 'descripcion' => 'Reservas, huéspedes y hoteles.',
@@ -134,7 +129,7 @@ class ActividadesTableSeeder extends Seeder
             ->first();
 
         $nombre = 'Alternativa simple';
-        $actividad = factory(Actividad::class)->create(
+        $actividad = Actividad::factory()->create(
             [
                 'nombre' => $nombre,
                 'descripcion' => 'Instrucción if-else.',

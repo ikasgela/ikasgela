@@ -27,7 +27,7 @@ class T6_FiltradoActividadesTest extends DuskTestCase
             // Crear una unidad nueva en el curso actual
             $curso_actual = Curso::find(setting_usuario('curso_actual', $usuario));
 
-            $unidad = factory(Unidad::class)->create([
+            $unidad = Unidad::factory()->create([
                 'curso_id' => $curso_actual->id
             ]);
 
@@ -45,7 +45,7 @@ class T6_FiltradoActividadesTest extends DuskTestCase
             foreach ($estados as $estado) {
                 $nombre = 'tarea_en_plazo_' . $estado;
 
-                $actividad = factory(Actividad::class)->create([
+                $actividad = Actividad::factory()->create([
                     'nombre' => $nombre,
                     'unidad_id' => $unidad->id,
                 ]);
@@ -65,7 +65,7 @@ class T6_FiltradoActividadesTest extends DuskTestCase
             foreach ($estados as $estado) {
                 $nombre = 'tarea_caducada_' . $estado;
 
-                $actividad = factory(Actividad::class)->create([
+                $actividad = Actividad::factory()->create([
                     'nombre' => $nombre,
                     'unidad_id' => $unidad->id,
                     'fecha_limite' => now()->addDays(-1),
@@ -85,7 +85,7 @@ class T6_FiltradoActividadesTest extends DuskTestCase
             $estado = 30;
             $nombre = 'tarea_enviada_' . $estado;
 
-            $actividad = factory(Actividad::class)->create([
+            $actividad = Actividad::factory()->create([
                 'nombre' => $nombre,
                 'unidad_id' => $unidad->id
             ]);
@@ -106,7 +106,7 @@ class T6_FiltradoActividadesTest extends DuskTestCase
             $estado = 30;
             $nombre = 'tarea_enviada_autoavance_en_plazo_' . $estado;
 
-            $actividad = factory(Actividad::class)->create([
+            $actividad = Actividad::factory()->create([
                 'nombre' => $nombre,
                 'unidad_id' => $unidad->id,
                 'auto_avance' => true,
@@ -126,7 +126,7 @@ class T6_FiltradoActividadesTest extends DuskTestCase
             $estado = 30;
             $nombre = 'tarea_enviada_autoavance_caducada_' . $estado;
 
-            $actividad = factory(Actividad::class)->create([
+            $actividad = Actividad::factory()->create([
                 'nombre' => $nombre,
                 'unidad_id' => $unidad->id,
                 'auto_avance' => true,
@@ -147,7 +147,7 @@ class T6_FiltradoActividadesTest extends DuskTestCase
             foreach ($estados as $estado) {
                 $nombre = 'tarea_examen_caducada_' . $estado;
 
-                $actividad = factory(Actividad::class)->create([
+                $actividad = Actividad::factory()->create([
                     'nombre' => $nombre,
                     'unidad_id' => $unidad->id,
                     'tags' => 'examen',
@@ -171,7 +171,7 @@ class T6_FiltradoActividadesTest extends DuskTestCase
             foreach ($estados as $estado) {
                 $nombre = 'tarea_examen_caducada_corregida_' . $estado;
 
-                $actividad = factory(Actividad::class)->create([
+                $actividad = Actividad::factory()->create([
                     'nombre' => $nombre,
                     'unidad_id' => $unidad->id,
                     'tags' => 'examen',

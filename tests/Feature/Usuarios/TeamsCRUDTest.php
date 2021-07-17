@@ -26,7 +26,7 @@ class TeamsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $team = factory(Team::class)->create();
+        $team = Team::factory()->create();
 
         // When
         $response = $this->get(route('teams.index'));
@@ -102,7 +102,7 @@ class TeamsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $team = factory(Team::class)->make();
+        $team = Team::factory()->make();
         $total = Team::all()->count();
 
         // When
@@ -118,7 +118,7 @@ class TeamsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $team = factory(Team::class)->make();
+        $team = Team::factory()->make();
 
         // When
         $response = $this->post(route('teams.store'), $team->toArray());
@@ -131,7 +131,7 @@ class TeamsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $team = factory(Team::class)->make();
+        $team = Team::factory()->make();
 
         // When
         $response = $this->post(route('teams.store'), $team->toArray());
@@ -166,7 +166,7 @@ class TeamsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $team = factory(Team::class)->make([$field => null]);
+        $team = Team::factory()->make([$field => null]);
 
         // When
         $response = $this->post(route('teams.store'), $team->toArray());
@@ -188,7 +188,7 @@ class TeamsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $team = factory(Team::class)->create();
+        $team = Team::factory()->create();
 
         // When
         $response = $this->get(route('teams.show', $team));
@@ -203,7 +203,7 @@ class TeamsCRUDTest extends TestCase
         $this->actingAs($this->not_admin_profesor);
 
         // Given
-        $team = factory(Team::class)->create();
+        $team = Team::factory()->create();
 
         // When
         $response = $this->get(route('teams.show', $team));
@@ -215,7 +215,7 @@ class TeamsCRUDTest extends TestCase
     public function testNotAuthNotShow()
     {
         // Given
-        $team = factory(Team::class)->create();
+        $team = Team::factory()->create();
 
         // When
         $response = $this->get(route('teams.show', $team));
@@ -230,7 +230,7 @@ class TeamsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $team = factory(Team::class)->create();
+        $team = Team::factory()->create();
 
         // When
         $response = $this->get(route('teams.edit', $team), $team->toArray());
@@ -245,7 +245,7 @@ class TeamsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $team = factory(Team::class)->create();
+        $team = Team::factory()->create();
 
         // When
         $response = $this->get(route('teams.edit', $team), $team->toArray());
@@ -258,7 +258,7 @@ class TeamsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $team = factory(Team::class)->create();
+        $team = Team::factory()->create();
 
         // When
         $response = $this->get(route('teams.edit', $team), $team->toArray());
@@ -273,7 +273,7 @@ class TeamsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $team = factory(Team::class)->create();
+        $team = Team::factory()->create();
         $team->name = "Updated";
 
         // When
@@ -289,7 +289,7 @@ class TeamsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $team = factory(Team::class)->create();
+        $team = Team::factory()->create();
         $team->name = "Updated";
 
         // When
@@ -303,7 +303,7 @@ class TeamsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $team = factory(Team::class)->create();
+        $team = Team::factory()->create();
         $team->name = "Updated";
 
         // When
@@ -319,7 +319,7 @@ class TeamsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $team = factory(Team::class)->create();
+        $team = Team::factory()->create();
         $empty = new Team();
         foreach ($this->required as $field) {
             $empty->$field = '0';
@@ -338,7 +338,7 @@ class TeamsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $team = factory(Team::class)->create();
+        $team = Team::factory()->create();
         $team->$field = null;
 
         // When
@@ -361,7 +361,7 @@ class TeamsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $team = factory(Team::class)->create();
+        $team = Team::factory()->create();
 
         // When
         $this->delete(route('teams.destroy', $team));
@@ -376,7 +376,7 @@ class TeamsCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $team = factory(Team::class)->create();
+        $team = Team::factory()->create();
 
         // When
         $response = $this->delete(route('teams.destroy', $team));
@@ -389,7 +389,7 @@ class TeamsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $team = factory(Team::class)->create();
+        $team = Team::factory()->create();
 
         // When
         $response = $this->delete(route('teams.destroy', $team));

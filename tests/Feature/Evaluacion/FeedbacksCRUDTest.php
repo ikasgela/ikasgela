@@ -26,13 +26,14 @@ class FeedbacksCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $feedback = factory(Feedback::class)->create();
+        $feedback = Feedback::factory()->create();
+        setting_usuario(['curso_actual' => $feedback->curso_id]);
 
         // When
         $response = $this->get(route('feedbacks.index'));
 
         // Then
-        $response->assertSee($feedback->mensaje);
+        $response->assertSee($feedback->titulo);
     }
 
     public function testNotAdminNotIndex()
@@ -102,7 +103,7 @@ class FeedbacksCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $feedback = factory(Feedback::class)->make();
+        $feedback = Feedback::factory()->make();
         $total = Feedback::all()->count();
 
         // When
@@ -118,7 +119,7 @@ class FeedbacksCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $feedback = factory(Feedback::class)->make();
+        $feedback = Feedback::factory()->make();
 
         // When
         $response = $this->post(route('feedbacks.store'), $feedback->toArray());
@@ -131,7 +132,7 @@ class FeedbacksCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $feedback = factory(Feedback::class)->make();
+        $feedback = Feedback::factory()->make();
 
         // When
         $response = $this->post(route('feedbacks.store'), $feedback->toArray());
@@ -166,7 +167,7 @@ class FeedbacksCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $feedback = factory(Feedback::class)->make([$field => null]);
+        $feedback = Feedback::factory()->make([$field => null]);
 
         // When
         $response = $this->post(route('feedbacks.store'), $feedback->toArray());
@@ -188,7 +189,7 @@ class FeedbacksCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $feedback = factory(Feedback::class)->create();
+        $feedback = Feedback::factory()->create();
 
         // When
         $response = $this->get(route('feedbacks.show', $feedback));
@@ -203,7 +204,7 @@ class FeedbacksCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $feedback = factory(Feedback::class)->create();
+        $feedback = Feedback::factory()->create();
 
         // When
         $response = $this->get(route('feedbacks.show', $feedback));
@@ -215,7 +216,7 @@ class FeedbacksCRUDTest extends TestCase
     public function testNotAuthNotShow()
     {
         // Given
-        $feedback = factory(Feedback::class)->create();
+        $feedback = Feedback::factory()->create();
 
         // When
         $response = $this->get(route('feedbacks.show', $feedback));
@@ -230,7 +231,7 @@ class FeedbacksCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $feedback = factory(Feedback::class)->create();
+        $feedback = Feedback::factory()->create();
 
         // When
         $response = $this->get(route('feedbacks.edit', $feedback), $feedback->toArray());
@@ -245,7 +246,7 @@ class FeedbacksCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $feedback = factory(Feedback::class)->create();
+        $feedback = Feedback::factory()->create();
 
         // When
         $response = $this->get(route('feedbacks.edit', $feedback), $feedback->toArray());
@@ -258,7 +259,7 @@ class FeedbacksCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $feedback = factory(Feedback::class)->create();
+        $feedback = Feedback::factory()->create();
 
         // When
         $response = $this->get(route('feedbacks.edit', $feedback), $feedback->toArray());
@@ -273,7 +274,7 @@ class FeedbacksCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $feedback = factory(Feedback::class)->create();
+        $feedback = Feedback::factory()->create();
         $feedback->mensaje = "Updated";
 
         // When
@@ -289,7 +290,7 @@ class FeedbacksCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $feedback = factory(Feedback::class)->create();
+        $feedback = Feedback::factory()->create();
         $feedback->mensaje = "Updated";
 
         // When
@@ -303,7 +304,7 @@ class FeedbacksCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $feedback = factory(Feedback::class)->create();
+        $feedback = Feedback::factory()->create();
         $feedback->mensaje = "Updated";
 
         // When
@@ -319,7 +320,7 @@ class FeedbacksCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $feedback = factory(Feedback::class)->create();
+        $feedback = Feedback::factory()->create();
         $empty = new Feedback();
         foreach ($this->required as $field) {
             $empty->$field = '0';
@@ -338,7 +339,7 @@ class FeedbacksCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $feedback = factory(Feedback::class)->create();
+        $feedback = Feedback::factory()->create();
         $feedback->$field = null;
 
         // When
@@ -361,7 +362,7 @@ class FeedbacksCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $feedback = factory(Feedback::class)->create();
+        $feedback = Feedback::factory()->create();
 
         // When
         $this->delete(route('feedbacks.destroy', $feedback));
@@ -376,7 +377,7 @@ class FeedbacksCRUDTest extends TestCase
         $this->actingAs($this->not_admin);
 
         // Given
-        $feedback = factory(Feedback::class)->create();
+        $feedback = Feedback::factory()->create();
 
         // When
         $response = $this->delete(route('feedbacks.destroy', $feedback));
@@ -389,7 +390,7 @@ class FeedbacksCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $feedback = factory(Feedback::class)->create();
+        $feedback = Feedback::factory()->create();
 
         // When
         $response = $this->delete(route('feedbacks.destroy', $feedback));
