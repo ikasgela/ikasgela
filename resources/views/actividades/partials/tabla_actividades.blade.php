@@ -69,7 +69,7 @@
                 <td>
                     <div class='btn-group'>
                         <a title="{{ __('Sort') }}"
-                           href="{{ route('actividades.preview', [$actividad->id]) }}"
+                           href="{{ route('actividades.show', [$actividad->id]) }}"
                            class='btn btn-light btn-sm'><i class="fas fa-sort"></i></a>
                     </div>
                 </td>

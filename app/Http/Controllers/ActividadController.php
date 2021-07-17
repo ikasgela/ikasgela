@@ -148,15 +148,11 @@ class ActividadController extends Controller
 
     protected $table = 'actividades';
 
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Actividad $actividad
-     * @return \Illuminate\Http\Response
-     */
     public function show(Actividad $actividad)
     {
-        abort(404);
+        $ids = $actividad->recursos->pluck('orden')->toArray();
+
+        return view('actividades.show', compact(['actividad', 'ids']));
     }
 
     public function preview(Actividad $actividad)
@@ -581,6 +577,21 @@ class ActividadController extends Controller
 
     public function reordenar(Actividad $a1, Actividad $a2)
     {
+        $temp = $a1->orden;
+        $a1->orden = $a2->orden;
+        $a2->orden = $temp;
+
+        $a1->save();
+        $a2->save();
+
+        return back();
+    }
+
+    public function reordenar_recursos(Request $request, Actividad $actividad)
+    {
+        $a1 = $actividad->recursos->get(request('a1'));
+        $a2 = $actividad->recursos->get(request('a2'));
+
         $temp = $a1->orden;
         $a1->orden = $a2->orden;
         $a2->orden = $temp;

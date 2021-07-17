@@ -195,7 +195,7 @@ class ActividadesCRUDTest extends TestCase
         $response = $this->get(route('actividades.show', $actividad));
 
         // Then
-        $response->assertStatus(404);
+        $response->assertSee($actividad->nombre);
     }
 
     public function testNotAdminNotShow()
