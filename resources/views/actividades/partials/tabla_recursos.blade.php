@@ -10,7 +10,7 @@
         <tbody>
         @foreach($actividad->recursos as $recurso)
             <tr class="table-cell-click" data-href="{{ route('actividades.preview', [$actividad->id]) }}">
-                <td>{{ $recurso->titulo }} {{ $recurso::class }}</td>
+                <td>{{ $recurso->titulo }}</td>
                 <td>@switch($recurso::class)
                         @case('App\IntellijProject')
                         {{ __('IntelliJ project') }}
