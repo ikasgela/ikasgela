@@ -25,7 +25,9 @@ class UnidadController extends Controller
 
         $unidades = $this->filtrar_por_curso($request, Unidad::class, 'orden')->get();
 
-        return view('unidades.index', compact('unidades', 'cursos'));
+        $ids = $unidades->pluck('id')->toArray();
+
+        return view('unidades.index', compact(['unidades', 'cursos', 'ids']));
     }
 
     public function create()
@@ -104,6 +106,18 @@ class UnidadController extends Controller
     public function destroy(Unidad $unidad)
     {
         $unidad->delete();
+
+        return back();
+    }
+
+    public function reordenar(Unidad $a1, Unidad $a2)
+    {
+        $temp = $a1->orden;
+        $a1->orden = $a2->orden;
+        $a2->orden = $temp;
+
+        $a1->save();
+        $a2->save();
 
         return back();
     }

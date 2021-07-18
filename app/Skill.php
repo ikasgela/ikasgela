@@ -38,7 +38,8 @@ class Skill extends Model
             ->belongsToMany('App\Qualification')
             ->withTimestamps()
             ->withPivot([
-                'percentage'
+                'percentage',
+                'orden',
             ]);
     }
 

@@ -143,6 +143,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/actividades/{actividad}/reordenar_recursos', 'ActividadController@reordenar_recursos')
             ->name('actividades.reordenar_recursos');
 
+        // Reordenar unidades
+        Route::post('/unidades/reordenar/{a1}/{a2}', 'UnidadController@reordenar')
+            ->name('unidades.reordenar');
+
+        // Reordenar competencias de una cualificación
+        Route::post('/qualifications/{qualification}/reordenar_skills', 'QualificationController@reordenar_skills')
+            ->name('qualifications.reordenar_skills');
+
         // YoutubeVideo
         Route::resource('youtube_videos', 'YoutubeVideoController');
         Route::get('/youtube_videos/{actividad}/actividad', 'YoutubeVideoController@actividad')

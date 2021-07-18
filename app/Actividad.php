@@ -65,13 +65,6 @@ class Actividad extends Model
             $this->intellij_projects()->detach($intellij_project_ids[$random]);
         }
 
-        if (!is_null($src->qualification)) {
-            $cualificacion = $src->qualification->duplicate();
-            $cualificacion->name .= " - " . $this->nombre . ' (' . $this->id . ')';
-            $cualificacion->save();
-            $this->save(['qualification_id' => $cualificacion]);
-        }
-
         foreach ($src->cuestionarios as $cuestionario) {
             $copia = $cuestionario->duplicate();
             $this->cuestionarios()->detach($cuestionario);

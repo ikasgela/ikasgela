@@ -6,6 +6,7 @@ use App\Curso;
 use App\Qualification;
 use App\Traits\FiltroCurso;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class QualificationController extends Controller
 {
@@ -53,7 +54,10 @@ class QualificationController extends Controller
 
         if ($request->input('skills_seleccionados')) {
             foreach ($request->input('skills_seleccionados') as $skill) {
-                $qualification->skills()->attach($skill, ['percentage' => $request->input('percentage_' . $skill)]);
+                $qualification->skills()->attach($skill, [
+                    'percentage' => $request->input('percentage_' . $skill),
+                    'orden' => Str::orderedUuid(),
+                ]);
             }
         }
 
@@ -69,9 +73,13 @@ class QualificationController extends Controller
     {
         $cursos = Curso::orderBy('nombre')->get();
 
-        $skills_disponibles = $qualification->curso->skills;
+        $skills_asignados = $qualification->skills()->get()->sortBy('pivot.orden');
 
-        return view('qualifications.edit', compact(['qualification', 'skills_disponibles', 'cursos']));
+        $skills_disponibles = $qualification->curso->skills()->get()->diff($skills_asignados);
+
+        $ids = $qualification->skills()->pluck('orden')->toArray();
+
+        return view('qualifications.edit', compact(['qualification', 'skills_disponibles', 'skills_asignados', 'cursos', 'ids']));
     }
 
     public function update(Request $request, Qualification $qualification)
@@ -92,7 +100,10 @@ class QualificationController extends Controller
 
         if ($request->input('skills_seleccionados')) {
             foreach ($request->input('skills_seleccionados') as $skill) {
-                $qualification->skills()->attach($skill, ['percentage' => $request->input('percentage_' . $skill)]);
+                $qualification->skills()->attach($skill, [
+                    'percentage' => $request->input('percentage_' . $skill),
+                    'orden' => Str::orderedUuid(),
+                ]);
             }
         }
 
@@ -102,6 +113,23 @@ class QualificationController extends Controller
     public function destroy(Qualification $qualification)
     {
         $qualification->delete();
+
+        return back();
+    }
+
+    public function reordenar_skills(Request $request, Qualification $qualification)
+    {
+        $recursos = $qualification->skills()->get()->keyBy('pivot.orden');
+
+        $a1 = $recursos->get(request('a1'));
+        $a2 = $recursos->get(request('a2'));
+
+        $temp = $a1->pivot->orden;
+        $a1->pivot->orden = $a2->pivot->orden;
+        $a2->pivot->orden = $temp;
+
+        $a1->pivot->save();
+        $a2->pivot->save();
 
         return back();
     }
