@@ -328,6 +328,6 @@ class Actividad extends Model
             $recursos->add($recurso);
         }
 
-        return $recursos->sortBy('orden');
+        return $recursos->sortBy('pivot.orden');
     }
 }

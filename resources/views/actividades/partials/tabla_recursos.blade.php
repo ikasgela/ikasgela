@@ -40,7 +40,7 @@
                         <button title="{{ __('Up') }}"
                                 type="submit"
                                 {{ !isset($ids[$loop->index-1]) ? 'disabled' : '' }}
-                                class="btn btn-light btn-sm">
+                                class="btn {{ !isset($ids[$loop->index-1]) ? 'btn-light' : 'btn-primary' }} btn-sm">
                             <i class="fas fa-arrow-up"></i>
                         </button>
                         <input type="hidden" name="a1" value="{{ $ids[$loop->index] }}">
@@ -50,8 +50,8 @@
                         {!! Form::open(['route' => ['actividades.reordenar_recursos', $actividad->id], 'method' => 'POST']) !!}
                         <button title="{{ __('Down') }}"
                                 type="submit"
-                                {{ !isset($ids[$loop->index+1]) ? 'disabled' : '' }}
-                                class="btn btn-light btn-sm ml-1">
+                                {{ !isset($ids[$loop->index+1]) ? 'btn-light disabled' : '' }}
+                                class="btn {{ !isset($ids[$loop->index+1]) ? 'btn-light' : 'btn-primary' }} btn-sm ml-1">
                             <i class="fas fa-arrow-down"></i>
                         </button>
                         <input type="hidden" name="a1" value="{{ $ids[$loop->index] }}">
