@@ -4,34 +4,28 @@
             @include('teams.partials.tarjeta', ['teams' => $actividad->teams])
         </div>
     @endif
-    @foreach($actividad->markdown_texts as $markdown_text)
+    @foreach($actividad->recursos as $recurso)
         <div class="col-md-6">
-            @include('markdown_texts.tarjeta', ['texto' => $markdown_text->markdown()])
-        </div>
-    @endforeach
-    @foreach($actividad->youtube_videos as $youtube_video)
-        <div class="col-md-6">
-            @include('youtube_videos.tarjeta')
-        </div>
-    @endforeach
-    @foreach($actividad->file_resources as $file_resource)
-        <div class="col-md-6">
-            @include('file_resources.tarjeta')
-        </div>
-    @endforeach
-    @foreach($actividad->cuestionarios as $cuestionario)
-        <div class="col-md-6">
-            @include('cuestionarios.tarjeta')
-        </div>
-    @endforeach
-    @foreach($actividad->file_uploads as $file_upload)
-        <div class="col-md-6">
-            @include('file_uploads.tarjeta')
-        </div>
-    @endforeach
-    @foreach($actividad->intellij_projects as $intellij_project)
-        <div class="col-md-6">
-            @include('intellij_projects.tarjeta', ['repositorio' => $intellij_project->repository()])
+            @switch($recurso::class)
+                @case('App\IntellijProject')
+                @include('intellij_projects.tarjeta', ['intellij_project' => $recurso, 'repositorio' => $recurso->repository()])
+                @break
+                @case('App\MarkdownText')
+                @include('markdown_texts.tarjeta', ['markdown_text' => $recurso, 'texto' => $recurso->markdown()])
+                @break
+                @case('App\YoutubeVideo')
+                @include('youtube_videos.tarjeta', ['youtube_video' => $recurso])
+                @break
+                @case('App\FileUpload')
+                @include('file_uploads.tarjeta', ['file_upload' => $recurso])
+                @break
+                @case('App\FileResource')
+                @include('file_resources.tarjeta', ['file_resource' => $recurso])
+                @break
+                @case('App\Cuestionario')
+                @include('cuestionarios.tarjeta', ['cuestionario' => $recurso])
+                @break
+            @endswitch
         </div>
     @endforeach
 </div>
