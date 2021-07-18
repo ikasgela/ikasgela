@@ -8,6 +8,7 @@ use App\MarkdownText;
 use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class MarkdownTextController extends Controller
 {
@@ -97,7 +98,7 @@ class MarkdownTextController extends Controller
 
         foreach (request('seleccionadas') as $recurso_id) {
             $recurso = MarkdownText::find($recurso_id);
-            $actividad->markdown_texts()->attach($recurso);
+            $actividad->markdown_texts()->attach($recurso, ['orden' => Str::orderedUuid()]);
         }
 
         return redirect(route('markdown_texts.actividad', ['actividad' => $actividad->id]));

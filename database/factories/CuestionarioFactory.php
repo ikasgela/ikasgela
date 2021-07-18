@@ -15,7 +15,6 @@ class CuestionarioFactory extends Factory
         return [
             'titulo' => $this->faker->words(3, true),
             'descripcion' => $this->faker->sentence(8),
-            'orden' => Str::orderedUuid(),
         ];
     }
 }

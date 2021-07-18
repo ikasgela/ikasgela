@@ -18,7 +18,6 @@ class IntellijProjectFactory extends Factory
             'repositorio' => 'root/test',
             'titulo' => $nombre,
             'host' => 'gitea',
-            'orden' => Str::orderedUuid(),
         ];
     }
 }

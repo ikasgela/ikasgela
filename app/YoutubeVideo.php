@@ -9,11 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 class YoutubeVideo extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'titulo', 'descripcion', 'codigo',
         '__import_id', 'curso_id',
-        'orden',
     ];
 
     public function actividades()

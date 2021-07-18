@@ -15,7 +15,6 @@ class IntellijProject extends Model
     protected $fillable = [
         'repositorio', 'titulo', 'descripcion', 'host',
         '__import_id', 'curso_id',
-        'orden',
     ];
 
     public function actividades()

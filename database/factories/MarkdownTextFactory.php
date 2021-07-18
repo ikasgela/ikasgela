@@ -18,7 +18,6 @@ class MarkdownTextFactory extends Factory
             'repositorio' => $this->faker->words(3, true),
             'rama' => 'master',
             'archivo' => 'README.md',
-            'orden' => Str::orderedUuid(),
         ];
     }
 }

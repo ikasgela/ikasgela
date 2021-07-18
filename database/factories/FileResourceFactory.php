@@ -15,7 +15,6 @@ class FileResourceFactory extends Factory
         return [
             'titulo' => $this->faker->words(3, true),
             'descripcion' => $this->faker->sentence(6),
-            'orden' => Str::orderedUuid(),
         ];
     }
 }

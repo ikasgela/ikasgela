@@ -110,7 +110,7 @@ class IntellijProjectController extends Controller
 
         foreach (request('seleccionadas') as $recurso_id) {
             $recurso = IntellijProject::find($recurso_id);
-            $actividad->intellij_projects()->attach($recurso);
+            $actividad->intellij_projects()->attach($recurso, ['orden' => Str::orderedUuid()]);
         }
 
         return redirect(route('intellij_projects.actividad', ['actividad' => $actividad->id]));

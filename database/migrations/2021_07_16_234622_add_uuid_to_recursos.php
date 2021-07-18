@@ -7,12 +7,12 @@ use Illuminate\Support\Facades\Schema;
 class AddUuidToRecursos extends Migration
 {
     private $recursos = [
-        'intellij_projects',
-        'youtube_videos',
-        'markdown_texts',
-        'cuestionarios',
-        'file_uploads',
-        'file_resources',
+        'intellij_project',
+        'youtube_video',
+        'markdown_text',
+        'cuestionario',
+        'file_upload',
+        'file_resource',
     ];
 
     /**
@@ -23,7 +23,7 @@ class AddUuidToRecursos extends Migration
     public function up()
     {
         foreach ($this->recursos as $recurso) {
-            Schema::table($recurso, function (Blueprint $table) {
+            Schema::table("actividad_$recurso", function (Blueprint $table) {
                 $table->uuid('orden')->index()->nullable();
             });
         }
@@ -37,8 +37,8 @@ class AddUuidToRecursos extends Migration
     public function down()
     {
         foreach ($this->recursos as $recurso) {
-            Schema::table($recurso, function (Blueprint $table) use ($recurso) {
-                $table->dropIndex($recurso . '_orden_index');
+            Schema::table("actividad_$recurso", function (Blueprint $table) use ($recurso) {
+                $table->dropIndex("actividad_{$recurso}_orden_index");
                 $table->dropColumn('orden');
             });
         }

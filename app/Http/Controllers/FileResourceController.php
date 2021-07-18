@@ -8,6 +8,7 @@ use App\FileResource;
 use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class FileResourceController extends Controller
 {
@@ -97,7 +98,7 @@ class FileResourceController extends Controller
 
         foreach (request('seleccionadas') as $recurso_id) {
             $recurso = FileResource::find($recurso_id);
-            $actividad->file_resources()->attach($recurso);
+            $actividad->file_resources()->attach($recurso, ['orden' => Str::orderedUuid()]);
         }
 
         return redirect(route('file_resources.actividad', ['actividad' => $actividad->id]));

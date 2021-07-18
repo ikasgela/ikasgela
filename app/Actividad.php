@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Actividad extends Model
@@ -83,6 +84,11 @@ class Actividad extends Model
             $this->file_uploads()->detach($file_upload);
             $this->file_uploads()->attach($copia);
         }
+
+        foreach ($this->recursos as $recurso) {
+            $recurso->pivot->orden = Str::uuid();
+            $recurso->pivot->save();
+        }
     }
 
     public function unidad()
@@ -108,6 +114,9 @@ class Actividad extends Model
     {
         return $this
             ->belongsToMany(YoutubeVideo::class)
+            ->withPivot([
+                'orden',
+            ])
             ->withTimestamps();
     }
 
@@ -120,6 +129,7 @@ class Actividad extends Model
                 'fork',
                 'archivado',
                 'fork_status',
+                'orden',
             ]);
     }
 
@@ -147,6 +157,9 @@ class Actividad extends Model
     {
         return $this
             ->belongsToMany(MarkdownText::class)
+            ->withPivot([
+                'orden',
+            ])
             ->withTimestamps();
     }
 
@@ -154,6 +167,9 @@ class Actividad extends Model
     {
         return $this
             ->belongsToMany(Cuestionario::class)
+            ->withPivot([
+                'orden',
+            ])
             ->withTimestamps();
     }
 
@@ -173,6 +189,9 @@ class Actividad extends Model
     {
         return $this
             ->belongsToMany(FileUpload::class)
+            ->withPivot([
+                'orden',
+            ])
             ->withTimestamps();
     }
 
@@ -180,6 +199,9 @@ class Actividad extends Model
     {
         return $this
             ->belongsToMany(FileResource::class)
+            ->withPivot([
+                'orden',
+            ])
             ->withTimestamps();
     }
 

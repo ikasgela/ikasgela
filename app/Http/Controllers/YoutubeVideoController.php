@@ -8,6 +8,7 @@ use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
 use App\YoutubeVideo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class YoutubeVideoController extends Controller
 {
@@ -93,7 +94,7 @@ class YoutubeVideoController extends Controller
 
         foreach (request('seleccionadas') as $recurso_id) {
             $recurso = YoutubeVideo::find($recurso_id);
-            $actividad->youtube_videos()->attach($recurso);
+            $actividad->youtube_videos()->attach($recurso, ['orden' => Str::orderedUuid()]);
         }
 
         return redirect(route('youtube_videos.actividad', ['actividad' => $actividad->id]));
