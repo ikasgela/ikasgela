@@ -7,6 +7,7 @@ use App\Qualification;
 use App\Skill;
 use App\Unidad;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class QualificationsTableSeeder extends Seeder
 {
@@ -57,9 +58,9 @@ class QualificationsTableSeeder extends Seeder
             'template' => true,
         ]);
 
-        $cualificacion->skills()->attach($ce1, ['percentage' => 20]);
-        $cualificacion->skills()->attach($ce2, ['percentage' => 40]);
-        $cualificacion->skills()->attach($ce3, ['percentage' => 40]);
+        $cualificacion->skills()->attach($ce1, ['percentage' => 20, 'orden' => Str::orderedUuid()]);
+        $cualificacion->skills()->attach($ce2, ['percentage' => 40, 'orden' => Str::orderedUuid()]);
+        $cualificacion->skills()->attach($ce3, ['percentage' => 40, 'orden' => Str::orderedUuid()]);
 
         // Asociar la cualificación al curso
 
@@ -75,7 +76,7 @@ class QualificationsTableSeeder extends Seeder
             'template' => true,
         ]);
 
-        $cualificacion->skills()->attach($ce1, ['percentage' => 100]);
+        $cualificacion->skills()->attach($ce1, ['percentage' => 100, 'orden' => Str::orderedUuid()]);
 
         $unidad = Unidad::whereHas('curso', function ($query) use ($curso) {
             $query->where('slug', $curso->slug);
