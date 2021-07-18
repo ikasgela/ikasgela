@@ -186,7 +186,7 @@ class ActividadController extends Controller
 
     public function show(Actividad $actividad)
     {
-        $ids = $actividad->recursos->pluck('orden')->toArray();
+        $ids = $actividad->recursos->pluck('pivot.orden')->toArray();
 
         return view('actividades.show', compact(['actividad', 'ids']));
     }
@@ -625,17 +625,17 @@ class ActividadController extends Controller
 
     public function reordenar_recursos(Request $request, Actividad $actividad)
     {
-        $recursos = $actividad->recursos->keyBy('orden');
+        $recursos = $actividad->recursos->keyBy('pivot.orden');
 
         $a1 = $recursos->get(request('a1'));
         $a2 = $recursos->get(request('a2'));
 
-        $temp = $a1->orden;
-        $a1->orden = $a2->orden;
-        $a2->orden = $temp;
+        $temp = $a1->pivot->orden;
+        $a1->pivot->orden = $a2->pivot->orden;
+        $a2->pivot->orden = $temp;
 
-        $a1->save();
-        $a2->save();
+        $a1->pivot->save();
+        $a2->pivot->save();
 
         return back();
     }

@@ -15,7 +15,6 @@ class MarkdownText extends Model
     protected $fillable = [
         'titulo', 'descripcion', 'repositorio', 'rama', 'archivo',
         '__import_id', 'curso_id',
-        'orden',
     ];
 
     public function actividades()

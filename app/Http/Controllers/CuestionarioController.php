@@ -9,6 +9,7 @@ use App\Pregunta;
 use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CuestionarioController extends Controller
 {
@@ -105,7 +106,7 @@ class CuestionarioController extends Controller
 
         foreach (request('seleccionadas') as $recurso_id) {
             $recurso = Cuestionario::find($recurso_id);
-            $actividad->cuestionarios()->attach($recurso);
+            $actividad->cuestionarios()->attach($recurso, ['orden' => Str::orderedUuid()]);
         }
 
         return redirect(route('cuestionarios.actividad', ['actividad' => $actividad->id]));

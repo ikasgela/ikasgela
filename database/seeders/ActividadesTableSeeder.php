@@ -39,7 +39,7 @@ class ActividadesTableSeeder extends Seeder
             );
 
             $video = YoutubeVideo::where('titulo', 'Primeros pasos')->first();
-            $actividad->youtube_videos()->attach($video);
+            $actividad->youtube_videos()->attach($video, ['orden' => Str::orderedUuid()]);
         }
 
         // --- GUI - Agenda
@@ -64,7 +64,7 @@ class ActividadesTableSeeder extends Seeder
         );
 
         $proyecto = IntellijProject::where('repositorio', 'root/agenda')->first();
-        $actividad->intellij_projects()->attach($proyecto);
+        $actividad->intellij_projects()->attach($proyecto, ['orden' => Str::orderedUuid()]);
 
         $anterior = $actividad;
 
@@ -90,7 +90,7 @@ class ActividadesTableSeeder extends Seeder
         );
 
         $proyecto = IntellijProject::where('repositorio', 'root/tres-en-raya')->first();
-        $actividad->intellij_projects()->attach($proyecto);
+        $actividad->intellij_projects()->attach($proyecto, ['orden' => Str::orderedUuid()]);
 
         $anterior->siguiente_id = $actividad->id;
         $anterior->save();
@@ -118,7 +118,7 @@ class ActividadesTableSeeder extends Seeder
         );
 
         $proyecto = IntellijProject::where('repositorio', 'root/reservas')->first();
-        $actividad->intellij_projects()->attach($proyecto);
+        $actividad->intellij_projects()->attach($proyecto, ['orden' => Str::orderedUuid()]);
 
         // --- Diseño de algoritmos - Alternativa simple
 
@@ -142,12 +142,12 @@ class ActividadesTableSeeder extends Seeder
         );
 
         $cuestionario = Cuestionario::where('titulo', 'Cuestionario de ejemplo')->first();
-        $actividad->cuestionarios()->attach($cuestionario);
+        $actividad->cuestionarios()->attach($cuestionario, ['orden' => Str::orderedUuid()]);
 
         $video = YoutubeVideo::where('codigo', 'bvim4rsNHkQ')->first();
-        $actividad->youtube_videos()->attach($video);
+        $actividad->youtube_videos()->attach($video, ['orden' => Str::orderedUuid()]);
 
         $file_upload = FileUpload::where('titulo', 'Diagrama de flujo')->first();
-        $actividad->file_uploads()->attach($file_upload);
+        $actividad->file_uploads()->attach($file_upload, ['orden' => Str::orderedUuid()]);
     }
 }

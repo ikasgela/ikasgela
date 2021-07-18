@@ -75,13 +75,13 @@ class Actividad extends Model
         foreach ($src->cuestionarios as $cuestionario) {
             $copia = $cuestionario->duplicate();
             $this->cuestionarios()->detach($cuestionario);
-            $this->cuestionarios()->attach($copia);
+            $this->cuestionarios()->attach($copia, ['orden' => $cuestionario->pivot->orden]);
         }
 
         foreach ($src->file_uploads as $file_upload) {
             $copia = $file_upload->duplicate();
             $this->file_uploads()->detach($file_upload);
-            $this->file_uploads()->attach($copia);
+            $this->file_uploads()->attach($copia, ['orden' => $file_upload->pivot->orden]);
         }
     }
 
@@ -108,6 +108,9 @@ class Actividad extends Model
     {
         return $this
             ->belongsToMany(YoutubeVideo::class)
+            ->withPivot([
+                'orden',
+            ])
             ->withTimestamps();
     }
 
@@ -120,6 +123,7 @@ class Actividad extends Model
                 'fork',
                 'archivado',
                 'fork_status',
+                'orden',
             ]);
     }
 
@@ -147,6 +151,9 @@ class Actividad extends Model
     {
         return $this
             ->belongsToMany(MarkdownText::class)
+            ->withPivot([
+                'orden',
+            ])
             ->withTimestamps();
     }
 
@@ -154,6 +161,9 @@ class Actividad extends Model
     {
         return $this
             ->belongsToMany(Cuestionario::class)
+            ->withPivot([
+                'orden',
+            ])
             ->withTimestamps();
     }
 
@@ -173,6 +183,9 @@ class Actividad extends Model
     {
         return $this
             ->belongsToMany(FileUpload::class)
+            ->withPivot([
+                'orden',
+            ])
             ->withTimestamps();
     }
 
@@ -180,6 +193,9 @@ class Actividad extends Model
     {
         return $this
             ->belongsToMany(FileResource::class)
+            ->withPivot([
+                'orden',
+            ])
             ->withTimestamps();
     }
 
@@ -306,6 +322,6 @@ class Actividad extends Model
             $recursos->add($recurso);
         }
 
-        return $recursos->sortBy('orden');
+        return $recursos->sortBy('pivot.orden');
     }
 }

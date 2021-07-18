@@ -8,6 +8,7 @@ use App\FileUpload;
 use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class FileUploadController extends Controller
 {
@@ -103,7 +104,7 @@ class FileUploadController extends Controller
 
         foreach (request('seleccionadas') as $recurso_id) {
             $recurso = FileUpload::find($recurso_id);
-            $actividad->file_uploads()->attach($recurso);
+            $actividad->file_uploads()->attach($recurso, ['orden' => Str::orderedUuid()]);
         }
 
         return redirect(route('file_uploads.actividad', ['actividad' => $actividad->id]));
