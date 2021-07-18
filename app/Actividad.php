@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Actividad extends Model
@@ -76,18 +75,13 @@ class Actividad extends Model
         foreach ($src->cuestionarios as $cuestionario) {
             $copia = $cuestionario->duplicate();
             $this->cuestionarios()->detach($cuestionario);
-            $this->cuestionarios()->attach($copia);
+            $this->cuestionarios()->attach($copia, ['orden' => $cuestionario->pivot->orden]);
         }
 
         foreach ($src->file_uploads as $file_upload) {
             $copia = $file_upload->duplicate();
             $this->file_uploads()->detach($file_upload);
-            $this->file_uploads()->attach($copia);
-        }
-
-        foreach ($this->recursos as $recurso) {
-            $recurso->pivot->orden = Str::uuid();
-            $recurso->pivot->save();
+            $this->file_uploads()->attach($copia, ['orden' => $file_upload->pivot->orden]);
         }
     }
 
