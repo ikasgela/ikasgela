@@ -143,6 +143,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/actividades/{actividad}/reordenar_recursos', 'ActividadController@reordenar_recursos')
             ->name('actividades.reordenar_recursos');
 
+        // Reordenar unidades
+        Route::post('/unidades/reordenar/{a1}/{a2}', 'UnidadController@reordenar')
+            ->name('unidades.reordenar');
+
         // YoutubeVideo
         Route::resource('youtube_videos', 'YoutubeVideoController');
         Route::get('/youtube_videos/{actividad}/actividad', 'YoutubeVideoController@actividad')
