@@ -22,7 +22,7 @@
                                 <p class="card-text">{{ $curso->descripcion }}</p>
                             </div>
                             <div class="card-footer d-flex">
-                                @if(setting('curso_actual') != $curso->id)
+                                @if(setting_usuario('curso_actual') != $curso->id)
                                     @if(!in_array($curso->id, $matricula))
                                         @if($curso->matricula_abierta)
                                             {!! Form::open(['route' => ['cursos.matricular', $curso->id, Auth::user()->id]]) !!}
