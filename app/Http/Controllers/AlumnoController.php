@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Curso;
 use App\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Setting;
 
 class AlumnoController extends Controller
 {
@@ -42,15 +40,5 @@ class AlumnoController extends Controller
         $periods = $organization->periods()->with('categories.cursos')->orderBy('slug', 'desc')->get();
         $matricula = Auth::user()->cursos()->pluck('curso_id')->toArray();
         return view('alumnos.portada', compact(['organization', 'periods', 'matricula']));
-    }
-
-    public function setCurso(Curso $curso, Request $request)
-    {
-        $user = Auth::user();
-        $cursos = Curso::all();
-
-        Setting::set($user->id . '.curso_actual', $request->input('curso_id'));
-
-        return view('alumnos.portada', compact(['cursos']));
     }
 }

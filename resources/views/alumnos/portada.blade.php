@@ -27,15 +27,13 @@
                                         @if($curso->matricula_abierta)
                                             {!! Form::open(['route' => ['cursos.matricular', $curso->id, Auth::user()->id]]) !!}
                                             {!! Form::button(__('Enroll in this course'), ['type' => 'submit', 'class' => 'btn btn-sm btn-secondary mr-3']) !!}
-                                            {!! Form::hidden('curso_id', $curso->id) !!}
                                             {!! Form::close() !!}
                                         @else
                                             <span class="py-1 text-muted">{{ __('Course not available') }}.</span>
                                         @endif
                                     @else
-                                        {!! Form::open(['route' => ['settings.guardar']]) !!}
+                                        {!! Form::open(['route' => ['cursos.curso_actual', $curso->id, Auth::user()->id]]) !!}
                                         {!! Form::button(__('Set as current course'), ['type' => 'submit', 'class' => 'btn btn-sm btn-primary mr-3']) !!}
-                                        {!! Form::hidden('curso_id', $curso->id) !!}
                                         {!! Form::close() !!}
                                     @endif
                                 @else

@@ -28,7 +28,6 @@ use Illuminate\Support\Facades\File as SystemFile;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Madzipper;
 use Zip;
 use ZipArchive;
 
@@ -37,7 +36,7 @@ class CursoController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:admin')->except(['matricular']);;
+        $this->middleware('role:admin')->except(['matricular', 'curso_actual']);;
     }
 
     public function index()
@@ -654,9 +653,14 @@ class CursoController extends Controller
     {
         $curso->users()->attach($user);
 
-        if (is_null($user->curso_actual())) {
-            setting_usuario(['curso_actual' => $curso->id]);
-        }
+        setting_usuario(['curso_actual' => $curso->id]);
+
+        return back();
+    }
+
+    public function curso_actual(Curso $curso, User $user)
+    {
+        setting_usuario(['curso_actual' => $curso->id]);
 
         return back();
     }

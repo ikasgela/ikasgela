@@ -81,6 +81,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Matricularse en un curso
         Route::post('/cursos/{curso}/{user}/matricular', 'CursoController@matricular')
             ->name('cursos.matricular');
+        Route::post('/cursos/{curso}/{user}/curso_actual', 'CursoController@curso_actual')
+            ->name('cursos.curso_actual');
     });
 
     // Profesor
