@@ -2,18 +2,20 @@
 
 @section('content')
 
-    <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
-        <h1>{{ __('Course progress') }}</h1>
-        @if(!is_null(Auth::user()->curso_actual()))
-            @php($curso = Auth::user()->curso_actual())
-            <h2 class="text-muted font-xl">{{ !is_null($curso) ? $curso->category->period->organization->name.' » '.$curso->category->period->name.' » '.$curso->nombre : '' }}</h2>
-        @endif
-    </div>
+    @include('partials.titular', ['titular' => __('Course progress')])
 
     @include('partials.tutorial', [
         'color' => 'c-callout-success',
         'texto' => 'Todas las actividades del curso.'
     ])
+
+    <div class="c-callout c-callout-bordered p-3">
+        <h5><strong>Fecha de inicio:</strong>
+            {{ $curso->fecha_inicio ? $curso->fecha_inicio->format('d/m/Y H:i') : __('Undefined') }}
+        </h5>
+        <h5 class="mb-0"><strong>Fecha de final:</strong>
+            {{ $curso->fecha_fin ? $curso->fecha_fin->format('d/m/Y H:i') : __('Undefined') }}</h5>
+    </div>
 
     @if(count($unidades) > 0)
 
