@@ -64,6 +64,6 @@ class ArchivoController extends Controller
 
         $user = Auth::user();
 
-        return view('archivo.outline', compact(['unidades', 'user']));
+        return view('archivo.outline', compact(['unidades', 'user', 'curso']));
     }
 }
