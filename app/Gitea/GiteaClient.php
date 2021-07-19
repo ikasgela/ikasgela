@@ -412,4 +412,31 @@ class GiteaClient
         }
         return false;
     }
+
+    public static function template($username, $repositorio, $is_template = true)
+    {
+        self::init();
+
+        try {
+            self::$cliente->patch('repos/' . $username . '/' . $repositorio, [
+                'headers' => self::$headers,
+                'json' => [
+                    'template' => $is_template,
+                ]
+            ]);
+            Log::info('Gitea: Repositorio ' . ($is_template ? 'marcado como plantilla' : 'desmarcado como plantilla') . '.', [
+                'username' => $username,
+                'repository' => $repositorio,
+            ]);
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Gitea: Error al marcar/desmarcar un repositorio como plantilla.', [
+                'username' => $username,
+                'repository' => $repositorio,
+                'template' => $is_template,
+                'exception' => $e->getMessage()
+            ]);
+        }
+        return false;
+    }
 }
