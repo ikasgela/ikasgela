@@ -18,6 +18,7 @@ use App\Pregunta;
 use App\Qualification;
 use App\Skill;
 use App\Unidad;
+use App\User;
 use App\YoutubeVideo;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
@@ -36,7 +37,7 @@ class CursoController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:admin');
+        $this->middleware('role:admin')->except(['matricular']);;
     }
 
     public function index()
@@ -647,5 +648,16 @@ class CursoController extends Controller
             ->select("actividad_{$tabla}.*")
             ->get();
         $this->exportarFicheroJSON($ruta, "actividad_{$tabla}.json", $datos);
+    }
+
+    public function matricular(Curso $curso, User $user)
+    {
+        $curso->users()->attach($user);
+
+        if (is_null($user->curso_actual())) {
+            setting_usuario(['curso_actual' => $curso->id]);
+        }
+
+        return back();
     }
 }

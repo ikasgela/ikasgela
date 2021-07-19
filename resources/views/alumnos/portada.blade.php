@@ -25,7 +25,7 @@
                                 @if(setting('curso_actual') != $curso->id)
                                     @if(!in_array($curso->id, $matricula))
                                         @if($curso->matricula_abierta)
-                                            {!! Form::open(['route' => ['settings.guardar']]) !!}
+                                            {!! Form::open(['route' => ['cursos.matricular', $curso->id, Auth::user()->id]]) !!}
                                             {!! Form::button(__('Enroll in this course'), ['type' => 'submit', 'class' => 'btn btn-sm btn-secondary mr-3']) !!}
                                             {!! Form::hidden('curso_id', $curso->id) !!}
                                             {!! Form::close() !!}
