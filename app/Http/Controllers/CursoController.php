@@ -66,6 +66,7 @@ class CursoController extends Controller
             'nombre' => request('nombre'),
             'descripcion' => request('descripcion'),
             'slug' => Str::slug(request('nombre')),
+            'matricula_abierta' => $request->has('matricula_abierta'),
             'qualification_id' => request('qualification_id'),
             'max_simultaneas' => request('max_simultaneas'),
             'plazo_actividad' => request('plazo_actividad'),
@@ -115,6 +116,7 @@ class CursoController extends Controller
             'slug' => strlen(request('slug')) > 0
                 ? Str::slug(request('slug'))
                 : Str::slug(request('nombre')),
+            'matricula_abierta' => $request->has('matricula_abierta'),
             'qualification_id' => request('qualification_id'),
             'max_simultaneas' => request('max_simultaneas'),
             'plazo_actividad' => request('plazo_actividad'),

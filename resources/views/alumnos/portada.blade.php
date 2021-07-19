@@ -24,10 +24,14 @@
                             <div class="card-footer d-flex">
                                 @if(setting('curso_actual') != $curso->id)
                                     @if(!in_array($curso->id, $matricula))
-                                        {!! Form::open(['route' => ['settings.guardar']]) !!}
-                                        {!! Form::button(__('Enroll in this course'), ['type' => 'submit', 'class' => 'btn btn-sm btn-secondary mr-3']) !!}
-                                        {!! Form::hidden('curso_id', $curso->id) !!}
-                                        {!! Form::close() !!}
+                                        @if($curso->matricula_abierta)
+                                            {!! Form::open(['route' => ['settings.guardar']]) !!}
+                                            {!! Form::button(__('Enroll in this course'), ['type' => 'submit', 'class' => 'btn btn-sm btn-secondary mr-3']) !!}
+                                            {!! Form::hidden('curso_id', $curso->id) !!}
+                                            {!! Form::close() !!}
+                                        @else
+                                            <span class="btn btn-sm pl-0">&nbsp;</span>
+                                        @endif
                                     @else
                                         {!! Form::open(['route' => ['settings.guardar']]) !!}
                                         {!! Form::button(__('Set as current course'), ['type' => 'submit', 'class' => 'btn btn-sm btn-primary mr-3']) !!}

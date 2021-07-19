@@ -29,6 +29,7 @@ class Curso extends Model
         'fecha_inicio', 'fecha_fin', 'plazo_actividad', 'minimo_entregadas', 'minimo_competencias',
         'minimo_examenes', 'examenes_obligatorios', 'maximo_recuperable_examenes_finales',
         '__import_id',
+        'matricula_abierta',
     ];
 
     protected $dates = [
