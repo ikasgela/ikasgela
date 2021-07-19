@@ -654,6 +654,7 @@ class CursoController extends Controller
         $curso->users()->attach($user);
 
         setting_usuario(['curso_actual' => $curso->id]);
+        $user->clearCache();
 
         return back();
     }
@@ -661,6 +662,7 @@ class CursoController extends Controller
     public function curso_actual(Curso $curso, User $user)
     {
         setting_usuario(['curso_actual' => $curso->id]);
+        $user->clearCache();
 
         return back();
     }
