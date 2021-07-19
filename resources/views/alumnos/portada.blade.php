@@ -14,7 +14,7 @@
         <div class="row">
             @forelse($period->categories as $category)
                 @forelse($category->cursos as $curso)
-                    <div class="col-4">
+                    <div class="col-12 col-sm-6 col-md-4">
                         <div class="card mb-3">
                             <div class="card-body mb-4">
                                 <p class="text-muted small">{{ $category->pretty_name }}</p>
