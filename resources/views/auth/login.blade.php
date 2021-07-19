@@ -2,12 +2,11 @@
 
 @section('auth')
     <div class="col-12 col-lg-8 pb-4">
-        <div class="card-group">
+        <div class="card-group mx-md-4 mx-sm-0">
             <div class="card">
-                <div class="card-body p-5">
+                <div class="card-body p-md-5 p-sm-1">
                     <div class="text-center d-lg-none">
-                        <img src="svg/logo.svg" class="mb-5" width="200"
-                             alt="Ikasgela Logo">
+                        <img src="{{ asset('/svg/logo.svg') }}" class="mb-5" width="200" alt="Ikasgela Logo">
                     </div>
                     <h1>{{ __('Sign in') }}</h1>
                     <p class="text-muted">{{ __('Sign in to your account') }}</p>
@@ -24,8 +23,7 @@
                             <input id="email" type="email"
                                    class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
                                    name="email" value="{{ old('email') }}"
-                                   placeholder="{{ __('Email Address') }}" required
-                                   autofocus>
+                                   placeholder="{{ __('Email Address') }}" required>
 
                             @if ($errors->has('email'))
                                 <span class="invalid-feedback" role="alert">

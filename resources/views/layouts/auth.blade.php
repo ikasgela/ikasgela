@@ -28,7 +28,7 @@
                 <div class="row justify-content-center">
                     @yield('auth')
                 </div>
-                <div class="m-3 text-center">
+                <div class="mt-3 mb-5 text-center">
                     <a class="text-secondary" href="{{ url('/') }}">{{ __('Return to the homepage') }}</a>
                 </div>
             </div>
