@@ -38,7 +38,7 @@ class AlumnoController extends Controller
     {
         $organization = Organization::where('slug', subdominio())->first();
         $periods = $organization->periods()->with('categories.cursos')->orderBy('slug', 'desc')->get();
-        $matricula = Auth::user()->cursos()->pluck('curso_id')->toArray();
+        $matricula = Auth::user()->cursos()->dontRemember()->pluck('curso_id')->toArray();
         return view('alumnos.portada', compact(['organization', 'periods', 'matricula']));
     }
 }
