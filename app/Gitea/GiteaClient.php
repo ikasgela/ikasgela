@@ -23,6 +23,20 @@ class GiteaClient
             ];
     }
 
+    private static function datosRepositorio(mixed $response): array
+    {
+        return [
+            'id' => $response['id'],
+            'name' => $response['name'],
+            'description' => $response['description'],
+            'http_url_to_repo' => $response['clone_url'],
+            'path_with_namespace' => $response['full_name'],
+            'web_url' => $response['html_url'],
+            'owner' => $response['owner']['login'],
+            'template' => $response['template'],
+        ];
+    }
+
     public static function repo($repositorio)
     {
         self::init();
@@ -33,15 +47,7 @@ class GiteaClient
 
         $response = json_decode($request->getBody(), true);
 
-        $data = [
-            'id' => $response['id'],
-            'name' => $response['name'],
-            'description' => $response['description'],
-            'http_url_to_repo' => $response['clone_url'],
-            'path_with_namespace' => $response['full_name'],
-            'web_url' => $response['html_url'],
-            'owner' => $response['owner']['login'],
-        ];
+        $data = self::datosRepositorio($response);
 
         return $data;
     }
@@ -56,15 +62,7 @@ class GiteaClient
 
         $response = json_decode($request->getBody(), true);
 
-        $data = [
-            'id' => $response['id'],
-            'name' => $response['name'],
-            'description' => $response['description'],
-            'http_url_to_repo' => $response['clone_url'],
-            'path_with_namespace' => $response['full_name'],
-            'web_url' => $response['html_url'],
-            'owner' => $response['owner']['login'],
-        ];
+        $data = self::datosRepositorio($response);
 
         return $data;
     }
@@ -104,15 +102,7 @@ class GiteaClient
             if ($request->getStatusCode() == 201) {
                 $response = json_decode($request->getBody(), true);
 
-                $data = [
-                    'id' => $response['id'],
-                    'name' => $response['name'],
-                    'description' => $response['description'],
-                    'http_url_to_repo' => $response['clone_url'],
-                    'path_with_namespace' => $response['full_name'],
-                    'web_url' => $response['html_url'],
-                    'owner' => $response['owner']['login'],
-                ];
+                $data = self::datosRepositorio($response);
 
                 return $data;
             }
