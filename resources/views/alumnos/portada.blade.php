@@ -44,9 +44,6 @@
                         </div>
                     </div>
                 @empty
-                    <div class="col-12">
-                        <p>No hay cursos.</p>
-                    </div>
                 @endforelse
             @empty
                 <div class="col-12">
