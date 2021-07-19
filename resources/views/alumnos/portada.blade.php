@@ -21,12 +21,19 @@
                                 <h5 class="card-title text-primary">{{ $curso->nombre }}</h5>
                                 <p class="card-text">{{ $curso->descripcion }}</p>
                             </div>
-                            <div class="card-footer">
+                            <div class="card-footer d-flex">
                                 @if(setting('curso_actual') != $curso->id)
-                                    {!! Form::open(['route' => ['settings.guardar']]) !!}
-                                    {!! Form::button(__('Set as current course'), ['type' => 'submit', 'class' => 'btn btn-sm btn-primary']) !!}
-                                    {!! Form::hidden('curso_id', $curso->id) !!}
-                                    {!! Form::close() !!}
+                                    @if(!in_array($curso->id, $matricula))
+                                        {!! Form::open(['route' => ['settings.guardar']]) !!}
+                                        {!! Form::button(__('Enroll in this course'), ['type' => 'submit', 'class' => 'btn btn-sm btn-secondary mr-3']) !!}
+                                        {!! Form::hidden('curso_id', $curso->id) !!}
+                                        {!! Form::close() !!}
+                                    @else
+                                        {!! Form::open(['route' => ['settings.guardar']]) !!}
+                                        {!! Form::button(__('Set as current course'), ['type' => 'submit', 'class' => 'btn btn-sm btn-primary mr-3']) !!}
+                                        {!! Form::hidden('curso_id', $curso->id) !!}
+                                        {!! Form::close() !!}
+                                    @endif
                                 @else
                                     <span class="btn btn-sm pl-0">{{ __('This is the current course') }}.</span>
                                 @endif
