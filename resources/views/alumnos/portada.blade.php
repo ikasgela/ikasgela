@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Available courses'), 'subtitulo' => $organization->name])
+    @include('partials.titular', ['titular' => __('Courses'), 'subtitulo' => $organization->name])
 
     @include('partials.tutorial', [
     'color' => 'c-callout-success',
@@ -30,7 +30,7 @@
                                             {!! Form::hidden('curso_id', $curso->id) !!}
                                             {!! Form::close() !!}
                                         @else
-                                            <span class="btn btn-sm pl-0">&nbsp;</span>
+                                            <span class="py-1 text-muted">{{ __('Course not available') }}.</span>
                                         @endif
                                     @else
                                         {!! Form::open(['route' => ['settings.guardar']]) !!}
@@ -39,8 +39,9 @@
                                         {!! Form::close() !!}
                                     @endif
                                 @else
-                                    <span class="btn btn-sm pl-0">{{ __('This is the current course') }}.</span>
+                                    <span class="py-1">{{ __('This is the current course') }}.</span>
                                 @endif
+                                <span class="p-1">&nbsp;</span>
                             </div>
                         </div>
                     </div>

@@ -35,7 +35,7 @@
             @if(Auth::user()->hasRole('alumno'))
                 <li class="c-sidebar-nav-item mt-auto">
                     <a class="c-sidebar-nav-link" href="{{ route('users.portada') }}">
-                        <i class="c-sidebar-nav-icon fas fa-clipboard-list"></i> {{ __('Available courses') }}
+                        <i class="c-sidebar-nav-icon fas fa-clipboard-list"></i> {{ __('Courses') }}
                     </a>
                 </li>
             @endif
