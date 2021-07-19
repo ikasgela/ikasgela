@@ -201,6 +201,8 @@ class IntellijProjectController extends Controller
 
             $clonado = $this->clonar_repositorio($proyecto['path_with_namespace'], $usuario, $ruta, $nombre);
 
+            GiteaClient::template($clonado['owner'], $clonado['name'], true);
+
             // Crear el recurso asociado al nuevo repositorio
             switch (request('recurso_type')) {
                 case 'intellij_project':

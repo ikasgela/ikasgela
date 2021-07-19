@@ -23,6 +23,20 @@ class GiteaClient
             ];
     }
 
+    private static function datosRepositorio(mixed $response): array
+    {
+        return [
+            'id' => $response['id'],
+            'name' => $response['name'],
+            'description' => $response['description'],
+            'http_url_to_repo' => $response['clone_url'],
+            'path_with_namespace' => $response['full_name'],
+            'web_url' => $response['html_url'],
+            'owner' => $response['owner']['login'],
+            'template' => $response['template'],
+        ];
+    }
+
     public static function repo($repositorio)
     {
         self::init();
@@ -33,15 +47,7 @@ class GiteaClient
 
         $response = json_decode($request->getBody(), true);
 
-        $data = [
-            'id' => $response['id'],
-            'name' => $response['name'],
-            'description' => $response['description'],
-            'http_url_to_repo' => $response['clone_url'],
-            'path_with_namespace' => $response['full_name'],
-            'web_url' => $response['html_url'],
-            'owner' => $response['owner']['login'],
-        ];
+        $data = self::datosRepositorio($response);
 
         return $data;
     }
@@ -56,15 +62,7 @@ class GiteaClient
 
         $response = json_decode($request->getBody(), true);
 
-        $data = [
-            'id' => $response['id'],
-            'name' => $response['name'],
-            'description' => $response['description'],
-            'http_url_to_repo' => $response['clone_url'],
-            'path_with_namespace' => $response['full_name'],
-            'web_url' => $response['html_url'],
-            'owner' => $response['owner']['login'],
-        ];
+        $data = self::datosRepositorio($response);
 
         return $data;
     }
@@ -104,15 +102,7 @@ class GiteaClient
             if ($request->getStatusCode() == 201) {
                 $response = json_decode($request->getBody(), true);
 
-                $data = [
-                    'id' => $response['id'],
-                    'name' => $response['name'],
-                    'description' => $response['description'],
-                    'http_url_to_repo' => $response['clone_url'],
-                    'path_with_namespace' => $response['full_name'],
-                    'web_url' => $response['html_url'],
-                    'owner' => $response['owner']['login'],
-                ];
+                $data = self::datosRepositorio($response);
 
                 return $data;
             }
@@ -417,6 +407,33 @@ class GiteaClient
             return true;
         } catch (\Exception $e) {
             Log::error('Gitea: Error al añadir colaborador.', [
+                'exception' => $e->getMessage()
+            ]);
+        }
+        return false;
+    }
+
+    public static function template($username, $repositorio, $is_template = true)
+    {
+        self::init();
+
+        try {
+            self::$cliente->patch('repos/' . $username . '/' . $repositorio, [
+                'headers' => self::$headers,
+                'json' => [
+                    'template' => $is_template,
+                ]
+            ]);
+            Log::info('Gitea: Repositorio ' . ($is_template ? 'marcado como plantilla' : 'desmarcado como plantilla') . '.', [
+                'username' => $username,
+                'repository' => $repositorio,
+            ]);
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Gitea: Error al marcar/desmarcar un repositorio como plantilla.', [
+                'username' => $username,
+                'repository' => $repositorio,
+                'template' => $is_template,
                 'exception' => $e->getMessage()
             ]);
         }
