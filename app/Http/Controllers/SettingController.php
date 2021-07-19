@@ -51,7 +51,10 @@ class SettingController extends Controller
 
         session()->forget('filtrar_curso_actual');
 
-        return redirect(route('settings.editar'));
+        if (Auth::user()->hasRole('alumno'))
+            return redirect(route('users.portada'));
+        else
+            return redirect(route('settings.editar'));
     }
 
     public function api(Request $request)

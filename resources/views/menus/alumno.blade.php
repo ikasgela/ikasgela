@@ -30,10 +30,3 @@
         <i class="c-sidebar-nav-icon fas fa-graduation-cap"></i> {{ __('Results') }}
     </a>
 </li>
-@if(config('app.debug'))
-    <li class="c-sidebar-nav-item">
-        <a class="c-sidebar-nav-link" href="{{ route('users.portada') }}">
-            <i class="c-sidebar-nav-icon fas fa-clipboard-list"></i> {{ __('Portada') }}
-        </a>
-    </li>
-@endif

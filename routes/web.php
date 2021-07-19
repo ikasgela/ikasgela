@@ -77,6 +77,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Descargar un repositorio
         Route::get('/intellij_projects/{intellij_project}/download', 'IntellijProjectController@download')
             ->name('intellij_projects.download');
+
+        // Matricularse en un curso
+        Route::post('/cursos/{curso}/{user}/matricular', 'CursoController@matricular')
+            ->name('cursos.matricular');
     });
 
     // Profesor

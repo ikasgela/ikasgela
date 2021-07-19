@@ -32,6 +32,13 @@ class Category extends Model
             . $this->name;
     }
 
+    public function getPrettyNameAttribute()
+    {
+        return $this->period->organization->name . ' » '
+            . $this->period->name . ' » '
+            . $this->name;
+    }
+
     public function period()
     {
         return $this->belongsTo(Period::class);
