@@ -2,37 +2,51 @@
 
 @section('content')
 
-    <div class="row mb-3">
-        <div class="col-md">
-            <h1>{{ __('Available courses') }}</h1>
-        </div>
-    </div>
+    @include('partials.titular', ['titular' => __('Available courses'), 'subtitulo' => $organization->name])
 
-    <h2>{{ $period->name }}</h2>
-    @forelse($period->categories as $category)
-        <h3>{{ $category->name }}</h3>
+    @include('partials.tutorial', [
+    'color' => 'c-callout-success',
+    'texto' => 'Aquí puedes matricularte en otros cursos disponibles y cambiar de un curso a otro.'
+    ])
+
+    @forelse($periods as $period)
+        <h3>{{ $period->name }}</h3>
         <div class="row">
-            @forelse($category->cursos as $curso)
-                <div class="col-4">
-                    <div class="card mb-3">
-                        <img class="card-img-top" src="https://placeholder.pics/svg/320x180/EEEEEE/000000-EEEEEE" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <a href="#" class="card-link">{{ $curso->nombre }}</a>
-                            </h5>
-                            <p class="card-text">{{ $curso->descripcion }}</p>
+            @forelse($period->categories as $category)
+                @forelse($category->cursos as $curso)
+                    <div class="col-4">
+                        <div class="card mb-3">
+                            <div class="card-body mb-4">
+                                <p class="text-muted small">{{ $category->pretty_name }}</p>
+                                <h5 class="card-title text-primary">{{ $curso->nombre }}</h5>
+                                <p class="card-text">{{ $curso->descripcion }}</p>
+                            </div>
+                            <div class="card-footer">
+                                @if(setting('curso_actual') != $curso->id)
+                                    {!! Form::open(['route' => ['settings.guardar']]) !!}
+                                    {!! Form::button(__('Set as current course'), ['type' => 'submit', 'class' => 'btn btn-sm btn-primary']) !!}
+                                    {!! Form::hidden('curso_id', $curso->id) !!}
+                                    {!! Form::close() !!}
+                                @else
+                                    <span class="btn btn-sm pl-0">{{ __('This is the current course') }}.</span>
+                                @endif
+                            </div>
                         </div>
                     </div>
-                </div>
+                @empty
+                    <div class="col-12">
+                        <p>No hay cursos.</p>
+                    </div>
+                @endforelse
             @empty
                 <div class="col-12">
-                    <p>No hay cursos.</p>
+                    <p>No hay categorías.</p>
                 </div>
             @endforelse
         </div>
     @empty
         <div class="col-12">
-            <p>No hay categorías</p>
+            <p>No hay periodos.</p>
         </div>
     @endforelse
 @endsection

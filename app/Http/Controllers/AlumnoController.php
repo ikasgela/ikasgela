@@ -39,8 +39,8 @@ class AlumnoController extends Controller
     public function portada(Request $request)
     {
         $organization = Organization::where('slug', subdominio())->first();
-        $period = $organization->periods()->where('slug', '2019')->first();
-        return view('alumnos.portada', compact(['organization', 'period']));
+        $periods = $organization->periods()->orderBy('slug', 'desc')->get();
+        return view('alumnos.portada', compact(['organization', 'periods']));
     }
 
     public function setCurso(Curso $curso, Request $request)
