@@ -8,6 +8,7 @@ use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
 use App\YoutubeVideo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class YoutubeVideoController extends Controller
@@ -40,6 +41,10 @@ class YoutubeVideoController extends Controller
         $this->validate($request, [
             'titulo' => 'required',
             'codigo' => 'required',
+        ]);
+
+        $request->merge([
+            'curso_id' => Auth::user()->curso_actual()->id,
         ]);
 
         YoutubeVideo::create($request->all());

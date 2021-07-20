@@ -8,6 +8,7 @@ use App\FileUpload;
 use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class FileUploadController extends Controller
@@ -40,6 +41,10 @@ class FileUploadController extends Controller
         $this->validate($request, [
             'titulo' => 'required',
             'max_files' => 'required',
+        ]);
+
+        $request->merge([
+            'curso_id' => Auth::user()->curso_actual()->id,
         ]);
 
         FileUpload::create([

@@ -8,6 +8,7 @@ use App\MarkdownText;
 use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class MarkdownTextController extends Controller
@@ -41,6 +42,10 @@ class MarkdownTextController extends Controller
             'titulo' => 'required',
             'repositorio' => 'required',
             'archivo' => 'required',
+        ]);
+
+        $request->merge([
+            'curso_id' => Auth::user()->curso_actual()->id,
         ]);
 
         MarkdownText::create($request->all());

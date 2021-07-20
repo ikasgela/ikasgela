@@ -8,6 +8,7 @@ use App\FileResource;
 use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class FileResourceController extends Controller
@@ -39,6 +40,10 @@ class FileResourceController extends Controller
     {
         $this->validate($request, [
             'titulo' => 'required',
+        ]);
+
+        $request->merge([
+            'curso_id' => Auth::user()->curso_actual()->id,
         ]);
 
         FileResource::create([

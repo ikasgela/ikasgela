@@ -54,6 +54,10 @@ class IntellijProjectController extends Controller
             'host' => 'required',
         ]);
 
+        $request->merge([
+            'curso_id' => Auth::user()->curso_actual()->id,
+        ]);
+
         IntellijProject::create($request->all());
 
         return retornar();

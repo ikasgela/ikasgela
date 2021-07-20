@@ -9,6 +9,7 @@ use App\Pregunta;
 use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class CuestionarioController extends Controller
@@ -47,6 +48,7 @@ class CuestionarioController extends Controller
             'descripcion' => $request->input('descripcion'),
             'plantilla' => $request->has('plantilla'),
             'respondido' => $request->has('respondido'),
+            'curso_id' => Auth::user()->curso_actual()->id,
         ]);
 
         olvidar();
