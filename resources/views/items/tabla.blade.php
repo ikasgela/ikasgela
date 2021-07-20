@@ -19,7 +19,9 @@
                 <td>{!! $item->correcto ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
                 <td>{!! $item->seleccionado ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
                 <td>{{ $item->feedback }}</td>
-                <td>{{ $item->orden }}</td>
+                <td>
+                    @include('partials.botones_reordenar', ['ruta' => 'items.reordenar'])
+                </td>
                 <td>
                     {!! Form::open(['route' => ['items.destroy', $item->id], 'method' => 'DELETE']) !!}
                     <div class='btn-group'>

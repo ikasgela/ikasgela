@@ -87,4 +87,16 @@ class ItemController extends Controller
     {
         return view('items.anyadir', compact('pregunta'));
     }
+
+    public function reordenar(Item $a1, Item $a2)
+    {
+        $temp = $a1->orden;
+        $a1->orden = $a2->orden;
+        $a2->orden = $temp;
+
+        $a1->save();
+        $a2->save();
+
+        return back();
+    }
 }
