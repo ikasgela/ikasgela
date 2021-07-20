@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Curso;
 use App\FileUpload;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class FileUploadFactory extends Factory
 {
@@ -16,6 +16,7 @@ class FileUploadFactory extends Factory
             'titulo' => $this->faker->words(3, true),
             'descripcion' => $this->faker->sentence(6),
             'max_files' => 1,
+            'curso_id' => Curso::factory(),
         ];
     }
 }

@@ -27,6 +27,7 @@ class FileResourcesCRUDTest extends TestCase
 
         // Given
         $file_resource = FileResource::factory()->create();
+        session(['filtrar_curso_actual' => $file_resource->curso_id]);
 
         // When
         $response = $this->get(route('file_resources.index'));

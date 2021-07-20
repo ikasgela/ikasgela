@@ -29,6 +29,7 @@ class FileUploadsCRUDTest extends TestCase
         $file_upload = FileUpload::factory()->create([
             'plantilla' => true,
         ]);
+        session(['filtrar_curso_actual' => $file_upload->curso_id]);
 
         // When
         $response = $this->get(route('file_uploads.index'));

@@ -45,7 +45,7 @@ class MarkdownTextController extends Controller
         ]);
 
         $request->merge([
-            'curso_id' => Auth::user()->curso_actual()->id,
+            'curso_id' => $request->has('curso_id') ? request('curso_id') : Auth::user()->curso_actual()?->id,
         ]);
 
         MarkdownText::create($request->all());
