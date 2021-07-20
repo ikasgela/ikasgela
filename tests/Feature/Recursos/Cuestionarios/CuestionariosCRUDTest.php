@@ -29,6 +29,7 @@ class CuestionariosCRUDTest extends TestCase
         $cuestionario = Cuestionario::factory()->create([
             'plantilla' => true,
         ]);
+        session(['filtrar_curso_actual' => $cuestionario->curso_id]);
 
         // When
         $response = $this->get(route('cuestionarios.index'));

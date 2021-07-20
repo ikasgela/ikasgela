@@ -48,7 +48,7 @@ class CuestionarioController extends Controller
             'descripcion' => $request->input('descripcion'),
             'plantilla' => $request->has('plantilla'),
             'respondido' => $request->has('respondido'),
-            'curso_id' => Auth::user()->curso_actual()->id,
+            'curso_id' => $request->has('curso_id') ? request('curso_id') : Auth::user()->curso_actual()->id,
         ]);
 
         olvidar();
