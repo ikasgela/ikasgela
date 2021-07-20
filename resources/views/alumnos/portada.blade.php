@@ -29,14 +29,14 @@
                     </div>
                 @endif
             @endforeach
-        @endforeach
-        @if($loop->last && $total == 0)
-            <div class="row">
-                <div class="col-12">
-                    <p>{{ __('There are no courses available') }}.</p>
+            @if($loop->last && $total == 0)
+                <div class="row">
+                    <div class="col-12">
+                        <p>{{ __('There are no courses available') }}.</p>
+                    </div>
                 </div>
-            </div>
-        @endif
+            @endif
+        @endforeach
     @empty
         <div class="row">
             <div class="col-12">
