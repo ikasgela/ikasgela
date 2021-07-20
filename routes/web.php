@@ -159,6 +159,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/items/reordenar/{a1}/{a2}', 'ItemController@reordenar')
             ->name('items.reordenar');
 
+        // Reordenar feedback
+        Route::post('/feedbacks/reordenar/{a1}/{a2}', 'FeedbackController@reordenar')
+            ->name('feedbacks.reordenar');
+
         // Reordenar competencias de una cualificación
         Route::post('/qualifications/{qualification}/reordenar_skills', 'QualificationController@reordenar_skills')
             ->name('qualifications.reordenar_skills');
@@ -338,7 +342,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // CRUD - Feedbacks
         Route::resource('feedbacks', 'FeedbackController');
         Route::post('/feedback_mensaje', 'FeedbackController@save')
-            ->name('feedback.save');
+            ->name('feedbacks.save');
+        Route::get('/feedbacks/{actividad}/create_actividad', 'FeedbackController@create_actividad')
+            ->name('feedbacks.create_actividad');
 
         // Visor de logs: https://github.com/rap2hpoutre/laravel-log-viewer
         Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')

@@ -161,7 +161,7 @@
                     </div>
                 </div>
             </form>
-            {!! Form::open(['route' => ['feedback.save'], 'method' => 'POST', 'id' => 'guardar_feedback']) !!}
+            {!! Form::open(['route' => ['feedbacks.save'], 'method' => 'POST', 'id' => 'guardar_feedback']) !!}
             <input form="guardar_feedback" type="hidden" id="mensaje" name="mensaje">
             <input form="guardar_feedback" type="hidden" name="curso_id" value="{{ $actividad->unidad->curso->id }}">
             @if(isset($actividad->original))

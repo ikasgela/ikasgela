@@ -160,7 +160,11 @@ class ActividadController extends Controller
         $user = Auth::user();
 
         if ($user->hasAnyRole(['admin', 'profesor']) || $user->hasRole('alumno') && $actividad->plantilla) {
-            return view('actividades.preview', compact('actividad'));
+
+            $feedbacks = $actividad->feedbacks()->orderBy('orden')->get();
+            $ids = $feedbacks->pluck('id')->toArray();
+
+            return view('actividades.preview', compact(['actividad', 'feedbacks', 'ids']));
         } else {
             abort(404, __('Activity not found.'));
         }
