@@ -30,11 +30,12 @@ class MessagesController extends Controller
         $threads = Hilo::forUserWithNewMessages(Auth::id())->cursoActual()->latest('updated_at')->get();
 
         // All threads that user is participating in
-        $threads_all = Hilo::forUser(Auth::id())->cursoActual()->latest('updated_at')->get();
+        $threads_all = Hilo::forUser(Auth::id())->cursoActual()->latest('updated_at')->paginate(10);
+        $threads_all_count = Hilo::forUser(Auth::id())->cursoActual()->count();
 
         $curso_actual = Curso::find(setting_usuario('curso_actual'));
 
-        return view('messenger.index', compact(['threads', 'threads_all', 'curso_actual']));
+        return view('messenger.index', compact(['threads', 'threads_all', 'threads_all_count', 'curso_actual']));
     }
 
     public function all()

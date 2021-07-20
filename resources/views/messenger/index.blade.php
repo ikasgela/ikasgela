@@ -57,7 +57,7 @@
             <a class="nav-link" id="pills-enviadas-tab" data-toggle="tab" href="#pills-enviadas" role="tab"
                aria-controls="pills-contact" aria-selected="false">
                 {{ trans_choice('messages.all', 2) }}
-                <span class="ml-2 badge badge-secondary">{{ $threads_all->count() }}</span>
+                <span class="ml-2 badge badge-secondary">{{ $threads_all_count }}</span>
             </a>
         </li>
     </ul>
@@ -71,6 +71,7 @@
             <div class="p-3">
                 @each('messenger.partials.thread', $threads_all, 'thread', 'messenger.partials.no-threads')
             </div>
+            @include('partials.paginador', ['coleccion' => $threads_all])
         </div>
     </div>
 @stop
