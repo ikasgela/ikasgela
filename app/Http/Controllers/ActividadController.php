@@ -87,7 +87,7 @@ class ActividadController extends Controller
         if (session('profesor_unidad_id_disponibles')) {
             $actividades = Actividad::cursoActual()->plantilla()->where('unidad_id', session('profesor_unidad_id_disponibles'))->orderBy('orden')->orderBy('id');
         } else {
-            $actividades = Actividad::cursoActual()->plantilla()->where('plantilla', true)->orderBy('orden')->orderBy('id');
+            $actividades = Actividad::cursoActual()->plantilla()->orderBy('orden')->orderBy('id');
         }
 
         $actividades = $this->paginate_ultima($actividades, 250);
