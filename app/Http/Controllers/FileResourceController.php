@@ -42,13 +42,10 @@ class FileResourceController extends Controller
             'titulo' => 'required',
         ]);
 
-        $request->merge([
-            'curso_id' => Auth::user()->curso_actual()->id,
-        ]);
-
         FileResource::create([
             'titulo' => $request->input('titulo'),
             'descripcion' => $request->input('descripcion'),
+            'curso_id' => $request->has('curso_id') ? request('curso_id') : Auth::user()->curso_actual()?->id,
         ]);
 
         return retornar();

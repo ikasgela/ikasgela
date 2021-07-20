@@ -43,15 +43,12 @@ class FileUploadController extends Controller
             'max_files' => 'required',
         ]);
 
-        $request->merge([
-            'curso_id' => Auth::user()->curso_actual()->id,
-        ]);
-
         FileUpload::create([
             'titulo' => $request->input('titulo'),
             'descripcion' => $request->input('descripcion'),
             'max_files' => $request->input('max_files'),
             'plantilla' => $request->has('plantilla'),
+            'curso_id' => $request->has('curso_id') ? request('curso_id') : Auth::user()->curso_actual()?->id,
         ]);
 
         return retornar();
