@@ -236,8 +236,8 @@ class ProfesorController extends Controller
     public function revisar(User $user, Tarea $tarea)
     {
         $actividad = $tarea->actividad;
-        $feedbacks_curso = $actividad->unidad->curso->feedbacks()->get();
-        $feedbacks_actividad = isset($actividad->original) ? $actividad->original->feedbacks()->get() : [];
+        $feedbacks_curso = $actividad->unidad->curso->feedbacks()->orderBy('orden')->get();
+        $feedbacks_actividad = isset($actividad->original) ? $actividad->original->feedbacks()->orderBy('orden')->get() : [];
 
         return view('profesor.revisar', compact(['user', 'tarea', 'actividad', 'feedbacks_curso', 'feedbacks_actividad']));
     }

@@ -29,24 +29,28 @@
     </div>
 
     @if(Auth::user()->hasAnyRole(['admin','profesor']))
-        @if($actividad->feedbacks->count() > 0)
 
-            @include('partials.subtitulo', ['subtitulo' => __('Feedback messages')])
+        @include('partials.subtitulo', ['subtitulo' => __('Feedback messages')])
 
+        @if($feedbacks->count() > 0)
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead class="thead-dark">
                     <tr>
                         <th>#</th>
                         <th>{{ __('Title') }}</th>
+                        <th>{{ __('Order') }}</th>
                         <th>{{ __('Actions') }}</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($actividad->feedbacks as $feedback)
+                    @foreach($feedbacks as $feedback)
                         <tr>
                             <td>{{ $feedback->id }}</td>
                             <td>{{ $feedback->titulo }}</td>
+                            <td>
+                                @include('partials.botones_reordenar', ['ruta' => 'feedbacks.reordenar'])
+                            </td>
                             <td>
                                 {!! Form::open(['route' => ['feedbacks.destroy', $feedback->id], 'method' => 'DELETE']) !!}
                                 <div class='btn-group'>
@@ -63,6 +67,13 @@
                 </table>
             </div>
         @endif
+
+        <div class="mb-3">
+            <a class="btn btn-primary"
+               href="{{ route('feedbacks.create_actividad', ['actividad' => $actividad->id]) }}">
+                {{ __('New feedback message') }}
+            </a>
+        </div>
     @endif
 
     @include('partials.backbutton')

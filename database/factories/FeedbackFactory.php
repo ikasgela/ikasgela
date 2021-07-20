@@ -18,4 +18,12 @@ class FeedbackFactory extends Factory
             'mensaje' => $this->faker->sentence(8, true),
         ];
     }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (Feedback $model) {
+            $model->orden = $model->id;
+            $model->save();
+        });
+    }
 }

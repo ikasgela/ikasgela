@@ -33,7 +33,7 @@ class ItemController extends Controller
             'pregunta_id' => 'required',
         ]);
 
-        Item::create([
+        $item = Item::create([
             'pregunta_id' => $request->input('pregunta_id'),
             'texto' => $request->input('texto'),
             'correcto' => $request->has('correcto'),
@@ -41,6 +41,9 @@ class ItemController extends Controller
             'feedback' => $request->input('feedback'),
             'orden' => $request->input('orden'),
         ]);
+
+        $item->orden = $item->id;
+        $item->save();
 
         return retornar();
     }
