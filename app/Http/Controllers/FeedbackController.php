@@ -50,7 +50,10 @@ class FeedbackController extends Controller
             'mensaje' => 'required',
         ]);
 
-        Feedback::create($request->all());
+        $feedback = Feedback::create($request->all());
+
+        $feedback->orden = $feedback->id;
+        $feedback->save();
 
         return retornar();
     }

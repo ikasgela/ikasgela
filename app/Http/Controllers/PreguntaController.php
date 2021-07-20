@@ -44,6 +44,9 @@ class PreguntaController extends Controller
             'imagen' => $request->input('imagen'),
         ]);
 
+        $pregunta->orden = $pregunta->id;
+        $pregunta->save();
+
         olvidar();
 
         return redirect(route('preguntas.edit', ['pregunta' => $pregunta]));
