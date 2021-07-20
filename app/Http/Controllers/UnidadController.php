@@ -45,20 +45,22 @@ class UnidadController extends Controller
             'nombre' => 'required',
         ]);
 
-        Unidad::create([
+        $unidad = Unidad::create([
             'curso_id' => request('curso_id'),
             'codigo' => request('codigo'),
             'nombre' => request('nombre'),
             'descripcion' => request('descripcion'),
             'slug' => Str::slug(request('nombre')),
             'qualification_id' => request('qualification_id'),
-            'orden' => request('orden'),
             'tags' => request('tags'),
             'fecha_disponibilidad' => request('fecha_disponibilidad'),
             'fecha_entrega' => request('fecha_entrega'),
             'fecha_limite' => request('fecha_limite'),
             'minimo_entregadas' => request('minimo_entregadas'),
         ]);
+
+        $unidad->orden = $unidad->id;
+        $unidad->save();
 
         return retornar();
     }
