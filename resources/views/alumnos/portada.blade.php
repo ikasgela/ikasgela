@@ -10,7 +10,9 @@
     ])
 
     @forelse($periods as $period)
-        @php($total = 0)
+        @once
+            @php($total = 0)
+        @endonce
         @foreach($period->categories as $category)
             @if($loop->first)
                 <h3>{{ $period->name }}</h3>
