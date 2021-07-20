@@ -59,8 +59,9 @@ class PreguntaController extends Controller
         $cuestionarios = Cuestionario::orderBy('titulo')->get();
 
         $items = $pregunta->items;
+        $ids = $items->pluck('id')->toArray();
 
-        return view('preguntas.edit', compact(['pregunta', 'cuestionarios', 'items']));
+        return view('preguntas.edit', compact(['pregunta', 'cuestionarios', 'items', 'ids']));
     }
 
     public function update(Request $request, Pregunta $pregunta)
@@ -94,5 +95,17 @@ class PreguntaController extends Controller
     public function anyadir(Cuestionario $cuestionario)
     {
         return view('preguntas.anyadir', compact('cuestionario'));
+    }
+
+    public function reordenar(Pregunta $a1, Pregunta $a2)
+    {
+        $temp = $a1->orden;
+        $a1->orden = $a2->orden;
+        $a2->orden = $temp;
+
+        $a1->save();
+        $a2->save();
+
+        return back();
     }
 }

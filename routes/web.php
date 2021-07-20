@@ -153,6 +153,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/unidades/reordenar/{a1}/{a2}', 'UnidadController@reordenar')
             ->name('unidades.reordenar');
 
+        // Reordenar preguntas e items
+        Route::post('/preguntas/reordenar/{a1}/{a2}', 'PreguntaController@reordenar')
+            ->name('preguntas.reordenar');
+        Route::post('/items/reordenar/{a1}/{a2}', 'ItemController@reordenar')
+            ->name('items.reordenar');
+
         // Reordenar competencias de una cualificación
         Route::post('/qualifications/{qualification}/reordenar_skills', 'QualificationController@reordenar_skills')
             ->name('qualifications.reordenar_skills');

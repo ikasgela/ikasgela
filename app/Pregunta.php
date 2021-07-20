@@ -17,6 +17,7 @@ class Pregunta extends Model
     protected $fillable = [
         'titulo', 'texto', 'multiple', 'imagen', 'cuestionario_id', 'respondida', 'correcta',
         '__import_id',
+        'orden',
     ];
 
     public function cuestionario()

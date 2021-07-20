@@ -19,4 +19,12 @@ class PreguntaFactory extends Factory
             'multiple' => false,
         ];
     }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (Pregunta $model) {
+            $model->orden = $model->id;
+            $model->save();
+        });
+    }
 }

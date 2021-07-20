@@ -17,4 +17,12 @@ class ItemFactory extends Factory
             'texto' => $this->faker->sentence(3),
         ];
     }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (Item $model) {
+            $model->orden = $model->id;
+            $model->save();
+        });
+    }
 }
