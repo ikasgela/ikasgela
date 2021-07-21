@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Charts\TareasEnviadas;
-use App\Curso;
-use App\Registro;
-use App\Unidad;
-use App\User;
+use App\Models\Curso;
+use App\Models\Registro;
+use App\Models\Unidad;
+use App\Models\User;
 use Auth;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;

@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App;
-use App\Actividad;
-use App\Curso;
 use App\Gitea\GiteaClient;
-use App\IntellijProject;
 use App\Jobs\ForkGiteaRepo;
-use App\MarkdownText;
-use App\Tarea;
+use App\Models\Actividad;
+use App\Models\Curso;
+use App\Models\IntellijProject;
+use App\Models\MarkdownText;
+use App\Models\Tarea;
+use App\Models\Unidad;
 use App\Traits\ClonarRepoGitea;
 use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
-use App\Unidad;
 use Auth;
 use Cache;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 use Log;
 

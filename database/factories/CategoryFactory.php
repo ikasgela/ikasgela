@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Category;
-use App\Period;
+use App\Models\Category;
+use App\Models\Period;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 

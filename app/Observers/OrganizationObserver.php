@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Organization;
+use App\Models\Organization;
 
 class OrganizationObserver
 {

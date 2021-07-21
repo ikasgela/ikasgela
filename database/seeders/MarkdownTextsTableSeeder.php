@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\MarkdownText;
+use App\Models\MarkdownText;
 use Illuminate\Database\Seeder;
 
 class MarkdownTextsTableSeeder extends Seeder

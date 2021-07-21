@@ -14,7 +14,7 @@
             {!! Form::open(['route' => ['feedbacks.save']]) !!}
 
             <div class="form-group row">
-                {!! Form::label('curso_id', __('Activity'), ['class' => 'col-sm-2 col-form-label']) !!}
+                {!! Form::label('actividad_id', __('Activity'), ['class' => 'col-sm-2 col-form-label']) !!}
                 <div class="col-sm-10">
                     {{ $actividad->full_name }}
                 </div>

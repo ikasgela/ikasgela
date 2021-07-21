@@ -1,16 +1,17 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
+use Cohensive\Embed\Facades\Embed;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FileResource extends Model
+class YoutubeVideo extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'titulo', 'descripcion',
+        'titulo', 'descripcion', 'codigo',
         '__import_id', 'curso_id',
     ];
 
@@ -21,9 +22,16 @@ class FileResource extends Model
             ->withTimestamps();
     }
 
-    public function files()
+    public function getVideoHtmlAttribute()
     {
-        return $this->morphMany('App\File', 'file_upload');
+        $embed = Embed::make($this->codigo)->parseUrl();
+
+        if (!$embed)
+            return '';
+
+        $embed->setAttribute(['rel' => 0, 'modestbranding' => 1]);
+
+        return $embed->getHtml();
     }
 
     public function curso()

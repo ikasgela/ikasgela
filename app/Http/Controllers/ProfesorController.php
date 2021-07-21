@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Actividad;
-use App\Curso;
 use App\Mail\ActividadAsignada;
+use App\Models\Actividad;
 use App\Models\CacheClear;
-use App\Organization;
-use App\Registro;
-use App\Tarea;
-use App\Team;
+use App\Models\Curso;
+use App\Models\Organization;
+use App\Models\Registro;
+use App\Models\Tarea;
+use App\Models\Team;
+use App\Models\Unidad;
+use App\Models\User;
 use App\Traits\PaginarUltima;
-use App\Unidad;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;

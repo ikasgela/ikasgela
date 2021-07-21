@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Item;
-use App\Pregunta;
+use App\Models\Item;
+use App\Models\Pregunta;
 use Illuminate\Http\Request;
 
 class ItemController extends Controller

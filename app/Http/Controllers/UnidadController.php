@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Curso;
-use App\Qualification;
+use App\Models\Curso;
+use App\Models\Qualification;
+use App\Models\Unidad;
 use App\Traits\FiltroCurso;
-use App\Unidad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Curso;
-use App\Hilo;
 use App\Mail\Alerta;
 use App\Mail\NuevoMensaje;
-use App\Team;
-use App\User;
+use App\Models\Curso;
+use App\Models\Hilo;
+use App\Models\Team;
+use App\Models\User;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;

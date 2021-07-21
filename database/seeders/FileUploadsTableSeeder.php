@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\FileUpload;
+use App\Models\FileUpload;
 use Illuminate\Database\Seeder;
 
 class FileUploadsTableSeeder extends Seeder

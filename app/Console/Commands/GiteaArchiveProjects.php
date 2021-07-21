@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Actividad;
+use App\Models\Actividad;
 use Cache;
 use Illuminate\Console\Command;
 

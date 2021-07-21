@@ -2,8 +2,8 @@
 
 namespace App\Traits;
 
-use App\Actividad;
-use App\Curso;
+use App\Models\Actividad;
+use App\Models\Curso;
 use Illuminate\Http\Request;
 
 trait InformeActividadesCurso

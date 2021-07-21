@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Actividad;
-use App\Curso;
 use App\Exports\ActividadesCursoExport;
 use App\Mail\ActividadAsignada;
 use App\Mail\FeedbackRecibido;
 use App\Mail\PlazoAmpliado;
 use App\Mail\TareaEnviada;
+use App\Models\Actividad;
 use App\Models\CacheClear;
-use App\Qualification;
-use App\Registro;
-use App\Tarea;
+use App\Models\Curso;
+use App\Models\Qualification;
+use App\Models\Registro;
+use App\Models\Tarea;
+use App\Models\Unidad;
+use App\Models\User;
 use App\Traits\InformeActividadesCurso;
 use App\Traits\PaginarUltima;
-use App\Unidad;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;

@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
-use App\Period;
-use BadMethodCallException;
+use App\Models\Category;
+use App\Models\Period;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 

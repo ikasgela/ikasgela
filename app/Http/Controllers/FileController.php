@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\File;
-use App\FileResource;
-use App\FileUpload;
+use App\Models\File;
+use App\Models\FileResource;
+use App\Models\FileUpload;
 use App\Http\Requests\StoreFile;
 use App\Http\Requests\StoreImage;
 use Illuminate\Support\Facades\Auth;

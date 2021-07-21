@@ -2,9 +2,9 @@
 
 namespace App\Traits;
 
-use App\Curso;
-use App\Organization;
-use App\Unidad;
+use App\Models\Curso;
+use App\Models\Organization;
+use App\Models\Unidad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 

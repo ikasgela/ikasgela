@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Cuestionario;
-use App\Pregunta;
+use App\Models\Cuestionario;
+use App\Models\Pregunta;
 use Illuminate\Database\Seeder;
 
 class PreguntasTableSeeder extends Seeder

@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Curso;
-use App\Qualification;
+use App\Models\Curso;
+use App\Models\Qualification;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class QualificationFactory extends Factory

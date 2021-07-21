@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\IntellijProject;
-use App\MarkdownText;
+use App\Models\IntellijProject;
+use App\Models\MarkdownText;
 use Cache;
 use Illuminate\Console\Command;
 

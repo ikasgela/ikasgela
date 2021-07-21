@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Actividad;
-use App\Curso;
-use App\Group;
-use App\Team;
+use App\Models\Actividad;
+use App\Models\Curso;
+use App\Models\Group;
+use App\Models\Team;
 use App\Traits\PaginarUltima;
-use App\Unidad;
-use App\User;
+use App\Models\Unidad;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;

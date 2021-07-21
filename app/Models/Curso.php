@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -95,7 +95,7 @@ class Curso extends Model
 
     public function feedbacks()
     {
-        return $this->morphMany('App\Feedback', 'curso');
+        return $this->morphMany(Feedback::class, 'comentable');
     }
 
     public function scopeOrganizacionActual($query)
@@ -121,7 +121,7 @@ class Curso extends Model
 
     public function actividades()
     {
-        return $this->hasManyThrough('App\Actividad', 'App\Unidad');
+        return $this->hasManyThrough('App\Models\Actividad', 'App\Models\Unidad');
     }
 
     public function disponible()
@@ -152,12 +152,12 @@ class Curso extends Model
 
     public function preguntas()
     {
-        return $this->hasManyThrough('App\Pregunta', 'App\Cuestionario');
+        return $this->hasManyThrough('App\Models\Pregunta', 'App\Models\Cuestionario');
     }
 
     public function items()
     {
-        return $this->hasManyDeep('App\Item', ['App\Cuestionario', 'App\Pregunta']);
+        return $this->hasManyDeep('App\Models\Item', ['App\Models\Cuestionario', 'App\Models\Pregunta']);
     }
 
     public function file_uploads()
@@ -172,12 +172,12 @@ class Curso extends Model
 
     public function file_resources_files()
     {
-        return $this->hasManyDeep('App\File', ['App\FileResource'], [null, ['file_upload_type', 'file_upload_id']]);
+        return $this->hasManyDeep('App\Models\File', ['App\Models\FileResource'], [null, ['file_upload_type', 'file_upload_id']]);
     }
 
     public function file_uploads_files()
     {
-        return $this->hasManyDeep('App\File', ['App\FileUpload'], [null, ['file_upload_type', 'file_upload_id']]);
+        return $this->hasManyDeep('App\Models\File', ['App\Models\FileUpload'], [null, ['file_upload_type', 'file_upload_id']]);
     }
 
     public function hilos()
@@ -194,6 +194,6 @@ class Curso extends Model
 
     public function teams()
     {
-        return $this->hasManyDeep('App\Team', ['curso_group', 'App\Group']);
+        return $this->hasManyDeep('App\Models\Team', ['curso_group', 'App\Models\Group']);
     }
 }

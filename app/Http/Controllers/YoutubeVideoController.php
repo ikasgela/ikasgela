@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Actividad;
-use App\Curso;
+use App\Models\Actividad;
+use App\Models\Curso;
+use App\Models\YoutubeVideo;
 use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
-use App\YoutubeVideo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;

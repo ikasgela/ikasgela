@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Actividad;
-use App\Curso;
-use App\Feedback;
+use App\Models\Actividad;
+use App\Models\Curso;
+use App\Models\Feedback;
 use Illuminate\Http\Request;
 
 class FeedbackController extends Controller
@@ -19,7 +19,7 @@ class FeedbackController extends Controller
     {
         $curso_actual = Curso::find(setting_usuario('curso_actual'));
 
-        $feedbacks = $curso_actual?->feedbacks()->orderBy('orden')->get() ?? [];
+        $feedbacks = $curso_actual?->feedbacks()->orderBy('orden')->get();
         $ids = $feedbacks->pluck('id')->toArray();
 
         $actividades = Actividad::cursoActual()->where('plantilla', true)->with(['unidad' => function ($q) {
@@ -46,8 +46,12 @@ class FeedbackController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'curso_id' => 'required',
+            'comentable_id' => 'required',
             'mensaje' => 'required',
+        ]);
+
+        $request->merge([
+            'comentable_type' => Curso::class,
         ]);
 
         $feedback = Feedback::create($request->all());
@@ -73,7 +77,7 @@ class FeedbackController extends Controller
     public function update(Request $request, Feedback $feedback)
     {
         $this->validate($request, [
-            'curso_id' => 'required',
+            'comentable_id' => 'required',
             'mensaje' => 'required',
         ]);
 
@@ -92,10 +96,10 @@ class FeedbackController extends Controller
     public function save(Request $request)
     {
         $feedback = Feedback::create([
-            'curso_id' => request('tipo') == 'curso' ? request('curso_id') : request('actividad_id'),
+            'comentable_id' => request('tipo') == 'curso' ? request('comentable_id') : request('actividad_id'),
+            'comentable_type' => request('tipo') == 'curso' ? Curso::class : Actividad::class,
             'titulo' => request('titulo'),
             'mensaje' => request('mensaje'),
-            'curso_type' => request('tipo') == 'curso' ? 'App\Curso' : 'App\Actividad',
         ]);
 
         $feedback->orden = $feedback->id;

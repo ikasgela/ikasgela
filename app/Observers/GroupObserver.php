@@ -2,8 +2,8 @@
 
 namespace App\Observers;
 
-use App\Curso;
-use App\Group;
+use App\Models\Curso;
+use App\Models\Group;
 
 class GroupObserver
 {

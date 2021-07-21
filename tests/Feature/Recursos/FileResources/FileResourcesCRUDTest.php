@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Recursos\FileResources;
 
-use App\FileResource;
+use App\Models\FileResource;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 

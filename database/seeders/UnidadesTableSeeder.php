@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Curso;
-use App\Unidad;
+use App\Models\Curso;
+use App\Models\Unidad;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 

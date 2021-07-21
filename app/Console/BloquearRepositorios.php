@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Actividad;
+use App\Models\Actividad;
 use Log;
 
 class BloquearRepositorios

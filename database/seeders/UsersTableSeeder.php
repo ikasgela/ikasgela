@@ -2,14 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Curso;
 use App\Gitea\GiteaClient;
-use App\Organization;
-use App\Role;
-use App\Team;
-use App\User;
+use App\Models\Curso;
+use App\Models\Organization;
+use App\Models\Role;
+use App\Models\Team;
+use App\Models\User;
 use Carbon\Carbon;
-use GrahamCampbell\GitLab\Facades\GitLab;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
 

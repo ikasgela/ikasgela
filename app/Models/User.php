@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\Models\CacheClear;
 use App\Models\Resultado;
@@ -84,10 +84,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function actividades()
     {
-        // Modificar tambien los campos en \App\Tarea::$fillable
-        return $this->belongsToMany('App\Actividad', 'tareas')
+        // Modificar tambien los campos en \App\Models\Tarea::$fillable
+        return $this->belongsToMany('App\Models\Actividad', 'tareas')
             ->cursoActual()
-            ->using('App\Tarea')
+            ->using('App\Models\Tarea')
             ->as('tarea')
             ->withPivot([
                 'id',
@@ -101,7 +101,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function roles()
     {
         return $this
-            ->belongsToMany('App\Role')
+            ->belongsToMany('App\Models\Role')
             ->withTimestamps();
     }
 

@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Usuarios;
 
-use App\Group;
+use App\Models\Group;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 

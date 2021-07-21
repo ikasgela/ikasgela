@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\Traits\Etiquetas;
 use Bkwld\Cloner\Cloneable;
@@ -85,8 +85,8 @@ class Actividad extends Model
 
     public function users()
     {
-        return $this->belongsToMany('App\User', 'tareas')
-            ->using('App\Tarea')
+        return $this->belongsToMany('App\Models\User', 'tareas')
+            ->using('App\Models\Tarea')
             ->as('tarea')
             ->withPivot([
                 'id',
@@ -223,7 +223,7 @@ class Actividad extends Model
 
     public function feedbacks()
     {
-        return $this->morphMany('App\Feedback', 'curso');
+        return $this->morphMany(Feedback::class, 'comentable');
     }
 
     public function scopeEnPlazo($query)

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Curso;
+use App\Models\Curso;
+use App\Models\User;
 use App\Traits\PaginarUltima;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

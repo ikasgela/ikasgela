@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Actividad;
-use App\Curso;
-use App\MarkdownText;
+use App\Models\Actividad;
+use App\Models\Curso;
+use App\Models\MarkdownText;
 use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;

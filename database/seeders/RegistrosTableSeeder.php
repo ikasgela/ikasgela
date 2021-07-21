@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Registro;
-use App\Tarea;
-use App\User;
+use App\Models\Registro;
+use App\Models\Tarea;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 

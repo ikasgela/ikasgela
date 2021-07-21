@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Recursos\Cuestionarios;
 
-use App\Item;
+use App\Models\Item;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 

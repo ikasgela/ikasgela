@@ -25,11 +25,11 @@
             @foreach($feedbacks as $feedback)
                 <tr>
                     <td>{{ $feedback->id }}</td>
-                    <td>{{ $feedback->curso->category->period->organization->name }}
-                        - {{ $feedback->curso->category->period->name }}
-                        - {{ is_a($feedback->curso, 'App\Actividad') ? $feedback->curso->unidad->codigo.' - ' : '' }}{{ $feedback->curso->nombre }}</td>
+                    <td>{{ $feedback->comentable->category->period->organization->name }}
+                        - {{ $feedback->comentable->category->period->name }}
+                        - {{ is_a($feedback->comentable, 'App\Models\Actividad') ? $feedback->comentable->unidad->codigo.' - ' : '' }}{{ $feedback->comentable->nombre }}</td>
                     <td>{{ $feedback->titulo }}</td>
-                    <td>{{ $feedback->orden }}
+                    <td>
                         @include('partials.botones_reordenar', ['ruta' => 'feedbacks.reordenar'])
                     </td>
                     <td>
@@ -67,9 +67,9 @@
                 @foreach($actividad->feedbacks as $feedback)
                     <tr>
                         <td>{{ $feedback->id }}</td>
-                        <td>{{ is_a($feedback->curso, 'App\Actividad') ? $feedback->curso->unidad->codigo.' - ' : '' }}{{ $feedback->curso->nombre }}</td>
+                        <td>{{ is_a($feedback->comentable, 'App\Models\Actividad') ? $feedback->comentable->unidad->codigo.' - ' : '' }}{{ $feedback->comentable->nombre }}</td>
                         <td>{{ $feedback->titulo }}</td>
-                        <td>{{ $feedback->orden }}
+                        <td>
                             @include('partials.botones_reordenar', ['ruta' => 'feedbacks.reordenar'])
                         </td>
                         <td>

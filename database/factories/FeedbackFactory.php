@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Curso;
-use App\Feedback;
+use App\Models\Curso;
+use App\Models\Feedback;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FeedbackFactory extends Factory
@@ -13,7 +13,8 @@ class FeedbackFactory extends Factory
     public function definition()
     {
         return [
-            'curso_id' => Curso::factory(),
+            'comentable_id' => Curso::factory(),
+            'comentable_type' => Curso::class,
             'titulo' => $this->faker->sentence(3, true),
             'mensaje' => $this->faker->sentence(8, true),
         ];

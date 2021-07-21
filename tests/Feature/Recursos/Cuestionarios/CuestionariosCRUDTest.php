@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Recursos\Cuestionarios;
 
-use App\Cuestionario;
+use App\Models\Cuestionario;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,7 +18,7 @@ class Tarea extends Pivot
 
     public $incrementing = true;
 
-    // Modificar tambien el pivote en \App\User::actividades
+    // Modificar tambien el pivote en \App\Models\User::actividades
     protected $fillable = [
         'estado',
         'feedback',
@@ -28,12 +28,12 @@ class Tarea extends Pivot
 
     public function actividad()
     {
-        return $this->belongsTo('App\Actividad')->withTrashed();
+        return $this->belongsTo('App\Models\Actividad')->withTrashed();
     }
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Models\User');
     }
 
     public function registros()

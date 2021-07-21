@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Organization;
-use App\Period;
+use App\Models\Organization;
+use App\Models\Period;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

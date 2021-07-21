@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Tarea;
+use App\Models\Tarea;
 use Cache;
 
 class TareaObserver

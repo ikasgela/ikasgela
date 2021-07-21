@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Evaluacion;
 
-use App\Qualification;
-use App\Skill;
+use App\Models\Qualification;
+use App\Models\Skill;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 

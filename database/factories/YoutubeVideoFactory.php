@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\YoutubeVideo;
+use App\Models\YoutubeVideo;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 

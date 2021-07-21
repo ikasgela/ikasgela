@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Recursos\FileUploads;
 
-use App\Actividad;
-use App\FileUpload;
+use App\Models\Actividad;
+use App\Models\FileUpload;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 

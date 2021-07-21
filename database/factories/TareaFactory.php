@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Actividad;
-use App\Tarea;
-use App\User;
+use App\Models\Actividad;
+use App\Models\Tarea;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TareaFactory extends Factory

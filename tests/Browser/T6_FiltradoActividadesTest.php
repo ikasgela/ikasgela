@@ -2,11 +2,11 @@
 
 namespace Tests\Browser;
 
-use App\Actividad;
-use App\Curso;
-use App\Tarea;
-use App\Unidad;
-use App\User;
+use App\Models\Actividad;
+use App\Models\Curso;
+use App\Models\Tarea;
+use App\Models\Unidad;
+use App\Models\User;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 

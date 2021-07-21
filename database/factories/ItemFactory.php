@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Item;
-use App\Pregunta;
+use App\Models\Item;
+use App\Models\Pregunta;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ItemFactory extends Factory

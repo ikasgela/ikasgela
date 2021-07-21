@@ -2,8 +2,8 @@
 
 namespace App\Observers;
 
-use App\Qualification;
-use App\Skill;
+use App\Models\Qualification;
+use App\Models\Skill;
 use Cache;
 
 class SkillObserver

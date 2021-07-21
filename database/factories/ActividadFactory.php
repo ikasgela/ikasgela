@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Actividad;
-use App\Unidad;
+use App\Models\Actividad;
+use App\Models\Unidad;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 

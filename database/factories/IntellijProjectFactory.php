@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\IntellijProject;
+use App\Models\IntellijProject;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 

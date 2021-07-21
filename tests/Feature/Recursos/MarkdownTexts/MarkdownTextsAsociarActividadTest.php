@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Recursos\MarkdownTexts;
 
-use App\Actividad;
-use App\MarkdownText;
+use App\Models\Actividad;
+use App\Models\MarkdownText;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
