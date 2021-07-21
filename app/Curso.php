@@ -191,4 +191,9 @@ class Curso extends Model
             ->belongsToMany(Group::class)
             ->withTimestamps();
     }
+
+    public function teams()
+    {
+        return $this->hasManyDeep('App\Team', ['curso_group', 'App\Group']);
+    }
 }
