@@ -2,7 +2,20 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Users'), 'subtitulo' => ''])
+    <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
+        <h1>{{ __('Users') }}</h1>
+        <div class="form-inline">
+            <div class="btn-toolbar" role="toolbar">
+                {!! Form::open(['route' => ['users.index.filtro'], 'method' => 'POST']) !!}
+                {!! Form::button(__('Clear filters'), ['type' => 'submit',
+                    'class' => session('profesor_filtro_etiquetas') == 'S' ? 'btn btn-sm mx-1 btn-primary' : 'btn btn-sm mx-1 btn-outline-secondary'
+                ]) !!}
+                {!! Form::hidden('filtro_etiquetas','N') !!}
+                {!! Form::close() !!}
+            </div>
+        </div>
+        <div></div>
+    </div>
 
     @if(Auth::user()->hasAnyRole(['admin']))
         {!! Form::open(['route' => ['users.index.filtro'], 'method' => 'POST']) !!}
@@ -31,7 +44,7 @@
                     <td>@include('users.partials.avatar', ['user' => $user, 'width' => 35])</td>
                     <td>
                         {{ $user->name }} {{ $user->surname }}
-                        @include('profesor.partials.status_usuario')
+                        @include('profesor.partials.status_usuario_filtro')
                     </td>
                     <td><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
                     <td class="text-center">{!! $user->hasVerifiedEmail() ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>

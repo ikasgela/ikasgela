@@ -32,6 +32,13 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
+        if ($request->has('filtro_etiquetas')) {
+            if (request('filtro_etiquetas') == 'N') {
+                session(['profesor_filtro_etiquetas' => '']);
+                session(['tags' => []]);
+            }
+        }
+
         $organizations = Organization::all();
 
         $request->validate([
@@ -45,10 +52,21 @@ class UserController extends Controller
         }
 
         if (session('filtrar_organization_actual') == -1) {
-            $users = User::all();
+            $users = User::query();
         } else {
-            $users = Organization::find(session('filtrar_organization_actual'))->users()->get();
+            $users = Organization::find(session('filtrar_organization_actual'))->users();
         }
+
+        if ($request->has('tag')) {
+            session(['profesor_filtro_etiquetas' => 'S']);
+            session()->push('tags', request('tag'));
+        }
+
+        if (!is_null(session('tags'))) {
+            $users = $users->tags(session('tags'));
+        }
+
+        $users = $users->get();
 
         $ids = $users->pluck('id')->toArray();
 
