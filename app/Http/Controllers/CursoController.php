@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Actividad;
-use App\Category;
-use App\Cuestionario;
-use App\Curso;
-use App\Feedback;
-use App\File;
-use App\FileResource;
-use App\FileUpload;
 use App\Http\Requests\StoreFile;
-use App\IntellijProject;
-use App\Item;
-use App\MarkdownText;
-use App\Pregunta;
-use App\Qualification;
-use App\Skill;
-use App\Unidad;
-use App\User;
-use App\YoutubeVideo;
+use App\Models\Actividad;
+use App\Models\Category;
+use App\Models\Cuestionario;
+use App\Models\Curso;
+use App\Models\Feedback;
+use App\Models\File;
+use App\Models\FileResource;
+use App\Models\FileUpload;
+use App\Models\IntellijProject;
+use App\Models\Item;
+use App\Models\MarkdownText;
+use App\Models\Pregunta;
+use App\Models\Qualification;
+use App\Models\Skill;
+use App\Models\Unidad;
+use App\Models\User;
+use App\Models\YoutubeVideo;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -90,7 +90,7 @@ class CursoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Curso $curso
+     * @param \App\Models\Curso $curso
      * @return \Illuminate\Http\Response
      */
     public function edit(Curso $curso)

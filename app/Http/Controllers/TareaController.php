@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Registro;
-use App\Tarea;
-use App\User;
+use App\Models\Registro;
+use App\Models\Tarea;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

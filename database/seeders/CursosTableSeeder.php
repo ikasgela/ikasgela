@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Category;
-use App\Curso;
+use App\Models\Category;
+use App\Models\Curso;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 

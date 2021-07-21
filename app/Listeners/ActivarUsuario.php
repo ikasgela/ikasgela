@@ -2,10 +2,10 @@
 
 namespace App\Listeners;
 
-use App\Actividad;
-use App\Curso;
+use App\Models\Actividad;
+use App\Models\Curso;
 use App\Gitea\GiteaClient;
-use App\Organization;
+use App\Models\Organization;
 use Illuminate\Auth\Events\Verified;
 
 class ActivarUsuario

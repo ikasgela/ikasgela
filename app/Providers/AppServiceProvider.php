@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Organization;
+use App\Models\Organization;
 use Form;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;

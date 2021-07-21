@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Unidad;
+use App\Models\Unidad;
 use Cache;
 
 class UnidadObserver

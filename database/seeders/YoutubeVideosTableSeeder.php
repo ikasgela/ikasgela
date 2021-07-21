@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\YoutubeVideo;
+use App\Models\YoutubeVideo;
 use Illuminate\Database\Seeder;
 
 class YoutubeVideosTableSeeder extends Seeder

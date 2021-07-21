@@ -7,22 +7,22 @@
     @foreach($actividad->recursos as $recurso)
         <div class="col-md-6">
             @switch($recurso::class)
-                @case('App\IntellijProject')
+                @case('App\Models\IntellijProject')
                 @include('intellij_projects.tarjeta', ['intellij_project' => $recurso, 'repositorio' => $recurso->repository()])
                 @break
-                @case('App\MarkdownText')
+                @case('App\Models\MarkdownText')
                 @include('markdown_texts.tarjeta', ['markdown_text' => $recurso, 'texto' => $recurso->markdown()])
                 @break
-                @case('App\YoutubeVideo')
+                @case('App\Models\YoutubeVideo')
                 @include('youtube_videos.tarjeta', ['youtube_video' => $recurso])
                 @break
-                @case('App\FileUpload')
+                @case('App\Models\FileUpload')
                 @include('file_uploads.tarjeta', ['file_upload' => $recurso])
                 @break
-                @case('App\FileResource')
+                @case('App\Models\FileResource')
                 @include('file_resources.tarjeta', ['file_resource' => $recurso])
                 @break
-                @case('App\Cuestionario')
+                @case('App\Models\Cuestionario')
                 @include('cuestionarios.tarjeta', ['cuestionario' => $recurso])
                 @break
             @endswitch

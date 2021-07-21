@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Curso;
+use App\Models\Curso;
 use Cache;
 
 class CursoObserver

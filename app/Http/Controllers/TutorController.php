@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Charts\TareasEnviadas;
-use App\Curso;
+use App\Models\Curso;
 use App\Exports\InformeGrupoExport;
-use App\Registro;
-use App\Tarea;
+use App\Models\Registro;
+use App\Models\Tarea;
 use App\Traits\InformeGrupo;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;

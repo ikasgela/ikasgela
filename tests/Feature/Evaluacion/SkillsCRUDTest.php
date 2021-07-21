@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Evaluacion;
 
-use App\Skill;
+use App\Models\Skill;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 

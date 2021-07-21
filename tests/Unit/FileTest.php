@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\File;
-use App\User;
+use App\Models\File;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;

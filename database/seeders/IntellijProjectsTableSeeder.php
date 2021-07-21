@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\IntellijProject;
+use App\Models\IntellijProject;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 

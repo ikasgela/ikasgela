@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Profesor;
 
-use App\Curso;
-use App\Role;
-use App\User;
+use App\Models\Curso;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 

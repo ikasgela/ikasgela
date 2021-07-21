@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Item;
-use App\Pregunta;
+use App\Models\Item;
+use App\Models\Pregunta;
 use Illuminate\Database\Seeder;
 
 class ItemsTableSeeder extends Seeder

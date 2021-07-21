@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Recursos\YoutubeVideos;
 
-use App\Actividad;
-use App\YoutubeVideo;
+use App\Models\Actividad;
+use App\Models\YoutubeVideo;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 

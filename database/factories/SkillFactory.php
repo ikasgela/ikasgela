@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Curso;
-use App\Skill;
+use App\Models\Curso;
+use App\Models\Skill;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class SkillFactory extends Factory

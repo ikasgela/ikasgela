@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Curso;
-use App\FileUpload;
+use App\Models\Curso;
+use App\Models\FileUpload;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FileUploadFactory extends Factory

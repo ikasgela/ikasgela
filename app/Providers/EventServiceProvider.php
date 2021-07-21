@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Actividad;
-use App\Category;
-use App\Curso;
-use App\Group;
+use App\Models\Actividad;
+use App\Models\Category;
+use App\Models\Curso;
+use App\Models\Group;
 use App\Observers\ActividadObserver;
 use App\Observers\CategoryObserver;
 use App\Observers\CursoObserver;
@@ -17,13 +17,13 @@ use App\Observers\SkillObserver;
 use App\Observers\TareaObserver;
 use App\Observers\UnidadObserver;
 use App\Observers\UserObserver;
-use App\Organization;
-use App\Period;
-use App\Qualification;
-use App\Skill;
-use App\Tarea;
-use App\Unidad;
-use App\User;
+use App\Models\Organization;
+use App\Models\Period;
+use App\Models\Qualification;
+use App\Models\Skill;
+use App\Models\Tarea;
+use App\Models\Unidad;
+use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;

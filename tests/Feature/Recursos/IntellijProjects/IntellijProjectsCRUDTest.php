@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Recursos\IntellijProjects;
 
-use App\IntellijProject;
+use App\Models\IntellijProject;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 

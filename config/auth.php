@@ -67,11 +67,11 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'cache-user',
-            'model' => App\User::class,
+            'model' => App\Models\User::class,
         ],
         //        'users' => [
         //            'driver' => 'eloquent',
-        //            'model' => App\User::class,
+        //            'model' => App\Models\User::class,
         //        ],
 
         // 'users' => [

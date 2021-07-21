@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use App;
-use App\Registro;
+use App\Models\Registro;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\App;
 use Tests\TestCase;
 
 class RegistrosCRUDTest extends TestCase

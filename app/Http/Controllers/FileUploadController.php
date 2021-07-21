@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Actividad;
-use App\Curso;
-use App\FileUpload;
+use App\Models\Actividad;
+use App\Models\Curso;
+use App\Models\FileUpload;
 use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;

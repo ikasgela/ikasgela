@@ -14,13 +14,13 @@
             {!! Form::model($feedback, ['route' => ['feedbacks.update', $feedback->id], 'method' => 'PUT']) !!}
 
             {{ Form::campoTexto('curso_actividad',
-                is_a($feedback->curso, 'App\Curso') ? __('Course') : __('Activity'),
-                is_a($feedback->curso, 'App\Curso')
-                ? $feedback->curso->category->period->organization->name.' - '.$feedback->curso->category->period->name.' - '.$feedback->curso->nombre
-                : $feedback->curso->unidad->curso->category->period->organization->name.' - '.$feedback->curso->unidad->curso->category->period->name.' - '.$feedback->curso->unidad->curso->nombre
+                is_a($feedback->comentable, 'App\Models\Curso') ? __('Course') : __('Activity'),
+                is_a($feedback->comentable, 'App\Models\Curso')
+                ? $feedback->comentable->category->period->organization->name.' - '.$feedback->comentable->category->period->name.' - '.$feedback->comentable->nombre
+                : $feedback->comentable->unidad->curso->category->period->organization->name.' - '.$feedback->comentable->unidad->curso->category->period->name.' - '.$feedback->comentable->unidad->curso->nombre
                 , ['readonly'])
                 }}
-            {{ Form::hidden('curso_id',$feedback->curso_id) }}
+            {{ Form::hidden('comentable_id',$feedback->comentable_id) }}
             {{ Form::campoTexto('titulo', __('Title')) }}
 
             <div class="form-group row">

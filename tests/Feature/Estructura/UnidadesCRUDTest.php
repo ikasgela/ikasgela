@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Estructura;
 
-use App\Unidad;
+use App\Models\Unidad;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 

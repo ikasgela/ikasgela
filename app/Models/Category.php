@@ -1,12 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Watson\Rememberable\Rememberable;
 
-class Group extends Model
+class Category extends Model
 {
     use HasFactory;
     use Rememberable;
@@ -17,23 +17,13 @@ class Group extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->rememberCacheTag = 'group';
+        $this->rememberCacheTag = 'category';
         $this->rememberFor = config('ikasgela.eloquent_cache_time', 60);
     }
 
     protected $fillable = [
         'period_id', 'name', 'slug'
     ];
-
-    public function period()
-    {
-        return $this->belongsTo(Period::class);
-    }
-
-    public function teams()
-    {
-        return $this->hasMany(Team::class);
-    }
 
     public function getFullNameAttribute()
     {
@@ -42,10 +32,20 @@ class Group extends Model
             . $this->name;
     }
 
+    public function getPrettyNameAttribute()
+    {
+        return $this->period->organization->name . ' » '
+            . $this->period->name . ' » '
+            . $this->name;
+    }
+
+    public function period()
+    {
+        return $this->belongsTo(Period::class);
+    }
+
     public function cursos()
     {
-        return $this
-            ->belongsToMany(Curso::class)
-            ->withTimestamps();
+        return $this->hasMany(Curso::class);
     }
 }

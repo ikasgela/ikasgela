@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Curso;
-use App\FileResource;
+use App\Models\Curso;
+use App\Models\FileResource;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FileResourceFactory extends Factory

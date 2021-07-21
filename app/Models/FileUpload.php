@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,7 +27,7 @@ class FileUpload extends Model
 
     public function files()
     {
-        return $this->morphMany('App\File', 'file_upload');
+        return $this->morphMany('App\Models\File', 'file_upload');
     }
 
     public function scopePlantilla($query)

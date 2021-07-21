@@ -2,8 +2,8 @@
 
 namespace App\Observers;
 
-use App\Actividad;
-use App\Tarea;
+use App\Models\Actividad;
+use App\Models\Tarea;
 use Cache;
 
 class ActividadObserver

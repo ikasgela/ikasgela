@@ -14,9 +14,9 @@
             {!! Form::open(['route' => ['feedbacks.store']]) !!}
 
             <div class="form-group row">
-                {!! Form::label('curso_id', __('Course'), ['class' => 'col-sm-2 col-form-label']) !!}
+                {!! Form::label('comentable_id', __('Course'), ['class' => 'col-sm-2 col-form-label']) !!}
                 <div class="col-sm-10">
-                    <select class="form-control" id="curso_id" name="curso_id">
+                    <select class="form-control" id="comentable_id" name="comentable_id">
                         @foreach($cursos as $curso)
                             <option value="{{ $curso?->id }}" {{ $curso?->id == $curso_actual?->id ? 'selected' : '' }}>
                                 {{ $curso->category->period->organization->name }}

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Curso;
-use App\Group;
-use App\Period;
+use App\Models\Curso;
+use App\Models\Group;
+use App\Models\Period;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 

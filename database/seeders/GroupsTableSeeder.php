@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Group;
-use App\Period;
+use App\Models\Group;
+use App\Models\Period;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 

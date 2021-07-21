@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Evaluacion;
 
-use App\Feedback;
+use App\Models\Feedback;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
@@ -11,7 +11,7 @@ class FeedbacksCRUDTest extends TestCase
     use DatabaseTransactions;
 
     private $required = [
-        'mensaje', 'curso_id'
+        'mensaje', 'comentable_id'
     ];
 
     public function setUp(): void

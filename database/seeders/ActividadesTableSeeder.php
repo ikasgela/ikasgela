@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Actividad;
-use App\Cuestionario;
-use App\FileUpload;
-use App\IntellijProject;
-use App\Unidad;
-use App\YoutubeVideo;
+use App\Models\Actividad;
+use App\Models\Cuestionario;
+use App\Models\FileUpload;
+use App\Models\IntellijProject;
+use App\Models\Unidad;
+use App\Models\YoutubeVideo;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 

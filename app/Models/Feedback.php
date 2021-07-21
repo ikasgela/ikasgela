@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,12 +10,13 @@ class Feedback extends Model
     use HasFactory;
 
     protected $fillable = [
-        'curso_id', 'mensaje', 'titulo', 'curso_type',
+        'comentable_id', 'comentable_type',
+        'mensaje', 'titulo',
         '__import_id',
         'orden',
     ];
 
-    public function curso()
+    public function comentable()
     {
         return $this->morphTo();
     }

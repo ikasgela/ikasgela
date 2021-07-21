@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Curso;
-use App\Qualification;
-use App\Skill;
-use App\Unidad;
+use App\Models\Curso;
+use App\Models\Qualification;
+use App\Models\Skill;
+use App\Models\Unidad;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 

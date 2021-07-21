@@ -12,22 +12,22 @@
             <tr class="table-cell-click" data-href="{{ route('actividades.preview', [$actividad->id]) }}">
                 <td>{{ $recurso->titulo }}</td>
                 <td>@switch($recurso::class)
-                        @case('App\IntellijProject')
+                        @case('App\Models\IntellijProject')
                         {{ __('IntelliJ project') }}
                         @break
-                        @case('App\MarkdownText')
+                        @case('App\Models\MarkdownText')
                         {{ __('Markdown text') }}
                         @break
-                        @case('App\YoutubeVideo')
+                        @case('App\Models\YoutubeVideo')
                         {{ __('YouTube video') }}
                         @break
-                        @case('App\FileUpload')
+                        @case('App\Models\FileUpload')
                         {{ __('Image upload') }}
                         @break
-                        @case('App\FileResource')
+                        @case('App\Models\FileResource')
                         {{ __('Files') }}
                         @break
-                        @case('App\Cuestionario')
+                        @case('App\Models\Cuestionario')
                         {{ __('Questionnaire') }}
                         @break
                         @default

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Actividad;
-use App\Cuestionario;
-use App\Curso;
-use App\Pregunta;
+use App\Models\Actividad;
+use App\Models\Cuestionario;
+use App\Models\Curso;
+use App\Models\Pregunta;
 use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;

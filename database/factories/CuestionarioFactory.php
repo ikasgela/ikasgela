@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Cuestionario;
-use App\Curso;
+use App\Models\Cuestionario;
+use App\Models\Curso;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CuestionarioFactory extends Factory

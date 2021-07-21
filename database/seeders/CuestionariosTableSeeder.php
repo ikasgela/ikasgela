@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Cuestionario;
+use App\Models\Cuestionario;
 use Illuminate\Database\Seeder;
 
 class CuestionariosTableSeeder extends Seeder

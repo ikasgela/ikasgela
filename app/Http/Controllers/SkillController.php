@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Curso;
-use App\Skill;
+use App\Models\Curso;
+use App\Models\Skill;
 use App\Traits\FiltroCurso;
 use Illuminate\Http\Request;
 

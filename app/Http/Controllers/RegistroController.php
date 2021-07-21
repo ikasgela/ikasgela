@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Curso;
-use App\Registro;
+use App\Models\Curso;
+use App\Models\Registro;
 use App\Traits\PaginarUltima;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class RegistroController extends Controller

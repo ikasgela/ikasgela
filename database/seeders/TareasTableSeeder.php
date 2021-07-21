@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Actividad;
-use App\User;
+use App\Models\Actividad;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class TareasTableSeeder extends Seeder

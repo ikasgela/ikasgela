@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Group;
-use App\Team;
-use App\User;
+use App\Models\Group;
+use App\Models\Team;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 

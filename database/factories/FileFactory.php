@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\File;
-use App\FileUpload;
-use App\User;
+use App\Models\File;
+use App\Models\FileUpload;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FileFactory extends Factory

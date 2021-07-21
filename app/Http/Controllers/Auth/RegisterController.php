@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Gitea\GiteaClient;
 use App\Http\Controllers\Controller;
 use App\Mail\NuevoUsuario;
-use App\Organization;
-use App\Role;
-use App\User;
+use App\Models\Organization;
+use App\Models\Role;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -91,7 +91,7 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param array $data
-     * @return \App\User
+     * @return \App\Models\User
      */
     protected function create(array $data)
     {
