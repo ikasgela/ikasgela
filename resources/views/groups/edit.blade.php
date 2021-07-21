@@ -26,6 +26,8 @@
             {{ Form::campoTexto('name', __('Name')) }}
             {{ Form::campoTexto('slug', __('Slug')) }}
 
+            @include('users.partials.selector_cursos')
+
             @include('partials.guardar_cancelar')
 
             @include('layouts.errors')

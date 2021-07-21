@@ -10,6 +10,7 @@ use App\Traits\PaginarUltima;
 use App\Unidad;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class TeamController extends Controller
@@ -24,7 +25,9 @@ class TeamController extends Controller
 
     public function index(Request $request)
     {
-        $teams = Team::all();
+        $curso_actual = Auth::user()->curso_actual();
+
+        $teams = $curso_actual->teams()->get();
 
         $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
 

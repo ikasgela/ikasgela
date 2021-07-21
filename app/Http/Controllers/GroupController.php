@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Curso;
 use App\Group;
 use App\Period;
-use BadMethodCallException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -53,9 +53,14 @@ class GroupController extends Controller
 
     public function edit(Group $group)
     {
-        $periods = Period::orderBy('name')->get();
+        $periods = Period::organizacionActual()->orderBy('name')->get();
 
-        return view('groups.edit', compact(['group', 'periods']));
+        $cursos_seleccionados = $group->cursos()->orderBy('nombre')->get();
+
+        $filtro = $group->cursos()->pluck('curso_id')->unique()->flatten()->toArray();
+        $cursos_disponibles = Curso::organizacionActual()->whereNotIn('id', $filtro)->orderBy('nombre')->get();
+
+        return view('groups.edit', compact(['group', 'periods', 'cursos_seleccionados', 'cursos_disponibles']));
     }
 
     public function update(Request $request, Group $group)
@@ -72,6 +77,8 @@ class GroupController extends Controller
                 ? Str::slug(request('slug'))
                 : Str::slug(request('name'))
         ]);
+
+        $group->cursos()->sync($request->input('cursos_seleccionados'));
 
         return retornar();
     }

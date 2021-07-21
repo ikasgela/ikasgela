@@ -184,4 +184,16 @@ class Curso extends Model
     {
         return $this->hasMany(Hilo::class);
     }
+
+    public function groups()
+    {
+        return $this
+            ->belongsToMany(Group::class)
+            ->withTimestamps();
+    }
+
+    public function teams()
+    {
+        return $this->hasManyDeep('App\Team', ['curso_group', 'App\Group']);
+    }
 }
