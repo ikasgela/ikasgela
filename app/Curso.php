@@ -184,4 +184,11 @@ class Curso extends Model
     {
         return $this->hasMany(Hilo::class);
     }
+
+    public function groups()
+    {
+        return $this
+            ->belongsToMany(Group::class)
+            ->withTimestamps();
+    }
 }
