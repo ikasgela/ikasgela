@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Curso;
 use App\Gitea\GiteaClient;
+use App\Models\Curso;
 use App\Models\Organization;
 use App\Models\Role;
 use App\Models\User;
@@ -30,11 +30,47 @@ class UserController extends Controller
         return back();
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
+        if ($request->has('filtro_etiquetas')) {
+            if (request('filtro_etiquetas') == 'N') {
+                session(['profesor_filtro_etiquetas' => '']);
+                session(['tags' => []]);
+            }
+        }
 
-        return view('users.index', compact('users'));
+        $organizations = Organization::all();
+
+        $request->validate([
+            'organization_id' => 'numeric|integer',
+        ]);
+
+        if (request('organization_id') >= -1) {
+            session(['filtrar_organization_actual' => request('organization_id')]);
+        } else if (empty(session('filtrar_organization_actual'))) {
+            session(['filtrar_organization_actual' => setting_usuario('_organization_id')]);
+        }
+
+        if (session('filtrar_organization_actual') == -1) {
+            $users = User::query();
+        } else {
+            $users = Organization::find(session('filtrar_organization_actual'))->users();
+        }
+
+        if ($request->has('tag')) {
+            session(['profesor_filtro_etiquetas' => 'S']);
+            session()->push('tags', request('tag'));
+        }
+
+        if (!is_null(session('tags'))) {
+            $users = $users->tags(session('tags'));
+        }
+
+        $users = $users->get();
+
+        $ids = $users->pluck('id')->toArray();
+
+        return view('users.index', compact(['users', 'organizations', 'ids']));
     }
 
     public function edit(User $user)

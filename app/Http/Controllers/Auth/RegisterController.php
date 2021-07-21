@@ -128,7 +128,8 @@ class RegisterController extends Controller
             'username' => $nombre_usuario,
             'password' => Hash::make($data['password']),
             'tutorial' => true,
-            'last_active' => Carbon::now()
+            'last_active' => Carbon::now(),
+            'tags' => $organization->current_period()->slug,
         ]);
 
         $laravel

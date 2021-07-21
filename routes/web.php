@@ -270,6 +270,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Lista de usuarios
         Route::get('/users', 'UserController@index')
             ->name('users.index');
+        Route::match(array('GET', 'POST'), '/users/filtro', 'UserController@index')
+            ->name('users.index.filtro');
 
         // Editar usuario
         Route::get('/users/{user}/edit', 'UserController@edit')
