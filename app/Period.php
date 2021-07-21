@@ -45,4 +45,9 @@ class Period extends Model
     {
         return $this->hasMany(Group::class);
     }
+
+    public function scopeOrganizacionActual($query)
+    {
+        return $query->where('organization_id', setting_usuario('_organization_id'));
+    }
 }

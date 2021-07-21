@@ -53,12 +53,12 @@ class GroupController extends Controller
 
     public function edit(Group $group)
     {
-        $periods = Period::orderBy('name')->get();
+        $periods = Period::organizacionActual()->orderBy('name')->get();
 
         $cursos_seleccionados = $group->cursos()->orderBy('nombre')->get();
 
         $filtro = $group->cursos()->pluck('curso_id')->unique()->flatten()->toArray();
-        $cursos_disponibles = Curso::whereNotIn('id', $filtro)->orderBy('nombre')->get();
+        $cursos_disponibles = Curso::organizacionActual()->whereNotIn('id', $filtro)->orderBy('nombre')->get();
 
         return view('groups.edit', compact(['group', 'periods', 'cursos_seleccionados', 'cursos_disponibles']));
     }
