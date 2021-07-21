@@ -4,6 +4,12 @@
 
     @include('partials.titular', ['titular' => __('Users'), 'subtitulo' => ''])
 
+    @if(Auth::user()->hasAnyRole(['admin']))
+        {!! Form::open(['route' => ['users.index.filtro'], 'method' => 'POST']) !!}
+        @include('partials.desplegable_organizations')
+        {!! Form::close() !!}
+    @endif
+
     <div class="table-responsive">
         <table class="table table-hover">
             <thead class="thead-dark">
