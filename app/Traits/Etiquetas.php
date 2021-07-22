@@ -51,7 +51,9 @@ trait Etiquetas
 
     public function buscarEtiqueta($query, bool $exists, $tag)
     {
-        $query = $query->where('tags', 'regexp', '(^|,)\s*' . $tag . '\s*(,|$)');
+        $regex = "(^|,)\s*{$tag}\s*(,|$)";  // Tag separado por comas y con espacios delante o detrás
+
+        $query = $query->where('tags', $exists ? 'regexp' : 'not regexp', $regex);
 
         if (!$exists) {
             $query = $query->orWhereNull('tags');

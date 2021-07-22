@@ -18,18 +18,6 @@ class UserController extends Controller
         $this->middleware('auth');
     }
 
-    public function toggle_help()
-    {
-        $user = Auth::user();
-
-        $user->tutorial = !$user->tutorial;
-        $user->save();
-
-        session(['tutorial' => $user->tutorial]);
-
-        return back();
-    }
-
     public function index(Request $request)
     {
         if ($request->has('filtro_etiquetas')) {
@@ -39,7 +27,8 @@ class UserController extends Controller
             }
         }
 
-        $organizations = Organization::all();
+        $organizations = Organization::orderBy('name')->get();
+        $cursos = Curso::organizacionActual()->orderBy('nombre')->get();
 
         $request->validate([
             'organization_id' => 'numeric|integer',
@@ -70,7 +59,7 @@ class UserController extends Controller
 
         $ids = $users->pluck('id')->toArray();
 
-        return view('users.index', compact(['users', 'organizations', 'ids']));
+        return view('users.index', compact(['users', 'organizations', 'ids', 'cursos']));
     }
 
     public function edit(User $user)
@@ -160,6 +149,18 @@ class UserController extends Controller
         return back();
     }
 
+    public function toggle_help()
+    {
+        $user = Auth::user();
+
+        $user->tutorial = !$user->tutorial;
+        $user->save();
+
+        session(['tutorial' => $user->tutorial]);
+
+        return back();
+    }
+
     public function toggleBlocked(Request $request)
     {
         $user = User::findOrFail(request('user_id'));
@@ -171,6 +172,28 @@ class UserController extends Controller
         }
 
         $user->save();
+
+        return back();
+    }
+
+    public function matricular(Request $request)
+    {
+        $this->validate($request, [
+            'usuarios_seleccionados' => 'required',
+            'curso_id' => 'required',
+        ]);
+
+        $curso = Curso::findOrFail(request('curso_id'));
+
+        foreach (request('usuarios_seleccionados') as $user_id) {
+
+            $user = User::find($user_id);
+
+            $curso->users()->syncWithoutDetaching($user);
+
+            setting_usuario(['curso_actual' => $curso->id], $user);
+            $user->clearCache();
+        }
 
         return back();
     }

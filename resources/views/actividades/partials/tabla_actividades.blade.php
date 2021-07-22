@@ -97,13 +97,13 @@
         </tbody>
         <tfoot>
         <tr class="bg-dark">
-            <th colspan="13" class="m-0 py-1"></th>
+            <th colspan="42" class="m-0 py-1"></th>
             @if(Route::currentRouteName() == 'actividades.index')
                 <th class="m-0 py-1"></th>
             @endif
         </tr>
         <tr>
-            <td colspan="13">
+            <td colspan="42">
                 <div class="form-inline">
                     {!! Form::open(['route' => ['actividades.duplicar_grupo'], 'method' => 'POST', 'id' => 'multiple']) !!}
                     <button title="{{ __('Duplicate') }}"
