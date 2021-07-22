@@ -40,7 +40,7 @@ class UserController extends Controller
             session(['filtrar_organization_actual' => setting_usuario('_organization_id')]);
         }
 
-        if (session('filtrar_organization_actual') == -1) {
+        if (session('filtrar_organization_actual') == -1 || empty(session('filtrar_organization_actual'))) {
             $users = User::query();
         } else {
             $users = Organization::find(session('filtrar_organization_actual'))->users();
