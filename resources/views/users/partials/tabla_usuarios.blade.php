@@ -57,11 +57,10 @@
                     {!! Form::open(['route' => ['users.matricular'], 'method' => 'POST', 'id' => 'asignar']) !!}
                     <button title="{{ __('Enroll') }}"
                             type="submit"
-                            class="btn btn-light btn-sm mr-2"><i class="fas fa-copy"></i>
+                            class="btn btn-light btn-sm mr-2"><i class="fas fa-plus"></i>
                     </button>
                     {{ __('on course') }}
                     <select class="form-control ml-2" id="curso_id" name="curso_id">
-                        <option value="">{{ __('--- None  ---') }}</option>
                         @foreach($cursos as $curso)
                             <option
                                 value="{{ $curso->id }}">{{ $curso->full_name }}</option>
