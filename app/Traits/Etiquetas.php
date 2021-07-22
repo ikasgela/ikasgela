@@ -51,7 +51,7 @@ trait Etiquetas
 
     public function buscarEtiqueta($query, bool $exists, $tag)
     {
-        $query = $query->where('tags', $exists ? 'LIKE' : 'NOT LIKE', "%$tag%");
+        $query = $query->where('tags', $exists ? 'LIKE' : 'NOT LIKE', "$tag");
 
         if (!$exists) {
             $query = $query->orWhereNull('tags');
