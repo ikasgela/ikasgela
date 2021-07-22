@@ -71,7 +71,7 @@
                     </td>
                     <td class="text-center clickable">{{ $actividad->tarea->puntuacion }}</td>
                     <td class="text-center clickable">{!! $actividad->tarea->estado >= 50 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
-                    <td class="text-center clickable">{!! $actividad->is_expired ? (!$actividad->tarea->is_completada ? '<i class="fas fa-exclamation-triangle text-warning"></i>' : '<i class="fas fa-exclamation-triangle text-secondary"></i>') : '<i class="fas fa-times text-secondary"></i>' !!}</td>
+                    <td class="text-center clickable">{!! $actividad->is_expired ? (!$actividad->tarea->is_completada ? '<i class="fas fa-exclamation-triangle text-warning"></i>' : ($actividad->tarea->is_completada_archivada ? '<i class="fas fa-exclamation-triangle text-secondary"></i>' : '<i class="fas fa-times text-secondary"></i>')) : '<i class="fas fa-times text-secondary"></i>' !!}</td>
                     @include('profesor.partials.siguiente_actividad')
                     @if(Auth::user()->hasRole('admin'))
                         @include('partials.botones_recursos')

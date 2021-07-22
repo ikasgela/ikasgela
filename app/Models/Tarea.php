@@ -98,6 +98,11 @@ class Tarea extends Pivot
         return in_array($this->estado, [40, 60, 62]);
     }
 
+    public function getIsCompletadaArchivadaAttribute()
+    {
+        return in_array($this->estado, [62]);
+    }
+
     public function getIsEnviadaAttribute()
     {
         return in_array($this->estado, [30]);
