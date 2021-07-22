@@ -18,18 +18,6 @@ class UserController extends Controller
         $this->middleware('auth');
     }
 
-    public function toggle_help()
-    {
-        $user = Auth::user();
-
-        $user->tutorial = !$user->tutorial;
-        $user->save();
-
-        session(['tutorial' => $user->tutorial]);
-
-        return back();
-    }
-
     public function index(Request $request)
     {
         if ($request->has('filtro_etiquetas')) {
@@ -157,6 +145,18 @@ class UserController extends Controller
         $user = User::findOrFail(request('user_id'));
 
         $user->markEmailAsVerified();
+
+        return back();
+    }
+
+    public function toggle_help()
+    {
+        $user = Auth::user();
+
+        $user->tutorial = !$user->tutorial;
+        $user->save();
+
+        session(['tutorial' => $user->tutorial]);
 
         return back();
     }
