@@ -189,8 +189,7 @@ class UserController extends Controller
 
             $user = User::find($user_id);
 
-            $curso->users()->detach($user);
-            $curso->users()->attach($user);
+            $curso->users()->syncWithoutDetaching($user);
 
             setting_usuario(['curso_actual' => $curso->id], $user);
             $user->clearCache();
