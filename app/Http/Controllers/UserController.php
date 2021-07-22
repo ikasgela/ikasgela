@@ -39,7 +39,8 @@ class UserController extends Controller
             }
         }
 
-        $organizations = Organization::all();
+        $organizations = Organization::orderBy('name')->get();
+        $cursos = Curso::organizacionActual()->orderBy('nombre')->get();
 
         $request->validate([
             'organization_id' => 'numeric|integer',
@@ -70,7 +71,7 @@ class UserController extends Controller
 
         $ids = $users->pluck('id')->toArray();
 
-        return view('users.index', compact(['users', 'organizations', 'ids']));
+        return view('users.index', compact(['users', 'organizations', 'ids', 'cursos']));
     }
 
     public function edit(User $user)
@@ -171,6 +172,29 @@ class UserController extends Controller
         }
 
         $user->save();
+
+        return back();
+    }
+
+    public function matricular(Request $request)
+    {
+        $this->validate($request, [
+            'usuarios_seleccionados' => 'required',
+            'curso_id' => 'required',
+        ]);
+
+        $curso = Curso::findOrFail(request('curso_id'));
+
+        foreach (request('usuarios_seleccionados') as $user_id) {
+
+            $user = User::find($user_id);
+
+            $curso->users()->detach($user);
+            $curso->users()->attach($user);
+
+            setting_usuario(['curso_actual' => $curso->id], $user);
+            $user->clearCache();
+        }
 
         return back();
     }
