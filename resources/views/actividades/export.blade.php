@@ -8,32 +8,57 @@
         <tr>
             <th>{{ __('Unit') }}</th>
             <th>{{ __('Name') }}</th>
-            <th>{{ __('Resources') }}</th>
+            <th colspan="2">{{ __('Resources') }}</th>
             <th>{{ __('Tags') }}</th>
         </tr>
         </thead>
         <tbody>
+        @php($alterna = true)
         @php($actividad_anterior = null)
         @php($recurso_anterior = null)
         @foreach($actividades as $actividad)
             @foreach($actividad->recursos as $recurso)
                 <tr>
-                    <td style="border: 1px solid black; {{ $actividad->destacada ? 'background-color: #ffc107' : '' }}">
+                    <td style="{{ $actividad->destacada ? 'background-color: #ffc107' : ($alterna ? 'background-color: #cccccc' : '') }}">
                         {{ $actividad->unidad->id != $actividad_anterior?->unidad->id ? $actividad->unidad->nombre : '' }}
                     </td>
-                    <td style="border: 1px solid black; {{ $actividad->destacada ? 'background-color: #ffc107' : '' }}">
+                    <td style="{{ $actividad->destacada ? 'background-color: #ffc107' : ($alterna ? 'background-color: #cccccc' : '') }}">
                         {{ $recurso->pivot->actividad_id != $recurso_anterior?->pivot->actividad_id ? $actividad->nombre : '' }}
                     </td>
-                    <td style="border: 1px solid black; {{ $actividad->destacada ? 'background-color: #ffc107' : '' }}">
+                    <td style="{{ $actividad->destacada ? 'background-color: #ffc107' : ($alterna ? 'background-color: #cccccc' : '') }}">
+                        @switch($recurso::class)
+                            @case('App\Models\IntellijProject')
+                            IJ
+                            @break
+                            @case('App\Models\MarkdownText')
+                            MD
+                            @break
+                            @case('App\Models\YoutubeVideo')
+                            YT
+                            @break
+                            @case('App\Models\FileUpload')
+                            UP
+                            @break
+                            @case('App\Models\FileResource')
+                            F
+                            @break
+                            @case('App\Models\Cuestionario')
+                            C
+                            @break
+                        @endswitch
+                        &nbsp;&nbsp;
+                    </td>
+                    <td style="{{ $actividad->destacada ? 'background-color: #ffc107' : ($alterna ? 'background-color: #cccccc' : '') }}">
                         {{ $recurso->titulo }}
                     </td>
-                    <td style="border: 1px solid black; {{ $actividad->destacada ? 'background-color: #ffc107' : '' }}">
+                    <td style="{{ $actividad->destacada ? 'background-color: #ffc107' : ($alterna ? 'background-color: #cccccc' : '') }}">
                         {{ $recurso->pivot->actividad_id != $recurso_anterior?->pivot->actividad_id ? $actividad->tags : '' }}
                     </td>
                 </tr>
                 @php($recurso_anterior = $recurso)
                 @php($actividad_anterior = $actividad)
             @endforeach
+            @php($alterna = !$alterna)
         @endforeach
         </tbody>
     </table>
