@@ -8,22 +8,32 @@
         <tr>
             <th>{{ __('Unit') }}</th>
             <th>{{ __('Name') }}</th>
+            <th>{{ __('Resources') }}</th>
             <th>{{ __('Tags') }}</th>
         </tr>
         </thead>
         <tbody>
+        @php($actividad_anterior = null)
+        @php($recurso_anterior = null)
         @foreach($actividades as $actividad)
-            <tr>
-                <td style="border: 1px solid black; {{ $actividad->destacada ? 'background-color: #ffc107' : '' }}">
-                    {{ $actividad->unidad->nombre }}
-                </td>
-                <td style="border: 1px solid black; {{ $actividad->destacada ? 'background-color: #ffc107' : '' }}">
-                    {{ $actividad->nombre }}
-                </td>
-                <td style="border: 1px solid black; {{ $actividad->destacada ? 'background-color: #ffc107' : '' }}">
-                    {{ $actividad->tags }}
-                </td>
-            </tr>
+            @foreach($actividad->recursos as $recurso)
+                <tr>
+                    <td style="border: 1px solid black; {{ $actividad->destacada ? 'background-color: #ffc107' : '' }}">
+                        {{ $actividad->unidad->id != $actividad_anterior?->unidad->id ? $actividad->unidad->nombre : '' }}
+                    </td>
+                    <td style="border: 1px solid black; {{ $actividad->destacada ? 'background-color: #ffc107' : '' }}">
+                        {{ $recurso->pivot->actividad_id != $recurso_anterior?->pivot->actividad_id ? $actividad->nombre : '' }}
+                    </td>
+                    <td style="border: 1px solid black; {{ $actividad->destacada ? 'background-color: #ffc107' : '' }}">
+                        {{ $recurso->titulo }}
+                    </td>
+                    <td style="border: 1px solid black; {{ $actividad->destacada ? 'background-color: #ffc107' : '' }}">
+                        {{ $recurso->pivot->actividad_id != $recurso_anterior?->pivot->actividad_id ? $actividad->tags : '' }}
+                    </td>
+                </tr>
+                @php($recurso_anterior = $recurso)
+                @php($actividad_anterior = $actividad)
+            @endforeach
         @endforeach
         </tbody>
     </table>
