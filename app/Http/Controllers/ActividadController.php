@@ -500,15 +500,33 @@ class ActividadController extends Controller
         $clon->save();
     }
 
+    private function mover(Actividad $actividad, $unidad_id = null)
+    {
+        if (!is_null($unidad_id)) {
+            $actividad->unidad_id = $unidad_id;
+            $actividad->save();
+        }
+    }
+
     public function duplicar_grupo(Request $request)
     {
         $this->validate($request, [
             'seleccionadas' => 'required',
+            'action' => 'required|in:duplicate,move',
         ]);
 
         foreach ($request->input('seleccionadas') as $id) {
             $actividad = Actividad::where('id', $id)->first();
-            $this->crear_duplicado($actividad, $request->input('unidad_id'));
+            switch (request('action')) {
+                case 'duplicate':
+                    $this->crear_duplicado($actividad, $request->input('unidad_id'));
+                    break;
+                case 'move':
+                    $this->mover($actividad, $request->input('unidad_id'));
+                    break;
+                default:
+                    break;
+            }
         }
 
         return back();

@@ -106,8 +106,14 @@
             <td colspan="42">
                 <div class="form-inline">
                     {!! Form::open(['route' => ['actividades.duplicar_grupo'], 'method' => 'POST', 'id' => 'multiple']) !!}
+                    <button title="{{ __('Move') }}"
+                            type="submit"
+                            name="action" value="move"
+                            class="btn btn-light btn-sm mr-2"><i class="fas fa-file-import"></i>
+                    </button>
                     <button title="{{ __('Duplicate') }}"
                             type="submit"
+                            name="action" value="duplicate"
                             class="btn btn-light btn-sm mr-2"><i class="fas fa-copy"></i>
                     </button>
                     {{ __('to unit') }}
