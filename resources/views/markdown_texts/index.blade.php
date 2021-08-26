@@ -38,7 +38,7 @@
                     <td>
                         @if (config('ikasgela.gitea_enabled'))
                             <a target="_blank"
-                               href="https://gitea.ikasgela.{{ config('app.debug') ? 'test' : 'com' }}/{{ $markdown_text->repositorio }}/src/branch/{{ isset($markdown_text->rama) ? $markdown_text->rama : 'master' }}/{{ $markdown_text->archivo }}">{{ $markdown_text->archivo }}</a>
+                               href="@include('markdown_texts.partials.enlace_readme')">{{ $markdown_text->archivo }}</a>
                         @endif
                     </td>
                     <td class="text-nowrap">
