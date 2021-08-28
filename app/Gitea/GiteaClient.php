@@ -233,6 +233,7 @@ class GiteaClient
                     "username" => $username,
                     "password" => $password ?: Str::random(62) . '._',
                     "must_change_password" => false,
+                    'visibility' => 'private',
                 ]
             ]);
             Log::info('Gitea: Nuevo usuario creado.', [
