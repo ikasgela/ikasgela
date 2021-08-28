@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\CacheClear;
-use App\Models\Resultado;
-use App\Models\ResultadoCalificaciones;
 use App\Observers\SharedKeys;
 use App\Traits\Etiquetas;
 use Cache;
@@ -407,7 +404,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function files()
     {
-        return $this->hasMany(File::class);
+        return $this->morphMany('App\Models\File', 'file_upload');
     }
 
     public function getLastActiveTimeAttribute()

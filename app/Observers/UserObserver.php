@@ -18,4 +18,11 @@ class UserObserver
     {
         $user->clearCache();
     }
+
+    public function deleting(User $user)
+    {
+        foreach ($user->files()->get() as $file) {
+            $file->delete();
+        }
+    }
 }
