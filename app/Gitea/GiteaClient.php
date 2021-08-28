@@ -309,8 +309,15 @@ class GiteaClient
                 'headers' => self::$headers,
                 'json' => [
                     'email' => $email,
+                    'login_name' => $username,
+                    'source_id' => 0,
+
                     'active' => false,
+                    'prohibit_login' => true,
+
                     'allow_create_organization' => false,
+                    'allow_git_hook' => false,
+                    'allow_import_local' => false,
                 ]
             ]);
             Log::info('Gitea: Usuario bloqueado.', [
@@ -335,8 +342,15 @@ class GiteaClient
                 'headers' => self::$headers,
                 'json' => [
                     'email' => $email,
+                    'login_name' => $username,
+                    'source_id' => 0,
+
                     'active' => true,
+                    'prohibit_login' => false,
+
                     'allow_create_organization' => false,
+                    'allow_git_hook' => false,
+                    'allow_import_local' => false,
                 ]
             ]);
             Log::info('Gitea: Usuario desbloqueado.', [

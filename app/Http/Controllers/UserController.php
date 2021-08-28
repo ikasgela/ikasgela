@@ -146,6 +146,8 @@ class UserController extends Controller
 
         $user->markEmailAsVerified();
 
+        GiteaClient::unblock($user->email, $user->username);
+
         return back();
     }
 
@@ -166,8 +168,10 @@ class UserController extends Controller
         $user = User::findOrFail(request('user_id'));
 
         if (!is_null($user->blocked_date)) {
+            GiteaClient::unblock($user->email, $user->username);
             $user->blocked_date = null;
         } else {
+            GiteaClient::block($user->email, $user->username);
             $user->blocked_date = now();
         }
 
