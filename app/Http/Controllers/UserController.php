@@ -135,6 +135,13 @@ class UserController extends Controller
             }
         }
 
+        // Recorrer las actividades y borrarlas
+        foreach ($user->actividades()->get() as $actividad) {
+            if ($actividad->users()->count() <= 1) {
+                $actividad->forceDelete();
+            }
+        }
+
         $user->delete();
 
         return back();
