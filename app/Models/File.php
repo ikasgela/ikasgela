@@ -48,9 +48,16 @@ class File extends Model
 
     public function delete()
     {
+        $contenedor = pathinfo($this->path, PATHINFO_DIRNAME);
+
         Storage::disk('s3')->delete('images/' . $this->path);
+        Storage::disk('s3')->deleteDir('images/' . $contenedor);
+
         Storage::disk('s3')->delete('thumbnails/' . $this->path);
+        Storage::disk('s3')->deleteDir('thumbnails/' . $contenedor);
+
         Storage::disk('s3')->delete('documents/' . $this->path);
+        Storage::disk('s3')->deleteDir('documents/' . $contenedor);
 
         return parent::delete();
     }
