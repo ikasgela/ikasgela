@@ -54,7 +54,7 @@
         <tr>
             <td colspan="42">
                 <div class="form-inline">
-                    {!! Form::open(['route' => ['users.matricular'], 'method' => 'POST', 'id' => 'asignar']) !!}
+                    {!! Form::open(['route' => ['users.acciones_grupo'], 'method' => 'POST', 'id' => 'asignar']) !!}
                     <button title="{{ __('Enroll') }}"
                             type="submit"
                             name="action" value="enroll"

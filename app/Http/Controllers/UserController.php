@@ -198,6 +198,21 @@ class UserController extends Controller
             setting_usuario(['curso_actual' => $curso->id], $user);
             $user->clearCache();
         }
+    }
+
+    public function acciones_grupo(Request $request)
+    {
+        $this->validate($request, [
+            'action' => 'required|in:enroll,block,unblock,delete',
+        ]);
+
+        switch (request('action')) {
+            case 'enroll':
+                $this->matricular($request);
+                break;
+            default:
+                break;
+        }
 
         return back();
     }
