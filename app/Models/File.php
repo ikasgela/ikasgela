@@ -45,4 +45,13 @@ class File extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function delete()
+    {
+        Storage::disk('s3')->delete('images/' . $this->path);
+        Storage::disk('s3')->delete('thumbnails/' . $this->path);
+        Storage::disk('s3')->delete('documents/' . $this->path);
+
+        return parent::delete();
+    }
 }
