@@ -202,22 +202,33 @@ class GiteaClient
     {
         self::init();
 
-        // Borrar los repositorios de usuario
-        $repos = self::repos_usuario($username);
-        while (count($repos) > 0) {
-            foreach ($repos as $repo) {
-                self::$cliente->delete('repos/' . $repo['owner']['username'] . '/' . $repo['name'], [
-                    'headers' => self::$headers
-                ]);
+        try {
+            // Borrar los repositorios de usuario
+            $repos = self::repos_usuario($username);
+            while (count($repos) > 0) {
+                foreach ($repos as $repo) {
+                    self::$cliente->delete('repos/' . $repo['owner']['username'] . '/' . $repo['name'], [
+                        'headers' => self::$headers
+                    ]);
+                }
+
+                $repos = self::repos_usuario($username);
             }
 
-            $repos = self::repos_usuario($username);
-        }
+            // Borrar el usuario
+            self::$cliente->delete('admin/users/' . $username, [
+                'headers' => self::$headers
+            ]);
 
-        // Borrar el usuario
-        self::$cliente->delete('admin/users/' . $username, [
-            'headers' => self::$headers
-        ]);
+            Log::info('Gitea: Usuario borrado.', [
+                'username' => $username
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Gitea: Error al borrar el usuario.', [
+                'username' => $username,
+                'exception' => $e->getMessage()
+            ]);
+        }
     }
 
     public static function user($email, $username, $name, $password = null)
@@ -233,6 +244,7 @@ class GiteaClient
                     "username" => $username,
                     "password" => $password ?: Str::random(62) . '._',
                     "must_change_password" => false,
+                    'visibility' => 'private',
                 ]
             ]);
             Log::info('Gitea: Nuevo usuario creado.', [
@@ -283,6 +295,9 @@ class GiteaClient
                 'headers' => self::$headers,
                 'json' => [
                     'email' => $email,
+                    'login_name' => $username,
+                    'source_id' => 0,
+
                     'full_name' => $full_name,
                 ]
             ]);
@@ -308,8 +323,15 @@ class GiteaClient
                 'headers' => self::$headers,
                 'json' => [
                     'email' => $email,
+                    'login_name' => $username,
+                    'source_id' => 0,
+
                     'active' => false,
+                    'prohibit_login' => true,
+
                     'allow_create_organization' => false,
+                    'allow_git_hook' => false,
+                    'allow_import_local' => false,
                 ]
             ]);
             Log::info('Gitea: Usuario bloqueado.', [
@@ -334,8 +356,15 @@ class GiteaClient
                 'headers' => self::$headers,
                 'json' => [
                     'email' => $email,
+                    'login_name' => $username,
+                    'source_id' => 0,
+
                     'active' => true,
+                    'prohibit_login' => false,
+
                     'allow_create_organization' => false,
+                    'allow_git_hook' => false,
+                    'allow_import_local' => false,
                 ]
             ]);
             Log::info('Gitea: Usuario desbloqueado.', [

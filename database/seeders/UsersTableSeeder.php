@@ -131,6 +131,7 @@ class UsersTableSeeder extends Seeder
             try {
                 $nombre_completo = $nombre . ' ' . $apellido;
                 GiteaClient::user($email, $usuario, $nombre_completo, $password);
+                GiteaClient::unblock($email, $usuario);
                 echo "  INFO: Usuario generado: $nombre_completo - $email - $password\n";
             } catch (\Exception $e) {
                 echo "  ERROR: Usuario no generado: $nombre_completo - $email - $password\n";
