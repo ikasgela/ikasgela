@@ -202,22 +202,33 @@ class GiteaClient
     {
         self::init();
 
-        // Borrar los repositorios de usuario
-        $repos = self::repos_usuario($username);
-        while (count($repos) > 0) {
-            foreach ($repos as $repo) {
-                self::$cliente->delete('repos/' . $repo['owner']['username'] . '/' . $repo['name'], [
-                    'headers' => self::$headers
-                ]);
+        try {
+            // Borrar los repositorios de usuario
+            $repos = self::repos_usuario($username);
+            while (count($repos) > 0) {
+                foreach ($repos as $repo) {
+                    self::$cliente->delete('repos/' . $repo['owner']['username'] . '/' . $repo['name'], [
+                        'headers' => self::$headers
+                    ]);
+                }
+
+                $repos = self::repos_usuario($username);
             }
 
-            $repos = self::repos_usuario($username);
-        }
+            // Borrar el usuario
+            self::$cliente->delete('admin/users/' . $username, [
+                'headers' => self::$headers
+            ]);
 
-        // Borrar el usuario
-        self::$cliente->delete('admin/users/' . $username, [
-            'headers' => self::$headers
-        ]);
+            Log::info('Gitea: Usuario borrado.', [
+                'username' => $username
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Gitea: Error al borrar el usuario.', [
+                'username' => $username,
+                'exception' => $e->getMessage()
+            ]);
+        }
     }
 
     public static function user($email, $username, $name, $password = null)
