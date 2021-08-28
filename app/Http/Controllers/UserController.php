@@ -167,10 +167,10 @@ class UserController extends Controller
     {
         $user = User::findOrFail(request('user_id'));
 
-        if (!is_null($user->blocked_date)) {
-            $this->block($user);
-        } else {
+        if ($user->isBlocked()) {
             $this->unblock($user);
+        } else {
+            $this->block($user);
         }
 
         return back();
