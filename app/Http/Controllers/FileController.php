@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreFile;
+use App\Http\Requests\StoreImage;
 use App\Models\File;
 use App\Models\FileResource;
 use App\Models\FileUpload;
-use App\Http\Requests\StoreFile;
-use App\Http\Requests\StoreImage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -29,7 +29,7 @@ class FileController extends Controller
     {
         $fichero = $request->file;
 
-        $filename = md5(time()) . '_' . $fichero->getClientOriginalName();
+        $filename = md5(time()) . '/' . $fichero->getClientOriginalName();
         $extension = $fichero->getClientOriginalExtension();
 
         $imagen = Image::make($fichero)
