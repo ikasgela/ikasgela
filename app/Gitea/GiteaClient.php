@@ -284,6 +284,9 @@ class GiteaClient
                 'headers' => self::$headers,
                 'json' => [
                     'email' => $email,
+                    'login_name' => $username,
+                    'source_id' => 0,
+
                     'full_name' => $full_name,
                 ]
             ]);
