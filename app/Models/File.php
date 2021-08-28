@@ -50,9 +50,15 @@ class File extends Model
     {
         $contenedor = pathinfo($this->path, PATHINFO_DIRNAME);
 
-        Storage::disk('s3')->deleteDir('images/' . $contenedor);
-        Storage::disk('s3')->deleteDir('thumbnails/' . $contenedor);
-        Storage::disk('s3')->deleteDir('documents/' . $contenedor);
+        if ($contenedor == '.') {
+            Storage::disk('s3')->delete('images/' . $this->path);
+            Storage::disk('s3')->delete('thumbnails/' . $this->path);
+            Storage::disk('s3')->delete('documents/' . $this->path);
+        } else {
+            Storage::disk('s3')->deleteDir('images/' . $contenedor);
+            Storage::disk('s3')->deleteDir('thumbnails/' . $contenedor);
+            Storage::disk('s3')->deleteDir('documents/' . $contenedor);
+        }
 
         return parent::delete();
     }
