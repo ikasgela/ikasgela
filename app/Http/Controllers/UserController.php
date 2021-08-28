@@ -168,16 +168,26 @@ class UserController extends Controller
         $user = User::findOrFail(request('user_id'));
 
         if (!is_null($user->blocked_date)) {
-            GiteaClient::unblock($user->email, $user->username);
-            $user->blocked_date = null;
+            $this->block($user);
         } else {
-            GiteaClient::block($user->email, $user->username);
-            $user->blocked_date = now();
+            $this->unblock($user);
         }
 
-        $user->save();
-
         return back();
+    }
+
+    private function unblock($user): void
+    {
+        GiteaClient::unblock($user->email, $user->username);
+        $user->blocked_date = null;
+        $user->save();
+    }
+
+    private function block($user): void
+    {
+        GiteaClient::block($user->email, $user->username);
+        $user->blocked_date = now();
+        $user->save();
     }
 
     public function matricular(Request $request)
@@ -200,6 +210,42 @@ class UserController extends Controller
         }
     }
 
+    public function bloquear_grupo(Request $request)
+    {
+        $this->validate($request, [
+            'usuarios_seleccionados' => 'required',
+        ]);
+
+        foreach (request('usuarios_seleccionados') as $user_id) {
+            $user = User::findOrFail($user_id);
+            $this->block($user);
+        }
+    }
+
+    public function desbloquear_grupo(Request $request)
+    {
+        $this->validate($request, [
+            'usuarios_seleccionados' => 'required',
+        ]);
+
+        foreach (request('usuarios_seleccionados') as $user_id) {
+            $user = User::findOrFail($user_id);
+            $this->unblock($user);
+        }
+    }
+
+    public function borrar_grupo(Request $request)
+    {
+        $this->validate($request, [
+            'usuarios_seleccionados' => 'required',
+        ]);
+
+        foreach (request('usuarios_seleccionados') as $user_id) {
+            $user = User::findOrFail($user_id);
+            $this->destroy($user);
+        }
+    }
+
     public function acciones_grupo(Request $request)
     {
         $this->validate($request, [
@@ -209,6 +255,15 @@ class UserController extends Controller
         switch (request('action')) {
             case 'enroll':
                 $this->matricular($request);
+                break;
+            case 'block':
+                $this->bloquear_grupo($request);
+                break;
+            case 'unblock':
+                $this->desbloquear_grupo($request);
+                break;
+            case 'delete':
+                $this->borrar_grupo($request);
                 break;
             default:
                 break;
