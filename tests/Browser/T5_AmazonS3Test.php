@@ -33,7 +33,7 @@ class T5_AmazonS3Test extends DuskTestCase
             $browser->acceptDialog();
 
             // Se vuelve a mostrar el botón de subir fichero
-            $browser->assertSee(__('Upload'));
+            $browser->assertDontSee('38,59 KB');
 
             // Abrir la actividad de subida de archivo
             $browser->visit('/file_uploads/1');
@@ -45,13 +45,11 @@ class T5_AmazonS3Test extends DuskTestCase
             $browser->assertSee('38,65 KB');
 
             // Borrar el fichero
-            $browser->visit('/file_uploads/1');
             $browser->press('borrar');
             $browser->acceptDialog();
 
             // Se vuelve a mostrar el botón de subir fichero
-            $browser->visit('/file_uploads/1');
-            $browser->assertSee(__('Upload'));
+            $browser->assertDontSee('38,65 KB');
         });
     }
 }
