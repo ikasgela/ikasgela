@@ -25,4 +25,4 @@
             @include('messenger.partials.form-message')
         @endif
     </div>
-@stop
+@endsection
