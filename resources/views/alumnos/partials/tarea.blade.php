@@ -137,7 +137,9 @@
                                 </div>
                             @elseif(!$actividad->is_finished)
                                 <button type="submit" name="nuevoestado" value="32"
+                                        @if(!$actividad->hasEtiqueta('examen'))
                                         onclick="return confirm('{{ __('Are you sure?') }}\n\n{{ __('Reopening the activity cancels the submission and allows making corrections, but it has a 5 point penalty.') }}')"
+                                        @endif
                                         class="btn btn-secondary single_click">
                                     <i class="fas fa-spinner fa-spin"
                                        style="display:none;"></i> {{ __('Reopen activity') }}</button>

@@ -319,7 +319,7 @@ class ActividadController extends Controller
                 $this->bloquearRepositorios($tarea, false);
                 break;
 
-            // Reabierta (consume un intento y resta puntuación)
+            // Reabierta (consume un intento y resta puntuación si no es una tarea de examen)
             case 32:
                 if (!in_array($estado_anterior, [30]) && !$override_allowed) {
                     abort(400, __('Invalid task state.'));
@@ -329,10 +329,12 @@ class ActividadController extends Controller
 
                 $this->bloquearRepositorios($tarea, false);
 
-                if (is_null($tarea->puntuacion))
-                    $tarea->puntuacion = $tarea->actividad->puntuacion - 5;
-                else
-                    $tarea->decrement('puntuacion', 5);
+                if (!$actividad->hasEtiqueta('examen')) {
+                    if (is_null($tarea->puntuacion))
+                        $tarea->puntuacion = $tarea->actividad->puntuacion - 5;
+                    else
+                        $tarea->decrement('puntuacion', 5);
+                }
 
                 $tarea->feedback .= '<p>=== ' . __('Reopened activity') . ' (v' . ($tarea->intentos + 1) . ')' . ' ===</p>';
                 $tarea->increment('intentos');
