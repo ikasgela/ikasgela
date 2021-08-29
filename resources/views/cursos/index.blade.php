@@ -52,6 +52,14 @@
                             ]) !!}
                             {!! Form::close() !!}
 
+                            {!! Form::open(['route' => ['cursos.reset', [$curso->id]], 'method' => 'DELETE']) !!}
+                            <button title="{{ __('Reset course') }}"
+                                    name="reset"
+                                    type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
+                                    class="btn btn-light btn-sm"><i class="fas fa-power-off text-danger"></i>
+                            </button>
+                            {!! Form::close() !!}
+
                             {!! Form::open(['route' => ['cursos.destroy', [$curso->id]], 'method' => 'DELETE']) !!}
                             @include('partials.boton_borrar')
                             {!! Form::close() !!}

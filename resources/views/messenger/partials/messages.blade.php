@@ -3,9 +3,9 @@
     <div class="media-body pl-3 overflow-auto">
         <h5 class="media-heading">
             <div class="d-flex justify-content-between">
-                <span>{{ $message->user->name }} {{ $message->user->surname }}</span>
+                <span>{{ $message->user?->name ?: __('Unknown user') }} {{ $message->user?->surname }}</span>
                 <div class="btn-group">
-                    @if(Auth::user()->hasRole('profesor') && $message->user->hasRole('alumno'))
+                    @if(Auth::user()->hasRole('profesor') && $message->user?->hasRole('alumno'))
                         <a title="{{ __('Control panel') }}" target="_blank"
                            href="{{ route('profesor.tareas', ['user' => $message->user->id]) }}"
                            class='btn btn-light btn-sm'><i class="fas fa-tasks"></i></a>

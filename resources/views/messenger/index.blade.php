@@ -74,4 +74,4 @@
             @include('partials.paginador', ['coleccion' => $threads_all])
         </div>
     </div>
-@stop
+@endsection

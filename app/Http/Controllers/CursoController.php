@@ -666,4 +666,21 @@ class CursoController extends Controller
 
         return back();
     }
+
+    public function reset(Curso $curso)
+    {
+        foreach ($curso->hilos()->get() as $hilo) {
+            DB::table('messages')
+                ->where('thread_id', '=', $hilo->id)
+                ->delete();
+
+            DB::table('participants')
+                ->where('thread_id', '=', $hilo->id)
+                ->delete();
+        }
+
+        $curso->hilos()->forceDelete();
+
+        return back();
+    }
 }

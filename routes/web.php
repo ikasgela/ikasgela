@@ -385,6 +385,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('cursos.export');
         Route::post('/cursos.import', 'CursoController@import')
             ->name('cursos.import');
+
+        // Reiniciar los contenidos de un curso
+        Route::delete('/cursos/{curso}/reset', 'CursoController@reset')
+            ->name('cursos.reset');
     });
 
     // Alumnos y profesores
