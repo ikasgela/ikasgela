@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Gitea\GiteaClient;
+use App\Models\Actividad;
 use App\Models\Curso;
 use App\Models\Organization;
 use App\Models\Role;
@@ -212,6 +213,20 @@ class UserController extends Controller
 
             setting_usuario(['curso_actual' => $curso->id], $user);
             $user->clearCache();
+
+            // Asignar la tarea de bienvenida
+            $actividad = Actividad::whereHas('unidad.curso', function ($query) use ($curso) {
+                $query->where('id', $curso->id);
+            })->where('slug', 'tarea-de-bienvenida')
+                ->where('plantilla', true)
+                ->first();
+
+            if (isset($actividad)) {
+                $clon = $actividad->duplicate();
+                $clon->plantilla_id = $actividad->id;
+                $clon->save();
+                $user->actividades()->attach($clon, ['puntuacion' => $actividad->puntuacion]);
+            }
         }
     }
 
