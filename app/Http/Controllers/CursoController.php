@@ -519,9 +519,9 @@ class CursoController extends Controller
         // FileResource -- "*" File
         $json = $this->cargarFichero($ruta, 'file_resources_files.json');
         foreach ($json as $objeto) {
-            $file_resource = !is_null($objeto['file_upload_id']) ? FileResource::where('__import_id', $objeto['file_upload_id'])->first() : null;
+            $file_resource = !is_null($objeto['uploadable_id']) ? FileResource::where('__import_id', $objeto['uploadable_id'])->first() : null;
             File::create(array_merge($objeto, [
-                'file_upload_id' => $file_resource->id,
+                'uploadable_id' => $file_resource->id,
                 'user_id' => null,
             ]));
         }
