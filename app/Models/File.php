@@ -11,7 +11,7 @@ class File extends Model
     use HasFactory;
 
     protected $fillable = [
-        'path', 'title', 'size', 'file_upload_id', 'user_id', 'file_upload_type', 'description', 'archived'
+        'path', 'title', 'size', 'uploadable_id', 'user_id', 'uploadable_type', 'description', 'archived'
     ];
 
     public $appends = ['url', 'uploaded_time', 'size_in_kb'];
@@ -36,7 +36,7 @@ class File extends Model
         return formato_decimales($this->size / 1024, 2);
     }
 
-    public function file_upload()   // Debería ser uploadable
+    public function uploadable()
     {
         return $this->morphTo();
     }

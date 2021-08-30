@@ -26,7 +26,7 @@ class FileTest extends TestCase
         // Then
         $this->assertTrue(
             Schema::hasColumns('files', [
-                'id', 'path', 'title', 'size', 'file_upload_id',
+                'id', 'path', 'title', 'size', 'uploadable_id',
                 'user_id', 'created_at', 'updated_at',
             ])
         );
@@ -40,12 +40,12 @@ class FileTest extends TestCase
         $user = User::factory()->create();
         $file = File::factory()->create([
             'user_id' => $user->id,
-            'file_upload_id' => $user->id,
-            'file_upload_type' => 'App\Models\User',
+            'uploadable_id' => $user->id,
+            'uploadable_type' => 'App\Models\User',
         ]);
 
         // When
         // Then
-        $this->assertEquals($file->file_upload->id, $user->id);
+        $this->assertEquals($file->uploadable->id, $user->id);
     }
 }
