@@ -131,6 +131,8 @@ class QualificationController extends Controller
         $a1->pivot->save();
         $a2->pivot->save();
 
+        $qualification->save();
+
         return back();
     }
 }
