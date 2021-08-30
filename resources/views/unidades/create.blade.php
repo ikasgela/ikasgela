@@ -14,7 +14,10 @@
                 <div class="col-sm-10">
                     <select class="form-control" id="curso_id" name="curso_id">
                         @foreach($cursos as $curso)
-                            <option value="{{ $curso->id }}">{{ $curso->full_name }}</option>
+                            <option
+                                value="{{ $curso->id }}" {{ $curso->id == Auth::user()->curso_actual()?->id ? 'selected' : '' }}>
+                                {{ $curso->full_name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
