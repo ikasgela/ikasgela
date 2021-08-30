@@ -561,7 +561,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $r->hayExamenes = false;
 
             if (!is_null($curso) && !is_null($curso->qualification)) {
-                $r->skills_curso = $curso->qualification->skills;
+                $r->skills_curso = $curso->qualification->skills->sortBy('pivot.orden');
 
                 foreach ($r->skills_curso as $skill) {
                     $r->resultados[$skill->id] = new Resultado();
