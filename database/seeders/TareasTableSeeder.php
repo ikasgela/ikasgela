@@ -28,6 +28,8 @@ class TareasTableSeeder extends Seeder
         $clon->plantilla_id = $actividad->id;
         $clon->final = true;
         $clon->save();
+        $clon->orden = $clon->id;
+        $clon->save();
         $usuario->actividades()->attach($clon, ['puntuacion' => 0]);
     }
 }
