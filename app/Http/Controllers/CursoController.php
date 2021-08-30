@@ -223,6 +223,7 @@ class CursoController extends Controller
             ->where('qualifications.curso_id', '=', $curso->id)
             ->where('qualifications.template', '=', true)
             ->select("qualification_skill.*")
+            ->orderBy('orden')
             ->get();
         $this->exportarFicheroJSON($ruta, 'qualification_skill.json', $datos);
 
@@ -258,10 +259,10 @@ class CursoController extends Controller
         $this->exportarFicheroJSON($ruta, 'cuestionarios.json', $cuestionarios);
 
         // Pregunta
-        $this->exportarFicheroJSON($ruta, 'preguntas.json', $curso->preguntas()->plantilla()->get());
+        $this->exportarFicheroJSON($ruta, 'preguntas.json', $curso->preguntas()->plantilla()->orderBy('orden')->get());
 
         // Item
-        $this->exportarFicheroJSON($ruta, 'items.json', $curso->items()->plantilla()->get());
+        $this->exportarFicheroJSON($ruta, 'items.json', $curso->items()->plantilla()->orderBy('orden')->get());
 
         // Actividad "*" -- "*" Cuestionario
         $this->exportarRelacionJSON($ruta, $curso, 'cuestionario');
@@ -274,11 +275,11 @@ class CursoController extends Controller
         $this->exportarRelacionJSON($ruta, $curso, 'file_upload');
 
         // Feedback
-        $this->exportarFicheroJSON($ruta, 'feedbacks_curso.json', $curso->feedbacks()->get());
+        $this->exportarFicheroJSON($ruta, 'feedbacks_curso.json', $curso->feedbacks()->orderBy('orden')->get());
 
         $datos = new Collection();
         foreach ($curso->actividades()->get() as $actividad) {
-            foreach ($actividad->feedbacks()->get() as $feedback) {
+            foreach ($actividad->feedbacks()->orderBy('orden')->get() as $feedback) {
                 $datos->add($feedback);
             }
         }
@@ -413,7 +414,10 @@ class CursoController extends Controller
         foreach ($json as $objeto) {
             $qualification = !is_null($objeto['qualification_id']) ? Qualification::where('__import_id', $objeto['qualification_id'])->first() : null;
             $skill = Skill::where('__import_id', $objeto['skill_id'])->first();
-            $qualification?->skills()->attach($skill, ['percentage' => $objeto['percentage']]);
+            $qualification?->skills()->attach($skill, [
+                'percentage' => $objeto['percentage'],
+                'orden' => Str::orderedUuid(),
+            ]);
         }
 
         // Curso -- "*" Unidad
@@ -558,18 +562,22 @@ class CursoController extends Controller
         $json = $this->cargarFichero($ruta, 'preguntas.json');
         foreach ($json as $objeto) {
             $cuestionario = !is_null($objeto['cuestionario_id']) ? Cuestionario::where('__import_id', $objeto['cuestionario_id'])->first() : null;
-            Pregunta::create(array_merge($objeto, [
+            $pregunta = Pregunta::create(array_merge($objeto, [
                 'cuestionario_id' => $cuestionario?->id,
             ]));
+            $pregunta->orden = $pregunta->id;
+            $pregunta->save();
         }
 
         // Pregunta -- "*" Item
         $json = $this->cargarFichero($ruta, 'items.json');
         foreach ($json as $objeto) {
             $pregunta = !is_null($objeto['pregunta_id']) ? Pregunta::where('__import_id', $objeto['pregunta_id'])->first() : null;
-            Item::create(array_merge($objeto, [
+            $item = Item::create(array_merge($objeto, [
                 'pregunta_id' => $pregunta?->id,
             ]));
+            $item->orden = $item->id;
+            $item->save();
         }
 
         // Actividad "*" - "*" Cuestionario
@@ -583,10 +591,12 @@ class CursoController extends Controller
         // Curso -- "*" Feedback
         $json = $this->cargarFichero($ruta, 'feedbacks_curso.json');
         foreach ($json as $objeto) {
-            Feedback::create(array_merge($objeto, [
+            $feedback = Feedback::create(array_merge($objeto, [
                 'comentable_id' => $curso->id,
                 'comentable_type' => Curso::class,
             ]));
+            $feedback->orden = $feedback->id;
+            $feedback->save();
         }
 
         // Actividad -- "*" Feedback
@@ -594,10 +604,12 @@ class CursoController extends Controller
         foreach ($json as $objeto) {
             $actividad = !is_null($objeto['comentable_id']) ? Actividad::where('__import_id', $objeto['comentable_id'])->first() : null;
             if (!is_null($actividad)) {
-                Feedback::create(array_merge($objeto, [
+                $feedback = Feedback::create(array_merge($objeto, [
                     'comentable_id' => $actividad->id,
                     'comentable_type' => Actividad::class,
                 ]));
+                $feedback->orden = $feedback->id;
+                $feedback->save();
             }
         }
 
@@ -651,6 +663,7 @@ class CursoController extends Controller
             ->join($tabla . 's', "actividad_{$tabla}.{$tabla}_id", '=', $tabla . 's.id')
             ->where($tabla . 's.curso_id', '=', $curso->id)
             ->select("actividad_{$tabla}.*")
+            ->orderBy('orden')
             ->get();
         $this->exportarFicheroJSON($ruta, "actividad_{$tabla}.json", $datos);
     }
