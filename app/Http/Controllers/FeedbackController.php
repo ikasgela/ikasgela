@@ -24,7 +24,9 @@ class FeedbackController extends Controller
 
         $actividades = Actividad::cursoActual()->where('plantilla', true)->with(['unidad' => function ($q) {
             $q->orderBy('codigo');
-        }])->with('feedbacks')->get();
+        }])->with(['feedbacks' => function ($q) {
+            $q->orderBy('orden');
+        }])->get();
 
         return view('feedbacks.index', compact(['feedbacks', 'actividades', 'ids']));
     }
