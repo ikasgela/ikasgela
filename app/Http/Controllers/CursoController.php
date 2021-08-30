@@ -223,6 +223,7 @@ class CursoController extends Controller
             ->where('qualifications.curso_id', '=', $curso->id)
             ->where('qualifications.template', '=', true)
             ->select("qualification_skill.*")
+            ->orderBy('orden')
             ->get();
         $this->exportarFicheroJSON($ruta, 'qualification_skill.json', $datos);
 
@@ -413,7 +414,10 @@ class CursoController extends Controller
         foreach ($json as $objeto) {
             $qualification = !is_null($objeto['qualification_id']) ? Qualification::where('__import_id', $objeto['qualification_id'])->first() : null;
             $skill = Skill::where('__import_id', $objeto['skill_id'])->first();
-            $qualification?->skills()->attach($skill, ['percentage' => $objeto['percentage']]);
+            $qualification?->skills()->attach($skill, [
+                'percentage' => $objeto['percentage'],
+                'orden' => Str::orderedUuid(),
+            ]);
         }
 
         // Curso -- "*" Unidad
@@ -659,6 +663,7 @@ class CursoController extends Controller
             ->join($tabla . 's', "actividad_{$tabla}.{$tabla}_id", '=', $tabla . 's.id')
             ->where($tabla . 's.curso_id', '=', $curso->id)
             ->select("actividad_{$tabla}.*")
+            ->orderBy('orden')
             ->get();
         $this->exportarFicheroJSON($ruta, "actividad_{$tabla}.json", $datos);
     }
