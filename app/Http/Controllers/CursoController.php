@@ -209,7 +209,7 @@ class CursoController extends Controller
         $this->exportarFicheroJSON($ruta, 'unidades.json', $curso->unidades);
 
         // Actividad
-        $this->exportarFicheroJSON($ruta, 'actividades.json', $curso->actividades()->plantilla()->get());
+        $this->exportarFicheroJSON($ruta, 'actividades.json', $curso->actividades()->plantilla()->orderBy('orden')->get());
 
         // Qualification
         $this->exportarFicheroJSON($ruta, 'qualifications.json', $curso->qualifications()->plantilla()->get());
@@ -436,10 +436,12 @@ class CursoController extends Controller
         foreach ($json as $objeto) {
             $unidad = !is_null($objeto['unidad_id']) ? Unidad::where('__import_id', $objeto['unidad_id'])->first() : null;
             $qualification = !is_null($objeto['qualification_id']) ? Qualification::where('__import_id', $objeto['qualification_id'])->first() : null;
-            Actividad::create(array_merge($objeto, [
+            $actividad = Actividad::create(array_merge($objeto, [
                 'unidad_id' => $unidad->id,
                 'qualification_id' => $qualification?->id,
             ]));
+            $actividad->orden = $actividad->id;
+            $actividad->save();
         }
 
         // Actividad --> Actividad: siguiente
@@ -580,17 +582,19 @@ class CursoController extends Controller
         $json = $this->cargarFichero($ruta, 'feedbacks_curso.json');
         foreach ($json as $objeto) {
             Feedback::create(array_merge($objeto, [
-                'curso_id' => $curso->id,
+                'comentable_id' => $curso->id,
+                'comentable_type' => Curso::class,
             ]));
         }
 
         // Actividad -- "*" Feedback
         $json = $this->cargarFichero($ruta, 'feedbacks_actividades.json');
         foreach ($json as $objeto) {
-            $actividad = !is_null($objeto['curso_id']) ? Actividad::where('__import_id', $objeto['curso_id'])->first() : null;
+            $actividad = !is_null($objeto['comentable_id']) ? Actividad::where('__import_id', $objeto['comentable_id'])->first() : null;
             if (!is_null($actividad)) {
                 Feedback::create(array_merge($objeto, [
-                    'curso_id' => $actividad->id,
+                    'comentable_id' => $actividad->id,
+                    'comentable_type' => Actividad::class,
                 ]));
             }
         }
