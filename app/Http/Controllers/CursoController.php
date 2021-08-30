@@ -580,17 +580,19 @@ class CursoController extends Controller
         $json = $this->cargarFichero($ruta, 'feedbacks_curso.json');
         foreach ($json as $objeto) {
             Feedback::create(array_merge($objeto, [
-                'curso_id' => $curso->id,
+                'comentable_id' => $curso->id,
+                'comentable_type' => Curso::class,
             ]));
         }
 
         // Actividad -- "*" Feedback
         $json = $this->cargarFichero($ruta, 'feedbacks_actividades.json');
         foreach ($json as $objeto) {
-            $actividad = !is_null($objeto['curso_id']) ? Actividad::where('__import_id', $objeto['curso_id'])->first() : null;
+            $actividad = !is_null($objeto['comentable_id']) ? Actividad::where('__import_id', $objeto['comentable_id'])->first() : null;
             if (!is_null($actividad)) {
                 Feedback::create(array_merge($objeto, [
-                    'curso_id' => $actividad->id,
+                    'comentable_id' => $actividad->id,
+                    'comentable_type' => Actividad::class,
                 ]));
             }
         }
