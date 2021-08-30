@@ -172,12 +172,12 @@ class Curso extends Model
 
     public function file_resources_files()
     {
-        return $this->hasManyDeep('App\Models\File', ['App\Models\FileResource'], [null, ['file_upload_type', 'file_upload_id']]);
+        return $this->hasManyDeep('App\Models\File', ['App\Models\FileResource'], [null, ['uploadable_type', 'uploadable_id']]);
     }
 
     public function file_uploads_files()
     {
-        return $this->hasManyDeep('App\Models\File', ['App\Models\FileUpload'], [null, ['file_upload_type', 'file_upload_id']]);
+        return $this->hasManyDeep('App\Models\File', ['App\Models\FileUpload'], [null, ['uploadable_type', 'uploadable_id']]);
     }
 
     public function hilos()

@@ -18,7 +18,8 @@ class FileFactory extends Factory
             'path' => '/' . implode('/', $this->faker->words($this->faker->numberBetween(0, 4))),
             'title' => $this->faker->words(3, true),
             'size' => $this->faker->numberBetween(0, 1_000_000_000),
-            'file_upload_id' => FileUpload::factory(),
+            'uploadable_id' => FileUpload::factory(),
+            'uploadable_type' => FileUpload::class,
             'user_id' => User::factory(),
         ];
     }

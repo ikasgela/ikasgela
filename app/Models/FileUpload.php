@@ -27,7 +27,7 @@ class FileUpload extends Model
 
     public function files()
     {
-        return $this->morphMany('App\Models\File', 'file_upload');
+        return $this->morphMany('App\Models\File', 'uploadable');
     }
 
     public function scopePlantilla($query)

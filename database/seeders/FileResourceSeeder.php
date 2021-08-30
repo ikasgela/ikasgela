@@ -22,8 +22,8 @@ class FileResourceSeeder extends Seeder
         ]);
 
         File::create([
-            'file_upload_id' => $file_resource->id,
-            'file_upload_type' => 'App\Models\FileResource',
+            'uploadable_id' => $file_resource->id,
+            'uploadable_type' => FileResource::class,
             'path' => '32912ec806cd1ce9ecbd59fef06b5171/01_introduccion_programacion.pdf',
             'title' => '01_introduccion_programacion.pdf',
             'size' => 1909079,

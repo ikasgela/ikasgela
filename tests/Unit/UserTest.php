@@ -41,8 +41,8 @@ class UserTest extends TestCase
         $user = User::factory()->create();
         $file = File::factory()->create([
             'user_id' => $user->id,
-            'file_upload_id' => $user->id,
-            'file_upload_type' => 'App\Models\User',
+            'uploadable_id' => $user->id,
+            'uploadable_type' => 'App\Models\User',
         ]);
 
         // When
