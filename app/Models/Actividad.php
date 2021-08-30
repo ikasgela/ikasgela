@@ -76,6 +76,8 @@ class Actividad extends Model
             $this->file_uploads()->detach($file_upload);
             $this->file_uploads()->attach($copia, ['orden' => $file_upload->pivot->orden]);
         }
+
+        $this->orden = $this->id;
     }
 
     public function unidad()

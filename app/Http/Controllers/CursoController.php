@@ -206,7 +206,7 @@ class CursoController extends Controller
         $this->exportarFicheroJSON($ruta, 'curso.json', $curso);
 
         // Unidad
-        $this->exportarFicheroJSON($ruta, 'unidades.json', $curso->unidades);
+        $this->exportarFicheroJSON($ruta, 'unidades.json', $curso->unidades()->orderBy('orden')->get());
 
         // Actividad
         $this->exportarFicheroJSON($ruta, 'actividades.json', $curso->actividades()->plantilla()->orderBy('orden')->get());
@@ -421,10 +421,12 @@ class CursoController extends Controller
         $json = $this->cargarFichero($ruta, 'unidades.json');
         foreach ($json as $objeto) {
             $qualification = !is_null($objeto['qualification_id']) ? Qualification::where('__import_id', $objeto['qualification_id'])->first() : null;
-            Unidad::create(array_merge($objeto, [
+            $unidad = Unidad::create(array_merge($objeto, [
                 'curso_id' => $curso->id,
                 'qualification_id' => $qualification?->id,
             ]));
+            $unidad->orden = $unidad->id;
+            $unidad->save();
         }
 
         // Unidad -- "*" Actividad
