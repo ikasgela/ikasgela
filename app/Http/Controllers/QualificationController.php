@@ -73,11 +73,11 @@ class QualificationController extends Controller
     {
         $cursos = Curso::orderBy('nombre')->get();
 
-        $skills_asignados = $qualification->skills()->get()->sortBy('pivot.orden');
+        $skills_asignados = $qualification->skills->sortBy('pivot.orden');
 
-        $skills_disponibles = $qualification->curso->skills()->get()->diff($skills_asignados);
+        $skills_disponibles = $qualification->curso->skills->diff($skills_asignados);
 
-        $ids = $qualification->skills()->pluck('orden')->toArray();
+        $ids = $skills_asignados->pluck('pivot.orden')->toArray();
 
         return view('qualifications.edit', compact(['qualification', 'skills_disponibles', 'skills_asignados', 'cursos', 'ids']));
     }
