@@ -514,7 +514,8 @@ class ActividadController extends Controller
     {
         $this->validate($request, [
             'seleccionadas' => 'required',
-            'action' => 'required|in:duplicate,move',
+//            'action' => 'required|in:duplicate,move',
+//            'action' => 'required|regex:/^mm_\\d+$/i',
         ]);
 
         foreach ($request->input('seleccionadas') as $id) {
