@@ -37,6 +37,13 @@
                 <td class="clickable">{{ $actividad->unidad->full_name }}</td>
                 <td>
                     <div class='btn-group'>
+                        <button title="{{ __('Move selected activities here') }}"
+                                form="multiple"
+                                type="submit"
+                                name="action" value="mm_{{ $actividad->id }}"
+                                class="btn btn-light btn-sm mr-3">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
                         {!! Form::open(['route' => ['actividades.reordenar', $ids[$loop->index], $ids[$loop->index-1] ?? -1], 'method' => 'POST']) !!}
                         <button title="{{ __('Up') }}"
                                 type="submit"
