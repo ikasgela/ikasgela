@@ -40,7 +40,7 @@
                         <button title="{{ __('Move selected activities here') }}"
                                 form="multiple"
                                 type="submit"
-                                name="action" value="mm_{{ $actividad->orden }}"
+                                name="action" value="mm_{{ $actividad->id }}"
                                 class="btn btn-light btn-sm mr-3">
                             <i class="fas fa-arrow-right"></i>
                         </button>
