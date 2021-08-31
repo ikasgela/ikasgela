@@ -512,6 +512,24 @@ class ActividadController extends Controller
 
     private function mover_multiple(Actividad $actividad, Actividad $destino)
     {
+        $actividades = null;
+
+        if ($actividad->orden < $destino->orden) {
+            // Mover hacia abajo en la tabla
+            $actividades = Actividad::whereBetween('orden', [$actividad->orden, $destino->orden])->orderBy('orden')->get();
+
+        } elseif ($actividad->orden > $destino->orden) {
+            // Mover hacia arriba en la tabla
+            $actividades = Actividad::whereBetween('orden', [$destino->orden, $actividad->orden])->orderBy('orden', 'desc')->get();
+        }
+
+        if ($actividades?->count() >= 2) {
+            $a1 = $actividades->first();
+            for ($i = 0; $i < $actividades->count() - 1; $i++) {
+                $a2 = $actividades->slice($i + 1, 1)->first();
+                $this->reordenar($a1, $a2);
+            }
+        }
     }
 
     public function duplicar_grupo(Request $request)
@@ -521,24 +539,40 @@ class ActividadController extends Controller
             'action' => 'required',
         ]);
 
-        foreach ($request->input('seleccionadas') as $id) {
-            $actividad = Actividad::findOrFail($id);
-            switch (request('action')) {
-                case 'duplicate':
+        // Al mover varias, habría que empezar por el final para que queden en orden
+
+        switch (request('action')) {
+            case 'duplicate':
+                foreach ($request->input('seleccionadas') as $id) {
+                    $actividad = Actividad::findOrFail($id);
                     $this->crear_duplicado($actividad, $request->input('unidad_id'));
-                    break;
-                case 'move':
+                }
+                break;
+            case 'move':
+                foreach ($request->input('seleccionadas') as $id) {
+                    $actividad = Actividad::findOrFail($id);
                     $this->mover($actividad, $request->input('unidad_id'));
-                    break;
-                default:
-                    $accion = explode('_', request('action'))[0];
-                    $id_destino = explode('_', request('action'))[1];
-                    if ($accion == 'mm' && is_numeric($id_destino)) {
-                        $destino = Actividad::findOrFail($id_destino);
+                }
+                break;
+            default:
+                $accion = explode('_', request('action'))[0];
+                $id_destino = explode('_', request('action'))[1];
+                if ($accion == 'mm' && is_numeric($id_destino)) {
+                    $destino = Actividad::findOrFail($id_destino);
+
+                    $bajar = Actividad::whereIn('id', request('seleccionadas'))->where('orden', '<', $destino->orden)->get()->pluck('id')->toArray();
+                    foreach ($bajar as $id) {
+                        $actividad = Actividad::findOrFail($id);
                         $this->mover_multiple($actividad, $destino);
                     }
-                    break;
-            }
+
+                    $subir = Actividad::whereIn('id', request('seleccionadas'))->where('orden', '>', $destino->orden)->orderBy('orden', 'desc')->get()->pluck('id')->toArray();
+                    foreach ($subir as $id) {
+                        $actividad = Actividad::findOrFail($id);
+                        $this->mover_multiple($actividad, $destino);
+                    }
+                }
+                break;
         }
 
         return back();
