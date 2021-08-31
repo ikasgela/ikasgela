@@ -62,7 +62,7 @@ class ActividadController extends Controller
 
         $ids = $actividades->pluck('id')->toArray();
 
-        $todas_unidades = Unidad::orderBy('curso_id')->orderBy('codigo')->orderBy('nombre')->get();
+        $todas_unidades = Unidad::orderBy('curso_id')->orderBy('orden')->get();
 
         return view('actividades.index', compact(['actividades', 'ids', 'todas_unidades', 'cursos']));
     }
@@ -76,9 +76,9 @@ class ActividadController extends Controller
     {
         session(['ubicacion' => 'actividades.plantillas']);
 
-        $unidades = Unidad::cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
+        $unidades = Unidad::cursoActual()->orderBy('orden')->get();
 
-        $todas_unidades = Unidad::orderBy('curso_id')->orderBy('codigo')->orderBy('nombre')->get();
+        $todas_unidades = Unidad::orderBy('curso_id')->orderBy('orden')->get();
 
         if ($request->has('unidad_id_disponibles')) {
             session(['profesor_unidad_id_disponibles' => $request->input('unidad_id_disponibles')]);
@@ -99,7 +99,7 @@ class ActividadController extends Controller
 
     public function create()
     {
-        $unidades = Unidad::cursoActual()->orderBy('codigo')->orderBy('slug')->get();
+        $unidades = Unidad::cursoActual()->orderBy('orden')->get();
         $actividades = Actividad::cursoActual()->plantilla()->orderBy('slug')->orderBy('id')->get();
         $qualifications = Qualification::cursoActual()->orderBy('name')->get();
 
@@ -172,7 +172,7 @@ class ActividadController extends Controller
 
     public function edit(Actividad $actividad)
     {
-        $unidades = $actividad->unidad->curso->unidades()->orderBy('codigo')->orderBy('slug')->get();
+        $unidades = $actividad->unidad->curso->unidades()->orderBy('orden')->get();
         $siguiente = $actividad->siguiente;
         $actividades = $actividad->unidad->curso->actividades()
             ->where('actividades.id', '!=', $actividad->id)

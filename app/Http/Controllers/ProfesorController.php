@@ -88,7 +88,7 @@ class ProfesorController extends Controller
             $usuarios = User::cursoActual()->rolAlumno()->orderBy('name')->get();
         }
 
-        $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
+        $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('orden')->get();
 
         if ($request->has('unidad_id_disponibles')) {
             session(['profesor_unidad_id_disponibles' => $request->input('unidad_id_disponibles')]);
@@ -167,7 +167,7 @@ class ProfesorController extends Controller
 
         $actividades = $this->paginate_ultima($actividades, config('ikasgela.pagination_assigned_activities'), 'asignadas');
 
-        $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
+        $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('orden')->get();
 
         // Obtener el id del anterior y el siguiente
 

@@ -267,7 +267,7 @@ class IntellijProjectController extends Controller
 
     public function descargar(Request $request)
     {
-        $unidades = Unidad::cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
+        $unidades = Unidad::cursoActual()->orderBy('orden')->get();
 
         if ($request->has('unidad_id')) {
 

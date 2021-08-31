@@ -23,7 +23,7 @@ class FeedbackController extends Controller
         $ids = $feedbacks->pluck('id')->toArray();
 
         $actividades = Actividad::cursoActual()->where('plantilla', true)->with(['unidad' => function ($q) {
-            $q->orderBy('codigo');
+            $q->orderBy('orden');
         }])->with(['feedbacks' => function ($q) {
             $q->orderBy('orden');
         }])->get();

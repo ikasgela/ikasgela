@@ -29,7 +29,7 @@ class TeamController extends Controller
 
         $teams = $curso_actual->teams()->get();
 
-        $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('codigo')->orderBy('nombre')->get();
+        $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('orden')->get();
 
         if ($request->has('unidad_id_disponibles')) {
             session(['profesor_unidad_id_disponibles' => $request->input('unidad_id_disponibles')]);
