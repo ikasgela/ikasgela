@@ -514,8 +514,7 @@ class ActividadController extends Controller
     {
         $this->validate($request, [
             'seleccionadas' => 'required',
-//            'action' => 'required|in:duplicate,move',
-//            'action' => 'required|regex:/^mm_\\d+$/i',
+            'action' => 'required',
         ]);
 
         foreach ($request->input('seleccionadas') as $id) {
@@ -528,6 +527,11 @@ class ActividadController extends Controller
                     $this->mover($actividad, $request->input('unidad_id'));
                     break;
                 default:
+                    $accion = explode('_', request('action'))[0];
+                    $id = explode('_', request('action'))[1];
+                    if ($accion == 'mm' && is_numeric($id)) {
+                        dd($id);
+                    }
                     break;
             }
         }
