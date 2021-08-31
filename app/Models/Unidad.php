@@ -35,7 +35,7 @@ class Unidad extends Model
     {
         $full_name = $this->nombre;
 
-        if (!is_null($this->codigo)) {
+        if (!empty($this->codigo)) {
             $full_name = $this->codigo . ' - ' . $full_name;
         }
 
