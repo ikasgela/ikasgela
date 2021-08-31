@@ -510,6 +510,10 @@ class ActividadController extends Controller
         }
     }
 
+    private function mover_multiple(Actividad $actividad, Actividad $destino)
+    {
+    }
+
     public function duplicar_grupo(Request $request)
     {
         $this->validate($request, [
@@ -518,7 +522,7 @@ class ActividadController extends Controller
         ]);
 
         foreach ($request->input('seleccionadas') as $id) {
-            $actividad = Actividad::where('id', $id)->first();
+            $actividad = Actividad::findOrFail($id);
             switch (request('action')) {
                 case 'duplicate':
                     $this->crear_duplicado($actividad, $request->input('unidad_id'));
@@ -528,9 +532,10 @@ class ActividadController extends Controller
                     break;
                 default:
                     $accion = explode('_', request('action'))[0];
-                    $id = explode('_', request('action'))[1];
-                    if ($accion == 'mm' && is_numeric($id)) {
-                        dd($id);
+                    $id_destino = explode('_', request('action'))[1];
+                    if ($accion == 'mm' && is_numeric($id_destino)) {
+                        $destino = Actividad::findOrFail($id_destino);
+                        $this->mover_multiple($actividad, $destino);
                     }
                     break;
             }
