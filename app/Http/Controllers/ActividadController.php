@@ -512,14 +512,17 @@ class ActividadController extends Controller
 
     private function mover_multiple(Actividad $actividad, Actividad $destino)
     {
-        $actividades = null;
+        $actividades = Actividad::cursoActual()->plantilla();
+
+        if (session('profesor_unidad_id_disponibles')) {
+            $actividades = $actividades->where('unidad_id', session('profesor_unidad_id_disponibles'));
+        }
 
         if ($actividad->orden < $destino->orden) {
             // Mover hacia abajo en la tabla
-            $actividades = Actividad::cursoActual()->plantilla()
-                ->whereBetween('orden', [$actividad->orden, $destino->orden])
-                ->orderBy('orden')
-                ->get();
+            $actividades = $actividades->whereBetween('orden', [$actividad->orden, $destino->orden]);
+
+            $actividades = $actividades->orderBy('orden')->get();
 
             $a1 = $actividades->first();
             for ($i = 0; $i < $actividades->count() - 1; $i++) {
@@ -528,10 +531,9 @@ class ActividadController extends Controller
             }
         } elseif ($actividad->orden > $destino->orden) {
             // Mover hacia arriba en la tabla
-            $actividades = Actividad::cursoActual()->plantilla()
-                ->whereBetween('orden', [$destino->orden, $actividad->orden])
-                ->orderBy('orden')
-                ->get();
+            $actividades = $actividades->whereBetween('orden', [$destino->orden, $actividad->orden]);
+
+            $actividades = $actividades->orderBy('orden')->get();
 
             $a1 = $actividades->first();
             for ($i = $actividades->count(); $i > 0; $i--) {
