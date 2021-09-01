@@ -516,7 +516,10 @@ class ActividadController extends Controller
 
         if ($actividad->orden < $destino->orden) {
             // Mover hacia abajo en la tabla
-            $actividades = Actividad::whereBetween('orden', [$actividad->orden, $destino->orden])->orderBy('orden')->get();
+            $actividades = Actividad::cursoActual()->plantilla()
+                ->whereBetween('orden', [$actividad->orden, $destino->orden])
+                ->orderBy('orden')
+                ->get();
 
             $a1 = $actividades->first();
             for ($i = 0; $i < $actividades->count() - 1; $i++) {
@@ -525,7 +528,10 @@ class ActividadController extends Controller
             }
         } elseif ($actividad->orden > $destino->orden) {
             // Mover hacia arriba en la tabla
-            $actividades = Actividad::whereBetween('orden', [$destino->orden, $actividad->orden])->orderBy('orden')->get();
+            $actividades = Actividad::cursoActual()->plantilla()
+                ->whereBetween('orden', [$destino->orden, $actividad->orden])
+                ->orderBy('orden')
+                ->get();
 
             $a1 = $actividades->first();
             for ($i = $actividades->count(); $i > 0; $i--) {

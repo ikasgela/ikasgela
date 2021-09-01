@@ -12,7 +12,9 @@
             @endif
             <th>{{ __('Course') }}</th>
             <th>{{ __('Unit') }}</th>
-            <th>{{ __('Order') }}</th>
+            @if(Route::currentRouteName() == 'actividades.plantillas')
+                <th>{{ __('Order') }}</th>
+            @endif
             <th>{{ __('Name') }}</th>
             <th>{{ __('Slug') }}</th>
             <th>{{ __('Score') }}</th>
@@ -35,33 +37,35 @@
                 @endif
                 <td class="clickable">{{ $actividad->unidad->curso->full_name }}</td>
                 <td class="clickable">{{ $actividad->unidad->full_name }}</td>
-                <td>
-                    <div class='btn-group'>
-                        <button title="{{ __('Move selected activities here') }}"
-                                form="multiple"
-                                type="submit"
-                                name="action" value="mm_{{ $actividad->id }}"
-                                class="btn btn-light btn-sm mr-3">
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                        {!! Form::open(['route' => ['actividades.reordenar', $ids[$loop->index], $ids[$loop->index-1] ?? -1], 'method' => 'POST']) !!}
-                        <button title="{{ __('Up') }}"
-                                type="submit"
-                                {{ !isset($ids[$loop->index-1]) ? 'disabled' : '' }}
-                                class="btn btn-light btn-sm">
-                            <i class="fas fa-arrow-up"></i>
-                        </button>
-                        {!! Form::close() !!}
-                        {!! Form::open(['route' => ['actividades.reordenar', $ids[$loop->index], $ids[$loop->index+1] ?? -1], 'method' => 'POST']) !!}
-                        <button title="{{ __('Down') }}"
-                                type="submit"
-                                {{ !isset($ids[$loop->index+1]) ? 'disabled' : '' }}
-                                class="btn btn-light btn-sm ml-1">
-                            <i class="fas fa-arrow-down"></i>
-                        </button>
-                        {!! Form::close() !!}
-                    </div>
-                </td>
+                @if(Route::currentRouteName() == 'actividades.plantillas')
+                    <td>
+                        <div class='btn-group'>
+                            <button title="{{ __('Move selected activities here') }}"
+                                    form="multiple"
+                                    type="submit"
+                                    name="action" value="mm_{{ $actividad->id }}"
+                                    class="btn btn-light btn-sm mr-3">
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                            {!! Form::open(['route' => ['actividades.reordenar', $ids[$loop->index], $ids[$loop->index-1] ?? -1], 'method' => 'POST']) !!}
+                            <button title="{{ __('Up') }}"
+                                    type="submit"
+                                    {{ !isset($ids[$loop->index-1]) ? 'disabled' : '' }}
+                                    class="btn btn-light btn-sm">
+                                <i class="fas fa-arrow-up"></i>
+                            </button>
+                            {!! Form::close() !!}
+                            {!! Form::open(['route' => ['actividades.reordenar', $ids[$loop->index], $ids[$loop->index+1] ?? -1], 'method' => 'POST']) !!}
+                            <button title="{{ __('Down') }}"
+                                    type="submit"
+                                    {{ !isset($ids[$loop->index+1]) ? 'disabled' : '' }}
+                                    class="btn btn-light btn-sm ml-1">
+                                <i class="fas fa-arrow-down"></i>
+                            </button>
+                            {!! Form::close() !!}
+                        </div>
+                    </td>
+                @endif
                 <td class="clickable">
                     @include('actividades.partials.nombre_con_etiquetas')
                     @include('actividades.partials.caducada')
