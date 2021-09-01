@@ -12,7 +12,7 @@
             @endif
             <th>{{ __('Course') }}</th>
             <th>{{ __('Unit') }}</th>
-            @if(Route::currentRouteName() == 'actividades.plantillas')
+            @if(\Illuminate\Support\Str::startsWith(Route::currentRouteName(), 'actividades.plantillas'))
                 <th>{{ __('Order') }}</th>
             @endif
             <th>{{ __('Name') }}</th>
@@ -37,7 +37,7 @@
                 @endif
                 <td class="clickable">{{ $actividad->unidad->curso->full_name }}</td>
                 <td class="clickable">{{ $actividad->unidad->full_name }}</td>
-                @if(Route::currentRouteName() == 'actividades.plantillas')
+                @if(\Illuminate\Support\Str::startsWith(Route::currentRouteName(), 'actividades.plantillas'))
                     <td>
                         <div class='btn-group'>
                             <button title="{{ __('Move selected activities here') }}"
