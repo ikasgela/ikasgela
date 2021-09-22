@@ -98,16 +98,19 @@ class FeedbackController extends Controller
     public function save(Request $request)
     {
         $feedback = Feedback::create([
-            'comentable_id' => request('tipo') == 'curso' ? request('comentable_id') : request('actividad_id'),
+            'comentable_id' => request('tipo') == 'curso' ? request('curso_id') : request('actividad_id'),
             'comentable_type' => request('tipo') == 'curso' ? Curso::class : Actividad::class,
             'titulo' => request('titulo'),
             'mensaje' => request('mensaje'),
         ]);
 
+        // Quitar los delimitadores tipo === Comentarios (v1) ===
+        $feedback->mensaje = preg_replace('/\<p\>===.*===\<\/p\>(\\r\\n)*/', '', $feedback->mensaje);
+
         $feedback->orden = $feedback->id;
         $feedback->save();
 
-        return retornar();
+        return retornar(request('from') == 'tarea' ? 0 : 1);
     }
 
     public function reordenar(Feedback $a1, Feedback $a2)
