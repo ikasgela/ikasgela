@@ -167,6 +167,7 @@
             @if(isset($actividad->original))
                 <input form="guardar_feedback" type="hidden" name="actividad_id" value="{{ $actividad->original->id }}">
             @endif
+            <input form="guardar_feedback" type="hidden" id="from" name="from" value="tarea">
             {!! Form::close() !!}
             @if($tarea->estado >= 10)
                 <hr class="my-2">

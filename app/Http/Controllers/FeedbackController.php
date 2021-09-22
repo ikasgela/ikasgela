@@ -107,7 +107,7 @@ class FeedbackController extends Controller
         $feedback->orden = $feedback->id;
         $feedback->save();
 
-        return retornar(0);
+        return retornar(request('from') == 'tarea' ? 0 : 1);
     }
 
     public function reordenar(Feedback $a1, Feedback $a2)
