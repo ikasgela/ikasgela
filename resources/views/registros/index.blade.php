@@ -27,7 +27,7 @@
                 <tr>
                     <td>{{ $registro->id }}</td>
                     <td>{{ $registro->user->name }} {{ $registro->user->surname }}</td>
-                    <td>{{ $registro->tarea->actividad->nombre }}</td>
+                    <td>{{ $registro->tarea->actividad->full_name }}</td>
                     <td>{{ $registro->estado }}</td>
                     <td>
                         @switch($registro->estado)
