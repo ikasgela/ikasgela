@@ -125,16 +125,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.195.1",
+            "version": "3.195.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "7df429b9cae05b52991ae266e0f7f6756a9e7b4d"
+                "reference": "7e0cdfe30ee3cfa2a1494f8e3b4fa5277f118102"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/7df429b9cae05b52991ae266e0f7f6756a9e7b4d",
-                "reference": "7df429b9cae05b52991ae266e0f7f6756a9e7b4d",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/7e0cdfe30ee3cfa2a1494f8e3b4fa5277f118102",
+                "reference": "7e0cdfe30ee3cfa2a1494f8e3b4fa5277f118102",
                 "shasum": ""
             },
             "require": {
@@ -210,9 +210,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.195.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.195.2"
             },
-            "time": "2021-09-28T18:16:45+00:00"
+            "time": "2021-09-29T18:17:19+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -2515,16 +2515,16 @@
         },
         {
             "name": "laravel/serializable-closure",
-            "version": "v1.0.0",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/serializable-closure.git",
-                "reference": "2f4d826e04f2f54df30716b6d3a5dbe761b14a4e"
+                "reference": "679e24d36ff8b9be0e36f5222244ec8602e18867"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/serializable-closure/zipball/2f4d826e04f2f54df30716b6d3a5dbe761b14a4e",
-                "reference": "2f4d826e04f2f54df30716b6d3a5dbe761b14a4e",
+                "url": "https://api.github.com/repos/laravel/serializable-closure/zipball/679e24d36ff8b9be0e36f5222244ec8602e18867",
+                "reference": "679e24d36ff8b9be0e36f5222244ec8602e18867",
                 "shasum": ""
             },
             "require": {
@@ -2570,7 +2570,7 @@
                 "issues": "https://github.com/laravel/serializable-closure/issues",
                 "source": "https://github.com/laravel/serializable-closure"
             },
-            "time": "2021-09-14T15:41:19+00:00"
+            "time": "2021-09-29T13:25:52+00:00"
         },
         {
             "name": "laravel/ui",
@@ -8541,16 +8541,16 @@
         },
         {
             "name": "composer/ca-bundle",
-            "version": "1.2.10",
+            "version": "1.2.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "9fdb22c2e97a614657716178093cd1da90a64aa8"
+                "reference": "0b072d51c5a9c6f3412f7ea3ab043d6603cb2582"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/9fdb22c2e97a614657716178093cd1da90a64aa8",
-                "reference": "9fdb22c2e97a614657716178093cd1da90a64aa8",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/0b072d51c5a9c6f3412f7ea3ab043d6603cb2582",
+                "reference": "0b072d51c5a9c6f3412f7ea3ab043d6603cb2582",
                 "shasum": ""
             },
             "require": {
@@ -8562,7 +8562,7 @@
                 "phpstan/phpstan": "^0.12.55",
                 "psr/log": "^1.0",
                 "symfony/phpunit-bridge": "^4.2 || ^5",
-                "symfony/process": "^2.5 || ^3.0 || ^4.0 || ^5.0"
+                "symfony/process": "^2.5 || ^3.0 || ^4.0 || ^5.0 || ^6.0"
             },
             "type": "library",
             "extra": {
@@ -8597,7 +8597,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/ca-bundle/issues",
-                "source": "https://github.com/composer/ca-bundle/tree/1.2.10"
+                "source": "https://github.com/composer/ca-bundle/tree/1.2.11"
             },
             "funding": [
                 {
@@ -8613,7 +8613,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-06-07T13:58:28+00:00"
+            "time": "2021-09-25T20:32:43+00:00"
         },
         {
             "name": "composer/composer",
