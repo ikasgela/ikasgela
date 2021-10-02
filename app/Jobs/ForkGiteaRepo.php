@@ -2,11 +2,11 @@
 
 namespace App\Jobs;
 
-use App\Models\Actividad;
 use App\Gitea\GiteaClient;
+use App\Models\Actividad;
 use App\Models\IntellijProject;
-use App\Traits\ClonarRepoGitea;
 use App\Models\User;
+use App\Traits\ClonarRepoGitea;
 use Cache;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -35,6 +35,8 @@ class ForkGiteaRepo implements ShouldQueue
      */
     public function __construct(Actividad $actividad, IntellijProject $intellij_project, User $user, $team_users = [])
     {
+        $this->onQueue('high');
+
         $this->actividad = $actividad;
         $this->intellij_project = $intellij_project;
         $this->user = $user;
