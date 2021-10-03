@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ActividadesCursoExport;
+use App\Jobs\RunJPlag;
 use App\Mail\ActividadAsignada;
 use App\Mail\FeedbackRecibido;
 use App\Mail\PlazoAmpliado;
@@ -294,6 +295,11 @@ class ActividadController extends Controller
                         if (setting_usuario('notificacion_tarea_enviada', $profesor))
                             Mail::to($profesor)->queue(new TareaEnviada($tarea));
                     }
+                }
+
+                // If there are repositories, run JPlag on them
+                if ($tarea->actividad->intellij_projects->count() > 0) {
+                    RunJPlag::dispatch($tarea);
                 }
 
                 $tarea->user->last_active = now();
