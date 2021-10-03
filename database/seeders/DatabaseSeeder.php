@@ -38,6 +38,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ActividadesTableSeeder::class);
         $this->call(TareasTableSeeder::class);
         $this->call(RegistrosTableSeeder::class);
+        $this->call(JPlagTableSeeder::class);
 
         $this->call(QualificationsTableSeeder::class);
 
