@@ -122,11 +122,6 @@ class Actividad extends Model
             ]);
     }
 
-    public function jplags()
-    {
-        return $this->hasMany(JPlag::class);
-    }
-
     public function getSiguienteAttribute()
     {
         return Actividad::find($this->siguiente_id);

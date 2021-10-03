@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Actividad;
-use App\Models\IntellijProject;
 use App\Models\JPlag;
+use App\Models\Tarea;
 use Illuminate\Database\Seeder;
 
 class JPlagTableSeeder extends Seeder
@@ -17,8 +16,8 @@ class JPlagTableSeeder extends Seeder
     public function run()
     {
         JPlag::factory()->create([
-            'intellij_project_id' => IntellijProject::find(1),
-            'match_id' => Actividad::find(1),
+            'tarea_id' => Tarea::factory(),
+            'match_id' => Tarea::factory(),
             'percent' => 80,
         ]);
     }

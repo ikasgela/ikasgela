@@ -2,9 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Actividad;
-use App\Models\IntellijProject;
 use App\Models\JPlag;
+use App\Models\Tarea;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class JPlagFactory extends Factory
@@ -14,8 +13,8 @@ class JPlagFactory extends Factory
     public function definition()
     {
         return [
-            'intellij_project_id' => IntellijProject::factory(),
-            'match_id' => Actividad::factory(),
+            'tarea_id' => Tarea::factory(),
+            'match_id' => Tarea::factory(),
             'percent' => $this->faker->randomNumber(2),
         ];
     }

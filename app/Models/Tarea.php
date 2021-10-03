@@ -41,6 +41,11 @@ class Tarea extends Pivot
         return $this->hasMany(Registro::class);
     }
 
+    public function jplags()
+    {
+        return $this->hasMany(JPlag::class);
+    }
+
     public function scopeUsuarioNoBloqueado($query)
     {
         return $query->whereHas('user', function ($query) {

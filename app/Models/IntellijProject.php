@@ -29,11 +29,6 @@ class IntellijProject extends Model
             ]);
     }
 
-    public function jplags()
-    {
-        return $this->hasMany(JPlag::class);
-    }
-
     public function repository()
     {
         switch ($this->host) {

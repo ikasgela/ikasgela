@@ -10,16 +10,16 @@ class JPlag extends Model
     use HasFactory;
 
     protected $fillable = [
-        'intellij_project_id', 'match_id', 'percent'
+        'tarea_id', 'match_id', 'percent'
     ];
 
-    public function intellij_project()
+    public function tarea()
     {
-        return $this->belongsTo(IntellijProject::class);
+        return $this->belongsTo(Tarea::class, 'tarea_id','id');
     }
 
     public function match()
     {
-        return $this->belongsTo(Actividad::class);
+        return $this->belongsTo(Tarea::class, 'match_id','id');
     }
 }

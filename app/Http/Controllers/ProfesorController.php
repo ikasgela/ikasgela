@@ -6,6 +6,7 @@ use App\Mail\ActividadAsignada;
 use App\Models\Actividad;
 use App\Models\CacheClear;
 use App\Models\Curso;
+use App\Models\JPlag;
 use App\Models\Organization;
 use App\Models\Registro;
 use App\Models\Tarea;
@@ -239,7 +240,9 @@ class ProfesorController extends Controller
         $feedbacks_curso = $actividad->unidad->curso->feedbacks()->orderBy('orden')->get();
         $feedbacks_actividad = isset($actividad->original) ? $actividad->original->feedbacks()->orderBy('orden')->get() : [];
 
-        return view('profesor.revisar', compact(['user', 'tarea', 'actividad', 'feedbacks_curso', 'feedbacks_actividad']));
+        $jplags = JPlag::where('tarea_id', $tarea->id)->get();
+
+        return view('profesor.revisar', compact(['user', 'tarea', 'actividad', 'feedbacks_curso', 'feedbacks_actividad', 'jplags']));
     }
 
     private function recuento_enviadas(): void

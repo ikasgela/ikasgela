@@ -10,7 +10,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use TitasGailius\Terminal\Terminal;
@@ -67,12 +66,8 @@ class RunJPlag implements ShouldQueue
             foreach ($resultados as $resultado) {
                 $resultado = array_filter($resultado, 'strlen');
 
-                Log::debug($enviado['path_with_namespace']);
-                Log::debug($resultado[0]);
-
                 if ($enviado['path_with_namespace'] == $resultado[0]) {
                     // Recorrer todos y añadirlos a la tabla
-                    Log::debug(intdiv(count($resultado), 3));
                     for ($i = 0; $i < intdiv(count($resultado), 3); ++$i) {
                         $repo = $resultado[$i * 3 + 2];
                         $porcentaje = $resultado[$i * 3 + 3];
@@ -81,27 +76,28 @@ class RunJPlag implements ShouldQueue
                             ->where('fork', '=', $repo)
                             ->first();
 
+                        // Insertar los resultados en la tabla RegistrosJPlag
                         JPlag::create([
-                            'intellij_project_id' => $intellij_project->id,
-                            'match_id' => $datos->actividad_id,
+                            'tarea_id' => $this->tarea->id,
+                            'match_id' => Tarea::where('actividad_id', $datos->actividad_id)->first()->id,
                             'percent' => $porcentaje,
                         ]);
                     }
                 } else {
                     // Recorrer pero solo añadir el primero si aparece el enviado
-                    Log::debug(intdiv(count($resultado), 3));
                     for ($i = 0; $i < intdiv(count($resultado), 3); ++$i) {
                         $repo = $resultado[$i * 3 + 2];
                         $porcentaje = $resultado[$i * 3 + 3];
 
                         if ($repo == $enviado['path_with_namespace']) {
                             $datos = DB::table('actividad_intellij_project')
-                                ->where('fork', '=', $repo)
+                                ->where('fork', '=', $resultado[0])
                                 ->first();
 
+                            // Insertar los resultados en la tabla RegistrosJPlag
                             JPlag::create([
-                                'intellij_project_id' => $intellij_project->id,
-                                'match_id' => $datos->actividad_id,
+                                'tarea_id' => $this->tarea->id,
+                                'match_id' => Tarea::where('actividad_id', $datos->actividad_id)->first()->id,
                                 'percent' => $porcentaje,
                             ]);
                         }
@@ -110,20 +106,7 @@ class RunJPlag implements ShouldQueue
             }
         }
 
-        // Formato
-        //    0 => 'noa.ikasgela.com@programacion-programacion-estructurada-tres-en-raya-6c8656', --> El que comparamos
-        //
-        //    1 => '0',  --> Orden
-        //    2 => 'marc.ikasgela.com@programacion-programacion-estructurada-tres-en-raya-35ba53',
-        //    3 => '100.0', --> Porcentaje
-
-        // Hay que buscar en cada fila el repositorio actual y guardar el porcentaje de esa pareja, si lo hay
-        // Si es el primero, guardar todos
-        // Si no, al encontrarlo guardar el primero
-
-        // Insertar los resultados en la tabla RegistrosJPlag
-
         // Borrar el directorio temporal
-        //Storage::disk('temp')->deleteDirectory($directorio);
+        Storage::disk('temp')->deleteDirectory($directorio);
     }
 }

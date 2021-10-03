@@ -74,9 +74,9 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($intellij_project->jplags as $jplag)
+                        @foreach($jplags as $jplag)
                             <tr>
-                                <td>{{ $jplag->match->full_name }}</td>
+                                <td>{{ $jplag->match->user->username }}</td>
                                 <td>{{ $jplag->percent }}</td>
                             </tr>
                         @endforeach
