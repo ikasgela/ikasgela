@@ -2,13 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Gitea\GiteaClient;
 use App\Models\Curso;
 use App\Models\Organization;
 use App\Models\Role;
 use App\Models\Team;
 use App\Models\User;
 use Carbon\Carbon;
+use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
 

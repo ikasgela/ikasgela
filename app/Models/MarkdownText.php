@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Gitea\GiteaClient;
 use Cache;
 use GrahamCampbell\Markdown\Facades\Markdown;
+use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

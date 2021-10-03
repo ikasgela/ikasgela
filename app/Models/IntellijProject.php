@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Gitea\GiteaClient;
 use Cache;
+use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Log;

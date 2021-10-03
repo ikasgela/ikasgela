@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Profile;
 
-use App\Gitea\GiteaClient;
+use Ikasgela\Gitea\GiteaClient;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;

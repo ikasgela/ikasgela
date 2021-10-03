@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Gitea\GiteaClient;
+use Ikasgela\Gitea\GiteaClient;
 use App\Http\Controllers\Controller;
 use App\Mail\NuevoUsuario;
 use App\Models\Organization;

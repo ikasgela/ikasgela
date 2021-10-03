@@ -2,12 +2,12 @@
 
 namespace App\Jobs;
 
-use App\Gitea\GiteaClient;
 use App\Models\Actividad;
 use App\Models\IntellijProject;
 use App\Models\User;
 use App\Traits\ClonarRepoGitea;
 use Cache;
+use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

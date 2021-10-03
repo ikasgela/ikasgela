@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Gitea\GiteaClient;
 use App\Models\Actividad;
 use App\Models\Curso;
 use App\Models\Organization;
 use App\Models\Role;
 use App\Models\User;
+use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Log;

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Gitea\GiteaClient;
 use App\Jobs\ForkGiteaRepo;
 use App\Models\Actividad;
 use App\Models\Curso;
@@ -15,6 +14,7 @@ use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
 use Auth;
 use Cache;
+use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
