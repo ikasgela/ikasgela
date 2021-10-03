@@ -20,6 +20,6 @@ class JPlag extends Model
 
     public function match()
     {
-        return $this->belongsTo(IntellijProject::class);
+        return $this->belongsTo(Actividad::class);
     }
 }

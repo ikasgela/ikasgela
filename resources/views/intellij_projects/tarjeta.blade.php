@@ -76,7 +76,7 @@
                         <tbody>
                         @foreach($intellij_project->jplags as $jplag)
                             <tr>
-                                <td>{{ $jplag->intellij_project->repository()['owner'] }}</td>
+                                <td>{{ $jplag->match->full_name }}</td>
                                 <td>{{ $jplag->percent }}</td>
                             </tr>
                         @endforeach
