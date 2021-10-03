@@ -55,43 +55,27 @@ class RunJPlag implements ShouldQueue
         Terminal::in($ruta)
             ->run('java -jar /opt/jplag.jar -l java19 -m 1000 -s -r "./__resultados" .');
 
-        // Cargar el CSV del resultado
-        // https://stackoverflow.com/a/50870196
-        $resultados = array_map(function ($v) {
-            return str_replace("@", "/", str_getcsv($v, ";"));
-        }, file($ruta . '/__resultados/matches_avg.csv'));
+        if (Storage::disk('temp')->exists($directorio . '/__resultados/matches_avg.csv')) {
 
-        foreach ($this->tarea->actividad->intellij_projects()->get() as $intellij_project) {
-            $enviado = $intellij_project->repository();
-            foreach ($resultados as $resultado) {
-                $resultado = array_filter($resultado, 'strlen');
+            // Cargar el CSV del resultado
+            // https://stackoverflow.com/a/50870196
+            $resultados = array_map(function ($v) {
+                return str_replace("@", "/", str_getcsv($v, ";"));
+            }, file($ruta . '/__resultados/matches_avg.csv'));
 
-                if ($enviado['path_with_namespace'] == $resultado[0]) {
-                    // Recorrer todos y añadirlos a la tabla
-                    for ($i = 0; $i < intdiv(count($resultado), 3); ++$i) {
-                        $repo = $resultado[$i * 3 + 2];
-                        $porcentaje = $resultado[$i * 3 + 3];
+            foreach ($this->tarea->actividad->intellij_projects()->get() as $intellij_project) {
+                $enviado = $intellij_project->repository();
+                foreach ($resultados as $resultado) {
+                    $resultado = array_filter($resultado, 'strlen');
 
-                        $datos = DB::table('actividad_intellij_project')
-                            ->where('fork', '=', $repo)
-                            ->first();
+                    if ($enviado['path_with_namespace'] == $resultado[0]) {
+                        // Recorrer todos y añadirlos a la tabla
+                        for ($i = 0; $i < intdiv(count($resultado), 3); ++$i) {
+                            $repo = $resultado[$i * 3 + 2];
+                            $porcentaje = $resultado[$i * 3 + 3];
 
-                        // Insertar los resultados en la tabla RegistrosJPlag
-                        JPlag::create([
-                            'tarea_id' => $this->tarea->id,
-                            'match_id' => Tarea::where('actividad_id', $datos->actividad_id)->first()->id,
-                            'percent' => $porcentaje,
-                        ]);
-                    }
-                } else {
-                    // Recorrer pero solo añadir el primero si aparece el enviado
-                    for ($i = 0; $i < intdiv(count($resultado), 3); ++$i) {
-                        $repo = $resultado[$i * 3 + 2];
-                        $porcentaje = $resultado[$i * 3 + 3];
-
-                        if ($repo == $enviado['path_with_namespace']) {
                             $datos = DB::table('actividad_intellij_project')
-                                ->where('fork', '=', $resultado[0])
+                                ->where('fork', '=', $repo)
                                 ->first();
 
                             // Insertar los resultados en la tabla RegistrosJPlag
@@ -100,6 +84,25 @@ class RunJPlag implements ShouldQueue
                                 'match_id' => Tarea::where('actividad_id', $datos->actividad_id)->first()->id,
                                 'percent' => $porcentaje,
                             ]);
+                        }
+                    } else {
+                        // Recorrer pero solo añadir el primero si aparece el enviado
+                        for ($i = 0; $i < intdiv(count($resultado), 3); ++$i) {
+                            $repo = $resultado[$i * 3 + 2];
+                            $porcentaje = $resultado[$i * 3 + 3];
+
+                            if ($repo == $enviado['path_with_namespace']) {
+                                $datos = DB::table('actividad_intellij_project')
+                                    ->where('fork', '=', $resultado[0])
+                                    ->first();
+
+                                // Insertar los resultados en la tabla RegistrosJPlag
+                                JPlag::create([
+                                    'tarea_id' => $this->tarea->id,
+                                    'match_id' => Tarea::where('actividad_id', $datos->actividad_id)->first()->id,
+                                    'percent' => $porcentaje,
+                                ]);
+                            }
                         }
                     }
                 }
