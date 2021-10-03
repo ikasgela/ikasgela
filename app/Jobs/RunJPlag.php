@@ -31,6 +31,16 @@ class RunJPlag implements ShouldQueue
                 'repository' => $intellij_project->repository(),
                 'fork' => $intellij_project->pivot->fork,
             ]);
+            
+            // Crear una carpeta temporal
+            // Buscar todos los repositorios que compartan plantilla con el actual
+            // Descargar los repositorios
+            // Descomprimir los .zip
+            // Ejecutar JPlag
+            // Cargar el CSV del resultado
+            // Insertar los resultados en la tabla RegistrosJPlag
+            // Borrar la carpeta temporal
+
         }
     }
 }
