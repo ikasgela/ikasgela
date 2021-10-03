@@ -2013,12 +2013,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ikasgela/laravel-gitea.git",
-                "reference": "064f722e408077f933d7553f0d0b39a115b036d0"
+                "reference": "5160f2910f6c2bbb8f7144cf3919759db85ff9c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ikasgela/laravel-gitea/zipball/064f722e408077f933d7553f0d0b39a115b036d0",
-                "reference": "064f722e408077f933d7553f0d0b39a115b036d0",
+                "url": "https://api.github.com/repos/ikasgela/laravel-gitea/zipball/5160f2910f6c2bbb8f7144cf3919759db85ff9c3",
+                "reference": "5160f2910f6c2bbb8f7144cf3919759db85ff9c3",
                 "shasum": ""
             },
             "require": {
@@ -2076,7 +2076,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-10-03T05:09:59+00:00"
+            "time": "2021-10-03T10:21:01+00:00"
         },
         {
             "name": "intervention/image",
