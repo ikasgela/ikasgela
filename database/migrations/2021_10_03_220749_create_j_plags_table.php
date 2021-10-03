@@ -16,11 +16,13 @@ class CreateJPlagsTable extends Migration
         Schema::create('j_plags', function (Blueprint $table) {
             $table->id();
 
-            $table->bigInteger('tarea_id')->unsigned()->index();
-            $table->foreign('tarea_id')->references('id')->on('tareas')->onDelete('cascade');
+            $table->bigInteger('intellij_project_id')->unsigned()->index();
+            $table->foreign('intellij_project_id')->references('id')->on('intellij_projects')->onDelete('cascade');
 
-            $table->string('repository');
-            $table->decimal('match', 8, 2);
+            $table->bigInteger('match_id')->unsigned()->index();
+            $table->foreign('match_id')->references('id')->on('intellij_projects')->onDelete('cascade');
+
+            $table->decimal('percent', 8, 2);
 
             $table->timestamps();
         });
