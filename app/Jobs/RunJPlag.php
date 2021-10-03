@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use TitasGailius\Terminal\Terminal;
@@ -51,12 +52,30 @@ class RunJPlag implements ShouldQueue
 
         // Ejecutar JPlag
         Terminal::in($ruta)
-            ->run('java -jar /opt/jplag.jar -l java19 -s -r "./__resultados" .');
+            ->run('java -jar /opt/jplag.jar -l java19 -m 1000 -s -r "./__resultados" .');
 
         // Cargar el CSV del resultado
+        // https://stackoverflow.com/a/50870196
+        $resultados = array_map(function ($v) {
+            return str_getcsv($v, ";");
+        }, file($ruta . '/__resultados/matches_avg.csv'));
+
+        Log::debug($resultados);
+
+        // Formato
+        //    0 => 'noa.ikasgela.com@programacion-programacion-estructurada-tres-en-raya-6c8656', --> El que comparamos
+        //
+        //    1 => '0',  --> Orden
+        //    2 => 'marc.ikasgela.com@programacion-programacion-estructurada-tres-en-raya-35ba53',
+        //    3 => '100.0', --> Porcentaje
+
+        // Hay que buscar en cada fila el repositorio actual y guardar el porcentaje de esa pareja, si lo hay
+        // Si es el primero, guardar todos
+        // Si no, al encontrarlo guardar el primero
+
         // Insertar los resultados en la tabla RegistrosJPlag
 
         // Borrar el directorio temporal
-        Storage::disk('temp')->deleteDirectory($directorio);
+        //Storage::disk('temp')->deleteDirectory($directorio);
     }
 }
