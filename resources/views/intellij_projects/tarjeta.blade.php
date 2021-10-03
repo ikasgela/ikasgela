@@ -64,6 +64,26 @@
                     @endif
                 @endif
             </div>
+            @if(Auth::user()->hasRole('profesor'))
+                <div class="table-responsive mt-5">
+                    <table class="table table-bordered small">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th>{{ __('Owner') }}</th>
+                            <th>{{ __('Percent') }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($jplags as $jplag)
+                            <tr>
+                                <td>{{ $jplag->match->user->username }}</td>
+                                <td>{{ $jplag->percent }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @endif
         @else
             <div class="alert alert-danger mb-0 mt-3" role="alert">
                 <span>{{ __('Server error, contact with your administrator.') }}</span>

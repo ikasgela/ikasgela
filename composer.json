@@ -56,6 +56,7 @@
         "spatie/laravel-activitylog": "^3.3",
         "staudenmeir/eloquent-has-many-deep": "^1.7",
         "stechstudio/laravel-zipstream": "^4.4",
+        "titasgailius/terminal": "^1.0",
         "watson/rememberable": "^5.0"
     },
     "require-dev": {
