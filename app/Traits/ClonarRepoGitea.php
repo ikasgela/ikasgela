@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use App\Gitea\GiteaClient;
+use Ikasgela\Gitea\GiteaClient;
 
 trait ClonarRepoGitea
 {

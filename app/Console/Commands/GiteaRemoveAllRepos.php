@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Gitea\GiteaClient;
+use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Console\Command;
 
 class GiteaRemoveAllRepos extends Command

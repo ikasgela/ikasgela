@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Gitea\GiteaClient;
+use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Auth\Events\Verified;
 
 class ActivarUsuario
