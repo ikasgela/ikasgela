@@ -29,6 +29,7 @@ class RunJPlag implements ShouldQueue
             Log::debug("Running JPlag", [
                 'user' => $this->tarea->user->username,
                 'repository' => $intellij_project->repository(),
+                'fork' => $intellij_project->pivot->fork,
             ]);
         }
     }
