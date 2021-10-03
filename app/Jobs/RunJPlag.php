@@ -8,9 +8,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use TitasGailius\Terminal\Terminal;
 
 class RunJPlag implements ShouldQueue
 {
@@ -27,27 +27,36 @@ class RunJPlag implements ShouldQueue
 
     public function handle()
     {
-        foreach ($this->tarea->actividad->intellij_projects()->get() as $intellij_project) {
-            Log::debug("Running JPlag", [
-                'user' => $this->tarea->user->username,
-                'repository' => $intellij_project->repository(),
-                'fork' => $intellij_project->pivot->fork,
-            ]);
+        // Crear el directorio temporal
+        $directorio = '/' . Str::uuid() . '/';
+        Storage::disk('temp')->makeDirectory($directorio);
+        $ruta = Storage::disk('temp')->path($directorio);
 
-            // Crear el directorio temporal
-            $directorio = '/' . Str::uuid() . '/';
-            Storage::disk('temp')->makeDirectory($directorio);
-            $ruta = Storage::disk('temp')->path($directorio);
+        // Buscar todas las actividades de compartan plantilla con la actual
+        $curso = $this->tarea->user->curso_actual();
+        $actividades = $curso->actividades()->where('plantilla_id', $this->tarea->actividad->plantilla_id)->get();
 
-            // Buscar todos los repositorios que compartan plantilla con el actual
-            // Descargar los repositorios
-            // Descomprimir los .zip
-            // Ejecutar JPlag
-            // Cargar el CSV del resultado
-            // Insertar los resultados en la tabla RegistrosJPlag
+        // Descargar los repositorios
+        foreach ($actividades as $actividad) {
+            $intellij_projects = $actividad->intellij_projects()->get();
 
-            // Borrar el directorio temporal
-            Storage::disk('temp')->deleteDirectory($directorio);
+            foreach ($intellij_projects as $intellij_project) {
+                $repositorio = $intellij_project->repository();
+                Terminal::in($ruta)
+                    ->run('git clone http://root:' . config('gitea.token') . '@gitea:3000/'
+                        . $repositorio['path_with_namespace'] . '.git '
+                        . $repositorio['owner'] . '@' . $repositorio['name']);
+            }
         }
+
+        // Ejecutar JPlag
+        Terminal::in($ruta)
+            ->run('java -jar /opt/jplag.jar -l java19 -s -r "./__resultados" .');
+
+        // Cargar el CSV del resultado
+        // Insertar los resultados en la tabla RegistrosJPlag
+
+        // Borrar el directorio temporal
+        Storage::disk('temp')->deleteDirectory($directorio);
     }
 }
