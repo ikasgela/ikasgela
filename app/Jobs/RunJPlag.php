@@ -9,6 +9,8 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class RunJPlag implements ShouldQueue
 {
@@ -31,16 +33,21 @@ class RunJPlag implements ShouldQueue
                 'repository' => $intellij_project->repository(),
                 'fork' => $intellij_project->pivot->fork,
             ]);
-            
-            // Crear una carpeta temporal
+
+            // Crear el directorio temporal
+            $directorio = '/' . Str::uuid() . '/';
+            Storage::disk('temp')->makeDirectory($directorio);
+            $ruta = Storage::disk('temp')->path($directorio);
+
             // Buscar todos los repositorios que compartan plantilla con el actual
             // Descargar los repositorios
             // Descomprimir los .zip
             // Ejecutar JPlag
             // Cargar el CSV del resultado
             // Insertar los resultados en la tabla RegistrosJPlag
-            // Borrar la carpeta temporal
 
+            // Borrar el directorio temporal
+            Storage::disk('temp')->deleteDirectory($directorio);
         }
     }
 }
