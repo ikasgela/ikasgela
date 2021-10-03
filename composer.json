@@ -36,6 +36,7 @@
         "graham-campbell/markdown": "^13.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "hedii/laravel-gelf-logger": "^6.0",
+        "ikasgela/laravel-gitea": "^1.0",
         "intervention/image": "^2.5",
         "josiasmontag/laravel-recaptchav3": "^0.6.0",
         "kkomelin/laravel-translatable-string-exporter": "^1.2",
@@ -55,8 +56,7 @@
         "spatie/laravel-activitylog": "^3.3",
         "staudenmeir/eloquent-has-many-deep": "^1.7",
         "stechstudio/laravel-zipstream": "^4.4",
-        "watson/rememberable": "^5.0",
-        "ikasgela/laravel-gitea": "^1.0"
+        "watson/rememberable": "^5.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
@@ -90,12 +90,6 @@
             ]
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/ikasgela/laravel-gitea.git"
-        }
-    ],
     "scripts": {
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""

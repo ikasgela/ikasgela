@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1f9a30281f328bebc563210e915fe3eb",
+    "content-hash": "f2427ac319f9e604b9bfb581cf8b16d4",
     "packages": [
         {
             "name": "akaunting/laravel-setting",
@@ -2012,7 +2012,7 @@
             "version": "1.0",
             "source": {
                 "type": "git",
-                "url": "git@github.com:ikasgela/laravel-gitea.git",
+                "url": "https://github.com/ikasgela/laravel-gitea.git",
                 "reference": "064f722e408077f933d7553f0d0b39a115b036d0"
             },
             "dist": {
@@ -2048,19 +2048,7 @@
                     "Ikasgela\\Gitea\\": "src"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Ikasgela\\Gitea\\Tests\\": "tests"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "./vendor/bin/pest --no-coverage"
-                ],
-                "test-coverage": [
-                    "vendor/bin/phpunit --coverage-html coverage"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2079,13 +2067,13 @@
                 "laravel-gitea"
             ],
             "support": {
-                "source": "https://github.com/ikasgela/laravel-gitea/tree/1.0",
-                "issues": "https://github.com/ikasgela/laravel-gitea/issues"
+                "issues": "https://github.com/ikasgela/laravel-gitea/issues",
+                "source": "https://github.com/ikasgela/laravel-gitea/tree/1.0"
             },
             "funding": [
                 {
-                    "type": "github",
-                    "url": "https://github.com/ikasgela"
+                    "url": "https://github.com/ikasgela",
+                    "type": "github"
                 }
             ],
             "time": "2021-10-03T05:09:59+00:00"
