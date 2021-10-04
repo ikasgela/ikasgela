@@ -65,7 +65,8 @@
                 @endif
             </div>
             @if(Auth::user()->hasRole('profesor'))
-                <div class="table-responsive mt-5">
+                <h5 class="card-title mt-5">{{ __('JPlag results') }}</h5>
+                <div class="table-responsive">
                     <table class="table table-bordered small">
                         <thead class="thead-dark">
                         <tr>
@@ -87,6 +88,8 @@
                         @endforeach
                         </tbody>
                     </table>
+                    <a href="{{ route('profesor.jplag', ['tarea' => $tarea->id]) }}"
+                       class="btn btn-secondary">{{ __('Update') }}</a>
                 </div>
             @endif
         @else

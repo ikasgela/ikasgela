@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\RunJPlag;
 use App\Mail\ActividadAsignada;
 use App\Models\Actividad;
 use App\Models\CacheClear;
@@ -243,6 +244,15 @@ class ProfesorController extends Controller
         $jplags = JPlag::where('tarea_id', $tarea->id)->orderBy('percent', 'desc')->get();
 
         return view('profesor.revisar', compact(['user', 'tarea', 'actividad', 'feedbacks_curso', 'feedbacks_actividad', 'jplags']));
+    }
+
+    public function jplag(Tarea $tarea)
+    {
+        if ($tarea->actividad->intellij_projects->count() > 0) {
+            RunJPlag::dispatch($tarea);
+        }
+
+        return back();
     }
 
     private function recuento_enviadas(): void
