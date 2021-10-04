@@ -76,8 +76,13 @@
                         <tbody>
                         @foreach($jplags as $jplag)
                             <tr>
-                                <td>{{ $jplag->match->user->username }}</td>
-                                <td>{{ $jplag->percent }}</td>
+                                <td>
+                                    <a href="{{ route('profesor.revisar', ['user' => $jplag->match->user->id, 'tarea' => $jplag->match->id]) }}"
+                                       target="_blank">
+                                        {{ $jplag->match->user->username }}
+                                    </a>
+                                </td>
+                                <td>{{ $jplag->percent }}&thinsp;%</td>
                             </tr>
                         @endforeach
                         </tbody>

@@ -240,7 +240,7 @@ class ProfesorController extends Controller
         $feedbacks_curso = $actividad->unidad->curso->feedbacks()->orderBy('orden')->get();
         $feedbacks_actividad = isset($actividad->original) ? $actividad->original->feedbacks()->orderBy('orden')->get() : [];
 
-        $jplags = JPlag::where('tarea_id', $tarea->id)->get();
+        $jplags = JPlag::where('tarea_id', $tarea->id)->orderBy('percent', 'desc')->get();
 
         return view('profesor.revisar', compact(['user', 'tarea', 'actividad', 'feedbacks_curso', 'feedbacks_actividad', 'jplags']));
     }
