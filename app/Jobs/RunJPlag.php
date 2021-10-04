@@ -64,7 +64,8 @@ class RunJPlag implements ShouldQueue
             }, file($ruta . '/__resultados/matches_avg.csv'));
 
             // Borrar las entradas de envíos anteriores
-            DB::table('j_plags')->where('tarea_id', '=', $this->tarea->id)->delete();
+            if ($this->tarea->id > 0)
+                DB::table('j_plags')->where('tarea_id', '=', $this->tarea->id)->delete();
 
             // Recorrer los datos del CSV e insertarlos en la BD
             foreach ($this->tarea->actividad->intellij_projects()->get() as $intellij_project) {
