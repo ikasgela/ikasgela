@@ -296,8 +296,8 @@ class CursoController extends Controller
             array_push($ficheros_ruta_completa, Storage::disk('temp')->path($fichero));
         }
 
-        // Borrar el directorio temporal
-        //Storage::disk('temp')->deleteDirectory($directorio);
+        // Almacenar el directorio para borrarlo al terminar con un evento
+        session(['_delete_me' => $directorio]);
 
         return Zip::create("ikasgela-{$nombre}-{$fecha}.zip", $ficheros_ruta_completa);
     }

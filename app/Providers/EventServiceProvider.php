@@ -6,6 +6,13 @@ use App\Models\Actividad;
 use App\Models\Category;
 use App\Models\Curso;
 use App\Models\Group;
+use App\Models\Organization;
+use App\Models\Period;
+use App\Models\Qualification;
+use App\Models\Skill;
+use App\Models\Tarea;
+use App\Models\Unidad;
+use App\Models\User;
 use App\Observers\ActividadObserver;
 use App\Observers\CategoryObserver;
 use App\Observers\CursoObserver;
@@ -17,13 +24,6 @@ use App\Observers\SkillObserver;
 use App\Observers\TareaObserver;
 use App\Observers\UnidadObserver;
 use App\Observers\UserObserver;
-use App\Models\Organization;
-use App\Models\Period;
-use App\Models\Qualification;
-use App\Models\Skill;
-use App\Models\Tarea;
-use App\Models\Unidad;
-use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -53,6 +53,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'Lab404\Impersonate\Events\LeaveImpersonation' => [
             'App\Listeners\UserImpersonatedEnded',
+        ],
+        'STS\ZipStream\Events\ZipStreamed' => [
+            'App\Listeners\ZipStreamedListener',
         ],
     ];
 
