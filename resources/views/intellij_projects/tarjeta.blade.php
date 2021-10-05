@@ -76,9 +76,10 @@
                         </thead>
                         <tbody>
                         @foreach($jplags as $jplag)
-                            <tr>
+                            <tr class="{{ $jplag->percent > 75 ? 'bg-warning text-dark' : '' }}">
                                 <td>
                                     <a href="{{ route('profesor.revisar', ['user' => $jplag->match->user->id, 'tarea' => $jplag->match->id]) }}"
+                                       class="{{ $jplag->percent > 75 ? 'text-dark' : '' }}"
                                        target="_blank">
                                         {{ $jplag->match->user->username }}
                                     </a>
