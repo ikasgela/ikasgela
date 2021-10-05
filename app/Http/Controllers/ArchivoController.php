@@ -54,6 +54,12 @@ class ArchivoController extends Controller
 
     public function outline()
     {
+        $user = Auth::user();
+
+        if ($user->baja_ansiedad) {
+            abort(404);
+        }
+
         $curso = Curso::find(setting_usuario('curso_actual'));
 
         if (!is_null($curso)) {
@@ -61,8 +67,6 @@ class ArchivoController extends Controller
         } else {
             $unidades = [];
         }
-
-        $user = Auth::user();
 
         return view('archivo.outline', compact(['unidades', 'user', 'curso']));
     }

@@ -26,6 +26,8 @@
             {{ Form::campoTexto('max_simultaneas', __('Simultaneous activities')) }}
             {{ Form::campoTexto('tags', __('Tags')) }}
 
+            {{ Form::campoCheck('baja_ansiedad', __('Low anxiety mode')) }}
+
             <div class="form-group row">
                 {!! Form::label('roles_seleccionados', __('Roles'), ['class' => 'col-sm-2 col-form-label pt-0']) !!}
                 <div class="col-sm-10">

@@ -103,6 +103,7 @@ class UserController extends Controller
             'blocked_date' => $request->input('blocked_date'),
             'max_simultaneas' => request('max_simultaneas'),
             'tags' => request('tags'),
+            'baja_ansiedad' => $request->has('baja_ansiedad'),
         ]);
 
         $user->roles()->sync($request->input('roles_seleccionados'));
