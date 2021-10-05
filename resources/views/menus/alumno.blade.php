@@ -20,11 +20,13 @@
         <i class="c-sidebar-nav-icon fas fa-archive"></i> {{ __('Archived') }}
     </a>
 </li>
-<li class="c-sidebar-nav-item">
-    <a class="c-sidebar-nav-link" href="{{ route('archivo.outline') }}">
-        <i class="c-sidebar-nav-icon fas fa-list"></i> {{ __('Course progress') }}
-    </a>
-</li>
+@if(!Auth::user()->baja_ansiedad)
+    <li class="c-sidebar-nav-item">
+        <a class="c-sidebar-nav-link" href="{{ route('archivo.outline') }}">
+            <i class="c-sidebar-nav-icon fas fa-list"></i> {{ __('Course progress') }}
+        </a>
+    </li>
+@endif
 <li class="c-sidebar-nav-item">
     <a class="c-sidebar-nav-link" href="{{ route('results.index') }}">
         <i class="c-sidebar-nav-icon fas fa-graduation-cap"></i> {{ __('Results') }}

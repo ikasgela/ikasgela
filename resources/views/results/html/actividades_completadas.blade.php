@@ -7,8 +7,10 @@
             <tr>
                 <th>{{ __('Unit') }}</th>
                 <th class="text-center">{{ __('Base') }}</th>
-                <th class="text-center">{{ __('Extra') }}</th>
-                <th class="text-center">{{ __('Revisit') }}</th>
+                @if(!Auth::user()->baja_ansiedad)
+                    <th class="text-center">{{ __('Extra') }}</th>
+                    <th class="text-center">{{ __('Revisit') }}</th>
+                @endif
             </tr>
             </thead>
             <tbody>
@@ -24,12 +26,14 @@
                         <td class="align-middle text-center {{ $unidad->num_actividades('base') > 0 ? $user->num_completadas('base', $unidad->id) < $unidad->num_actividades('base') ? 'bg-warning text-dark' : 'bg-success' : '' }}">
                             {{ $user->num_completadas('base', $unidad->id).'/'. $unidad->num_actividades('base') }}
                         </td>
-                        <td class="align-middle text-center">
-                            {{ $user->num_completadas('extra', $unidad->id) }}
-                        </td>
-                        <td class="align-middle text-center">
-                            {{ $user->num_completadas('repaso', $unidad->id) }}
-                        </td>
+                        @if(!Auth::user()->baja_ansiedad)
+                            <td class="align-middle text-center">
+                                {{ $user->num_completadas('extra', $unidad->id) }}
+                            </td>
+                            <td class="align-middle text-center">
+                                {{ $user->num_completadas('repaso', $unidad->id) }}
+                            </td>
+                        @endif
                     </tr>
                 @endif
             @endforeach
@@ -37,14 +41,18 @@
             <tfoot class="thead-dark">
             <tr>
                 <th colspan="4">{{ __('Completed activities') }}: {{ $calificaciones->numero_actividades_completadas }}
-                    - {{ __('Group mean') }}: {{ $media_actividades_grupo }}</th>
+                    @if(!Auth::user()->baja_ansiedad)
+                        - {{ __('Group mean') }}: {{ $media_actividades_grupo }}
+                    @endif
+                </th>
             </tr>
             </tfoot>
         </table>
     </div>
 
-    @include('results.html.desarrollo_contenidos')
-
+    @if(!Auth::user()->baja_ansiedad)
+        @include('results.html.desarrollo_contenidos')
+    @endif
 @else
     <div class="row">
         <div class="col-md-12">

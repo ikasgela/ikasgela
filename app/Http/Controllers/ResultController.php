@@ -7,11 +7,11 @@ use App\Models\Curso;
 use App\Models\Registro;
 use App\Models\Unidad;
 use App\Models\User;
-use Auth;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use PDF;
 
 class ResultController extends Controller
@@ -23,6 +23,12 @@ class ResultController extends Controller
 
     public function pdf(Request $request)
     {
+        $user = Auth::user();
+
+        if ($user->baja_ansiedad) {
+            abort(404);
+        }
+
         $curso = Curso::find(setting_usuario('curso_actual'));
         if (is_null($curso))
             abort(404, __('Course not found.'));

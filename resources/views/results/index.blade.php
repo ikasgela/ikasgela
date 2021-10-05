@@ -4,7 +4,7 @@
 
     <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
         <h1>{{ __('Results') }}
-            @if(config('ikasgela.pdf_report_enabled'))
+            @if(config('ikasgela.pdf_report_enabled') && !Auth::user()->baja_ansiedad)
                 @if(!is_null($user->curso_actual()))
                     @if(!Auth::user()->hasAnyRole(['profesor', 'tutor']))
                         <a class="ml-3"
@@ -41,16 +41,23 @@
 
     @if(!is_null($user->curso_actual()))
 
-        @include('results.html.evaluacion_continua')
+        @if(!Auth::user()->baja_ansiedad)
+            @include('results.html.evaluacion_continua')
+        @endif
 
-        @include('results.partials.criterios_calificacion')
+        @if(!Auth::user()->baja_ansiedad)
+            @include('results.partials.criterios_calificacion')
+        @endif
 
-        @include('results.html.desarrollo_competencias')
+        @if(!Auth::user()->baja_ansiedad)
+            @include('results.html.desarrollo_competencias')
+        @endif
 
         @include('results.html.actividades_completadas')
 
-        @include('results.html.actividades_dia')
-
+        @if(!Auth::user()->baja_ansiedad)
+            @include('results.html.actividades_dia')
+        @endif
     @else
         <div class="row">
             <div class="col-md-12">
