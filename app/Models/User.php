@@ -58,6 +58,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'last_active'];
 
+    public function getFullNameAttribute()
+    {
+        return $this->name . ' ' . $this->surname;
+    }
+
     public function avatar_url($width = 64)
     {
         $hash = md5(strtolower(trim($this->email)));

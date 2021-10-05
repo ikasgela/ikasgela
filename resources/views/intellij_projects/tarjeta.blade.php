@@ -70,7 +70,7 @@
                     <table class="table table-bordered small">
                         <thead class="thead-dark">
                         <tr>
-                            <th>{{ __('Owner') }}</th>
+                            <th>{{ __('User') }}</th>
                             <th>{{ __('Percent') }}</th>
                         </tr>
                         </thead>
@@ -81,7 +81,7 @@
                                     <a href="{{ route('profesor.revisar', ['user' => $jplag->match->user->id, 'tarea' => $jplag->match->id]) }}"
                                        class="{{ $jplag->percent > 75 ? 'text-dark' : '' }}"
                                        target="_blank">
-                                        {{ $jplag->match->user->username }}
+                                        {{ $jplag->match->user->full_name }}
                                     </a>
                                 </td>
                                 <td>{{ $jplag->percent }}&thinsp;%</td>
