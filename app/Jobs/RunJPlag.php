@@ -119,6 +119,7 @@ class RunJPlag implements ShouldQueue
         } catch (\Exception $e) {
             Log::error('Error al ejecutar JPlag.', [
                 'exception' => $e->getMessage(),
+                'tarea' => $this->tarea,
             ]);
         } finally {
             // Borrar el directorio temporal
