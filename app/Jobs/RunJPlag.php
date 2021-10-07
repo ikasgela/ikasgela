@@ -87,11 +87,13 @@ class RunJPlag implements ShouldQueue
                                     ->first();
 
                                 // Insertar los resultados en la tabla RegistrosJPlag
-                                JPlag::create([
-                                    'tarea_id' => $this->tarea->id,
-                                    'match_id' => Tarea::where('actividad_id', $datos->actividad_id)->first()->id,
-                                    'percent' => $porcentaje,
-                                ]);
+                                if ($datos != null) {
+                                    JPlag::create([
+                                        'tarea_id' => $this->tarea->id,
+                                        'match_id' => Tarea::where('actividad_id', $datos->actividad_id)->first()->id,
+                                        'percent' => $porcentaje,
+                                    ]);
+                                }
                             }
                         } else {
                             // Recorrer pero solo añadir el primero si aparece el enviado
@@ -105,11 +107,13 @@ class RunJPlag implements ShouldQueue
                                         ->first();
 
                                     // Insertar los resultados en la tabla RegistrosJPlag
-                                    JPlag::create([
-                                        'tarea_id' => $this->tarea->id,
-                                        'match_id' => Tarea::where('actividad_id', $datos->actividad_id)->first()->id,
-                                        'percent' => $porcentaje,
-                                    ]);
+                                    if ($datos != null) {
+                                        JPlag::create([
+                                            'tarea_id' => $this->tarea->id,
+                                            'match_id' => Tarea::where('actividad_id', $datos->actividad_id)->first()->id,
+                                            'percent' => $porcentaje,
+                                        ]);
+                                    }
                                 }
                             }
                         }
