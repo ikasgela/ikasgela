@@ -89,10 +89,12 @@
                         @endforeach
                         </tbody>
                     </table>
-                    <a href="{{ route('profesor.jplag', ['tarea' => $tarea->id]) }}"
-                       class="btn btn-secondary">{{ __('Update') }}</a>
-                    <a href="{{ route('profesor.jplag_download', ['tarea' => $tarea->id]) }}"
-                       class="btn btn-secondary">{{ __('Download') }}</a>
+                    <div class="text-right">
+                        <a href="{{ route('profesor.jplag', ['tarea' => $tarea->id]) }}"
+                           class="btn btn-secondary">{{ __('Update') }}</a>
+                        <a href="{{ route('profesor.jplag_download', ['tarea' => $tarea->id]) }}"
+                           class="btn btn-secondary">{{ __('Download') }}</a>
+                    </div>
                 </div>
             @endif
         @else
