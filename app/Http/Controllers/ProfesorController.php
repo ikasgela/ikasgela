@@ -14,15 +14,21 @@ use App\Models\Tarea;
 use App\Models\Team;
 use App\Models\Unidad;
 use App\Models\User;
+use App\Traits\JPlagRunner;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use NumberFormatter;
+use Zip;
 
 class ProfesorController extends Controller
 {
     use PaginarUltima;
+    use JPlagRunner;
 
     public function __construct()
     {
@@ -250,6 +256,46 @@ class ProfesorController extends Controller
     {
         if ($tarea->actividad->intellij_projects->count() > 0) {
             RunJPlag::dispatch($tarea);
+        }
+
+        return back();
+    }
+
+    public function jplag_download(Tarea $tarea)
+    {
+        if ($tarea->actividad->intellij_projects->count() > 0) {
+
+            $directorio = '/' . Str::uuid() . '/';
+
+            try {
+                // Crear el directorio temporal
+                Storage::disk('temp')->makeDirectory($directorio);
+                $ruta = Storage::disk('temp')->path($directorio);
+
+                $this->run_jplag($tarea, $ruta, $directorio);
+
+                // Crear el zip
+                $fecha = now()->format('YmdHis');
+                $nombre = Str::slug($tarea->actividad->full_name);
+
+                $ficheros = Storage::disk('temp')->files($directorio . '/__resultados');
+
+                $ficheros_ruta_completa = [];
+                foreach ($ficheros as $fichero) {
+                    array_push($ficheros_ruta_completa, Storage::disk('temp')->path($fichero));
+                }
+
+                // Almacenar el directorio para borrarlo al terminar con un evento
+                session(['_delete_me' => $directorio]);
+
+                return Zip::create("jplag-{$nombre}-{$fecha}.zip", $ficheros_ruta_completa);
+
+            } catch (\Exception $e) {
+                Log::error('Error al ejecutar JPlag.', [
+                    'exception' => $e->getMessage(),
+                    'tarea' => $tarea,
+                ]);
+            }
         }
 
         return back();
