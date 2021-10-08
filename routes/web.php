@@ -122,6 +122,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Ejecutar JPlag sobre una tarea
         Route::get('/profesor/jplag/{tarea}', 'ProfesorController@jplag')
             ->name('profesor.jplag');
+        Route::get('/profesor/jplag_download/{tarea}', 'ProfesorController@jplag_download')
+            ->name('profesor.jplag_download');
 
         // Borrar una tarea
         Route::delete('/tareas/{user}/destroy/{tarea}', 'TareaController@destroy')
