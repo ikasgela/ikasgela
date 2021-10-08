@@ -10,7 +10,7 @@ use TitasGailius\Terminal\Terminal;
 
 trait JPlagRunner
 {
-    public function jplag(Tarea $tarea, string $ruta, string $directorio): void
+    public function run_jplag(Tarea $tarea, string $ruta, string $directorio): void
     {
         // Buscar todas las actividades de compartan plantilla con la actual
         $curso = $tarea->user->curso_actual();

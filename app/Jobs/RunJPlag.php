@@ -37,7 +37,7 @@ class RunJPlag implements ShouldQueue
             Storage::disk('temp')->makeDirectory($directorio);
             $ruta = Storage::disk('temp')->path($directorio);
 
-            $this->jplag($this->tarea, $ruta, $directorio);
+            $this->run_jplag($this->tarea, $ruta, $directorio);
 
         } catch (\Exception $e) {
             Log::error('Error al ejecutar JPlag.', [
