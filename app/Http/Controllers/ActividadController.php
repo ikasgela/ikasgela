@@ -164,8 +164,9 @@ class ActividadController extends Controller
 
             $feedbacks = $actividad->feedbacks()->orderBy('orden')->get();
             $ids = $feedbacks->pluck('id')->toArray();
+            $jplags = [];
 
-            return view('actividades.preview', compact(['actividad', 'feedbacks', 'ids']));
+            return view('actividades.preview', compact(['actividad', 'feedbacks', 'ids', 'jplags']));
         } else {
             abort(404, __('Activity not found.'));
         }
