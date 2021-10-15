@@ -64,7 +64,7 @@
                     @endif
                 @endif
             </div>
-            @if(Auth::user()->hasRole('profesor'))
+            @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() != 'actividades.preview')
                 <h5 class="card-title mt-5">{{ __('JPlag results') }}</h5>
                 <div class="table-responsive">
                     <table class="table table-bordered small">
@@ -90,9 +90,9 @@
                         </tbody>
                     </table>
                     <div class="text-right">
-                        <a href="{{ route('profesor.jplag', ['tarea' => $tarea->id]) }}"
+                        <a href="{{ route('profesor.jplag', ['tarea' => $tarea?->id]) }}"
                            class="btn btn-secondary">{{ __('Update') }}</a>
-                        <a href="{{ route('profesor.jplag_download', ['tarea' => $tarea->id]) }}"
+                        <a href="{{ route('profesor.jplag_download', ['tarea' => $tarea?->id]) }}"
                            class="btn btn-secondary">{{ __('Download') }}</a>
                     </div>
                 </div>
