@@ -108,6 +108,9 @@
                                 @if($actividad->unidad->curso->disponible() || $actividad->hasEtiqueta('examen'))
                                     @if(!$actividad->is_expired) {{-- Mostrar el botón si no ha superado el límite --}}
                                     <button type="submit" name="nuevoestado" value="30"
+                                            @if(!$actividad->auto_avance)
+                                            onclick="return confirm('{{ __('Are you sure?') }}\n\n{{ __('This will submit the activity for review and show the next one if available.') }}')"
+                                            @endif
                                             class="btn btn-primary mr-2 single_click">
                                         <i class="fas fa-spinner fa-spin"
                                            style="display:none;"></i> {{ __('Submit for review') }}</button>

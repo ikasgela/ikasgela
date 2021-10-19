@@ -102,6 +102,7 @@ class T4_TareasTest extends DuskTestCase
 
             // Enviar para revisión
             $browser->press('Enviar para revisión');
+            $browser->acceptDialog();
             $browser->assertPathIs('/home');
 
             // Aparece la siguiente actividad
