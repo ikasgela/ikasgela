@@ -5,7 +5,9 @@
             <div class="row">
                 <div class="col-12 col-sm-6 p-3">
                     <h5 class="card-title">
-                        {{ $user->name }} {{ $user->surname }}
+                        <a title="{{ __('Control panel') }}"
+                           href="{{ route('profesor.tareas', ['user' => $user->id]) }}"
+                           class='text-dark'>{{ $user->full_name }}</a>
                         @include('profesor.partials.status_usuario')
                         @include('profesor.partials.acciones_usuario')
                     </h5>

@@ -6,6 +6,10 @@
 
 @if(Auth::user()?->hasAnyRole(['profesor', 'admin']))
     <div class='btn-group ml-3'>
+        <a title="{{ __('Control panel') }}"
+           href="{{ route('profesor.tareas', ['user' => $user->id]) }}"
+           class='btn btn-light btn-sm'><i class="fas fa-tasks"></i></a>
+
         {!! Form::open(['route' => ['results.alumno'], 'method' => 'POST']) !!}
         {!! Form::button('<i class="fas fa-graduation-cap"></i>', ['type' => 'submit',
             'class' => 'btn btn-light btn-sm', 'title' => __('Results')
