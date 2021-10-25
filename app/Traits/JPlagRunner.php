@@ -5,6 +5,7 @@ namespace App\Traits;
 use App\Models\JPlag;
 use App\Models\Tarea;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use TitasGailius\Terminal\Terminal;
 
@@ -22,16 +23,30 @@ trait JPlagRunner
 
             foreach ($intellij_projects as $intellij_project) {
                 $repositorio = $intellij_project->repository();
-                Terminal::in($ruta)
+                $response = Terminal::in($ruta)
                     ->run('git clone http://root:' . config('gitea.token') . '@gitea:3000/'
                         . $repositorio['path_with_namespace'] . '.git '
                         . $repositorio['owner'] . '@' . $repositorio['name']);
+
+                if (!$response->successful()) {
+                    Log::error('Error al descargar repositorios mediante Git.', [
+                        'output' => $response->lines(),
+                        'tarea' => $tarea,
+                    ]);
+                }
             }
         }
 
         // Ejecutar JPlag
-        Terminal::in($ruta)
+        $response = Terminal::in($ruta)
             ->run('java -jar /opt/jplag.jar -l java19 -m 1000 -s -r "./__resultados" .');
+
+        if (!$response->successful()) {
+            Log::error('Error al ejecutar JPlag.', [
+                'output' => $response->lines(),
+                'tarea' => $tarea,
+            ]);
+        }
 
         if (Storage::disk('temp')->exists($directorio . '/__resultados/matches_avg.csv')) {
 
