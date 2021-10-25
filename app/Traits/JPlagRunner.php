@@ -33,6 +33,11 @@ trait JPlagRunner
                         'output' => $response->lines(),
                         'tarea' => $tarea,
                     ]);
+                } else {
+                    Log::debug('Descargando repositorios mediante Git.', [
+                        'output' => $response->lines(),
+                        'tarea' => $tarea,
+                    ]);
                 }
             }
         }
