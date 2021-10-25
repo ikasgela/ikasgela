@@ -44825,7 +44825,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /*!
- * perfect-scrollbar v1.5.2
+ * perfect-scrollbar v1.5.3
  * Copyright 2021 Hyunje Jun, MDBootstrap and Contributors
  * Licensed under MIT
  */
@@ -45386,7 +45386,9 @@ function bindMouseScrollHandler(
     updateGeometry(i);
 
     e.stopPropagation();
-    e.preventDefault();
+    if (e.type.startsWith('touch') && e.changedTouches.length > 1) {
+      e.preventDefault();
+    }
   }
 
   function mouseUpHandler() {
