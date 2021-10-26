@@ -12,6 +12,7 @@ trait SharedKeys
         'num_actividades_en_curso_',
         'num_actividades_en_curso_autoavance_',
         'num_actividades_enviadas_noautoavance_',
+        'num_actividades_enviadas_noautoavance_noexamen_',
         'num_actividades_revisadas_',
         'num_actividades_archivadas_',
         'num_actividades_completadas_',
