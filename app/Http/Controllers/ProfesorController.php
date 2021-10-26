@@ -60,6 +60,14 @@ class ProfesorController extends Controller
             }
         }
 
+        if ($request->has('filtro_actividades_examen')) {
+            if (session('profesor_filtro_actividades_examen') == 'E') {
+                session(['profesor_filtro_actividades_examen' => '']);
+            } else {
+                session(['profesor_filtro_actividades_examen' => 'E']);
+            }
+        }
+
         $curso_actual = Curso::find(setting_usuario('curso_actual'));
 
         if ($curso_actual != null) {
