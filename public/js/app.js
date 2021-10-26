@@ -49158,7 +49158,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* binding */ render),
 /* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
 /* harmony export */ });
-var render = function() {
+var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
@@ -49169,7 +49169,7 @@ var render = function() {
       _c("form", { staticClass: "form-horizontal" }, [
         _c("div", { staticClass: "form-group row" }, [
           _c("label", { staticClass: "col-md-3" }, [
-            _vm._v("Contraseña actual")
+            _vm._v("Contraseña actual"),
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-9" }, [
@@ -49179,27 +49179,27 @@ var render = function() {
                   name: "model",
                   rawName: "v-model",
                   value: _vm.password.current,
-                  expression: "password.current"
-                }
+                  expression: "password.current",
+                },
               ],
               staticClass: "form-control",
               class: { "is-invalid": _vm.errors.current },
               attrs: { type: "password" },
               domProps: { value: _vm.password.current },
               on: {
-                input: function($event) {
+                input: function ($event) {
                   if ($event.target.composing) {
                     return
                   }
                   _vm.$set(_vm.password, "current", $event.target.value)
-                }
-              }
+                },
+              },
             }),
             _vm._v(" "),
             _c("span", { staticClass: "help-block" }, [
               _vm._v(
                 "Tienes que escribir la contraseña actual para poder cambiarla."
-              )
+              ),
             ]),
             _vm._v(" "),
             _vm.errors.current
@@ -49208,15 +49208,15 @@ var render = function() {
                     "\n                        " +
                       _vm._s(_vm.errors.current[0]) +
                       "\n                    "
-                  )
+                  ),
                 ])
-              : _vm._e()
-          ])
+              : _vm._e(),
+          ]),
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "form-group row" }, [
           _c("label", { staticClass: "col-md-3" }, [
-            _vm._v("Nueva contraseña")
+            _vm._v("Nueva contraseña"),
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-9" }, [
@@ -49226,21 +49226,21 @@ var render = function() {
                   name: "model",
                   rawName: "v-model",
                   value: _vm.password.password,
-                  expression: "password.password"
-                }
+                  expression: "password.password",
+                },
               ],
               staticClass: "form-control",
               class: { "is-invalid": _vm.errors.password },
               attrs: { type: "password" },
               domProps: { value: _vm.password.password },
               on: {
-                input: function($event) {
+                input: function ($event) {
                   if ($event.target.composing) {
                     return
                   }
                   _vm.$set(_vm.password, "password", $event.target.value)
-                }
-              }
+                },
+              },
             }),
             _vm._v(" "),
             _vm.errors.password
@@ -49249,15 +49249,15 @@ var render = function() {
                     "\n                        " +
                       _vm._s(_vm.errors.password[0]) +
                       "\n                    "
-                  )
+                  ),
                 ])
-              : _vm._e()
-          ])
+              : _vm._e(),
+          ]),
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "form-group row" }, [
           _c("label", { staticClass: "col-md-3" }, [
-            _vm._v("Confirmar la contraseña")
+            _vm._v("Confirmar la contraseña"),
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-9" }, [
@@ -49267,15 +49267,15 @@ var render = function() {
                   name: "model",
                   rawName: "v-model",
                   value: _vm.password.password_confirmation,
-                  expression: "password.password_confirmation"
-                }
+                  expression: "password.password_confirmation",
+                },
               ],
               staticClass: "form-control",
               class: { "is-invalid": _vm.errors.password_confirmation },
               attrs: { type: "password" },
               domProps: { value: _vm.password.password_confirmation },
               on: {
-                input: function($event) {
+                input: function ($event) {
                   if ($event.target.composing) {
                     return
                   }
@@ -49284,8 +49284,8 @@ var render = function() {
                     "password_confirmation",
                     $event.target.value
                   )
-                }
-              }
+                },
+              },
             }),
             _vm._v(" "),
             _vm.errors.password_confirmation
@@ -49294,12 +49294,12 @@ var render = function() {
                     "\n                        " +
                       _vm._s(_vm.errors.password_confirmation[0]) +
                       "\n                    "
-                  )
+                  ),
                 ])
-              : _vm._e()
-          ])
-        ])
-      ])
+              : _vm._e(),
+          ]),
+        ]),
+      ]),
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "card-footer" }, [
@@ -49310,30 +49310,30 @@ var render = function() {
             {
               staticClass: "btn btn-primary",
               attrs: { type: "button", disabled: _vm.submiting },
-              on: { click: _vm.updateAuthUserPassword }
+              on: { click: _vm.updateAuthUserPassword },
             },
             [
               _vm.submiting
                 ? _c("i", { staticClass: "fas fa-spinner fa-spin" })
                 : _vm._e(),
-              _vm._v(" Guardar\n                ")
+              _vm._v(" Guardar\n                "),
             ]
-          )
-        ])
-      ])
-    ])
+          ),
+        ]),
+      ]),
+    ]),
   ])
 }
 var staticRenderFns = [
-  function() {
+  function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("i", { staticClass: "fas fa-pencil-alt mr-2" }),
-      _vm._v(" Cambiar la contraseña\n    ")
+      _vm._v(" Cambiar la contraseña\n    "),
     ])
-  }
+  },
 ]
 render._withStripped = true
 
@@ -49353,7 +49353,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* binding */ render),
 /* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
 /* harmony export */ });
-var render = function() {
+var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
@@ -49374,25 +49374,25 @@ var render = function() {
                   name: "model",
                   rawName: "v-model",
                   value: _vm.user.name,
-                  expression: "user.name"
-                }
+                  expression: "user.name",
+                },
               ],
               staticClass: "form-control",
               class: { "is-invalid": _vm.errors.name },
               attrs: { type: "text" },
               domProps: { value: _vm.user.name },
               on: {
-                input: function($event) {
+                input: function ($event) {
                   if ($event.target.composing) {
                     return
                   }
                   _vm.$set(_vm.user, "name", $event.target.value)
-                }
-              }
+                },
+              },
             }),
             _vm._v(" "),
             _c("span", { staticClass: "help-block" }, [
-              _vm._v("Escribe tu nombre para que la gente pueda reconocerte.")
+              _vm._v("Escribe tu nombre para que la gente pueda reconocerte."),
             ]),
             _vm._v(" "),
             _vm.errors.name
@@ -49401,10 +49401,10 @@ var render = function() {
                     "\n                        " +
                       _vm._s(_vm.errors.name[0]) +
                       "\n                    "
-                  )
+                  ),
                 ])
-              : _vm._e()
-          ])
+              : _vm._e(),
+          ]),
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "form-group row" }, [
@@ -49417,25 +49417,25 @@ var render = function() {
                   name: "model",
                   rawName: "v-model",
                   value: _vm.user.surname,
-                  expression: "user.surname"
-                }
+                  expression: "user.surname",
+                },
               ],
               staticClass: "form-control",
               class: { "is-invalid": _vm.errors.surname },
               attrs: { type: "text" },
               domProps: { value: _vm.user.surname },
               on: {
-                input: function($event) {
+                input: function ($event) {
                   if ($event.target.composing) {
                     return
                   }
                   _vm.$set(_vm.user, "surname", $event.target.value)
-                }
-              }
+                },
+              },
             }),
             _vm._v(" "),
             _c("span", { staticClass: "help-block" }, [
-              _vm._v("Escribe tus apellidos.")
+              _vm._v("Escribe tus apellidos."),
             ]),
             _vm._v(" "),
             _vm.errors.surname
@@ -49444,10 +49444,10 @@ var render = function() {
                     "\n                        " +
                       _vm._s(_vm.errors.surname[0]) +
                       "\n                    "
-                  )
+                  ),
                 ])
-              : _vm._e()
-          ])
+              : _vm._e(),
+          ]),
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "form-group row" }, [
@@ -49460,27 +49460,27 @@ var render = function() {
                   name: "model",
                   rawName: "v-model",
                   value: _vm.user.email,
-                  expression: "user.email"
-                }
+                  expression: "user.email",
+                },
               ],
               staticClass: "form-control",
               class: { "is-invalid": _vm.errors.email },
               attrs: { type: "email", readonly: "" },
               domProps: { value: _vm.user.email },
               on: {
-                input: function($event) {
+                input: function ($event) {
                   if ($event.target.composing) {
                     return
                   }
                   _vm.$set(_vm.user, "email", $event.target.value)
-                }
-              }
+                },
+              },
             }),
             _vm._v(" "),
             _c("span", { staticClass: "help-block" }, [
               _vm._v(
                 "Esta dirección de email se mostrará en tu perfil público."
-              )
+              ),
             ]),
             _vm._v(" "),
             _vm.errors.email
@@ -49489,12 +49489,12 @@ var render = function() {
                     "\n                        " +
                       _vm._s(_vm.errors.email[0]) +
                       "\n                    "
-                  )
+                  ),
                 ])
-              : _vm._e()
-          ])
-        ])
-      ])
+              : _vm._e(),
+          ]),
+        ]),
+      ]),
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "card-footer" }, [
@@ -49505,31 +49505,31 @@ var render = function() {
             {
               staticClass: "btn btn-primary",
               attrs: { type: "button", disabled: _vm.submiting },
-              on: { click: _vm.updateAuthUser }
+              on: { click: _vm.updateAuthUser },
             },
             [
               _vm.submiting
                 ? _c("i", { staticClass: "fas fa-spinner fa-spin" })
                 : _vm._e(),
-              _vm._v(" Guardar\n                ")
+              _vm._v(" Guardar\n                "),
             ]
-          )
-        ])
-      ])
-    ])
+          ),
+        ]),
+      ]),
+    ]),
   ])
 }
 var staticRenderFns = [
-  function() {
+  function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("i", { staticClass: "fas fa-pencil-alt mr-2" }),
-      _vm._v(" Editar perfil\n    ")
+      _vm._v(" Editar perfil\n    "),
     ])
   },
-  function() {
+  function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
@@ -49544,11 +49544,11 @@ var staticRenderFns = [
             { attrs: { href: "https://es.gravatar.com/", target: "_blank" } },
             [_vm._v("Gravatar")]
           ),
-          _vm._v(".")
-        ])
-      ])
+          _vm._v("."),
+        ]),
+      ]),
     ])
-  }
+  },
 ]
 render._withStripped = true
 
