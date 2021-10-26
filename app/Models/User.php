@@ -262,6 +262,23 @@ class User extends Authenticatable implements MustVerifyEmail
         });
     }
 
+    public function actividades_enviadas_noautoavance_noexamen()
+    {
+        return $this->actividades()
+            ->wherePivotIn('estado', [30])
+            ->where('auto_avance', false)
+            ->tag('examen', false);
+    }
+
+    public function num_actividades_enviadas_noautoavance_noexamen()
+    {
+        $key = 'num_actividades_enviadas_noautoavance_noexamen_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_enviadas_noautoavance_noexamen()->count();
+        });
+    }
+
     public function actividades_revisadas()
     {
         return $this->actividades()

@@ -62,8 +62,13 @@
                 <td class="clickable text-center">{{ $user->num_actividades_ocultas() }}</td>
                 <td class="clickable text-center">{{ $user->num_actividades_nuevas() }}</td>
                 <td class="clickable text-center">{{ $user->num_actividades_aceptadas() }}</td>
-                <td class="clickable text-center {{ $user->num_actividades_enviadas_noautoavance() > 0 ? 'bg-danger text-white' : '' }}">{{ $user->num_actividades_enviadas_noautoavance() }}</td>
-                @php($total_enviadas += $user->num_actividades_enviadas_noautoavance())
+                @if(session('profesor_filtro_actividades_examen') == 'E')
+                    <td class="clickable text-center {{ $user->num_actividades_enviadas_noautoavance() > 0 ? 'bg-danger text-white' : '' }}">{{ $user->num_actividades_enviadas_noautoavance() }}</td>
+                    @php($total_enviadas += $user->num_actividades_enviadas_noautoavance())
+                @else
+                    <td class="clickable text-center {{ $user->num_actividades_enviadas_noautoavance_noexamen() > 0 ? 'bg-danger text-white' : '' }}">{{ $user->num_actividades_enviadas_noautoavance_noexamen() }}</td>
+                    @php($total_enviadas += $user->num_actividades_enviadas_noautoavance_noexamen())
+                @endif
                 <td class="clickable text-center">{{ $user->num_actividades_revisadas() }}</td>
                 <td class="clickable text-center">{{ $user->num_actividades_archivadas() }}</td>
                 <td class="clickable text-center {{ $user->num_actividades_caducadas() > 0 ? 'bg-warning text-black' : '' }}">{{ $user->num_actividades_caducadas() }}</td>

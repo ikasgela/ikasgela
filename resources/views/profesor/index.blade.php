@@ -45,6 +45,15 @@
                 ]) !!}
                 {!! Form::hidden('filtro_etiquetas','N') !!}
                 {!! Form::close() !!}
+
+                <span class="mx-1"></span>
+
+                {!! Form::open(['route' => ['profesor.index.filtro'], 'method' => 'POST']) !!}
+                {!! Form::button(__('Exams'), ['type' => 'submit',
+                    'class' => session('profesor_filtro_actividades_examen') == 'E' ? 'btn btn-sm mx-1 btn-primary' : 'btn btn-sm mx-1 btn-outline-secondary'
+                ]) !!}
+                {!! Form::hidden('filtro_actividades_examen','E') !!}
+                {!! Form::close() !!}
             </div>
         </div>
         <h2 class="text-muted font-xl">{{ Auth::user()->curso_actual()?->pretty_name }}</h2>
