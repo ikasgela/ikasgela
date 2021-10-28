@@ -94,6 +94,12 @@ trait JPlagRunner
                                     'match_id' => Tarea::where('actividad_id', $datos->actividad_id)->first()->id,
                                     'percent' => $porcentaje,
                                 ]);
+                            } else {
+                                Log::error('Error al ejecutar JPlag, no se han encontrado datos.', [
+                                    'enviado' => $enviado,
+                                    'resultado' => $resultado,
+                                    'tarea' => route('profesor.revisar', ['user' => $tarea->user->id, 'tarea' => $tarea->id]),
+                                ]);
                             }
                         }
                     } else {
