@@ -21,4 +21,6 @@ return [
 
     'pdf_report_enabled' => env('PDF_REPORT_ENABLED', false),
     'excel_report_enabled' => env('EXCEL_REPORT_ENABLED', false),
+
+    'jplag_delete_temp' => env('JPLAG_DELETE_TEMP', true),
 ];

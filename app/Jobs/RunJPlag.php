@@ -46,7 +46,9 @@ class RunJPlag implements ShouldQueue
             ]);
         } finally {
             // Borrar el directorio temporal
-            //Storage::disk('temp')->deleteDirectory($directorio);
+            if (config('ikasgela.jplag_delete_temp')) {
+                Storage::disk('temp')->deleteDirectory($directorio);
+            }
         }
     }
 }
