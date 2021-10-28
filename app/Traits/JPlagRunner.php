@@ -17,14 +17,14 @@ trait JPlagRunner
         $curso = $tarea->user->curso_actual();
         $actividades = $curso->actividades()->where('plantilla_id', $tarea->actividad->plantilla_id)->get();
 
+        Log::debug('Ejecutando JPlag...', [
+            'actividades' => $actividades?->count(),
+            'tarea' => route('profesor.revisar', ['user' => $tarea->user->id, 'tarea' => $tarea->id]),
+        ]);
+
         // Descargar los repositorios
         foreach ($actividades as $actividad) {
             $intellij_projects = $actividad->intellij_projects()->get();
-
-            Log::debug('Ejecutando JPlag...', [
-                'projects' => $intellij_projects?->count(),
-                'tarea' => route('profesor.revisar', ['user' => $tarea->user->id, 'tarea' => $tarea->id]),
-            ]);
 
             foreach ($intellij_projects as $intellij_project) {
                 $repositorio = $intellij_project->repository();
