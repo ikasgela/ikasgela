@@ -67,6 +67,11 @@ trait JPlagRunner
                 return str_replace("@", "/", str_getcsv($v, ";"));
             }, file($ruta . '/__resultados/matches_avg.csv'));
 
+            Log::debug('Resultados de JPlag.', [
+                'resultados' => $resultados,
+                'tarea' => route('profesor.revisar', ['user' => $tarea->user->id, 'tarea' => $tarea->id]),
+            ]);
+
             // Borrar las entradas de envíos anteriores
             if ($tarea->id > 0)
                 DB::table('j_plags')->where('tarea_id', '=', $tarea->id)->delete();
@@ -76,6 +81,11 @@ trait JPlagRunner
                 $enviado = $intellij_project->repository();
                 foreach ($resultados as $resultado) {
                     $resultado = array_filter($resultado, 'strlen');
+
+                    Log::debug('Resultado individual de JPlag.', [
+                        'enviado' => $enviado,
+                        'resultado' => $resultado,
+                    ]);
 
                     if ($enviado['path_with_namespace'] == $resultado[0]) {
                         // Recorrer todos y añadirlos a la tabla
