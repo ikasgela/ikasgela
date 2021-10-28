@@ -21,6 +21,11 @@ trait JPlagRunner
         foreach ($actividades as $actividad) {
             $intellij_projects = $actividad->intellij_projects()->get();
 
+            Log::debug('Ejecutando JPlag...', [
+                'projects' => $intellij_projects?->count(),
+                'tarea' => route('profesor.revisar', ['user' => $tarea->user->id, 'tarea' => $tarea->id]),
+            ]);
+
             foreach ($intellij_projects as $intellij_project) {
                 $repositorio = $intellij_project->repository();
                 $response = Terminal::in($ruta)
@@ -31,12 +36,12 @@ trait JPlagRunner
                 if (!$response->successful()) {
                     Log::error('Error al descargar repositorios mediante Git.', [
                         'output' => $response->lines(),
-                        'tarea' => $tarea,
+                        'tarea' => route('profesor.revisar', ['user' => $tarea->user->id, 'tarea' => $tarea->id]),
                     ]);
                 } else {
                     Log::debug('Descargando repositorios mediante Git.', [
                         'output' => $response->lines(),
-                        'tarea' => $tarea,
+                        'tarea' => route('profesor.revisar', ['user' => $tarea->user->id, 'tarea' => $tarea->id]),
                     ]);
                 }
             }
@@ -49,7 +54,7 @@ trait JPlagRunner
         if (!$response->successful()) {
             Log::error('Error al ejecutar JPlag.', [
                 'output' => $response->lines(),
-                'tarea' => $tarea,
+                'tarea' => route('profesor.revisar', ['user' => $tarea->user->id, 'tarea' => $tarea->id]),
             ]);
         }
 
