@@ -18,6 +18,7 @@ trait JPlagRunner
         $actividades = $curso->actividades()->where('plantilla_id', $tarea->actividad->plantilla_id)->get();
 
         Log::debug('Ejecutando JPlag...', [
+            'directorio' => $directorio,
             'actividades' => $actividades?->count(),
             'tarea' => route('profesor.revisar', ['user' => $tarea->user->id, 'tarea' => $tarea->id]),
         ]);
