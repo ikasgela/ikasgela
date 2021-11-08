@@ -14,7 +14,7 @@ trait JPlagRunner
     public function run_jplag(Tarea $tarea, string $ruta, string $directorio): void
     {
         // Buscar todas las actividades de compartan plantilla con la actual
-        $curso = $tarea->user->curso_actual();
+        $curso = $tarea->actividad->unidad->curso;
         $actividades = $curso->actividades()->where('plantilla_id', $tarea->actividad->plantilla_id)->get();
 
         Log::debug('Ejecutando JPlag...', [
