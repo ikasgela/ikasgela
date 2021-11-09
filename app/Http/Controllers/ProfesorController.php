@@ -83,20 +83,22 @@ class ProfesorController extends Controller
                 session()->push('tags', request('tag'));
             }
 
+            if (session('profesor_filtro_actividades_examen') == 'E') {
+                if (session('profesor_filtro_alumnos') == 'R') {
+                    $alumnos = $alumnos->whereHas('actividades', function ($query) {
+                        $query->where('auto_avance', false)->where('estado', 30);
+                    });
+                }
+            } else {
+                if (session('profesor_filtro_alumnos') == 'R') {
+                    $alumnos = $alumnos->whereHas('actividades', function ($query) {
+                        $query->where('auto_avance', false)->tag('examen', false)->where('estado', 30);
+                    });
+                }
+            }
+
             if (!is_null(session('tags')))
                 $alumnos = $alumnos->tags(session('tags'));
-
-            if (session('profesor_filtro_alumnos') == 'R') {
-                $alumnos = $alumnos->whereHas('actividades', function ($query) {
-                    $query->where('auto_avance', false)->where('estado', 30)->tag('examen', false);
-                });
-            }
-
-            if (session('profesor_filtro_actividades_examen') == 'E') {
-                $alumnos = $alumnos->orWhereHas('actividades', function ($query) {
-                    $query->tag('examen', true);
-                });
-            }
 
             switch (session('profesor_filtro_alumnos')) {
                 case 'R':
