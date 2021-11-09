@@ -9707,7 +9707,7 @@ axios.Axios = Axios;
 axios.Cancel = __webpack_require__(/*! ./cancel/Cancel */ "./node_modules/axios/lib/cancel/Cancel.js");
 axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ "./node_modules/axios/lib/cancel/CancelToken.js");
 axios.isCancel = __webpack_require__(/*! ./cancel/isCancel */ "./node_modules/axios/lib/cancel/isCancel.js");
-axios.VERSION = __webpack_require__(/*! ./env/data */ "./node_modules/axios/lib/env/data.js").version;
+axios.VERSION = (__webpack_require__(/*! ./env/data */ "./node_modules/axios/lib/env/data.js").version);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -10524,7 +10524,7 @@ module.exports = function transformData(data, headers, fns) {
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
-/* provided dependency */ var process = __webpack_require__(/*! process/browser */ "./node_modules/process/browser.js");
+/* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
 
 
 var utils = __webpack_require__(/*! ./utils */ "./node_modules/axios/lib/utils.js");
@@ -11127,7 +11127,7 @@ module.exports = function spread(callback) {
 "use strict";
 
 
-var VERSION = __webpack_require__(/*! ../env/data */ "./node_modules/axios/lib/env/data.js").version;
+var VERSION = (__webpack_require__(/*! ../env/data */ "./node_modules/axios/lib/env/data.js").version);
 
 var validators = {};
 
@@ -11815,8 +11815,8 @@ vue_dist_vue__WEBPACK_IMPORTED_MODULE_1___default().toasted.register('error', fu
   position: 'bottom-center',
   duration: 1000
 });
-vue_dist_vue__WEBPACK_IMPORTED_MODULE_1___default().component('profile', __webpack_require__(/*! ./components/profile/Profile.vue */ "./resources/js/components/profile/Profile.vue")["default"]);
-vue_dist_vue__WEBPACK_IMPORTED_MODULE_1___default().component('profile-password', __webpack_require__(/*! ./components/profile/Password.vue */ "./resources/js/components/profile/Password.vue")["default"]); //Vue.component('intellij-project', require('./components/IntellijProject.vue').default);
+vue_dist_vue__WEBPACK_IMPORTED_MODULE_1___default().component('profile', (__webpack_require__(/*! ./components/profile/Profile.vue */ "./resources/js/components/profile/Profile.vue")["default"]));
+vue_dist_vue__WEBPACK_IMPORTED_MODULE_1___default().component('profile-password', (__webpack_require__(/*! ./components/profile/Password.vue */ "./resources/js/components/profile/Password.vue")["default"])); //Vue.component('intellij-project', require('./components/IntellijProject.vue').default);
 
 var app = new (vue_dist_vue__WEBPACK_IMPORTED_MODULE_1___default())({
   el: '#app'
@@ -11934,7 +11934,7 @@ $(document).ready(function ($) {
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-window.Popper = __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js")["default"];
+window.Popper = (__webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js")["default"]);
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
