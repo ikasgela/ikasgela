@@ -93,7 +93,8 @@ class FileUploadController extends Controller
         $file_uploads = $actividad->file_uploads()->get();
 
         $subset = $file_uploads->pluck('id')->unique()->flatten()->toArray();
-        $disponibles = $this->paginate_ultima(FileUpload::where('plantilla', true)->whereNotIn('id', $subset));
+        $curso_actual = Auth::user()->curso_actual()->id;
+        $disponibles = $this->paginate_ultima(FileUpload::where('curso_id', $curso_actual)->where('plantilla', true)->whereNotIn('id', $subset));
 
         return view('file_uploads.actividad', compact(['file_uploads', 'disponibles', 'actividad']));
     }

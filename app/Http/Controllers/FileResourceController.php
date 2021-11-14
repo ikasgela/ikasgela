@@ -87,7 +87,8 @@ class FileResourceController extends Controller
         $file_resources = $actividad->file_resources()->get();
 
         $subset = $file_resources->pluck('id')->unique()->flatten()->toArray();
-        $disponibles = $this->paginate_ultima(FileResource::whereNotIn('id', $subset));
+        $curso_actual = Auth::user()->curso_actual()->id;
+        $disponibles = $this->paginate_ultima(FileResource::where('curso_id', $curso_actual)->whereNotIn('id', $subset));
 
         return view('file_resources.actividad', compact(['file_resources', 'disponibles', 'actividad']));
     }

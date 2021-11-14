@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\Feature\Recursos\YoutubeVideos;
+namespace Tests\Feature\Recursos\FileResources;
 
 use App\Models\Actividad;
 use App\Models\Curso;
-use App\Models\YoutubeVideo;
+use App\Models\FileResource;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
-class YoutubeVideosAsociarActividadTest extends TestCase
+class FileResourcesAsociarActividadTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -27,30 +27,30 @@ class YoutubeVideosAsociarActividadTest extends TestCase
         $actividad = Actividad::factory()->create();
         $curso = Curso::factory()->create();
         setting_usuario(['curso_actual' => $curso->id]);
-        $youtube_video1 = YoutubeVideo::factory()->create([
+        $file_resource1 = FileResource::factory()->create([
             'curso_id' => $curso->id,
         ]);
-        $youtube_video2 = YoutubeVideo::factory()->create([
+        $file_resource2 = FileResource::factory()->create([
             'curso_id' => $curso->id,
         ]);
-        $youtube_video3 = YoutubeVideo::factory()->create([
+        $file_resource3 = FileResource::factory()->create([
             'curso_id' => $curso->id,
         ]);
 
-        $actividad->youtube_videos()->attach($youtube_video1);
-        $actividad->youtube_videos()->attach($youtube_video3);
+        $actividad->file_resources()->attach($file_resource1);
+        $actividad->file_resources()->attach($file_resource3);
 
         // When
-        $response = $this->get(route('youtube_videos.actividad', $actividad));
+        $response = $this->get(route('file_resources.actividad', $actividad));
 
         // Then
         $response->assertSeeInOrder([
-            __('Resources: YouTube videos'),
+            __('Resources: Files'),
             __('Assigned resources'),
-            $youtube_video1->titulo,
-            $youtube_video3->titulo,
+            $file_resource1->repositorio,
+            $file_resource3->repositorio,
             __('Available resources'),
-            $youtube_video2->titulo,
+            $file_resource2->repositorio,
         ]);
     }
 
@@ -63,18 +63,18 @@ class YoutubeVideosAsociarActividadTest extends TestCase
         $actividad = Actividad::factory()->create();
         $curso = Curso::factory()->create();
         setting_usuario(['curso_actual' => $curso->id]);
-        $youtube_video1 = YoutubeVideo::factory()->create([
+        $file_resource1 = FileResource::factory()->create([
             'curso_id' => $curso->id,
         ]);
-        $youtube_video2 = YoutubeVideo::factory()->create([
+        $file_resource2 = FileResource::factory()->create([
             'curso_id' => $curso->id,
         ]);
 
         // When
-        $this->post(route('youtube_videos.asociar', $actividad), ['seleccionadas' => [$youtube_video1, $youtube_video2]]);
+        $this->post(route('file_resources.asociar', $actividad), ['seleccionadas' => [$file_resource1, $file_resource2]]);
 
         // Then
-        $this->assertCount(2, $actividad->youtube_videos()->get());
+        $this->assertCount(2, $actividad->file_resources()->get());
     }
 
     public function testAsociarRequiresSeleccionadas()
@@ -86,7 +86,7 @@ class YoutubeVideosAsociarActividadTest extends TestCase
         $actividad = Actividad::factory()->create();
 
         // When
-        $response = $this->post(route('youtube_videos.asociar', $actividad), ['seleccionadas' => null]);
+        $response = $this->post(route('file_resources.asociar', $actividad), ['seleccionadas' => null]);
 
         // Then
         $response->assertSessionHasErrors('seleccionadas');
@@ -99,16 +99,16 @@ class YoutubeVideosAsociarActividadTest extends TestCase
 
         // Given
         $actividad = Actividad::factory()->create();
-        $youtube_video1 = YoutubeVideo::factory()->create();
-        $youtube_video2 = YoutubeVideo::factory()->create();
+        $file_resource1 = FileResource::factory()->create();
+        $file_resource2 = FileResource::factory()->create();
 
-        $actividad->youtube_videos()->attach($youtube_video1);
-        $actividad->youtube_videos()->attach($youtube_video2);
+        $actividad->file_resources()->attach($file_resource1);
+        $actividad->file_resources()->attach($file_resource2);
 
         // When
-        $this->delete(route('youtube_videos.desasociar', [$actividad, $youtube_video1]));
+        $this->delete(route('file_resources.desasociar', [$actividad, $file_resource1]));
 
         // Then
-        $this->assertCount(1, $actividad->youtube_videos()->get());
+        $this->assertCount(1, $actividad->file_resources()->get());
     }
 }

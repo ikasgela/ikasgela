@@ -4,6 +4,7 @@ namespace Tests\Feature\Recursos\Cuestionarios;
 
 use App\Models\Actividad;
 use App\Models\Cuestionario;
+use App\Models\Curso;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
@@ -24,9 +25,17 @@ class CuestionariosAsociarActividadTest extends TestCase
 
         // Given
         $actividad = Actividad::factory()->create();
-        $cuestionario1 = Cuestionario::factory()->create();
-        $cuestionario2 = Cuestionario::factory()->create();
-        $cuestionario3 = Cuestionario::factory()->create();
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+        $cuestionario1 = Cuestionario::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
+        $cuestionario2 = Cuestionario::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
+        $cuestionario3 = Cuestionario::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
 
         $actividad->cuestionarios()->attach($cuestionario1);
         $actividad->cuestionarios()->attach($cuestionario3);
@@ -52,8 +61,14 @@ class CuestionariosAsociarActividadTest extends TestCase
 
         // Given
         $actividad = Actividad::factory()->create();
-        $cuestionario1 = Cuestionario::factory()->create();
-        $cuestionario2 = Cuestionario::factory()->create();
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+        $cuestionario1 = Cuestionario::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
+        $cuestionario2 = Cuestionario::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
 
         // When
         $this->post(route('cuestionarios.asociar', $actividad), ['seleccionadas' => [$cuestionario1, $cuestionario2]]);

@@ -3,6 +3,7 @@
 namespace Tests\Feature\Recursos\FileUploads;
 
 use App\Models\Actividad;
+use App\Models\Curso;
 use App\Models\FileUpload;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -24,9 +25,17 @@ class FileUploadsAsociarActividadTest extends TestCase
 
         // Given
         $actividad = Actividad::factory()->create();
-        $file_upload1 = FileUpload::factory()->create();
-        $file_upload2 = FileUpload::factory()->create();
-        $file_upload3 = FileUpload::factory()->create();
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+        $file_upload1 = FileUpload::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
+        $file_upload2 = FileUpload::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
+        $file_upload3 = FileUpload::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
 
         $actividad->file_uploads()->attach($file_upload1);
         $actividad->file_uploads()->attach($file_upload3);
@@ -52,8 +61,14 @@ class FileUploadsAsociarActividadTest extends TestCase
 
         // Given
         $actividad = Actividad::factory()->create();
-        $file_upload1 = FileUpload::factory()->create();
-        $file_upload2 = FileUpload::factory()->create();
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+        $file_upload1 = FileUpload::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
+        $file_upload2 = FileUpload::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
 
         // When
         $this->post(route('file_uploads.asociar', $actividad), ['seleccionadas' => [$file_upload1, $file_upload2]]);
