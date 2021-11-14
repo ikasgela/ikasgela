@@ -100,8 +100,8 @@ class IntellijProjectController extends Controller
         $intellij_projects = $actividad->intellij_projects()->get();
 
         $subset = $intellij_projects->pluck('id')->unique()->flatten()->toArray();
-
-        $disponibles = $this->paginate_ultima(IntellijProject::whereNotIn('id', $subset));
+        $curso_actual = Auth::user()->curso_actual()->id;
+        $disponibles = $this->paginate_ultima(IntellijProject::where('curso_id', $curso_actual)->whereNotIn('id', $subset));
 
         return view('intellij_projects.actividad', compact(['intellij_projects', 'disponibles', 'actividad']));
     }

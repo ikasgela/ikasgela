@@ -90,7 +90,8 @@ class MarkdownTextController extends Controller
         $markdown_texts = $actividad->markdown_texts()->get();
 
         $subset = $markdown_texts->pluck('id')->unique()->flatten()->toArray();
-        $disponibles = $this->paginate_ultima(MarkdownText::whereNotIn('id', $subset));
+        $curso_actual = Auth::user()->curso_actual()->id;
+        $disponibles = $this->paginate_ultima(MarkdownText::where('curso_id', $curso_actual)->whereNotIn('id', $subset));
 
         return view('markdown_texts.actividad', compact(['markdown_texts', 'disponibles', 'actividad']));
     }

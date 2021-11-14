@@ -97,7 +97,8 @@ class CuestionarioController extends Controller
         $cuestionarios = $actividad->cuestionarios()->get();
 
         $subset = $cuestionarios->pluck('id')->unique()->flatten()->toArray();
-        $disponibles = $this->paginate_ultima(Cuestionario::where('plantilla', true)->whereNotIn('id', $subset));
+        $curso_actual = Auth::user()->curso_actual()->id;
+        $disponibles = $this->paginate_ultima(Cuestionario::where('curso_id', $curso_actual)->where('plantilla', true)->whereNotIn('id', $subset));
 
         return view('cuestionarios.actividad', compact(['cuestionarios', 'disponibles', 'actividad']));
     }
