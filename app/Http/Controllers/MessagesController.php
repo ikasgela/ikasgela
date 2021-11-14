@@ -104,7 +104,7 @@ class MessagesController extends Controller
 
         $users = $curso_actual->users()->noBloqueado()->where('users.id', '!=', Auth::id())->orderBy('surname')->orderBy('name')->get();
 
-        $profesores = $curso_actual->users()->rolProfesor()->orderBy('surname')->orderBy('name')->get();
+        $profesores = $curso_actual->users()->noBloqueado()->rolProfesor()->orderBy('surname')->orderBy('name')->get();
 
         $titulo = request('titulo');
 
