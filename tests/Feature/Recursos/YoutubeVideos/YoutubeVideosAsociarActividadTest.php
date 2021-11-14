@@ -3,6 +3,7 @@
 namespace Tests\Feature\Recursos\YoutubeVideos;
 
 use App\Models\Actividad;
+use App\Models\Curso;
 use App\Models\YoutubeVideo;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -24,9 +25,17 @@ class YoutubeVideosAsociarActividadTest extends TestCase
 
         // Given
         $actividad = Actividad::factory()->create();
-        $youtube_video1 = YoutubeVideo::factory()->create();
-        $youtube_video2 = YoutubeVideo::factory()->create();
-        $youtube_video3 = YoutubeVideo::factory()->create();
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+        $youtube_video1 = YoutubeVideo::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
+        $youtube_video2 = YoutubeVideo::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
+        $youtube_video3 = YoutubeVideo::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
 
         $actividad->youtube_videos()->attach($youtube_video1);
         $actividad->youtube_videos()->attach($youtube_video3);
@@ -52,8 +61,14 @@ class YoutubeVideosAsociarActividadTest extends TestCase
 
         // Given
         $actividad = Actividad::factory()->create();
-        $youtube_video1 = YoutubeVideo::factory()->create();
-        $youtube_video2 = YoutubeVideo::factory()->create();
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+        $youtube_video1 = YoutubeVideo::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
+        $youtube_video2 = YoutubeVideo::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
 
         // When
         $this->post(route('youtube_videos.asociar', $actividad), ['seleccionadas' => [$youtube_video1, $youtube_video2]]);

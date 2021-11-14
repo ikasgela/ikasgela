@@ -3,6 +3,7 @@
 namespace Tests\Feature\Recursos\IntellijProjects;
 
 use App\Models\Actividad;
+use App\Models\Curso;
 use App\Models\IntellijProject;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -24,9 +25,17 @@ class IntellijProjectsAsociarActividadTest extends TestCase
 
         // Given
         $actividad = Actividad::factory()->create();
-        $intellij_project1 = IntellijProject::factory()->create();
-        $intellij_project2 = IntellijProject::factory()->create();
-        $intellij_project3 = IntellijProject::factory()->create();
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+        $intellij_project1 = IntellijProject::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
+        $intellij_project2 = IntellijProject::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
+        $intellij_project3 = IntellijProject::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
 
         $actividad->intellij_projects()->attach($intellij_project1);
         $actividad->intellij_projects()->attach($intellij_project3);
@@ -52,8 +61,14 @@ class IntellijProjectsAsociarActividadTest extends TestCase
 
         // Given
         $actividad = Actividad::factory()->create();
-        $intellij_project1 = IntellijProject::factory()->create();
-        $intellij_project2 = IntellijProject::factory()->create();
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+        $intellij_project1 = IntellijProject::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
+        $intellij_project2 = IntellijProject::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
 
         // When
         $this->post(route('intellij_projects.asociar', $actividad), ['seleccionadas' => [$intellij_project1, $intellij_project2]]);

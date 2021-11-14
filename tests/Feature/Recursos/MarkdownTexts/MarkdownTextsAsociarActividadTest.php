@@ -3,6 +3,7 @@
 namespace Tests\Feature\Recursos\MarkdownTexts;
 
 use App\Models\Actividad;
+use App\Models\Curso;
 use App\Models\MarkdownText;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -24,9 +25,17 @@ class MarkdownTextsAsociarActividadTest extends TestCase
 
         // Given
         $actividad = Actividad::factory()->create();
-        $markdown_text1 = MarkdownText::factory()->create();
-        $markdown_text2 = MarkdownText::factory()->create();
-        $markdown_text3 = MarkdownText::factory()->create();
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+        $markdown_text1 = MarkdownText::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
+        $markdown_text2 = MarkdownText::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
+        $markdown_text3 = MarkdownText::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
 
         $actividad->markdown_texts()->attach($markdown_text1);
         $actividad->markdown_texts()->attach($markdown_text3);
@@ -52,8 +61,14 @@ class MarkdownTextsAsociarActividadTest extends TestCase
 
         // Given
         $actividad = Actividad::factory()->create();
-        $markdown_text1 = MarkdownText::factory()->create();
-        $markdown_text2 = MarkdownText::factory()->create();
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+        $markdown_text1 = MarkdownText::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
+        $markdown_text2 = MarkdownText::factory()->create([
+            'curso_id' => $curso->id,
+        ]);
 
         // When
         $this->post(route('markdown_texts.asociar', $actividad), ['seleccionadas' => [$markdown_text1, $markdown_text2]]);
