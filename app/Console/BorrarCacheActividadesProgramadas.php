@@ -20,7 +20,7 @@ class BorrarCacheActividadesProgramadas
         }
 
         if (config('app.debug')) {
-            Log::debug('Cachés borradas.', [
+            Log::info('Cachés borradas.', [
                 'total' => $total,
             ]);
         }
