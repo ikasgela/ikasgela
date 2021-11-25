@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3188e4bf01422913a7867054723ff370",
+    "content-hash": "0d87077b5db3f1cdf6230fbd55e6d78f",
     "packages": [
         {
             "name": "akaunting/laravel-setting",
@@ -5269,16 +5269,16 @@
         },
         {
             "name": "rap2hpoutre/laravel-log-viewer",
-            "version": "v1.7.0",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rap2hpoutre/laravel-log-viewer.git",
-                "reference": "27392d29234b6ff38a456454558f4bcc40cc837a"
+                "reference": "4fa9b45738095fc5febeed6e44f1516e93a8de8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rap2hpoutre/laravel-log-viewer/zipball/27392d29234b6ff38a456454558f4bcc40cc837a",
-                "reference": "27392d29234b6ff38a456454558f4bcc40cc837a",
+                "url": "https://api.github.com/repos/rap2hpoutre/laravel-log-viewer/zipball/4fa9b45738095fc5febeed6e44f1516e93a8de8c",
+                "reference": "4fa9b45738095fc5febeed6e44f1516e93a8de8c",
                 "shasum": ""
             },
             "require": {
@@ -5326,9 +5326,9 @@
             ],
             "support": {
                 "issues": "https://github.com/rap2hpoutre/laravel-log-viewer/issues",
-                "source": "https://github.com/rap2hpoutre/laravel-log-viewer/tree/master"
+                "source": "https://github.com/rap2hpoutre/laravel-log-viewer/tree/v2.0.0"
             },
-            "time": "2020-09-08T12:21:27+00:00"
+            "time": "2021-11-04T12:40:05+00:00"
         },
         {
             "name": "setasign/fpdi",
