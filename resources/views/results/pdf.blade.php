@@ -7,11 +7,11 @@
     <table class="tabla-datos border-dark">
         <tr>
             <th style="width:4cm;">{{ __('Course') }}</th>
-            <td>{{ $curso->category->period->organization->name.' » '.$curso->category->period->name.' » '.$curso->nombre  ?? '' }}</td>
+            <td>{{ $curso->pretty_name }}</td>
         </tr>
         <tr>
             <th>{{ __('Name') }}</th>
-            <td>{{ $user->name }} {{ $user->surname }}</td>
+            <td>{{ $user->full_name }}</td>
         </tr>
         <tr>
             <th>{{ __('Date') }}</th>
