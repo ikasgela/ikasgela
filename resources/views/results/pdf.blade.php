@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h1>{{ __('Results') }}</h1>
+    <h1 style="margin-top:0">{{ __('Results') }}</h1>
 
     <table class="tabla-datos border-dark">
         <tr>

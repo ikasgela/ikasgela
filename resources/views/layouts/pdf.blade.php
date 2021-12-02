@@ -8,7 +8,9 @@
     <title>{{ config('app.name', 'Laravel') }}{{ subdominio() != 'ikasgela' ? ' | '. subdominio() :  '' }}</title>
     <style>
         body {
-            font-size: 8pt
+            font-size: 8pt;
+            padding-top: 1.5cm;
+            padding-bottom: 1.5cm;
         }
 
         table {
@@ -116,7 +118,8 @@
         }
 
         #header {
-
+            position: fixed;
+            top: 0;
         }
 
         #footer {
@@ -131,9 +134,9 @@
 <div id="header">
     <img style="height:1cm;" src="{{ public_path('/img/logo.png') }}"/>
 </div>
-@yield('content')
 <div id="footer">
     <span>© {{ date('Y') }} {{ config('app.company') }}. @lang('All rights reserved.')</span>
 </div>
+@yield('content')
 </body>
 </html>
