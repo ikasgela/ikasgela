@@ -125,16 +125,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.207.0",
+            "version": "3.207.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "c5252787784bf41b678b03cb3292d413fe281319"
+                "reference": "3120e8adc7b2b060a7eb4c3c5e2a8c25c0f95a94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c5252787784bf41b678b03cb3292d413fe281319",
-                "reference": "c5252787784bf41b678b03cb3292d413fe281319",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3120e8adc7b2b060a7eb4c3c5e2a8c25c0f95a94",
+                "reference": "3120e8adc7b2b060a7eb4c3c5e2a8c25c0f95a94",
                 "shasum": ""
             },
             "require": {
@@ -210,9 +210,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.207.0"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.207.1"
             },
-            "time": "2021-11-30T23:44:55+00:00"
+            "time": "2021-12-01T23:44:02+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -8556,16 +8556,16 @@
         },
         {
             "name": "brianium/paratest",
-            "version": "v6.4.0",
+            "version": "v6.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paratestphp/paratest.git",
-                "reference": "9bd410d395a0a972533dbb60b017ce58c91a1024"
+                "reference": "c32a5c4fc2ff339202437d25d19a5f496f880d61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/9bd410d395a0a972533dbb60b017ce58c91a1024",
-                "reference": "9bd410d395a0a972533dbb60b017ce58c91a1024",
+                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/c32a5c4fc2ff339202437d25d19a5f496f880d61",
+                "reference": "c32a5c4fc2ff339202437d25d19a5f496f880d61",
                 "shasum": ""
             },
             "require": {
@@ -8635,7 +8635,7 @@
             ],
             "support": {
                 "issues": "https://github.com/paratestphp/paratest/issues",
-                "source": "https://github.com/paratestphp/paratest/tree/v6.4.0"
+                "source": "https://github.com/paratestphp/paratest/tree/v6.4.1"
             },
             "funding": [
                 {
@@ -8647,7 +8647,7 @@
                     "type": "paypal"
                 }
             ],
-            "time": "2021-11-30T16:25:32+00:00"
+            "time": "2021-12-02T09:12:23+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -10600,16 +10600,16 @@
         },
         {
             "name": "phpunit/php-file-iterator",
-            "version": "3.0.5",
+            "version": "3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-file-iterator.git",
-                "reference": "aa4be8575f26070b100fccb67faabb28f21f66f8"
+                "reference": "cf1c2e7c203ac650e352f4cc675a7021e7d1b3cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/aa4be8575f26070b100fccb67faabb28f21f66f8",
-                "reference": "aa4be8575f26070b100fccb67faabb28f21f66f8",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/cf1c2e7c203ac650e352f4cc675a7021e7d1b3cf",
+                "reference": "cf1c2e7c203ac650e352f4cc675a7021e7d1b3cf",
                 "shasum": ""
             },
             "require": {
@@ -10648,7 +10648,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-file-iterator/issues",
-                "source": "https://github.com/sebastianbergmann/php-file-iterator/tree/3.0.5"
+                "source": "https://github.com/sebastianbergmann/php-file-iterator/tree/3.0.6"
             },
             "funding": [
                 {
@@ -10656,7 +10656,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-09-28T05:57:25+00:00"
+            "time": "2021-12-02T12:48:52+00:00"
         },
         {
             "name": "phpunit/php-invoker",
