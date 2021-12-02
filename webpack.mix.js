@@ -14,7 +14,6 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
     .vue()
     .sass('resources/sass/app.scss', 'public/css')
-    .sass('resources/sass/pdf.scss', 'public/css')
     .styles([
         'node_modules/prismjs/themes/prism-coy.css',
         'node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css',
