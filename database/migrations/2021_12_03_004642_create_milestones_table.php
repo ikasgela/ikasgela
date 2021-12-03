@@ -15,6 +15,12 @@ class CreateMilestonesTable extends Migration
     {
         Schema::create('milestones', function (Blueprint $table) {
             $table->id();
+
+            $table->foreignId('curso_id')->constrained()->onDelete('cascade');
+            $table->string('name');
+            $table->dateTimeTz('date');
+            $table->boolean('published')->default(false);
+
             $table->timestamps();
         });
     }
