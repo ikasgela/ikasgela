@@ -28,4 +28,9 @@ class Milestone extends Model
     {
         return $this->belongsTo(Curso::class);
     }
+
+    public function getCacheKeyAttribute()
+    {
+        return "_" . $this->date->timestamp;
+    }
 }

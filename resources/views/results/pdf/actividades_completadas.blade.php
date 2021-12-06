@@ -17,14 +17,14 @@
                         @endisset
                         @include('unidades.partials.nombre_con_etiquetas')
                     </td>
-                    <td class="text-center {{ $unidad->num_actividades('base') > 0 ? $user->num_completadas('base', $unidad->id) < $unidad->num_actividades('base') ? 'bg-warning text-dark' : 'bg-success' : '' }}">
-                        {{ $user->num_completadas('base', $unidad->id).'/'. $unidad->num_actividades('base') }}
+                    <td class="text-center {{ $unidad->num_actividades('base') > 0 ? $user->num_completadas('base', $unidad->id, $milestone) < $unidad->num_actividades('base') ? 'bg-warning text-dark' : 'bg-success' : '' }}">
+                        {{ $user->num_completadas('base', $unidad->id, $milestone).'/'. $unidad->num_actividades('base') }}
                     </td>
                     <td class="text-center">
-                        {{ $user->num_completadas('extra', $unidad->id) }}
+                        {{ $user->num_completadas('extra', $unidad->id, $milestone) }}
                     </td>
                     <td class="text-center">
-                        {{ $user->num_completadas('repaso', $unidad->id) }}
+                        {{ $user->num_completadas('repaso', $unidad->id, $milestone) }}
                     </td>
                 </tr>
             @endif

@@ -86,12 +86,12 @@ class ResultController extends Controller
         }
 
         // Obtener las calificaciones del usuario
-        $calificaciones = $user->calcular_calificaciones($milestone?->date);
+        $calificaciones = $user->calcular_calificaciones($milestone);
 
         // Calcular la media de actividades del grupo
         $total_actividades_grupo = 0;
         foreach ($users as $usuario) {
-            $total_actividades_grupo += $usuario->num_completadas('base');
+            $total_actividades_grupo += $usuario->num_completadas('base', null, $milestone);
         }
 
         $media_actividades_grupo = formato_decimales($users->count() > 0 ? $total_actividades_grupo / $users->count() : 0, 2);
@@ -169,7 +169,7 @@ class ResultController extends Controller
             'pruebas_evaluacion_fondo', 'pruebas_evaluacion_dato',
             'evaluacion_continua_fondo', 'evaluacion_continua_dato',
             'calificacion_fondo', 'calificacion_dato',
-            'milestones'
+            'milestones', 'milestone'
         ]);
     }
 }
