@@ -22,7 +22,7 @@
         @php($media = false)
         @php($aprobados = 0)
         @foreach($usuarios as $user)
-            @php($calificaciones = $user->calcular_calificaciones())
+            @php($calificaciones = $user->calcular_calificaciones($media_actividades_grupo, $milestone))
             @if(!$media && !isset($exportar) && session('tutor_filtro_alumnos') == 'P'
                     && $user->num_completadas('base') > $media_actividades_grupo)
                 @include('tutor.partials.fila_media')

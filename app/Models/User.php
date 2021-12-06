@@ -565,11 +565,11 @@ class User extends Authenticatable implements MustVerifyEmail
         });
     }
 
-    public function calcular_calificaciones(Milestone $milestone = null): ResultadoCalificaciones
+    public function calcular_calificaciones($media_actividades_grupo, Milestone $milestone = null): ResultadoCalificaciones
     {
         $key = 'calificaciones_' . $this->id . $milestone?->cache_key;
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () use ($milestone) {
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () use ($media_actividades_grupo, $milestone) {
 
             $user = $this;
 
@@ -694,9 +694,15 @@ class User extends Authenticatable implements MustVerifyEmail
             $nota = ($nota / $porcentaje_total) * 100;
 
             // Ajustar la nota en función de las completadas 100% completadas - 100% de nota
+            // Si estamos en una evaluación parcial, ajustar en función de la media de actividades del grupo
             $r->numero_actividades_completadas = $user->num_completadas('base', null, $milestone);
-            if ($r->num_actividades_obligatorias > 0)
-                $nota = $nota * ($r->numero_actividades_completadas / $r->num_actividades_obligatorias);
+            if ($r->num_actividades_obligatorias > 0) {
+                if ($milestone == null) {
+                    $nota = $nota * ($r->numero_actividades_completadas / $r->num_actividades_obligatorias);
+                } else if ($media_actividades_grupo > 0) {
+                    $nota = $nota * ($r->numero_actividades_completadas / $media_actividades_grupo);
+                }
+            }
 
             // Resultados por unidades
 
