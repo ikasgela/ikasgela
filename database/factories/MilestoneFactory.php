@@ -2,19 +2,18 @@
 
 namespace Database\Factories;
 
+use App\Models\Curso;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class MilestoneFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
     public function definition()
     {
         return [
-            //
+            'curso_id' => Curso::factory(),
+            'name' => $this->faker->words(3, true),
+            'date' => $this->faker->dateTimeThisMonth(),
+            'published' => true,
         ];
     }
 }

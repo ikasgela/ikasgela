@@ -196,4 +196,9 @@ class Curso extends Model
     {
         return $this->hasManyDeep('App\Models\Team', ['curso_group', 'App\Models\Group']);
     }
+
+    public function milestones()
+    {
+        return $this->hasMany(Milestone::class);
+    }
 }

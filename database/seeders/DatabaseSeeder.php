@@ -40,6 +40,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RegistrosTableSeeder::class);
 
         $this->call(QualificationsTableSeeder::class);
-
+        $this->call(MilestoneSeeder::class);
     }
 }
