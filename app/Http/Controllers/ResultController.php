@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Charts\TareasEnviadas;
 use App\Models\Curso;
+use App\Models\Milestone;
 use App\Models\Registro;
 use App\Models\Unidad;
 use App\Models\User;
@@ -67,8 +68,25 @@ class ResultController extends Controller
         // Unidades del curso actual
         $unidades = Unidad::cursoActual()->orderBy('orden')->get();
 
+        // Evaluaciones del curso actual
+        $milestones = $curso->milestones()->orderBy('date')->get();
+
+        // Hay otra evaluación seleccionada para mostrar
+        $milestone = null;
+        if (!empty($request->input('milestone_id'))) {
+            $milestone_id = $request->input('milestone_id');
+            if ($milestone_id == -1) {
+                session()->forget('filtrar_milestone_actual');
+            } else {
+                $milestone = Milestone::find($milestone_id);
+                session(['filtrar_milestone_actual' => $milestone_id]);
+            }
+        } else if (!empty(session('filtrar_milestone_actual'))) {
+            $milestone = Milestone::find(session('filtrar_milestone_actual'));
+        }
+
         // Obtener las calificaciones del usuario
-        $calificaciones = $user->calcular_calificaciones();
+        $calificaciones = $user->calcular_calificaciones($milestone?->date);
 
         // Calcular la media de actividades del grupo
         $total_actividades_grupo = 0;
@@ -151,6 +169,7 @@ class ResultController extends Controller
             'pruebas_evaluacion_fondo', 'pruebas_evaluacion_dato',
             'evaluacion_continua_fondo', 'evaluacion_continua_dato',
             'calificacion_fondo', 'calificacion_dato',
+            'milestones'
         ]);
     }
 }

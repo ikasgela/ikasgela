@@ -37,6 +37,9 @@
         {!! Form::open(['route' => ['results.alumno'], 'method' => 'POST']) !!}
         @include('partials.desplegable_usuarios')
         {!! Form::close() !!}
+        {!! Form::open(['route' => ['results.alumno'], 'method' => 'POST']) !!}
+        @include('partials.desplegable_milestones')
+        {!! Form::close() !!}
     @endif
 
     @if(!is_null($user->curso_actual()))

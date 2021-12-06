@@ -14,6 +14,16 @@ class Milestone extends Model
         '__import_id',
     ];
 
+    protected $dates = [
+        'created_at', 'updated_at', 'deleted_at',
+        'date'
+    ];
+
+    public function getFullNameAttribute()
+    {
+        return $this->name . " - " . $this->date->format('d/m/Y');
+    }
+
     public function curso()
     {
         return $this->belongsTo(Curso::class);

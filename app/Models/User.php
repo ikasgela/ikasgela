@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Observers\SharedKeys;
 use App\Traits\Etiquetas;
 use Cache;
+use Carbon\Carbon;
 use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -563,11 +564,12 @@ class User extends Authenticatable implements MustVerifyEmail
         });
     }
 
-    public function calcular_calificaciones(): ResultadoCalificaciones
+    public function calcular_calificaciones(Carbon $fecha_evaluacion = null): ResultadoCalificaciones
     {
         $key = 'calificaciones_' . $this->id;
+        $key .= $fecha_evaluacion != null ? "_" . $fecha_evaluacion->timestamp : "";
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () use ($fecha_evaluacion) {
 
             $user = $this;
 
@@ -593,7 +595,10 @@ class User extends Authenticatable implements MustVerifyEmail
                         $r->hayExamenes = true;
                 }
 
-                foreach ($user->actividades_completadas()->get() as $actividad) {
+                $fecha_inicio = $curso?->fecha_inicio;
+                $fecha_fin = $fecha_evaluacion ?: Carbon::now();
+
+                foreach ($user->actividades_completadas()->whereBetween('tareas.updated_at', [$fecha_inicio, $fecha_fin])->get() as $actividad) {
 
                     // Total de puntos de la actividad
                     $puntuacion_actividad = $actividad->puntuacion * ($actividad->multiplicador ?: 1);
