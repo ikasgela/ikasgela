@@ -356,6 +356,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/feedbacks/{actividad}/create_actividad', 'FeedbackController@create_actividad')
             ->name('feedbacks.create_actividad');
 
+        // CRUD - Milestones
+        Route::resource('milestones', 'MilestoneController');
+        Route::post('/milestones/filtro', 'MilestoneController@index')
+            ->name('milestones.index.filtro');
+
         // Visor de logs: https://github.com/rap2hpoutre/laravel-log-viewer
         Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')
             ->name('logs');
