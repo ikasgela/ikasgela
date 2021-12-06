@@ -2,85 +2,86 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreMilestoneRequest;
-use App\Http\Requests\UpdateMilestoneRequest;
+use App\Models\Curso;
 use App\Models\Milestone;
+use Illuminate\Http\Request;
 
 class MilestoneController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:admin');
+    }
+
     public function index()
     {
-        //
+        $curso_actual = Curso::find(setting_usuario('curso_actual'));
+
+        $milestones = $curso_actual?->milestones()->orderBy('date')->get();
+
+        return view('milestones.index', compact(['milestones']));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        $curso_actual = Curso::find(setting_usuario('curso_actual'));
+
+        return view('milestones.create', compact(['curso_actual']));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreMilestoneRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreMilestoneRequest $request)
+    public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'curso_id' => 'required',
+            'name' => 'required',
+            'date' => 'required',
+        ]);
+
+        Milestone::create([
+            'curso_id' => $request->input('curso_id'),
+            'name' => $request->input('name'),
+            'date' => $request->input('date'),
+            'published' => $request->has('published'),
+        ]);
+
+        return retornar();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Milestone  $milestone
-     * @return \Illuminate\Http\Response
-     */
     public function show(Milestone $milestone)
     {
-        //
+        abort(404);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Milestone  $milestone
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Milestone $milestone)
     {
-        //
+        $cursos = Curso::orderBy('nombre')->get();
+
+        return view('milestones.edit', compact(['milestone', 'cursos']));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateMilestoneRequest  $request
-     * @param  \App\Models\Milestone  $milestone
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateMilestoneRequest $request, Milestone $milestone)
+    public function update(Request $request, Milestone $milestone)
     {
-        //
+        $this->validate($request, [
+            'curso_id' => 'required',
+            'name' => 'required',
+            'date' => 'required',
+        ]);
+
+        $milestone->update([
+            'curso_id' => $request->input('curso_id'),
+            'name' => $request->input('name'),
+            'date' => $request->input('date'),
+            'published' => $request->has('published'),
+        ]);
+
+        return retornar();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Milestone  $milestone
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Milestone $milestone)
     {
-        //
+        $milestone->delete();
+
+        return back();
     }
 }
