@@ -30,7 +30,7 @@
                     @yield('auth')
                 </div>
                 <div class="mt-3 mb-5 text-center">
-                    <a class="text-secondary" href="{{ url('/') }}">{{ __('Return to the homepage') }}</a>
+                    <a class="text-secondary" href="{{ route('portada') }}">{{ __('Return to the homepage') }}</a>
                 </div>
             </div>
         </main>

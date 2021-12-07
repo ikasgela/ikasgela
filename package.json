@@ -31,6 +31,7 @@
         "@fortawesome/fontawesome-free": "^5.15.4",
         "@popperjs/core": "^2.9.3",
         "chart.js": "^3.5.1",
+        "flag-icon-css": "^4.1.6",
         "jquery-countdown": "^2.2.0",
         "perfect-scrollbar": "^1.5.2",
         "prismjs": "^1.24.1",

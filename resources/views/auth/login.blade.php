@@ -91,7 +91,7 @@
             <div class="card text-white bg-primary py-5 d-md-down-none">
                 <div class="card-body text-center">
                     <div style="height:20em">
-                        <img src="svg/logo-dark.svg" class="mb-5" width="200" alt="Logo">
+                        <img src="{{ asset('/svg/logo-dark.svg') }}" class="mb-5" width="200" alt="Logo">
                         @if(isset($current_organization) && $current_organization->isRegistrationOpen())
                             <h2>{{ __('Sign up') }}</h2>
                             <p>{{ __("If you don't have account, create one.") }}</p>
