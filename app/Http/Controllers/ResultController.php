@@ -161,7 +161,7 @@ class ResultController extends Controller
         $evaluacion_continua_dato = $calificaciones->evaluacion_continua_superada ? trans_choice('tasks.passed', 1) : trans_choice('tasks.not_passed', 1);
 
         $calificacion_fondo = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : ($curso?->disponible() ? 'bg-light text-dark' : 'bg-warning text-dark');
-        $calificacion_dato = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? $calificaciones->nota_final : ($curso?->disponible() ? __('Unavailable') : __('Fail'));
+        $calificacion_dato = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada || $milestone != null) ? $calificaciones->nota_final : ($curso?->disponible() ? __('Unavailable') : __('Fail'));
 
         return compact(['user', 'curso', 'users', 'unidades', 'calificaciones', 'media_actividades_grupo', 'chart',
             'actividades_obligatorias_fondo', 'actividades_obligatorias_dato',
