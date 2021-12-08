@@ -71,7 +71,7 @@
     @else
         <div class="row">
             <div class="col-md-12">
-                <p>No tienes tareas archivadas.</p>
+                <p>{{ __('There is not any archived activity.') }}</p>
             </div>
         </div>
     @endif
