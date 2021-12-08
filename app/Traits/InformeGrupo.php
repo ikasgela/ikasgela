@@ -8,7 +8,6 @@ use App\Models\Organization;
 use App\Models\Unidad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Log;
 
 trait InformeGrupo
 {
@@ -32,6 +31,9 @@ trait InformeGrupo
         }
 
         $unidades = Unidad::cursoActual()->orderBy('orden')->get();
+
+        // Evaluaciones del curso actual
+        $milestones = $curso->milestones()->orderBy('date')->get();
 
         // Hay otra evaluación seleccionada para mostrar
         $milestone = null;
@@ -68,7 +70,7 @@ trait InformeGrupo
         return compact(['usuarios', 'unidades', 'organization',
             'total_actividades_grupo', 'curso', 'num_actividades_obligatorias',
             'media_actividades_grupo', 'media_actividades_grupo_formato',
-            'milestone'
+            'milestones', 'milestone'
         ]);
     }
 }

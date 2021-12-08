@@ -39,6 +39,12 @@
         'texto' => 'Aquí aparecerá la tabla con los resultados de todos los alumnos del grupo. Se puede ordenar alfabéticamente o por número de actividades completadas.'
     ])
 
+    @if(Auth::user()->hasAnyRole(['admin']))
+        {!! Form::open(['route' => ['tutor.index'], 'method' => 'POST']) !!}
+        @include('partials.desplegable_milestones')
+        {!! Form::close() !!}
+    @endif
+
     @include('tutor.partials.tabla_usuarios')
 
     <div>
