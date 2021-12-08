@@ -2,7 +2,7 @@
 
 // resources/lang/es/tutorial.php
 
-return array(
+return [
     'ocultable' => 'Puedes desactivar el tutorial en tu perfil de usuario.',
     'para_comenzar' => 'Para comenzar la actividad, acéptala. A partir de ese momento tendrás acceso a sus recursos.',
     'completa_envia' => 'Completa la actividad y, cuando esté lista, envíala para revisar.',
@@ -21,4 +21,4 @@ return array(
     'resultados' => 'Aquí aparecerán los resultados de las competencias asociadas al curso.',
     'cambiar_curso' => 'Si estás matriculado en más de un curso, aquí puedes cambiar de uno a otro.',
     'resultados_tutor' => 'Aquí aparecerá la tabla con los resultados de todos los alumnos del grupo. Se puede ordenar alfabéticamente o por número de actividades completadas.',
-);
+];
