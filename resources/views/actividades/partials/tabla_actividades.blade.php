@@ -72,7 +72,7 @@
                 </td>
                 <td class="clickable">{{ $actividad->slug }}</td>
                 <td class="clickable">{{ formato_decimales($actividad->puntuacion * ($actividad->multiplicador ?: 1)) }}</td>
-                <td class="text-center clickable">{!! $actividad->auto_avance ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                <td class="text-center clickable">@include('partials.check_yes_no', ['checked' => $actividad->auto_avance])</td>
                 <td class="clickable">
                     @include('actividades.partials.siguiente')
                 </td>

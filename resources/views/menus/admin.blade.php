@@ -142,6 +142,11 @@
                 {{ __('Feedback') }}
             </a>
         </li>
+        <li class="c-sidebar-nav-item">
+            <a class="c-sidebar-nav-link" href="{{ route('milestones.index') }}">
+                {{ __('Milestones') }}
+            </a>
+        </li>
     </ul>
 </li>
 <li class="c-sidebar-nav-item">

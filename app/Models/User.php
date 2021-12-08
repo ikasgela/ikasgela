@@ -310,18 +310,20 @@ class User extends Authenticatable implements MustVerifyEmail
         });
     }
 
-    public function actividades_completadas()
+    public function actividades_completadas(Milestone $milestone = null)
     {
-        return $this->actividades()
+        $completadas = $this->actividades()
             ->wherePivotIn('estado', [40, 60, 62]);
+
+        return $milestone == null ? $completadas : $completadas->whereBetween('tareas.updated_at', [$milestone?->curso->fecha_inicio, $milestone?->date]);
     }
 
-    public function num_actividades_completadas()
+    public function num_actividades_completadas(Milestone $milestone = null)
     {
-        $key = 'num_actividades_completadas_' . $this->id;
+        $key = 'num_actividades_completadas_' . $this->id . $milestone->cache_key;
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
-            return $this->actividades_completadas()->count();
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () use ($milestone) {
+            return $this->actividades_completadas($milestone)->count();
         });
     }
 
@@ -452,11 +454,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $total;
     }
 
-    public function num_completadas($etiqueta, $unidad = null)
+    public function num_completadas($etiqueta, $unidad = null, Milestone $milestone = null)
     {
         $total = 0;
 
-        $query = $this->actividades_completadas();
+        $query = $this->actividades_completadas($milestone);
 
         if (!is_null($unidad))
             $query = $query->where('unidad_id', $unidad);
@@ -563,11 +565,11 @@ class User extends Authenticatable implements MustVerifyEmail
         });
     }
 
-    public function calcular_calificaciones(): ResultadoCalificaciones
+    public function calcular_calificaciones($media_actividades_grupo, Milestone $milestone = null): ResultadoCalificaciones
     {
-        $key = 'calificaciones_' . $this->id;
+        $key = 'calificaciones_' . $this->id . $milestone?->cache_key;
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () use ($media_actividades_grupo, $milestone) {
 
             $user = $this;
 
@@ -593,7 +595,7 @@ class User extends Authenticatable implements MustVerifyEmail
                         $r->hayExamenes = true;
                 }
 
-                foreach ($user->actividades_completadas()->get() as $actividad) {
+                foreach ($user->actividades_completadas($milestone)->get() as $actividad) {
 
                     // Total de puntos de la actividad
                     $puntuacion_actividad = $actividad->puntuacion * ($actividad->multiplicador ?: 1);
@@ -665,7 +667,7 @@ class User extends Authenticatable implements MustVerifyEmail
                 if ($unidad->num_actividades('base') > 0) {
                     $r->num_actividades_obligatorias += $unidad->num_actividades('base');
 
-                    if ($user->num_completadas('base', $unidad->id) < $unidad->num_actividades('base') * $minimo_entregadas / 100) {
+                    if ($user->num_completadas('base', $unidad->id, $milestone) < $unidad->num_actividades('base') * $minimo_entregadas / 100) {
                         $r->actividades_obligatorias_superadas = false;
                     }
                 }
@@ -692,9 +694,15 @@ class User extends Authenticatable implements MustVerifyEmail
             $nota = ($nota / $porcentaje_total) * 100;
 
             // Ajustar la nota en función de las completadas 100% completadas - 100% de nota
-            $r->numero_actividades_completadas = $user->num_completadas('base');
-            if ($r->num_actividades_obligatorias > 0)
-                $nota = $nota * ($r->numero_actividades_completadas / $r->num_actividades_obligatorias);
+            // Si estamos en una evaluación parcial, ajustar en función de la media de actividades del grupo
+            $r->numero_actividades_completadas = $user->num_completadas('base', null, $milestone);
+            if ($r->num_actividades_obligatorias > 0) {
+                if ($milestone == null) {
+                    $nota = $nota * ($r->numero_actividades_completadas / $r->num_actividades_obligatorias);
+                } else if ($media_actividades_grupo > 0) {
+                    $nota = $nota * ($r->numero_actividades_completadas / $media_actividades_grupo);
+                }
+            }
 
             // Resultados por unidades
 
@@ -727,7 +735,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $r->examen_final_superado = false;
             foreach ($unidades as $unidad) {
                 if ($unidad->hasEtiqueta('examen')
-                    && $user->num_completadas('examen', $unidad->id) > 0
+                    && $user->num_completadas('examen', $unidad->id, $milestone) > 0
                     && $r->resultados_unidades[$unidad->id]->actividad > 0) {
 
                     $r->num_pruebas_evaluacion += 1;

@@ -39,6 +39,12 @@
         {!! Form::close() !!}
     @endif
 
+    @if(Auth::user()->hasAnyRole(['admin']))
+        {!! Form::open(['route' => ['results.alumno'], 'method' => 'POST']) !!}
+        @include('partials.desplegable_milestones')
+        {!! Form::close() !!}
+    @endif
+
     @if(!is_null($user->curso_actual()))
 
         @if(!Auth::user()->baja_ansiedad)

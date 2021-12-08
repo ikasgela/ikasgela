@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Charts\TareasEnviadas;
 use App\Models\Curso;
+use App\Models\Milestone;
 use App\Models\Registro;
 use App\Models\Unidad;
 use App\Models\User;
@@ -67,16 +68,33 @@ class ResultController extends Controller
         // Unidades del curso actual
         $unidades = Unidad::cursoActual()->orderBy('orden')->get();
 
-        // Obtener las calificaciones del usuario
-        $calificaciones = $user->calcular_calificaciones();
+        // Evaluaciones del curso actual
+        $milestones = $curso->milestones()->orderBy('date')->get();
+
+        // Hay otra evaluación seleccionada para mostrar
+        $milestone = null;
+        if (!empty($request->input('milestone_id'))) {
+            $milestone_id = $request->input('milestone_id');
+            if ($milestone_id == -1) {
+                session()->forget('filtrar_milestone_actual');
+            } else {
+                $milestone = Milestone::find($milestone_id);
+                session(['filtrar_milestone_actual' => $milestone_id]);
+            }
+        } else if (!empty(session('filtrar_milestone_actual'))) {
+            $milestone = Milestone::find(session('filtrar_milestone_actual'));
+        }
 
         // Calcular la media de actividades del grupo
         $total_actividades_grupo = 0;
         foreach ($users as $usuario) {
-            $total_actividades_grupo += $usuario->num_completadas('base');
+            $total_actividades_grupo += $usuario->num_completadas('base', null, $milestone);
         }
+        $media = $users->count() > 0 ? $total_actividades_grupo / $users->count() : 0;
+        $media_actividades_grupo = formato_decimales($media, 2);
 
-        $media_actividades_grupo = formato_decimales($users->count() > 0 ? $total_actividades_grupo / $users->count() : 0, 2);
+        // Obtener las calificaciones del usuario
+        $calificaciones = $user->calcular_calificaciones($media, $milestone);
 
         // Gráfico de actividades
 
@@ -143,7 +161,7 @@ class ResultController extends Controller
         $evaluacion_continua_dato = $calificaciones->evaluacion_continua_superada ? trans_choice('tasks.passed', 1) : trans_choice('tasks.not_passed', 1);
 
         $calificacion_fondo = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : ($curso?->disponible() ? 'bg-light text-dark' : 'bg-warning text-dark');
-        $calificacion_dato = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? $calificaciones->nota_final : ($curso?->disponible() ? __('Unavailable') : __('Fail'));
+        $calificacion_dato = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada || $milestone != null) ? $calificaciones->nota_final : ($curso?->disponible() ? __('Unavailable') : __('Fail'));
 
         return compact(['user', 'curso', 'users', 'unidades', 'calificaciones', 'media_actividades_grupo', 'chart',
             'actividades_obligatorias_fondo', 'actividades_obligatorias_dato',
@@ -151,6 +169,7 @@ class ResultController extends Controller
             'pruebas_evaluacion_fondo', 'pruebas_evaluacion_dato',
             'evaluacion_continua_fondo', 'evaluacion_continua_dato',
             'calificacion_fondo', 'calificacion_dato',
+            'milestones', 'milestone'
         ]);
     }
 }

@@ -31,8 +31,8 @@
                 </td>
                 <td><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
                 <td class="text-center">{{ $user->cursos()->count() }}</td>
-                <td class="text-center">{!! $user->hasVerifiedEmail() ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
-                <td class="text-center">{!! $user->tutorial ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                <td class="text-center">@include('partials.check_yes_no', ['checked' => $user->hasVerifiedEmail()])</td>
+                <td class="text-center">@include('partials.check_yes_no', ['checked' => $user->tutorial])</td>
                 <td>
                     @foreach($user->roles as $rol)
                         {{ !$loop->last ? $rol->name . ', ' : $rol->name }}

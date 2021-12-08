@@ -39,6 +39,12 @@
         'texto' => trans('tutorial.resultados_tutor')
     ])
 
+    @if(Auth::user()->hasAnyRole(['admin']))
+        {!! Form::open(['route' => ['tutor.index'], 'method' => 'POST']) !!}
+        @include('partials.desplegable_milestones')
+        {!! Form::close() !!}
+    @endif
+
     @include('tutor.partials.tabla_usuarios')
 
     <div>
