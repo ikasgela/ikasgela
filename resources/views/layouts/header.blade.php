@@ -72,7 +72,7 @@
             </li>
         </ul>
     @else
-        <div class="c-header-nav ml-auto">
+        <div class="c-header-nav ml-auto mr-2">
             @include('layouts.partials.language_selector')
         </div>
     @endif
