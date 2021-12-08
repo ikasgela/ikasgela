@@ -5,8 +5,8 @@
     @include('partials.titular', ['titular' => __('Courses'), 'subtitulo' => $organization->name])
 
     @include('partials.tutorial', [
-    'color' => 'c-callout-success',
-    'texto' => 'Aquí puedes matricularte en otros cursos disponibles y cambiar de un curso a otro.'
+        'color' => 'c-callout-success',
+        'texto' => trans('tutorial.matricula')
     ])
 
     @forelse($periods as $period)

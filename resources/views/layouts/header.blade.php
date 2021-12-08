@@ -12,7 +12,8 @@
         <span class="c-header-toggler-icon"></span>
     </button>
     @if(Auth::check())
-        <ul class="c-header-nav ml-auto mr-3">
+        @include('layouts.partials.language_selector')
+        <ul class="c-header-nav mr-3">
             @auth
                 @if(Auth::user()->isImpersonated())
                     <li class="c-header-nav-item mr-3">
@@ -71,7 +72,8 @@
             </li>
         </ul>
     @else
-        <div class="c-header-nav ml-auto" style="width:50px;">
+        <div class="c-header-nav ml-auto mr-2">
+            @include('layouts.partials.language_selector')
         </div>
     @endif
 

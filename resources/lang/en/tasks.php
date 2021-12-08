@@ -12,5 +12,7 @@ return [
     'finished' => 'Finished',
     'last' => 'Last',
     'completed' => 'Completed',
+    'passed' => 'Passed',
+    'not_passed' => 'Not passed',
     'expired' => 'Expired',
 ];

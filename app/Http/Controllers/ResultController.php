@@ -118,7 +118,7 @@ class ResultController extends Controller
 
             $chart->labels(array_keys($datos))->displayLegend(false);
 
-            $chart->dataset('Enviadas', 'bar',
+            $chart->dataset(trans_choice('tasks.sent', 2), 'bar',
                 array_values($datos))
                 ->color("#3490dc")
                 ->backgroundColor("#d6e9f8");

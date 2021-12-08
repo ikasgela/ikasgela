@@ -13,9 +13,9 @@
         <div>
             @if($alumno_actividades_asignadas > 0)
                 @if($alumno_actividades_asignadas == 1)
-                    <h2 class="text-muted font-xl">Tienes una actividad asignada</h2>
+                    <h2 class="text-muted font-xl">{{ __('You have one assigned activity') }}</h2>
                 @else
-                    <h2 class="text-muted font-xl">Tienes {{ $alumno_actividades_asignadas }} actividades asignadas</h2>
+                    <h2 class="text-muted font-xl">{{ __('You have :count assigned activities', ['count' => $alumno_actividades_asignadas]) }}</h2>
                 @endif
             @elseif(is_null(Auth::user()->curso_actual()))
                 <h2 class="font-xl text-danger">{{ __('No course selected') }}</h2>
@@ -74,7 +74,7 @@
                 id="pills-examen" role="tabpanel" aria-labelledby="pills-examen-tab">
                 <div class="p-3">
                     @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_examen()->get(),
-                    'mensaje_ninguna' => 'No hay actividades de examen en curso.'
+                    'mensaje_ninguna' => __('There are no exam activities in progress.')
                     ])
                 </div>
             </div>
@@ -86,7 +86,7 @@
             id="pills-en-curso" role="tabpanel" aria-labelledby="pills-en-curso-tab">
             <div class="p-3">
                 @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_no_extra_examen()->get(),
-                'mensaje_ninguna' => 'No hay actividades en curso.'
+                'mensaje_ninguna' => __('There are no activities in progress.')
                 ])
             </div>
         </div>
@@ -97,7 +97,7 @@
                 id="pills-extra" role="tabpanel" aria-labelledby="pills-extra-tab">
                 <div class="p-3">
                     @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_extra()->get(),
-                    'mensaje_ninguna' => 'No hay actividades extra en curso.'
+                    'mensaje_ninguna' => __('There are no extra activities in progress.')
                     ])
                 </div>
             </div>
@@ -106,7 +106,8 @@
         <div class="tab-pane fade" id="pills-enviadas" role="tabpanel" aria-labelledby="pills-enviadas-tab">
             <div class="p-3">
                 @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_enviadas()->get(),
-                'mensaje_ninguna' => 'No hay actividades enviadas.'])
+                'mensaje_ninguna' => __('There are no sent activities.')
+                ])
             </div>
         </div>
     </div>

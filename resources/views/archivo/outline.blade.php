@@ -6,14 +6,14 @@
 
     @include('partials.tutorial', [
         'color' => 'c-callout-success',
-        'texto' => 'Todas las actividades del curso.'
+        'texto' => trans('tutorial.todas_actividades')
     ])
 
     <div class="c-callout c-callout-bordered p-3">
-        <h5><strong>Fecha de inicio:</strong>
+        <h5><strong>{{ __('Start date') }}:</strong>
             {{ $curso?->fecha_inicio ? $curso->fecha_inicio->format('d/m/Y H:i') : __('Undefined') }}
         </h5>
-        <h5 class="mb-0"><strong>Fecha de final:</strong>
+        <h5 class="mb-0"><strong>{{ __('End date') }}:</strong>
             {{ $curso?->fecha_fin ? $curso->fecha_fin->format('d/m/Y H:i') : __('Undefined') }}</h5>
     </div>
 

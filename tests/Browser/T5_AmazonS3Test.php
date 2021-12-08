@@ -12,12 +12,12 @@ class T5_AmazonS3Test extends DuskTestCase
         $this->browse(function (Browser $browser) {
 
             // Login de profesor
-            $browser->visit('/login');
+            $browser->visit(route('login'));
             $browser->type('email', 'lucia@ikasgela.com');
             $browser->type('password', '12345Abcde');
             $browser->check('remember');
-            $browser->press('Entrar');
-            $browser->assertPathIs('/alumnos');
+            $browser->press(__('Login'));
+            $browser->assertRouteIs('profesor.index');
 
             // Abrir la actividad de subida de archivo
             $browser->visit('/file_uploads/1');
@@ -26,14 +26,14 @@ class T5_AmazonS3Test extends DuskTestCase
             // Subir el archivo
             $browser->attach('file', base_path("public/icons_debug/test.png"));
             $browser->press(__('Upload'));
-            $browser->assertSee('38,59 KB');
+            $browser->assertSee(formato_decimales(38.59, 2) . ' KB');
 
             // Borrar el fichero
             $browser->press('borrar');
             $browser->acceptDialog();
 
             // Se vuelve a mostrar el botón de subir fichero
-            $browser->assertDontSee('38,59 KB');
+            $browser->assertDontSee(formato_decimales(38.59, 2) . ' KB');
 
             // Abrir la actividad de subida de archivo
             $browser->visit('/file_uploads/1');
@@ -42,14 +42,14 @@ class T5_AmazonS3Test extends DuskTestCase
             // Subir el archivo
             $browser->attach('file', base_path("public/icons_debug/test.jpg"));
             $browser->press(__('Upload'));
-            $browser->assertSee('38,65 KB');
+            $browser->assertSee(formato_decimales(38.65, 2) . ' KB');
 
             // Borrar el fichero
             $browser->press('borrar');
             $browser->acceptDialog();
 
             // Se vuelve a mostrar el botón de subir fichero
-            $browser->assertDontSee('38,65 KB');
+            $browser->assertDontSee(formato_decimales(38.65, 2) . ' KB');
         });
     }
 }

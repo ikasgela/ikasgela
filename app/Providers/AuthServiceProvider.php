@@ -35,11 +35,11 @@ class AuthServiceProvider extends ServiceProvider
 
         Validator::extend('allowed_domains', function ($attribute, $value, $parameters, $validator) {
             return in_array('*', $parameters) || in_array(explode('@', $value)[1], $parameters);
-        }, __('Invalid email address.'));
+        }, trans('auth.email'));
 
         Validator::extend('forbidden_domains', function ($attribute, $value, $parameters, $validator) {
             return !in_array(explode('@', $value)[1], $parameters);
-        }, __('Invalid email address.'));
+        }, trans('auth.email'));
 
         Honey::failUsing(function () {
             abort(429); // Too many requests

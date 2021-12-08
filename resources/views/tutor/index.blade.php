@@ -36,7 +36,7 @@
 
     @include('partials.tutorial', [
         'color' => 'c-callout-success',
-        'texto' => 'Aquí aparecerá la tabla con los resultados de todos los alumnos del grupo. Se puede ordenar alfabéticamente o por número de actividades completadas.'
+        'texto' => trans('tutorial.resultados_tutor')
     ])
 
     @include('tutor.partials.tabla_usuarios')

@@ -30,7 +30,7 @@
 
     @include('partials.tutorial', [
         'color' => 'c-callout-success',
-        'texto' => 'Aquí aparecerán los resultados de las competencias asociadas al curso.'
+        'texto' => trans('tutorial.resultados')
     ])
 
     @if(Auth::user()->hasAnyRole(['profesor', 'tutor']))

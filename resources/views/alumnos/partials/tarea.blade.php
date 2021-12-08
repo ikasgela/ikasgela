@@ -2,37 +2,34 @@
     @case(10)   {{-- Nueva --}}
     @include('partials.tutorial', [
         'color' => 'c-callout-success',
-        'texto' => 'Para comenzar la actividad, acéptala. A partir de ese momento tendrás acceso a sus recursos.'
+        'texto' => trans('tutorial.para_comenzar')
     ])
     @break
     @case(20)   {{-- Aceptada --}}
     @case(21)   {{-- Feedback leído --}}
     @include('partials.tutorial', [
         'color' => 'c-callout-success',
-        'texto' => 'Completa la actividad y, cuando esté lista, envíala para revisar.'
+        'texto' => trans('tutorial.completa_envia')
     ])
     @break
     @case(30)   {{-- Enviada --}}
     @include('partials.tutorial', [
         'color' => 'c-callout-success',
-        'texto' => 'La actividad está pendiente de revisar, recibirás un email cuando se complete la revisión.'
+        'texto' => trans('tutorial.pendiente_revisar')
     ])
     @break
     @case(40)   {{-- Revisada: OK --}}
     @case(41)   {{-- Revisada: ERROR --}}
     @include('partials.tutorial', [
         'color' => 'c-callout-success',
-        'texto' => 'La actividad está revisada y tienes disponible el feedback.<br> Si se ha dado por buena,
-        podrás darla por terminada y trasladarla al <a href="'. route('archivo.index') .'">archivo</a>. Si no,
-        tendrás que mejorarla y volver a enviarla.'
+        'texto' => trans('tutorial.revisada', ['url' => route('archivo.index')])
     ])
     @break
     @case(42)   {{-- Avance automático --}}
     @case(50)   {{-- Terminada --}}
     @include('partials.tutorial', [
         'color' => 'c-callout-success',
-        'texto' => 'La actividad está terminada y puedes archivarla para que desaparezca del escritorio. Podrás
-        verla en el <a href="'. route('archivo.index') .'">archivo</a>.'
+        'texto' => trans('tutorial.terminada', ['url' => route('archivo.index')])
     ])
     @break
     @case(60)   {{-- Archivada --}}
@@ -43,7 +40,7 @@
 @if(Route::current()->getName() == 'archivo.show')
     @include('partials.tutorial', [
         'color' => 'c-callout-success',
-        'texto' => 'Esta es una actividad archivada.'
+        'texto' => trans('tutorial.archivada')
     ])
 @endif
 
@@ -131,7 +128,7 @@
                             @case(30)   {{-- Enviada --}}
                             @if($actividad->auto_avance)
                                 <div class="alert alert-success" role="alert">
-                                    <p>Esta actividad es de avance automático, no hay revisión del profesor.</p>
+                                    <p>{{ __('This is an automatically advancing activity, there is no teacher review.') }}</p>
                                     <button type="submit" name="nuevoestado" value="42"
                                             class="btn btn-success single_click">
                                         <i class="fas fa-spinner fa-spin"

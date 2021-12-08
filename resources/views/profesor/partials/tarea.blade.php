@@ -1,6 +1,6 @@
 @include('partials.tutorial', [
     'color' => 'c-callout-success',
-    'texto' => 'Aquí puedes valorar la actividad y dar el feedback oportuno.'
+    'texto' => trans('tutorial.valorar_actividad')
 ])
 
 @include('profesor.partials.tarjeta_usuario')

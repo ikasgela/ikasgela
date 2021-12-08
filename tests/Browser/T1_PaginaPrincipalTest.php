@@ -10,7 +10,7 @@ class T1_PaginaPrincipalTest extends DuskTestCase
     public function testPaginaPrincipal()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit('/')
+            $browser->visit(route('portada'))
                 ->assertTitle('ikasgela');
         });
     }

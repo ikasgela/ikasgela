@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Charts\TareasEnviadas;
-use App\Models\Curso;
 use App\Exports\InformeGrupoExport;
+use App\Models\Curso;
 use App\Models\Registro;
 use App\Models\Tarea;
 use App\Traits\InformeGrupo;
@@ -80,7 +80,7 @@ class TutorController extends Controller
 
         $chart->labels(array_keys($datos))->displayLegend(false);
 
-        $chart->dataset('Enviadas', 'bar',
+        $chart->dataset(trans_choice('tasks.sent', 2), 'bar',
             array_values($datos))
             ->color("#3490dc")
             ->backgroundColor("#d6e9f8");
