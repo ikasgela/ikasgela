@@ -74,7 +74,7 @@
                 id="pills-examen" role="tabpanel" aria-labelledby="pills-examen-tab">
                 <div class="p-3">
                     @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_examen()->get(),
-                    'mensaje_ninguna' => 'No hay actividades de examen en curso.'
+                    'mensaje_ninguna' => __('There are no exam activities in progress.')
                     ])
                 </div>
             </div>
@@ -97,7 +97,7 @@
                 id="pills-extra" role="tabpanel" aria-labelledby="pills-extra-tab">
                 <div class="p-3">
                     @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_extra()->get(),
-                    'mensaje_ninguna' => 'No hay actividades extra en curso.'
+                    'mensaje_ninguna' => __('There are no extra activities in progress.')
                     ])
                 </div>
             </div>
@@ -106,7 +106,8 @@
         <div class="tab-pane fade" id="pills-enviadas" role="tabpanel" aria-labelledby="pills-enviadas-tab">
             <div class="p-3">
                 @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_enviadas()->get(),
-                'mensaje_ninguna' => 'No hay actividades enviadas.'])
+                'mensaje_ninguna' => __('There are no sent activities.')
+                ])
             </div>
         </div>
     </div>
