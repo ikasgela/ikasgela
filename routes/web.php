@@ -1,7 +1,7 @@
 <?php
 
 // Localización
-Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['localeCookieRedirect']], function () {
+Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['localeCookieRedirect', 'localizationRedirect']], function () {
 
     // Página principal
     Route::get('/', 'HomeController@index')
