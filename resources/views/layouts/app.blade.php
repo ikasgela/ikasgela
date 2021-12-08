@@ -33,7 +33,7 @@
                     @if(Auth::user()->isVerified())
                         @include('partials.tutorial', [
                             'color' => 'c-callout-danger',
-                            'texto' => 'Puedes desactivar el tutorial en tu perfil de usuario.'
+                            'texto' => trans('tutorial.ocultable')
                         ])
                     @endif
                 @endauth
