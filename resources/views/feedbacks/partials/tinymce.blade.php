@@ -3,7 +3,7 @@
 <script>
     tinymce.init({
         selector: 'textarea#mensaje',
-        language: 'es',
+        language: '{{ LaravelLocalization::getCurrentLocale() }}',
         plugins: "link image autolink emoticons lists hr codesample autosave",
         default_link_target: "_blank",
         toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | codesample | image link emoticons hr',
