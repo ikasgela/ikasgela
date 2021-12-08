@@ -18,7 +18,7 @@ return [
     'todas_actividades' => 'All activities of the course.',
     'mensajes' => 'Here you can start discussions to help you solve the questions about the activities.',
     'valorar_actividad' => 'Here you can rate the activity and give suitable feedback.',
-    'resultados' => 'The results of the qualifications associated with the course will appear here.',
+    'resultados' => 'The results of the skills associated with the course will appear here.',
     'cambiar_curso' => 'If you are enrolled in more than one course, here you can switch from one to another.',
     'resultados_tutor' => 'The table with the results of all the students in the course will appear here. It can be sorted alphabetically or by number of completed activities.',
 ];
