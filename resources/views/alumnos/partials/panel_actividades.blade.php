@@ -7,7 +7,7 @@
 @else
     @include('partials.tutorial', [
         'color' => 'c-callout-success',
-        'texto' => 'Aquí aparecerán las actividades que tengas disponibles.'
+        'texto' => trans('tutorial.disponibles')
     ])
     <div class="row">
         <div class="col-md-12">

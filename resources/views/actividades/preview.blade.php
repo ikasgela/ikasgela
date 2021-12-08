@@ -8,7 +8,7 @@
 
     @include('partials.tutorial', [
         'color' => 'c-callout-success',
-        'texto' => 'Vista previa de la actividad.'
+        'texto' => trans('tutorial.vista_previa')
     ])
 
     <div class="row mt-4">

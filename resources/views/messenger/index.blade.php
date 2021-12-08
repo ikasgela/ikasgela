@@ -36,7 +36,7 @@
 
     @include('partials.tutorial', [
         'color' => 'c-callout-success',
-        'texto' => 'Aquí puedes iniciar conversaciones para ayudarte a resolver tus dudas sobre las actividades.'
+        'texto' => trans('tutorial.mensajes')
     ])
 
     @include('messenger.partials.flash')

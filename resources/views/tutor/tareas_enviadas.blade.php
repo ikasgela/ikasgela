@@ -6,7 +6,7 @@
 
     @include('partials.tutorial', [
         'color' => 'c-callout-success',
-        'texto' => 'El gráfico muestra el total de actividades enviadas desde la fecha de inicio del curso.'
+        'texto' => trans('tutorial.grafico')
     ])
 
     @include('partials.grafico_enviadas')

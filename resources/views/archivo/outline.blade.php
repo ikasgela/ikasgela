@@ -6,7 +6,7 @@
 
     @include('partials.tutorial', [
         'color' => 'c-callout-success',
-        'texto' => 'Todas las actividades del curso.'
+        'texto' => trans('tutorial.todas_actividades')
     ])
 
     <div class="c-callout c-callout-bordered p-3">

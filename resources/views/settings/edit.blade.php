@@ -6,7 +6,7 @@
 
     @include('partials.tutorial', [
         'color' => 'c-callout-success',
-        'texto' => 'Si estás matriculado en más de un curso, aquí puedes cambiar de uno a otro.'
+        'texto' => trans('tutorial.cambiar_curso')
     ])
 
     <div class="card">

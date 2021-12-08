@@ -12,7 +12,7 @@
 
     @include('partials.tutorial', [
         'color' => 'c-callout-success',
-        'texto' => 'Aquí aparecerán las tareas una vez que las completes.'
+        'texto' => trans('tutorial.archivo')
     ])
 
     @if(Auth::user()->hasAnyRole(['profesor', 'tutor']))
