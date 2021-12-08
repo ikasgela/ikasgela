@@ -12,7 +12,7 @@ class T2_LoginProfesorTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
 
             // Login de profesor
-            $browser->visit('/login');
+            $browser->visit(route('login'));
             $browser->type('email', 'lucia@ikasgela.com');
             $browser->type('password', '12345Abcde');
             $browser->check('remember');
