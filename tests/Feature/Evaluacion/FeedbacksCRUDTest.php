@@ -70,7 +70,7 @@ class FeedbacksCRUDTest extends TestCase
         $response = $this->get(route('feedbacks.create'));
 
         // Then
-        $response->assertSeeInOrder([__('New feedback message'), __('Save')]);
+        $response->assertSeeInOrder([__('New course feedback message'), __('Save')]);
     }
 
     public function testNotAdminNotCreate()
