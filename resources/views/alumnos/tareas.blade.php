@@ -86,7 +86,7 @@
             id="pills-en-curso" role="tabpanel" aria-labelledby="pills-en-curso-tab">
             <div class="p-3">
                 @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_no_extra_examen()->get(),
-                'mensaje_ninguna' => 'No hay actividades en curso.'
+                'mensaje_ninguna' => __('There are no activities in progress.')
                 ])
             </div>
         </div>

@@ -131,7 +131,7 @@
                             @case(30)   {{-- Enviada --}}
                             @if($actividad->auto_avance)
                                 <div class="alert alert-success" role="alert">
-                                    <p>Esta actividad es de avance automático, no hay revisión del profesor.</p>
+                                    <p>{{ __('This is an automatically advancing activity, there is no teacher review.') }}</p>
                                     <button type="submit" name="nuevoestado" value="42"
                                             class="btn btn-success single_click">
                                         <i class="fas fa-spinner fa-spin"

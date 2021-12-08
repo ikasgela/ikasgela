@@ -32,7 +32,7 @@ class T4_TareasTest extends DuskTestCase
             $browser->assertRouteIs('users.home');
 
             // Avance automático
-            $browser->assertSee('Esta actividad es de avance automático');
+            $browser->assertSee(__('This is an automatically advancing activity, there is no teacher review.'));
 
             $browser->press(__('Next step'));
             $browser->assertRouteIs('users.home');
@@ -44,7 +44,7 @@ class T4_TareasTest extends DuskTestCase
             $browser->assertRouteIs('users.home');
 
             // No hay más tareas
-            $browser->assertSee('No hay actividades en curso');
+            $browser->assertSee(__('There are no activities in progress.'));
         });
     }
 
@@ -125,8 +125,7 @@ class T4_TareasTest extends DuskTestCase
             $browser->type('puntuacion', '80');
             $browser->press(__('Add'));
             $browser->press(__('Finished'));
-            $browser->assertRouteIs('profesor.tareas', ['user' => 1]);
-//            $browser->assertPathIs('/alumnos/1/tareas');
+            $browser->assertRouteIs('profesor.tareas', ['user' => 1]);  // $browser->assertPathIs('/alumnos/1/tareas');
 
             $browser->assertSeeIn('div > main > div > div.table-responsive > table > tbody > tr:nth-child(2) > td:nth-child(9)', '80');
 
