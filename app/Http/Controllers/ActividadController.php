@@ -391,7 +391,7 @@ class ActividadController extends Controller
                 $tarea->archiveFiles();
 
                 if (setting_usuario('notificacion_feedback_recibido', $tarea->user))
-                    Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea));
+                    Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea, App::getLocale()));
                 break;
 
             // Avance automático

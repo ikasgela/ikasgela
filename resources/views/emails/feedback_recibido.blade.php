@@ -1,10 +1,13 @@
 @component('mail::message')
 # {{ __('Review completed') }}
 
-{{ $tarea->user->name }}, tu envío de la actividad "{{ $tarea->actividad->nombre }}" está revisado.
+{{ __(':user, your submission of the activity :activity it is now reviewed.', [
+    'user' => $tarea->user->name,
+    'activity' => $tarea->actividad->nombre,
+]) }}
 
 @component('mail::panel')
-### Feedback
+### {{ __('Feedback') }}
 {!! $tarea->feedback !!}
 @endcomponent
 
