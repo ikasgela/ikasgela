@@ -1,7 +1,7 @@
 @component('mail::message')
 # {{ __('New message') }}
 
-Has recibido un nuevo mensaje de {{ $usuario->name }} {{ $usuario->surname }}.
+{{ __('You have received a new message from :user.', ['user' => $usuario->full_name]) }}
 
 @component('mail::panel')
 ## {{ $titulo }}
