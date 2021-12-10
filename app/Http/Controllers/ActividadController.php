@@ -441,7 +441,7 @@ class ActividadController extends Controller
                 $this->bloquearRepositorios($tarea, false);
 
                 if (setting_usuario('notificacion_actividad_asignada', $usuario))
-                    Mail::to($usuario->email)->queue(new PlazoAmpliado($usuario->name, $actividad->nombre));
+                    Mail::to($usuario->email)->queue(new PlazoAmpliado($usuario->name, $actividad->nombre, App::getLocale()));
                 break;
             case 70:
                 $tarea->estado = $nuevoestado;

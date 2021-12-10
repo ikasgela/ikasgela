@@ -3,6 +3,7 @@
     "--- None ---": "--- Ninguna ---",
     "--- None --- ": "--- Ninguno --- ",
     ":count new messages": ":count mensajes nuevos",
+    ":user, the deadline of the activity :activity has been extended.": ":user, se ha ampliado el plazo de la actividad :activity.",
     ":user, your submission of the activity :activity it is now reviewed.": ":user, tu envío de la actividad :activity está revisado.",
     "A fresh verification link has been sent to your email address.": "Se ha enviado un nuevo enlace de verificación a tu dirección de email.",
     "Accept activity": "Aceptar actividad",
