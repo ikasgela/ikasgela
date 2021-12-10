@@ -1,10 +1,10 @@
 @component('mail::message')
 # {{ __('New activities assigned') }}
 
-{{ $usuario }}, hay nuevas actividades disponibles en tu cuenta.
+{{ $usuario }}, {{ __('there are new activities available in your account') }}.
 
 @component('mail::panel')
-### Actividades
+### {{ __('Activities') }}
 {{ $asignadas }}
 @endcomponent
 

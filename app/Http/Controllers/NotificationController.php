@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\NotificationTest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -26,7 +27,7 @@ class NotificationController extends Controller
 
     public function test()
     {
-        Mail::to(Auth::user()->email)->queue(new NotificationTest());
+        Mail::to(Auth::user()->email)->queue(new NotificationTest(App::getLocale()));
 
         return redirect(route('notifications.edit'));
     }

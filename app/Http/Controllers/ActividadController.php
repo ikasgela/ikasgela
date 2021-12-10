@@ -19,6 +19,7 @@ use App\Models\User;
 use App\Traits\InformeActividadesCurso;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -295,7 +296,7 @@ class ActividadController extends Controller
                 if (!$tarea->actividad->auto_avance) {
                     foreach ($tarea->actividad->unidad->curso->profesores as $profesor) {
                         if (setting_usuario('notificacion_tarea_enviada', $profesor))
-                            Mail::to($profesor)->queue(new TareaEnviada($tarea));
+                            Mail::to($profesor)->queue(new TareaEnviada($tarea, App::getLocale()));
                     }
                 }
 
@@ -390,7 +391,7 @@ class ActividadController extends Controller
                 $tarea->archiveFiles();
 
                 if (setting_usuario('notificacion_feedback_recibido', $tarea->user))
-                    Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea));
+                    Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea, App::getLocale()));
                 break;
 
             // Avance automático
@@ -440,7 +441,7 @@ class ActividadController extends Controller
                 $this->bloquearRepositorios($tarea, false);
 
                 if (setting_usuario('notificacion_actividad_asignada', $usuario))
-                    Mail::to($usuario->email)->queue(new PlazoAmpliado($usuario->name, $actividad->nombre));
+                    Mail::to($usuario->email)->queue(new PlazoAmpliado($usuario->name, $actividad->nombre, App::getLocale()));
                 break;
             case 70:
                 $tarea->estado = $nuevoestado;
@@ -642,7 +643,7 @@ class ActividadController extends Controller
                 // Notificar
                 if (setting_usuario('notificacion_actividad_asignada', $usuario)) {
                     $asignada = "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";
-                    Mail::to($usuario->email)->queue(new ActividadAsignada($usuario->name, $asignada));
+                    Mail::to($usuario->email)->queue(new ActividadAsignada($usuario->name, $asignada, App::getLocale()));
                 }
             } else {
                 // Oculta

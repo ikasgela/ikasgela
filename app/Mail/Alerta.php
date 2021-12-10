@@ -6,6 +6,7 @@ use Cmgmyr\Messenger\Models\Message;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 
@@ -17,13 +18,14 @@ class Alerta extends Mailable
     public $titulo;
     public $preview;
     public $usuario;
+    public $locale;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Message $mensaje)
+    public function __construct(Message $mensaje, $locale = 'en')
     {
         $this->hostName = Request::getHost();
 
@@ -36,6 +38,7 @@ class Alerta extends Mailable
         }
 
         $this->usuario = $mensaje->user->name;
+        $this->locale = $locale;
     }
 
     /**
@@ -45,6 +48,8 @@ class Alerta extends Mailable
      */
     public function build()
     {
+        App::setLocale($this->locale);
+
         return $this
             ->subject(__('Important notice'))
             ->markdown('emails.alerta');
