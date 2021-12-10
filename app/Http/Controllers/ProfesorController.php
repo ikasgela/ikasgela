@@ -17,6 +17,7 @@ use App\Models\User;
 use App\Traits\JPlagRunner;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -374,7 +375,7 @@ class ProfesorController extends Controller
         }
 
         if (request('notificar') && setting_usuario('notificacion_actividad_asignada', $user))
-            Mail::to($user->email)->queue(new ActividadAsignada($user->name, $asignadas));
+            Mail::to($user->email)->queue(new ActividadAsignada($user->name, $asignadas, App::getLocale()));
     }
 
     private function asignarTareasUsuarioEquipo($team): void
@@ -431,7 +432,7 @@ class ProfesorController extends Controller
 
         foreach ($team->users as $user) {
             if (request('notificar') && setting_usuario('notificacion_actividad_asignada', $user))
-                Mail::to($user->email)->queue(new ActividadAsignada($user->name, $asignadas));
+                Mail::to($user->email)->queue(new ActividadAsignada($user->name, $asignadas, App::getLocale()));
         }
     }
 

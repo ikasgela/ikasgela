@@ -19,6 +19,7 @@ use App\Models\User;
 use App\Traits\InformeActividadesCurso;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -642,7 +643,7 @@ class ActividadController extends Controller
                 // Notificar
                 if (setting_usuario('notificacion_actividad_asignada', $usuario)) {
                     $asignada = "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";
-                    Mail::to($usuario->email)->queue(new ActividadAsignada($usuario->name, $asignada));
+                    Mail::to($usuario->email)->queue(new ActividadAsignada($usuario->name, $asignada, App::getLocale()));
                 }
             } else {
                 // Oculta
