@@ -10,7 +10,6 @@
         "production": "mix --production"
     },
     "devDependencies": {
-        "axios": "^0.23",
         "bootstrap": "^4.6.0",
         "cross-env": "^7.0.3",
         "jquery": "^3.6.0",
@@ -23,6 +22,7 @@
         "sass-loader": "^12.1.0"
     },
     "dependencies": {
+        "axios": "^0.24",
         "@coreui/coreui": "^3.4.0",
         "@fancyapps/fancybox": "^3.5.7",
         "@fortawesome/fontawesome-free": "^5.15.4",
