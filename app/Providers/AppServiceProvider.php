@@ -20,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
         \URL::forceScheme('https');
 
         Form::component('campoTexto', 'components.form.text', ['name', 'label' => null, 'value' => null, 'attributes' => []]);
+        Form::component('campoPassword', 'components.form.password', ['name', 'label' => null, 'attributes' => []]);
         Form::component('campoTextoLabel', 'components.form.text_label', ['name', 'label' => null, 'value' => null, 'attributes' => []]);
         Form::component('campoCheck', 'components.form.check', ['name', 'label' => null, 'value' => null, 'attributes' => []]);
         Form::component('campoCheckLabel', 'components.form.check_label', ['name', 'label' => null, 'value' => null, 'attributes' => []]);

@@ -1,22 +1,33 @@
 <?php
 
-namespace App\Http\Controllers\Profile;
+namespace App\Http\Controllers;
 
-use Ikasgela\Gitea\GiteaClient;
-use App\Http\Controllers\Controller;
 use App\Models\User;
+use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use function back;
+use function config;
+use function view;
 
 class ProfileController extends Controller
 {
-    public function getAuthUser()
+    public function show()
     {
-        return Auth::user();
+        $user = Auth::user();
+
+        return view('profile.show', compact('user'));
     }
 
-    public function updateAuthUser(Request $request)
+    public function password()
+    {
+        $user = Auth::user();
+
+        return view('profile.password', compact('user'));
+    }
+
+    public function updateUser(Request $request)
     {
         $this->validate($request, [
             'name' => 'required|string'
@@ -33,10 +44,10 @@ class ProfileController extends Controller
             GiteaClient::full_name($user->email, $user->username, $nombre_completo);
         }
 
-        return $user;
+        return back();
     }
 
-    public function updateAuthUserPassword(Request $request)
+    public function updatePassword(Request $request)
     {
         $this->validate($request, [
             'current' => 'required',
@@ -47,7 +58,7 @@ class ProfileController extends Controller
         $user = User::find(Auth::id());
 
         if (!Hash::check($request->current, $user->password)) {
-            return response()->json(['errors' => ['current' => ['Current password does not match']]], 422);
+            return back()->withErrors(['errors' => 'Current password does not match']);
         }
 
         $user->password = Hash::make($request->password);
@@ -58,6 +69,6 @@ class ProfileController extends Controller
             GiteaClient::password($user->username, $request->password);
         }
 
-        return $user;
+        return back();
     }
 }
