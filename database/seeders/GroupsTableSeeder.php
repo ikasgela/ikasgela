@@ -19,7 +19,7 @@ class GroupsTableSeeder extends Seeder
         $period = Period::whereHas('organization', function ($query) {
             $query->where('organizations.slug', 'egibide');
         })
-            ->where('slug', '2019')
+            ->where('slug', now()->year)
             ->first();
 
         $name = '147FA';

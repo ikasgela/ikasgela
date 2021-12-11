@@ -20,7 +20,7 @@ class PeriodsTableSeeder extends Seeder
         $egibide = Organization::where('slug', 'egibide')->first();
         $deusto = Organization::where('slug', 'deusto')->first();
 
-        $name = '2019';
+        $name = now()->year;
         $periodo = Period::factory()->create([
             'organization_id' => $ikasgela->id,
             'name' => $name,
@@ -30,7 +30,7 @@ class PeriodsTableSeeder extends Seeder
         $ikasgela->current_period_id = $periodo->id;
         $ikasgela->save();
 
-        $name = '2019';
+        $name = now()->year;
         $periodo = Period::factory()->create([
             'organization_id' => $egibide->id,
             'name' => $name,
@@ -40,7 +40,7 @@ class PeriodsTableSeeder extends Seeder
         $egibide->current_period_id = $periodo->id;
         $egibide->save();
 
-        $name = '2019';
+        $name = now()->year;
         $periodo = Period::factory()->create([
             'organization_id' => $deusto->id,
             'name' => $name,

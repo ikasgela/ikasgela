@@ -19,7 +19,7 @@ class CategoriesTableSeeder extends Seeder
         $period = Period::whereHas('organization', function ($query) {
             $query->where('organizations.slug', 'egibide');
         })
-            ->where('slug', '2019')
+            ->where('slug', now()->year)
             ->first();
 
         $name = 'Programación';
@@ -39,7 +39,7 @@ class CategoriesTableSeeder extends Seeder
         $period = Period::whereHas('organization', function ($query) {
             $query->where('organizations.slug', 'deusto');
         })
-            ->where('slug', '2019')
+            ->where('slug', now()->year)
             ->first();
 
         $name = 'Programación';
@@ -52,7 +52,7 @@ class CategoriesTableSeeder extends Seeder
         $period = Period::whereHas('organization', function ($query) {
             $query->where('organizations.slug', 'ikasgela');
         })
-            ->where('slug', '2019')
+            ->where('slug', now()->year)
             ->first();
 
         $name = 'Programación';
