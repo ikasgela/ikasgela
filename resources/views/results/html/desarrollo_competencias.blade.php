@@ -14,9 +14,9 @@
                 @php($resultado = $calificaciones->resultados[$skill->id])
 
                 <div class="row no-gutters ml-5">
-                    <div class="col" style="flex: 0 0 {{ $peso_actividades }}%;">Actividades</div>
+                    <div class="col" style="flex: 0 0 {{ $peso_actividades }}%;">{{ __('Activities') }}</div>
                     @if($peso_examenes>0)
-                        <div style="flex: 0 0 {{ $peso_examenes }}%;">Exámenes</div>
+                        <div style="flex: 0 0 {{ $peso_examenes }}%;">{{ __('Exams') }}</div>
                     @endif
                 </div>
 
@@ -63,7 +63,7 @@
 
                 <div class="row no-gutters ml-5 mt-2">
                     <div class="col" style="flex: 0 0 {{ $peso_actividades }}%;">
-                        <span>Total de la competencia</span>
+                        <span>{{ __('Total of the skill') }}</span>
                     </div>
                 </div>
 
