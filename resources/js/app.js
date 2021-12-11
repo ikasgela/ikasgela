@@ -118,10 +118,15 @@ $(document).ready(function ($) {
     $('[data-countdown]').each(function () {
         var $this = $(this);
         var finalDate = $(this).data('countdown');
+        var locale = $('html').attr('lang');
         $this.countdown(finalDate, function (event) {
             var dias = event.strftime('%-D');
             if (dias > 0) {
-                $(this).html(event.strftime('%-D día%!D:s;, %H:%M:%S'));
+                if (locale === 'es') {
+                    $(this).html(event.strftime('%-D día%!D:s;, %H:%M:%S'));
+                } else {
+                    $(this).html(event.strftime('%-D day%!D:s;, %H:%M:%S'));
+                }
             } else {
                 $(this).html(event.strftime('%H:%M:%S'));
             }
