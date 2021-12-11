@@ -14,6 +14,7 @@ use App\Models\FileUpload;
 use App\Models\IntellijProject;
 use App\Models\Item;
 use App\Models\MarkdownText;
+use App\Models\Milestone;
 use App\Models\Pregunta;
 use App\Models\Qualification;
 use App\Models\Skill;
@@ -176,6 +177,8 @@ class CursoController extends Controller
 
         $curso->feedbacks()->delete();
 
+        $curso->milestones()->delete();
+
         foreach ($curso->hilos()->get() as $hilo) {
             DB::table('messages')
                 ->where('thread_id', '=', $hilo->id)
@@ -277,6 +280,9 @@ class CursoController extends Controller
         // Feedback
         $this->exportarFicheroJSON($ruta, 'feedbacks_curso.json', $curso->feedbacks()->orderBy('orden')->get());
 
+        // Milestone
+        $this->exportarFicheroJSON($ruta, 'milestones.json', $curso->milestones()->orderBy('date')->get());
+
         $datos = new Collection();
         foreach ($curso->actividades()->get() as $actividad) {
             foreach ($actividad->feedbacks()->orderBy('orden')->get() as $feedback) {
@@ -367,7 +373,8 @@ class CursoController extends Controller
             'file_resources', 'files',
             'file_uploads',
             'cuestionarios', 'preguntas', 'items',
-            'feedback'
+            'feedback',
+            'milestones',
         ];
 
         foreach ($import_ids as $import_id) {
@@ -611,6 +618,14 @@ class CursoController extends Controller
                 $feedback->orden = $feedback->id;
                 $feedback->save();
             }
+        }
+
+        // Curso -- "*" Milestone
+        $json = $this->cargarFichero($ruta, 'milestones.json');
+        foreach ($json as $objeto) {
+            Milestone::create(array_merge($objeto, [
+                'curso_id' => $curso->id,
+            ]));
         }
 
         foreach ($import_ids as $import_id) {
