@@ -4,9 +4,12 @@
 
     @include('partials.titular', ['titular' => __('Notification settings'), 'subtitulo' => ''])
 
-    {!! Form::open(['route' => ['notifications.update'], 'method' => 'PUT']) !!}
+    @include('partials.tutorial', [
+        'color' => 'c-callout-success',
+        'texto' => trans('tutorial.notificaciones')
+    ])
 
-    <p>{{ __('Enable or disable email notifications.') }}</p>
+    {!! Form::open(['route' => ['notifications.update'], 'method' => 'PUT']) !!}
 
     @include('partials.subtitulo', ['subtitulo' => __('Tutorship')])
 

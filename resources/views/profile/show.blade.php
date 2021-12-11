@@ -3,6 +3,11 @@
 @section('content')
     @include('partials.titular', ['titular' => __('Profile')])
 
+    @include('partials.tutorial', [
+        'color' => 'c-callout-success',
+        'texto' => trans('tutorial.perfil')
+    ])
+
     <div class="card">
         <div class="card-body">
             {!! Form::model($user, ['route' => ['profile.update.user'], 'method' => 'PUT']) !!}

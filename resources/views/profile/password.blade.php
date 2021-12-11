@@ -3,6 +3,11 @@
 @section('content')
     @include('partials.titular', ['titular' => __('Password')])
 
+    @include('partials.tutorial', [
+        'color' => 'c-callout-success',
+        'texto' => trans('tutorial.password')
+    ])
+
     <div class="card">
         <div class="card-body">
             {!! Form::open(['route' => ['profile.update.password'], 'method' => 'PUT']) !!}
