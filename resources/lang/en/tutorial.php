@@ -21,4 +21,7 @@ return [
     'resultados' => 'The results of the skills associated with the course will appear here.',
     'cambiar_curso' => 'If you are enrolled in more than one course, here you can switch from one to another.',
     'resultados_tutor' => 'The table with the results of all the students in the course will appear here. It can be sorted alphabetically or by number of completed activities.',
+    'notificaciones' => 'Enable or disable email notifications.',
+    'perfil' => 'Update your user profile.',
+    'password' => 'Update your password.',
 ];

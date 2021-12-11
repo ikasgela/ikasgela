@@ -19,8 +19,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
     Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->middleware(['honey'])->name('password.email');
     Route::post('password/reset', 'Auth\ResetPasswordController@reset')->middleware(['honey'])->name('password.update');
 
-    require __DIR__ . '/profile/profile.php';
-
     // Control de la barra lateral
     Route::post('/settings/api', 'SettingController@api')
         ->name('settings.api');
@@ -28,9 +26,19 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
     // Sesión iniciada y cuenta verificada
     Route::middleware(['auth', 'verified'])->group(function () {
 
-        // Perfil de usuario
+        // Perfil de usuario: activar/desactivar el tutorial
         Route::post('/users/toggle_help', 'UserController@toggle_help')
             ->name('users.toggle_help');
+
+        // Perfil de usuario: editar y cambiar contraseña
+        Route::get('/profile', 'ProfileController@show')
+            ->name('profile.show');
+        Route::get('/password', 'ProfileController@password')
+            ->name('profile.password');
+        Route::put('/profile/update_user', 'ProfileController@updateUser')
+            ->name('profile.update.user');
+        Route::put('/profile/update_password', 'ProfileController@updatePassword')
+            ->name('profile.update.password');
 
         // Actualizar estado de una tarea
         Route::put('/actividades/{tarea}/estado', 'ActividadController@actualizarEstado')

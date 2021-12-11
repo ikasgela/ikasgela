@@ -21,4 +21,7 @@ return [
     'resultados' => 'Aquí aparecerán los resultados de las competencias asociadas al curso.',
     'cambiar_curso' => 'Si estás matriculado en más de un curso, aquí puedes cambiar de uno a otro.',
     'resultados_tutor' => 'Aquí aparecerá la tabla con los resultados de todos los alumnos del grupo. Se puede ordenar alfabéticamente o por número de actividades completadas.',
+    'notificaciones' => 'Activar o desactivar las notificaciones por email.',
+    'perfil' => 'Actualiza tu perfil de usuario.',
+    'password' => 'Actualiza tu contraseña.',
 ];

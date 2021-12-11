@@ -1,23 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row">
-        <div class="col-md">
-            <h1>{{ __('Password') }}</h1>
-        </div>
-    </div>
+    @include('partials.titular', ['titular' => __('Password')])
 
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+    @include('partials.tutorial', [
+        'color' => 'c-callout-success',
+        'texto' => trans('tutorial.password')
+    ])
 
-            <div class="py-4">
-                <div class="row justify-content-center">
-                    <div class="col-md-12">
-                        <profile-password></profile-password>
-                    </div>
-                </div>
-            </div>
+    <div class="card">
+        <div class="card-body">
+            {!! Form::open(['route' => ['profile.update.password'], 'method' => 'PUT']) !!}
 
+            {{ Form::campoPassword('current', __('Current password')) }}
+            {{ Form::campoPassword('password', __('New password')) }}
+            {{ Form::campoPassword('password_confirmation', __('Password confirmation')) }}
+
+            @include('partials.guardar')
+
+            @include('layouts.errors')
+
+            {!! Form::close() !!}
         </div>
     </div>
 @endsection
