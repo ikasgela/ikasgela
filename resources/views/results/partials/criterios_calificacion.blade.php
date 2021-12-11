@@ -1,9 +1,9 @@
 <div class="card">
     <div class="card-body">
         @if(str_starts_with(\Route::current()->getName(),'results.pdf'))
-            <h3 class="card-title">Criterios de calificación aplicados</h3>
+            <h3 class="card-title">{{ __('Applied qualification criteria') }}</h3>
         @else
-            <h5 class="card-title">Criterios de calificación aplicados</h5>
+            <h5 class="card-title">{{ __('Applied qualification criteria') }}</h5>
         @endif
         <ul class="card-text mb-1">
             @if($calificaciones->hay_nota_manual)
