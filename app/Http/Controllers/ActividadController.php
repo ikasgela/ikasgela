@@ -362,7 +362,10 @@ class ActividadController extends Controller
                     abort(400, __('Invalid task state.'));
                 }
 
-                $tarea->estado = $nuevoestado;
+                $plazo = now()->addDays($actividad->unidad->curso->plazo_actividad);
+                $actividad->fecha_entrega = $plazo;
+                $actividad->fecha_limite = $plazo;
+                $actividad->save();
 
                 $this->bloquearRepositorios($tarea, false);
 
@@ -379,11 +382,6 @@ class ActividadController extends Controller
                 $tarea->increment('intentos');
 
                 $registro->detalles = $tarea->feedback;
-
-                $plazo = now()->addDays($actividad->unidad->curso->plazo_actividad);
-                $actividad->fecha_entrega = $plazo;
-                $actividad->fecha_limite = $plazo;
-                $actividad->save();
 
                 $tarea->user->last_active = now();
                 $tarea->user->save();
