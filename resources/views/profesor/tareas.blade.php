@@ -24,6 +24,13 @@
                 <span class="mx-1"></span>
 
                 {!! Form::open(['route' => ['profesor.tareas.filtro', $user->id], 'method' => 'POST']) !!}
+                {!! Form::button(__('Clear filters'), ['type' => 'submit',
+                    'class' => session('profesor_filtro_actividades_etiquetas') == 'S' ? 'btn btn-sm mx-1 btn-primary' : 'btn btn-sm mx-1 btn-outline-secondary'
+                ]) !!}
+                {!! Form::hidden('filtro_etiquetas','N') !!}
+                {!! Form::close() !!}
+
+                {!! Form::open(['route' => ['profesor.tareas.filtro', $user->id], 'method' => 'POST']) !!}
                 {!! Form::button(__('Exams'), ['type' => 'submit',
                     'class' => session('profesor_filtro_actividades_examen') == 'E' ? 'btn btn-sm mx-1 btn-primary' : 'btn btn-sm mx-1 btn-outline-secondary'
                 ]) !!}

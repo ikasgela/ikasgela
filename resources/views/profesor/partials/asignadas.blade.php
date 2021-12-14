@@ -39,10 +39,7 @@
                     </td>
                     <td class="clickable">{{ $actividad->tarea->id }}</td>
                     <td class="clickable">
-                        <span class="mr-2">{{ $actividad->unidad->slug.'/'.$actividad->slug }}</span>
-                        @foreach($actividad->etiquetas() as $etiqueta)
-                            {!! '<span class="badge badge-secondary">'.$etiqueta.'</span>' !!}
-                        @endforeach
+                        @include('profesor.partials.nombre_tarea_etiquetas')
                     </td>
                     <td class="text-center clickable">{!! $actividad->tarea->estado == 11 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-secondary"></i>' !!}</td>
                     <td class="text-center clickable">{!! $actividad->tarea->estado >= 20 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
