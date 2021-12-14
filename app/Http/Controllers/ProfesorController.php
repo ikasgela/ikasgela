@@ -193,6 +193,22 @@ class ProfesorController extends Controller
             $actividades = $actividades->where('unidad_id', session('profesor_unidad_id_asignadas'));
         }
 
+        if ($request->has('filtro_etiquetas')) {
+            if (request('filtro_etiquetas') == 'N') {
+                session(['profesor_filtro_actividades_etiquetas' => '']);
+                session(['tags_actividades' => []]);
+            }
+        }
+
+        if ($request->has('tag')) {
+            session(['profesor_filtro_actividades_etiquetas' => 'S']);
+            session()->push('tags_actividades', request('tag'));
+        }
+
+        if (session('profesor_filtro_actividades_etiquetas')) {
+            $actividades = $actividades->tags(session('tags_actividades'));
+        }
+
         $actividades = $this->paginate_ultima($actividades, config('ikasgela.pagination_assigned_activities'), 'asignadas');
 
         $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('orden')->get();
