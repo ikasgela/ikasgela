@@ -42,7 +42,9 @@ class TutorController extends Controller
 
     public function export()
     {
-        return Excel::download(new InformeGrupoExport, 'informegrupo.xlsx');
+        $fecha = now()->format('Ymd-His');
+
+        return Excel::download(new InformeGrupoExport, 'informegrupo-' . $fecha . '.xlsx');
     }
 
     public function tareas_enviadas()

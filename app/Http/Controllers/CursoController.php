@@ -292,7 +292,7 @@ class CursoController extends Controller
         $this->exportarFicheroJSON($ruta, 'feedbacks_actividades.json', $datos);
 
         // Crear el zip
-        $fecha = now()->format('YmdHis');
+        $fecha = now()->format('Ymd-His');
         $nombre = Str::slug($curso->full_name);
 
         $ficheros = Storage::disk('temp')->files($directorio);

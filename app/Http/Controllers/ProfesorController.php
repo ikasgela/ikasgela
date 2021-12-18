@@ -311,7 +311,7 @@ class ProfesorController extends Controller
                 $this->run_jplag($tarea, $ruta, $directorio);
 
                 // Crear el zip
-                $fecha = now()->format('YmdHis');
+                $fecha = now()->format('Ymd-His');
                 $nombre = Str::slug($tarea->actividad->full_name);
 
                 $ficheros = Storage::disk('temp')->files($directorio . '/__resultados');
