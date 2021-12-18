@@ -438,6 +438,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::post('/tutor', 'TutorController@index')
                 ->name('tutor.index.filtro');
             Route::get('/tutor/export', 'TutorController@export')
+                ->withoutMiddleware('localeCookieRedirect')
                 ->name('tutor.export');
             Route::get('/tutor/tareas_enviadas', 'TutorController@tareas_enviadas')
                 ->name('tutor.tareas_enviadas');
