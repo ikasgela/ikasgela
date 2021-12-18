@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('partials.titular', ['titular' => __('Profile')])
+    @include('partials.titular', ['titular' => __('Profile'), 'subtitulo' => ''])
 
     @include('partials.tutorial', [
         'color' => 'c-callout-success',
