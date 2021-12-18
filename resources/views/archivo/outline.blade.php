@@ -32,14 +32,22 @@
                         </div>
                         <div class="progress-group-bars">
                             <div class="progress-group-header">
-                                <div style="width:12em;">
-                                    {{ !is_null($unidad->fecha_disponibilidad) ? $unidad->fecha_disponibilidad->isoFormat('L LT') : '-' }}
+                                <div>
+                                    <div class="d-flex">
+                                        <div>{{ !is_null($unidad->fecha_disponibilidad) ? $unidad->fecha_disponibilidad->isoFormat('L') : '-' }}</div>
+                                        <div>
+                                            &nbsp;{{ !is_null($unidad->fecha_disponibilidad) ? $unidad->fecha_disponibilidad->isoFormat('LT') : '' }}</div>
+                                    </div>
                                 </div>
                                 <div class="col text-muted small text-center">
                                     @include('partials.diferencia_fechas', ['fecha_inicial' => now(), 'fecha_final' => $unidad->fecha_entrega])
                                 </div>
-                                <div class="ml-auto text-right" style="width:12em;">
-                                    {{ !is_null($unidad->fecha_entrega) ? $unidad->fecha_entrega->isoFormat('L LT') : '-' }}
+                                <div class="ml-auto text-right">
+                                    <div class="d-flex">
+                                        <div>{{ !is_null($unidad->fecha_entrega) ? $unidad->fecha_entrega->isoFormat('L') : '-' }}</div>
+                                        <div>
+                                            &nbsp;{{ !is_null($unidad->fecha_entrega) ? $unidad->fecha_entrega->isoFormat('LT') : '' }}</div>
+                                    </div>
                                 </div>
                             </div>
                             @php($porcentaje = !is_null($unidad->fecha_disponibilidad) && !is_null($unidad->fecha_entrega) ? round(100-(now()->diffInSeconds($unidad->fecha_entrega)/$unidad->fecha_disponibilidad->diffInSeconds($unidad->fecha_entrega)*100),0) : 0)
