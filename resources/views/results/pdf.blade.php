@@ -15,7 +15,7 @@
         </tr>
         <tr>
             <th>{{ __('Date') }}</th>
-            <td>{{ now()->isoFormat('LLLL') }}</td>
+            <td>{{ now()->isoFormat('L LT') }}</td>
         </tr>
     </table>
 

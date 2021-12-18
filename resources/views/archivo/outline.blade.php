@@ -11,10 +11,10 @@
 
     <div class="c-callout c-callout-bordered p-3">
         <h5><strong>{{ __('Start date') }}:</strong>
-            {{ $curso?->fecha_inicio ? $curso->fecha_inicio->format('d/m/Y H:i') : __('Undefined') }}
+            {{ $curso?->fecha_inicio ? $curso->fecha_inicio->isoFormat('L LT') : __('Undefined') }}
         </h5>
         <h5 class="mb-0"><strong>{{ __('End date') }}:</strong>
-            {{ $curso?->fecha_fin ? $curso->fecha_fin->format('d/m/Y H:i') : __('Undefined') }}</h5>
+            {{ $curso?->fecha_fin ? $curso->fecha_fin->isoFormat('L LT') : __('Undefined') }}</h5>
     </div>
 
     @if(count($unidades) > 0)

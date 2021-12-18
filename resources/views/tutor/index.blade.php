@@ -48,6 +48,6 @@
     @include('tutor.partials.tabla_usuarios')
 
     <div>
-        <p class="text-center text-muted font-xs">{{ now()->isoFormat('LLLL') }}</p>
+        <p class="text-center text-muted font-xs">{{ now()->isoFormat('L LT') }}</p>
     </div>
 @endsection
