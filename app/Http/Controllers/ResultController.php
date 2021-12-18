@@ -120,14 +120,14 @@ class ResultController extends Controller
                 ->orderBy('timestamp')
                 ->get()
                 ->groupBy(function ($val) {
-                    return Carbon::parse($val->timestamp)->format('d/m/Y');
+                    return Carbon::parse($val->timestamp)->isoFormat('L');
                 });
 
             $period = CarbonPeriod::create($fecha_inicio, $fecha_fin);
 
             $todas_fechas = [];
             foreach ($period as $date) {
-                $todas_fechas[$date->format('d/m/Y')] = 0;
+                $todas_fechas[$date->isoFormat('L')] = 0;
             }
 
             $datos = array_merge($todas_fechas, $registros->map(function ($item, $key) {
