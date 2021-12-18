@@ -7,33 +7,37 @@
         @endif
         <ul class="card-text mb-1">
             @if($calificaciones->hay_nota_manual)
-                <li>La calificación se ha establecido manualmente.</li>
+                <li>{{ __('Qualification has been manually established.') }}</li>
             @elseif($calificaciones->examen_final)
-                <li>Se debe superar el {{ formato_decimales($curso->minimo_examenes) }}&thinsp;% en las pruebas de
-                    evaluación final, recuperando un máximo del
-                    {{ formato_decimales($curso->maximo_recuperable_examenes_finales) }}&thinsp;% de la nota.
+                <li>{!! __('At least :porcentaje_minimo&thinsp;% must be achieved on the final evaluation tests, been able to recover a maximum :porcentaje_recuperable&thinsp;% of the calification.', [
+                        'porcentaje_minimo'=> formato_decimales($curso->minimo_examenes),
+                        'porcentaje_recuperable'=> formato_decimales($curso->maximo_recuperable_examenes_finales),
+                    ]) !!}
                     @include('results.partials.criterio_superado', ['criterio' => $calificaciones->examen_final_superado])
                 </li>
             @else
                 @if($curso->minimo_entregadas > 0)
-                    <li>Se deben haber realizado al menos el {{ formato_decimales($curso->minimo_entregadas) }}&thinsp;%
-                        de las actividades propuestas de cada unidad.
+                    <li>{!! __('At least :porcentaje_minimo&thinsp;% of the activities proposed on each unit must have been made.', [
+                            'porcentaje_minimo'=> formato_decimales($curso->minimo_entregadas),
+                        ]) !!}
                         @include('results.partials.criterio_superado', ['criterio' => $calificaciones->actividades_obligatorias_superadas])
                     </li>
                 @endif
                 @if($curso->minimo_competencias > 0)
-                    <li>Se debe superar el {{ formato_decimales($curso->minimo_competencias) }}&thinsp;% en cada una de
-                        las competencias de forma individual.
+                    <li>{!! __('At least :porcentaje_minimo&thinsp;% must be achieved on each skill individually.', [
+                            'porcentaje_minimo'=> formato_decimales($curso->minimo_competencias),
+                        ]) !!}
                         @include('results.partials.criterio_superado', ['criterio' => $calificaciones->competencias_50_porciento])
                     </li>
                 @endif
                 @if($curso->examenes_obligatorios)
-                    <li>Se debe haber superado el {{ formato_decimales($curso->minimo_examenes) }}&thinsp;% en las
-                        pruebas de evaluación que lo requieran.
+                    <li>{!! __('At least :porcentaje_minimo&thinsp;% must be achieved on the tests that require it.', [
+                            'porcentaje_minimo'=> formato_decimales($curso->minimo_examenes),
+                        ]) !!}
                         @include('results.partials.criterio_superado', ['criterio' => $calificaciones->pruebas_evaluacion])
                     </li>
                 @else
-                    <li>No hay pruebas de evaluación que requieran superar un porcentaje mínimo.</li>
+                    <li>{{ __('There are no evaluation tests that require to achieve a minimal percent.') }}</li>
                 @endif
             @endif
         </ul>
