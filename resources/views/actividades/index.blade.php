@@ -13,10 +13,10 @@
     <div class="mb-3">
         <a class="btn btn-primary" href="{{ route('actividades.create') }}">{{ __('New activity') }}</a>
         @if(Route::currentRouteName() == 'actividades.index')
-            {!! link_to_route('actividades.plantillas', $title = 'Ver solo plantillas', $parameters = [],
+            {!! link_to_route('actividades.plantillas', $title = __('View templates only'), $parameters = [],
                     $attributes = ['class' => 'btn btn-link text-secondary']); !!}
         @else
-            {!! link_to_route('actividades.index', $title = 'Ver todas las actividades', $parameters = [],
+            {!! link_to_route('actividades.index', $title = __('View all the activities'), $parameters = [],
                     $attributes = ['class' => 'btn btn-link text-secondary']); !!}
         @endif
     </div>
