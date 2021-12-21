@@ -95,8 +95,13 @@
                         aria-valuemin="0"
                         aria-valuemax="100"
                         title="{{ $resultado->tarea }}/{{ $resultado->actividad }}">
-                        {{ formato_decimales($porcentaje_competencia) }}&thinsp;%
+                        @if($porcentaje_competencia>=20){{ formato_decimales($porcentaje_competencia) }}&thinsp;%@endif
                     </div>
+                    @if($porcentaje_competencia<20)
+                        <div class="progress-bar bg-gray-200 text-dark text-left pl-2">
+                            {{ formato_decimales($porcentaje_competencia) }}&thinsp;%
+                        </div>
+                    @endif
                 </div>
 
                 @if(!$loop->last)
