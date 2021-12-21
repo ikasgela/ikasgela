@@ -19,12 +19,12 @@
                     style="width: {{ $porcentaje }}%;"
                     aria-valuenow="{{ $porcentaje }}"
                     aria-valuemin="0"
-                    aria-valuemax="100">@if($porcentaje>=20){{ $porcentaje }}&thinsp;%@endif
+                    aria-valuemax="100">@if($porcentaje>=20){{ formato_decimales($porcentaje) }}&thinsp;%@endif
                 </div>
                 @if($hay_calificacion && $porcentaje<20)
                     <div
-                        class="progress-bar {{ $porcentaje > 0 ? 'bg-gray-200' : 'bg-warning w-100 text-left' }} text-dark pl-2">
-                        {{ $porcentaje }}&thinsp;%
+                        class="progress-bar {{ $porcentaje > 0 ? 'bg-gray-200' : 'bg-warning w-100' }} text-left text-dark pl-2">
+                        {{ formato_decimales($porcentaje) }}&thinsp;%
                     </div>
                 @endif
             </div>
