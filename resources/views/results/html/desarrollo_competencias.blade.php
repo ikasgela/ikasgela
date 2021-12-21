@@ -29,7 +29,7 @@
                          title="{{ $resultado->puntos_tarea }}/{{ $resultado->puntos_totales_tarea }}">
                         @if($porcentaje_tarea>=30){{ formato_decimales($porcentaje_tarea) }}&thinsp;%@endif
                     </div>
-                    @if($porcentaje_tarea<30)
+                    @if($resultado->puntos_totales_tarea > 0 && $porcentaje_tarea<30)
                         <div class="progress-bar bg-gray-200 text-dark text-left pl-2"
                              style="width:30%;">
                             {{ formato_decimales($porcentaje_tarea) }}&thinsp;%
@@ -49,7 +49,7 @@
                              title="{{ $resultado->puntos_examen }}/{{ $resultado->puntos_totales_examen }}">
                             @if($porcentaje_examen>=40){{ formato_decimales($porcentaje_examen) }}&thinsp;%@endif
                         </div>
-                        @if($porcentaje_examen<40)
+                        @if($resultado->puntos_totales_examen> 0 && $porcentaje_examen<40)
                             <div class="progress-bar bg-gray-200 text-dark text-left pl-2"
                                  style="width:20%;">
                                 {{ formato_decimales($porcentaje_examen) }}&thinsp;%
@@ -97,7 +97,7 @@
                         title="{{ $resultado->tarea }}/{{ $resultado->actividad }}">
                         @if($porcentaje_competencia>=20){{ formato_decimales($porcentaje_competencia) }}&thinsp;%@endif
                     </div>
-                    @if($porcentaje_competencia<20)
+                    @if($resultado->actividad > 0 && $porcentaje_competencia<20)
                         <div class="progress-bar bg-gray-200 text-dark text-left pl-2">
                             {{ formato_decimales($porcentaje_competencia) }}&thinsp;%
                         </div>
