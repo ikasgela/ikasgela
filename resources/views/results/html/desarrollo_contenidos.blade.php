@@ -23,7 +23,7 @@
                 </div>
                 @if($hay_calificacion && $porcentaje<20)
                     <div
-                        class="progress-bar {{ $porcentaje > 0 ? 'bg-gray-200' : 'bg-warning w-100 text-left' }} text-dark pl-2">
+                        class="progress-bar {{ $porcentaje > 0 ? 'bg-gray-200' : 'bg-warning w-100' }} text-left text-dark pl-2">
                         {{ $porcentaje }}&thinsp;%
                     </div>
                 @endif
