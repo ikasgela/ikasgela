@@ -18,8 +18,11 @@
                     style="width: {{ $porcentaje }}%;"
                     aria-valuenow="{{ $porcentaje }}"
                     aria-valuemin="0"
-                    aria-valuemax="100">@if($porcentaje>0){{ $porcentaje }}&thinsp;%@endif
+                    aria-valuemax="100">@if($porcentaje>=15){{ $porcentaje }}&thinsp;%@endif
                 </div>
+                @if($porcentaje<15)
+                    <div class="progress-bar bg-gray-200 text-dark pl-1">{{ $porcentaje }}&thinsp;%</div>
+                @endif
             </div>
             <div class="text-muted small text-right">
                 {{ $calificaciones->resultados_unidades[$unidad->id]->tarea + 0
