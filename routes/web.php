@@ -87,6 +87,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 
             // Descargar un repositorio
             Route::get('/intellij_projects/{intellij_project}/download', 'IntellijProjectController@download')
+                ->withoutMiddleware('localeCookieRedirect')
                 ->name('intellij_projects.download');
 
             // Matricularse en un curso
@@ -134,6 +135,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::get('/profesor/jplag/{tarea}', 'ProfesorController@jplag')
                 ->name('profesor.jplag');
             Route::get('/profesor/jplag_download/{tarea}', 'ProfesorController@jplag_download')
+                ->withoutMiddleware('localeCookieRedirect')
                 ->name('profesor.jplag_download');
 
             // Borrar una tarea
@@ -400,6 +402,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 
             // Informe de todas las actividades del curso
             Route::get('/actividades_export', 'ActividadController@export')
+                ->withoutMiddleware('localeCookieRedirect')
                 ->name('actividades.export');
 
             // Exportar/importar cursos
