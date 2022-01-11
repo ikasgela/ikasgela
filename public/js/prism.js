@@ -19,7 +19,7 @@ var _self = (typeof window !== 'undefined')
 var Prism = (function (_self) {
 
 	// Private helper vars
-	var lang = /\blang(?:uage)?-([\w-]+)\b/i;
+	var lang = /(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i;
 	var uniqueId = 0;
 
 	// The grammar object for plaintext
@@ -49,6 +49,27 @@ var Prism = (function (_self) {
 		 * @public
 		 */
 		manual: _self.Prism && _self.Prism.manual,
+		/**
+		 * By default, if Prism is in a web worker, it assumes that it is in a worker it created itself, so it uses
+		 * `addEventListener` to communicate with its parent instance. However, if you're using Prism manually in your
+		 * own worker, you don't want it to do this.
+		 *
+		 * By setting this value to `true`, Prism will not add its own listeners to the worker.
+		 *
+		 * You obviously have to change this value before Prism executes. To do this, you can add an
+		 * empty Prism object into the global scope before loading the Prism script like this:
+		 *
+		 * ```js
+		 * window.Prism = window.Prism || {};
+		 * Prism.disableWorkerMessageHandler = true;
+		 * // Load Prism's script
+		 * ```
+		 *
+		 * @default false
+		 * @type {boolean}
+		 * @memberof Prism
+		 * @public
+		 */
 		disableWorkerMessageHandler: _self.Prism && _self.Prism.disableWorkerMessageHandler,
 
 		/**
@@ -163,13 +184,31 @@ var Prism = (function (_self) {
 			 * @returns {string}
 			 */
 			getLanguage: function (element) {
-				while (element && !lang.test(element.className)) {
+				while (element) {
+					var m = lang.exec(element.className);
+					if (m) {
+						return m[1].toLowerCase();
+					}
 					element = element.parentElement;
 				}
-				if (element) {
-					return (element.className.match(lang) || [, 'none'])[1].toLowerCase();
-				}
 				return 'none';
+			},
+
+			/**
+			 * Sets the Prism `language-xxxx` class of the given element.
+			 *
+			 * @param {Element} element
+			 * @param {string} language
+			 * @returns {void}
+			 */
+			setLanguage: function (element, language) {
+				// remove all `language-xxxx` classes
+				// (this might leave behind a leading space)
+				element.className = element.className.replace(RegExp(lang, 'gi'), '');
+
+				// add the new `language-xxxx` class
+				// (using `classList` will automatically clean up spaces for us)
+				element.classList.add('language-' + language);
 			},
 
 			/**
@@ -526,12 +565,12 @@ var Prism = (function (_self) {
 			var grammar = _.languages[language];
 
 			// Set language on the element, if not present
-			element.className = element.className.replace(lang, '').replace(/\s+/g, ' ') + ' language-' + language;
+			_.util.setLanguage(element, language);
 
 			// Set language on the parent, for styling
 			var parent = element.parentElement;
 			if (parent && parent.nodeName.toLowerCase() === 'pre') {
-				parent.className = parent.className.replace(lang, '').replace(/\s+/g, ' ') + ' language-' + language;
+				_.util.setLanguage(parent, language);
 			}
 
 			var code = element.textContent;
@@ -926,7 +965,7 @@ var Prism = (function (_self) {
 
 					if (greedy) {
 						match = matchPattern(pattern, pos, text, lookbehind);
-						if (!match) {
+						if (!match || match.index >= text.length) {
 							break;
 						}
 
@@ -1238,14 +1277,14 @@ Prism.languages.clike = {
 		greedy: true
 	},
 	'class-name': {
-		pattern: /(\b(?:class|interface|extends|implements|trait|instanceof|new)\s+|\bcatch\s+\()[\w.\\]+/i,
+		pattern: /(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,
 		lookbehind: true,
 		inside: {
 			'punctuation': /[.\\]/
 		}
 	},
-	'keyword': /\b(?:if|else|while|do|for|return|in|instanceof|function|new|try|throw|catch|finally|null|break|continue)\b/,
-	'boolean': /\b(?:true|false)\b/,
+	'keyword': /\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,
+	'boolean': /\b(?:false|true)\b/,
 	'function': /\b\w+(?=\()/,
 	'number': /\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,
 	'operator': /[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,
@@ -1275,6 +1314,11 @@ Prism.languages.clike = {
 	};
 
 	Prism.languages.java = Prism.languages.extend('clike', {
+		'string': {
+			pattern: /(^|[^\\])"(?:\\.|[^"\\\r\n])*"/,
+			lookbehind: true,
+			greedy: true
+		},
 		'class-name': [
 			className,
 			{
@@ -1306,6 +1350,10 @@ Prism.languages.clike = {
 			pattern: /"""[ \t]*[\r\n](?:(?:"|"")?(?:\\.|[^"\\]))*"""/,
 			greedy: true,
 			alias: 'string'
+		},
+		'char': {
+			pattern: /'(?:\\.|[^'\\\r\n]){1,6}'/,
+			greedy: true
 		}
 	});
 
@@ -1423,7 +1471,7 @@ Prism.languages.swift = {
 		alias: 'property',
 		inside: {
 			'directive-name': /^#\w+/,
-			'boolean': /\b(?:true|false)\b/,
+			'boolean': /\b(?:false|true)\b/,
 			'number': /\b\d+(?:\.\d+)*\b/,
 			'operator': /!|&&|\|\||[<>]=?/,
 			'punctuation': /[(),]/
@@ -1455,8 +1503,8 @@ Prism.languages.swift = {
 		alias: 'important'
 	},
 
-	'keyword': /\b(?:Any|Protocol|Self|Type|actor|as|assignment|associatedtype|associativity|async|await|break|case|catch|class|continue|convenience|default|defer|deinit|didSet|do|dynamic|else|enum|extension|fallthrough|fileprivate|final|for|func|get|guard|higherThan|if|import|in|indirect|infix|init|inout|internal|is|lazy|left|let|lowerThan|mutating|none|nonisolated|nonmutating|open|operator|optional|override|postfix|precedencegroup|prefix|private|protocol|public|repeat|required|rethrows|return|right|safe|self|set|some|static|struct|subscript|super|switch|throw|throws|try|typealias|unowned|unsafe|var|weak|where|while|willSet)\b/,
-	'boolean': /\b(?:true|false)\b/,
+	'keyword': /\b(?:Any|Protocol|Self|Type|actor|as|assignment|associatedtype|associativity|async|await|break|case|catch|class|continue|convenience|default|defer|deinit|didSet|do|dynamic|else|enum|extension|fallthrough|fileprivate|final|for|func|get|guard|higherThan|if|import|in|indirect|infix|init|inout|internal|is|isolated|lazy|left|let|lowerThan|mutating|none|nonisolated|nonmutating|open|operator|optional|override|postfix|precedencegroup|prefix|private|protocol|public|repeat|required|rethrows|return|right|safe|self|set|some|static|struct|subscript|super|switch|throw|throws|try|typealias|unowned|unsafe|var|weak|where|while|willSet)\b/,
+	'boolean': /\b(?:false|true)\b/,
 	'nil': {
 		pattern: /\bnil\b/,
 		alias: 'constant'
@@ -1488,10 +1536,11 @@ Prism.languages.swift['string-literal'].forEach(function (rule) {
 Prism.languages.python = {
 	'comment': {
 		pattern: /(^|[^\\])#.*/,
-		lookbehind: true
+		lookbehind: true,
+		greedy: true
 	},
 	'string-interpolation': {
-		pattern: /(?:f|rf|fr)(?:("""|''')[\s\S]*?\1|("|')(?:\\.|(?!\2)[^\\\r\n])*\2)/i,
+		pattern: /(?:f|fr|rf)(?:("""|''')[\s\S]*?\1|("|')(?:\\.|(?!\2)[^\\\r\n])*\2)/i,
 		greedy: true,
 		inside: {
 			'interpolation': {
@@ -1514,12 +1563,12 @@ Prism.languages.python = {
 		}
 	},
 	'triple-quoted-string': {
-		pattern: /(?:[rub]|rb|br)?("""|''')[\s\S]*?\1/i,
+		pattern: /(?:[rub]|br|rb)?("""|''')[\s\S]*?\1/i,
 		greedy: true,
 		alias: 'string'
 	},
 	'string': {
-		pattern: /(?:[rub]|rb|br)?("|')(?:\\.|(?!\1)[^\\\r\n])*\1/i,
+		pattern: /(?:[rub]|br|rb)?("|')(?:\\.|(?!\1)[^\\\r\n])*\1/i,
 		greedy: true
 	},
 	'function': {
@@ -1531,18 +1580,18 @@ Prism.languages.python = {
 		lookbehind: true
 	},
 	'decorator': {
-		pattern: /(^[\t ]*)@\w+(?:\.\w+)*/im,
+		pattern: /(^[\t ]*)@\w+(?:\.\w+)*/m,
 		lookbehind: true,
 		alias: ['annotation', 'punctuation'],
 		inside: {
 			'punctuation': /\./
 		}
 	},
-	'keyword': /\b(?:and|as|assert|async|await|break|class|continue|def|del|elif|else|except|exec|finally|for|from|global|if|import|in|is|lambda|nonlocal|not|or|pass|print|raise|return|try|while|with|yield)\b/,
+	'keyword': /\b(?:_(?=\s*:)|and|as|assert|async|await|break|case|class|continue|def|del|elif|else|except|exec|finally|for|from|global|if|import|in|is|lambda|match|nonlocal|not|or|pass|print|raise|return|try|while|with|yield)\b/,
 	'builtin': /\b(?:__import__|abs|all|any|apply|ascii|basestring|bin|bool|buffer|bytearray|bytes|callable|chr|classmethod|cmp|coerce|compile|complex|delattr|dict|dir|divmod|enumerate|eval|execfile|file|filter|float|format|frozenset|getattr|globals|hasattr|hash|help|hex|id|input|int|intern|isinstance|issubclass|iter|len|list|locals|long|map|max|memoryview|min|next|object|oct|open|ord|pow|property|range|raw_input|reduce|reload|repr|reversed|round|set|setattr|slice|sorted|staticmethod|str|sum|super|tuple|type|unichr|unicode|vars|xrange|zip)\b/,
-	'boolean': /\b(?:True|False|None)\b/,
-	'number': /\b0(?:b(?:_?[01])+|o(?:_?[0-7])+|x(?:_?[a-f0-9])+)\b|(?:\b\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\B\.\d+(?:_\d+)*)(?:e[+-]?\d+(?:_\d+)*)?j?\b/i,
-	'operator': /[-+%=]=?|!=|\*\*?=?|\/\/?=?|<[<=>]?|>[=>]?|[&|^~]/,
+	'boolean': /\b(?:False|None|True)\b/,
+	'number': /\b0(?:b(?:_?[01])+|o(?:_?[0-7])+|x(?:_?[a-f0-9])+)\b|(?:\b\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\B\.\d+(?:_\d+)*)(?:e[+-]?\d+(?:_\d+)*)?j?(?!\w)/i,
+	'operator': /[-+%=]=?|!=|:=|\*\*?=?|\/\/?=?|<[<=>]?|>[=>]?|[&|^~]/,
 	'punctuation': /[{}[\];(),.:]/
 };
 
@@ -1958,7 +2007,7 @@ Prism.languages.py = Prism.languages.python;
 			"markup-templating"
 		],
 		"textile": "markup",
-		"twig": "markup",
+		"twig": "markup-templating",
 		"typescript": "javascript",
 		"v": "clike",
 		"vala": "clike",
@@ -1980,6 +2029,7 @@ Prism.languages.py = Prism.languages.python;
 		"rss": "markup",
 		"js": "javascript",
 		"g4": "antlr4",
+		"ino": "arduino",
 		"adoc": "asciidoc",
 		"avs": "avisynth",
 		"avdl": "avro-idl",
@@ -2001,6 +2051,7 @@ Prism.languages.py = Prism.languages.python;
 		"xls": "excel-formula",
 		"gamemakerlanguage": "gml",
 		"gni": "gn",
+		"go-mod": "go-module",
 		"hbs": "handlebars",
 		"hs": "haskell",
 		"idr": "idris",
@@ -2044,6 +2095,8 @@ Prism.languages.py = Prism.languages.python;
 		"sln": "solution-file",
 		"rq": "sparql",
 		"t4": "t4-cs",
+		"trickle": "tremor",
+		"troy": "tremor",
 		"trig": "turtle",
 		"ts": "typescript",
 		"tsconfig": "typoscript",
@@ -2052,6 +2105,7 @@ Prism.languages.py = Prism.languages.python;
 		"url": "uri",
 		"vb": "visual-basic",
 		"vba": "visual-basic",
+		"webidl": "web-idl",
 		"mathematica": "wolfram",
 		"nb": "wolfram",
 		"wl": "wolfram",
