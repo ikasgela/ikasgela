@@ -10,7 +10,7 @@
                 <li>{{ __('Qualification has been manually established.') }}</li>
             @elseif($calificaciones->examen_final)
                 <li>{!! __('At least :porcentaje_minimo&thinsp;% must be achieved on the final evaluation tests, been able to recover a maximum :porcentaje_recuperable&thinsp;% of the calification.', [
-                        'porcentaje_minimo'=> formato_decimales($curso->minimo_examenes),
+                        'porcentaje_minimo'=> formato_decimales($curso->minimo_examenes_finales),
                         'porcentaje_recuperable'=> formato_decimales($curso->maximo_recuperable_examenes_finales),
                     ]) !!}
                     @include('results.partials.criterio_superado', ['criterio' => $calificaciones->examen_final_superado])

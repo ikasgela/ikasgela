@@ -727,6 +727,7 @@ class User extends Authenticatable implements MustVerifyEmail
             // Pruebas de evaluación
 
             $r->minimo_examenes = $curso?->minimo_examenes;
+            $r->minimo_examenes_finales = $curso?->minimo_examenes_finales;
 
             $r->pruebas_evaluacion = true;
             $r->num_pruebas_evaluacion = 0;
@@ -741,6 +742,7 @@ class User extends Authenticatable implements MustVerifyEmail
                     $r->num_pruebas_evaluacion += 1;
                     $nota_examen = $r->resultados_unidades[$unidad->id]->tarea / $r->resultados_unidades[$unidad->id]->actividad;
                     $minimo_examenes_superado = $nota_examen >= $r->minimo_examenes / 100;
+                    $minimo_examenes_finales_superado = $nota_examen >= $r->minimo_examenes_finales / 100;
 
                     if ($unidad->hasEtiqueta('final')) {
                         if (!$r->examen_final) {
@@ -750,7 +752,7 @@ class User extends Authenticatable implements MustVerifyEmail
                         if ($nota_examen * 10 > $nota) {
                             $nota = $nota_examen * 10;
                         }
-                        if ($minimo_examenes_superado) {
+                        if ($minimo_examenes_finales_superado) {
                             $r->examen_final_superado = true;
                         }
                     } else if (!$minimo_examenes_superado) {

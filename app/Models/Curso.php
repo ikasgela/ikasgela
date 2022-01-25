@@ -27,7 +27,7 @@ class Curso extends Model
     protected $fillable = [
         'category_id', 'nombre', 'descripcion', 'slug', 'qualification_id', 'max_simultaneas',
         'fecha_inicio', 'fecha_fin', 'plazo_actividad', 'minimo_entregadas', 'minimo_competencias',
-        'minimo_examenes', 'examenes_obligatorios', 'maximo_recuperable_examenes_finales',
+        'minimo_examenes', 'minimo_examenes_finales', 'examenes_obligatorios', 'maximo_recuperable_examenes_finales',
         '__import_id',
         'matricula_abierta',
     ];

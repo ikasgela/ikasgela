@@ -25,7 +25,7 @@
                     {{ $calificaciones->resultados_unidades[$unidad->id]->tarea + 0
                  }}/{{ $calificaciones->resultados_unidades[$unidad->id]->actividad + 0 }}
                 </td>
-                <td class="text-center {{ $porcentaje< ($unidad->hasEtiqueta('examen') ? $calificaciones->minimo_examenes : $calificaciones->minimo_competencias) ? 'bg-warning text-dark' : 'bg-success' }}">
+                <td class="text-center {{ $porcentaje< ($unidad->hasEtiqueta('examen') ? ($unidad->hasEtiqueta('final') ? $calificaciones->minimo_examenes_finales : $calificaciones->minimo_examenes) : $calificaciones->minimo_competencias) ? 'bg-warning text-dark' : 'bg-success' }}">
                     {{ formato_decimales($porcentaje) }}&thinsp;%
                 </td>
             @endif

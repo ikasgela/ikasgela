@@ -16,6 +16,7 @@ class ResultadoCalificaciones
     public $competencias_50_porciento = null;
     public $minimo_competencias = null;
     public $minimo_examenes = null;
+    public $minimo_examenes_finales = null;
     public $evaluacion_continua_superada = null;
     public $hayExamenes = null;
     public $examen_final = null;
