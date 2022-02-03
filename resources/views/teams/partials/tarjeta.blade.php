@@ -7,7 +7,7 @@
                     <li class="list-group-item">
                         @include('users.partials.avatar', ['user' => $user, 'width' => 32])
                         <span class="mx-2">{{ $user->name }} {{ $user->surname }}</span>
-                        <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
+                        @include('partials.mailto', ['user' => $user])
                     </li>
                 @endforeach
             </ul>

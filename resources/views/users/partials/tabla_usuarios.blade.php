@@ -29,7 +29,7 @@
                     {{ $user->name }} {{ $user->surname }}
                     @include('profesor.partials.status_usuario_filtro')
                 </td>
-                <td><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
+                <td>@include('partials.mailto', ['user' => $user])</td>
                 <td class="text-center">{{ $user->cursos()->count() }}</td>
                 <td class="text-center">@include('partials.check_yes_no', ['checked' => $user->hasVerifiedEmail()])</td>
                 <td class="text-center">@include('partials.check_yes_no', ['checked' => $user->tutorial])</td>

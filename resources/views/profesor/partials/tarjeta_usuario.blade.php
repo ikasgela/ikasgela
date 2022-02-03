@@ -11,7 +11,7 @@
                         @include('profesor.partials.status_usuario')
                         @include('profesor.partials.acciones_usuario')
                     </h5>
-                    <a href="mailto:{{ $user->email }}" class="card-link">{{ $user->email }}</a>
+                    @include('partials.mailto', ['user' => $user, 'format' => 'class="card-link"'])
                 </div>
                 <div class="col-12 col-sm-6 text-center text-sm-right">
                     @include('users.partials.avatar', ['user' => $user, 'width' => 100])
