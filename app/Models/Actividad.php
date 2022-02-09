@@ -11,6 +11,9 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+/**
+ * @mixin IdeHelperActividad
+ */
 class Actividad extends Model
 {
     use HasFactory;

@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Watson\Rememberable\Rememberable;
 
+/**
+ * @mixin IdeHelperUnidad
+ */
 class Unidad extends Model
 {
     use HasFactory;

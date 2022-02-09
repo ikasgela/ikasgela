@@ -6,6 +6,9 @@ use Cohensive\Embed\Facades\Embed;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperYoutubeVideo
+ */
 class YoutubeVideo extends Model
 {
     use HasFactory;

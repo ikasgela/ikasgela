@@ -102,3 +102,5 @@ public/js/app.js.LICENSE.txt
 storage/
 
 supervisord.pid
+
+_ide_helper_models.php

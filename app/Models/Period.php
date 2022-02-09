@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Watson\Rememberable\Rememberable;
 
+/**
+ * @mixin IdeHelperPeriod
+ */
 class Period extends Model
 {
     use HasFactory;

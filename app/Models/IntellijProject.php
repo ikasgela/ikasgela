@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Log;
 
+/**
+ * @mixin IdeHelperIntellijProject
+ */
 class IntellijProject extends Model
 {
     use HasFactory;

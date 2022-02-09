@@ -8,6 +8,9 @@ use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperMarkdownText
+ */
 class MarkdownText extends Model
 {
     use HasFactory;

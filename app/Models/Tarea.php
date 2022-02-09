@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+/**
+ * @mixin IdeHelperTarea
+ */
 class Tarea extends Pivot
 {
     use HasFactory;

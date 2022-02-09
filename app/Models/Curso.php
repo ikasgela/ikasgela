@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Watson\Rememberable\Rememberable;
 
+/**
+ * @mixin IdeHelperCurso
+ */
 class Curso extends Model
 {
     use HasFactory;

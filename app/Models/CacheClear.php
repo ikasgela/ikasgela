@@ -5,6 +5,9 @@ namespace App\Models;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperCacheClear
+ */
 class CacheClear extends Model
 {
     public $timestamps = false;
