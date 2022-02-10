@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\IntellijProject;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class IntellijProjectFactory extends Factory
 {
@@ -18,6 +17,7 @@ class IntellijProjectFactory extends Factory
             'repositorio' => 'root/test',
             'titulo' => $nombre,
             'host' => 'gitea',
+            'open_with' => 'idea',
         ];
     }
 }

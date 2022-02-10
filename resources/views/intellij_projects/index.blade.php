@@ -22,6 +22,7 @@
                 <th>{{ __('Title') }}</th>
                 <th>{{ __('Description') }}</th>
                 <th>{{ __('Host') }}</th>
+                <th>{{ __('Open with') }}</th>
                 <th>{{ __('Repository') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
@@ -33,6 +34,7 @@
                     <td>{{ $intellij_project->titulo }}</td>
                     <td>{{ $intellij_project->descripcion }}</td>
                     <td>{{ $intellij_project->host }}</td>
+                    <td>{{ $intellij_project->open_with }}</td>
                     <td>@include('partials.link_gitea', ['proyecto' => $intellij_project->repository() ])</td>
                     <td>
                         <form method="POST" action="{{ route('intellij_projects.destroy', [$intellij_project->id]) }}">

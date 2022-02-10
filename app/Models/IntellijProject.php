@@ -18,7 +18,7 @@ class IntellijProject extends Model
 
     protected $fillable = [
         'repositorio', 'titulo', 'descripcion', 'host',
-        '__import_id', 'curso_id',
+        '__import_id', 'curso_id', 'open_with',
     ];
 
     public function actividades()
@@ -173,6 +173,28 @@ class IntellijProject extends Model
 
         if ($repository['id'] != '?') {
             return "jetbrains://idea/checkout/git?checkout.repo=" . str_replace('https://', "https://" . Auth::user()->username . "@", $repository['http_url_to_repo']) . "&idea.required.plugins.id=Git4Idea";
+        }
+
+        return null;
+    }
+
+    public function phpstorm_deep_link()
+    {
+        $repository = $this->repository();
+
+        if ($repository['id'] != '?') {
+            return "jetbrains://php-storm/checkout/git?checkout.repo=" . str_replace('https://', "https://" . Auth::user()->username . "@", $repository['http_url_to_repo']) . "&idea.required.plugins.id=Git4Idea";
+        }
+
+        return null;
+    }
+
+    public function datagrip_deep_link()
+    {
+        $repository = $this->repository();
+
+        if ($repository['id'] != '?') {
+            return "jetbrains://dbe/checkout/git?checkout.repo=" . str_replace('https://', "https://" . Auth::user()->username . "@", $repository['http_url_to_repo']) . "&idea.required.plugins.id=Git4Idea";
         }
 
         return null;
