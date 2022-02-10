@@ -21,8 +21,11 @@
             @case('datagrip')
             <i class="fas fa-table mr-2"></i>{{ __('SQL project') }}
             @break
-            @default
+            @case('idea')
             <i class="fab fa-java mr-2"></i>{{ __('Java project') }}
+            @break
+            @default
+            <i class="fab fa-git-alt mr-2"></i>{{ __('Git repository') }}
         @endswitch
     </div>
     <div class="card-body">
@@ -50,16 +53,22 @@
             @switch($intellij_project->open_with)
                 @case('datagrip')
                 <a href="{{ $intellij_project->datagrip_deep_link() }}"
-                   class="btn btn-primary mr-3">{{ __('Open in DataGrip') }}</a>
+                   class="btn btn-primary">{{ __('Open in DataGrip') }}</a>
+                @break
+                @case('idea')
+                <a href="{{ $intellij_project->intellij_idea_deep_link() }}"
+                   class="btn btn-primary">{{ __('Open in IntelliJ IDEA') }}</a>
                 @break
                 @default
-                <a href="{{ $intellij_project->intellij_idea_deep_link() }}"
-                   class="btn btn-primary mr-3">{{ __('Open in IntelliJ IDEA') }}</a>
+                <a href="{{ $intellij_project->gitkraken_deep_link() }}"
+                   class="btn btn-primary">{{ __('Open in GitKraken') }}</a>
             @endswitch
             <a href="{{ $repositorio['web_url']  }}" target="_blank"
                class="btn btn-secondary">{{ __('Open in Gitea') }}</a>
-            <a href="{{ $intellij_project->gitkraken_deep_link() }}"
-               class="btn btn-secondary">{{ __('Open in GitKraken') }}</a>
+            @if(isset($intellij_project->open_with))
+                <a href="{{ $intellij_project->gitkraken_deep_link() }}"
+                   class="btn btn-secondary">{{ __('Open in GitKraken') }}</a>
+            @endif
             <div class='btn-group'>
                 @if(Auth::user()->hasRole('profesor'))
                     @if($intellij_project->isArchivado())
