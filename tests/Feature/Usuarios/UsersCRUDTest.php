@@ -12,7 +12,7 @@ class UsersCRUDTest extends TestCase
     use DatabaseTransactions;
 
     private $required = [
-        'name', 'email', 'username', 'roles_seleccionados'
+        'name', 'email', 'roles_seleccionados'
     ];
 
     public function setUp(): void
@@ -60,32 +60,136 @@ class UsersCRUDTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
-    public function testNotCreate()
+    public function testCreate()
     {
         // Auth
         $this->actingAs($this->admin);
 
         // Given
-        $this->expectException('Symfony\Component\Routing\Exception\RouteNotFoundException');
-
         // When
-        $this->get(route('users.create'));
+        $response = $this->get(route('users.create'));
 
         // Then
+        $response->assertSeeInOrder([__('New user'), __('Save')]);
     }
 
-    public function testNotStore()
+    public function testNotAdminNotCreate()
+    {
+        // Auth
+        $this->actingAs($this->not_admin);
+
+        // Given
+        // When
+        $response = $this->get(route('users.create'));
+
+        // Then
+        $response->assertForbidden();
+    }
+
+    public function testNotAuthNotCreate()
+    {
+        // Auth
+        // Given
+        // When
+        $response = $this->get(route('users.create'));
+
+        // Then
+        $response->assertRedirect(route('login'));
+    }
+
+    public function testStore()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        $rol_alumno = Role::create(['name' => 'alumno', 'description' => 'Alumno']);
+
+        // Given
+        $user = User::factory()->make();
+        $total = User::all()->count();
+
+        // When
+        $this->post(route('users.store'), array_merge($user->toArray(), [
+                'roles_seleccionados' => [$rol_alumno->id],
+                'password' => 'dummy',
+            ]
+        ));
+
+        // Then
+        $this->assertEquals($total + 1, User::all()->count());
+    }
+
+    public function testNotAdminNotStore()
+    {
+        // Auth
+        $this->actingAs($this->not_admin);
+
+        // Given
+        $user = User::factory()->make();
+
+        // When
+        $response = $this->post(route('users.store'), $user->toArray());
+
+        // Then
+        $response->assertForbidden();
+    }
+
+    public function testNotAuthNotStore()
+    {
+        // Auth
+        // Given
+        $user = User::factory()->make();
+
+        // When
+        $response = $this->post(route('users.store'), $user->toArray());
+
+        // Then
+        $response->assertRedirect(route('login'));
+    }
+
+    public function testStoreUntestedRequiredFields()
     {
         // Auth
         $this->actingAs($this->admin);
 
         // Given
-        $this->expectException('Symfony\Component\Routing\Exception\RouteNotFoundException');
+        $total = User::all()->count();
+
+        $empty = new User();
+        foreach ($this->required as $field) {
+            $empty->$field = '0';
+        }
 
         // When
-        $this->post(route('users.store'));
+        $response = $this->post(route('users.store'), array_merge($empty->toArray(), [
+                'password' => 'dummy',
+            ]
+        ));
 
         // Then
+        $response->assertSessionHasNoErrors();
+    }
+
+    private function storeRequires(string $field)
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $user = User::factory()->make([$field => null]);
+
+        // When
+        $response = $this->post(route('users.store'), $user->toArray());
+
+        // Then
+        $response->assertSessionHasErrors($field);
+    }
+
+    public function testStoreTestingNotRequiredFields()
+    {
+        foreach ($this->required as $field) {
+            $this->storeRequires($field);
+        }
     }
 
     public function testNotShow()
