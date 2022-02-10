@@ -166,4 +166,15 @@ class IntellijProject extends Model
 
         return null;
     }
+
+    public function intellij_idea_deep_link()
+    {
+        $repository = $this->repository();
+
+        if ($repository['id'] != '?') {
+            return "jetbrains://idea/checkout/git?checkout.repo=" . str_replace('https://', "https://" . Auth::user()->username . "@", $repository['http_url_to_repo']) . "&idea.required.plugins.id=Git4Idea";
+        }
+
+        return null;
+    }
 }
