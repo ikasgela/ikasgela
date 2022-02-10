@@ -40,7 +40,7 @@
             @endif
         @elseif(isset($repositorio['web_url']))
             <a href="{{ $intellij_project->intellij_idea_deep_link() }}"
-               class="btn btn-primary">{{ __('Open in IntelliJ IDEA') }}</a>
+               class="btn btn-primary mr-3">{{ __('Open in IntelliJ IDEA') }}</a>
             <a href="{{ $repositorio['web_url']  }}" target="_blank"
                class="btn btn-secondary">{{ __('Open in Gitea') }}</a>
             <a href="{{ $intellij_project->gitkraken_deep_link() }}"
