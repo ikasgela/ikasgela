@@ -23,6 +23,10 @@
         {!! Form::close() !!}
     @endif
 
+    <div class="mb-3">
+        <a class="btn btn-primary" href="{{ route('users.create') }}">{{ __('New user') }}</a>
+    </div>
+
     @include('users.partials.tabla_usuarios')
     @include('layouts.errors')
 

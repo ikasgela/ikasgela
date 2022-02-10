@@ -7,9 +7,11 @@ use App\Models\Curso;
 use App\Models\Organization;
 use App\Models\Role;
 use App\Models\User;
+use Carbon\Carbon;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Log;
 
 class UserController extends Controller
@@ -61,6 +63,59 @@ class UserController extends Controller
         $ids = $users->pluck('id')->toArray();
 
         return view('users.index', compact(['users', 'organizations', 'ids', 'cursos']));
+    }
+
+    public function create()
+    {
+        $roles_disponibles = Role::all();
+
+        return view('users.create', compact(['roles_disponibles']));
+    }
+
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'roles_seleccionados' => 'required',
+        ]);
+
+        // Generar el nombre de usuario a partir del email
+        $nombre_usuario = User::generar_username(request('email'));
+
+        // Crear el usuario de Laravel
+        $user = User::create([
+            'name' => $request->input('name'),
+            'surname' => $request->input('surname'),
+            'email' => $request->input('email'),
+            'username' => $nombre_usuario,
+            'password' => Hash::make(request('password')),
+            'tutorial' => true,
+            'last_active' => Carbon::now(),
+        ]);
+
+        $user->roles()->sync($request->input('roles_seleccionados'));
+
+        $organization = Organization::where('slug', subdominio())->first();
+        $user->organizations()->attach($organization);
+
+        $user->markEmailAsVerified();
+
+        // Crear el usuario de Gitea
+        if (config('ikasgela.gitea_enabled')) {
+            try {
+                $nombre_completo = $user->full_name;
+                GiteaClient::user($user->email, $nombre_usuario, $nombre_completo, request('password'));
+            } catch (\Exception $e) {
+                Log::error('Gitea: Error al crear el usuario.', [
+                    'username' => $nombre_usuario,
+                    'exception' => $e->getMessage()
+                ]);
+            }
+        }
+
+        return retornar();
     }
 
     public function edit(User $user)
