@@ -125,16 +125,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.209.20",
+            "version": "3.209.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "77c9c3a6211cb7eae599d5ab8f96765c50c0fa72"
+                "reference": "3f5b867920f422d605c38aad95f5c334183b39bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/77c9c3a6211cb7eae599d5ab8f96765c50c0fa72",
-                "reference": "77c9c3a6211cb7eae599d5ab8f96765c50c0fa72",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3f5b867920f422d605c38aad95f5c334183b39bb",
+                "reference": "3f5b867920f422d605c38aad95f5c334183b39bb",
                 "shasum": ""
             },
             "require": {
@@ -210,9 +210,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.209.20"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.209.21"
             },
-            "time": "2022-02-08T19:16:05+00:00"
+            "time": "2022-02-09T19:17:07+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -447,28 +447,28 @@
         },
         {
             "name": "browner12/helpers",
-            "version": "v3.3.0",
+            "version": "v3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/browner12/helpers.git",
-                "reference": "cdf34b5863ea13949947f6c013e8b78d3aefdc5d"
+                "reference": "18eb1f7e98cfd97266533a87871ad269d678839d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/browner12/helpers/zipball/cdf34b5863ea13949947f6c013e8b78d3aefdc5d",
-                "reference": "cdf34b5863ea13949947f6c013e8b78d3aefdc5d",
+                "url": "https://api.github.com/repos/browner12/helpers/zipball/18eb1f7e98cfd97266533a87871ad269d678839d",
+                "reference": "18eb1f7e98cfd97266533a87871ad269d678839d",
                 "shasum": ""
             },
             "require": {
-                "illuminate/console": "^6.0|^7.0|^8.0",
-                "illuminate/contracts": "^6.0|^7.0|^8.0",
-                "illuminate/support": "^6.0|^7.0|^8.0",
+                "illuminate/console": "^6.0|^7.0|^8.0|^9.0",
+                "illuminate/contracts": "^6.0|^7.0|^8.0|^9.0",
+                "illuminate/support": "^6.0|^7.0|^8.0|^9.0",
                 "php": "^7.2|^8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.0",
+                "phpunit/phpunit": "^8.0|^9.5.10",
                 "scrutinizer/ocular": "~1.1",
-                "squizlabs/php_codesniffer": "~2.3"
+                "squizlabs/php_codesniffer": "~2.3|^3.6"
             },
             "suggest": {
                 "moneyphp/money": "Money value object."
@@ -508,9 +508,9 @@
             ],
             "support": {
                 "issues": "https://github.com/browner12/helpers/issues",
-                "source": "https://github.com/browner12/helpers/tree/v3.3.0"
+                "source": "https://github.com/browner12/helpers/tree/v3.4.0"
             },
-            "time": "2020-12-08T15:46:07+00:00"
+            "time": "2022-02-07T15:48:53+00:00"
         },
         {
             "name": "cmgmyr/messenger",
@@ -2153,16 +2153,16 @@
         },
         {
             "name": "ikasgela/laravel-gitea",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ikasgela/laravel-gitea.git",
-                "reference": "05f7baa44c26239f1bcdaae60cb3000b397a6cf4"
+                "reference": "19e1ab446c5968be1b100c6c86868f32f2217dbc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ikasgela/laravel-gitea/zipball/05f7baa44c26239f1bcdaae60cb3000b397a6cf4",
-                "reference": "05f7baa44c26239f1bcdaae60cb3000b397a6cf4",
+                "url": "https://api.github.com/repos/ikasgela/laravel-gitea/zipball/19e1ab446c5968be1b100c6c86868f32f2217dbc",
+                "reference": "19e1ab446c5968be1b100c6c86868f32f2217dbc",
                 "shasum": ""
             },
             "require": {
@@ -2212,7 +2212,7 @@
             ],
             "support": {
                 "issues": "https://github.com/ikasgela/laravel-gitea/issues",
-                "source": "https://github.com/ikasgela/laravel-gitea/tree/1.0.1"
+                "source": "https://github.com/ikasgela/laravel-gitea/tree/1.0.2"
             },
             "funding": [
                 {
@@ -2220,7 +2220,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-10-25T09:27:27+00:00"
+            "time": "2022-02-10T12:37:50+00:00"
         },
         {
             "name": "intervention/image",
@@ -5252,25 +5252,25 @@
         },
         {
             "name": "rap2hpoutre/laravel-log-viewer",
-            "version": "v2.0.0",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rap2hpoutre/laravel-log-viewer.git",
-                "reference": "4fa9b45738095fc5febeed6e44f1516e93a8de8c"
+                "reference": "199b4f21004c8f0c00fbc9222e0cedf1341b5e81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rap2hpoutre/laravel-log-viewer/zipball/4fa9b45738095fc5febeed6e44f1516e93a8de8c",
-                "reference": "4fa9b45738095fc5febeed6e44f1516e93a8de8c",
+                "url": "https://api.github.com/repos/rap2hpoutre/laravel-log-viewer/zipball/199b4f21004c8f0c00fbc9222e0cedf1341b5e81",
+                "reference": "199b4f21004c8f0c00fbc9222e0cedf1341b5e81",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "4.2.*|5.*|^6.0|^7.0|^8.0",
+                "illuminate/support": "4.2.*|5.*|^6.0|^7.0|^8.0|^9.0",
                 "php": ">=5.4.0"
             },
             "require-dev": {
-                "orchestra/testbench": "3.7.*",
-                "phpunit/phpunit": "^7"
+                "orchestra/testbench": "3.7.*|^7.0",
+                "phpunit/phpunit": "^7|^9.5.10"
             },
             "type": "laravel-package",
             "extra": {
@@ -5309,9 +5309,9 @@
             ],
             "support": {
                 "issues": "https://github.com/rap2hpoutre/laravel-log-viewer/issues",
-                "source": "https://github.com/rap2hpoutre/laravel-log-viewer/tree/v2.0.0"
+                "source": "https://github.com/rap2hpoutre/laravel-log-viewer/tree/v2.1.0"
             },
-            "time": "2021-11-04T12:40:05+00:00"
+            "time": "2022-02-10T07:16:16+00:00"
         },
         {
             "name": "sabberworm/php-css-parser",
@@ -11063,16 +11063,16 @@
         },
         {
             "name": "sebastian/global-state",
-            "version": "5.0.3",
+            "version": "5.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/global-state.git",
-                "reference": "23bd5951f7ff26f12d4e3242864df3e08dec4e49"
+                "reference": "19c519631c5a511b7ed0ad64a6713fdb3fd25fe4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/23bd5951f7ff26f12d4e3242864df3e08dec4e49",
-                "reference": "23bd5951f7ff26f12d4e3242864df3e08dec4e49",
+                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/19c519631c5a511b7ed0ad64a6713fdb3fd25fe4",
+                "reference": "19c519631c5a511b7ed0ad64a6713fdb3fd25fe4",
                 "shasum": ""
             },
             "require": {
@@ -11115,7 +11115,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/global-state/issues",
-                "source": "https://github.com/sebastianbergmann/global-state/tree/5.0.3"
+                "source": "https://github.com/sebastianbergmann/global-state/tree/5.0.4"
             },
             "funding": [
                 {
@@ -11123,7 +11123,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-06-11T13:31:12+00:00"
+            "time": "2022-02-10T07:01:19+00:00"
         },
         {
             "name": "sebastian/lines-of-code",

@@ -43,6 +43,8 @@
                class="btn btn-primary">{{ __('Open in IntelliJ IDEA') }}</a>
             <a href="{{ $repositorio['web_url']  }}" target="_blank"
                class="btn btn-secondary">{{ __('Open in Gitea') }}</a>
+            <a href="{{ $intellij_project->gitkraken_deep_link() }}"
+               class="btn btn-secondary">{{ __('Open in GitKraken') }}</a>
             <div class='btn-group'>
                 @if(Auth::user()->hasRole('profesor'))
                     @if($intellij_project->isArchivado())
