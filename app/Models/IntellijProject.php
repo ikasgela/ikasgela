@@ -177,4 +177,26 @@ class IntellijProject extends Model
 
         return null;
     }
+
+    public function phpstorm_deep_link()
+    {
+        $repository = $this->repository();
+
+        if ($repository['id'] != '?') {
+            return "jetbrains://php-storm/checkout/git?checkout.repo=" . str_replace('https://', "https://" . Auth::user()->username . "@", $repository['http_url_to_repo']) . "&idea.required.plugins.id=Git4Idea";
+        }
+
+        return null;
+    }
+
+    public function datagrip_deep_link()
+    {
+        $repository = $this->repository();
+
+        if ($repository['id'] != '?') {
+            return "jetbrains://dbe/checkout/git?checkout.repo=" . str_replace('https://', "https://" . Auth::user()->username . "@", $repository['http_url_to_repo']) . "&idea.required.plugins.id=Git4Idea";
+        }
+
+        return null;
+    }
 }
