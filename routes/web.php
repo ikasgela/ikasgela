@@ -294,6 +294,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::post('/users/acciones_grupo', 'UserController@acciones_grupo')
                 ->name('users.acciones_grupo');
 
+            // Crear un usuario manualmente
+            Route::get('/users/create', 'UserController@create')
+                ->name('users.create');
+            Route::post('/users', 'UserController@store')
+                ->name('users.store');
+
             // Editar usuario
             Route::get('/users/{user}/edit', 'UserController@edit')
                 ->name('users.edit');
