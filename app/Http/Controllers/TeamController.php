@@ -27,7 +27,7 @@ class TeamController extends Controller
     {
         $curso_actual = Auth::user()->curso_actual();
 
-        $teams = $curso_actual?->teams()->get() ?? [];
+        $teams = $curso_actual->teams()->get();
 
         $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('orden')->get();
 
