@@ -25,7 +25,7 @@ trait JPlagRunner
 
         // Descargar los repositorios
         foreach ($actividades as $actividad) {
-            $intellij_projects = $actividad->intellij_projects()->get();
+            $intellij_projects = $actividad->intellij_projects->where('open_with', '=', 'idea')->get();
 
             foreach ($intellij_projects as $intellij_project) {
                 $repositorio = $intellij_project->repository();

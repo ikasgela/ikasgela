@@ -290,7 +290,7 @@ class ProfesorController extends Controller
 
     public function jplag(Tarea $tarea)
     {
-        if ($tarea->actividad->intellij_projects->count() > 0) {
+        if ($tarea->actividad->intellij_projects->where('open_with', '=', 'idea')->count() > 0) {
             RunJPlag::dispatch($tarea);
         }
 

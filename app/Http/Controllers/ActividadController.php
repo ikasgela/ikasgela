@@ -301,7 +301,7 @@ class ActividadController extends Controller
                 }
 
                 // If there are repositories, run JPlag on them
-                if ($tarea->actividad->intellij_projects->count() > 0) {
+                if ($tarea->actividad->intellij_projects->where('open_with', '=', 'idea')->count() > 0) {
                     RunJPlag::dispatch($tarea);
                 }
 

@@ -90,7 +90,7 @@
                     @endif
                 @endif
             </div>
-            @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() != 'actividades.preview')
+            @if(Auth::user()->hasRole('profesor') && $intellij_project->open_with == 'idea' && Route::currentRouteName() != 'actividades.preview')
                 <h5 class="card-title mt-5">{{ __('JPlag results') }}</h5>
                 <div class="table-responsive">
                     <table class="table table-bordered small">
