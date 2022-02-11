@@ -69,7 +69,7 @@ class ResultController extends Controller
         $unidades = Unidad::cursoActual()->orderBy('orden')->get();
 
         // Evaluaciones del curso actual
-        $milestones = $curso->milestones()->orderBy('date')->get();
+        $milestones = $curso?->milestones()->orderBy('date')->get() ?? [];
 
         // Hay otra evaluación seleccionada para mostrar
         $milestone = null;
