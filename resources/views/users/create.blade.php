@@ -9,6 +9,11 @@
 
             {!! Form::open(['route' => ['users.store']]) !!}
 
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{{ __('Organization') }}</label>
+                <div class="col-sm-10 form-control-plaintext">{{ organizacion() }}</div>
+            </div>
+
             {{ Form::campoTexto('name', __('Name')) }}
             {{ Form::campoTexto('surname', __('Surname')) }}
             {{ Form::campoTexto('email', __('Email')) }}
