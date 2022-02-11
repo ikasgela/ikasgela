@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Usuarios;
 
+use App\Models\Curso;
 use App\Models\Team;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -26,7 +27,11 @@ class TeamsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+
         $team = Team::factory()->create();
+        $team->group->cursos()->attach($curso);
 
         // When
         $response = $this->get(route('teams.index'));
