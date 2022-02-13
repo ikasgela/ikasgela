@@ -22,10 +22,10 @@
         "sass-loader": "^12.1.0"
     },
     "dependencies": {
-        "axios": "^0.24",
+        "axios": "^0.26",
         "@coreui/coreui": "^3.4.0",
         "@fancyapps/fancybox": "^3.5.7",
-        "@fortawesome/fontawesome-free": "^5.15.4",
+        "@fortawesome/fontawesome-free": "^6",
         "@popperjs/core": "^2.9.3",
         "chart.js": "^3.5.1",
         "flag-icon-css": "^4.1.6",
@@ -33,6 +33,6 @@
         "perfect-scrollbar": "^1.5.2",
         "prismjs": "^1.24.1",
         "tinymce": "^5.9.1",
-        "tinymce-i18n": "^20.12.25"
+        "tinymce-i18n": "^22"
     }
 }
