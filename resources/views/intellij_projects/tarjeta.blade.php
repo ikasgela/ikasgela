@@ -65,10 +65,12 @@
             @endswitch
             <a href="{{ $repositorio['web_url']  }}" target="_blank"
                class="btn btn-secondary">{{ __('Open in Gitea') }}</a>
-            @if(isset($intellij_project->open_with))
+            @switch($intellij_project->open_with)
+                @case('datagrip')
+                @case('idea')
                 <a href="{{ $intellij_project->gitkraken_deep_link() }}"
                    class="btn btn-secondary">{{ __('Open in GitKraken') }}</a>
-            @endif
+            @endswitch
             <div class='btn-group'>
                 @if(Auth::user()->hasRole('profesor'))
                     @if($intellij_project->isArchivado())
