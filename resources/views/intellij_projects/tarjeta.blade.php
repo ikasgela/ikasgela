@@ -24,6 +24,9 @@
             @case('idea')
             <i class="fab fa-java mr-2"></i>{{ __('Java project') }}
             @break
+            @case('phpstorm')
+            <i class="fa-brands fa-php mr-2"></i></i>{{ __('PHP project') }}
+            @break
             @default
             <i class="fab fa-git-alt mr-2"></i>{{ __('Git repository') }}
         @endswitch
@@ -59,6 +62,10 @@
                 <a href="{{ $intellij_project->intellij_idea_deep_link() }}"
                    class="btn btn-primary">{{ __('Open in IntelliJ IDEA') }}</a>
                 @break
+                @case('phpstorm')
+                <a href="{{ $intellij_project->phpstorm_deep_link() }}"
+                   class="btn btn-primary">{{ __('Open in PhpStorm') }}</a>
+                @break
                 @default
                 <a href="{{ $intellij_project->gitkraken_deep_link() }}"
                    class="btn btn-primary">{{ __('Open in GitKraken') }}</a>
@@ -68,6 +75,7 @@
             @switch($intellij_project->open_with)
                 @case('datagrip')
                 @case('idea')
+                @case('phpstorm')
                 <a href="{{ $intellij_project->gitkraken_deep_link() }}"
                    class="btn btn-secondary">{{ __('Open in GitKraken') }}</a>
             @endswitch
