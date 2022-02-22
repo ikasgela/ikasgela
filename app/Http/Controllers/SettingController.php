@@ -26,8 +26,11 @@ class SettingController extends Controller
 
     public function guardar(Request $request)
     {
+        $user = Auth::user();
+
         if (!is_null($request->input('curso_id'))) {
             setting_usuario(['curso_actual' => $request->input('curso_id')]);
+            $user->clearCache();
         }
 
         if (!is_null($request->input('organization_id'))) {
@@ -43,7 +46,7 @@ class SettingController extends Controller
 
         session()->forget('filtrar_curso_actual');
 
-        if (Auth::user()->hasRole('alumno'))
+        if ($user->hasRole('alumno'))
             return redirect(route('users.portada'));
         else
             return redirect(route('settings.editar'));
