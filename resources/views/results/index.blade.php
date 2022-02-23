@@ -39,8 +39,8 @@
         {!! Form::close() !!}
     @endif
 
-    @if(Auth::user()->hasAnyRole(['admin']))
-        {!! Form::open(['route' => ['results.alumno'], 'method' => 'POST']) !!}
+    @if($milestones->count() > 0)
+        {!! Form::open(['route' => ['results.milestone'], 'method' => 'POST']) !!}
         @include('partials.desplegable_milestones')
         {!! Form::close() !!}
     @endif
