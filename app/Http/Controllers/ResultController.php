@@ -162,13 +162,14 @@ class ResultController extends Controller
 
         $calificacion_fondo = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : ($curso?->disponible() ? 'bg-light text-dark' : 'bg-warning text-dark');
         $calificacion_dato = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada || $milestone != null) ? $calificaciones->nota_final : ($curso?->disponible() ? __('Unavailable') : __('Fail'));
+        $calificacion_dato_publicar = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada || $milestone != null) ? $calificaciones->nota_publicar : ($curso?->disponible() ? __('Unavailable') : __('Fail'));
 
         return compact(['user', 'curso', 'users', 'unidades', 'calificaciones', 'media_actividades_grupo', 'chart',
             'actividades_obligatorias_fondo', 'actividades_obligatorias_dato',
             'competencias_fondo', 'competencias_dato',
             'pruebas_evaluacion_fondo', 'pruebas_evaluacion_dato',
             'evaluacion_continua_fondo', 'evaluacion_continua_dato',
-            'calificacion_fondo', 'calificacion_dato',
+            'calificacion_fondo', 'calificacion_dato', 'calificacion_dato_publicar',
             'milestones', 'milestone'
         ]);
     }
