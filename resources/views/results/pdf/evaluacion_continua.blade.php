@@ -54,7 +54,11 @@
                     <th class="text-left">{{ __('Calification') }}</th>
                 </tr>
                 <tr>
-                    <td class="text-center">{{ $calificacion_dato }}</td>
+                    <td class="text-center">{{ $calificacion_dato }}
+                        @if(isset($milestone))
+                            ({{ $calificacion_dato_publicar }})
+                        @endif
+                    </td>
                 </tr>
             </table>
         </td>
