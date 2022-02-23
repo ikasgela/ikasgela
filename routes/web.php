@@ -472,6 +472,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::get('/results/pdf', 'ResultController@pdf')
                 ->name('results.pdf');
 
+            // Resultados de otras evaluaciones
+            Route::post('/results/milestone', 'ResultController@index')
+                ->name('results.milestone');
+
             // Archivo propio
             Route::get('/archivo/{actividad}', 'ArchivoController@show')
                 ->name('archivo.show');
