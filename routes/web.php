@@ -473,6 +473,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('results.pdf');
 
             // Resultados de otras evaluaciones
+            Route::get('/results/milestone', 'ResultController@index')
+                ->name('results.milestone.index');
             Route::post('/results/milestone', 'ResultController@index')
                 ->name('results.milestone');
 
