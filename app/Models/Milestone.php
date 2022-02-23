@@ -37,4 +37,9 @@ class Milestone extends Model
     {
         return "_" . $this->date->timestamp;
     }
+
+    public function scopePublished($query)
+    {
+        return $query->where('published', true);
+    }
 }
