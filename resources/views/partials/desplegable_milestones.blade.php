@@ -6,7 +6,7 @@
             @foreach($milestones as $milestone)
                 <option
                     value="{{ $milestone->id }}" {{ session('filtrar_milestone_actual') == $milestone->id ? 'selected' : '' }}>
-                    {{ $milestone->full_name }}
+                    {{ $milestone->name }}
                 </option>
             @endforeach
         </select>
