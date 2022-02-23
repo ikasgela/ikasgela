@@ -9,6 +9,12 @@
             <th style="width:4cm;">{{ __('Course') }}</th>
             <td>{{ $curso->pretty_name }}</td>
         </tr>
+        @if(isset($milestone))
+            <tr>
+                <th>{{ __('Milestone') }}</th>
+                <td>{{ $milestone->name }}</td>
+            </tr>
+        @endif
         <tr>
             <th>{{ __('Name') }}</th>
             <td>{{ $user->full_name }}</td>
