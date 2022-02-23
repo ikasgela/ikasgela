@@ -9,6 +9,7 @@ class ResultadoCalificaciones
     public $resultados_unidades = null;
     public $nota_final = null;
     public $nota_publicar = null;
+    public $nota_numerica = null;
     public $actividades_obligatorias_superadas = null;
     public $num_actividades_obligatorias = null;
     public $numero_actividades_completadas = null;

@@ -55,11 +55,11 @@
                 <td class="text-center {{ $calificaciones->hay_nota_manual ? '' : ($user->num_completadas('base', null, $milestone) < $media_actividades_grupo ? 'bg-warning text-dark' : '') }}">
                     {{ $user->num_completadas('base', null, $milestone) }}
                 </td>
-                <td {!! $calificaciones->nota_final < 5 ? 'style="color:#e3342f"' : '' !!}
+                <td {!! $calificaciones->nota_numerica < 5 ? 'style="color:#e3342f"' : '' !!}
                     class="text-center {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : ($curso?->disponible() ? '' : 'bg-warning text-dark') }}">
                     {{ $calificaciones->nota_final }}
                 </td>
-                <td {!! $calificaciones->nota_publicar < 5 ? 'style="color:#e3342f"' : '' !!}
+                <td {!! $calificaciones->nota_numerica < 5 ? 'style="color:#e3342f"' : '' !!}
                     class="text-center {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : ($curso?->disponible() ? '' : 'bg-warning text-dark') }}">
                     {{ $calificaciones->nota_publicar }}
                 </td>

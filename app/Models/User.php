@@ -787,6 +787,8 @@ class User extends Authenticatable implements MustVerifyEmail
                 $r->nota_publicar = truncar_decimales(min($nota, 10), $milestone->decimals ?? 2);
             }
 
+            $r->nota_numerica = $nota;
+
             // Evaluación continua
 
             $r->evaluacion_continua_superada = ($r->actividades_obligatorias_superadas || $r->num_actividades_obligatorias == 0 || $curso->minimo_entregadas == 0)
