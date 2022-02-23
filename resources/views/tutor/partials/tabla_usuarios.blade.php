@@ -10,6 +10,7 @@
             <th class="text-center">{{ __('Continuous evaluation') }}</th>
             <th class="text-center">{{ __('Mandatory activities') }}</th>
             <th class="text-center">{{ __('Calification') }}</th>
+            <th class="text-center">{{ __('Published calification') }}</th>
             @if(!isset($exportar))
                 <th></th>
             @endif
@@ -56,6 +57,9 @@
                 </td>
                 <td class="text-center {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : ($curso?->disponible() ? '' : 'bg-warning text-dark') }}">
                     {{ $calificaciones->nota_final }}
+                </td>
+                <td class="text-center {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : ($curso?->disponible() ? '' : 'bg-warning text-dark') }}">
+                    {{ $calificaciones->nota_publicar }}
                 </td>
                 @if(!isset($exportar))
                     <td>
