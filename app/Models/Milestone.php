@@ -15,6 +15,7 @@ class Milestone extends Model
     protected $fillable = [
         'name', 'date', 'published', 'curso_id',
         '__import_id',
+        'decimals', 'truncate',
     ];
 
     protected $dates = [

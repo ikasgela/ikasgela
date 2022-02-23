@@ -14,6 +14,8 @@
             {{ Form::campoTexto('name', __('Name')) }}
             {{ Form::campoTexto('date', __('Date')) }}
             {{ Form::campoCheck('published', __('Published')) }}
+            {{ Form::campoTexto('decimals', __('Decimals')) }}
+            {{ Form::campoCheck('truncate', __('Truncate')) }}
 
             @include('partials.guardar_cancelar')
 

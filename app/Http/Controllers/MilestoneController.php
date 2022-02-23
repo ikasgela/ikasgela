@@ -43,6 +43,8 @@ class MilestoneController extends Controller
             'name' => $request->input('name'),
             'date' => $request->input('date'),
             'published' => $request->has('published'),
+            'decimals' => $request->input('decimals'),
+            'truncate' => $request->has('truncate'),
         ]);
 
         return retornar();
@@ -73,6 +75,8 @@ class MilestoneController extends Controller
             'name' => $request->input('name'),
             'date' => $request->input('date'),
             'published' => $request->has('published'),
+            'decimals' => $request->input('decimals'),
+            'truncate' => $request->has('truncate'),
         ]);
 
         return retornar();
