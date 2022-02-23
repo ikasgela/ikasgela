@@ -6,7 +6,7 @@
             @foreach($milestones as $milestone)
                 <option
                     value="{{ $milestone->id }}" {{ session('filtrar_milestone_actual') == $milestone->id ? 'selected' : '' }}>
-                    {{ $milestone->name }}
+                    {{ $milestone->name }} {{ !$milestone->published ? '(' . __('not published') . ')' : '' }}
                 </option>
             @endforeach
         </select>
