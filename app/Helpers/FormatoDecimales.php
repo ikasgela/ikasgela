@@ -17,6 +17,9 @@ if (!function_exists('formato_decimales')) {
         $formatter->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, $decimales);
         $formatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, $decimales);
 
+        // Redondear hacia arriba (5.5 -> 6)
+        $formatter->setAttribute(NumberFormatter::ROUNDING_MODE, NumberFormatter::ROUND_HALFUP);
+
         return $formatter->format($valor);
     }
 }

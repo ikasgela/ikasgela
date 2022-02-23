@@ -16,6 +16,8 @@ if (!function_exists('truncar_decimales')) {
         $formatter = new NumberFormatter(!$exportar ? $locale : 'en_US', $formatStyle);
         $formatter->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, $decimales);
         $formatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, $decimales);
+
+        // Redondear hacia el cero para truncar (5.9 -> 5)
         $formatter->setAttribute(NumberFormatter::ROUNDING_MODE, NumberFormatter::ROUND_DOWN);
 
         return $formatter->format($valor);

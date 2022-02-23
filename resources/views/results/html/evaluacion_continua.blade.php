@@ -34,7 +34,8 @@
     <div class="card mb-3 {{ $calificacion_fondo }}">
         <div class="card-header">{{ __('Calification') }}</div>
         <div class="card-body text-center">
-            <p class="card-text" style="font-size:150%;">{{ $calificacion_dato }}
+            <p class="card-text" style="font-size:150%;"
+               title="{{ $calificaciones->nota_numerica }}">{{ $calificacion_dato }}
                 @if(isset($milestone))
                     <span class="card-text">({{ $calificacion_dato_publicar }})</span>
                 @endif
