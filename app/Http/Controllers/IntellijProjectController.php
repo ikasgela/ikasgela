@@ -203,6 +203,11 @@ class IntellijProjectController extends Controller
                 $nombre = $proyecto['description'];
             }
 
+            // Verificar que sea plantilla, si no, convertirlo
+            if (!$proyecto['template']) {
+                GiteaClient::template($proyecto['owner'], $proyecto['name'], true);
+            }
+
             $clonado = $this->clonar_repositorio($proyecto['path_with_namespace'], $usuario, $ruta, $nombre);
 
             GiteaClient::template($clonado['owner'], $clonado['name'], true);
