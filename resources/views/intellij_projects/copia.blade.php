@@ -18,7 +18,12 @@
                 <div class="col-sm-10">
                     <select class="form-control" id="recurso_type" name="recurso_type">
                         <option value="-1">{{ __('--- No ---') }}</option>
-                        <option value="intellij_project" selected>{{ __('IntelliJ project') }}</option>
+                        <option value="intellij_project_idea" selected>{{ __('IntelliJ project') }} - IDEA</option>
+                        <option value="intellij_project_phpstorm">{{ __('IntelliJ project') }} - PhpStorm</option>
+                        <option value="intellij_project_datagrip">{{ __('IntelliJ project') }} - DataGrip</option>
+                        <option value="intellij_project">
+                            {{ __('IntelliJ project') }} - {{ __('No associated tool') }}
+                        </option>
                         <option value="markdown_text">{{ __('Markdown text') }}</option>
                     </select>
                 </div>
