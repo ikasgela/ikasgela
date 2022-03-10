@@ -213,13 +213,30 @@ class IntellijProjectController extends Controller
             GiteaClient::template($clonado['owner'], $clonado['name'], true);
 
             // Crear el recurso asociado al nuevo repositorio
+            $abrir_con = "";
             switch (request('recurso_type')) {
+                case 'intellij_project_idea':
+                    $abrir_con = 'idea';
+                    break;
+                case 'intellij_project_phpstorm':
+                    $abrir_con = 'phpstorm';
+                    break;
+                case 'intellij_project_datagrip':
+                    $abrir_con = 'datagrip';
+                    break;
+            }
+
+            switch (request('recurso_type')) {
+                case 'intellij_project_idea':
+                case 'intellij_project_phpstorm':
+                case 'intellij_project_datagrip':
                 case 'intellij_project':
                     IntellijProject::create([
                         'titulo' => $clonado['description'],
                         'descripcion' => 'Clona el repositorio y abre el proyecto en IntelliJ. El enunciado está dentro del proyecto, en el archivo README.md.',
                         'repositorio' => $clonado['path_with_namespace'],
                         'host' => 'gitea',
+                        'open_with' => $abrir_con,
                         'curso_id' => Auth::user()->curso_actual()->id,
                     ]);
                     break;
