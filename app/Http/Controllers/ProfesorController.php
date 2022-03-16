@@ -362,9 +362,13 @@ class ProfesorController extends Controller
             $clon->plantilla_id = $actividad->id;
             $clon->orden = $clon->id;
 
+            $ahora = now();
+
             if (!isset($clon->fecha_disponibilidad)) {
-                $ahora = now();
                 $clon->fecha_disponibilidad = $ahora;
+            }
+
+            if ($actividad->unidad->curso->plazo_actividad > 0) {
                 $plazo = $ahora->addDays($actividad->unidad->curso->plazo_actividad);
                 $clon->fecha_entrega = $plazo;
                 $clon->fecha_limite = $plazo;
@@ -408,9 +412,13 @@ class ProfesorController extends Controller
             $clon->plantilla_id = $actividad->id;
             $clon->orden = $clon->id;
 
+            $ahora = now();
+
             if (!isset($clon->fecha_disponibilidad)) {
-                $ahora = now();
                 $clon->fecha_disponibilidad = $ahora;
+            }
+
+            if ($actividad->unidad->curso->plazo_actividad > 0) {
                 $plazo = $ahora->addDays($actividad->unidad->curso->plazo_actividad);
                 $clon->fecha_entrega = $plazo;
                 $clon->fecha_limite = $plazo;

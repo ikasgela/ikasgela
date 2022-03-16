@@ -362,10 +362,12 @@ class ActividadController extends Controller
                     abort(400, __('Invalid task state.'));
                 }
 
-                $plazo = now()->addDays($actividad->unidad->curso->plazo_actividad);
-                $actividad->fecha_entrega = $plazo;
-                $actividad->fecha_limite = $plazo;
-                $actividad->save();
+                if (isset($actividad->fecha_disponibilidad) && $actividad->unidad->curso->plazo_actividad > 0) {
+                    $plazo = now()->addDays($actividad->unidad->curso->plazo_actividad);
+                    $actividad->fecha_entrega = $plazo;
+                    $actividad->fecha_limite = $plazo;
+                    $actividad->save();
+                }
 
                 $this->bloquearRepositorios($tarea, false);
 
@@ -618,10 +620,17 @@ class ActividadController extends Controller
             }
 
             $ahora = now();
-            $clon->fecha_disponibilidad = $ahora;
-            $plazo = $ahora->addDays($actividad->unidad->curso->plazo_actividad);
-            $clon->fecha_entrega = $plazo;
-            $clon->fecha_limite = $plazo;
+
+            if (!isset($clon->fecha_disponibilidad)) {
+                $clon->fecha_disponibilidad = $ahora;
+            }
+
+            if ($actividad->unidad->curso->plazo_actividad > 0) {
+                $plazo = $ahora->addDays($actividad->unidad->curso->plazo_actividad);
+                $clon->fecha_entrega = $plazo;
+                $clon->fecha_limite = $plazo;
+            }
+
             $clon->save();
             $clon->orden = $clon->id;
             $clon->save();
