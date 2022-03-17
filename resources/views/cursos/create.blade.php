@@ -34,15 +34,15 @@
                 </div>
             </div>
 
-            {{ Form::campoTexto('max_simultaneas', __('Simultaneous activities')) }}
-            {{ Form::campoTexto('plazo_actividad', __('Activity deadline')) }}
+            {{ Form::campoTexto('max_simultaneas', __('Simultaneous activities'), 10) }}
+            {{ Form::campoTexto('plazo_actividad', __('Activity deadline'), 7) }}
 
-            {{ Form::campoTexto('minimo_entregadas', __('Minimum completed percent')) }}
-            {{ Form::campoTexto('minimo_competencias', __('Minimum skills percent')) }}
-            {{ Form::campoTexto('minimo_examenes', __('Minimum exams percent')) }}
-            {{ Form::campoTexto('minimo_examenes_finales', __('Minimum final exams percent')) }}
+            {{ Form::campoTexto('minimo_entregadas', __('Minimum completed percent'), 80) }}
+            {{ Form::campoTexto('minimo_competencias', __('Minimum skills percent'), 50) }}
+            {{ Form::campoTexto('minimo_examenes', __('Minimum exams percent'), 50) }}
+            {{ Form::campoTexto('minimo_examenes_finales', __('Minimum final exams percent'), 50) }}
             {{ Form::campoCheck('examenes_obligatorios', __('Mandatory exams')) }}
-            {{ Form::campoTexto('maximo_recuperable_examenes_finales', __('Maximum recoverable percent')) }}
+            {{ Form::campoTexto('maximo_recuperable_examenes_finales', __('Maximum recoverable percent'), 100) }}
 
             {{ Form::campoTexto('fecha_inicio', __('Start date')) }}
             {{ Form::campoTexto('fecha_fin', __('End date')) }}
