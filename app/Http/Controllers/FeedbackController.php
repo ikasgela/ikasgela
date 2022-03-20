@@ -20,7 +20,12 @@ class FeedbackController extends Controller
         $curso_actual = Curso::find(setting_usuario('curso_actual'));
 
         $feedbacks = $curso_actual?->feedbacks()->orderBy('orden')->get();
-        $ids = $feedbacks->pluck('id')->toArray();
+        if (!is_null($feedbacks)) {
+            $ids = $feedbacks->pluck('id')->toArray();
+        } else {
+            $feedbacks = [];
+            $ids = [];
+        }
 
         $actividades = Actividad::cursoActual()->where('plantilla', true)->with(['unidad' => function ($q) {
             $q->orderBy('orden');
