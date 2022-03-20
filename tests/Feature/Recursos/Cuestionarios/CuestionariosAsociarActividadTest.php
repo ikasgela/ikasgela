@@ -44,7 +44,7 @@ class CuestionariosAsociarActividadTest extends TestCase
         $response = $this->get(route('cuestionarios.actividad', $actividad));
 
         // Then
-        $response->assertSeeInOrder([
+        $response->assertSuccessful()->assertSeeInOrder([
             __('Resources: Questionnaires'),
             __('Assigned resources'),
             $cuestionario1->repositorio,

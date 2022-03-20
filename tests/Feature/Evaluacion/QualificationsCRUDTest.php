@@ -34,7 +34,7 @@ class QualificationsCRUDTest extends TestCase
         $response = $this->get(route('qualifications.index'));
 
         // Then
-        $response->assertSee($qualification->name);
+        $response->assertSuccessful()->assertSee($qualification->name);
     }
 
     public function testNotAdminNotIndex()
@@ -71,7 +71,7 @@ class QualificationsCRUDTest extends TestCase
         $response = $this->get(route('qualifications.create'));
 
         // Then
-        $response->assertSeeInOrder([__('New qualification'), __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([__('New qualification'), __('Save')]);
     }
 
     public function testNotAdminNotCreate()
@@ -264,7 +264,7 @@ class QualificationsCRUDTest extends TestCase
         $response = $this->get(route('qualifications.edit', $qualification), $qualification->toArray());
 
         // Then
-        $response->assertSeeInOrder([$qualification->name, __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([$qualification->name, __('Save')]);
     }
 
     public function testNotAdminNotEdit()

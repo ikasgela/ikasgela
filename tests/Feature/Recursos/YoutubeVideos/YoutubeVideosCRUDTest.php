@@ -32,7 +32,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $response = $this->get(route('youtube_videos.index'));
 
         // Then
-        $response->assertSee($youtube_video->titulo);
+        $response->assertSuccessful()->assertSee($youtube_video->titulo);
     }
 
     public function testIndexAdminFiltro()
@@ -47,7 +47,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $response = $this->post(route('youtube_videos.index.filtro', ['curso_id' => $youtube_video->curso_id]));
 
         // Then
-        $response->assertSee($youtube_video->titulo);
+        $response->assertSuccessful()->assertSee($youtube_video->titulo);
     }
 
     public function testNotProfesorNotIndex()
@@ -84,7 +84,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $response = $this->get(route('youtube_videos.create'));
 
         // Then
-        $response->assertSeeInOrder([__('New YouTube video'), __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([__('New YouTube video'), __('Save')]);
     }
 
     public function testNotProfesorNotCreate()
@@ -252,7 +252,7 @@ class YoutubeVideosCRUDTest extends TestCase
         $response = $this->get(route('youtube_videos.edit', $youtube_video), $youtube_video->toArray());
 
         // Then
-        $response->assertSeeInOrder([$youtube_video->titulo, $youtube_video->slug, __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([$youtube_video->titulo, $youtube_video->slug, __('Save')]);
     }
 
     public function testNotProfesorNotEdit()

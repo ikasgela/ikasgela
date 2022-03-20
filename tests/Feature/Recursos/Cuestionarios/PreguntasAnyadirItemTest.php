@@ -29,7 +29,7 @@ class PreguntasAnyadirItemTest extends TestCase
         $response = $this->get(route('items.anyadir', $pregunta));
 
         // Then
-        $response->assertSeeInOrder([
+        $response->assertSuccessful()->assertSeeInOrder([
             __('New item'),
             $pregunta->titulo,
             __('Save'),

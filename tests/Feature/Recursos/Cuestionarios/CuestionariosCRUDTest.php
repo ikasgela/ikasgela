@@ -35,7 +35,7 @@ class CuestionariosCRUDTest extends TestCase
         $response = $this->get(route('cuestionarios.index'));
 
         // Then
-        $response->assertSee($cuestionario->titulo);
+        $response->assertSuccessful()->assertSee($cuestionario->titulo);
     }
 
     public function testNotPlantillaNotIndex()
@@ -87,7 +87,7 @@ class CuestionariosCRUDTest extends TestCase
         $response = $this->get(route('cuestionarios.create'));
 
         // Then
-        $response->assertSeeInOrder([__('New questionnaire'), __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([__('New questionnaire'), __('Save')]);
     }
 
     public function testNotProfesorNotCreate()
@@ -228,7 +228,7 @@ class CuestionariosCRUDTest extends TestCase
         $response = $this->get(route('cuestionarios.show', $cuestionario));
 
         // Then
-        $response->assertSeeInOrder([__('Questionnaire'), $cuestionario->titulo]);
+        $response->assertSuccessful()->assertSeeInOrder([__('Questionnaire'), $cuestionario->titulo]);
     }
 
     public function testNotProfesorNotShow()
@@ -270,7 +270,7 @@ class CuestionariosCRUDTest extends TestCase
         $response = $this->get(route('cuestionarios.edit', $cuestionario), $cuestionario->toArray());
 
         // Then
-        $response->assertSeeInOrder([$cuestionario->titulo, __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([$cuestionario->titulo, __('Save')]);
     }
 
     public function testNotProfesorNotEdit()

@@ -32,7 +32,7 @@ class GroupsCRUDTest extends TestCase
         $response = $this->get(route('groups.index'));
 
         // Then
-        $response->assertSee($group->name);
+        $response->assertSuccessful()->assertSee($group->name);
     }
 
     public function testNotAdminNotIndex()
@@ -69,7 +69,7 @@ class GroupsCRUDTest extends TestCase
         $response = $this->get(route('groups.create'));
 
         // Then
-        $response->assertSeeInOrder([__('New group'), __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([__('New group'), __('Save')]);
     }
 
     public function testNotAdminNotCreate()
@@ -236,7 +236,7 @@ class GroupsCRUDTest extends TestCase
         $response = $this->get(route('groups.edit', $group), $group->toArray());
 
         // Then
-        $response->assertSeeInOrder([$group->name, __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([$group->name, __('Save')]);
     }
 
     public function testNotAdminNotEdit()

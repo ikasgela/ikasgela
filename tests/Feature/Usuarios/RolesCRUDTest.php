@@ -32,7 +32,7 @@ class RolesCRUDTest extends TestCase
         $response = $this->get(route('roles.index'));
 
         // Then
-        $response->assertSee($role->name);
+        $response->assertSuccessful()->assertSee($role->name);
     }
 
     public function testNotAdminNotIndex()
@@ -69,7 +69,7 @@ class RolesCRUDTest extends TestCase
         $response = $this->get(route('roles.create'));
 
         // Then
-        $response->assertSeeInOrder([__('New role'), __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([__('New role'), __('Save')]);
     }
 
     public function testNotAdminNotCreate()
@@ -236,7 +236,7 @@ class RolesCRUDTest extends TestCase
         $response = $this->get(route('roles.edit', $role), $role->toArray());
 
         // Then
-        $response->assertSeeInOrder([$role->name, __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([$role->name, __('Save')]);
     }
 
     public function testNotAdminNotEdit()

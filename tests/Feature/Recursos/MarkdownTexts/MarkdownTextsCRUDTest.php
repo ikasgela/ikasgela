@@ -32,7 +32,7 @@ class MarkdownTextsCRUDTest extends TestCase
         $response = $this->get(route('markdown_texts.index'));
 
         // Then
-        $response->assertSee($markdown_text->titulo);
+        $response->assertSuccessful()->assertSee($markdown_text->titulo);
     }
 
     public function testIndexAdminFiltro()
@@ -47,7 +47,7 @@ class MarkdownTextsCRUDTest extends TestCase
         $response = $this->post(route('markdown_texts.index.filtro', ['curso_id' => $markdown_text->curso_id]));
 
         // Then
-        $response->assertSee($markdown_text->titulo);
+        $response->assertSuccessful()->assertSee($markdown_text->titulo);
     }
 
     public function testNotProfesorNotIndex()
@@ -84,7 +84,7 @@ class MarkdownTextsCRUDTest extends TestCase
         $response = $this->get(route('markdown_texts.create'));
 
         // Then
-        $response->assertSeeInOrder([__('New markdown text'), __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([__('New markdown text'), __('Save')]);
     }
 
     public function testNotProfesorNotCreate()
@@ -209,7 +209,7 @@ class MarkdownTextsCRUDTest extends TestCase
         $response = $this->get(route('markdown_texts.show', $markdown_text));
 
         // Then
-        $response->assertSeeInOrder([__('Markdown text'), $markdown_text->titulo]);
+        $response->assertSuccessful()->assertSeeInOrder([__('Markdown text'), $markdown_text->titulo]);
     }
 
     public function testNotProfesorNotShow()
@@ -251,7 +251,7 @@ class MarkdownTextsCRUDTest extends TestCase
         $response = $this->get(route('markdown_texts.edit', $markdown_text), $markdown_text->toArray());
 
         // Then
-        $response->assertSeeInOrder([$markdown_text->titulo, __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([$markdown_text->titulo, __('Save')]);
     }
 
     public function testNotProfesorNotEdit()

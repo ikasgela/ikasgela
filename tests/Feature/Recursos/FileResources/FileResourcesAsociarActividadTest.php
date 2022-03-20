@@ -44,7 +44,7 @@ class FileResourcesAsociarActividadTest extends TestCase
         $response = $this->get(route('file_resources.actividad', $actividad));
 
         // Then
-        $response->assertSeeInOrder([
+        $response->assertSuccessful()->assertSeeInOrder([
             __('Resources: Files'),
             __('Assigned resources'),
             $file_resource1->repositorio,

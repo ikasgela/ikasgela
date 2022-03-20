@@ -69,7 +69,7 @@ class PreguntasCRUDTest extends TestCase
         $response = $this->get(route('preguntas.create'));
 
         // Then
-        $response->assertSeeInOrder([__('New question'), __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([__('New question'), __('Save')]);
     }
 
     public function testNotProfesorNotCreate()
@@ -252,7 +252,7 @@ class PreguntasCRUDTest extends TestCase
         $response = $this->get(route('preguntas.edit', $pregunta), $pregunta->toArray());
 
         // Then
-        $response->assertSeeInOrder([$pregunta->texto, __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([$pregunta->texto, __('Save')]);
     }
 
     public function testNotProfesorNotEdit()

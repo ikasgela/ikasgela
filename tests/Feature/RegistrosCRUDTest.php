@@ -36,7 +36,7 @@ class RegistrosCRUDTest extends TestCase
         $response = $this->get(route('registros.index'));
 
         // Then
-        $response->assertSee(Carbon::parse($registro->timestamp)->format('d/m/Y H:i:s'));
+        $response->assertSuccessful()->assertSee(Carbon::parse($registro->timestamp)->format('d/m/Y H:i:s'));
     }
 
     public function testNotAdminNotIndex()

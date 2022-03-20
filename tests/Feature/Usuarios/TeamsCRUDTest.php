@@ -37,7 +37,7 @@ class TeamsCRUDTest extends TestCase
         $response = $this->get(route('teams.index'));
 
         // Then
-        $response->assertSee($team->name);
+        $response->assertSuccessful()->assertSee($team->name);
     }
 
     public function testNotAdminProfesorNotIndex()
@@ -74,7 +74,7 @@ class TeamsCRUDTest extends TestCase
         $response = $this->get(route('teams.create'));
 
         // Then
-        $response->assertSeeInOrder([__('New team'), __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([__('New team'), __('Save')]);
     }
 
     public function testNotAdminNotCreate()
@@ -199,7 +199,7 @@ class TeamsCRUDTest extends TestCase
         $response = $this->get(route('teams.show', $team));
 
         // Then
-        $response->assertSee($team->name);
+        $response->assertSuccessful()->assertSee($team->name);
     }
 
     public function testNotAdminProfesorNotShow()
@@ -241,7 +241,7 @@ class TeamsCRUDTest extends TestCase
         $response = $this->get(route('teams.edit', $team), $team->toArray());
 
         // Then
-        $response->assertSeeInOrder([$team->name, __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([$team->name, __('Save')]);
     }
 
     public function testNotAdminNotEdit()

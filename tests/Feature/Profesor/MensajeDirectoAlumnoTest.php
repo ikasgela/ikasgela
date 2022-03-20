@@ -50,7 +50,7 @@ class MensajeDirectoAlumnoTest extends TestCase
         ]);
 
         // Then
-        $response->assertSeeInOrder([
+        $response->assertSuccessful()->assertSeeInOrder([
             __('Create new conversation'),
             __('Recipients'),
             'label class',

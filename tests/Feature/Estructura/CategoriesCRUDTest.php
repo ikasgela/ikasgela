@@ -32,7 +32,7 @@ class CategoriesCRUDTest extends TestCase
         $response = $this->get(route('categories.index'));
 
         // Then
-        $response->assertSee($category->name);
+        $response->assertSuccessful()->assertSee($category->name);
     }
 
     public function testNotAdminNotIndex()
@@ -69,7 +69,7 @@ class CategoriesCRUDTest extends TestCase
         $response = $this->get(route('categories.create'));
 
         // Then
-        $response->assertSeeInOrder([__('New category'), __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([__('New category'), __('Save')]);
     }
 
     public function testNotAdminNotCreate()
@@ -236,7 +236,7 @@ class CategoriesCRUDTest extends TestCase
         $response = $this->get(route('categories.edit', $category), $category->toArray());
 
         // Then
-        $response->assertSeeInOrder([$category->name, __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([$category->name, __('Save')]);
     }
 
     public function testNotAdminNotEdit()

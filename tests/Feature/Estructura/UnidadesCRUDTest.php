@@ -33,7 +33,7 @@ class UnidadesCRUDTest extends TestCase
         $response = $this->get(route('unidades.index'));
 
         // Then
-        $response->assertSee($unidad->nombre);
+        $response->assertSuccessful()->assertSee($unidad->nombre);
     }
 
     public function testNotAdminNotIndex()
@@ -70,7 +70,7 @@ class UnidadesCRUDTest extends TestCase
         $response = $this->get(route('unidades.create'));
 
         // Then
-        $response->assertSeeInOrder([__('New unit'), __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([__('New unit'), __('Save')]);
     }
 
     public function testNotAdminNotCreate()
@@ -237,7 +237,7 @@ class UnidadesCRUDTest extends TestCase
         $response = $this->get(route('unidades.edit', $unidad), $unidad->toArray());
 
         // Then
-        $response->assertSeeInOrder([$unidad->nombre, __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([$unidad->nombre, __('Save')]);
     }
 
     public function testNotAdminNotEdit()

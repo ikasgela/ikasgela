@@ -69,7 +69,7 @@ class ItemsCRUDTest extends TestCase
         $response = $this->get(route('items.create'));
 
         // Then
-        $response->assertSeeInOrder([__('New item'), __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([__('New item'), __('Save')]);
     }
 
     public function testNotProfesorNotCreate()
@@ -236,7 +236,7 @@ class ItemsCRUDTest extends TestCase
         $response = $this->get(route('items.edit', $item), $item->toArray());
 
         // Then
-        $response->assertSeeInOrder([$item->texto, __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([$item->texto, __('Save')]);
     }
 
     public function testNotProfesorNotEdit()

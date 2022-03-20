@@ -44,7 +44,7 @@ class IntellijProjectsAsociarActividadTest extends TestCase
         $response = $this->get(route('intellij_projects.actividad', $actividad));
 
         // Then
-        $response->assertSeeInOrder([
+        $response->assertSuccessful()->assertSeeInOrder([
             __('Resources: IntelliJ projects'),
             __('Assigned resources'),
             $intellij_project1->repositorio,

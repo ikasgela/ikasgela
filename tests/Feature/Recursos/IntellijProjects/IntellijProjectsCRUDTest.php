@@ -32,7 +32,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $response = $this->get(route('intellij_projects.index'));
 
         // Then
-        $response->assertSee($intellij_project->repositorio);
+        $response->assertSuccessful()->assertSee($intellij_project->repositorio);
     }
 
     public function testIndexAdminFiltro()
@@ -47,7 +47,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $response = $this->post(route('intellij_projects.index.filtro', ['curso_id' => $intellij_project->curso_id]));
 
         // Then
-        $response->assertSee($intellij_project->repositorio);
+        $response->assertSuccessful()->assertSee($intellij_project->repositorio);
     }
 
     public function testNotProfesorNotIndex()
@@ -84,7 +84,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $response = $this->get(route('intellij_projects.create'));
 
         // Then
-        $response->assertSeeInOrder([__('New IntelliJ project'), __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([__('New IntelliJ project'), __('Save')]);
     }
 
     public function testNotProfesorNotCreate()
@@ -252,7 +252,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $response = $this->get(route('intellij_projects.edit', $intellij_project), $intellij_project->toArray());
 
         // Then
-        $response->assertSeeInOrder([$intellij_project->repositorio, $intellij_project->slug, __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([$intellij_project->repositorio, $intellij_project->slug, __('Save')]);
     }
 
     public function testNotProfesorNotEdit()

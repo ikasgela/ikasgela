@@ -44,7 +44,7 @@ class MarkdownTextsAsociarActividadTest extends TestCase
         $response = $this->get(route('markdown_texts.actividad', $actividad));
 
         // Then
-        $response->assertSeeInOrder([
+        $response->assertSuccessful()->assertSeeInOrder([
             __('Resources: Markdown texts'),
             __('Assigned resources'),
             $markdown_text1->repositorio,

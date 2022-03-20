@@ -25,7 +25,7 @@ class CheckBlockedTest extends TestCase
         $response = $this->get(route('users.home'));
 
         // Then
-        $response->assertSee(__('Desktop'));
+        $response->assertSuccessful()->assertSee(__('Desktop'));
     }
 
     /** @test */

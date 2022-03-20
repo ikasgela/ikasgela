@@ -33,7 +33,7 @@ class MilestonesCRUDTest extends TestCase
         $response = $this->get(route('milestones.index'));
 
         // Then
-        $response->assertSee($milestone->name);
+        $response->assertSuccessful()->assertSee($milestone->name);
     }
 
     public function testNotAdminNotIndex()
@@ -70,7 +70,7 @@ class MilestonesCRUDTest extends TestCase
         $response = $this->get(route('milestones.create'));
 
         // Then
-        $response->assertSeeInOrder([__('New milestone'), __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([__('New milestone'), __('Save')]);
     }
 
     public function testNotAdminNotCreate()
@@ -238,7 +238,7 @@ class MilestonesCRUDTest extends TestCase
         $response = $this->get(route('milestones.edit', $milestone), $milestone->toArray());
 
         // Then
-        $response->assertSeeInOrder([$milestone->name, __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([$milestone->name, __('Save')]);
     }
 
     public function testNotAdminNotEdit()

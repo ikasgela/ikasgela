@@ -29,7 +29,7 @@ class CuestionariosAnyadirPreguntaTest extends TestCase
         $response = $this->get(route('preguntas.anyadir', $cuestionario));
 
         // Then
-        $response->assertSeeInOrder([
+        $response->assertSuccessful()->assertSeeInOrder([
             __('New question'),
             $cuestionario->titulo,
             __('Save'),

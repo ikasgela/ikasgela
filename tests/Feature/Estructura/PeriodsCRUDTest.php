@@ -32,7 +32,7 @@ class PeriodsCRUDTest extends TestCase
         $response = $this->get(route('periods.index'));
 
         // Then
-        $response->assertSee($period->name);
+        $response->assertSuccessful()->assertSee($period->name);
     }
 
     public function testNotAdminNotIndex()
@@ -69,7 +69,7 @@ class PeriodsCRUDTest extends TestCase
         $response = $this->get(route('periods.create'));
 
         // Then
-        $response->assertSeeInOrder([__('New period'), __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([__('New period'), __('Save')]);
     }
 
     public function testNotAdminNotCreate()
@@ -236,7 +236,7 @@ class PeriodsCRUDTest extends TestCase
         $response = $this->get(route('periods.edit', $period), $period->toArray());
 
         // Then
-        $response->assertSeeInOrder([$period->name, __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([$period->name, __('Save')]);
     }
 
     public function testNotAdminNotEdit()

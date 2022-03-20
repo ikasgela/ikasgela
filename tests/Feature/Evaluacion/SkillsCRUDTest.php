@@ -33,7 +33,7 @@ class SkillsCRUDTest extends TestCase
         $response = $this->get(route('skills.index'));
 
         // Then
-        $response->assertSee($skill->name);
+        $response->assertSuccessful()->assertSee($skill->name);
     }
 
     public function testNotAdminNotIndex()
@@ -70,7 +70,7 @@ class SkillsCRUDTest extends TestCase
         $response = $this->get(route('skills.create'));
 
         // Then
-        $response->assertSeeInOrder([__('New skill'), __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([__('New skill'), __('Save')]);
     }
 
     public function testNotAdminNotCreate()
@@ -237,7 +237,7 @@ class SkillsCRUDTest extends TestCase
         $response = $this->get(route('skills.edit', $skill), $skill->toArray());
 
         // Then
-        $response->assertSeeInOrder([$skill->name, __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([$skill->name, __('Save')]);
     }
 
     public function testNotAdminNotEdit()

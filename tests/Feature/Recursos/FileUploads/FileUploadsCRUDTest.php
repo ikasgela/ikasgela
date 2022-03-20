@@ -35,7 +35,7 @@ class FileUploadsCRUDTest extends TestCase
         $response = $this->get(route('file_uploads.index'));
 
         // Then
-        $response->assertSee($file_upload->titulo);
+        $response->assertSuccessful()->assertSee($file_upload->titulo);
     }
 
     public function testNotPlantillaNotIndex()
@@ -88,7 +88,7 @@ class FileUploadsCRUDTest extends TestCase
         $response = $this->get(route('file_uploads.create'));
 
         // Then
-        $response->assertSeeInOrder([__('New image upload'), __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([__('New image upload'), __('Save')]);
     }
 
     public function testNotProfesorNotCreate()
@@ -213,7 +213,7 @@ class FileUploadsCRUDTest extends TestCase
         $response = $this->get(route('file_uploads.show', $file_upload));
 
         // Then
-        $response->assertSeeInOrder([__('Image upload'), $file_upload->titulo]);
+        $response->assertSuccessful()->assertSeeInOrder([__('Image upload'), $file_upload->titulo]);
     }
 
     public function testNotProfesorNotShow()
@@ -255,7 +255,7 @@ class FileUploadsCRUDTest extends TestCase
         $response = $this->get(route('file_uploads.edit', $file_upload), $file_upload->toArray());
 
         // Then
-        $response->assertSeeInOrder([$file_upload->titulo, __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([$file_upload->titulo, __('Save')]);
     }
 
     public function testNotProfesorNotEdit()

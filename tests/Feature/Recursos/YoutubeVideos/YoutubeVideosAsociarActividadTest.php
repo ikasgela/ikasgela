@@ -44,7 +44,7 @@ class YoutubeVideosAsociarActividadTest extends TestCase
         $response = $this->get(route('youtube_videos.actividad', $actividad));
 
         // Then
-        $response->assertSeeInOrder([
+        $response->assertSuccessful()->assertSeeInOrder([
             __('Resources: YouTube videos'),
             __('Assigned resources'),
             $youtube_video1->titulo,

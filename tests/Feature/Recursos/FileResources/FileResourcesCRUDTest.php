@@ -33,7 +33,7 @@ class FileResourcesCRUDTest extends TestCase
         $response = $this->get(route('file_resources.index'));
 
         // Then
-        $response->assertSee($file_resource->titulo);
+        $response->assertSuccessful()->assertSee($file_resource->titulo);
     }
 
     public function testNotProfesorNotIndex()
@@ -70,7 +70,7 @@ class FileResourcesCRUDTest extends TestCase
         $response = $this->get(route('file_resources.create'));
 
         // Then
-        $response->assertSeeInOrder([__('New files resource'), __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([__('New files resource'), __('Save')]);
     }
 
     public function testNotProfesorNotCreate()
@@ -195,7 +195,7 @@ class FileResourcesCRUDTest extends TestCase
         $response = $this->get(route('file_resources.show', $file_resource));
 
         // Then
-        $response->assertSeeInOrder([$file_resource->titulo, __('Upload')]);
+        $response->assertSuccessful()->assertSeeInOrder([$file_resource->titulo, __('Upload')]);
     }
 
     public function testNotProfesorNotShow()
@@ -237,7 +237,7 @@ class FileResourcesCRUDTest extends TestCase
         $response = $this->get(route('file_resources.edit', $file_resource), $file_resource->toArray());
 
         // Then
-        $response->assertSeeInOrder([$file_resource->titulo, __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([$file_resource->titulo, __('Save')]);
     }
 
     public function testNotProfesorNotEdit()

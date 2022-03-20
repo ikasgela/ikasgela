@@ -50,7 +50,7 @@ class ArchivoTest extends TestCase
         $response = $this->get(route('archivo.index'));
 
         // Then
-        $response->assertSeeInOrder([
+        $response->assertSuccessful()->assertSeeInOrder([
             __('Archived'),
             $actividad1->nombre,
             $actividad3->nombre,
@@ -84,7 +84,7 @@ class ArchivoTest extends TestCase
         $response = $this->post(route('archivo.index'), ['user_id' => $user->id]);
 
         // Then
-        $response->assertSeeInOrder([
+        $response->assertSuccessful()->assertSeeInOrder([
             __('Archived'),
             $actividad1->nombre,
             $actividad3->nombre,
@@ -148,7 +148,7 @@ class ArchivoTest extends TestCase
         $response = $this->get(route('archivo.show', $actividad1));
 
         // Then
-        $response->assertSeeInOrder([
+        $response->assertSuccessful()->assertSeeInOrder([
             __('Archived'),
             $actividad1->nombre,
         ]);

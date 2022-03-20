@@ -56,7 +56,7 @@ class CuestionariosRespuestasTest extends TestCase
         $response->assertRedirect(route('cuestionarios.show', $cuestionario));
 
         $response = $this->get(route('cuestionarios.show', $cuestionario));
-        $response->assertSeeInOrder(['valid-feedback', 'Feedback OK']);
+        $response->assertSuccessful()->assertSeeInOrder(['valid-feedback', 'Feedback OK']);
     }
 
     /** @test */
@@ -82,7 +82,7 @@ class CuestionariosRespuestasTest extends TestCase
         $response->assertRedirect(route('cuestionarios.show', $cuestionario));
 
         $response = $this->get(route('cuestionarios.show', $cuestionario));
-        $response->assertSeeInOrder(['invalid-feedback', 'Feedback ERROR']);
+        $response->assertSuccessful()->assertSeeInOrder(['invalid-feedback', 'Feedback ERROR']);
     }
 
     /** @test */
@@ -115,6 +115,6 @@ class CuestionariosRespuestasTest extends TestCase
         $response->assertRedirect(route('cuestionarios.show', $cuestionario));
 
         $response = $this->get(route('cuestionarios.show', $cuestionario));
-        $response->assertSeeInOrder(['invalid-feedback', 'Feedback ERROR', 'invalid-feedback', 'Feedback OK no seleccionado']);
+        $response->assertSuccessful()->assertSeeInOrder(['invalid-feedback', 'Feedback ERROR', 'invalid-feedback', 'Feedback OK no seleccionado']);
     }
 }

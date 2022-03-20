@@ -27,13 +27,13 @@ class FeedbacksCRUDTest extends TestCase
 
         // Given
         $feedback = Feedback::factory()->create();
-        setting_usuario(['curso_actual' => $feedback->curso_id]);
+        setting_usuario(['curso_actual' => $feedback->comentable_id]);
 
         // When
         $response = $this->get(route('feedbacks.index'));
 
         // Then
-        $response->assertSee($feedback->titulo);
+        $response->assertSuccessful()->assertSee($feedback->titulo);
     }
 
     public function testNotAdminNotIndex()
@@ -70,7 +70,7 @@ class FeedbacksCRUDTest extends TestCase
         $response = $this->get(route('feedbacks.create'));
 
         // Then
-        $response->assertSeeInOrder([__('New course feedback message'), __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([__('New course feedback message'), __('Save')]);
     }
 
     public function testNotAdminNotCreate()
@@ -237,7 +237,7 @@ class FeedbacksCRUDTest extends TestCase
         $response = $this->get(route('feedbacks.edit', $feedback), $feedback->toArray());
 
         // Then
-        $response->assertSeeInOrder([$feedback->mensaje, __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([$feedback->mensaje, __('Save')]);
     }
 
     public function testNotAdminNotEdit()

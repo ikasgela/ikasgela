@@ -33,7 +33,7 @@ class ActividadesCRUDTest extends TestCase
         $response = $this->get(route('actividades.index'));
 
         // Then
-        $response->assertSee($actividad->nombre);
+        $response->assertSuccessful()->assertSee($actividad->nombre);
     }
 
     public function testNotAdminNotIndex()
@@ -70,7 +70,7 @@ class ActividadesCRUDTest extends TestCase
         $response = $this->get(route('actividades.create'));
 
         // Then
-        $response->assertSeeInOrder([__('New activity'), __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([__('New activity'), __('Save')]);
     }
 
     public function testNotAdminNotCreate()
@@ -195,7 +195,7 @@ class ActividadesCRUDTest extends TestCase
         $response = $this->get(route('actividades.show', $actividad));
 
         // Then
-        $response->assertSee($actividad->nombre);
+        $response->assertSuccessful()->assertSee($actividad->nombre);
     }
 
     public function testNotAdminNotShow()
@@ -237,7 +237,7 @@ class ActividadesCRUDTest extends TestCase
         $response = $this->get(route('actividades.edit', $actividad), $actividad->toArray());
 
         // Then
-        $response->assertSeeInOrder([$actividad->nombre, __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([$actividad->nombre, __('Save')]);
     }
 
     public function testNotAdminNotEdit()
