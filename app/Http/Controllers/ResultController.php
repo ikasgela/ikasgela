@@ -92,6 +92,7 @@ class ResultController extends Controller
         }
 
         // Calcular la media de actividades del grupo
+        // TODO: Usar la mediana para no tener en cuenta valores extremos
         $total_actividades_grupo = 0;
         foreach ($users as $usuario) {
             $total_actividades_grupo += $usuario->num_completadas('base', null, $milestone);
