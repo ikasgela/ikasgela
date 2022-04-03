@@ -11651,7 +11651,7 @@ fieldset:disabled a.btn {
   color: rgba(255, 255, 255, 0.8);
 }
 .btn-transparent:hover {
-  color: white;
+  color: rgb(255, 255, 255);
 }
 
 .btn-outline-primary {
