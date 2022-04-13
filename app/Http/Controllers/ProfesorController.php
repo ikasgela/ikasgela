@@ -322,7 +322,14 @@ class ProfesorController extends Controller
                 }
 
                 // Almacenar el directorio para borrarlo al terminar con un evento
-                session(['_delete_me' => $directorio]);
+                //session(['_delete_me' => $directorio]);
+
+                dispatch(function () use ($directorio) {
+                    Log::debug('Borrando...', [
+                        'directorio' => $directorio,
+                    ]);
+                    Storage::disk('temp')->deleteDirectory($directorio);
+                })->afterResponse();
 
                 return Zip::create("jplag-{$nombre}-{$fecha}.zip", $ficheros_ruta_completa);
 

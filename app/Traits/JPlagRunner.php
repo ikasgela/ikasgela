@@ -57,6 +57,11 @@ trait JPlagRunner
                 'output' => $response->lines(),
                 'tarea' => route('profesor.revisar', ['user' => $tarea->user->id, 'tarea' => $tarea->id]),
             ]);
+
+            Log::debug('Borrando...', [
+                'directorio' => $directorio,
+            ]);
+            Storage::disk('temp')->deleteDirectory($directorio);
         }
 
         if (Storage::disk('temp')->exists($directorio . '/__resultados/matches_avg.csv')) {

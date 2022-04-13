@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\File as SystemFile;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Log;
 use Zip;
 use ZipArchive;
 
@@ -305,7 +306,14 @@ class CursoController extends Controller
         }
 
         // Almacenar el directorio para borrarlo al terminar con un evento
-        session(['_delete_me' => $directorio]);
+        //session(['_delete_me' => $directorio]);
+
+        dispatch(function () use ($directorio) {
+            Log::debug('Borrando...', [
+                'directorio' => $directorio,
+            ]);
+            Storage::disk('temp')->deleteDirectory($directorio);
+        })->afterResponse();
 
         return Zip::create("ikasgela-{$nombre}-{$fecha}.zip", $ficheros_ruta_completa);
     }
