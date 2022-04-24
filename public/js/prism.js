@@ -1296,14 +1296,14 @@ Prism.languages.clike = {
 
 (function (Prism) {
 
-	var keywords = /\b(?:abstract|assert|boolean|break|byte|case|catch|char|class|const|continue|default|do|double|else|enum|exports|extends|final|finally|float|for|goto|if|implements|import|instanceof|int|interface|long|module|native|new|non-sealed|null|open|opens|package|permits|private|protected|provides|public|record|requires|return|sealed|short|static|strictfp|super|switch|synchronized|this|throw|throws|to|transient|transitive|try|uses|var|void|volatile|while|with|yield)\b/;
+	var keywords = /\b(?:abstract|assert|boolean|break|byte|case|catch|char|class|const|continue|default|do|double|else|enum|exports|extends|final|finally|float|for|goto|if|implements|import|instanceof|int|interface|long|module|native|new|non-sealed|null|open|opens|package|permits|private|protected|provides|public|record(?!\s*[(){}[\]<>=%~.:,;?+\-*/&|^])|requires|return|sealed|short|static|strictfp|super|switch|synchronized|this|throw|throws|to|transient|transitive|try|uses|var|void|volatile|while|with|yield)\b/;
 
 	// full package (optional) + parent classes (optional)
-	var classNamePrefix = /(^|[^\w.])(?:[a-z]\w*\s*\.\s*)*(?:[A-Z]\w*\s*\.\s*)*/.source;
+	var classNamePrefix = /(?:[a-z]\w*\s*\.\s*)*(?:[A-Z]\w*\s*\.\s*)*/.source;
 
 	// based on the java naming conventions
 	var className = {
-		pattern: RegExp(classNamePrefix + /[A-Z](?:[\d_A-Z]*[a-z]\w*)?\b/.source),
+		pattern: RegExp(/(^|[^\w.])/.source + classNamePrefix + /[A-Z](?:[\d_A-Z]*[a-z]\w*)?\b/.source),
 		lookbehind: true,
 		inside: {
 			'namespace': {
@@ -1325,9 +1325,16 @@ Prism.languages.clike = {
 		'class-name': [
 			className,
 			{
-				// variables and parameters
+				// variables, parameters, and constructor references
 				// this to support class names (or generic parameters) which do not contain a lower case letter (also works for methods)
-				pattern: RegExp(classNamePrefix + /[A-Z]\w*(?=\s+\w+\s*[;,=()])/.source),
+				pattern: RegExp(/(^|[^\w.])/.source + classNamePrefix + /[A-Z]\w*(?=\s+\w+\s*[;,=()]|\s*(?:\[[\s,]*\]\s*)?::\s*new\b)/.source),
+				lookbehind: true,
+				inside: className.inside
+			},
+			{
+				// class names based on keyword
+				// this to support class names (or generic parameters) which do not contain a lower case letter (also works for methods)
+				pattern: RegExp(/(\b(?:class|enum|extends|implements|instanceof|interface|new|record|throws)\s+)/.source + classNamePrefix + /[A-Z]\w*\b/.source),
 				lookbehind: true,
 				inside: className.inside
 			}
@@ -1375,6 +1382,30 @@ Prism.languages.clike = {
 				'operator': /[?&|]/
 			}
 		},
+		'import': [
+			{
+				pattern: RegExp(/(\bimport\s+)/.source + classNamePrefix + /(?:[A-Z]\w*|\*)(?=\s*;)/.source),
+				lookbehind: true,
+				inside: {
+					'namespace': className.inside.namespace,
+					'punctuation': /\./,
+					'operator': /\*/,
+					'class-name': /\w+/
+				}
+			},
+			{
+				pattern: RegExp(/(\bimport\s+static\s+)/.source + classNamePrefix + /(?:\w+|\*)(?=\s*;)/.source),
+				lookbehind: true,
+				alias: 'static',
+				inside: {
+					'namespace': className.inside.namespace,
+					'static': /\b\w+$/,
+					'punctuation': /\./,
+					'operator': /\*/,
+					'class-name': /\w+/
+				}
+			}
+		],
 		'namespace': {
 			pattern: RegExp(
 				/(\b(?:exports|import(?:\s+static)?|module|open|opens|package|provides|requires|to|transitive|uses|with)\s+)(?!<keyword>)[a-z]\w*(?:\.[a-z]\w*)*\.?/
@@ -1996,6 +2027,11 @@ Prism.languages.py = Prism.languages.python;
 		"sparql": "turtle",
 		"sqf": "clike",
 		"squirrel": "clike",
+		"stata": [
+			"mata",
+			"java",
+			"python"
+		],
 		"t4-cs": [
 			"t4-templating",
 			"csharp"
@@ -2033,9 +2069,12 @@ Prism.languages.py = Prism.languages.python;
 		"js": "javascript",
 		"g4": "antlr4",
 		"ino": "arduino",
+		"arm-asm": "armasm",
+		"art": "arturo",
 		"adoc": "asciidoc",
 		"avs": "avisynth",
 		"avdl": "avro-idl",
+		"gawk": "awk",
 		"shell": "bash",
 		"shortcode": "bbcode",
 		"rbnf": "bnf",
@@ -2053,9 +2092,12 @@ Prism.languages.py = Prism.languages.python;
 		"xlsx": "excel-formula",
 		"xls": "excel-formula",
 		"gamemakerlanguage": "gml",
+		"po": "gettext",
 		"gni": "gn",
+		"ld": "linker-script",
 		"go-mod": "go-module",
 		"hbs": "handlebars",
+		"mustache": "handlebars",
 		"hs": "haskell",
 		"idr": "idris",
 		"gitignore": "ignore",
@@ -2080,6 +2122,7 @@ Prism.languages.py = Prism.languages.python;
 		"objectpascal": "pascal",
 		"px": "pcaxis",
 		"pcode": "peoplecode",
+		"plantuml": "plant-uml",
 		"pq": "powerquery",
 		"mscript": "powerquery",
 		"pbfasm": "purebasic",
@@ -2089,6 +2132,7 @@ Prism.languages.py = Prism.languages.python;
 		"rkt": "racket",
 		"razor": "cshtml",
 		"rpy": "renpy",
+		"res": "rescript",
 		"robot": "robotframework",
 		"rb": "ruby",
 		"sh-session": "shell-session",
@@ -2097,6 +2141,7 @@ Prism.languages.py = Prism.languages.python;
 		"sol": "solidity",
 		"sln": "solution-file",
 		"rq": "sparql",
+		"sclang": "supercollider",
 		"t4": "t4-cs",
 		"trickle": "tremor",
 		"troy": "tremor",
