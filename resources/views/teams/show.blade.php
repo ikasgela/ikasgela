@@ -2,10 +2,7 @@
 
 @section('content')
 
-    <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline">
-        @include('partials.titular', ['titular' => $team->name ])
-        <h2 class="text-muted font-xl">{{ $team->group->full_name ?? '?' }}</h2>
-    </div>
+    @include('partials.titular', ['titular' => $team->name, 'subtitulo' => $team->group->pretty_name ])
 
     <ul class="list-group mb-4"> @foreach($team->users as $user)
             <li class="list-group-item">

@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Teams'), 'subtitulo' => ''])
+    @include('partials.titular', ['titular' => __('Teams')])
 
     @if(Auth::user()?->hasRole('admin'))
         <div class="mb-3">

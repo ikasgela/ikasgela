@@ -45,6 +45,13 @@ class Group extends Model
             . $this->name;
     }
 
+    public function getPrettyNameAttribute()
+    {
+        return $this->period->organization->name . ' » '
+            . $this->period->name . ' » '
+            . $this->name;
+    }
+
     public function cursos()
     {
         return $this
