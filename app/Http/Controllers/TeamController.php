@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Actividad;
 use App\Models\Curso;
-use App\Models\Group;
 use App\Models\Team;
-use App\Traits\PaginarUltima;
 use App\Models\Unidad;
 use App\Models\User;
+use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -42,7 +41,9 @@ class TeamController extends Controller
 
     public function create()
     {
-        $groups = Group::orderBy('name')->get();
+        $curso_actual = Auth::user()->curso_actual();
+
+        $groups = $curso_actual?->groups()->orderBy('name')->get() ?? [];
 
         return view('teams.create', compact('groups'));
     }
@@ -51,7 +52,15 @@ class TeamController extends Controller
     {
         $this->validate($request, [
             'group_id' => 'required',
-            'name' => 'required',
+            'name' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    $exists = Team::whereGroupId(request('group_id'))->whereSlug(Str::slug(request('name')))->exists();
+                    if ($exists) {
+                        $fail(__('The team name is not unique.'));
+                    }
+                },
+            ],
         ]);
 
         Team::create([
@@ -70,7 +79,9 @@ class TeamController extends Controller
 
     public function edit(Team $team)
     {
-        $groups = Group::with('teams')->orderBy('name')->get();
+        $curso_actual = Auth::user()->curso_actual();
+
+        $groups = $curso_actual?->groups()->with('teams')->orderBy('name')->get() ?? [];
 
         $curso_actual = Curso::find(setting_usuario('curso_actual'));
         $alumnos = $curso_actual?->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name');
