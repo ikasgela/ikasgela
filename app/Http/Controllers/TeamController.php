@@ -52,7 +52,15 @@ class TeamController extends Controller
     {
         $this->validate($request, [
             'group_id' => 'required',
-            'name' => 'required',
+            'name' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    $exists = Team::whereGroupId(request('group_id'))->whereSlug(Str::slug(request('name')))->exists();
+                    if ($exists) {
+                        $fail(__('The team name is not unique.'));
+                    }
+                },
+            ],
         ]);
 
         Team::create([
