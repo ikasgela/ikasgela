@@ -24,7 +24,7 @@
                         </tr>
                         @foreach ($files as $file)
                             <tr>
-                                <th><img style="width:100px" src="{{$file->url}}"></th>
+                                <th><img loading="lazy" style="width:100px" src="{{$file->url}}"></th>
                                 <td>{{$file->title}}</td>
                                 <td>{{$file->size_in_kb}} KB</td>
                                 <td>{{$file->uploaded_time}}</td>

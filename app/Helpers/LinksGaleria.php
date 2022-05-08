@@ -12,6 +12,8 @@ if (!function_exists('links_galeria')) {
 
         foreach ($dom->getElementsByTagName('img') as $img) {
             $clone = $img->cloneNode();
+            $clone->setAttribute('loading', 'lazy');
+
             $src = $clone->getAttribute('src');
 
             $link = $dom->createElement('a');
