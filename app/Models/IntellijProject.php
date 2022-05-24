@@ -43,13 +43,16 @@ class IntellijProject extends Model
         switch ($this->host) {
             case 'gitea':
                 try {
-                    return Cache::remember($this->cacheKey(), now()->addDays(config('ikasgela.repo_cache_days')), function () use ($template) {
-                        if (!$this->isForked() || $template) {
-                            return GiteaClient::repo($this->repositorio);
-                        } else {
-                            return GiteaClient::repo($this->pivot->fork);
-                        }
-                    });
+                    if ($template)
+                        return GiteaClient::repo($this->repositorio);
+                    else
+                        return Cache::remember($this->cacheKey(), now()->addDays(config('ikasgela.repo_cache_days')), function () {
+                            if (!$this->isForked()) {
+                                return GiteaClient::repo($this->repositorio);
+                            } else {
+                                return GiteaClient::repo($this->pivot->fork);
+                            }
+                        });
                 } catch (\Exception $e) {
                     Log::error('Error al recuperar un repositorio.', [
                         'host' => $this->host,
