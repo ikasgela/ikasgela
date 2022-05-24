@@ -33,13 +33,18 @@ class IntellijProject extends Model
             ]);
     }
 
-    public function repository()
+    public function template()
+    {
+        return $this->repository(true);
+    }
+
+    public function repository($template = false)
     {
         switch ($this->host) {
             case 'gitea':
                 try {
-                    return Cache::remember($this->cacheKey(), now()->addDays(config('ikasgela.repo_cache_days')), function () {
-                        if (!$this->isForked()) {
+                    return Cache::remember($this->cacheKey(), now()->addDays(config('ikasgela.repo_cache_days')), function () use ($template) {
+                        if (!$this->isForked() || $template) {
                             return GiteaClient::repo($this->repositorio);
                         } else {
                             return GiteaClient::repo($this->pivot->fork);
