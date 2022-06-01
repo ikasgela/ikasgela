@@ -2154,16 +2154,16 @@
         },
         {
             "name": "ikasgela/laravel-gitea",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ikasgela/laravel-gitea.git",
-                "reference": "19e1ab446c5968be1b100c6c86868f32f2217dbc"
+                "reference": "2fb7c47c2a78773e9894f6c717ea75035955bd5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ikasgela/laravel-gitea/zipball/19e1ab446c5968be1b100c6c86868f32f2217dbc",
-                "reference": "19e1ab446c5968be1b100c6c86868f32f2217dbc",
+                "url": "https://api.github.com/repos/ikasgela/laravel-gitea/zipball/2fb7c47c2a78773e9894f6c717ea75035955bd5c",
+                "reference": "2fb7c47c2a78773e9894f6c717ea75035955bd5c",
                 "shasum": ""
             },
             "require": {
@@ -2213,7 +2213,7 @@
             ],
             "support": {
                 "issues": "https://github.com/ikasgela/laravel-gitea/issues",
-                "source": "https://github.com/ikasgela/laravel-gitea/tree/1.0.2"
+                "source": "https://github.com/ikasgela/laravel-gitea/tree/1.0.3"
             },
             "funding": [
                 {
@@ -2221,7 +2221,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-02-10T12:37:50+00:00"
+            "time": "2022-06-01T12:49:42+00:00"
         },
         {
             "name": "intervention/image",
