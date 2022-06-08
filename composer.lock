@@ -125,16 +125,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.224.4",
+            "version": "3.224.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "8c8a713b8c1e1a20f66a801f9d2cd7fd80d8d3f8"
+                "reference": "00719404b6a7f29d7fb183211dfbef7f7f22a0c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/8c8a713b8c1e1a20f66a801f9d2cd7fd80d8d3f8",
-                "reference": "8c8a713b8c1e1a20f66a801f9d2cd7fd80d8d3f8",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/00719404b6a7f29d7fb183211dfbef7f7f22a0c0",
+                "reference": "00719404b6a7f29d7fb183211dfbef7f7f22a0c0",
                 "shasum": ""
             },
             "require": {
@@ -210,9 +210,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.224.4"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.224.5"
             },
-            "time": "2022-06-06T18:32:10+00:00"
+            "time": "2022-06-07T18:15:41+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -2508,16 +2508,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.83.15",
+            "version": "v8.83.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "bf8fbdd9061611b2c05562fa14f6987cc5145d78"
+                "reference": "6be5abd144faf517879af7298e9d79f06f250f75"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/bf8fbdd9061611b2c05562fa14f6987cc5145d78",
-                "reference": "bf8fbdd9061611b2c05562fa14f6987cc5145d78",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/6be5abd144faf517879af7298e9d79f06f250f75",
+                "reference": "6be5abd144faf517879af7298e9d79f06f250f75",
                 "shasum": ""
             },
             "require": {
@@ -2677,7 +2677,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2022-05-31T14:57:02+00:00"
+            "time": "2022-06-07T15:09:06+00:00"
         },
         {
             "name": "laravel/helpers",
@@ -11722,6 +11722,7 @@
                     "type": "tidelift"
                 }
             ],
+            "abandoned": "symfony/error-handler",
             "time": "2022-04-12T15:19:55+00:00"
         },
         {
