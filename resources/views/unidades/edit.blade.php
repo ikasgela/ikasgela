@@ -52,6 +52,8 @@
 
             {{ Form::campoTexto('minimo_entregadas', __('Minimum percent')) }}
 
+            {{ Form::campoCheck('visible', __('Visible')) }}
+
             @include('partials.guardar_cancelar')
 
             @include('layouts.errors')

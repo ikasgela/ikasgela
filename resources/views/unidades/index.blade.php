@@ -24,6 +24,7 @@
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Slug') }}</th>
                 <th>{{ __('Order') }}</th>
+                <th class="text-center">{{ __('Visible') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -40,6 +41,7 @@
                     <td>
                         @include('partials.botones_reordenar', ['ruta' => 'unidades.reordenar'])
                     </td>
+                    <td class="text-center">@include('partials.check_yes_no', ['checked' => $unidad->visible])</td>
                     <td>
                         <form method="POST" action="{{ route('unidades.destroy', [$unidad->id]) }}">
                             @csrf

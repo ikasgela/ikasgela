@@ -57,6 +57,7 @@ class UnidadController extends Controller
             'fecha_entrega' => request('fecha_entrega'),
             'fecha_limite' => request('fecha_limite'),
             'minimo_entregadas' => request('minimo_entregadas'),
+            'visible' => request()->exists('visible'),
         ]);
 
         $unidad->orden = $unidad->id;
@@ -100,6 +101,7 @@ class UnidadController extends Controller
             'fecha_entrega' => request('fecha_entrega'),
             'fecha_limite' => request('fecha_limite'),
             'minimo_entregadas' => request('minimo_entregadas'),
+            'visible' => request()->exists('visible'),
         ]);
 
         return retornar();

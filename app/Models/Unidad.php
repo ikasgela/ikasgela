@@ -31,6 +31,7 @@ class Unidad extends Model
     protected $fillable = [
         'curso_id', 'codigo', 'nombre', 'descripcion', 'slug', 'qualification_id', 'orden', 'tags',
         'fecha_disponibilidad', 'fecha_entrega', 'fecha_limite', 'minimo_entregadas',
+        'visible',
         '__import_id',
     ];
 
