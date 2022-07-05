@@ -2,20 +2,18 @@
 
 namespace App\Traits;
 
-use App\Models\Curso;
 use App\Models\Milestone;
-use App\Models\Organization;
-use App\Models\Unidad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 trait InformeGrupo
 {
     public function datosInformeGrupo(Request $request, $exportar = false)
     {
-        $organization = Organization::find(setting_usuario('_organization_id'));
-
-        $curso = Curso::find(setting_usuario('curso_actual'));
+        $user = Auth::user();
+        $organization = $user->organizacion_actual();
+        $curso = $user->curso_actual();
 
         if ($request->has('filtro_alumnos')) {
             session(['tutor_filtro_alumnos' => $request->input('filtro_alumnos')]);
@@ -30,7 +28,7 @@ trait InformeGrupo
                 break;
         }
 
-        $unidades = Unidad::cursoActual()->orderBy('orden')->get();
+        $unidades = $curso->unidades()->whereVisible(true)->orderBy('orden')->get();
 
         // Evaluaciones del curso actual
         $milestones = $curso?->milestones()->orderBy('date')->get() ?? [];

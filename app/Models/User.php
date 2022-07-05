@@ -444,6 +444,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return Curso::find(setting_usuario('curso_actual'));
     }
 
+    public function organizacion_actual()
+    {
+        return Organization::find(setting_usuario('_organization_id'));
+    }
+
     public function num_archivadas($etiqueta, $unidad)
     {
         $total = 0;
