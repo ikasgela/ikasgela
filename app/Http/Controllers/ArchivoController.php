@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Curso;
 use App\Models\User;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
@@ -36,7 +35,7 @@ class ArchivoController extends Controller
         $actividades = $this->paginate_ultima($user->actividades_archivadas());
 
         // Lista de usuarios
-        $curso = Curso::find(setting_usuario('curso_actual'));
+        $curso = $user->curso_actual();
         $users = [];
         if (!is_null($curso))
             $users = $curso->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name')->get();
@@ -60,10 +59,10 @@ class ArchivoController extends Controller
             abort(404);
         }
 
-        $curso = Curso::find(setting_usuario('curso_actual'));
+        $curso = $user->curso_actual();
 
         if (!is_null($curso)) {
-            $unidades = $curso->unidades()->tag('examen', false)->orderBy('orden')->get();
+            $unidades = $curso->unidades()->whereVisible(true)->tag('examen', false)->orderBy('orden')->get();
         } else {
             $unidades = [];
         }

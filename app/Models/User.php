@@ -441,8 +441,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function curso_actual()
     {
-        setting()->setExtraColumns(['user_id' => $this->id]);
-        return Curso::find(setting('curso_actual'));
+        return Curso::find(setting_usuario('curso_actual'));
     }
 
     public function num_archivadas($etiqueta, $unidad)
@@ -657,8 +656,7 @@ class User extends Authenticatable implements MustVerifyEmail
             }
 
             // Unidades
-
-            $unidades = Unidad::cursoActual()->orderBy('orden')->get();
+            $unidades = $curso->unidades()->whereVisible(true)->orderBy('orden')->get();
 
             // Actividades obligatorias
 
