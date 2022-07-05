@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Charts\TareasEnviadas;
-use App\Models\Curso;
 use App\Models\Milestone;
 use App\Models\Registro;
-use App\Models\Unidad;
 use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -30,7 +28,7 @@ class ResultController extends Controller
             abort(404);
         }
 
-        $curso = Curso::find(setting_usuario('curso_actual'));
+        $curso = $user->curso_actual();
         if (is_null($curso))
             abort(404, __('Course not found.'));
 
@@ -59,7 +57,7 @@ class ResultController extends Controller
         }
 
         // Lista de usuarios para el desplegable
-        $curso = Curso::find(setting_usuario('curso_actual'));
+        $curso = $user->curso_actual();
 
         if (!is_null($curso)) {
             $users = $curso->users()->rolAlumno()->noBloqueado()->orderBy('name')->get();
@@ -68,7 +66,7 @@ class ResultController extends Controller
         }
 
         // Unidades del curso actual
-        $unidades = Unidad::cursoActual()->orderBy('orden')->get();
+        $unidades = $curso->unidades()->whereVisible(true)->orderBy('orden')->get();
 
         // Evaluaciones del curso actual
         if (Auth::user()->hasAnyRole(['admin', 'profesor', 'tutor'])) {

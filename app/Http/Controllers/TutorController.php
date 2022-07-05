@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Charts\TareasEnviadas;
 use App\Exports\InformeGrupoExport;
-use App\Models\Curso;
 use App\Models\Registro;
 use App\Models\Tarea;
 use App\Traits\InformeGrupo;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class TutorController extends Controller
@@ -49,7 +49,9 @@ class TutorController extends Controller
 
     public function tareas_enviadas()
     {
-        $curso = Curso::find(setting_usuario('curso_actual'));
+        $user = Auth::user();
+
+        $curso = $user->curso_actual();
 
         $fecha_inicio = $curso?->fecha_inicio ?: Carbon::now()->subMonths(3);
         $fecha_fin = $curso?->fecha_fin ?: Carbon::now();
