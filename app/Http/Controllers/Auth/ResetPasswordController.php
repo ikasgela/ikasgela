@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class ResetPasswordController extends Controller
@@ -18,7 +19,9 @@ class ResetPasswordController extends Controller
     |
     */
 
-    use ResetsPasswords;
+    use ResetsPasswords {
+        resetPassword as protected traitResetPassword;
+    }
 
     /**
      * Where to redirect users after resetting their password.
@@ -35,5 +38,16 @@ class ResetPasswordController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    protected function resetPassword($user, $password)
+    {
+        // Override trait function and call original: https://stackoverflow.com/a/11939306
+        $this->traitResetPassword($user, $password);
+
+        // Cambiar la contraseña en Gitea
+        if (config('ikasgela.gitea_enabled')) {
+            GiteaClient::password($user->username, $password);
+        }
     }
 }
