@@ -7,7 +7,7 @@
             @foreach($unidades as $unidad)
                 <option
                     value="{{ $unidad->id }}" {{ session('profesor_'. $nombre_variable ?? 'unidad_id') == $unidad->id ? 'selected' : '' }}>
-                    {{ $unidad->full_name }}
+                    {{ $unidad->full_name }} {{ $unidad->visible ? '' : '(' . __('hidden') . ')' }}
                 </option>
             @endforeach
         </select>

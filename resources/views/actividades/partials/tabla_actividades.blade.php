@@ -139,7 +139,7 @@
                                 @isset($unidad->codigo)
                                     {{ $unidad->codigo }} -
                                 @endisset
-                                {{ $unidad->nombre }}</option>
+                                {{ $unidad->nombre }} {{ $unidad->visible ? '' : '(' . __('hidden') . ')' }}</option>
                             </option>
                         @endforeach
                     </select>
