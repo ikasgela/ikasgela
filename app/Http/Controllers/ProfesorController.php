@@ -369,17 +369,7 @@ class ProfesorController extends Controller
             $clon->plantilla_id = $actividad->id;
             $clon->orden = $clon->id;
 
-            $ahora = now();
-
-            if (!isset($clon->fecha_disponibilidad)) {
-                $clon->fecha_disponibilidad = $ahora;
-            }
-
-            if ($actividad->unidad->curso->plazo_actividad > 0) {
-                $plazo = $ahora->addDays($actividad->unidad->curso->plazo_actividad);
-                $clon->fecha_entrega = $plazo;
-                $clon->fecha_limite = $plazo;
-            }
+            $this->calcularFechaEntrega($clon);
 
             $clon->save();
 
@@ -419,17 +409,7 @@ class ProfesorController extends Controller
             $clon->plantilla_id = $actividad->id;
             $clon->orden = $clon->id;
 
-            $ahora = now();
-
-            if (!isset($clon->fecha_disponibilidad)) {
-                $clon->fecha_disponibilidad = $ahora;
-            }
-
-            if ($actividad->unidad->curso->plazo_actividad > 0) {
-                $plazo = $ahora->addDays($actividad->unidad->curso->plazo_actividad);
-                $clon->fecha_entrega = $plazo;
-                $clon->fecha_limite = $plazo;
-            }
+            $this->calcularFechaEntrega($clon);
 
             $clon->addEtiqueta('trabajo en equipo');
 
@@ -496,5 +476,24 @@ class ProfesorController extends Controller
         $user->save();  // Provocar que el observer limpie la caché
 
         return retornar();
+    }
+
+    public function calcularFechaEntrega($actividad): void
+    {
+        $ahora = now();
+
+        if (!isset($actividad->fecha_disponibilidad)) {
+            $actividad->fecha_disponibilidad = $ahora;
+        }
+
+        if (!isset($actividad->fecha_entrega)) {
+            $plazo_actividad_curso = $actividad->unidad->curso->plazo_actividad;
+
+            if ($plazo_actividad_curso > 0) {
+                $plazo = $ahora->addDays($plazo_actividad_curso);
+                $actividad->fecha_entrega = $plazo;
+                $actividad->fecha_limite = $plazo;
+            }
+        }
     }
 }
