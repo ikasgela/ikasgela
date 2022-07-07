@@ -16,6 +16,7 @@ use App\Models\Registro;
 use App\Models\Tarea;
 use App\Models\Unidad;
 use App\Models\User;
+use App\Traits\CalcularFechaEntregaActividad;
 use App\Traits\InformeActividadesCurso;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
@@ -29,6 +30,7 @@ class ActividadController extends Controller
 {
     use PaginarUltima;
     use InformeActividadesCurso;
+    use CalcularFechaEntregaActividad;
 
     public function __construct()
     {
@@ -362,12 +364,9 @@ class ActividadController extends Controller
                     abort(400, __('Invalid task state.'));
                 }
 
-                if (isset($actividad->fecha_disponibilidad) && $actividad->unidad->curso->plazo_actividad > 0) {
-                    $plazo = now()->addDays($actividad->unidad->curso->plazo_actividad);
-                    $actividad->fecha_entrega = $plazo;
-                    $actividad->fecha_limite = $plazo;
-                    $actividad->save();
-                }
+                $this->calcularFechaEntrega($actividad);
+
+                $actividad->save();
 
                 $this->bloquearRepositorios($tarea, false);
 
@@ -619,17 +618,7 @@ class ActividadController extends Controller
                 $clon->plantilla_id = $actividad->siguiente->id;
             }
 
-            $ahora = now();
-
-            if (!isset($clon->fecha_disponibilidad)) {
-                $clon->fecha_disponibilidad = $ahora;
-            }
-
-            if ($actividad->unidad->curso->plazo_actividad > 0) {
-                $plazo = $ahora->addDays($actividad->unidad->curso->plazo_actividad);
-                $clon->fecha_entrega = $plazo;
-                $clon->fecha_limite = $plazo;
-            }
+            $this->calcularFechaEntrega($clon);
 
             $clon->save();
             $clon->orden = $clon->id;

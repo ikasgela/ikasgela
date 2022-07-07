@@ -14,6 +14,7 @@ use App\Models\Tarea;
 use App\Models\Team;
 use App\Models\Unidad;
 use App\Models\User;
+use App\Traits\CalcularFechaEntregaActividad;
 use App\Traits\JPlagRunner;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
@@ -30,6 +31,7 @@ class ProfesorController extends Controller
 {
     use PaginarUltima;
     use JPlagRunner;
+    use CalcularFechaEntregaActividad;
 
     public function __construct()
     {
@@ -369,17 +371,7 @@ class ProfesorController extends Controller
             $clon->plantilla_id = $actividad->id;
             $clon->orden = $clon->id;
 
-            $ahora = now();
-
-            if (!isset($clon->fecha_disponibilidad)) {
-                $clon->fecha_disponibilidad = $ahora;
-            }
-
-            if ($actividad->unidad->curso->plazo_actividad > 0) {
-                $plazo = $ahora->addDays($actividad->unidad->curso->plazo_actividad);
-                $clon->fecha_entrega = $plazo;
-                $clon->fecha_limite = $plazo;
-            }
+            $this->calcularFechaEntrega($clon);
 
             $clon->save();
 
@@ -419,17 +411,7 @@ class ProfesorController extends Controller
             $clon->plantilla_id = $actividad->id;
             $clon->orden = $clon->id;
 
-            $ahora = now();
-
-            if (!isset($clon->fecha_disponibilidad)) {
-                $clon->fecha_disponibilidad = $ahora;
-            }
-
-            if ($actividad->unidad->curso->plazo_actividad > 0) {
-                $plazo = $ahora->addDays($actividad->unidad->curso->plazo_actividad);
-                $clon->fecha_entrega = $plazo;
-                $clon->fecha_limite = $plazo;
-            }
+            $this->calcularFechaEntrega($clon);
 
             $clon->addEtiqueta('trabajo en equipo');
 
