@@ -364,12 +364,9 @@ class ActividadController extends Controller
                     abort(400, __('Invalid task state.'));
                 }
 
-                if (isset($actividad->fecha_disponibilidad) && $actividad->unidad->curso->plazo_actividad > 0) {
-                    $plazo = now()->addDays($actividad->unidad->curso->plazo_actividad);
-                    $actividad->fecha_entrega = $plazo;
-                    $actividad->fecha_limite = $plazo;
-                    $actividad->save();
-                }
+                $this->calcularFechaEntrega($actividad);
+
+                $actividad->save();
 
                 $this->bloquearRepositorios($tarea, false);
 
