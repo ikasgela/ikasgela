@@ -14,6 +14,7 @@ use App\Models\Tarea;
 use App\Models\Team;
 use App\Models\Unidad;
 use App\Models\User;
+use App\Traits\CalcularFechaEntregaActividad;
 use App\Traits\JPlagRunner;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
@@ -30,6 +31,7 @@ class ProfesorController extends Controller
 {
     use PaginarUltima;
     use JPlagRunner;
+    use CalcularFechaEntregaActividad;
 
     public function __construct()
     {
@@ -476,24 +478,5 @@ class ProfesorController extends Controller
         $user->save();  // Provocar que el observer limpie la caché
 
         return retornar();
-    }
-
-    public function calcularFechaEntrega($actividad): void
-    {
-        $ahora = now();
-
-        if (!isset($actividad->fecha_disponibilidad)) {
-            $actividad->fecha_disponibilidad = $ahora;
-        }
-
-        if (!isset($actividad->fecha_entrega)) {
-            $plazo_actividad_curso = $actividad->unidad->curso->plazo_actividad;
-
-            if ($plazo_actividad_curso > 0) {
-                $plazo = $ahora->addDays($plazo_actividad_curso);
-                $actividad->fecha_entrega = $plazo;
-                $actividad->fecha_limite = $plazo;
-            }
-        }
     }
 }
