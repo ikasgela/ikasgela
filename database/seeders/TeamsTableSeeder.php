@@ -17,7 +17,7 @@ class TeamsTableSeeder extends Seeder
      */
     public function run()
     {
-        $group = Group::where('name', '147FA')->first();
+        $group = Group::where('name', 'alumnos')->first();
 
         $name = 'Todos';
         $todos = Team::factory()->create([
