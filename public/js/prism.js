@@ -1351,7 +1351,8 @@ Prism.languages.clike = {
 		'operator': {
 			pattern: /(^|[^.])(?:<<=?|>>>?=?|->|--|\+\+|&&|\|\||::|[?:~]|[-+*/%&|^!=<>]=?)/m,
 			lookbehind: true
-		}
+		},
+		'constant': /\b[A-Z][A-Z_\d]+\b/
 	});
 
 	Prism.languages.insertBefore('java', 'string', {
@@ -1921,6 +1922,8 @@ Prism.languages.py = Prism.languages.python;
 			"clike",
 			"cpp"
 		],
+		"cilkc": "c",
+		"cilkcpp": "cpp",
 		"coffeescript": "javascript",
 		"crystal": "ruby",
 		"css-extras": "css",
@@ -1946,6 +1949,7 @@ Prism.languages.py = Prism.languages.python;
 		"gml": "clike",
 		"glsl": "c",
 		"go": "clike",
+		"gradle": "clike",
 		"groovy": "clike",
 		"haml": "ruby",
 		"handlebars": "markup-templating",
@@ -2075,6 +2079,7 @@ Prism.languages.py = Prism.languages.python;
 		"avs": "avisynth",
 		"avdl": "avro-idl",
 		"gawk": "awk",
+		"sh": "bash",
 		"shell": "bash",
 		"shortcode": "bbcode",
 		"rbnf": "bnf",
@@ -2082,6 +2087,9 @@ Prism.languages.py = Prism.languages.python;
 		"cs": "csharp",
 		"dotnet": "csharp",
 		"cfc": "cfscript",
+		"cilk-c": "cilkc",
+		"cilk-cpp": "cilkcpp",
+		"cilk": "cilkcpp",
 		"coffee": "coffeescript",
 		"conc": "concurnas",
 		"jinja2": "django",
