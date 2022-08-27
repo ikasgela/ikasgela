@@ -32,10 +32,14 @@
                                    style="display:none;"></i> {{ __('Submit for review') }}</button>
                         @endif
                     @else
-                        <div class="alert alert-danger pb-0" role="alert">
+                        <div class="alert alert-danger pb-0 pt-3" role="alert">
                             <p>El curso ha finalizado, no se admiten más envíos.</p>
                         </div>
                     @endif
+                @else
+                    <div class="alert alert-warning pb-0 pt-3" role="alert">
+                        <p>Completa las actividades para poder continuar.</p>
+                    </div>
                 @endif
                 @if($actividad->hasEtiqueta('extra') && !is_null($actividad->siguiente))
                     <button type="submit" name="nuevoestado" value="71"
