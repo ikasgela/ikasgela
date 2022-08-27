@@ -72,7 +72,6 @@ class FileController extends Controller
         $fichero = $request->file;
 
         $filename = md5(time()) . '/' . $fichero->getClientOriginalName();
-        $extension = $fichero->getClientOriginalExtension();
 
         Storage::disk('s3')->put('documents/' . $filename, file_get_contents($fichero));
 
@@ -80,9 +79,10 @@ class FileController extends Controller
 
         $file_resource->files()->create([
             'path' => $filename,
-            'title' => $request->file->getClientOriginalName(),
+            'title' => $fichero->getClientOriginalName(),
+            'extension' => $fichero->extension(),
             'description' => request('description'),
-            'size' => $request->file->getSize(),
+            'size' => $fichero->getSize(),
             'user_id' => Auth::user()->id,
         ]);
 

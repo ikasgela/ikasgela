@@ -14,7 +14,7 @@ class File extends Model
     use HasFactory;
 
     protected $fillable = [
-        'path', 'title', 'size', 'uploadable_id', 'user_id', 'uploadable_type', 'description', 'archived'
+        'path', 'title', 'size', 'uploadable_id', 'user_id', 'uploadable_type', 'description', 'archived', 'extension'
     ];
 
     public $appends = ['url', 'uploaded_time', 'size_in_kb'];

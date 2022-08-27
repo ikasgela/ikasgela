@@ -8,6 +8,7 @@
                 <table class="table table-bordered small">
                     <thead class="thead-dark">
                     <tr>
+                        <th></th>
                         <th>{{ __('File') }}</th>
                         <th>{{ __('Size') }}</th>
                         @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() != 'archivo.show')
@@ -19,6 +20,7 @@
                     <tbody>
                     @foreach ($file_resource->files as $file)
                         <tr>
+                            <td class="text-center font-xl">@include('file_resources.partials.icono', ['extension' => $file->extension])</td>
                             <td>
                                 <a href="{{ $file->imageUrl('documents') }}">
                                     {{ $file->description ?: $file->title }}
