@@ -30,8 +30,10 @@
                     @endif
                 </div>
             </div>
-            @include('alumnos.partials.tarea.separador')
-            @include('alumnos.partials.tarea.linea_progreso')
+            @if(!$actividad->auto_avance)
+                @include('alumnos.partials.tarea.separador')
+                @include('alumnos.partials.tarea.linea_progreso')
+            @endif
             @switch($actividad->tarea->estado)
                 @case(20)   {{-- Aceptada --}}
                 @case(21)   {{-- Feedback leído --}}
@@ -47,7 +49,7 @@
                 @include('partials.tarjetas_actividad')
                 @break
                 @default
-                    <div class="mb-2"></div>
+                    <div class="mb-0"></div>
             @endswitch
             @include('alumnos.partials.tarea.feedback')
             <hr class="my-0">

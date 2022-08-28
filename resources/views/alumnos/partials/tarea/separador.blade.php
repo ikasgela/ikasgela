@@ -16,6 +16,8 @@
         <hr class="mt-0 mb-2">
         @break
     @case(60)
+    @case(62)
+    @case(64)
         {{-- Archivada --}}
         @break
     @default
