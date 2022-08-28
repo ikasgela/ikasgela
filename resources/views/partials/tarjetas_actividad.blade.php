@@ -1,3 +1,4 @@
+<hr class="mt-0 mb-2">
 <div class="row mt-3 mb-0 mx-2">
     @if($actividad->hasEtiqueta('trabajo en equipo'))
         <div class="col-md-6">
@@ -8,23 +9,23 @@
         <div class="col-md-6">
             @switch($recurso::class)
                 @case('App\Models\IntellijProject')
-                @include('intellij_projects.tarjeta', ['intellij_project' => $recurso, 'repositorio' => $recurso->repository()])
-                @break
+                    @include('intellij_projects.tarjeta', ['intellij_project' => $recurso, 'repositorio' => $recurso->repository()])
+                    @break
                 @case('App\Models\MarkdownText')
-                @include('markdown_texts.tarjeta', ['markdown_text' => $recurso, 'texto' => $recurso->markdown()])
-                @break
+                    @include('markdown_texts.tarjeta', ['markdown_text' => $recurso, 'texto' => $recurso->markdown()])
+                    @break
                 @case('App\Models\YoutubeVideo')
-                @include('youtube_videos.tarjeta', ['youtube_video' => $recurso])
-                @break
+                    @include('youtube_videos.tarjeta', ['youtube_video' => $recurso])
+                    @break
                 @case('App\Models\FileUpload')
-                @include('file_uploads.tarjeta', ['file_upload' => $recurso])
-                @break
+                    @include('file_uploads.tarjeta', ['file_upload' => $recurso])
+                    @break
                 @case('App\Models\FileResource')
-                @include('file_resources.tarjeta', ['file_resource' => $recurso])
-                @break
+                    @include('file_resources.tarjeta', ['file_resource' => $recurso])
+                    @break
                 @case('App\Models\Cuestionario')
-                @include('cuestionarios.tarjeta', ['cuestionario' => $recurso])
-                @break
+                    @include('cuestionarios.tarjeta', ['cuestionario' => $recurso])
+                    @break
             @endswitch
         </div>
     @endforeach
