@@ -1,4 +1,5 @@
-<div class="card-body py-1">
+<hr class="mt-0 mb-2">
+<div class="card-body py-1 mb-1">
     <h6 class="text-center font-weight-bold mt-2">
         @switch($actividad->tarea->estado)
             @case(10)

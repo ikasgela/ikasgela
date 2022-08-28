@@ -31,25 +31,22 @@
                 </div>
             </div>
             @if(!$actividad->auto_avance && $actividad->tarea->estado < 60 && !$actividad->is_expired)
-                @include('alumnos.partials.tarea.separador')
                 @include('alumnos.partials.tarea.linea_progreso')
             @endif
             @switch($actividad->tarea->estado)
-                @case(20)   {{-- Aceptada --}}
-                @case(21)   {{-- Feedback leído --}}
-                @if(!$actividad->is_expired)
-                    <hr class="mt-0 mb-2">
+                @case(20)
+                    {{-- Aceptada --}}
+                @case(21)
+                    {{-- Feedback leído --}}
+                    @if(!$actividad->is_expired)
+                        @include('partials.tarjetas_actividad')
+                    @endif
+                    @break
+                @case(60)
+                    {{-- Archivada --}}
                     @include('partials.tarjetas_actividad')
-                @else
-                    <div class="mb-0"></div>
-                @endif
-                @break
-                @case(60)   {{-- Archivada --}}
-                <hr class="mt-0 mb-2">
-                @include('partials.tarjetas_actividad')
-                @break
+                    @break
                 @default
-                    <div class="mb-0"></div>
             @endswitch
             @include('alumnos.partials.tarea.feedback')
             <hr class="my-0">
