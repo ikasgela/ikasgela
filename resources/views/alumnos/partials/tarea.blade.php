@@ -30,7 +30,7 @@
                     @endif
                 </div>
             </div>
-            @if(!$actividad->auto_avance)
+            @if(!$actividad->auto_avance && $actividad->tarea->estado < 60 && !$actividad->is_expired)
                 @include('alumnos.partials.tarea.separador')
                 @include('alumnos.partials.tarea.linea_progreso')
             @endif
@@ -41,7 +41,7 @@
                     <hr class="mt-0 mb-2">
                     @include('partials.tarjetas_actividad')
                 @else
-                    <div class="mb-2"></div>
+                    <div class="mb-0"></div>
                 @endif
                 @break
                 @case(60)   {{-- Archivada --}}
