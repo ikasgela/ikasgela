@@ -23,13 +23,19 @@
                     @if($actividad->unidad->curso->disponible() || $actividad->hasEtiqueta('examen'))
                         @if(!$actividad->is_expired)
                             {{-- Mostrar el botón si no ha superado el límite --}}
-                            <button type="submit" name="nuevoestado" value="30"
-                                    @if(!$actividad->auto_avance)
+                            @if(!$actividad->auto_avance)
+                                <button type="submit" name="nuevoestado" value="30"
                                         onclick="return confirm('{{ __('Are you sure?') }}\n\n{{ __('This will submit the activity for review and show the next one if available.') }}')"
-                                    @endif
-                                    class="btn btn-primary mr-2 single_click">
-                                <i class="fas fa-spinner fa-spin"
-                                   style="display:none;"></i> {{ __('Submit for review') }}</button>
+                                        class="btn btn-primary mr-2 single_click">
+                                    <i class="fas fa-spinner fa-spin"
+                                       style="display:none;"></i> {{ __('Submit for review') }}</button>
+                            @else
+                                <button type="submit" name="nuevoestado" value="64"
+                                        class="btn btn-primary single_click">
+                                    <i class="fas fa-spinner fa-spin"
+                                       style="display:none;"></i> {{ __('Next activity') }}
+                                </button>
+                            @endif
                         @endif
                     @else
                         <div class="alert alert-danger pb-0 pt-3" role="alert">

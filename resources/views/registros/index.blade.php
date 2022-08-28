@@ -76,6 +76,9 @@
                             @case(63)   {{-- Reabierta --}}
                             Reabierta
                             @break
+                            @case(64)   {{-- Avance automático y archivada --}}
+                            Avance automático y archivada
+                            @break
                             @case(70)   {{-- En pausa --}}
                             En pausa
                             @break

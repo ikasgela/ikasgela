@@ -419,10 +419,7 @@ class ActividadController extends Controller
 
                 $tarea->estado = $nuevoestado;
 
-                $tarea->save();
-                $this->bloquearRepositorios($tarea, true);
-                $tarea->archiveFiles();
-                $this->mostrarSiguienteActividad($actividad, $usuario);
+                $this->archivarTarea($tarea, $actividad, $usuario);
                 break;
 
             // Ampliar plazo
@@ -441,6 +438,20 @@ class ActividadController extends Controller
 
                 if (setting_usuario('notificacion_actividad_asignada', $usuario))
                     Mail::to($usuario->email)->queue(new PlazoAmpliado($usuario->name, $actividad->nombre, App::getLocale()));
+                break;
+
+            // Avance automático y archivada
+            case 64:
+                if (!in_array($estado_anterior, [20, 21]) && !$override_allowed) {
+                    abort(400, __('Invalid task state.'));
+                }
+
+                $tarea->estado = $nuevoestado;
+
+                $tarea->feedback = __('Automatically completed task, not reviewed by any teacher.');
+                $tarea->puntuacion = $actividad->puntuacion;
+
+                $this->archivarTarea($tarea, $actividad, $usuario);
                 break;
             case 70:
                 $tarea->estado = $nuevoestado;
@@ -698,5 +709,13 @@ class ActividadController extends Controller
                 $intellij_project->unarchive();
             }
         }
+    }
+
+    public function archivarTarea(Tarea $tarea, Actividad $actividad, User $usuario): void
+    {
+        $tarea->save();
+        $this->bloquearRepositorios($tarea, true);
+        $tarea->archiveFiles();
+        $this->mostrarSiguienteActividad($actividad, $usuario);
     }
 }
