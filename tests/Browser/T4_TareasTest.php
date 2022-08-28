@@ -28,19 +28,7 @@ class T4_TareasTest extends DuskTestCase
             // Enviar para revisión
             $browser->assertSee('Primeros pasos');
 
-            $browser->press(__('Submit for review'));
-            $browser->assertRouteIs('users.home');
-
-            // Avance automático
-            $browser->assertSee(__('This is an automatically advancing activity, there is no teacher review.'));
-
-            $browser->press(__('Next step'));
-            $browser->assertRouteIs('users.home');
-
-            // Archivar
-            $browser->assertSee(__('Automatically completed task, not reviewed by any teacher.'));
-
-            $browser->press(__('Archive'));
+            $browser->press(__('Next activity'));
             $browser->assertRouteIs('users.home');
 
             // No hay más tareas
