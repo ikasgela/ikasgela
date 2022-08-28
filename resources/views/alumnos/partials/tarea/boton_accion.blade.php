@@ -39,7 +39,7 @@
                         @endif
                     @else
                         <div class="alert alert-danger pb-0 pt-3" role="alert">
-                            <p>El curso ha finalizado, no se admiten más envíos.</p>
+                            <p>{{ __('The course has ended; no more submissions are allowed.') }}</p>
                         </div>
                     @endif
                 @endif
