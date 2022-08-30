@@ -47,7 +47,7 @@
         <div class="card-body">
             {!! Form::open(['route' => ['links.store']]) !!}
 
-            {{ Form::campoTexto('url', __('URL')) }}
+            {{ Form::campoTexto('url', __('URL'), '', ['placeholder' => 'https://ikasgela.com']) }}
             {{ Form::campoTexto('descripcion', __('Description')) }}
             {!! Form::hidden('link_collection_id', $link_collection->id) !!}
 
