@@ -13,6 +13,7 @@
                         <th>{{ __('Size') }}</th>
                         @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() != 'archivo.show')
                             <th>{{ __('Uploaded') }}</th>
+                            <th>{{ __('Order') }}</th>
                             <th class="text-center">{{ __('Actions') }}</th>
                         @endif
                     </tr>
@@ -29,6 +30,9 @@
                             <td>{{ $file->size_in_kb }} KB</td>
                             @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() != 'archivo.show')
                                 <td>{{ $file->uploaded_time }}</td>
+                                <td>
+                                    @include('partials.botones_reordenar', ['ruta' => 'files.reordenar'])
+                                </td>
                                 <td class="text-center">
                                     <div class='btn-group'>
                                         {!! Form::open(['route' => ['files.delete', $file->id], 'method' => 'DELETE']) !!}

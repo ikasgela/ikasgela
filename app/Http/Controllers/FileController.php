@@ -77,7 +77,7 @@ class FileController extends Controller
 
         $file_resource = FileResource::find(request('file_resource_id'));
 
-        $file_resource->files()->create([
+        $file = File::create([
             'path' => $filename,
             'title' => $fichero->getClientOriginalName(),
             'extension' => $fichero->extension(),
@@ -85,6 +85,10 @@ class FileController extends Controller
             'size' => $fichero->getSize(),
             'user_id' => Auth::user()->id,
         ]);
+
+        $file->orden = $file->id;
+
+        $file_resource->files()->save($file);
 
         return back()->with('success', 'File Successfully Saved');
     }
@@ -134,5 +138,17 @@ class FileController extends Controller
         // Volver a subir los ficheros en el mismo path
         Storage::disk('s3')->put($ruta_imagen, $imagen->__toString());
         Storage::disk('s3')->put($ruta_thumbnail, $thumbnail->__toString());
+    }
+
+    public function reordenar(File $a1, File $a2)
+    {
+        $temp = $a1->orden;
+        $a1->orden = $a2->orden;
+        $a2->orden = $temp;
+
+        $a1->save();
+        $a2->save();
+
+        return back();
     }
 }
