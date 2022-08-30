@@ -30,6 +30,7 @@ class Actividad extends Model
         'file_uploads',
         'file_resources',
         'feedbacks',
+        'link_collections',
     ];
 
     protected $clone_exempt_attributes = ['plantilla', 'siguiente_overriden'];

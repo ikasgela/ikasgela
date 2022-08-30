@@ -183,6 +183,16 @@ class Curso extends Model
         return $this->hasManyDeep('App\Models\File', ['App\Models\FileUpload'], [null, ['uploadable_type', 'uploadable_id']]);
     }
 
+    public function link_collections()
+    {
+        return $this->hasMany(LinkCollection::class);
+    }
+
+    public function link_collections_links()
+    {
+        return $this->hasManyThrough('App\Models\Link', 'App\Models\LinkCollection');
+    }
+
     public function hilos()
     {
         return $this->hasMany(Hilo::class);
