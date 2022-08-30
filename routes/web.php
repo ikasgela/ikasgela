@@ -266,6 +266,15 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::delete('/file_resources/{actividad}/desasociar/{file_resource}', 'FileResourceController@desasociar')
                 ->name('file_resources.desasociar');
 
+            // LinkCollection
+            Route::resource('link_collections', 'LinkCollectionController');
+            Route::get('/link_collections/{actividad}/actividad', 'LinkCollectionController@actividad')
+                ->name('link_collections.actividad');
+            Route::post('/link_collections/{actividad}/asociar', 'LinkCollectionController@asociar')
+                ->name('link_collections.asociar');
+            Route::delete('/link_collections/{actividad}/desasociar/{link_collection}', 'LinkCollectionController@desasociar')
+                ->name('link_collections.desasociar');
+
             // Ver archivo de otros alumnos
             Route::post('/archivo', 'ArchivoController@index')
                 ->name('archivo.alumno');
@@ -367,6 +376,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('file_uploads.index.filtro');
             Route::post('/cuestionarios/filtro', 'CuestionarioController@index')
                 ->name('cuestionarios.index.filtro');
+            Route::post('/link_collections/filtro', 'LinkCollectionController@index')
+                ->name('link_collections.index.filtro');
 
             // CRUD - Feedbacks
             Route::resource('feedbacks', 'FeedbackController');
