@@ -54,7 +54,7 @@
             <span class="help-block text-danger">{{ $errors->first('url') }}</span>
 
             <button class="btn btn-primary single_click">
-                <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Save') }}
+                <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Add') }}
             </button>
 
             {!! Form::close() !!}
