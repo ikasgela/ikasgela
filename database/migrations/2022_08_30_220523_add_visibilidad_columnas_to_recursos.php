@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Schema;
 class AddVisibilidadColumnasToRecursos extends Migration
 {
     private $recursos = [
-        'intellij_projects',
-        'youtube_videos',
-        'markdown_texts',
-        'cuestionarios',
-        'file_uploads',
-        'file_resources',
-        'link_collections',
+        'intellij_project',
+        'youtube_video',
+        'markdown_text',
+        'cuestionario',
+        'file_upload',
+        'file_resource',
+        'link_collection',
     ];
 
     /**
@@ -24,7 +24,7 @@ class AddVisibilidadColumnasToRecursos extends Migration
     public function up()
     {
         foreach ($this->recursos as $recurso) {
-            Schema::table($recurso, function (Blueprint $table) {
+            Schema::table("actividad_$recurso", function (Blueprint $table) {
                 $table->boolean('titulo_visible')->default(true)->nullable();
                 $table->boolean('descripcion_visible')->default(true)->nullable();
                 $table->integer('columnas')->default(6)->nullable();
@@ -40,7 +40,7 @@ class AddVisibilidadColumnasToRecursos extends Migration
     public function down()
     {
         foreach ($this->recursos as $recurso) {
-            Schema::table($recurso, function (Blueprint $table) use ($recurso) {
+            Schema::table("actividad_$recurso", function (Blueprint $table) use ($recurso) {
                 $table->dropColumn('titulo_visible');
                 $table->dropColumn('descripcion_visible');
                 $table->dropColumn('columnas');
