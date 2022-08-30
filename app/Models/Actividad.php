@@ -197,6 +197,16 @@ class Actividad extends Model
             ->withTimestamps();
     }
 
+    public function link_collections()
+    {
+        return $this
+            ->belongsToMany(LinkCollection::class)
+            ->withPivot([
+                'orden',
+            ])
+            ->withTimestamps();
+    }
+
     public function envioPermitido()
     {
         $enviar = true;
@@ -313,6 +323,10 @@ class Actividad extends Model
         }
 
         foreach ($this->file_uploads()->get() as $recurso) {
+            $recursos->add($recurso);
+        }
+
+        foreach ($this->link_collections()->get() as $recurso) {
             $recursos->add($recurso);
         }
 
