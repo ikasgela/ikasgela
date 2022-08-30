@@ -13,6 +13,8 @@ use App\Models\FileResource;
 use App\Models\FileUpload;
 use App\Models\IntellijProject;
 use App\Models\Item;
+use App\Models\Link;
+use App\Models\LinkCollection;
 use App\Models\MarkdownText;
 use App\Models\Milestone;
 use App\Models\Pregunta;
@@ -260,6 +262,15 @@ class CursoController extends Controller
         // Actividad "*" -- "*" FileResources
         $this->exportarRelacionJSON($ruta, $curso, 'file_resource');
 
+        // LinkCollections
+        $this->exportarFicheroJSON($ruta, 'link_collections.json', $curso->link_collections);
+
+        // Links
+        $this->exportarFicheroJSON($ruta, 'link_collections_links.json', $curso->link_collections_links);
+
+        // Actividad "*" -- "*" LinkCollections
+        $this->exportarRelacionJSON($ruta, $curso, 'link_collection');
+
         // Cuestionario
         $cuestionarios = $curso->cuestionarios()->plantilla()->get();
         $this->exportarFicheroJSON($ruta, 'cuestionarios.json', $cuestionarios);
@@ -385,6 +396,7 @@ class CursoController extends Controller
             'cuestionarios', 'preguntas', 'items',
             'feedback',
             'milestones',
+            'link_collections', 'links',
         ];
 
         foreach ($import_ids as $import_id) {
@@ -548,6 +560,31 @@ class CursoController extends Controller
             File::create(array_merge($objeto, [
                 'uploadable_id' => $file_resource->id,
                 'user_id' => null,
+            ]));
+        }
+
+        // Curso -- "*" LinkCollection
+        $json = $this->cargarFichero($ruta, 'link_collections.json');
+        foreach ($json as $objeto) {
+            LinkCollection::create(array_merge($objeto, [
+                'curso_id' => $curso->id,
+            ]));
+        }
+
+        // Actividad "*" - "*" LinkCollection
+        $json = $this->cargarFichero($ruta, 'actividad_link_collection.json');
+        foreach ($json as $objeto) {
+            $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
+            $link_collection = !is_null($objeto['link_collection_id']) ? LinkCollection::where('__import_id', $objeto['link_collection_id'])->first() : null;
+            $actividad?->link_collections()->attach($link_collection, ['orden' => Str::orderedUuid()]);
+        }
+
+        // LinkCollection -- "*" Link
+        $json = $this->cargarFichero($ruta, 'link_collections_links.json');
+        foreach ($json as $objeto) {
+            $link_collection = !is_null($objeto['link_collection_id']) ? LinkCollection::where('__import_id', $objeto['link_collection_id'])->first() : null;
+            Link::create(array_merge($objeto, [
+                'link_collection_id' => $link_collection->id,
             ]));
         }
 
