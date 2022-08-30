@@ -21,12 +21,15 @@ class FileResourceSeeder extends Seeder
             'curso_id' => 1,
         ]);
 
-        File::create([
+        $file = File::create([
             'uploadable_id' => $file_resource->id,
             'uploadable_type' => FileResource::class,
             'path' => '32912ec806cd1ce9ecbd59fef06b5171/01_introduccion_programacion.pdf',
             'title' => '01_introduccion_programacion.pdf',
             'size' => 1909079,
         ]);
+
+        $file->orden = $file->id;
+        $file->save();
     }
 }
