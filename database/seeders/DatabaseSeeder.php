@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ItemsTableSeeder::class);
         $this->call(FileUploadsTableSeeder::class);
         $this->call(FileResourceSeeder::class);
+        $this->call(LinkCollectionSeeder::class);
 
         $this->call(ActividadesTableSeeder::class);
         $this->call(TareasTableSeeder::class);

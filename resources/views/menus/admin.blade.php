@@ -37,6 +37,11 @@
             </a>
         </li>
         <li class="c-sidebar-nav-item bg-dark">
+            <a class="c-sidebar-nav-link" href="{{ route('link_collections.index') }}">
+                <i class="c-sidebar-nav-icon fas fa-link"></i> {{ __('Links') }}
+            </a>
+        </li>
+        <li class="c-sidebar-nav-item bg-dark">
             <a class="c-sidebar-nav-link" href="{{ route('file_resources.index') }}">
                 <i class="c-sidebar-nav-icon fas fa-file"></i> {{ __('Files') }}
             </a>
