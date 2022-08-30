@@ -260,7 +260,7 @@ class CursoController extends Controller
         $this->exportarFicheroJSON($ruta, 'file_resources.json', $curso->file_resources);
 
         // Files
-        $this->exportarFicheroJSON($ruta, 'file_resources_files.json', $curso->file_resources_files);
+        $this->exportarFicheroJSON($ruta, 'file_resources_files.json', $curso->file_resources_files->sortBy('orden'));
 
         // Actividad "*" -- "*" FileResources
         $this->exportarRelacionJSON($ruta, $curso, 'file_resource');
@@ -269,7 +269,7 @@ class CursoController extends Controller
         $this->exportarFicheroJSON($ruta, 'link_collections.json', $curso->link_collections);
 
         // Links
-        $this->exportarFicheroJSON($ruta, 'link_collections_links.json', $curso->link_collections_links);
+        $this->exportarFicheroJSON($ruta, 'link_collections_links.json', $curso->link_collections_links->sortBy('orden'));
 
         // Actividad "*" -- "*" LinkCollections
         $this->exportarRelacionJSON($ruta, $curso, 'link_collection');
@@ -560,10 +560,12 @@ class CursoController extends Controller
         $json = $this->cargarFichero($ruta, 'file_resources_files.json');
         foreach ($json as $objeto) {
             $file_resource = !is_null($objeto['uploadable_id']) ? FileResource::where('__import_id', $objeto['uploadable_id'])->first() : null;
-            File::create(array_merge($objeto, [
+            $file = File::create(array_merge($objeto, [
                 'uploadable_id' => $file_resource->id,
                 'user_id' => null,
             ]));
+            $file->orden = $file->id;
+            $file->save();
         }
 
         // Curso -- "*" LinkCollection
@@ -586,9 +588,11 @@ class CursoController extends Controller
         $json = $this->cargarFichero($ruta, 'link_collections_links.json');
         foreach ($json as $objeto) {
             $link_collection = !is_null($objeto['link_collection_id']) ? LinkCollection::where('__import_id', $objeto['link_collection_id'])->first() : null;
-            Link::create(array_merge($objeto, [
+            $link = Link::create(array_merge($objeto, [
                 'link_collection_id' => $link_collection->id,
             ]));
+            $link->orden = $link->id;
+            $link->save();
         }
 
         // Curso -- "*" FileUpload
