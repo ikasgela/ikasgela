@@ -265,6 +265,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('file_resources.asociar');
             Route::delete('/file_resources/{actividad}/desasociar/{file_resource}', 'FileResourceController@desasociar')
                 ->name('file_resources.desasociar');
+            Route::post('/files/reordenar/{a1}/{a2}', 'FileController@reordenar')
+                ->name('files.reordenar');
 
             // LinkCollection
             Route::resource('link_collections', 'LinkCollectionController');

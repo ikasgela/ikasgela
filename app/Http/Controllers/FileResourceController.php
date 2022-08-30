@@ -53,7 +53,9 @@ class FileResourceController extends Controller
 
     public function show(FileResource $file_resource)
     {
-        return view('file_resources.show', compact(['file_resource']));
+        $ids = $file_resource->files()->pluck('id')->toArray();
+
+        return view('file_resources.show', compact(['file_resource', 'ids']));
     }
 
     public function edit(FileResource $file_resource)
