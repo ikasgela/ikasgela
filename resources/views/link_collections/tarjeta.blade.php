@@ -10,6 +10,7 @@
                     <tr>
                         <th>{{ __('Link') }}</th>
                         @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() != 'archivo.show')
+                            <th>{{ __('Order') }}</th>
                             <th class="text-center">{{ __('Actions') }}</th>
                         @endif
                     </tr>
@@ -18,11 +19,14 @@
                     @foreach ($link_collection->links as $link)
                         <tr>
                             <td>
-                                <a href="{{ $link->url }}">
-                                    {{ $link->descripcion }}
+                                <a href="{{ $link->url }}" target="_blank">
+                                    {{ $link->descripcion ?: $link->url }}
                                 </a>
                             </td>
                             @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() != 'archivo.show')
+                                <td>
+                                    @include('partials.botones_reordenar', ['ruta' => 'links.reordenar'])
+                                </td>
                                 <td class="text-center">
                                     <div class='btn-group'>
                                         {!! Form::open(['route' => ['links.destroy', $link->id], 'method' => 'DELETE']) !!}

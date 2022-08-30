@@ -34,4 +34,16 @@ class LinkController extends Controller
 
         return back();
     }
+
+    public function reordenar(Link $a1, Link $a2)
+    {
+        $temp = $a1->orden;
+        $a1->orden = $a2->orden;
+        $a2->orden = $temp;
+
+        $a1->save();
+        $a2->save();
+
+        return back();
+    }
 }

@@ -276,6 +276,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('link_collections.desasociar');
             Route::post('/links', 'LinkController@store')->name('links.store');
             Route::delete('/links/{link}', 'LinkController@destroy')->name('links.destroy');
+            Route::post('/links/reordenar/{a1}/{a2}', 'LinkController@reordenar')
+                ->name('links.reordenar');
 
             // Ver archivo de otros alumnos
             Route::post('/archivo', 'ArchivoController@index')

@@ -53,7 +53,9 @@ class LinkCollectionController extends Controller
 
     public function show(LinkCollection $link_collection)
     {
-        return view('link_collections.show', compact(['link_collection']));
+        $ids = $link_collection->links()->pluck('id')->toArray();
+
+        return view('link_collections.show', compact(['link_collection', 'ids']));
     }
 
     public function edit(LinkCollection $link_collection)
