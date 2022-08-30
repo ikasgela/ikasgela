@@ -26,6 +26,9 @@
                 @case('App\Models\Cuestionario')
                     @include('cuestionarios.tarjeta', ['cuestionario' => $recurso])
                     @break
+                @case('App\Models\LinkCollection')
+                    @include('link_collections.tarjeta', ['link_collection' => $recurso])
+                    @break
             @endswitch
         </div>
     @endforeach
