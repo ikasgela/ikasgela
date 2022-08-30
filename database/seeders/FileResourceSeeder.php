@@ -27,6 +27,7 @@ class FileResourceSeeder extends Seeder
             'path' => '32912ec806cd1ce9ecbd59fef06b5171/01_introduccion_programacion.pdf',
             'title' => '01_introduccion_programacion.pdf',
             'size' => 1909079,
+            'extension' => 'pdf',
         ]);
 
         $file->orden = $file->id;
