@@ -166,6 +166,9 @@ class CursoController extends Controller
         $curso->file_uploads_files()->forceDelete();
         $curso->file_uploads()->forceDelete();
 
+        $curso->link_collections_links()->forceDelete();
+        $curso->link_collections()->forceDelete();
+
         Schema::disableForeignKeyConstraints();
         $curso->actividades()->forceDelete();
         Schema::enableForeignKeyConstraints();
