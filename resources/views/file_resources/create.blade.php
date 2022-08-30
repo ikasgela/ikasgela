@@ -10,7 +10,9 @@
             {!! Form::open(['route' => ['file_resources.store']]) !!}
 
             {{ Form::campoTexto('titulo', __('Title')) }}
+            {{ Form::campoCheck('titulo_visible', __('Show title')) }}
             {{ Form::campoTexto('descripcion', __('Description')) }}
+            {{ Form::campoCheck('descripcion_visible', __('Show description')) }}
 
             @include('partials.guardar_cancelar')
 

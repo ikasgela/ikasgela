@@ -44,7 +44,9 @@ class FileResourceController extends Controller
 
         FileResource::create([
             'titulo' => $request->input('titulo'),
+            'titulo_visible' => $request->has('titulo_visible'),
             'descripcion' => $request->input('descripcion'),
+            'descripcion_visible' => $request->has('descripcion_visible'),
             'curso_id' => $request->has('curso_id') ? request('curso_id') : Auth::user()->curso_actual()?->id,
         ]);
 
@@ -71,7 +73,9 @@ class FileResourceController extends Controller
 
         $file_resource->update([
             'titulo' => $request->input('titulo'),
+            'titulo_visible' => $request->has('titulo_visible'),
             'descripcion' => $request->input('descripcion'),
+            'descripcion_visible' => $request->has('descripcion_visible'),
         ]);
 
         return retornar();
