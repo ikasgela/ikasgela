@@ -6,12 +6,12 @@ use App\Charts\TareasEnviadas;
 use App\Models\Milestone;
 use App\Models\Registro;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use PDF;
 
 class ResultController extends Controller
 {
