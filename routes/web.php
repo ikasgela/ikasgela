@@ -194,6 +194,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('youtube_videos.asociar');
             Route::delete('/youtube_videos/{actividad}/desasociar/{youtube_video}', 'YoutubeVideoController@desasociar')
                 ->name('youtube_videos.desasociar');
+            Route::post('/youtube_videos/{actividad}/toggle_titulo_visible/{youtube_video}', 'YoutubeVideoController@toggle_titulo_visible')
+                ->name('youtube_videos.toggle.titulo_visible');
+            Route::post('/youtube_videos/{actividad}/toggle_descripcion_visible/{youtube_video}', 'YoutubeVideoController@toggle_descripcion_visible')
+                ->name('youtube_videos.toggle.descripcion_visible');
 
             // Clonador de IntellijProject
             Route::get('/intellij_projects/copia', 'IntellijProjectController@copia')
