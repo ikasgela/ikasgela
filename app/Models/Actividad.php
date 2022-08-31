@@ -78,7 +78,12 @@ class Actividad extends Model
         foreach ($src->file_uploads as $file_upload) {
             $copia = $file_upload->duplicate();
             $this->file_uploads()->detach($file_upload);
-            $this->file_uploads()->attach($copia, ['orden' => $file_upload->pivot->orden]);
+            $this->file_uploads()->attach($copia, [
+                'orden' => $file_upload->pivot->orden,
+                'titulo_visible' => $file_upload->pivot->titulo_visible,
+                'descripcion_visible' => $file_upload->pivot->descripcion_visible,
+                'columnas' => $file_upload->pivot->columnas,
+            ]);
         }
 
         $this->orden = $this->id;

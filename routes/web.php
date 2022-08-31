@@ -256,6 +256,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('file_uploads.asociar');
             Route::delete('/file_uploads/{actividad}/desasociar/{file_upload}', 'FileUploadController@desasociar')
                 ->name('file_uploads.desasociar');
+            Route::post('/file_uploads/{actividad}/toggle_titulo_visible/{file_upload}', 'FileUploadController@toggle_titulo_visible')
+                ->name('file_uploads.toggle.titulo_visible');
+            Route::post('/file_uploads/{actividad}/toggle_descripcion_visible/{file_upload}', 'FileUploadController@toggle_descripcion_visible')
+                ->name('file_uploads.toggle.descripcion_visible');
 
             // FileResource
             Route::resource('file_resources', 'FileResourceController');

@@ -27,8 +27,10 @@
                 <tr>
                     <th>#</th>
                     <th>{{ __('Title') }}</th>
+                    <th class="text-center">{{ __('Show title') }}</th>
                     <th>{{ __('Description') }}</th>
-                    <th>{{ __('Maximum') }}</th>
+                    <th class="text-center">{{ __('Show description') }}</th>
+                    <th class="text-center">{{ __('Maximum') }}</th>
                     <th>{{ __('Actions') }}</th>
                 </tr>
                 </thead>
@@ -37,8 +39,20 @@
                     <tr>
                         <td>{{ $file_upload->id }}</td>
                         <td>{{ $file_upload->titulo }}</td>
+                        <td class="text-center">
+                            @include('partials.toggler', [
+                                'resource' => 'file_upload',
+                                'field' => 'titulo_visible',
+                            ])
+                        </td>
                         <td>{{ $file_upload->descripcion }}</td>
-                        <td>{{ $file_upload->max_files }}</td>
+                        <td class="text-center">
+                            @include('partials.toggler', [
+                                'resource' => 'file_upload',
+                                'field' => 'descripcion_visible',
+                            ])
+                        </td>
+                        <td class="text-center">{{ $file_upload->max_files }}</td>
                         <td>
                             <form method="POST"
                                   action="{{ route('file_uploads.desasociar', ['actividad' => $actividad->id, 'file_upload' => $file_upload->id]) }}">
