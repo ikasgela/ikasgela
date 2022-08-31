@@ -505,7 +505,12 @@ class CursoController extends Controller
         foreach ($json as $objeto) {
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $intellij_project = !is_null($objeto['intellij_project_id']) ? IntellijProject::where('__import_id', $objeto['intellij_project_id'])->first() : null;
-            $actividad?->intellij_projects()->attach($intellij_project, ['orden' => Str::orderedUuid()]);
+            $actividad?->intellij_projects()->attach($intellij_project, [
+                'orden' => Str::orderedUuid(),
+                'titulo_visible' => $objeto['titulo_visible'],
+                'descripcion_visible' => $objeto['descripcion_visible'],
+                'columnas' => $objeto['columnas'],
+            ]);
         }
 
         // Curso -- "*" MarkdownText
@@ -521,7 +526,12 @@ class CursoController extends Controller
         foreach ($json as $objeto) {
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $markdown_text = !is_null($objeto['markdown_text_id']) ? MarkdownText::where('__import_id', $objeto['markdown_text_id'])->first() : null;
-            $actividad?->markdown_texts()->attach($markdown_text, ['orden' => Str::orderedUuid()]);
+            $actividad?->markdown_texts()->attach($markdown_text, [
+                'orden' => Str::orderedUuid(),
+                'titulo_visible' => $objeto['titulo_visible'],
+                'descripcion_visible' => $objeto['descripcion_visible'],
+                'columnas' => $objeto['columnas'],
+            ]);
         }
 
         // Curso -- "*" YoutubeVideo
@@ -537,7 +547,12 @@ class CursoController extends Controller
         foreach ($json as $objeto) {
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $youtube_video = !is_null($objeto['youtube_video_id']) ? YoutubeVideo::where('__import_id', $objeto['youtube_video_id'])->first() : null;
-            $actividad?->youtube_videos()->attach($youtube_video, ['orden' => Str::orderedUuid()]);
+            $actividad?->youtube_videos()->attach($youtube_video, [
+                'orden' => Str::orderedUuid(),
+                'titulo_visible' => $objeto['titulo_visible'],
+                'descripcion_visible' => $objeto['descripcion_visible'],
+                'columnas' => $objeto['columnas'],
+            ]);
         }
 
         // Curso -- "*" FileResource
@@ -553,7 +568,12 @@ class CursoController extends Controller
         foreach ($json as $objeto) {
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $file_resource = !is_null($objeto['file_resource_id']) ? FileResource::where('__import_id', $objeto['file_resource_id'])->first() : null;
-            $actividad?->file_resources()->attach($file_resource, ['orden' => Str::orderedUuid()]);
+            $actividad?->file_resources()->attach($file_resource, [
+                'orden' => Str::orderedUuid(),
+                'titulo_visible' => $objeto['titulo_visible'],
+                'descripcion_visible' => $objeto['descripcion_visible'],
+                'columnas' => $objeto['columnas'],
+            ]);
         }
 
         // FileResource -- "*" File
@@ -581,7 +601,12 @@ class CursoController extends Controller
         foreach ($json as $objeto) {
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $link_collection = !is_null($objeto['link_collection_id']) ? LinkCollection::where('__import_id', $objeto['link_collection_id'])->first() : null;
-            $actividad?->link_collections()->attach($link_collection, ['orden' => Str::orderedUuid()]);
+            $actividad?->link_collections()->attach($link_collection, [
+                'orden' => Str::orderedUuid(),
+                'titulo_visible' => $objeto['titulo_visible'],
+                'descripcion_visible' => $objeto['descripcion_visible'],
+                'columnas' => $objeto['columnas'],
+            ]);
         }
 
         // LinkCollection -- "*" Link
@@ -608,7 +633,12 @@ class CursoController extends Controller
         foreach ($json as $objeto) {
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $file_upload = !is_null($objeto['file_upload_id']) ? FileUpload::where('__import_id', $objeto['file_upload_id'])->first() : null;
-            $actividad?->file_uploads()->attach($file_upload, ['orden' => Str::orderedUuid()]);
+            $actividad?->file_uploads()->attach($file_upload, [
+                'orden' => Str::orderedUuid(),
+                'titulo_visible' => $objeto['titulo_visible'],
+                'descripcion_visible' => $objeto['descripcion_visible'],
+                'columnas' => $objeto['columnas'],
+            ]);
         }
 
         // Curso -- "*" Cuestionario
@@ -646,7 +676,12 @@ class CursoController extends Controller
         foreach ($json as $objeto) {
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $cuestionario = !is_null($objeto['cuestionario_id']) ? Cuestionario::where('__import_id', $objeto['cuestionario_id'])->first() : null;
-            $actividad?->cuestionarios()->attach($cuestionario, ['orden' => Str::orderedUuid()]);
+            $actividad?->cuestionarios()->attach($cuestionario, [
+                'orden' => Str::orderedUuid(),
+                'titulo_visible' => $objeto['titulo_visible'],
+                'descripcion_visible' => $objeto['descripcion_visible'],
+                'columnas' => $objeto['columnas'],
+            ]);
         }
 
         // Curso -- "*" Feedback
