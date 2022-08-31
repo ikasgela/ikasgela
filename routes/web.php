@@ -267,6 +267,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('file_resources.desasociar');
             Route::post('/files/reordenar/{a1}/{a2}', 'FileController@reordenar')
                 ->name('files.reordenar');
+            Route::post('/file_resources/{actividad}/toggle_titulo_visible/{file_resource}', 'FileResourceController@toggle_titulo_visible')
+                ->name('file_resources.toggle.titulo_visible');
+            Route::post('/file_resources/{actividad}/toggle_descripcion_visible/{file_resource}', 'FileResourceController@toggle_descripcion_visible')
+                ->name('file_resources.toggle.descripcion_visible');
 
             // LinkCollection
             Route::resource('link_collections', 'LinkCollectionController');

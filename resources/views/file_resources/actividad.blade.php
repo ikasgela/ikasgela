@@ -39,14 +39,16 @@
                         <td>{{ $file_resource->id }}</td>
                         <td>{{ $file_resource->titulo }}</td>
                         <td class="text-center">
-                            @include('partials.check_yes_no', [
-                                'checked' => $file_resource->pivote($actividad)->titulo_visible
+                            @include('partials.toggler', [
+                                'resource' => 'file_resource',
+                                'field' => 'titulo_visible',
                             ])
                         </td>
                         <td>{{ $file_resource->descripcion }}</td>
                         <td class="text-center">
-                            @include('partials.check_yes_no', [
-                                'checked' => $file_resource->pivote($actividad)->descripcion_visible
+                            @include('partials.toggler', [
+                                'resource' => 'file_resource',
+                                'field' => 'descripcion_visible',
                             ])
                         </td>
                         <td>
