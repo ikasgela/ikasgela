@@ -221,6 +221,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('intellij_projects.asociar');
             Route::delete('/intellij_projects/{actividad}/desasociar/{intellij_project}', 'IntellijProjectController@desasociar')
                 ->name('intellij_projects.desasociar');
+            Route::post('/intellij_projects/{actividad}/toggle_titulo_visible/{intellij_project}', 'IntellijProjectController@toggle_titulo_visible')
+                ->name('intellij_projects.toggle.titulo_visible');
+            Route::post('/intellij_projects/{actividad}/toggle_descripcion_visible/{intellij_project}', 'IntellijProjectController@toggle_descripcion_visible')
+                ->name('intellij_projects.toggle.descripcion_visible');
 
             // Bloquear y desbloquear repositorios
             Route::post('/intellij_projects/{intellij_project}/{actividad}/lock', 'IntellijProjectController@lock')

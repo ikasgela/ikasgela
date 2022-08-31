@@ -27,7 +27,9 @@
                 <tr>
                     <th>#</th>
                     <th>{{ __('Title') }}</th>
+                    <th class="text-center">{{ __('Show title') }}</th>
                     <th>{{ __('Description') }}</th>
+                    <th class="text-center">{{ __('Show description') }}</th>
                     <th>{{ __('Gitea') }}</th>
                     <th>{{ __('Actions') }}</th>
                 </tr>
@@ -37,7 +39,19 @@
                     <tr>
                         <td>{{ $intellij_project->id }}</td>
                         <td>{{ $intellij_project->titulo }}</td>
+                        <td class="text-center">
+                            @include('partials.toggler', [
+                                'resource' => 'intellij_project',
+                                'field' => 'titulo_visible',
+                            ])
+                        </td>
                         <td>{{ $intellij_project->descripcion }}</td>
+                        <td class="text-center">
+                            @include('partials.toggler', [
+                                'resource' => 'intellij_project',
+                                'field' => 'descripcion_visible',
+                            ])
+                        </td>
                         <td>@include('partials.link_gitea', ['proyecto' => $intellij_project->repository() ])</td>
                         <td>
                             <form method="POST"
