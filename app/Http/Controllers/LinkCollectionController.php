@@ -114,4 +114,24 @@ class LinkCollectionController extends Controller
         $actividad->link_collections()->detach($link_collection);
         return redirect(route('link_collections.actividad', ['actividad' => $actividad->id]));
     }
+
+    public function toggle_titulo_visible(Actividad $actividad, LinkCollection $link_collection)
+    {
+        $pivote = $link_collection->pivote($actividad);
+
+        $pivote->titulo_visible = !$pivote->titulo_visible;
+        $pivote->save();
+
+        return back();
+    }
+
+    public function toggle_descripcion_visible(Actividad $actividad, LinkCollection $link_collection)
+    {
+        $pivote = $link_collection->pivote($actividad);
+
+        $pivote->descripcion_visible = !$pivote->descripcion_visible;
+        $pivote->save();
+
+        return back();
+    }
 }

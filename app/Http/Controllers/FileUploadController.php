@@ -118,4 +118,24 @@ class FileUploadController extends Controller
         $actividad->file_uploads()->detach($file_upload);
         return redirect(route('file_uploads.actividad', ['actividad' => $actividad->id]));
     }
+
+    public function toggle_titulo_visible(Actividad $actividad, FileUpload $file_upload)
+    {
+        $pivote = $file_upload->pivote($actividad);
+
+        $pivote->titulo_visible = !$pivote->titulo_visible;
+        $pivote->save();
+
+        return back();
+    }
+
+    public function toggle_descripcion_visible(Actividad $actividad, FileUpload $file_upload)
+    {
+        $pivote = $file_upload->pivote($actividad);
+
+        $pivote->descripcion_visible = !$pivote->descripcion_visible;
+        $pivote->save();
+
+        return back();
+    }
 }
