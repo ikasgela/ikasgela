@@ -30,4 +30,9 @@ class LinkCollection extends Model
     {
         return $this->belongsTo(Curso::class);
     }
+
+    public function pivote(Actividad $actividad)
+    {
+        return $actividad->link_collections()->find($this->id)->pivot;
+    }
 }

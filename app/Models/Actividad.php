@@ -109,6 +109,7 @@ class Actividad extends Model
             ->belongsToMany(YoutubeVideo::class)
             ->withPivot([
                 'orden',
+                'titulo_visible', 'descripcion_visible', 'columnas',
             ])
             ->withTimestamps();
     }
@@ -123,6 +124,7 @@ class Actividad extends Model
                 'archivado',
                 'fork_status',
                 'orden',
+                'titulo_visible', 'descripcion_visible', 'columnas',
             ]);
     }
 
@@ -152,6 +154,7 @@ class Actividad extends Model
             ->belongsToMany(MarkdownText::class)
             ->withPivot([
                 'orden',
+                'titulo_visible', 'descripcion_visible', 'columnas',
             ])
             ->withTimestamps();
     }
@@ -162,6 +165,7 @@ class Actividad extends Model
             ->belongsToMany(Cuestionario::class)
             ->withPivot([
                 'orden',
+                'titulo_visible', 'descripcion_visible', 'columnas',
             ])
             ->withTimestamps();
     }
@@ -184,6 +188,7 @@ class Actividad extends Model
             ->belongsToMany(FileUpload::class)
             ->withPivot([
                 'orden',
+                'titulo_visible', 'descripcion_visible', 'columnas',
             ])
             ->withTimestamps();
     }
@@ -194,6 +199,7 @@ class Actividad extends Model
             ->belongsToMany(FileResource::class)
             ->withPivot([
                 'orden',
+                'titulo_visible', 'descripcion_visible', 'columnas',
             ])
             ->withTimestamps();
     }
@@ -204,6 +210,7 @@ class Actividad extends Model
             ->belongsToMany(LinkCollection::class)
             ->withPivot([
                 'orden',
+                'titulo_visible', 'descripcion_visible', 'columnas',
             ])
             ->withTimestamps();
     }

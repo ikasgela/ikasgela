@@ -34,4 +34,9 @@ class FileResource extends Model
     {
         return $this->belongsTo(Curso::class);
     }
+
+    public function pivote(Actividad $actividad)
+    {
+        return $actividad->file_resources()->find($this->id)->pivot;
+    }
 }

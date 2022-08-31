@@ -41,4 +41,9 @@ class YoutubeVideo extends Model
     {
         return $this->belongsTo(Curso::class);
     }
+
+    public function pivote(Actividad $actividad)
+    {
+        return $actividad->youtube_videos()->find($this->id)->pivot;
+    }
 }
