@@ -10,7 +10,7 @@
                         <th></th>
                         <th>{{ __('File') }}</th>
                         <th>{{ __('Size') }}</th>
-                        @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() != 'archivo.show' && Route::currentRouteName() != 'actividades.preview')
+                        @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() == 'file_resources.show')
                             <th>{{ __('Uploaded') }}</th>
                             <th>{{ __('Order') }}</th>
                             <th class="text-center">{{ __('Actions') }}</th>
@@ -27,7 +27,7 @@
                                 </a>
                             </td>
                             <td>{{ $file->size_in_kb }} KB</td>
-                            @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() != 'archivo.show' && Route::currentRouteName() != 'actividades.preview')
+                            @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() == 'file_resources.show')
                                 <td>{{ $file->uploaded_time }}</td>
                                 <td>
                                     @include('partials.botones_reordenar', ['ruta' => 'files.reordenar'])
@@ -47,7 +47,7 @@
             </div>
         @endif
     </div>
-    @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() != 'archivo.show' && Route::currentRouteName() != 'actividades.preview')
+    @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() == 'file_resources.show')
         <hr class="my-0">
         <div class="card-body">
             <form action="{{ route('files.upload.document') }}" enctype="multipart/form-data" method="post">

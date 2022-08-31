@@ -8,7 +8,7 @@
                     <thead class="thead-dark">
                     <tr>
                         <th>{{ __('Link') }}</th>
-                        @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() != 'archivo.show' && Route::currentRouteName() != 'actividades.preview')
+                        @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() == 'link_collections.show')
                             <th>{{ __('Order') }}</th>
                             <th class="text-center">{{ __('Actions') }}</th>
                         @endif
@@ -22,7 +22,7 @@
                                     {{ $link->descripcion ?: $link->url }}
                                 </a>
                             </td>
-                            @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() != 'archivo.show' && Route::currentRouteName() != 'actividades.preview')
+                            @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() == 'link_collections.show')
                                 <td>
                                     @include('partials.botones_reordenar', ['ruta' => 'links.reordenar'])
                                 </td>
@@ -41,7 +41,7 @@
             </div>
         @endif
     </div>
-    @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() != 'archivo.show' && Route::currentRouteName() != 'actividades.preview')
+    @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() == 'link_collections.show')
         <hr class="my-0">
         <div class="card-body">
             {!! Form::open(['route' => ['links.store']]) !!}
