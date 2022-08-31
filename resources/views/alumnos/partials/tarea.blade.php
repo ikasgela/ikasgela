@@ -43,6 +43,7 @@
                     @endif
                     @break
                 @case(60)
+                @case(64)
                     {{-- Archivada --}}
                     @include('partials.tarjetas_actividad')
                     @break
