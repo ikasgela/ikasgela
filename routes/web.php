@@ -288,6 +288,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::delete('/links/{link}', 'LinkController@destroy')->name('links.destroy');
             Route::post('/links/reordenar/{a1}/{a2}', 'LinkController@reordenar')
                 ->name('links.reordenar');
+            Route::post('/link_collections/{actividad}/toggle_titulo_visible/{link_collection}', 'LinkCollectionController@toggle_titulo_visible')
+                ->name('link_collections.toggle.titulo_visible');
+            Route::post('/link_collections/{actividad}/toggle_descripcion_visible/{link_collection}', 'LinkCollectionController@toggle_descripcion_visible')
+                ->name('link_collections.toggle.descripcion_visible');
 
             // Ver archivo de otros alumnos
             Route::post('/archivo', 'ArchivoController@index')
