@@ -1,12 +1,7 @@
 <div class="card">
     <div class="card-header"><i class="fas fa-file mr-2"></i>{{ __('Files') }}</div>
     <div class="card-body">
-        @if($file_resource->titulo_visible)
-            <h5 class="card-title">{{ $file_resource->titulo }}</h5>
-        @endif
-        @if($file_resource->descripcion_visible)
-            <p class="card-text">{{ $file_resource->descripcion }}</p>
-        @endif
+        @include('partials.cabecera_recurso', ['recurso' => $file_resource, 'ruta' => 'file_resources'])
         @if(count($file_resource->files) > 0)
             <div class="table-responsive">
                 <table class="table table-bordered small">

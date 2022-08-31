@@ -6,8 +6,7 @@
 <div class="card">
     <div class="card-header"><i class="fas fa-file-upload mr-2"></i>{{ __('Image upload') }}</div>
     <div class="card-body">
-        <h5 class="card-title">{{ $file_upload->titulo }}</h5>
-        <p class="card-text">{{ $file_upload->descripcion }}</p>
+        @include('partials.cabecera_recurso', ['recurso' => $file_upload, 'ruta' => 'file_uploads'])
         @if(count($file_upload->files) > 0)
             <div class="table-responsive">
                 <table class="table table-bordered small">

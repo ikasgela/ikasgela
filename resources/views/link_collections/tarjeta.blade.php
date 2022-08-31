@@ -1,8 +1,7 @@
 <div class="card">
     <div class="card-header"><i class="fas fa-link mr-2"></i>{{ __('Links') }}</div>
     <div class="card-body">
-        <h5 class="card-title">{{ $link_collection->titulo }}</h5>
-        <p class="card-text">{{ $link_collection->descripcion }}</p>
+        @include('partials.cabecera_recurso', ['recurso' => $link_collection, 'ruta' => 'link_collections'])
         @if(count($link_collection->links) > 0)
             <div class="table-responsive">
                 <table class="table table-bordered small">
