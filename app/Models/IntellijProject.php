@@ -207,4 +207,9 @@ class IntellijProject extends Model
 
         return null;
     }
+
+    public function pivote(Actividad $actividad)
+    {
+        return $actividad->intellij_projects()->find($this->id)->pivot;
+    }
 }

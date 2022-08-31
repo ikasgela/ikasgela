@@ -6,7 +6,7 @@
         </div>
     @endif
     @foreach($actividad->recursos as $recurso)
-        <div class="col-md-6">
+        <div class="col-md-{{ $recurso->pivote($actividad)->columnas ?: 6 }}">
             @switch($recurso::class)
                 @case('App\Models\IntellijProject')
                     @include('intellij_projects.tarjeta', ['intellij_project' => $recurso, 'repositorio' => $recurso->repository()])

@@ -78,7 +78,12 @@ class Actividad extends Model
         foreach ($src->file_uploads as $file_upload) {
             $copia = $file_upload->duplicate();
             $this->file_uploads()->detach($file_upload);
-            $this->file_uploads()->attach($copia, ['orden' => $file_upload->pivot->orden]);
+            $this->file_uploads()->attach($copia, [
+                'orden' => $file_upload->pivot->orden,
+                'titulo_visible' => $file_upload->pivot->titulo_visible,
+                'descripcion_visible' => $file_upload->pivot->descripcion_visible,
+                'columnas' => $file_upload->pivot->columnas,
+            ]);
         }
 
         $this->orden = $this->id;
@@ -109,6 +114,7 @@ class Actividad extends Model
             ->belongsToMany(YoutubeVideo::class)
             ->withPivot([
                 'orden',
+                'titulo_visible', 'descripcion_visible', 'columnas',
             ])
             ->withTimestamps();
     }
@@ -123,6 +129,7 @@ class Actividad extends Model
                 'archivado',
                 'fork_status',
                 'orden',
+                'titulo_visible', 'descripcion_visible', 'columnas',
             ]);
     }
 
@@ -152,6 +159,7 @@ class Actividad extends Model
             ->belongsToMany(MarkdownText::class)
             ->withPivot([
                 'orden',
+                'titulo_visible', 'descripcion_visible', 'columnas',
             ])
             ->withTimestamps();
     }
@@ -162,6 +170,7 @@ class Actividad extends Model
             ->belongsToMany(Cuestionario::class)
             ->withPivot([
                 'orden',
+                'titulo_visible', 'descripcion_visible', 'columnas',
             ])
             ->withTimestamps();
     }
@@ -184,6 +193,7 @@ class Actividad extends Model
             ->belongsToMany(FileUpload::class)
             ->withPivot([
                 'orden',
+                'titulo_visible', 'descripcion_visible', 'columnas',
             ])
             ->withTimestamps();
     }
@@ -194,6 +204,7 @@ class Actividad extends Model
             ->belongsToMany(FileResource::class)
             ->withPivot([
                 'orden',
+                'titulo_visible', 'descripcion_visible', 'columnas',
             ])
             ->withTimestamps();
     }
@@ -204,6 +215,7 @@ class Actividad extends Model
             ->belongsToMany(LinkCollection::class)
             ->withPivot([
                 'orden',
+                'titulo_visible', 'descripcion_visible', 'columnas',
             ])
             ->withTimestamps();
     }

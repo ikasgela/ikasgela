@@ -32,8 +32,7 @@
         @endswitch
     </div>
     <div class="card-body">
-        <h5 class="card-title">{{ $intellij_project->titulo }}</h5>
-        <p class="card-text">{{ $intellij_project->descripcion }}</p>
+        @include('partials.cabecera_recurso', ['recurso' => $intellij_project, 'ruta' => 'intellij_projects'])
         @if($actividad->plantilla && Auth::user()->hasRole('alumno'))
             <a href="{{ route('intellij_projects.download', ['intellij_project'=>$intellij_project->id]) }}"
                class="btn btn-primary">{{ __('Download the project') }}</a>

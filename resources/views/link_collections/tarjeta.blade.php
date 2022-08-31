@@ -1,15 +1,14 @@
 <div class="card">
     <div class="card-header"><i class="fas fa-link mr-2"></i>{{ __('Links') }}</div>
     <div class="card-body">
-        <h5 class="card-title">{{ $link_collection->titulo }}</h5>
-        <p class="card-text">{{ $link_collection->descripcion }}</p>
+        @include('partials.cabecera_recurso', ['recurso' => $link_collection, 'ruta' => 'link_collections'])
         @if(count($link_collection->links) > 0)
             <div class="table-responsive">
                 <table class="table table-bordered small">
                     <thead class="thead-dark">
                     <tr>
                         <th>{{ __('Link') }}</th>
-                        @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() != 'archivo.show' && Route::currentRouteName() != 'actividades.preview')
+                        @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() == 'link_collections.show')
                             <th>{{ __('Order') }}</th>
                             <th class="text-center">{{ __('Actions') }}</th>
                         @endif
@@ -23,7 +22,7 @@
                                     {{ $link->descripcion ?: $link->url }}
                                 </a>
                             </td>
-                            @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() != 'archivo.show' && Route::currentRouteName() != 'actividades.preview')
+                            @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() == 'link_collections.show')
                                 <td>
                                     @include('partials.botones_reordenar', ['ruta' => 'links.reordenar'])
                                 </td>
@@ -42,7 +41,7 @@
             </div>
         @endif
     </div>
-    @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() != 'archivo.show' && Route::currentRouteName() != 'actividades.preview')
+    @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() == 'link_collections.show')
         <hr class="my-0">
         <div class="card-body">
             {!! Form::open(['route' => ['links.store']]) !!}

@@ -194,6 +194,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('youtube_videos.asociar');
             Route::delete('/youtube_videos/{actividad}/desasociar/{youtube_video}', 'YoutubeVideoController@desasociar')
                 ->name('youtube_videos.desasociar');
+            Route::post('/youtube_videos/{actividad}/toggle_titulo_visible/{youtube_video}', 'YoutubeVideoController@toggle_titulo_visible')
+                ->name('youtube_videos.toggle.titulo_visible');
+            Route::post('/youtube_videos/{actividad}/toggle_descripcion_visible/{youtube_video}', 'YoutubeVideoController@toggle_descripcion_visible')
+                ->name('youtube_videos.toggle.descripcion_visible');
 
             // Clonador de IntellijProject
             Route::get('/intellij_projects/copia', 'IntellijProjectController@copia')
@@ -217,6 +221,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('intellij_projects.asociar');
             Route::delete('/intellij_projects/{actividad}/desasociar/{intellij_project}', 'IntellijProjectController@desasociar')
                 ->name('intellij_projects.desasociar');
+            Route::post('/intellij_projects/{actividad}/toggle_titulo_visible/{intellij_project}', 'IntellijProjectController@toggle_titulo_visible')
+                ->name('intellij_projects.toggle.titulo_visible');
+            Route::post('/intellij_projects/{actividad}/toggle_descripcion_visible/{intellij_project}', 'IntellijProjectController@toggle_descripcion_visible')
+                ->name('intellij_projects.toggle.descripcion_visible');
 
             // Bloquear y desbloquear repositorios
             Route::post('/intellij_projects/{intellij_project}/{actividad}/lock', 'IntellijProjectController@lock')
@@ -256,6 +264,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('file_uploads.asociar');
             Route::delete('/file_uploads/{actividad}/desasociar/{file_upload}', 'FileUploadController@desasociar')
                 ->name('file_uploads.desasociar');
+            Route::post('/file_uploads/{actividad}/toggle_titulo_visible/{file_upload}', 'FileUploadController@toggle_titulo_visible')
+                ->name('file_uploads.toggle.titulo_visible');
+            Route::post('/file_uploads/{actividad}/toggle_descripcion_visible/{file_upload}', 'FileUploadController@toggle_descripcion_visible')
+                ->name('file_uploads.toggle.descripcion_visible');
 
             // FileResource
             Route::resource('file_resources', 'FileResourceController');
@@ -267,6 +279,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('file_resources.desasociar');
             Route::post('/files/reordenar/{a1}/{a2}', 'FileController@reordenar')
                 ->name('files.reordenar');
+            Route::post('/file_resources/{actividad}/toggle_titulo_visible/{file_resource}', 'FileResourceController@toggle_titulo_visible')
+                ->name('file_resources.toggle.titulo_visible');
+            Route::post('/file_resources/{actividad}/toggle_descripcion_visible/{file_resource}', 'FileResourceController@toggle_descripcion_visible')
+                ->name('file_resources.toggle.descripcion_visible');
 
             // LinkCollection
             Route::resource('link_collections', 'LinkCollectionController');
@@ -280,6 +296,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::delete('/links/{link}', 'LinkController@destroy')->name('links.destroy');
             Route::post('/links/reordenar/{a1}/{a2}', 'LinkController@reordenar')
                 ->name('links.reordenar');
+            Route::post('/link_collections/{actividad}/toggle_titulo_visible/{link_collection}', 'LinkCollectionController@toggle_titulo_visible')
+                ->name('link_collections.toggle.titulo_visible');
+            Route::post('/link_collections/{actividad}/toggle_descripcion_visible/{link_collection}', 'LinkCollectionController@toggle_descripcion_visible')
+                ->name('link_collections.toggle.descripcion_visible');
 
             // Ver archivo de otros alumnos
             Route::post('/archivo', 'ArchivoController@index')

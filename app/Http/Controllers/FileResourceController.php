@@ -114,4 +114,24 @@ class FileResourceController extends Controller
         $actividad->file_resources()->detach($file_resource);
         return redirect(route('file_resources.actividad', ['actividad' => $actividad->id]));
     }
+
+    public function toggle_titulo_visible(Actividad $actividad, FileResource $file_resource)
+    {
+        $pivote = $file_resource->pivote($actividad);
+
+        $pivote->titulo_visible = !$pivote->titulo_visible;
+        $pivote->save();
+
+        return back();
+    }
+
+    public function toggle_descripcion_visible(Actividad $actividad, FileResource $file_resource)
+    {
+        $pivote = $file_resource->pivote($actividad);
+
+        $pivote->descripcion_visible = !$pivote->descripcion_visible;
+        $pivote->save();
+
+        return back();
+    }
 }

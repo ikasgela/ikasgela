@@ -47,4 +47,9 @@ class FileUpload extends Model
     {
         return $this->belongsTo(Curso::class);
     }
+
+    public function pivote(Actividad $actividad)
+    {
+        return $actividad->file_uploads()->find($this->id)->pivot;
+    }
 }

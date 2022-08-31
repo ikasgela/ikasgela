@@ -69,4 +69,9 @@ class MarkdownText extends Model
     {
         return $this->belongsTo(Curso::class);
     }
+
+    public function pivote(Actividad $actividad)
+    {
+        return $actividad->markdown_texts()->find($this->id)->pivot;
+    }
 }

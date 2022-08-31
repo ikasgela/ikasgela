@@ -27,7 +27,9 @@
                 <tr>
                     <th>#</th>
                     <th>{{ __('Title') }}</th>
+                    <th class="text-center">{{ __('Show title') }}</th>
                     <th>{{ __('Description') }}</th>
+                    <th class="text-center">{{ __('Show description') }}</th>
                     <th>{{ __('Actions') }}</th>
                 </tr>
                 </thead>
@@ -36,7 +38,19 @@
                     <tr>
                         <td>{{ $link_collection->id }}</td>
                         <td>{{ $link_collection->titulo }}</td>
+                        <td class="text-center">
+                            @include('partials.toggler', [
+                                'resource' => 'link_collection',
+                                'field' => 'titulo_visible',
+                            ])
+                        </td>
                         <td>{{ $link_collection->descripcion }}</td>
+                        <td class="text-center">
+                            @include('partials.toggler', [
+                                'resource' => 'link_collection',
+                                'field' => 'descripcion_visible',
+                            ])
+                        </td>
                         <td>
                             <form method="POST"
                                   action="{{ route('link_collections.desasociar', ['actividad' => $actividad->id, 'link_collection' => $link_collection->id]) }}">

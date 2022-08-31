@@ -359,4 +359,24 @@ class IntellijProjectController extends Controller
 
         return view('intellij_projects.descargar', compact(['unidades']));
     }
+
+    public function toggle_titulo_visible(Actividad $actividad, IntellijProject $intellij_project)
+    {
+        $pivote = $intellij_project->pivote($actividad);
+
+        $pivote->titulo_visible = !$pivote->titulo_visible;
+        $pivote->save();
+
+        return back();
+    }
+
+    public function toggle_descripcion_visible(Actividad $actividad, IntellijProject $intellij_project)
+    {
+        $pivote = $intellij_project->pivote($actividad);
+
+        $pivote->descripcion_visible = !$pivote->descripcion_visible;
+        $pivote->save();
+
+        return back();
+    }
 }

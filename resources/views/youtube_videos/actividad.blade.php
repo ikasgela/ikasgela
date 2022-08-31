@@ -27,7 +27,9 @@
                 <tr>
                     <th>#</th>
                     <th>{{ __('Title') }}</th>
+                    <th class="text-center">{{ __('Show title') }}</th>
                     <th>{{ __('Description') }}</th>
+                    <th class="text-center">{{ __('Show description') }}</th>
                     <th>{{ __('Code') }}</th>
                     <th>{{ __('Actions') }}</th>
                 </tr>
@@ -37,7 +39,19 @@
                     <tr>
                         <td>{{ $youtube_video->id }}</td>
                         <td>{{ $youtube_video->titulo }}</td>
+                        <td class="text-center">
+                            @include('partials.toggler', [
+                                'resource' => 'youtube_video',
+                                'field' => 'titulo_visible',
+                            ])
+                        </td>
                         <td>{{ $youtube_video->descripcion }}</td>
+                        <td class="text-center">
+                            @include('partials.toggler', [
+                                'resource' => 'youtube_video',
+                                'field' => 'descripcion_visible',
+                            ])
+                        </td>
                         <td>
                             <a target="_blank"
                                href="https://youtu.be/{{ $youtube_video->codigo }}">{{ $youtube_video->codigo }}</a>

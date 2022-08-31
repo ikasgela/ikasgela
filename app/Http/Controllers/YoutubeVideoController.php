@@ -111,4 +111,24 @@ class YoutubeVideoController extends Controller
         $actividad->youtube_videos()->detach($youtube_video);
         return redirect(route('youtube_videos.actividad', ['actividad' => $actividad->id]));
     }
+
+    public function toggle_titulo_visible(Actividad $actividad, YoutubeVideo $youtube_video)
+    {
+        $pivote = $youtube_video->pivote($actividad);
+
+        $pivote->titulo_visible = !$pivote->titulo_visible;
+        $pivote->save();
+
+        return back();
+    }
+
+    public function toggle_descripcion_visible(Actividad $actividad, YoutubeVideo $youtube_video)
+    {
+        $pivote = $youtube_video->pivote($actividad);
+
+        $pivote->descripcion_visible = !$pivote->descripcion_visible;
+        $pivote->save();
+
+        return back();
+    }
 }
