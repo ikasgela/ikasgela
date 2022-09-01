@@ -20,7 +20,7 @@
            class="btn btn-sm {{ $actividad->file_resources()->count() > 0 ? 'btn-primary' : 'btn-light' }}">
             <i class="fas fa-file"></i>
         </a>
-        <a title="{{ __('Question') }}"
+        <a title="{{ __('Questionnaire') }}"
            href="{{ route('cuestionarios.actividad', [$actividad->id]) }}"
            class="btn btn-sm {{ $actividad->cuestionarios()->count() > 0 ? 'btn-primary' : 'btn-light' }}">
             <i class="fas fa-question-circle"></i>
