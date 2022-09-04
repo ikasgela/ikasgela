@@ -73,7 +73,7 @@
                 <td class="clickable text-center">{{ $user->num_actividades_archivadas() }}</td>
                 <td class="clickable text-center {{ $user->num_actividades_caducadas() > 0 ? 'bg-warning text-black' : '' }}">{{ $user->num_actividades_caducadas() }}</td>
                 <td class="clickable text-center">{{ $user->max_simultaneas }}</td>
-                <td class="clickable">{{ $user->last_active_time }}</td>
+                <td class="clickable text-lowercase">{{ $user->last_active_time }}</td>
                 <td class="clickable">{{ $user->siguiente_actividad()->slug ?? '' }}</td>
                 @include('profesor.partials.siguiente_actividad', ['actividad' => $user->siguiente_actividad()])
                 @if(Auth::user()->hasRole('admin'))
