@@ -92,6 +92,12 @@ $(document).ready(function ($) {
             if (dias > 0) {
                 if (locale === 'es') {
                     $(this).html(event.strftime('%-D día%!D:s;, %H:%M:%S'));
+                } else if (locale === 'eu') {
+                    if (dias > 1) {
+                        $(this).html(event.strftime('%-D egun, %H:%M:%S'));
+                    } else {
+                        $(this).html(event.strftime('egun bat, %H:%M:%S'));
+                    }
                 } else {
                     $(this).html(event.strftime('%-D day%!D:s;, %H:%M:%S'));
                 }
