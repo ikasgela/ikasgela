@@ -15,6 +15,9 @@
             <div class="form-group row">
                 {!! Form::label('avatar', __('Avatar'), ['class' => 'col-sm-2 col-form-label']) !!}
                 <div class="col-sm-10 col-form-label">
+                    <div class="mb-3">
+                        @include('users.partials.avatar', ['user' => $user, 'width' => 100])
+                    </div>
                     {!! __('You can manage your profile picture on <a href="https://en.gravatar.com/" target="_blank">Gravatar</a>.') !!}
                 </div>
             </div>
