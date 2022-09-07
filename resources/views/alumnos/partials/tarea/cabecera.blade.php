@@ -14,6 +14,6 @@
         @endif
     @endif
     @if(isset($num_actividad))
-        <span>{{ $num_actividad }} {{ __('of') }} {{count($actividades)}}</span>
+        <span>{{ __(':num of :total', ['num' => $num_actividad, 'total' => count($actividades)]) }}</span>
     @endif
 </div>
