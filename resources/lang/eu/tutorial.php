@@ -13,7 +13,7 @@ return [
     'disponibles' => 'Eskuragarri dituzun aktibitateak hemen agertuko dira.',
     'grafico' => 'El gráfico muestra el total de actividades enviadas desde la fecha de inicio del curso.',
     'vista_previa' => 'Vista previa de la actividad.',
-    'matricula' => 'Aquí puedes matricularte en otros cursos disponibles y cambiar de un curso a otro.',
+    'matricula' => 'Hemen eskuragarri dauden beste ikastaro batzuetan izena eman dezakezu eta ikastaro batetik bestera aldatu.',
     'archivo' => 'Aquí aparecerán las tareas una vez que las completes.',
     'todas_actividades' => 'Todas las actividades del curso.',
     'mensajes' => 'Aquí puedes iniciar conversaciones para ayudarte a resolver tus dudas sobre las actividades.',

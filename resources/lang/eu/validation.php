@@ -30,7 +30,7 @@ return [
         'array'   => 'El campo :attribute debe contener entre :min y :max elementos.',
     ],
     'boolean'              => 'El campo :attribute debe ser verdadero o falso.',
-    'confirmed'            => 'El campo confirmación de :attribute no coincide.',
+    'confirmed'            => ':attribute-ren berrespen-eremua ez dator bat.',
     'date'                 => 'El campo :attribute no corresponde con una fecha válida.',
     'date_equals'          => 'El campo :attribute debe ser una fecha igual a :date.',
     'date_format'          => 'El campo :attribute no corresponde con el formato de fecha :format.',
@@ -47,13 +47,13 @@ return [
     'gt'                   => [
         'numeric' => 'El campo :attribute debe ser mayor a :value.',
         'file'    => 'El archivo :attribute debe pesar más de :value kilobytes.',
-        'string'  => 'El campo :attribute debe contener más de :value caracteres.',
+        'string'  => ':attribute eremuak :value karaktere baino gehiago izan behar ditu.',
         'array'   => 'El campo :attribute debe contener más de :value elementos.',
     ],
     'gte'                  => [
         'numeric' => 'El campo :attribute debe ser mayor o igual a :value.',
         'file'    => 'El archivo :attribute debe pesar :value o más kilobytes.',
-        'string'  => 'El campo :attribute debe contener :value o más caracteres.',
+        'string'  => ':attribute eremuak :value karaktere edo gehiago izan behar ditu.',
         'array'   => 'El campo :attribute debe contener :value o más elementos.',
     ],
     'image'                => 'El campo :attribute debe ser una imagen.',
@@ -87,7 +87,7 @@ return [
     'min'                  => [
         'numeric' => 'El campo :attribute debe ser al menos :min.',
         'file'    => 'El archivo :attribute debe pesar al menos :min kilobytes.',
-        'string'  => 'El campo :attribute debe contener al menos :min caracteres.',
+        'string'  => ':attribute eremuak gutxienez :min karaktere izan behar ditu.',
         'array'   => 'El campo :attribute debe contener al menos :min elementos.',
     ],
     'not_in'               => 'El campo :attribute seleccionado es inválido.',
