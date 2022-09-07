@@ -10,6 +10,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Lab404\Impersonate\Models\Impersonate;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Watson\Rememberable\Rememberable;
@@ -661,7 +662,7 @@ class User extends Authenticatable implements MustVerifyEmail
             }
 
             // Unidades
-            $unidades = $curso->unidades()->whereVisible(true)->orderBy('orden')->get();
+            $unidades = $curso?->unidades()->whereVisible(true)->orderBy('orden')->get() ?? new Collection();
 
             // Actividades obligatorias
 

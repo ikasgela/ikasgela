@@ -66,13 +66,13 @@ class ResultController extends Controller
         }
 
         // Unidades del curso actual
-        $unidades = $curso->unidades()->whereVisible(true)->orderBy('orden')->get();
+        $unidades = $curso?->unidades()->whereVisible(true)->orderBy('orden')->get() ?? new Collection();
 
         // Evaluaciones del curso actual
         if (Auth::user()->hasAnyRole(['admin', 'profesor', 'tutor'])) {
-            $milestones = $curso?->milestones()->orderBy('date')->get() ?? [];
+            $milestones = $curso?->milestones()->orderBy('date')->get() ?? new Collection();
         } else {
-            $milestones = $curso?->milestones()->published()->orderBy('date')->get() ?? [];
+            $milestones = $curso?->milestones()->published()->orderBy('date')->get() ?? new Collection();
         }
 
         // Hay otra evaluación seleccionada para mostrar
