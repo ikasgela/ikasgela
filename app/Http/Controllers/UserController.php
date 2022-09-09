@@ -346,4 +346,27 @@ class UserController extends Controller
 
         return back();
     }
+
+    public function password(User $user)
+    {
+        return view('users.password', compact(['user']));
+    }
+
+    public function updatePassword(Request $request, User $user)
+    {
+        $this->validate($request, [
+            'password' => 'required|confirmed',
+            'password_confirmation' => 'required'
+        ]);
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        // Cambiar la contraseña en Gitea
+        if (config('ikasgela.gitea_enabled')) {
+            GiteaClient::password($user->username, $request->password);
+        }
+
+        return back()->with('success', __('Password updated'));
+    }
 }

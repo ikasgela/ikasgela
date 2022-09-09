@@ -14,6 +14,10 @@
        href="{{ route('users.edit', [$user->id]) }}"
        class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
 
+    <a title="{{ __('Change password') }}"
+       href="{{ route('users.password', [$user->id]) }}"
+       class='btn btn-light btn-sm'><i class="fas fa-key"></i></a>
+
     {!! Form::open(['route' => ['users.toggle_blocked'], 'method' => 'POST']) !!}
     {!! Form::button( !$user->isBlocked() ? '<i class="fas fa-unlock"></i>':'<i class="fas fa-lock"></i>', ['type' => 'submit',
         'class' => 'btn btn-light btn-sm', 'title' => !$user->isBlocked() ? __('Block') : __('Unblock')
