@@ -340,6 +340,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('users.edit');
             Route::put('/users/{user}', 'UserController@update')
                 ->name('users.update');
+            Route::get('/users/{user}/password', 'UserController@password')
+                ->name('users.password');
+            Route::put('/users/{user}/password', 'UserController@updatePassword')
+                ->name('users.update.password');
 
             // Borrar un usuario
             Route::delete('/users/{user}', 'UserController@destroy')
