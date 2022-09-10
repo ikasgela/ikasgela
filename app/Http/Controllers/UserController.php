@@ -321,10 +321,24 @@ class UserController extends Controller
         }
     }
 
+    public function etiquetar_grupo(Request $request)
+    {
+        $this->validate($request, [
+            'usuarios_seleccionados' => 'required',
+            'tags' => 'required',
+        ]);
+
+        foreach (request('usuarios_seleccionados') as $user_id) {
+            $user = User::findOrFail($user_id);
+            $user->addEtiqueta(request('tags'));
+            $user->save();
+        }
+    }
+
     public function acciones_grupo(Request $request)
     {
         $this->validate($request, [
-            'action' => 'required|in:enroll,block,unblock,delete',
+            'action' => 'required|in:enroll,block,unblock,delete,tag',
         ]);
 
         switch (request('action')) {
@@ -339,6 +353,9 @@ class UserController extends Controller
                 break;
             case 'delete':
                 $this->borrar_grupo($request);
+                break;
+            case 'tag':
+                $this->etiquetar_grupo($request);
                 break;
             default:
                 break;
