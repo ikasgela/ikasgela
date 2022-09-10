@@ -23,6 +23,7 @@ use App\Models\Skill;
 use App\Models\Unidad;
 use App\Models\User;
 use App\Models\YoutubeVideo;
+use App\Traits\TareaBienvenida;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -37,6 +38,8 @@ use ZipArchive;
 
 class CursoController extends Controller
 {
+    use TareaBienvenida;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -779,19 +782,7 @@ class CursoController extends Controller
         setting_usuario(['curso_actual' => $curso->id]);
         $user->clearCache();
 
-        // Asignar la tarea de bienvenida
-        $actividad = Actividad::whereHas('unidad.curso', function ($query) use ($curso) {
-            $query->where('id', $curso->id);
-        })->where('slug', 'tarea-de-bienvenida')
-            ->where('plantilla', true)
-            ->first();
-
-        if (isset($actividad)) {
-            $clon = $actividad->duplicate();
-            $clon->plantilla_id = $actividad->id;
-            $clon->save();
-            $user->actividades()->attach($clon, ['puntuacion' => $actividad->puntuacion]);
-        }
+        $this->asignarTareaBienvenida($curso, $user);
 
         return back();
     }
