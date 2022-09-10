@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Etiquetas;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
@@ -14,6 +15,7 @@ class Curso extends Model
 {
     use HasFactory;
     use Rememberable;
+    use Etiquetas;
 
     protected $rememberFor;
     protected $rememberCacheTag;
