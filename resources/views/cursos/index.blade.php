@@ -15,6 +15,7 @@
                 <th>#</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Slug') }}</th>
+                <th>{{ __('Tags') }}</th>
                 <th>{{ __('Open enrollment') }}</th>
                 <th>{{ __('Simultaneous activities') }}</th>
                 <th>{{ __('Activity deadline') }}</th>
@@ -33,6 +34,7 @@
                     <td>{{ $curso->id }}</td>
                     <td>{{ $curso->full_name }}</td>
                     <td>{{ $curso->slug }}</td>
+                    <td>@include('partials.etiquetas', ['etiquetas' => $curso->etiquetas()])</td>
                     <td>{{ $curso->matricula_abierta ? __('Yes') : __('No') }}</td>
                     <td>{{ $curso->max_simultaneas ?? __('Undefined') }}</td>
                     <td>{{ $curso->plazo_actividad ?? __('Undefined') }}</td>
