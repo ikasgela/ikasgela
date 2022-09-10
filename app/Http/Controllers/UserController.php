@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Actividad;
 use App\Models\Curso;
 use App\Models\Organization;
 use App\Models\Role;
 use App\Models\User;
+use App\Traits\TareaBienvenida;
 use Carbon\Carbon;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
@@ -16,6 +16,8 @@ use Log;
 
 class UserController extends Controller
 {
+    use TareaBienvenida;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -266,22 +268,13 @@ class UserController extends Controller
 
             $curso->users()->syncWithoutDetaching($user);
 
+            $user->addEtiqueta($curso->tags);
+            $user->save();
+
             setting_usuario(['curso_actual' => $curso->id], $user);
             $user->clearCache();
 
-            // Asignar la tarea de bienvenida
-            $actividad = Actividad::whereHas('unidad.curso', function ($query) use ($curso) {
-                $query->where('id', $curso->id);
-            })->where('slug', 'tarea-de-bienvenida')
-                ->where('plantilla', true)
-                ->first();
-
-            if (isset($actividad)) {
-                $clon = $actividad->duplicate();
-                $clon->plantilla_id = $actividad->id;
-                $clon->save();
-                $user->actividades()->attach($clon, ['puntuacion' => $actividad->puntuacion]);
-            }
+            $this->asignarTareaBienvenida($curso, $user);
         }
     }
 

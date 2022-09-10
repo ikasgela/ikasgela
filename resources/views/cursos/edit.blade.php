@@ -26,6 +26,7 @@
             {{ Form::campoTexto('nombre', __('Name')) }}
             {{ Form::campoTexto('descripcion', __('Description')) }}
             {{ Form::campoTexto('slug', __('Slug')) }}
+            {{ Form::campoTexto('tags', __('Tags')) }}
             {{ Form::campoCheck('matricula_abierta', __('Open enrollment')) }}
 
             <div class="form-group row">
