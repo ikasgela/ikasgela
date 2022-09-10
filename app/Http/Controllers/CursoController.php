@@ -781,6 +781,9 @@ class CursoController extends Controller
     {
         $curso->users()->attach($user);
 
+        $user->addEtiqueta($curso->tags);
+        $user->save();
+
         setting_usuario(['curso_actual' => $curso->id]);
         $user->clearCache();
 

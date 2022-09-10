@@ -268,6 +268,9 @@ class UserController extends Controller
 
             $curso->users()->syncWithoutDetaching($user);
 
+            $user->addEtiqueta($curso->tags);
+            $user->save();
+
             setting_usuario(['curso_actual' => $curso->id], $user);
             $user->clearCache();
 
