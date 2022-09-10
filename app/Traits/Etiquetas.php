@@ -64,8 +64,12 @@ trait Etiquetas
 
     public function addEtiqueta($etiqueta)
     {
-        if (!$this->hasEtiqueta($etiqueta)) {
-            $this->tags .= ",$etiqueta";
+        $tags = array_map('trim', explode(',', $etiqueta));
+
+        foreach ($tags as $tag) {
+            if (!$this->hasEtiqueta($tag)) {
+                $this->tags .= ",$tag";
+            }
         }
     }
 }

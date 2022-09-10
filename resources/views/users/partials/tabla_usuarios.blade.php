@@ -68,7 +68,7 @@
                             </option>
                         @endforeach
                     </select>
-                    <div class="btn-group ml-3">
+                    <div class="btn-group mx-4">
                         <button title="{{ __('Block') }}"
                                 type="submit"
                                 name="action" value="block"
@@ -85,6 +85,13 @@
                                 class="btn btn-light btn-sm"><i class="fas fa-trash text-danger"></i>
                         </button>
                     </div>
+                    <input type="text" class="form-control mr-2" size="30" name="tags" id="tags"
+                           placeholder="{{ __('Tags, separated by commas') }}"/>
+                    <button title="{{ __('Add tags') }}"
+                            type="submit"
+                            name="action" value="tag"
+                            class="btn btn-light btn-sm"><i class="fas fa-tag"></i>
+                    </button>
                     {!! Form::close() !!}
                 </div>
             </td>
