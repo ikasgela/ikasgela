@@ -33,6 +33,7 @@ class Curso extends Model
         'minimo_examenes', 'minimo_examenes_finales', 'examenes_obligatorios', 'maximo_recuperable_examenes_finales',
         '__import_id',
         'matricula_abierta',
+        'tags',
     ];
 
     protected $dates = [
