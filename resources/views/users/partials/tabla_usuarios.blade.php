@@ -69,6 +69,11 @@
                         @endforeach
                     </select>
                     <div class="btn-group mx-4">
+                        <button title="{{ __('Manual verification') }}"
+                                type="submit"
+                                name="action" value="verify"
+                                class="btn btn-light btn-sm"><i class="fas fa-user-check"></i>
+                        </button>
                         <button title="{{ __('Block') }}"
                                 type="submit"
                                 name="action" value="block"
