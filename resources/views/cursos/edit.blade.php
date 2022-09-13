@@ -57,6 +57,8 @@
             {{ Form::campoTexto('fecha_inicio', __('Start date')) }}
             {{ Form::campoTexto('fecha_fin', __('End date')) }}
 
+            {{ Form::campoCheck('progreso_visible', __('Show course progress')) }}
+
             @include('partials.guardar_cancelar')
 
             @include('layouts.errors')

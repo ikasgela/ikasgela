@@ -61,10 +61,10 @@ class ArchivoController extends Controller
 
         $curso = $user->curso_actual();
 
-        if (!is_null($curso)) {
+        if (!is_null($curso) && $curso->progreso_visible) {
             $unidades = $curso->unidades()->whereVisible(true)->tag('examen', false)->orderBy('orden')->get();
         } else {
-            $unidades = [];
+            abort(404);
         }
 
         return view('archivo.outline', compact(['unidades', 'user', 'curso']));
