@@ -21,6 +21,7 @@
             <tr>
                 <td>
                     <input form="asignar" type="checkbox"
+                           data-chkbox-shiftsel="grupo1"
                            name="usuarios_seleccionados[{{ $user->id }}]" value="{{ $user->id }}">
                 </td>
                 <td>{{ $user->id }}</td>

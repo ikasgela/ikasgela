@@ -23,7 +23,9 @@
             <tr class="table-cell-click" data-href="{{ route('actividades.preview', [$actividad->id]) }}">
                 <td class="p-0 pl-1 {{ $actividad->destacada ? 'bg-warning' : '' }}">&nbsp;</td>
                 <td>
-                    <input type="checkbox" name="seleccionadas[{{ $actividad->id }}]" value="{{ $actividad->id }}">
+                    <input type="checkbox"
+                           data-chkbox-shiftsel="grupo2"
+                           name="seleccionadas[{{ $actividad->id }}]" value="{{ $actividad->id }}">
                 </td>
                 <td class="clickable">{{ $actividad->id }}</td>
                 <td class="clickable">

@@ -32,6 +32,7 @@
                     <td class="p-0 pl-1"></td>
                     <td>
                         <input form="asignar" type="checkbox"
+                               data-chkbox-shiftsel="grupo4"
                                name="equipos_seleccionados[{{ $team->id }}]" value="{{ $team->id }}">
                     </td>
                     <td class="clickable">{{ $team->group->full_name }}</td>
