@@ -47,10 +47,8 @@
         </tbody>
         <tfoot>
         <tr class="bg-dark">
-            <th colspan="42" class="m-0 py-1"></th>
-            @if(Route::currentRouteName() == 'actividades.index')
-                <th class="m-0 py-1"></th>
-            @endif
+            <th colspan="6">{{ __('Total') }}: {{ $users->count() }}</th>
+            <th colspan="100"></th>
         </tr>
         <tr>
             <td colspan="42">
