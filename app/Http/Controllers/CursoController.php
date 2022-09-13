@@ -86,6 +86,7 @@ class CursoController extends Controller
             'minimo_examenes_finales' => request('minimo_examenes_finales'),
             'examenes_obligatorios' => $request->has('examenes_obligatorios'),
             'maximo_recuperable_examenes_finales' => request('maximo_recuperable_examenes_finales'),
+            'progreso_visible' => $request->has('progreso_visible'),
         ]);
 
         return retornar();
@@ -138,6 +139,7 @@ class CursoController extends Controller
             'minimo_examenes_finales' => request('minimo_examenes_finales'),
             'examenes_obligatorios' => $request->has('examenes_obligatorios'),
             'maximo_recuperable_examenes_finales' => request('maximo_recuperable_examenes_finales'),
+            'progreso_visible' => $request->has('progreso_visible'),
         ]);
 
         return retornar();
