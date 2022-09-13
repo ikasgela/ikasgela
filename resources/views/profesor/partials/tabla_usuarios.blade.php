@@ -32,7 +32,7 @@
                     && $user->num_completadas('base') > $media_grupo )
                 <tr class="bg-secondary">
                     <th class="p-0"></th>
-                    <th colspan="13" class="text-dark">{{ __('Mean') }}:
+                    <th colspan="14" class="text-dark">{{ __('Mean') }}:
                         {{ $media_grupo_formato }} {{ mb_strtolower(__('Completed activities')) }}</th>
                     @if(Auth::user()->hasRole('admin'))
                         <th></th>
