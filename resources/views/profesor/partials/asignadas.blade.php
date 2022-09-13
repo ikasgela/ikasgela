@@ -35,7 +35,9 @@
                         &nbsp;
                     </td>
                     <td>
-                        <input form="multiple" type="checkbox" name="asignadas[]" value="{{ $actividad->tarea->id }}">
+                        <input form="multiple"
+                               data-chkbox-shiftsel="grupo3"
+                               type="checkbox" name="asignadas[]" value="{{ $actividad->tarea->id }}">
                     </td>
                     <td class="clickable">{{ $actividad->tarea->id }}</td>
                     <td class="clickable">
@@ -49,21 +51,21 @@
                     <td class="text-center clickable">
                         @switch($actividad->tarea->estado)
                             @case(40)
-                            {!! '<i class="fas fa-check text-success"></i>' !!}
-                            @break
+                                {!! '<i class="fas fa-check text-success"></i>' !!}
+                                @break
                             @case(41)
-                            {!! '<i class="fas fa-check text-warning"></i>' !!}
-                            @break
+                                {!! '<i class="fas fa-check text-warning"></i>' !!}
+                                @break
                             @case(50)
                             @case(60)
-                            {!! '<i class="fas fa-check"></i>' !!}
-                            @break;
+                                {!! '<i class="fas fa-check"></i>' !!}
+                                @break;
                             @default
-                            @if(!$actividad->auto_avance)
-                                {!! '<i class="fas fa-times text-danger"></i>' !!}
-                            @else
-                                {!! '<i class="fas fa-times text-secondary"></i>' !!}
-                            @endif
+                                @if(!$actividad->auto_avance)
+                                    {!! '<i class="fas fa-times text-danger"></i>' !!}
+                                @else
+                                    {!! '<i class="fas fa-times text-secondary"></i>' !!}
+                                @endif
                         @endswitch
                     </td>
                     <td class="text-center clickable">{{ $actividad->tarea->puntuacion }}</td>

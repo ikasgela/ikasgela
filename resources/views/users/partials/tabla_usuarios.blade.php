@@ -21,6 +21,7 @@
             <tr>
                 <td>
                     <input form="asignar" type="checkbox"
+                           data-chkbox-shiftsel="grupo1"
                            name="usuarios_seleccionados[{{ $user->id }}]" value="{{ $user->id }}">
                 </td>
                 <td>{{ $user->id }}</td>
@@ -69,6 +70,11 @@
                         @endforeach
                     </select>
                     <div class="btn-group mx-4">
+                        <button title="{{ __('Manual verification') }}"
+                                type="submit"
+                                name="action" value="verify"
+                                class="btn btn-light btn-sm"><i class="fas fa-user-check"></i>
+                        </button>
                         <button title="{{ __('Block') }}"
                                 type="submit"
                                 name="action" value="block"

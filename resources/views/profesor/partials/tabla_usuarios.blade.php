@@ -52,6 +52,7 @@
                 </td>
                 <td>
                     <input form="asignar" type="checkbox"
+                           data-chkbox-shiftsel="grupo1"
                            name="usuarios_seleccionados[{{ $user->id }}]" value="{{ $user->id }}">
                 </td>
                 <td class="clickable">@include('users.partials.avatar', ['user' => $user, 'width' => 35])</td>

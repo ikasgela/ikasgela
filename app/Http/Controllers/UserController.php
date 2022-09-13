@@ -328,10 +328,23 @@ class UserController extends Controller
         }
     }
 
+    public function verificar_email_grupo(Request $request)
+    {
+        $this->validate($request, [
+            'usuarios_seleccionados' => 'required',
+        ]);
+
+        foreach (request('usuarios_seleccionados') as $user_id) {
+            $user = User::findOrFail($user_id);
+            $user->markEmailAsVerified();
+            GiteaClient::unblock($user->email, $user->username);
+        }
+    }
+
     public function acciones_grupo(Request $request)
     {
         $this->validate($request, [
-            'action' => 'required|in:enroll,block,unblock,delete,tag',
+            'action' => 'required|in:enroll,block,unblock,delete,tag,verify',
         ]);
 
         switch (request('action')) {
@@ -349,6 +362,9 @@ class UserController extends Controller
                 break;
             case 'tag':
                 $this->etiquetar_grupo($request);
+                break;
+            case 'verify':
+                $this->verificar_email_grupo($request);
                 break;
             default:
                 break;
