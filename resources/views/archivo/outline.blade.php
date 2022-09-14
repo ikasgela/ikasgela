@@ -9,6 +9,12 @@
         'texto' => trans('tutorial.todas_actividades')
     ])
 
+    @if(Auth::user()->hasAnyRole(['profesor', 'tutor']))
+        {!! Form::open(['route' => ['archivo.outline.filtro'], 'method' => 'POST']) !!}
+        @include('partials.desplegable_usuarios')
+        {!! Form::close() !!}
+    @endif
+
     <div class="c-callout c-callout-bordered p-3">
         <h5><strong>{{ __('Start date') }}:</strong>
             {{ $curso?->fecha_inicio ? $curso->fecha_inicio->isoFormat('L LT') : __('Undefined') }}

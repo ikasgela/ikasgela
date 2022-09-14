@@ -316,6 +316,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('teams.index.filtro');
             Route::post('/profesor/asignar_tareas_equipo', 'ProfesorController@asignarTareasEquipo')
                 ->name('profesor.asignar_tareas_equipo');
+
+            // Ver el progreso de otros alumnos
+            Route::post('/archivo/outline', 'ArchivoController@outline')
+                ->name('archivo.outline.filtro');
         });
 
         // Administrador

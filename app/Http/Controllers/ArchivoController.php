@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Traits\FiltroUsuario;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class ArchivoController extends Controller
 {
     use PaginarUltima;
+    use FiltroUsuario;
 
     public function __construct()
     {
@@ -20,25 +22,11 @@ class ArchivoController extends Controller
     {
         $user = Auth::user();
 
-        if (!empty($request->input('user_id'))) {
-            $user_id = $request->input('user_id');
-            if ($user_id == -1) {
-                session()->forget('filtrar_user_actual');
-            } else {
-                $user = User::find($user_id);
-                session(['filtrar_user_actual' => $user_id]);
-            }
-        } else if (!empty(session('filtrar_user_actual'))) {
-            $user = User::find(session('filtrar_user_actual'));
-        }
+        $user = $this->filtrar_por_usuario($request, $user);
 
         $actividades = $this->paginate_ultima($user->actividades_archivadas());
 
-        // Lista de usuarios
-        $curso = $user->curso_actual();
-        $users = [];
-        if (!is_null($curso))
-            $users = $curso->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name')->get();
+        $users = $this->usuarios_curso_actual($user);
 
         return view('archivo.index', compact(['actividades', 'user', 'users']));
     }
@@ -51,9 +39,11 @@ class ArchivoController extends Controller
         return view('archivo.show', compact(['actividad', 'user']));
     }
 
-    public function outline()
+    public function outline(Request $request)
     {
         $user = Auth::user();
+
+        $user = $this->filtrar_por_usuario($request, $user);
 
         if ($user->baja_ansiedad) {
             abort(404);
@@ -67,6 +57,20 @@ class ArchivoController extends Controller
             abort(404);
         }
 
-        return view('archivo.outline', compact(['unidades', 'user', 'curso']));
+        $users = $this->usuarios_curso_actual($user);
+
+        return view('archivo.outline', compact(['unidades', 'user', 'curso', 'users']));
+    }
+
+    public function usuarios_curso_actual(User $user)
+    {
+        $curso = $user->curso_actual();
+
+        if (!is_null($curso))
+            $users = $curso->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name')->get();
+        else
+            $users = [];
+
+        return $users;
     }
 }
