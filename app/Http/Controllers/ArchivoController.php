@@ -61,7 +61,7 @@ class ArchivoController extends Controller
 
         $curso = $user->curso_actual();
 
-        if (!is_null($curso) && $curso->progreso_visible) {
+        if (!is_null($curso) && ($curso->progreso_visible || $user->hasRole('tutor'))) {
             $unidades = $curso->unidades()->whereVisible(true)->tag('examen', false)->orderBy('orden')->get();
         } else {
             abort(404);
