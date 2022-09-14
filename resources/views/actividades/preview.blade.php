@@ -19,7 +19,16 @@
                     <span>{{ $actividad->unidad->curso->nombre }} » {{ $actividad->unidad->nombre }}</span>
                 </div>
                 <div class="card-body">
-                    @include('actividades.partials.encabezado_con_etiquetas')
+                    <div class="d-flex justify-content-between">
+                        @include('actividades.partials.encabezado_con_etiquetas')
+                        @if(Auth::user()->hasAnyRole(['admin','profesor']))
+                            <div class="btn-group-sm">
+                                <a title="{{ __('Edit') }}"
+                                   href="{{ route('actividades.edit', [$actividad->id]) }}"
+                                   class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                            </div>
+                        @endif
+                    </div>
                     <p>{{ $actividad->descripcion }}</p>
                 </div>
                 @include('partials.tarjetas_actividad')
