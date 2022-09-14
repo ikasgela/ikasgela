@@ -17,17 +17,15 @@
             <div class="card border-dark">
                 <div class="card-header text-white bg-dark d-flex justify-content-between">
                     <span>{{ $actividad->unidad->curso->nombre }} » {{ $actividad->unidad->nombre }}</span>
+                    @if(Auth::user()->hasAnyRole(['admin','profesor']) && Route::currentRouteName() == 'actividades.preview')
+                        <a title="{{ __('Edit') }}"
+                           href="{{ route('actividades.edit', [$actividad->id]) }}"
+                           class='text-white'><i class="fas fa-edit"></i></a>
+                    @endif
                 </div>
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
                         @include('actividades.partials.encabezado_con_etiquetas')
-                        @if(Auth::user()->hasAnyRole(['admin','profesor']))
-                            <div class="btn-group-sm">
-                                <a title="{{ __('Edit') }}"
-                                   href="{{ route('actividades.edit', [$actividad->id]) }}"
-                                   class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                            </div>
-                        @endif
                     </div>
                     <p>{{ $actividad->descripcion }}</p>
                 </div>
