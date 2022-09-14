@@ -1,5 +1,11 @@
 <div class="card">
-    <div class="card-header"><i class="fas fa-file mr-2"></i>{{ __('Files') }}</div>
+    <div class="card-header d-flex justify-content-between">
+        <div><i class="fas fa-file mr-2"></i>{{ __('Files') }}</div>
+        <div>
+            @include('partials.ver_recurso', ['recurso' => $file_resource, 'ruta' => 'file_resources'])
+            @include('partials.editar_recurso', ['recurso' => $file_resource, 'ruta' => 'file_resources'])
+        </div>
+    </div>
     <div class="card-body">
         @include('partials.cabecera_recurso', ['recurso' => $file_resource, 'ruta' => 'file_resources'])
         @if(count($file_resource->files) > 0)

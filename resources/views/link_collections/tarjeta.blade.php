@@ -1,5 +1,11 @@
 <div class="card">
-    <div class="card-header"><i class="fas fa-link mr-2"></i>{{ __('Links') }}</div>
+    <div class="card-header d-flex justify-content-between">
+        <div><i class="fas fa-link mr-2"></i>{{ __('Links') }}</div>
+        <div>
+            @include('partials.ver_recurso', ['recurso' => $link_collection, 'ruta' => 'link_collections'])
+            @include('partials.editar_recurso', ['recurso' => $link_collection, 'ruta' => 'link_collections'])
+        </div>
+    </div>
     <div class="card-body">
         @include('partials.cabecera_recurso', ['recurso' => $link_collection, 'ruta' => 'link_collections'])
         @if(count($link_collection->links) > 0)

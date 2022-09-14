@@ -6,7 +6,10 @@ $en_blanco = $total - $respondidas;
 ?>
 
 <div class="card">
-    <div class="card-header"><i class="fas fa-question-circle mr-2"></i>{{ $cuestionario->titulo }}</div>
+    <div class="card-header d-flex justify-content-between">
+        <div><i class="fas fa-question-circle mr-2"></i>{{ $cuestionario->titulo }}</div>
+        @include('partials.editar_recurso', ['recurso' => $cuestionario, 'ruta' => 'cuestionarios'])
+    </div>
 
     {!! Form::model($cuestionario, ['route' => ['cuestionarios.respuesta', $cuestionario->id], 'method' => 'PUT']) !!}
 

@@ -4,7 +4,10 @@
 @endsection
 
 <div class="card">
-    <div class="card-header"><i class="fas fa-file-upload mr-2"></i>{{ __('Image upload') }}</div>
+    <div class="card-header d-flex justify-content-between">
+        <div><i class="fas fa-file-upload mr-2"></i>{{ __('Image upload') }}</div>
+        @include('partials.editar_recurso', ['recurso' => $file_upload, 'ruta' => 'file_uploads'])
+    </div>
     <div class="card-body">
         @include('partials.cabecera_recurso', ['recurso' => $file_upload, 'ruta' => 'file_uploads'])
         @if(count($file_upload->files) > 0)
