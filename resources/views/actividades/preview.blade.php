@@ -5,9 +5,9 @@
     @include('partials.titular', ['titular' => __('Preview')])
 
     @if(Auth::user()->hasAnyRole(['admin','profesor']))
-        <div class="d-flex justify-content-between">
-            @include('actividades.partials.preview_siguiente')
+        <div class="d-flex">
             @include('actividades.partials.botones_navegar')
+            @include('actividades.partials.preview_siguiente')
         </div>
     @endif
 
