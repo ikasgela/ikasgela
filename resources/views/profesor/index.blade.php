@@ -63,4 +63,7 @@
 
     @include('profesor.partials.disponibles_grupo')
 
+    @if(Auth::user()->hasAnyRole(['admin']))
+        <p>IP Egibide: {{ $ip_egibide ? 'Sí' : 'No' }}</p>
+    @endif
 @endsection
