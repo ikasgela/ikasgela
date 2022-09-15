@@ -152,11 +152,12 @@ class ProfesorController extends Controller
 
         $media_grupo_formato = $formatter->format($media_grupo);
 
+        $clientIP = $this->clientIP();
         $ip_egibide = $this->ip_in_range($this->clientIP(), ['150.241.173.0/24', '150.241.172.0/24']);
 
         return view('profesor.index', compact(['usuarios', 'unidades', 'disponibles', 'organization',
             'total_actividades_grupo', 'media_grupo', 'media_grupo_formato',
-            'ip_egibide']));
+            'ip_egibide', 'clientIP']));
     }
 
     public function tareas(User $user, Request $request)
