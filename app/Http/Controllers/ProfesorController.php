@@ -15,6 +15,7 @@ use App\Models\Team;
 use App\Models\Unidad;
 use App\Models\User;
 use App\Traits\CalcularFechaEntregaActividad;
+use App\Traits\HerramientasIP;
 use App\Traits\JPlagRunner;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
@@ -32,6 +33,7 @@ class ProfesorController extends Controller
     use PaginarUltima;
     use JPlagRunner;
     use CalcularFechaEntregaActividad;
+    use HerramientasIP;
 
     public function __construct()
     {
@@ -150,8 +152,11 @@ class ProfesorController extends Controller
 
         $media_grupo_formato = $formatter->format($media_grupo);
 
+        $ip_egibide = $this->ip_in_range($this->clientIP(), ['150.241.173.0/24', '150.241.172.0/24']);
+
         return view('profesor.index', compact(['usuarios', 'unidades', 'disponibles', 'organization',
-            'total_actividades_grupo', 'media_grupo', 'media_grupo_formato']));
+            'total_actividades_grupo', 'media_grupo', 'media_grupo_formato',
+            'ip_egibide']));
     }
 
     public function tareas(User $user, Request $request)

@@ -15,11 +15,6 @@
         @include('layouts.partials.language_selector')
         <ul class="c-header-nav mr-3">
             @auth
-                @if(Auth::user()->hasAnyRole(['admin']))
-                    <li class="mr-3">
-                        {{ $clientIP }}
-                    </li>
-                @endif
                 @if(Auth::user()->isImpersonated())
                     <li class="c-header-nav-item mr-3">
                         <div class='btn-group'>

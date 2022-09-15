@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Models\Organization;
-use App\Traits\ObtenerDireccionIP;
 use Form;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
@@ -11,8 +10,6 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    use ObtenerDireccionIP;
-
     /**
      * Bootstrap any application services.
      *
@@ -41,8 +38,6 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Paginator::useBootstrap();
-
-        View::share('clientIP', $this->clientIP());
     }
 
     /**
