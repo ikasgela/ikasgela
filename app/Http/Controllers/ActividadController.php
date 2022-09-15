@@ -88,13 +88,7 @@ class ActividadController extends Controller
             session(['profesor_unidad_id_disponibles' => $request->input('unidad_id_disponibles')]);
         }
 
-        if (session('profesor_unidad_id_disponibles')) {
-            $actividades = Actividad::cursoActual()->plantilla()->where('unidad_id', session('profesor_unidad_id_disponibles'))->orderBy('orden')->orderBy('id');
-        } else {
-            $actividades = Actividad::cursoActual()->plantilla()->orderBy('orden')->orderBy('id');
-        }
-
-        $actividades = $this->paginate_ultima($actividades, 250);
+        $actividades = $this->obtenerPlantillas();
 
         $ids = $actividades->pluck('id')->toArray();
 
@@ -170,7 +164,11 @@ class ActividadController extends Controller
             $jplags = [];
             $tarea = null;
 
-            return view('actividades.preview', compact(['actividad', 'feedbacks', 'ids', 'jplags', 'tarea']));
+            $actividades = $this->obtenerPlantillas();
+            $actividades_ids = $actividades->pluck('id')->toArray();
+            $actual = array_search($actividad->id, $actividades_ids);
+
+            return view('actividades.preview', compact(['actividad', 'feedbacks', 'ids', 'jplags', 'tarea', 'actividades_ids', 'actual']));
         } else {
             abort(404, __('Activity not found.'));
         }
@@ -717,5 +715,18 @@ class ActividadController extends Controller
         $this->bloquearRepositorios($tarea, true);
         $tarea->archiveFiles();
         $this->mostrarSiguienteActividad($actividad, $usuario);
+    }
+
+    public function obtenerPlantillas(): mixed
+    {
+        if (session('profesor_unidad_id_disponibles')) {
+            $actividades = Actividad::cursoActual()->plantilla()->where('unidad_id', session('profesor_unidad_id_disponibles'))->orderBy('orden')->orderBy('id');
+        } else {
+            $actividades = Actividad::cursoActual()->plantilla()->orderBy('orden')->orderBy('id');
+        }
+
+        $actividades = $this->paginate_ultima($actividades, 250);
+
+        return $actividades;
     }
 }
