@@ -17,7 +17,7 @@
             @auth
                 @if(Auth::user()->hasAnyRole(['admin']))
                     <li class="mr-3">
-                        {{ Request::ip() }}
+                        {{ $clientIP }}
                     </li>
                 @endif
                 @if(Auth::user()->isImpersonated())
