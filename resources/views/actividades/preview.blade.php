@@ -4,7 +4,12 @@
 
     @include('partials.titular', ['titular' => __('Preview')])
 
-    @include('actividades.partials.preview_siguiente')
+    @if(Auth::user()->hasAnyRole(['admin','profesor']))
+        <div class="d-flex justify-content-between">
+            @include('actividades.partials.preview_siguiente')
+            @include('actividades.partials.botones_navegar')
+        </div>
+    @endif
 
     @include('partials.tutorial', [
         'color' => 'c-callout-success',
