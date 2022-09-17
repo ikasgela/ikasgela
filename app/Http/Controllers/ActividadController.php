@@ -729,4 +729,33 @@ class ActividadController extends Controller
 
         return $actividades;
     }
+
+    public function recurso_modificar_columnas(Request $request, Actividad $actividad)
+    {
+        $this->validate($request, [
+            'recurso' => 'required',
+            'accion' => 'required|in:sumar,restar',
+        ]);
+
+        $recursos = $actividad->recursos->keyBy('pivot.orden');
+
+        $recurso = $recursos->get(request('recurso'));
+
+        switch (request('accion')) {
+            case 'sumar':
+                if ($recurso->pivot->columnas < 12) {
+                    $recurso->pivot->columnas += 1;
+                }
+                break;
+            case 'restar':
+                if ($recurso->pivot->columnas > 1) {
+                    $recurso->pivot->columnas -= 1;
+                }
+                break;
+        }
+
+        $recurso->pivot->save();
+
+        return back();
+    }
 }
