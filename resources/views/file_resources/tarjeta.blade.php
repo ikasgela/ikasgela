@@ -29,7 +29,8 @@
                         <tr>
                             <td class="text-center font-xl">@include('file_resources.partials.icono', ['extension' => $file->extension])</td>
                             <td>
-                                <a href="{{ $file->imageUrl('documents') }}" target="_blank">
+                                <a href="{{ $file->imageUrl('documents') }}"
+                                    @include('file_resources.partials.destino', ['extension' => $file->extension])>
                                     {{ $file->description ?: $file->title }}
                                 </a>
                             </td>
