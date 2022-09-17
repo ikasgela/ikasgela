@@ -14,28 +14,28 @@
                 <td>{{ $recurso->titulo }}</td>
                 <td>@switch($recurso::class)
                         @case('App\Models\IntellijProject')
-                        {{ __('IntelliJ project') }}
-                        @break
+                            {{ __('IntelliJ project') }}
+                            @break
                         @case('App\Models\MarkdownText')
-                        {{ __('Markdown text') }}
-                        @break
+                            {{ __('Markdown text') }}
+                            @break
                         @case('App\Models\YoutubeVideo')
-                        {{ __('YouTube video') }}
-                        @break
+                            {{ __('YouTube video') }}
+                            @break
                         @case('App\Models\FileUpload')
-                        {{ __('Image upload') }}
-                        @break
+                            {{ __('Image upload') }}
+                            @break
                         @case('App\Models\FileResource')
-                        {{ __('Files') }}
-                        @break
+                            {{ __('Files') }}
+                            @break
                         @case('App\Models\Cuestionario')
-                        {{ __('Questionnaire') }}
-                        @break
+                            {{ __('Questionnaire') }}
+                            @break
                         @case('App\Models\LinkCollection')
                             {{ __('Link collection') }}
                             @break
                         @default
-                        {{ __('Unknown') }}
+                            {{ __('Unknown') }}
                     @endswitch
                 </td>
                 <td>{{ $recurso->pivot->columnas }}</td>
