@@ -4,6 +4,7 @@
         <tr>
             <th>{{ __('Resource') }}</th>
             <th>{{ __('Type') }}</th>
+            <th>{{ __('Columns') }}</th>
             <th>{{ __('Order') }}</th>
         </tr>
         </thead>
@@ -34,6 +35,7 @@
                         {{ __('Unknown') }}
                     @endswitch
                 </td>
+                <td>{{ $recurso->pivot->columnas }}</td>
                 <td>
                     <div class='btn-group'>
                         {!! Form::open(['route' => ['actividades.reordenar_recursos', $actividad->id], 'method' => 'POST']) !!}
