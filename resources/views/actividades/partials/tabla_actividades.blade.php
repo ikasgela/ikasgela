@@ -81,7 +81,7 @@
                 @include('partials.botones_recursos')
                 <td>
                     <div class='btn-group'>
-                        <a title="{{ __('Sort') }}"
+                        <a title="{{ __('Sort resources') }}"
                            href="{{ route('actividades.show', [$actividad->id]) }}"
                            class='btn btn-light btn-sm'><i class="fas fa-sort"></i></a>
                     </div>
