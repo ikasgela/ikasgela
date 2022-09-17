@@ -4,6 +4,8 @@
         <tr>
             <th>{{ __('Resource') }}</th>
             <th>{{ __('Type') }}</th>
+            <th class="text-center">{{ __('Columns') }}</th>
+            <th></th>
             <th>{{ __('Order') }}</th>
         </tr>
         </thead>
@@ -13,26 +15,55 @@
                 <td>{{ $recurso->titulo }}</td>
                 <td>@switch($recurso::class)
                         @case('App\Models\IntellijProject')
-                        {{ __('IntelliJ project') }}
-                        @break
+                            {{ __('IntelliJ project') }}
+                            @break
                         @case('App\Models\MarkdownText')
-                        {{ __('Markdown text') }}
-                        @break
+                            {{ __('Markdown text') }}
+                            @break
                         @case('App\Models\YoutubeVideo')
-                        {{ __('YouTube video') }}
-                        @break
+                            {{ __('YouTube video') }}
+                            @break
                         @case('App\Models\FileUpload')
-                        {{ __('Image upload') }}
-                        @break
+                            {{ __('Image upload') }}
+                            @break
                         @case('App\Models\FileResource')
-                        {{ __('Files') }}
-                        @break
+                            {{ __('Files') }}
+                            @break
                         @case('App\Models\Cuestionario')
-                        {{ __('Questionnaire') }}
-                        @break
+                            {{ __('Questionnaire') }}
+                            @break
+                        @case('App\Models\LinkCollection')
+                            {{ __('Link collection') }}
+                            @break
                         @default
-                        {{ __('Unknown') }}
+                            {{ __('Unknown') }}
                     @endswitch
+                </td>
+                <td class="text-center">{{ $recurso->pivot->columnas }}</td>
+                <td>
+                    <div class='btn-group'>
+                        {!! Form::open(['route' => ['actividades.recurso_modificar_columnas', $actividad->id], 'method' => 'POST']) !!}
+                        <button title="{{ __('Minus') }}"
+                                type="submit"
+                                {{ $recurso->pivot->columnas > 1 ? '' : 'disabled' }}
+                                class="btn {{ $recurso->pivot->columnas > 1 ? 'btn-primary' : 'btn-light' }} btn-sm mr-1">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <input type="hidden" name="recurso" value="{{ $ids[$loop->index] }}">
+                        <input type="hidden" name="accion" value="restar">
+                        {!! Form::close() !!}
+
+                        {!! Form::open(['route' => ['actividades.recurso_modificar_columnas', $actividad->id], 'method' => 'POST']) !!}
+                        <button title="{{ __('Plus') }}"
+                                type="submit"
+                                {{ $recurso->pivot->columnas < 12 ? '' : 'disabled' }}
+                                class="btn {{ $recurso->pivot->columnas < 12 ? 'btn-primary' : 'btn-light' }} btn-sm">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <input type="hidden" name="recurso" value="{{ $ids[$loop->index] }}">
+                        <input type="hidden" name="accion" value="sumar">
+                        {!! Form::close() !!}
+                    </div>
                 </td>
                 <td>
                     <div class='btn-group'>

@@ -3,6 +3,7 @@
         <div><i class="fas fa-link mr-2"></i>{{ __('Links') }}</div>
         <div>
             @include('partials.ver_recurso', ['recurso' => $link_collection, 'ruta' => 'link_collections'])
+            @include('partials.modificar_recursos', ['ruta' => 'link_collections'])
             @include('partials.editar_recurso', ['recurso' => $link_collection, 'ruta' => 'link_collections'])
         </div>
     </div>

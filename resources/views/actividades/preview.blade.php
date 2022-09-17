@@ -23,9 +23,14 @@
                 <div class="card-header text-white bg-dark d-flex justify-content-between">
                     <span>{{ $actividad->unidad->curso->nombre }} » {{ $actividad->unidad->nombre }}</span>
                     @if(Auth::user()->hasAnyRole(['admin','profesor']) && Route::currentRouteName() == 'actividades.preview')
-                        <a title="{{ __('Edit') }}"
-                           href="{{ route('actividades.edit', [$actividad->id]) }}"
-                           class='text-white'><i class="fas fa-edit"></i></a>
+                        <div>
+                            <a title="{{ __('Sort resources') }}"
+                               href="{{ route('actividades.show', [$actividad->id]) }}"
+                               class='text-white mr-2'><i class="fas fa-sort"></i></a>
+                            <a title="{{ __('Edit') }}"
+                               href="{{ route('actividades.edit', [$actividad->id]) }}"
+                               class='text-white'><i class="fas fa-edit"></i></a>
+                        </div>
                     @endif
                 </div>
                 <div class="card-body">

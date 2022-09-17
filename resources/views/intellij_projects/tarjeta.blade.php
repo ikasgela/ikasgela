@@ -32,7 +32,10 @@
                     <i class="fab fa-git-alt mr-2"></i>{{ __('Git repository') }}
             @endswitch
         </div>
-        @include('partials.editar_recurso', ['recurso' => $intellij_project, 'ruta' => 'intellij_projects'])
+        <div>
+            @include('partials.modificar_recursos', ['ruta' => 'intellij_projects'])
+            @include('partials.editar_recurso', ['recurso' => $intellij_project, 'ruta' => 'intellij_projects'])
+        </div>
     </div>
     <div class="card-body">
         @include('partials.cabecera_recurso', ['recurso' => $intellij_project, 'ruta' => 'intellij_projects'])

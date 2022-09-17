@@ -168,6 +168,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::post('/actividades/{actividad}/reordenar_recursos', 'ActividadController@reordenar_recursos')
                 ->name('actividades.reordenar_recursos');
 
+            // Modificar el número de columnas de un recurso
+            Route::post('/actividades/{actividad}/recurso_modificar_columnas', 'ActividadController@recurso_modificar_columnas')
+                ->name('actividades.recurso_modificar_columnas');
+
             // Reordenar unidades
             Route::post('/unidades/reordenar/{a1}/{a2}', 'UnidadController@reordenar')
                 ->name('unidades.reordenar');
