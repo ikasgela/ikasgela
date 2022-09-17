@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreFile extends FormRequest
 {
@@ -23,8 +24,14 @@ class StoreFile extends FormRequest
      */
     public function rules()
     {
+        if (Auth::user()->hasAnyRole(['admin'])) {
+            $rules = 'required';
+        } else {
+            $rules = 'required|mimes:pdf,doc,docx,odt,xls,xlsx,ods,zip,exe,dmg|max:524288'; // 512MB
+        }
+
         return [
-            'file' => 'required|mimes:pdf,doc,docx,odt,xls,xlsx,ods,zip,exe,dmg|max:524288' // 512MB
+            'file' => $rules,
         ];
     }
 }
