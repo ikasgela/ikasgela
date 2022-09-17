@@ -6,7 +6,7 @@ use Ikasgela\Gitea\GiteaClient;
 
 trait ClonarRepoGitea
 {
-    public function clonar_repositorio($repositorio, $username, $destino, $nombre = null)
+    public function clonar_repositorio($repositorio, $username, $destino, $descripcion = null)
     {
         $n = 2;
 
@@ -19,7 +19,7 @@ trait ClonarRepoGitea
         $reintentos = 3;
 
         do {
-            $result = GiteaClient::clone($repositorio, $username, $ruta, $nombre);
+            $result = GiteaClient::clone($repositorio, $username, $ruta, $descripcion);
 
             if ($result == 409) { //&& Str::contains($error_message, 'has already been taken')) {
                 $ruta = $ruta_temp . "-$n";

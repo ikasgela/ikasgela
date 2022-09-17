@@ -71,7 +71,14 @@ class ForkGiteaRepo implements ShouldQueue
 
                 $ruta .= '-' . bin2hex(openssl_random_pseudo_bytes(3));
 
-                $fork = $this->clonar_repositorio($this->intellij_project->repositorio, $username, Str::slug($ruta));
+                if (empty($this->intellij_project->descripcion)) {
+                    $proyecto = GiteaClient::repo($this->intellij_project->repositorio);
+                    $descripcion = $proyecto['description'];
+                } else {
+                    $descripcion = $this->intellij_project->descripcion;
+                }
+
+                $fork = $this->clonar_repositorio($this->intellij_project->repositorio, $username, Str::slug($ruta), $descripcion);
 
                 if (!is_null($fork) && isset($fork['id'])) {
                     $ij->setForkStatus(2, $fork['path_with_namespace']);  // Ok
