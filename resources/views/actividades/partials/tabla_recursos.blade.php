@@ -31,6 +31,9 @@
                         @case('App\Models\Cuestionario')
                         {{ __('Questionnaire') }}
                         @break
+                        @case('App\Models\LinkCollection')
+                            {{ __('Link collection') }}
+                            @break
                         @default
                         {{ __('Unknown') }}
                     @endswitch
