@@ -3,6 +3,7 @@
         <div><i class="fas fa-file mr-2"></i>{{ __('Files') }}</div>
         <div>
             @include('partials.ver_recurso', ['recurso' => $file_resource, 'ruta' => 'file_resources'])
+            @include('partials.modificar_recursos', ['ruta' => 'file_resources'])
             @include('partials.editar_recurso', ['recurso' => $file_resource, 'ruta' => 'file_resources'])
         </div>
     </div>
