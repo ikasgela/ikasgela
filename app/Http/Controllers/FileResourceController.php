@@ -79,6 +79,10 @@ class FileResourceController extends Controller
 
     public function destroy(FileResource $file_resource)
     {
+        foreach ($file_resource->files as $file) {
+            $file->delete();
+        }
+
         $file_resource->delete();
 
         return back();
