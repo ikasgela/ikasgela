@@ -168,6 +168,13 @@ class CursoController extends Controller
             ->where('value', '=', $curso->id)
             ->delete();
 
+        /*
+        foreach ($curso->intellij_projects as $intellij_project) {
+            $repo = $intellij_project->repository();
+            GiteaClient::borrar_repo($repo['id']);
+        }
+        */
+
         $curso->intellij_projects()->delete();
         $curso->markdown_texts()->delete();
         $curso->youtube_videos()->delete();
