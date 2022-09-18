@@ -203,6 +203,10 @@ class UserController extends Controller
             $actividad->forceDelete();
         }
 
+        foreach ($user->files as $file) {
+            $file->delete();
+        }
+
         $user->delete();
 
         return back();
