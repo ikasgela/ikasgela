@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Log;
 
@@ -192,6 +193,10 @@ class UserController extends Controller
                 ]);
             }
         }
+
+        DB::table('settings')
+            ->where('user_id', '=', $user->id)
+            ->delete();
 
         // Recorrer las actividades y borrarlas
         foreach ($user->actividades()->get() as $actividad) {
