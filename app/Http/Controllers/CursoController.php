@@ -163,31 +163,41 @@ class CursoController extends Controller
             ->where('curso_id', '=', $curso->id)
             ->delete();
 
-        $curso->intellij_projects()->forceDelete();
-        $curso->markdown_texts()->forceDelete();
-        $curso->youtube_videos()->forceDelete();
-        $curso->cuestionarios()->forceDelete();
+        DB::table('settings')
+            ->where('key', '=', 'curso_actual')
+            ->where('value', '=', $curso->id)
+            ->delete();
 
-        $curso->file_resources_files()->forceDelete();
-        $curso->file_resources()->forceDelete();
-        $curso->file_uploads_files()->forceDelete();
-        $curso->file_uploads()->forceDelete();
+        $curso->intellij_projects()->delete();
+        $curso->markdown_texts()->delete();
+        $curso->youtube_videos()->delete();
+        $curso->cuestionarios()->delete();
 
-        $curso->link_collections_links()->forceDelete();
-        $curso->link_collections()->forceDelete();
+        foreach ($curso->file_resources_files as $file) {
+            $file->delete();
+        }
+        $curso->file_resources()->delete();
+
+        foreach ($curso->file_uploads_files as $file) {
+            $file->delete();
+        }
+        $curso->file_uploads()->delete();
+
+        $curso->link_collections_links()->delete();
+        $curso->link_collections()->delete();
 
         Schema::disableForeignKeyConstraints();
         $curso->actividades()->forceDelete();
         Schema::enableForeignKeyConstraints();
 
-        $curso->unidades()->forceDelete();
+        $curso->unidades()->delete();
 
         Schema::disableForeignKeyConstraints();
         foreach ($curso->qualifications()->get() as $qualification) {
             $qualification->skills()->sync([]);
         }
-        $curso->qualifications()->forceDelete();
-        $curso->skills()->forceDelete();
+        $curso->qualifications()->delete();
+        $curso->skills()->delete();
         Schema::enableForeignKeyConstraints();
 
         $curso->feedbacks()->delete();
@@ -204,10 +214,12 @@ class CursoController extends Controller
                 ->delete();
         }
 
-        $curso->hilos()->forceDelete();
+        $curso->hilos()->delete();
+
+        $curso->groups()->detach();
 
         Schema::disableForeignKeyConstraints();
-        $curso->forceDelete();
+        $curso->delete();
         Schema::enableForeignKeyConstraints();
 
         return back();
@@ -814,7 +826,7 @@ class CursoController extends Controller
                 ->delete();
         }
 
-        $curso->hilos()->forceDelete();
+        $curso->hilos()->delete();
 
         return back();
     }
