@@ -6,6 +6,7 @@ use App\Models\Registro;
 use App\Models\Tarea;
 use App\Models\User;
 use Carbon\Carbon;
+use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -70,7 +71,12 @@ class TareaController extends Controller
         }
 
         foreach ($tarea->actividad->file_uploads as $file_upload) {
-            $file_upload->delete();
+            $file_upload->delete_with_files();
+        }
+
+        foreach ($tarea->actividad->intellij_projects as $intellij_project) {
+            $repo = $intellij_project->repository();
+            GiteaClient::borrar_repo($repo['id']);
         }
 
         $tarea->actividad->delete();

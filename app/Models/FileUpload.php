@@ -52,4 +52,13 @@ class FileUpload extends Model
     {
         return $actividad->file_uploads()->find($this->id)->pivot;
     }
+
+    public function delete_with_files()
+    {
+        foreach ($this->files as $file) {
+            $file->delete();
+        }
+
+        $this->delete();
+    }
 }
