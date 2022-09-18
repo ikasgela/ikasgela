@@ -83,11 +83,7 @@ class FileUploadController extends Controller
 
     public function destroy(FileUpload $file_upload)
     {
-        foreach ($file_upload->files as $file) {
-            $file->delete();
-        }
-
-        $file_upload->delete();
+        $file_upload->delete_with_files();
 
         return back();
     }

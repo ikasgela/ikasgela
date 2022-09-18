@@ -70,7 +70,7 @@ class TareaController extends Controller
         }
 
         foreach ($tarea->actividad->file_uploads as $file_upload) {
-            $file_upload->delete();
+            $file_upload->delete_with_files();
         }
 
         $tarea->actividad->delete();
