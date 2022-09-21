@@ -51,6 +51,10 @@ trait Etiquetas
 
     public function buscarEtiqueta($query, bool $exists, $tag)
     {
+        // Limpiar la etiqueta de posibles caracteres de expresión regular (para poder poner "*" como etiqueta, por ejemplo)
+        // REF: https://stackoverflow.com/a/4936376
+        $tag = preg_quote($tag);
+
         $regex = "(^|,)\s*{$tag}\s*(,|$)";  // Tag separado por comas y con espacios delante o detrás
 
         $query = $query->where('tags', $exists ? 'regexp' : 'not regexp', $regex);
