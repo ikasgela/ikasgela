@@ -16,15 +16,15 @@
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Slug') }}</th>
                 <th>{{ __('Tags') }}</th>
-                <th>{{ __('Open enrollment') }}</th>
-                <th>{{ __('Simultaneous activities') }}</th>
-                <th>{{ __('Activity deadline') }}</th>
-                <th>{{ __('Minimum completed percent') }}</th>
-                <th>{{ __('Minimum skills percent') }}</th>
-                <th>{{ __('Minimum exams percent') }}</th>
-                <th>{{ __('Minimum final exams percent') }}</th>
-                <th>{{ __('Mandatory exams') }}</th>
-                <th>{{ __('Maximum recoverable percent') }}</th>
+                <th class="text-center">{{ __('Open enrollment') }}</th>
+                <th class="text-center">{{ __('Simultaneous activities') }}</th>
+                <th class="text-center">{{ __('Activity deadline') }}</th>
+                <th class="text-center">{{ __('Minimum completed percent') }}</th>
+                <th class="text-center">{{ __('Minimum skills percent') }}</th>
+                <th class="text-center">{{ __('Minimum exams percent') }}</th>
+                <th class="text-center">{{ __('Minimum final exams percent') }}</th>
+                <th class="text-center">{{ __('Mandatory exams') }}</th>
+                <th class="text-center">{{ __('Maximum recoverable percent') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -35,15 +35,17 @@
                     <td>{{ $curso->full_name }}</td>
                     <td>{{ $curso->slug }}</td>
                     <td>@include('partials.etiquetas', ['etiquetas' => $curso->etiquetas()])</td>
-                    <td>{{ $curso->matricula_abierta ? __('Yes') : __('No') }}</td>
-                    <td>{{ $curso->max_simultaneas ?? __('Undefined') }}</td>
-                    <td>{{ $curso->plazo_actividad ?? __('Undefined') }}</td>
-                    <td>{{ $curso->minimo_entregadas ?? __('Undefined') }}</td>
-                    <td>{{ $curso->minimo_competencias ?? __('Undefined') }}</td>
-                    <td>{{ $curso->minimo_examenes ?? __('Undefined') }}</td>
-                    <td>{{ $curso->minimo_examenes_finales ?? __('Undefined') }}</td>
-                    <td>{{ $curso->examenes_obligatorios ? __('Yes') : __('No') }}</td>
-                    <td>{{ $curso->maximo_recuperable_examenes_finales ?? __('Undefined') }}</td>
+                    <td class="text-center {{ $curso->matricula_abierta ? 'bg-warning' : '' }}">
+                        {{ $curso->matricula_abierta ? __('Yes') : __('No') }}
+                    </td>
+                    <td class="text-center">{{ $curso->max_simultaneas ?? __('Undefined') }}</td>
+                    <td class="text-center">{{ $curso->plazo_actividad ?? __('Undefined') }}</td>
+                    <td class="text-center">{{ $curso->minimo_entregadas ?? __('Undefined') }}</td>
+                    <td class="text-center">{{ $curso->minimo_competencias ?? __('Undefined') }}</td>
+                    <td class="text-center">{{ $curso->minimo_examenes ?? __('Undefined') }}</td>
+                    <td class="text-center">{{ $curso->minimo_examenes_finales ?? __('Undefined') }}</td>
+                    <td class="text-center">{{ $curso->examenes_obligatorios ? __('Yes') : __('No') }}</td>
+                    <td class="text-center">{{ $curso->maximo_recuperable_examenes_finales ?? __('Undefined') }}</td>
                     <td>
                         <div class='btn-group'>
                             <a title="{{ __('Edit') }}"
