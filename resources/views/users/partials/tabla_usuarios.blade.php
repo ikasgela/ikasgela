@@ -47,7 +47,13 @@
         </tbody>
         <tfoot>
         <tr class="bg-dark">
-            <th colspan="6">{{ __('Total') }}: {{ $users->count() }}</th>
+            <th colspan="3">{{ __('Total') }}: {{ $users->count() }}</th>
+            <th class="" colspan="10">
+                {{ __('Filter by tag') }}:
+                @foreach($etiquetas as $etiqueta)
+                    {!! '<a class="badge badge-secondary text-dark ml-2" href="'.route(explode('.',Route::currentRouteName())[0].'.index.filtro',['tag'=>$etiqueta]).'">'.$etiqueta.'</a>' !!}
+                @endforeach
+            </th>
             <th colspan="100"></th>
         </tr>
         <tr>

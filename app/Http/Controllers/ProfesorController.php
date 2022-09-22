@@ -18,6 +18,7 @@ use App\Traits\CalcularFechaEntregaActividad;
 use App\Traits\HerramientasIP;
 use App\Traits\JPlagRunner;
 use App\Traits\PaginarUltima;
+use FontLib\TrueType\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -155,9 +156,17 @@ class ProfesorController extends Controller
         $clientIP = $this->clientIP();
         $ip_egibide = $this->ip_in_range($this->clientIP(), ['150.241.173.0/24', '150.241.172.0/24']);
 
+        $etiquetas = [];
+        foreach ($usuarios as $usuario) {
+            $etiquetas = array_merge($etiquetas, $usuario->etiquetas());
+        }
+        $etiquetas = array_unique($etiquetas);
+        sort($etiquetas);
+
         return view('profesor.index', compact(['usuarios', 'unidades', 'disponibles', 'organization',
             'total_actividades_grupo', 'media_grupo', 'media_grupo_formato',
-            'ip_egibide', 'clientIP']));
+            'ip_egibide', 'clientIP',
+            'etiquetas']));
     }
 
     public function tareas(User $user, Request $request)
