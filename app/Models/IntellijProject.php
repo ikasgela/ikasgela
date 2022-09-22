@@ -75,6 +75,7 @@ class IntellijProject extends Model
         return [
             'id' => '?',
             'name' => '?',
+            'owner' => '?',
             'description' => '?',
             'http_url_to_repo' => '',
             'path_with_namespace' => $this->repositorio
