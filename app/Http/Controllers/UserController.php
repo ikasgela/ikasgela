@@ -70,6 +70,7 @@ class UserController extends Controller
             $etiquetas = array_merge($etiquetas, $usuario->etiquetas());
         }
         $etiquetas = array_unique($etiquetas);
+        sort($etiquetas);
 
         return view('users.index', compact(['users', 'organizations', 'ids', 'cursos', 'etiquetas']));
     }

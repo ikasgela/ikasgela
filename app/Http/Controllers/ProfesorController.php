@@ -161,6 +161,7 @@ class ProfesorController extends Controller
             $etiquetas = array_merge($etiquetas, $usuario->etiquetas());
         }
         $etiquetas = array_unique($etiquetas);
+        sort($etiquetas);
 
         return view('profesor.index', compact(['usuarios', 'unidades', 'disponibles', 'organization',
             'total_actividades_grupo', 'media_grupo', 'media_grupo_formato',
