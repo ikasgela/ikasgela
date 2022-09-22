@@ -40,6 +40,11 @@ trait JPlagRunner
                 }
 
                 $repositorio = $intellij_project->repository();
+
+                Log::debug('Clonando...', [
+                    'repo' => $repositorio,
+                ]);
+
                 $response = Terminal::in($ruta)
                     ->run('git clone http://root:' . config('gitea.token') . '@gitea:3000/'
                         . $repositorio['path_with_namespace'] . '.git '
