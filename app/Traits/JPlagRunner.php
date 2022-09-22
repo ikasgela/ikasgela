@@ -73,6 +73,10 @@ trait JPlagRunner
                 'directorio' => $directorio,
             ]);
             Storage::disk('temp')->deleteDirectory($directorio);
+        } else {
+            Log::debug('Salida de JPlag.', [
+                'output' => $response->lines(),
+            ]);
         }
 
         if (Storage::disk('temp')->exists($directorio . '/__resultados/matches_avg.csv')) {
