@@ -41,25 +41,27 @@ trait JPlagRunner
 
                 $repositorio = $intellij_project->repository();
 
-                Log::debug('Clonando...', [
-                    'repo' => $repositorio,
-                ]);
-
-                $response = Terminal::in($ruta)
-                    ->run('git clone http://root:' . config('gitea.token') . '@gitea:3000/'
-                        . $repositorio['path_with_namespace'] . '.git '
-                        . $repositorio['owner'] . '@' . $repositorio['name']);
-
-                if (!$response->successful()) {
-                    Log::error('Error al descargar repositorios mediante Git.', [
-                        'output' => $response->lines(),
-                        'tarea' => route('profesor.revisar', ['user' => $tarea->user->id, 'tarea' => $tarea->id]),
+                if ($repositorio['owner'] != '?') {
+                    Log::debug('Clonando...', [
+                        'repo' => $repositorio,
                     ]);
-                } else {
-                    Log::debug('Descargando repositorios mediante Git.', [
-                        'output' => $response->lines(),
-                        'tarea' => route('profesor.revisar', ['user' => $tarea->user->id, 'tarea' => $tarea->id]),
-                    ]);
+
+                    $response = Terminal::in($ruta)
+                        ->run('git clone http://root:' . config('gitea.token') . '@gitea:3000/'
+                            . $repositorio['path_with_namespace'] . '.git '
+                            . $repositorio['owner'] . '@' . $repositorio['name']);
+
+                    if (!$response->successful()) {
+                        Log::error('Error al descargar repositorios mediante Git.', [
+                            'output' => $response->lines(),
+                            'tarea' => route('profesor.revisar', ['user' => $tarea->user->id, 'tarea' => $tarea->id]),
+                        ]);
+                    } else {
+                        Log::debug('Descargando repositorios mediante Git.', [
+                            'output' => $response->lines(),
+                            'tarea' => route('profesor.revisar', ['user' => $tarea->user->id, 'tarea' => $tarea->id]),
+                        ]);
+                    }
                 }
             }
         }
