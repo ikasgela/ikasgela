@@ -195,7 +195,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->actividades()
             ->caducada()
-            ->wherePivotNotIn('estado', [30, 40, 60, 62]);
+            ->wherePivotNotIn('estado', [30, 40, 60, 61, 64]);
     }
 
     public function num_actividades_caducadas()
@@ -302,7 +302,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function actividades_archivadas()
     {
         return $this->actividades()
-            ->wherePivotIn('estado', [60, 62, 64]);
+            ->wherePivotIn('estado', [60, 64]);
     }
 
     public function num_actividades_archivadas()
@@ -317,7 +317,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function actividades_completadas(Milestone $milestone = null)
     {
         $completadas = $this->actividades()
-            ->wherePivotIn('estado', [40, 60, 62]);
+            ->wherePivotIn('estado', [40, 60, 64]);
 
         return $milestone == null ? $completadas : $completadas->whereBetween('tareas.updated_at', [$milestone?->curso->fecha_inicio, $milestone?->date]);
     }
@@ -334,7 +334,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function actividades_sin_completar()
     {
         return $this->actividades()
-            ->wherePivotNotIn('estado', [40, 60, 62])
+            ->wherePivotNotIn('estado', [40, 60, 61, 64])
             ->tag('base');
     }
 
@@ -722,7 +722,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
                     $puntuacion_actividad = $actividad->puntuacion * ($actividad->multiplicador ?: 1);
                     $puntuacion_tarea = $actividad->tarea->puntuacion * ($actividad->multiplicador ?: 1);
-                    $completada = in_array($actividad->tarea->estado, [40, 60]);
+                    $completada = in_array($actividad->tarea->estado, [40, 60, 64]);
 
                     if ($puntuacion_actividad > 0 && $completada) {
                         $r->resultados_unidades[$unidad->id]->actividad += $puntuacion_actividad;
