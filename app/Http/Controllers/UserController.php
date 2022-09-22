@@ -65,7 +65,13 @@ class UserController extends Controller
 
         $ids = $users->pluck('id')->toArray();
 
-        return view('users.index', compact(['users', 'organizations', 'ids', 'cursos']));
+        $etiquetas = [];
+        foreach ($users as $usuario) {
+            $etiquetas = array_merge($etiquetas, $usuario->etiquetas());
+        }
+        $etiquetas = array_unique($etiquetas);
+
+        return view('users.index', compact(['users', 'organizations', 'ids', 'cursos', 'etiquetas']));
     }
 
     public function create()
