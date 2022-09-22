@@ -88,16 +88,21 @@
         <tfoot class="thead-dark">
         <tr>
             <th class="p-0"></th>
-            <th colspan="3">{{ __('Student total') }}: {{ $usuarios->count() }}</th>
+            <th colspan="6">{{ __('Student total') }}: {{ $usuarios->count() }}</th>
             <th class="text-center">{{ $total_enviadas>0 ? $total_enviadas : '' }}</th>
-            <th class="" colspan="10">
-                {{ __('Filter by tag') }}:
-                @foreach($etiquetas as $etiqueta)
-                    {!! '<a class="badge badge-secondary text-dark ml-2" href="'.route(explode('.',Route::currentRouteName())[0].'.index.filtro',['tag'=>$etiqueta]).'">'.$etiqueta.'</a>' !!}
-                @endforeach
-            </th>
             <th colspan="100"></th>
         </tr>
+        @if(count($etiquetas) > 0)
+            <tr>
+                <td class="p-0"></td>
+                <td colspan="6">
+                    {{ __('Filter by tag') }}:
+                    @foreach($etiquetas as $etiqueta)
+                        {!! '<a class="badge badge-secondary text-dark ml-2" href="'.route(explode('.',Route::currentRouteName())[0].'.index.filtro',['tag'=>$etiqueta]).'">'.$etiqueta.'</a>' !!}
+                    @endforeach
+                </td>
+            </tr>
+        @endif
         </tfoot>
     </table>
 </div>

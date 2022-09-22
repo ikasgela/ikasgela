@@ -48,14 +48,18 @@
         <tfoot>
         <tr class="bg-dark">
             <th colspan="3">{{ __('Total') }}: {{ $users->count() }}</th>
-            <th class="" colspan="10">
-                {{ __('Filter by tag') }}:
-                @foreach($etiquetas as $etiqueta)
-                    {!! '<a class="badge badge-secondary text-dark ml-2" href="'.route(explode('.',Route::currentRouteName())[0].'.index.filtro',['tag'=>$etiqueta]).'">'.$etiqueta.'</a>' !!}
-                @endforeach
-            </th>
             <th colspan="100"></th>
         </tr>
+        @if(count($etiquetas) > 0)
+            <tr>
+                <td colspan="100">
+                    {{ __('Filter by tag') }}:
+                    @foreach($etiquetas as $etiqueta)
+                        {!! '<a class="badge badge-secondary text-dark ml-2" href="'.route(explode('.',Route::currentRouteName())[0].'.index.filtro',['tag'=>$etiqueta]).'">'.$etiqueta.'</a>' !!}
+                    @endforeach
+                </td>
+            </tr>
+        @endif
         <tr>
             <td colspan="42">
                 <div class="form-inline">
