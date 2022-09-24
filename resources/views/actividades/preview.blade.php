@@ -24,9 +24,6 @@
                     <span>{{ $actividad->unidad->curso->nombre }} » {{ $actividad->unidad->nombre }}</span>
                     @if(Auth::user()->hasAnyRole(['admin','profesor']) && Route::currentRouteName() == 'actividades.preview')
                         <div>
-                            <a title="{{ __('Sort resources') }}"
-                               href="{{ route('actividades.show', [$actividad->id]) }}"
-                               class='text-white mr-2'><i class="fas fa-sort"></i></a>
                             <a title="{{ __('Edit') }}"
                                href="{{ route('actividades.edit', [$actividad->id]) }}"
                                class='text-white'><i class="fas fa-edit"></i></a>
@@ -34,10 +31,22 @@
                     @endif
                 </div>
                 <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        @include('actividades.partials.encabezado_con_etiquetas')
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            @include('actividades.partials.encabezado_con_etiquetas')
+                            <p>{{ $actividad->descripcion }}</p>
+                        </div>
+                        @if(Auth::user()->hasAnyRole(['admin','profesor']) && Route::currentRouteName() == 'actividades.preview')
+                            <div>
+                                @include('partials.botones_recursos')
+                                <div class='btn-group ml-3'>
+                                    <a title="{{ __('Sort resources') }}"
+                                       href="{{ route('actividades.show', [$actividad->id]) }}"
+                                       class='btn btn-light btn-sm'><i class="fas fa-sort"></i></a>
+                                </div>
+                            </div>
+                        @endif
                     </div>
-                    <p>{{ $actividad->descripcion }}</p>
                 </div>
                 @include('partials.tarjetas_actividad')
             </div>
