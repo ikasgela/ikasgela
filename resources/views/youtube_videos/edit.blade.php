@@ -13,6 +13,10 @@
             {{ Form::campoTexto('descripcion', __('Description')) }}
             {{ Form::campoTexto('codigo', __('Code')) }}
 
+            @if(isset($youtube_video->codigo))
+                {{ Form::campoLabelUrl('url', __('URL'), $youtube_video->codigo) }}
+            @endif
+
             @include('partials.guardar_cancelar')
 
             @include('layouts.errors')

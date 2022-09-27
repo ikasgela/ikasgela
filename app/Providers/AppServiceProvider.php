@@ -25,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
         Form::component('campoCheck', 'components.form.check', ['name', 'label' => null, 'value' => null, 'attributes' => []]);
         Form::component('campoCheckLabel', 'components.form.check_label', ['name', 'label' => null, 'value' => null, 'attributes' => []]);
         Form::component('campoTextArea', 'components.form.text_area', ['name', 'label' => null, 'value' => null, 'attributes' => []]);
+        Form::component('campoLabelUrl', 'components.form.label_url', ['name', 'label' => null, 'value' => null, 'attributes' => []]);
 
         if (config('app.env', 'local') !== 'production') {
             $this->app->singleton(\Faker\Generator::class, function () {
