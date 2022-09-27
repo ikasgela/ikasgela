@@ -7,6 +7,7 @@ use App\Models\Curso;
 use App\Models\MarkdownText;
 use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
+use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -62,7 +63,9 @@ class MarkdownTextController extends Controller
 
     public function edit(MarkdownText $markdown_text)
     {
-        return view('markdown_texts.edit', compact('markdown_text'));
+        $repositorio = GiteaClient::repo($markdown_text->repositorio);
+
+        return view('markdown_texts.edit', compact(['markdown_text', 'repositorio']));
     }
 
     public function update(Request $request, MarkdownText $markdown_text)

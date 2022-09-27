@@ -15,6 +15,10 @@
             {{ Form::campoTexto('rama', __('Branch')) }}
             {{ Form::campoTexto('archivo', __('File')) }}
 
+            @if(isset($repositorio['web_url']))
+                {{ Form::campoLabelUrl('url', __('URL'), $repositorio['web_url']) }}
+            @endif
+
             @include('partials.guardar_cancelar')
 
             @include('layouts.errors')
