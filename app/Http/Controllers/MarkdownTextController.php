@@ -63,7 +63,11 @@ class MarkdownTextController extends Controller
 
     public function edit(MarkdownText $markdown_text)
     {
-        $repositorio = GiteaClient::repo($markdown_text->repositorio);
+        try {
+            $repositorio = GiteaClient::repo($markdown_text->repositorio);
+        } catch (\Exception $e) {
+            $repositorio = null;
+        }
 
         return view('markdown_texts.edit', compact(['markdown_text', 'repositorio']));
     }
