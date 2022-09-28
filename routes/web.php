@@ -305,10 +305,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::post('/link_collections/{actividad}/toggle_descripcion_visible/{link_collection}', 'LinkCollectionController@toggle_descripcion_visible')
                 ->name('link_collections.toggle.descripcion_visible');
 
-            // Ver archivo de otros alumnos
-            Route::post('/archivo', 'ArchivoController@index')
-                ->name('archivo.alumno');
-
             // Modificar la nota manualmente
             Route::get('/profesor/{user}/{curso}/nota_manual', 'ProfesorController@editNotaManual')
                 ->name('profesor.nota_manual.edit');
@@ -320,10 +316,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('teams.index.filtro');
             Route::post('/profesor/asignar_tareas_equipo', 'ProfesorController@asignarTareasEquipo')
                 ->name('profesor.asignar_tareas_equipo');
-
-            // Ver el progreso de otros alumnos
-            Route::post('/archivo/outline', 'ArchivoController@outline')
-                ->name('archivo.outline.filtro');
         });
 
         // Administrador
@@ -508,6 +500,14 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             // Resultados de otro usuario en PDF
             Route::post('/results/pdf', 'ResultController@pdf')
                 ->name('results.pdf.filtro');
+
+            // Ver el progreso de otros alumnos
+            Route::post('/archivo/outline', 'ArchivoController@outline')
+                ->name('archivo.outline.filtro');
+
+            // Ver archivo de otros alumnos
+            Route::post('/archivo', 'ArchivoController@index')
+                ->name('archivo.alumno');
         });
 
         // Alumno, profesor y tutor

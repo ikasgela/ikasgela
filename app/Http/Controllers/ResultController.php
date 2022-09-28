@@ -42,7 +42,7 @@ class ResultController extends Controller
         $user = Auth::user();
 
         // Hay otro usuario seleccionado para mostrar
-        if (Auth::user()->hasAnyRole(['admin'])) {
+        if (Auth::user()->hasAnyRole(['admin', 'profesor', 'tutor'])) {
             if (!empty($request->input('user_id'))) {
                 $user_id = $request->input('user_id');
                 if ($user_id == -1) {
