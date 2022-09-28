@@ -11,10 +11,17 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplication;
 
     protected $admin;
-    protected $alumno;
-    protected $profesor;
     protected $not_admin;
+
+    protected $alumno;
+
+    protected $profesor;
     protected $not_profesor;
+
+    protected $tutor;
+
+    protected $profesor_tutor;
+    protected $not_profesor_tutor;
 
     protected $not_alumno_profesor;
     protected $not_admin_profesor;
@@ -35,6 +42,13 @@ abstract class TestCase extends BaseTestCase
         $this->profesor = User::factory()->create();
         $this->profesor->roles()->attach($rol_profesor);
 
+        $this->profesor_tutor = User::factory()->create();
+        $this->profesor_tutor->roles()->attach($rol_profesor);
+        $this->profesor_tutor->roles()->attach($rol_tutor);
+
+        $this->tutor = User::factory()->create();
+        $this->tutor->roles()->attach($rol_tutor);
+
         $this->not_admin = User::factory()->create();
         $this->not_admin->roles()->attach($rol_alumno);
         $this->not_admin->roles()->attach($rol_profesor);
@@ -52,5 +66,9 @@ abstract class TestCase extends BaseTestCase
         $this->not_admin_profesor = User::factory()->create();
         $this->not_admin_profesor->roles()->attach($rol_alumno);
         $this->not_admin_profesor->roles()->attach($rol_tutor);
+
+        $this->not_profesor_tutor = User::factory()->create();
+        $this->not_profesor_tutor->roles()->attach($rol_admin);
+        $this->not_profesor_tutor->roles()->attach($rol_alumno);
     }
 }
