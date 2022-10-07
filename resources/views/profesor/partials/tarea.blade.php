@@ -93,7 +93,7 @@
                         <i class="fas fa-bullhorn mt-3"></i>
                         <label class="m-0" for="feedback">{{ __('Feedback') }}</label>
                     </div>
-                    <div class="border rounded p-3">
+                    <div class="border rounded p-3 mb-1">
                         <div class="row">
                             <div class="col-md-6 form-group d-flex flex-row justify-content-between">
                                 {!! Form::label('unidad', __('Course'), ['class' => 'col-form-label']) !!}
@@ -170,7 +170,6 @@
             <input form="guardar_feedback" type="hidden" id="from" name="from" value="tarea">
             {!! Form::close() !!}
             @if($tarea->estado >= 10)
-                <hr class="my-2">
                 @include('partials.tarjetas_actividad')
             @endif
             {{-- Fin tarjeta--}}
