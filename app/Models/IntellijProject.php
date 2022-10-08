@@ -33,17 +33,17 @@ class IntellijProject extends Model
             ]);
     }
 
-    public function template()
+    public function repository_no_cache()
     {
         return $this->repository(true);
     }
 
-    public function repository($template = false)
+    public function repository($no_cache = false)
     {
         switch ($this->host) {
             case 'gitea':
                 try {
-                    if ($template)
+                    if ($no_cache)
                         return GiteaClient::repo($this->repositorio);
                     else
                         return Cache::remember($this->cacheKey(), now()->addDays(config('ikasgela.repo_cache_days')), function () {
