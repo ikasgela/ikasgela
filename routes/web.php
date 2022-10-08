@@ -212,10 +212,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('intellij_projects.borrar');
 
             // Descargar proyectos de IntellijProject
-            Route::get('/intellij_projects/descargar', 'IntellijProjectController@descargar')
+            Route::get('/intellij_projects/descargar', 'IntellijProjectController@descargar_repos')
                 ->name('intellij_projects.descargar');
-            Route::post('/intellij_projects/descargar', 'IntellijProjectController@descargar')
+            Route::post('/intellij_projects/descargar_repos', 'IntellijProjectController@descargar_repos')
                 ->name('intellij_projects.descargar.repos');
+            Route::post('/intellij_projects/descargar_plantillas', 'IntellijProjectController@descargar_plantillas')
+                ->name('intellij_projects.descargar.plantillas');
 
             // IntellijProject
             Route::resource('intellij_projects', 'IntellijProjectController');

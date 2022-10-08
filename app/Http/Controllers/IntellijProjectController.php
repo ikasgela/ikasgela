@@ -289,7 +289,7 @@ class IntellijProjectController extends Controller
         }, $repositorio['name'] . '.zip');
     }
 
-    public function descargar(Request $request)
+    public function descargar_repos(Request $request)
     {
         $unidades = Unidad::cursoActual()->orderBy('orden')->get();
 
@@ -352,6 +352,44 @@ class IntellijProjectController extends Controller
 
                 $datos .= "cd ..";
                 $datos .= "\n";
+
+                return response()->streamDownload(function () use ($datos) {
+                    echo $datos;
+                }, $fichero);
+            }
+        }
+
+        return view('intellij_projects.descargar', compact(['unidades']));
+    }
+
+    public function descargar_plantillas(Request $request)
+    {
+        $unidades = Unidad::cursoActual()->orderBy('orden')->get();
+
+        if ($request->has('unidad_id')) {
+
+            $fecha = now()->format('Ymd-His');
+
+            $unidad = Unidad::findOrFail($request->get('unidad_id'));
+
+            $fichero = $fecha . "-" . $unidad->slug . ".sh";
+            $datos = "#!/bin/sh\n\n";
+
+            $curso_actual = Curso::find(setting_usuario('curso_actual'));
+
+            if ($curso_actual != null) {
+
+                $actividades = $unidad->actividades()->plantilla()->get();
+
+                foreach ($actividades as $actividad) {
+
+                    foreach ($actividad->intellij_projects()->get() as $project) {
+                        $datos .= "git clone ";
+                        $repositorio = GiteaClient::repo($project->repositorio);
+                        $datos .= "'" . $repositorio['http_url_to_repo'] . "'";
+                        $datos .= "\n";
+                    }
+                }
 
                 return response()->streamDownload(function () use ($datos) {
                     echo $datos;
