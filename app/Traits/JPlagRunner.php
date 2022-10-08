@@ -32,7 +32,7 @@ trait JPlagRunner
                 if ($primero) {
                     $primero = false;
 
-                    $repositorio = $intellij_project->template();
+                    $repositorio = $intellij_project->repository_no_cache();
                     $response = Terminal::in($ruta)
                         ->run('git clone http://root:' . config('gitea.token') . '@gitea:3000/'
                             . $repositorio['path_with_namespace'] . '.git '
