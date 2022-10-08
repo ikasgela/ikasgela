@@ -51,7 +51,7 @@
             @foreach($proyectos as $proyecto)
                 <tr>
                     <td>{{ $proyecto['id'] }}</td>
-                    <td>{{ $proyecto['name'] }}</td>
+                    <td>{{ $proyecto['full_name'] }}</td>
                     <td>{{ $proyecto['description'] }}</td>
                     <td>@include('partials.link_gitea', ['proyecto' => $proyecto ])</td>
                     <td class="text-nowrap">
