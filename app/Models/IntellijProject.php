@@ -45,14 +45,17 @@ class IntellijProject extends Model
                 try {
                     if ($no_cache)
                         return GiteaClient::repo($this->repositorio);
-                    else
-                        return Cache::remember($this->cacheKey(), now()->addDays(config('ikasgela.repo_cache_days')), function () {
+                    else {
+                        Log::debug("Repositorio en caché: ", ['key', $this->cacheKey()]);
+
+                        return Cache::tags([$this->templateCacheKey()])->remember($this->cacheKey(), now()->addDays(config('ikasgela.repo_cache_days')), function () {
                             if (!$this->isForked()) {
                                 return GiteaClient::repo($this->repositorio);
                             } else {
                                 return GiteaClient::repo($this->pivot->fork);
                             }
                         });
+                    }
                 } catch (\Exception $e) {
                     Log::error('Error al recuperar un repositorio.', [
                         'host' => $this->host,
@@ -146,17 +149,19 @@ class IntellijProject extends Model
         $this->pivot->save();
     }
 
-    /**
-     * @return string
-     */
     public function cacheKey(): string
     {
         if (isset($this->pivot))
             $key = $this->host . '_' . $this->pivot->intellij_project_id . '_' . $this->pivot->actividad_id;
         else
-            $key = $this->host . '_' . $this->id;
+            $key = $this->templateCacheKey();
 
         return $key;
+    }
+
+    public function templateCacheKey(): string
+    {
+        return $this->host . '_' . $this->id;
     }
 
     public function curso()
