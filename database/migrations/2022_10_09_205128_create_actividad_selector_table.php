@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRuleGroupsTable extends Migration
+class CreateActividadSelectorTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateRuleGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('rule_groups', function (Blueprint $table) {
+        Schema::create('actividad_selector', function (Blueprint $table) {
             $table->id();
 
-            $table->string('operador');     // and, or
-            $table->string('accion');       // siguiente
-            $table->string('resultado');    // 10 (id_actividad)
-
+            $table->foreignId('actividad_id')->constrained()->on('actividades')->onDelete('cascade');
             $table->foreignId('selector_id')->constrained()->onDelete('cascade');
 
             $table->timestamps();
@@ -33,6 +30,6 @@ class CreateRuleGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rule_groups');
+        Schema::dropIfExists('actividad_selector');
     }
 }

@@ -15,6 +15,13 @@ class CreateRulesTable extends Migration
     {
         Schema::create('rules', function (Blueprint $table) {
             $table->id();
+
+            $table->string('propiedad');    // nota, intentos
+            $table->string('operador');     // >, <, >=, <=, ==, !=
+            $table->string('valor');        // 100
+
+            $table->foreignId('rule_group_id')->constrained()->onDelete('cascade');
+
             $table->timestamps();
         });
     }
