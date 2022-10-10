@@ -70,7 +70,23 @@
                     </td>
                     <td class="text-center clickable">{{ $actividad->tarea->puntuacion }}</td>
                     <td class="text-center clickable">{!! $actividad->tarea->estado >= 50 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
-                    <td class="text-center clickable">{!! $actividad->is_expired ? (!$actividad->tarea->is_completada ? '<i class="fas fa-exclamation-triangle text-warning"></i>' : ($actividad->tarea->is_completada_archivada ? '<i class="fas fa-exclamation-triangle text-secondary"></i>' : '<i class="fas fa-times text-secondary"></i>')) : '<i class="fas fa-times text-secondary"></i>' !!}</td>
+                    <td class="text-center clickable">
+                        <div class="d-flex justify-content-around align-items-center">
+                            {!! $actividad->is_expired ? (!$actividad->tarea->is_completada ? '<i class="fas fa-exclamation-triangle text-warning"></i>' : ($actividad->tarea->is_completada_archivada ? '<i class="fas fa-exclamation-triangle text-secondary"></i>' : '<i class="fas fa-times text-secondary"></i>')) : '<i class="fas fa-times text-secondary"></i>' !!}
+                            @if($actividad->is_expired)
+                                {!! Form::open(['route' => ['actividades.estado', $actividad->tarea->id], 'method' => 'PUT']) !!}
+                                <div class='btn-group'>
+                                    <button type="submit" name="nuevoestado" value="63"
+                                            title="{{ __('Extend deadline') }}"
+                                            class="btn btn-sm bg-warning">
+                                        +{{ $actividad->unidad->curso->plazo_actividad ?? 7 }}</button>
+                                </div>
+                                <input type="hidden" name="ampliacion_plazo"
+                                       value="{{ $actividad->unidad->curso->plazo_actividad ?? 7 }}"/>
+                                {!! Form::close() !!}
+                            @endif
+                        </div>
+                    </td>
                     @include('profesor.partials.siguiente_actividad')
                     @if(Auth::user()->hasRole('admin'))
                         @include('partials.botones_recursos')

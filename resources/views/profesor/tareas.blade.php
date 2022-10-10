@@ -21,6 +21,13 @@
                 {!! Form::hidden('filtro_alumnos','R') !!}
                 {!! Form::close() !!}
 
+                {!! Form::open(['route' => ['profesor.tareas.filtro', $user->id], 'method' => 'POST']) !!}
+                {!! Form::button(trans_choice('tasks.expired', 2), ['type' => 'submit',
+                    'class' => session('profesor_filtro_alumnos') == 'C' ? 'btn btn-sm mx-1 btn-secondary' : 'btn btn-sm mx-1 btn-outline-secondary'
+                ]) !!}
+                {!! Form::hidden('filtro_alumnos','C') !!}
+                {!! Form::close() !!}
+
                 <span class="mx-1"></span>
 
                 {!! Form::open(['route' => ['profesor.tareas.filtro', $user->id], 'method' => 'POST']) !!}
