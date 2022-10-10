@@ -89,6 +89,8 @@ class IntellijProjectController extends Controller
 
         Log::debug("Repositorios borrados de caché: ", ['tag', $intellij_project->templateCacheKey()]);
 
+        Cache::forget($intellij_project->cacheKey());
+
         return retornar();
     }
 
