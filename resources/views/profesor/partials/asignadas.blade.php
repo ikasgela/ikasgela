@@ -73,7 +73,7 @@
                     <td class="text-center clickable">
                         <div class="d-flex justify-content-around align-items-center">
                             {!! $actividad->is_expired ? (!$actividad->tarea->is_completada ? '<i class="fas fa-exclamation-triangle text-warning"></i>' : ($actividad->tarea->is_completada_archivada ? '<i class="fas fa-exclamation-triangle text-secondary"></i>' : '<i class="fas fa-times text-secondary"></i>')) : '<i class="fas fa-times text-secondary"></i>' !!}
-                            @if($actividad->is_expired)
+                            @if($actividad->is_expired && !$actividad->tarea->is_completada)
                                 {!! Form::open(['route' => ['actividades.estado', $actividad->tarea->id], 'method' => 'PUT']) !!}
                                 <div class='btn-group'>
                                     <button type="submit" name="nuevoestado" value="63"
