@@ -92,6 +92,7 @@ class ForkGiteaRepo implements ShouldQueue
                         GiteaClient::add_collaborator($fork['owner'], $fork['name'], $colaborador->username);
                     }
 
+                    Cache::tags([$ij->templateCacheKey()])->flush();
                     Cache::put($ij->cacheKey(), $fork, now()->addDays(config('ikasgela.repo_cache_days')));
 
                     //Mail::to($this->user->email)->send(new RepositorioClonado());
