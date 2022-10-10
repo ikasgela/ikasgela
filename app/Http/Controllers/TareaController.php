@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Log;
 
 class TareaController extends Controller
 {
@@ -75,8 +76,14 @@ class TareaController extends Controller
         }
 
         foreach ($tarea->actividad->intellij_projects as $intellij_project) {
-            $repo = $intellij_project->repository();
-            GiteaClient::borrar_repo($repo['id']);
+            if ($intellij_project->isForked()) {
+                $repo = $intellij_project->repository();
+                try {
+                    GiteaClient::borrar_repo($repo['id']);
+                } catch (\Exception $e) {
+                    Log::error("No se ha podido borrar el repositorio", ['tarea' => $tarea->id, 'repo' => $repo['path_with_namespace']]);
+                }
+            }
         }
 
         $tarea->actividad->delete();
