@@ -197,6 +197,9 @@ class ProfesorController extends Controller
             case 'R':
                 $actividades = $user->actividades_enviadas_noautoavance();
                 break;
+            case 'C':
+                $actividades = $user->actividades_caducadas();
+                break;
             default:
                 $actividades = $user->actividades();
                 break;
