@@ -18,7 +18,6 @@ use App\Traits\CalcularFechaEntregaActividad;
 use App\Traits\HerramientasIP;
 use App\Traits\JPlagRunner;
 use App\Traits\PaginarUltima;
-use FontLib\TrueType\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -89,18 +88,22 @@ class ProfesorController extends Controller
                 session()->push('tags', request('tag'));
             }
 
-            if (session('profesor_filtro_actividades_examen') == 'E') {
-                if (session('profesor_filtro_alumnos') == 'R') {
-                    $alumnos = $alumnos->whereHas('actividades', function ($query) {
-                        $query->where('auto_avance', false)->where('estado', 30);
-                    });
-                }
-            } else {
-                if (session('profesor_filtro_alumnos') == 'R') {
-                    $alumnos = $alumnos->whereHas('actividades', function ($query) {
-                        $query->where('auto_avance', false)->tag('examen', false)->where('estado', 30);
-                    });
-                }
+            if (session('profesor_filtro_alumnos') == 'R') {
+                $alumnos = $alumnos->whereHas('actividades', function ($query) {
+                    $query->where('auto_avance', false);
+                });
+            }
+
+            if (session('profesor_filtro_actividades_examen') != 'E') {
+                $alumnos = $alumnos->whereHas('actividades', function ($query) {
+                    $query->tag('examen', false);
+                });
+            }
+
+            if (session('profesor_filtro_alumnos') == 'R') {
+                $alumnos = $alumnos->whereHas('actividades', function ($query) {
+                    $query->where('estado', 30);
+                });
             }
 
             if (!is_null(session('tags')))
