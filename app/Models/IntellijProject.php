@@ -46,15 +46,17 @@ class IntellijProject extends Model
                     if ($no_cache)
                         return GiteaClient::repo($this->repositorio);
                     else {
-                        Log::debug("Repositorio en caché: ", ['key', $this->cacheKey()]);
-
-                        return Cache::tags([$this->templateCacheKey()])->remember($this->cacheKey(), now()->addDays(config('ikasgela.repo_cache_days')), function () {
-                            if (!$this->isForked()) {
+                        if (!$this->isForked()) {
+                            return Cache::remember($this->templateCacheKey(), now()->addDays(config('ikasgela.repo_cache_days')), function () {
+                                Log::debug("IntellijProject - repository() - Repositorio plantilla en caché: ", ['key' => $this->templateCacheKey(), 'repo' => $this->repositorio]);
                                 return GiteaClient::repo($this->repositorio);
-                            } else {
+                            });
+                        } else {
+                            return Cache::remember($this->cacheKey(), now()->addDays(config('ikasgela.repo_cache_days')), function () {
+                                Log::debug("IntellijProject - repository() - Repositorio fork en caché: ", ['key' => $this->cacheKey(), 'repo' => $this->pivot->fork]);
                                 return GiteaClient::repo($this->pivot->fork);
-                            }
-                        });
+                            });
+                        }
                     }
                 } catch (\Exception $e) {
                     Log::error('Error al recuperar un repositorio.', [

@@ -85,9 +85,13 @@ class IntellijProjectController extends Controller
 
         $intellij_project->update($request->all());
 
-        Cache::tags([$intellij_project->templateCacheKey()])->flush();
-
-        Log::debug("Repositorios borrados de caché: ", ['tag', $intellij_project->templateCacheKey()]);
+        if (!$intellij_project->isForked()) {
+            Log::debug("IntellijProjectController - update() - Repositorio plantilla borrado de caché: ", ['key' => $intellij_project->templateCacheKey(), 'repo' => $intellij_project->repositorio]);
+            Cache::forget($intellij_project->templateCacheKey());
+        } else {
+            Log::debug("IntellijProjectController - update() - Repositorio fork borrado de caché: ", ['key' => $intellij_project->cacheKey(), 'repo' => $intellij_project->repositorio]);
+            Cache::forget($intellij_project->cacheKey());
+        }
 
         return retornar();
     }
