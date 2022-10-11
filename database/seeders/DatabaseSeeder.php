@@ -42,5 +42,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(QualificationsTableSeeder::class);
         $this->call(MilestoneSeeder::class);
+
+        $this->call(SelectorSeeder::class);
     }
 }
