@@ -37,7 +37,7 @@
                             <p>{{ $actividad->descripcion }}</p>
                         </div>
                         @if(Auth::user()->hasAnyRole(['admin','profesor']) && Route::currentRouteName() == 'actividades.preview')
-                            <div>
+                            <div class="d-flex">
                                 @include('partials.botones_recursos')
                                 <div class='btn-group ml-3'>
                                     <a title="{{ __('Sort resources') }}"
