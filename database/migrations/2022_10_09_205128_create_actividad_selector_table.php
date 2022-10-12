@@ -19,6 +19,11 @@ class CreateActividadSelectorTable extends Migration
             $table->foreignId('actividad_id')->constrained()->on('actividades')->onDelete('cascade');
             $table->foreignId('selector_id')->constrained()->onDelete('cascade');
 
+            $table->uuid('orden')->index()->nullable();
+            $table->boolean('titulo_visible')->default(true)->nullable();
+            $table->boolean('descripcion_visible')->default(true)->nullable();
+            $table->integer('columnas')->default(6)->nullable();
+
             $table->timestamps();
         });
     }
