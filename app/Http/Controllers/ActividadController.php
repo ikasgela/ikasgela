@@ -630,6 +630,8 @@ class ActividadController extends Controller
                 }
             }
 
+            $clon = null;
+
             // Si hay siguiente y el selector no ha conseguido nada
             if ($hay_siguiente && $siguiente_id == null) {
                 $plantilla = Actividad::find($actividad->plantilla_id);
@@ -639,49 +641,52 @@ class ActividadController extends Controller
                 } else {
                     $clon = $this->clonarActividad($actividad->siguiente);
                 }
-            } else {
+            } else if ($siguiente_id != null) {
                 $siguiente = Actividad::find($siguiente_id);
                 $clon = $this->clonarActividad($siguiente);
             }
 
-            $this->calcularFechaEntrega($clon);
+            if ($clon != null) {
 
-            $clon->save();
-            $clon->orden = $clon->id;
-            $clon->save();
+                $this->calcularFechaEntrega($clon);
 
-            $actividad->siguiente_id = null;
-            $actividad->save();
+                $clon->save();
+                $clon->orden = $clon->id;
+                $clon->save();
 
-            // Dejar pendiente el borrado de caché para cuando llegue la fecha
-            CacheClear::create(['fecha' => $clon->fecha_disponibilidad, 'user_id' => $usuario->id]);
-            CacheClear::create(['fecha' => $clon->fecha_entrega, 'user_id' => $usuario->id]);
-            CacheClear::create(['fecha' => $clon->fecha_limite, 'user_id' => $usuario->id]);
+                $actividad->siguiente_id = null;
+                $actividad->save();
 
-            if (!$actividad->final) {
-                // Pendiente de aceptar
-                $usuario->actividades()->attach($clon, ['estado' => 10]);
+                // Dejar pendiente el borrado de caché para cuando llegue la fecha
+                CacheClear::create(['fecha' => $clon->fecha_disponibilidad, 'user_id' => $usuario->id]);
+                CacheClear::create(['fecha' => $clon->fecha_entrega, 'user_id' => $usuario->id]);
+                CacheClear::create(['fecha' => $clon->fecha_limite, 'user_id' => $usuario->id]);
 
-                // Notificar
-                if (setting_usuario('notificacion_actividad_asignada', $usuario)) {
-                    $asignada = "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";
-                    Mail::to($usuario->email)->queue(new ActividadAsignada($usuario->name, $asignada, App::getLocale()));
+                if (!$actividad->final) {
+                    // Pendiente de aceptar
+                    $usuario->actividades()->attach($clon, ['estado' => 10]);
+
+                    // Notificar
+                    if (setting_usuario('notificacion_actividad_asignada', $usuario)) {
+                        $asignada = "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";
+                        Mail::to($usuario->email)->queue(new ActividadAsignada($usuario->name, $asignada, App::getLocale()));
+                    }
+                } else {
+                    // Oculta
+                    $usuario->actividades()->attach($clon, ['estado' => 11]);
                 }
-            } else {
-                // Oculta
-                $usuario->actividades()->attach($clon, ['estado' => 11]);
+
+                // Registrar la nueva tarea
+                $nueva_tarea = Tarea::where('user_id', $usuario->id)->where('actividad_id', $clon->id)->first();
+
+                Registro::create([
+                    'user_id' => $usuario->id,
+                    'tarea_id' => $nueva_tarea->id,
+                    'estado' => !$actividad->final ? 10 : 11,
+                    'timestamp' => now(),
+                    'curso_id' => Auth::user()->curso_actual()->id,
+                ]);
             }
-
-            // Registrar la nueva tarea
-            $nueva_tarea = Tarea::where('user_id', $usuario->id)->where('actividad_id', $clon->id)->first();
-
-            Registro::create([
-                'user_id' => $usuario->id,
-                'tarea_id' => $nueva_tarea->id,
-                'estado' => !$actividad->final ? 10 : 11,
-                'timestamp' => now(),
-                'curso_id' => Auth::user()->curso_actual()->id,
-            ]);
         }
     }
 
