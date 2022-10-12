@@ -12,4 +12,9 @@ class Rule extends Model
     protected $fillable = [
         'propiedad', 'operador', 'valor', 'rule_group_id',
     ];
+
+    public function rule_group()
+    {
+        return $this->belongsTo(RuleGroup::class);
+    }
 }

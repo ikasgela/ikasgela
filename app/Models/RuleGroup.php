@@ -12,4 +12,14 @@ class RuleGroup extends Model
     protected $fillable = [
         'operador', 'accion', 'resultado', 'selector_id',
     ];
+
+    public function selector()
+    {
+        return $this->belongsTo(Selector::class);
+    }
+
+    public function rules()
+    {
+        return $this->hasMany(Rule::class);
+    }
 }

@@ -12,4 +12,21 @@ class Selector extends Model
     protected $fillable = [
         'titulo', 'descripcion', 'curso_id',
     ];
+
+    public function actividades()
+    {
+        return $this
+            ->belongsToMany(Actividad::class)
+            ->withTimestamps();
+    }
+
+    public function curso()
+    {
+        return $this->belongsTo(Curso::class);
+    }
+
+    public function rule_groups()
+    {
+        return $this->hasMany(RuleGroup::class);
+    }
 }
