@@ -19,13 +19,4 @@
 
         </div>
     </div>
-
-    @include('partials.subtitulo', ['subtitulo' => __('Rule groups')])
-
-{{--
-    @include('rule_groups.tabla')
-
-    <a class="btn btn-primary" href="{{ route('rule_groups.anyadir', $selector) }}">{{ __('Add rule group') }}</a>
---}}
-
 @endsection

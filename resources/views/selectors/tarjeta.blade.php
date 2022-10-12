@@ -35,6 +35,9 @@
                             @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() == 'selectors.show')
                                 <td class="text-center">
                                     <div class='btn-group'>
+                                        <a title="{{ __('Edit') }}"
+                                           href="{{ route('rule_groups.edit', [$rule_group->id]) }}"
+                                           class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
                                         {!! Form::open(['route' => ['rule_groups.destroy', $rule_group->id], 'method' => 'DELETE']) !!}
                                         @include('partials.boton_borrar')
                                         {!! Form::close() !!}
@@ -48,24 +51,10 @@
             </div>
         @endif
     </div>
-    {{--
     @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() == 'selectors.show')
         <hr class="my-0">
         <div class="card-body">
-            {!! Form::open(['route' => ['rule_groups.store']]) !!}
-
-            {{ Form::campoTexto('url', __('URL'), '', ['placeholder' => 'https://ikasgela.com']) }}
-            {{ Form::campoTexto('descripcion', __('Description')) }}
-            {!! Form::hidden('selector_id', $selector->id) !!}
-
-            <span class="help-block text-danger">{{ $errors->first('url') }}</span>
-
-            <button class="btn btn-primary single_click">
-                <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Add') }}
-            </button>
-
-            {!! Form::close() !!}
+            <a class="btn btn-primary" href="{{ route('rule_groups.create') }}">{{ __('New rule group') }}</a>
         </div>
     @endif
-    --}}
 </div>
