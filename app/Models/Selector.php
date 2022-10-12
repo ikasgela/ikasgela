@@ -29,4 +29,9 @@ class Selector extends Model
     {
         return $this->hasMany(RuleGroup::class);
     }
+
+    public function pivote(Actividad $actividad)
+    {
+        return $actividad->selectors()->find($this->id)->pivot;
+    }
 }

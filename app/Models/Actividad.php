@@ -31,6 +31,7 @@ class Actividad extends Model
         'file_resources',
         'feedbacks',
         'link_collections',
+        'selectors',
     ];
 
     protected $clone_exempt_attributes = ['plantilla', 'siguiente_overriden'];
@@ -220,6 +221,17 @@ class Actividad extends Model
             ->withTimestamps();
     }
 
+    public function selectors()
+    {
+        return $this
+            ->belongsToMany(Selector::class)
+            ->withPivot([
+                'orden',
+                'titulo_visible', 'descripcion_visible', 'columnas',
+            ])
+            ->withTimestamps();
+    }
+
     public function envioPermitido()
     {
         $enviar = true;
@@ -344,6 +356,10 @@ class Actividad extends Model
         }
 
         foreach ($this->cuestionarios()->get() as $recurso) {
+            $recursos->add($recurso);
+        }
+
+        foreach ($this->selectors()->get() as $recurso) {
             $recursos->add($recurso);
         }
 
