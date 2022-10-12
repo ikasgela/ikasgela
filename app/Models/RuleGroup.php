@@ -22,4 +22,9 @@ class RuleGroup extends Model
     {
         return $this->hasMany(Rule::class);
     }
+
+    public function actividad()
+    {
+        return Actividad::findOrFail($this->resultado);
+    }
 }
