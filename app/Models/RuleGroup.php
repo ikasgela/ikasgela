@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class RuleGroup extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'operador', 'accion', 'resultado', 'selector_id',
+    ];
 }
