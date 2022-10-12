@@ -57,7 +57,7 @@ class SelectorSeeder extends Seeder
         ]);
 
         Rule::factory()->create([
-            'propiedad' => 'nota',
+            'propiedad' => 'puntuacion',
             'operador' => '<',
             'valor' => 80,
             'rule_group_id' => $rule_group->id,

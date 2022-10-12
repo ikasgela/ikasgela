@@ -16,7 +16,7 @@ class CreateRulesTable extends Migration
         Schema::create('rules', function (Blueprint $table) {
             $table->id();
 
-            $table->string('propiedad');    // nota, intentos
+            $table->string('propiedad');    // puntuacion, intentos
             $table->string('operador');     // >, <, >=, <=, ==, !=
             $table->string('valor');        // 100
 

@@ -59,7 +59,7 @@ class Selector extends Model
             foreach ($rule_group->rules()->get() as $rule) {
 
                 switch (Str::lower($rule->propiedad)) {
-                    case 'nota':
+                    case 'puntuacion':
                         $propiedad = 'puntuacion';
                         break;
                     case 'intentos':

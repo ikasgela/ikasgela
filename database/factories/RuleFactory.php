@@ -18,7 +18,7 @@ class RuleFactory extends Factory
     public function definition()
     {
         return [
-            'propiedad' => $this->faker->randomElement(['nota', 'intentos']),
+            'propiedad' => $this->faker->randomElement(['puntuacion', 'intentos']),
             'operador' => $this->faker->randomElement(['>', '<', '>=', '<=', '==', '!=']),
             'valor' => $this->faker->numberBetween(50, 100),
             'rule_group_id' => RuleGroup::factory(),
