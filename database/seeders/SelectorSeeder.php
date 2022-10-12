@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Actividad;
 use App\Models\IntellijProject;
+use App\Models\MarkdownText;
 use App\Models\Rule;
 use App\Models\RuleGroup;
 use App\Models\Selector;
@@ -45,8 +46,8 @@ class SelectorSeeder extends Seeder
             ]
         );
 
-        $proyecto = IntellijProject::where('repositorio', 'root/agenda')->first();
-        $actividad->intellij_projects()->attach($proyecto, ['orden' => Str::orderedUuid()]);
+        $markdown = MarkdownText::where('titulo', 'Apuntes')->first();
+        $actividad->markdown_texts()->attach($markdown, ['orden' => Str::orderedUuid()]);
 
         $rule_group = RuleGroup::factory()->create([
             'operador' => 'and',
@@ -68,5 +69,8 @@ class SelectorSeeder extends Seeder
             'valor' => 2,
             'rule_group_id' => $rule_group->id,
         ]);
+
+        $actividad = Actividad::where('slug', 'agenda')->first();
+        $actividad->selectors()->attach($selector, ['orden' => Str::orderedUuid()]);
     }
 }
