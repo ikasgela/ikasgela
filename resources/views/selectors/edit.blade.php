@@ -25,7 +25,7 @@
 {{--
     @include('rule_groups.tabla')
 
-    <a class="btn btn-primary" href="{{ route('rule_groups.anyadir', $selector) }}">{{ __('Add rule groups') }}</a>
+    <a class="btn btn-primary" href="{{ route('rule_groups.anyadir', $selector) }}">{{ __('Add rule group') }}</a>
 --}}
 
 @endsection
