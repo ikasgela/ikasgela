@@ -318,6 +318,21 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('teams.index.filtro');
             Route::post('/profesor/asignar_tareas_equipo', 'ProfesorController@asignarTareasEquipo')
                 ->name('profesor.asignar_tareas_equipo');
+
+            // Selector
+            Route::resource('selectors', 'SelectorController');
+            Route::get('/selectors/{actividad}/actividad', 'SelectorController@actividad')
+                ->name('selectors.actividad');
+            Route::post('/selectors/{actividad}/asociar', 'SelectorController@asociar')
+                ->name('selectors.asociar');
+            Route::delete('/selectors/{actividad}/desasociar/{selector}', 'SelectorController@desasociar')
+                ->name('selectors.desasociar');
+            Route::resource('rule_groups', 'RuleGroupController');
+            Route::get('/rule_groups/{selector}/anyadir', 'RuleGroupController@anyadir')
+                ->name('rule_groups.anyadir');
+            Route::resource('rules', 'RuleController');
+            Route::get('/rules/{rule_group}/anyadir', 'RuleController@anyadir')
+                ->name('rules.anyadir');
         });
 
         // Administrador
@@ -410,6 +425,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('cuestionarios.index.filtro');
             Route::post('/link_collections/filtro', 'LinkCollectionController@index')
                 ->name('link_collections.index.filtro');
+            Route::post('/selectors/filtro', 'SelectorController@index')
+                ->name('selectors.index.filtro');
 
             // CRUD - Feedbacks
             Route::resource('feedbacks', 'FeedbackController');
