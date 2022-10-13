@@ -619,12 +619,12 @@ class ActividadController extends Controller
 
             $siguiente_id = null;
 
-            // Los selectores sobreescriben el campo siguiente
+            // Calcular el resultado de los selectores
             if ($hay_selectores) {
                 foreach ($actividad->selectors()->get() as $selector) {
                     $resultado = $selector->calcularResultado($actividad, $tarea);
 
-                    if ($resultado != null) {
+                    if (!is_null($resultado)) {
                         $siguiente_id = $resultado;
                     }
                 }
@@ -633,7 +633,7 @@ class ActividadController extends Controller
             $clon = null;
 
             // Si hay siguiente y el selector no ha conseguido nada
-            if ($hay_siguiente && $siguiente_id == null) {
+            if ($hay_siguiente && is_null($siguiente_id)) {
                 $plantilla = Actividad::find($actividad->plantilla_id);
 
                 if ($plantilla->siguiente_id != $actividad->siguiente_id && !$actividad->siguiente_overriden) {
@@ -641,7 +641,7 @@ class ActividadController extends Controller
                 } else {
                     $clon = $this->clonarActividad($actividad->siguiente);
                 }
-            } else if ($siguiente_id != null) {
+            } else if (!is_null($siguiente_id)) {
                 $siguiente = Actividad::find($siguiente_id);
                 $clon = $this->clonarActividad($siguiente);
             }
