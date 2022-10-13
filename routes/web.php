@@ -248,6 +248,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('markdown_texts.asociar');
             Route::delete('/markdown_texts/{actividad}/desasociar/{markdown_text}', 'MarkdownTextController@desasociar')
                 ->name('markdown_texts.desasociar');
+            Route::post('/markdown_texts/{markdown_text}/duplicar', 'MarkdownTextController@duplicar')
+                ->name('markdown_texts.duplicar');
 
             // Cuestionario
             Route::resource('cuestionarios', 'CuestionarioController');
