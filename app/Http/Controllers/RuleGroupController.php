@@ -27,8 +27,8 @@ class RuleGroupController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'operador' => 'required',
-            'accion' => 'required',
+            'operador' => 'required|in:and,or',
+            'accion' => 'required|in:siguiente',
             'resultado' => 'required',
         ]);
 
@@ -52,8 +52,8 @@ class RuleGroupController extends Controller
     public function update(Request $request, RuleGroup $rule_group)
     {
         $this->validate($request, [
-            'operador' => 'required',
-            'accion' => 'required',
+            'operador' => 'required|in:and,or',
+            'accion' => 'required|in:siguiente',
             'resultado' => 'required',
         ]);
 

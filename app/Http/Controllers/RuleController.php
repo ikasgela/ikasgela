@@ -27,8 +27,8 @@ class RuleController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'propiedad' => 'required',
-            'operador' => 'required',
+            'propiedad' => 'required|in:puntuacion,intentos',
+            'operador' => 'required|in:>,<,>=,<=,==,!=',
             'valor' => 'required',
         ]);
 
@@ -50,8 +50,8 @@ class RuleController extends Controller
     public function update(Request $request, Rule $rule)
     {
         $this->validate($request, [
-            'propiedad' => 'required',
-            'operador' => 'required',
+            'propiedad' => 'required|in:puntuacion,intentos',
+            'operador' => 'required|in:>,<,>=,<=,==,!=',
             'valor' => 'required',
         ]);
 
