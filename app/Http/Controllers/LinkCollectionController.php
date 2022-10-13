@@ -134,4 +134,13 @@ class LinkCollectionController extends Controller
 
         return back();
     }
+
+    public function duplicar(LinkCollection $link_collection)
+    {
+        $clon = $link_collection->duplicate();
+        $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
+        $clon->save();
+
+        return back();
+    }
 }

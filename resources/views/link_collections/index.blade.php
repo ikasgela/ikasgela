@@ -31,17 +31,16 @@
                     <td>{{ $link_collection->titulo }}</td>
                     <td>{{ $link_collection->descripcion }}</td>
                     <td class="text-nowrap">
-                        {!! Form::open(['route' => ['link_collections.destroy', $link_collection->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>
-                            <a title="{{ __('Show') }}"
-                               href="{{ route('link_collections.show', [$link_collection->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
-                            <a title="{{ __('Edit') }}"
-                               href="{{ route('link_collections.edit', [$link_collection->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                            @include('partials.boton_mostrar', ['ruta' => 'link_collections', 'recurso' => $link_collection])
+                            @include('partials.boton_editar', ['ruta' => 'link_collections', 'recurso' => $link_collection])
+                            {!! Form::open(['route' => ['link_collections.duplicar', $link_collection->id], 'method' => 'POST']) !!}
+                            @include('partials.boton_duplicar')
+                            {!! Form::close() !!}
+                            {!! Form::open(['route' => ['link_collections.destroy', $link_collection->id], 'method' => 'DELETE']) !!}
                             @include('partials.boton_borrar')
+                            {!! Form::close() !!}
                         </div>
-                        {!! Form::close() !!}
                     </td>
                 </tr>
             @endforeach

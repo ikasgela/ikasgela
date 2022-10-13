@@ -312,6 +312,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('link_collections.toggle.titulo_visible');
             Route::post('/link_collections/{actividad}/toggle_descripcion_visible/{link_collection}', 'LinkCollectionController@toggle_descripcion_visible')
                 ->name('link_collections.toggle.descripcion_visible');
+            Route::post('/link_collections/{link_collection}/duplicar', 'LinkCollectionController@duplicar')
+                ->name('link_collections.duplicar');
 
             // Modificar la nota manualmente
             Route::get('/profesor/{user}/{curso}/nota_manual', 'ProfesorController@editNotaManual')
