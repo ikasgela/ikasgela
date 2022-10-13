@@ -202,6 +202,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('youtube_videos.toggle.titulo_visible');
             Route::post('/youtube_videos/{actividad}/toggle_descripcion_visible/{youtube_video}', 'YoutubeVideoController@toggle_descripcion_visible')
                 ->name('youtube_videos.toggle.descripcion_visible');
+            Route::post('/youtube_videos/{youtube_video}/duplicar', 'YoutubeVideoController@duplicar')
+                ->name('youtube_videos.duplicar');
 
             // Clonador de IntellijProject
             Route::get('/intellij_projects/copia', 'IntellijProjectController@copia')

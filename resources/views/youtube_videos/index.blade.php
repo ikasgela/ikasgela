@@ -36,17 +36,16 @@
                         <a title="{{ __('Preview') }}" target="_blank"
                            href="{{ $youtube_video->codigo }}">{{ $youtube_video->codigo }}</a>
                     </td>
-                    <td>
-                        <form method="POST" action="{{ route('youtube_videos.destroy', [$youtube_video->id]) }}">
-                            @csrf
-                            @method('DELETE')
-                            <div class='btn-group'>
-                                <a title="{{ __('Edit') }}"
-                                   href="{{ route('youtube_videos.edit', [$youtube_video->id]) }}"
-                                   class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                                @include('partials.boton_borrar')
-                            </div>
-                        </form>
+                    <td class="text-nowrap">
+                        <div class='btn-group'>
+                            @include('partials.boton_editar', ['ruta' => 'youtube_videos', 'recurso' => $youtube_video])
+                            {!! Form::open(['route' => ['youtube_videos.duplicar', $youtube_video->id], 'method' => 'POST']) !!}
+                            @include('partials.boton_duplicar')
+                            {!! Form::close() !!}
+                            {!! Form::open(['route' => ['youtube_videos.destroy', $youtube_video->id], 'method' => 'DELETE']) !!}
+                            @include('partials.boton_borrar')
+                            {!! Form::close() !!}
+                        </div>
                     </td>
                 </tr>
             @endforeach
