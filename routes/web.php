@@ -206,8 +206,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             // Clonador de IntellijProject
             Route::get('/intellij_projects/copia', 'IntellijProjectController@copia')
                 ->name('intellij_projects.copia');
-            Route::post('/intellij_projects/duplicar', 'IntellijProjectController@duplicar')
-                ->name('intellij_projects.duplicar');
+            Route::post('/intellij_projects/clonar', 'IntellijProjectController@clonar')
+                ->name('intellij_projects.clonar');
             Route::delete('/intellij_projects/borrar/{id}', 'IntellijProjectController@borrar')
                 ->name('intellij_projects.borrar');
 

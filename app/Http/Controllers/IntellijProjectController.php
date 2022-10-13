@@ -179,7 +179,7 @@ class IntellijProjectController extends Controller
         return back();
     }
 
-    public function duplicar(Request $request)
+    public function clonar(Request $request)
     {
         $origen = $request->input('origen');    // root/origen
         $destino = $request->input('destino');  // root/copia
