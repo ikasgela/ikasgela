@@ -39,10 +39,7 @@
                                href="{{ route('selectors.edit', [$selector->id]) }}"
                                class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
                             {!! Form::open(['route' => ['selectors.duplicar', $selector->id], 'method' => 'POST']) !!}
-                            <button title="{{ __('Duplicate') }}"
-                                    type="submit"
-                                    class="btn btn-light btn-sm"><i class="fas fa-copy"></i>
-                            </button>
+                            @include('partials.boton_duplicar')
                             {!! Form::close() !!}
                             {!! Form::open(['route' => ['selectors.destroy', $selector->id], 'method' => 'DELETE']) !!}
                             @include('partials.boton_borrar')
