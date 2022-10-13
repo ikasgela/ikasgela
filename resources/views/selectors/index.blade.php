@@ -32,9 +32,7 @@
                     <td>{{ $selector->descripcion }}</td>
                     <td class="text-nowrap">
                         <div class='btn-group'>
-                            <a title="{{ __('Show') }}"
-                               href="{{ route('selectors.show', [$selector->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
+                            @include('partials.boton_mostrar', ['ruta' => 'selectors', 'recurso' => $selector])
                             @include('partials.boton_editar', ['ruta' => 'selectors', 'recurso' => $selector])
                             {!! Form::open(['route' => ['selectors.duplicar', $selector->id], 'method' => 'POST']) !!}
                             @include('partials.boton_duplicar')
