@@ -311,7 +311,7 @@ class ActividadController extends Controller
                 $tarea->save();
 
                 if (!$tarea->actividad->auto_avance) {
-                    $this->mostrarSiguienteActividad($actividad, $usuario);
+                    $this->mostrarSiguienteActividad($actividad, $tarea, $usuario);
                     $this->bloquearRepositorios($tarea, true);
                     $tarea->archiveFiles();
                 }
@@ -461,7 +461,7 @@ class ActividadController extends Controller
             case 71:
                 $tarea->estado = $estado_anterior;
 
-                $this->mostrarSiguienteActividad($actividad, $usuario, true);
+                $this->mostrarSiguienteActividad($actividad, $tarea, $usuario, true);
                 break;
             default:
                 abort(400, __('Invalid task state.'));
@@ -606,65 +606,87 @@ class ActividadController extends Controller
         return back();
     }
 
-    private function mostrarSiguienteActividad(Actividad $actividad, User $usuario, bool $sin_limite = false)
+    private function mostrarSiguienteActividad(Actividad $actividad, Tarea $tarea, User $usuario, bool $sin_limite = false)
     {
         // Calcular el límite máximo de actividades: Usuario -> Curso -> 1000
         $max_simultaneas = $usuario->max_simultaneas ?? $usuario->curso_actual()->max_simultaneas ?? 1000;
+        $limite_alcanzado = $usuario->actividades_enviadas_noautoavance()->tag('base')->count() >= $max_simultaneas;
+        $hay_siguiente = !is_null($actividad->siguiente) && $actividad->siguiente->plantilla;
+        $hay_selectores = $actividad->selectors()->count() > 0;
 
         // Pasar a la siguiente si no es final y no hay otra activa
-        if (!is_null($actividad->siguiente)
-            && $actividad->siguiente->plantilla
-            && ($usuario->actividades_enviadas_noautoavance()->tag('base')->count() < $max_simultaneas || $sin_limite)) {
+        if (($hay_siguiente || $hay_selectores) && (!$limite_alcanzado || $sin_limite)) {
 
-            // Crear el clon de la siguiente y guardarlo
-            $plantilla = Actividad::find($actividad->plantilla_id);
+            $siguiente_id = null;
 
-            if ($plantilla->siguiente_id != $actividad->siguiente_id && !$actividad->siguiente_overriden) {
-                $clon = $plantilla->siguiente->duplicate();
-                $clon->plantilla_id = $plantilla->siguiente->id;
-            } else {
-                $clon = $actividad->siguiente->duplicate();
-                $clon->plantilla_id = $actividad->siguiente->id;
-            }
+            // Calcular el resultado de los selectores
+            if ($hay_selectores) {
+                foreach ($actividad->selectors()->get() as $selector) {
+                    $resultado = $selector->calcularResultado($actividad, $tarea);
 
-            $this->calcularFechaEntrega($clon);
-
-            $clon->save();
-            $clon->orden = $clon->id;
-            $clon->save();
-
-            $actividad->siguiente_id = null;
-            $actividad->save();
-
-            // Dejar pendiente el borrado de caché para cuando llegue la fecha
-            CacheClear::create(['fecha' => $clon->fecha_disponibilidad, 'user_id' => $usuario->id]);
-            CacheClear::create(['fecha' => $clon->fecha_entrega, 'user_id' => $usuario->id]);
-            CacheClear::create(['fecha' => $clon->fecha_limite, 'user_id' => $usuario->id]);
-
-            if (!$actividad->final) {
-                // Pendiente de aceptar
-                $usuario->actividades()->attach($clon, ['estado' => 10]);
-
-                // Notificar
-                if (setting_usuario('notificacion_actividad_asignada', $usuario)) {
-                    $asignada = "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";
-                    Mail::to($usuario->email)->queue(new ActividadAsignada($usuario->name, $asignada, App::getLocale()));
+                    if (!is_null($resultado)) {
+                        $siguiente_id = $resultado;
+                    }
                 }
-            } else {
-                // Oculta
-                $usuario->actividades()->attach($clon, ['estado' => 11]);
             }
 
-            // Registrar la nueva tarea
-            $nueva_tarea = Tarea::where('user_id', $usuario->id)->where('actividad_id', $clon->id)->first();
+            $clon = null;
 
-            Registro::create([
-                'user_id' => $usuario->id,
-                'tarea_id' => $nueva_tarea->id,
-                'estado' => !$actividad->final ? 10 : 11,
-                'timestamp' => now(),
-                'curso_id' => Auth::user()->curso_actual()->id,
-            ]);
+            // Si hay siguiente y el selector no ha conseguido nada
+            if ($hay_siguiente && is_null($siguiente_id)) {
+                $plantilla = Actividad::find($actividad->plantilla_id);
+
+                if ($plantilla->siguiente_id != $actividad->siguiente_id && !$actividad->siguiente_overriden) {
+                    $clon = $this->clonarActividad($plantilla->siguiente);
+                } else {
+                    $clon = $this->clonarActividad($actividad->siguiente);
+                }
+            } else if (!is_null($siguiente_id)) {
+                $siguiente = Actividad::find($siguiente_id);
+                $clon = $this->clonarActividad($siguiente);
+            }
+
+            if ($clon != null) {
+
+                $this->calcularFechaEntrega($clon);
+
+                $clon->save();
+                $clon->orden = $clon->id;
+                $clon->save();
+
+                $actividad->siguiente_id = null;
+                $actividad->save();
+
+                // Dejar pendiente el borrado de caché para cuando llegue la fecha
+                CacheClear::create(['fecha' => $clon->fecha_disponibilidad, 'user_id' => $usuario->id]);
+                CacheClear::create(['fecha' => $clon->fecha_entrega, 'user_id' => $usuario->id]);
+                CacheClear::create(['fecha' => $clon->fecha_limite, 'user_id' => $usuario->id]);
+
+                if (!$actividad->final) {
+                    // Pendiente de aceptar
+                    $usuario->actividades()->attach($clon, ['estado' => 10]);
+
+                    // Notificar
+                    if (setting_usuario('notificacion_actividad_asignada', $usuario)) {
+                        $asignada = "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";
+                        Mail::to($usuario->email)->queue(new ActividadAsignada($usuario->name, $asignada, App::getLocale()));
+                    }
+                } else {
+                    // Oculta
+                    $usuario->actividades()->attach($clon, ['estado' => 11]);
+                }
+
+                // Registrar la nueva tarea
+                $nueva_tarea = Tarea::where('user_id', $usuario->id)->where('actividad_id', $clon->id)->first();
+
+                Registro::create([
+                    'user_id' => $usuario->id,
+                    'tarea_id' => $nueva_tarea->id,
+                    'estado' => !$actividad->final ? 10 : 11,
+                    'timestamp' => now(),
+                    'curso_id' => Auth::user()->curso_actual()->id,
+                ]);
+            }
         }
     }
 
@@ -714,7 +736,7 @@ class ActividadController extends Controller
         $tarea->save();
         $this->bloquearRepositorios($tarea, true);
         $tarea->archiveFiles();
-        $this->mostrarSiguienteActividad($actividad, $usuario);
+        $this->mostrarSiguienteActividad($actividad, $tarea, $usuario);
     }
 
     public function obtenerPlantillas(): mixed
@@ -757,5 +779,12 @@ class ActividadController extends Controller
         $recurso->pivot->save();
 
         return back();
+    }
+
+    public function clonarActividad(Actividad $siguiente)
+    {
+        $clon = $siguiente->duplicate();
+        $clon->plantilla_id = $siguiente->id;
+        return $clon;
     }
 }

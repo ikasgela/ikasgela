@@ -61,6 +61,11 @@
                 <i class="c-sidebar-nav-icon fab fa-java"></i> {{ __('IntelliJ projects') }}
             </a>
         </li>
+        <li class="c-sidebar-nav-item">
+            <a class="c-sidebar-nav-link bg-dark" href="{{ route('selectors.index') }}">
+                <i class="c-sidebar-nav-icon fas fa-code-branch"></i> {{ __('Selectors') }}
+            </a>
+        </li>
     </ul>
 </li>
 <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">

@@ -29,6 +29,11 @@
                 @case('App\Models\LinkCollection')
                     @include('link_collections.tarjeta', ['link_collection' => $recurso])
                     @break
+                @case('App\Models\Selector')
+                    @if(Auth::user()->hasAnyRole(['profesor', 'admin', 'tutor']))
+                        @include('selectors.tarjeta', ['selector' => $recurso])
+                    @endif
+                    @break
             @endswitch
         </div>
     @endforeach
