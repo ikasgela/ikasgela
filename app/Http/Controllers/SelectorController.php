@@ -117,4 +117,13 @@ class SelectorController extends Controller
         $actividad->selectors()->detach($selector);
         return redirect(route('selectors.actividad', ['actividad' => $actividad->id]));
     }
+
+    public function duplicar(Selector $selector)
+    {
+        $clon = $selector->duplicate();
+        $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
+        $clon->save();
+
+        return back();
+    }
 }

@@ -333,6 +333,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::resource('rules', 'RuleController');
             Route::get('/rules/{rule_group}/anyadir', 'RuleController@create')
                 ->name('rules.anyadir');
+            Route::post('/selectors/{selector}/duplicar', 'SelectorController@duplicar')
+                ->name('selectors.duplicar');
         });
 
         // Administrador

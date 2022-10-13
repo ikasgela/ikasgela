@@ -31,7 +31,6 @@
                     <td>{{ $selector->titulo }}</td>
                     <td>{{ $selector->descripcion }}</td>
                     <td class="text-nowrap">
-                        {!! Form::open(['route' => ['selectors.destroy', $selector->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>
                             <a title="{{ __('Show') }}"
                                href="{{ route('selectors.show', [$selector->id]) }}"
@@ -39,9 +38,16 @@
                             <a title="{{ __('Edit') }}"
                                href="{{ route('selectors.edit', [$selector->id]) }}"
                                class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                            {!! Form::open(['route' => ['selectors.duplicar', $selector->id], 'method' => 'POST']) !!}
+                            <button title="{{ __('Duplicate') }}"
+                                    type="submit"
+                                    class="btn btn-light btn-sm"><i class="fas fa-copy"></i>
+                            </button>
+                            {!! Form::close() !!}
+                            {!! Form::open(['route' => ['selectors.destroy', $selector->id], 'method' => 'DELETE']) !!}
                             @include('partials.boton_borrar')
+                            {!! Form::close() !!}
                         </div>
-                        {!! Form::close() !!}
                     </td>
                 </tr>
             @endforeach
