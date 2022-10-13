@@ -31,11 +31,9 @@
 
     @include('partials.subtitulo', ['subtitulo' => __('Rules')])
 
-    {{--
-    @include('rules.tabla')
+    @include('rules.tabla', ['rules' => $rule_group->rules])
 
     <a class="btn btn-primary"
        href="{{ route('rules.anyadir', $rule_group) }}">{{ __('New rule') }}</a>
-    --}}
 
 @endsection

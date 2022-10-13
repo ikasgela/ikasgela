@@ -46,9 +46,7 @@ class RuleGroupController extends Controller
     {
         $selector = $rule_group->selector;
 
-        $rules = $rule_group->items;
-
-        return view('rule_groups.edit', compact(['rule_group', 'selector', 'rules']));
+        return view('rule_groups.edit', compact(['rule_group', 'selector']));
     }
 
     public function update(Request $request, RuleGroup $rule_group)
