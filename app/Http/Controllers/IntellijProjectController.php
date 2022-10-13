@@ -425,4 +425,13 @@ class IntellijProjectController extends Controller
 
         return back();
     }
+
+    public function duplicar(IntellijProject $intellij_project)
+    {
+        $clon = $intellij_project->duplicate();
+        $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
+        $clon->save();
+
+        return back();
+    }
 }

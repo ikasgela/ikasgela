@@ -36,17 +36,16 @@
                     <td>{{ $intellij_project->host }}</td>
                     <td>{{ $intellij_project->open_with }}</td>
                     <td>@include('partials.link_gitea', ['proyecto' => $intellij_project->repository() ])</td>
-                    <td>
-                        <form method="POST" action="{{ route('intellij_projects.destroy', [$intellij_project->id]) }}">
-                            @csrf
-                            @method('DELETE')
-                            <div class='btn-group'>
-                                <a title="{{ __('Edit') }}"
-                                   href="{{ route('intellij_projects.edit', [$intellij_project->id]) }}"
-                                   class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                                @include('partials.boton_borrar')
-                            </div>
-                        </form>
+                    <td class="text-nowrap">
+                        <div class='btn-group'>
+                            @include('partials.boton_editar', ['ruta' => 'intellij_projects', 'recurso' => $intellij_project])
+                            {!! Form::open(['route' => ['intellij_projects.duplicar', $intellij_project->id], 'method' => 'POST']) !!}
+                            @include('partials.boton_duplicar')
+                            {!! Form::close() !!}
+                            {!! Form::open(['route' => ['intellij_projects.destroy', $intellij_project->id], 'method' => 'DELETE']) !!}
+                            @include('partials.boton_borrar')
+                            {!! Form::close() !!}
+                        </div>
                     </td>
                 </tr>
             @endforeach
