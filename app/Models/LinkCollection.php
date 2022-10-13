@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class LinkCollection extends Model
 {
     use HasFactory;
+    use Cloneable;
+
+    protected $cloneable_relations = ['links'];
 
     protected $fillable = [
         'titulo', 'descripcion', 'curso_id', '__import_id',

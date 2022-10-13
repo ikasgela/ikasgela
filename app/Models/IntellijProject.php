@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Bkwld\Cloner\Cloneable;
 use Cache;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,6 +16,7 @@ use Log;
 class IntellijProject extends Model
 {
     use HasFactory;
+    use Cloneable;
 
     protected $fillable = [
         'repositorio', 'titulo', 'descripcion', 'host',

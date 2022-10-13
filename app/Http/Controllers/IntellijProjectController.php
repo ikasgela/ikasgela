@@ -179,7 +179,7 @@ class IntellijProjectController extends Controller
         return back();
     }
 
-    public function duplicar(Request $request)
+    public function clonar(Request $request)
     {
         $origen = $request->input('origen');    // root/origen
         $destino = $request->input('destino');  // root/copia
@@ -422,6 +422,15 @@ class IntellijProjectController extends Controller
 
         $pivote->descripcion_visible = !$pivote->descripcion_visible;
         $pivote->save();
+
+        return back();
+    }
+
+    public function duplicar(IntellijProject $intellij_project)
+    {
+        $clon = $intellij_project->duplicate();
+        $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
+        $clon->save();
 
         return back();
     }

@@ -202,12 +202,14 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('youtube_videos.toggle.titulo_visible');
             Route::post('/youtube_videos/{actividad}/toggle_descripcion_visible/{youtube_video}', 'YoutubeVideoController@toggle_descripcion_visible')
                 ->name('youtube_videos.toggle.descripcion_visible');
+            Route::post('/youtube_videos/{youtube_video}/duplicar', 'YoutubeVideoController@duplicar')
+                ->name('youtube_videos.duplicar');
 
             // Clonador de IntellijProject
             Route::get('/intellij_projects/copia', 'IntellijProjectController@copia')
                 ->name('intellij_projects.copia');
-            Route::post('/intellij_projects/duplicar', 'IntellijProjectController@duplicar')
-                ->name('intellij_projects.duplicar');
+            Route::post('/intellij_projects/clonar', 'IntellijProjectController@clonar')
+                ->name('intellij_projects.clonar');
             Route::delete('/intellij_projects/borrar/{id}', 'IntellijProjectController@borrar')
                 ->name('intellij_projects.borrar');
 
@@ -231,6 +233,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('intellij_projects.toggle.titulo_visible');
             Route::post('/intellij_projects/{actividad}/toggle_descripcion_visible/{intellij_project}', 'IntellijProjectController@toggle_descripcion_visible')
                 ->name('intellij_projects.toggle.descripcion_visible');
+            Route::post('/intellij_projects/{intellij_project}/duplicar', 'IntellijProjectController@duplicar')
+                ->name('intellij_projects.duplicar');
 
             // Bloquear y desbloquear repositorios
             Route::post('/intellij_projects/{intellij_project}/{actividad}/lock', 'IntellijProjectController@lock')
@@ -246,6 +250,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('markdown_texts.asociar');
             Route::delete('/markdown_texts/{actividad}/desasociar/{markdown_text}', 'MarkdownTextController@desasociar')
                 ->name('markdown_texts.desasociar');
+            Route::post('/markdown_texts/{markdown_text}/duplicar', 'MarkdownTextController@duplicar')
+                ->name('markdown_texts.duplicar');
 
             // Cuestionario
             Route::resource('cuestionarios', 'CuestionarioController');
@@ -306,6 +312,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('link_collections.toggle.titulo_visible');
             Route::post('/link_collections/{actividad}/toggle_descripcion_visible/{link_collection}', 'LinkCollectionController@toggle_descripcion_visible')
                 ->name('link_collections.toggle.descripcion_visible');
+            Route::post('/link_collections/{link_collection}/duplicar', 'LinkCollectionController@duplicar')
+                ->name('link_collections.duplicar');
 
             // Modificar la nota manualmente
             Route::get('/profesor/{user}/{curso}/nota_manual', 'ProfesorController@editNotaManual')
@@ -333,6 +341,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::resource('rules', 'RuleController');
             Route::get('/rules/{rule_group}/anyadir', 'RuleController@create')
                 ->name('rules.anyadir');
+            Route::post('/selectors/{selector}/duplicar', 'SelectorController@duplicar')
+                ->name('selectors.duplicar');
         });
 
         // Administrador

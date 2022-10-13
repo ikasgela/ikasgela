@@ -7,7 +7,7 @@
     <div class="card">
         <div class="card-body">
 
-            {!! Form::open(['route' => 'intellij_projects.duplicar']) !!}
+            {!! Form::open(['route' => 'intellij_projects.clonar']) !!}
 
             {{ Form::campoTexto('origen', __('Source'), session('intellij_origen', 'root/programacion.plantillas.proyecto-intellij-java'), ['placeholder' => 'root/programacion.plantillas.proyecto-intellij-java']) }}
             {{ Form::campoTexto('destino', __('Destination'), session('intellij_destino'), ['placeholder' => 'root/copia (opcional)']) }}

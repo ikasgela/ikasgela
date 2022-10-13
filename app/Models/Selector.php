@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -10,6 +11,9 @@ use Log;
 class Selector extends Model
 {
     use HasFactory;
+    use Cloneable;
+
+    protected $cloneable_relations = ['rule_groups'];
 
     protected $fillable = [
         'titulo', 'descripcion', 'curso_id',

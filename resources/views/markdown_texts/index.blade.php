@@ -42,17 +42,16 @@
                         @endif
                     </td>
                     <td class="text-nowrap">
-                        {!! Form::open(['route' => ['markdown_texts.destroy', $markdown_text->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>
-                            <a title="{{ __('Show') }}"
-                               href="{{ route('markdown_texts.show', [$markdown_text->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
-                            <a title="{{ __('Edit') }}"
-                               href="{{ route('markdown_texts.edit', [$markdown_text->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                            @include('partials.boton_mostrar', ['ruta' => 'markdown_texts', 'recurso' => $markdown_text])
+                            @include('partials.boton_editar', ['ruta' => 'markdown_texts', 'recurso' => $markdown_text])
+                            {!! Form::open(['route' => ['markdown_texts.duplicar', $markdown_text->id], 'method' => 'POST']) !!}
+                            @include('partials.boton_duplicar')
+                            {!! Form::close() !!}
+                            {!! Form::open(['route' => ['markdown_texts.destroy', $markdown_text->id], 'method' => 'DELETE']) !!}
                             @include('partials.boton_borrar')
+                            {!! Form::close() !!}
                         </div>
-                        {!! Form::close() !!}
                     </td>
                 </tr>
             @endforeach

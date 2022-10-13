@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Bkwld\Cloner\Cloneable;
 use Cache;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Ikasgela\Gitea\GiteaClient;
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 class MarkdownText extends Model
 {
     use HasFactory;
+    use Cloneable;
 
     protected $fillable = [
         'titulo', 'descripcion', 'repositorio', 'rama', 'archivo',

@@ -122,4 +122,13 @@ class MarkdownTextController extends Controller
         $actividad->markdown_texts()->detach($markdown_text);
         return redirect(route('markdown_texts.actividad', ['actividad' => $actividad->id]));
     }
+
+    public function duplicar(MarkdownText $markdown_text)
+    {
+        $clon = $markdown_text->duplicate();
+        $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
+        $clon->save();
+
+        return back();
+    }
 }

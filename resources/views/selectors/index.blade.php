@@ -31,17 +31,16 @@
                     <td>{{ $selector->titulo }}</td>
                     <td>{{ $selector->descripcion }}</td>
                     <td class="text-nowrap">
-                        {!! Form::open(['route' => ['selectors.destroy', $selector->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>
-                            <a title="{{ __('Show') }}"
-                               href="{{ route('selectors.show', [$selector->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
-                            <a title="{{ __('Edit') }}"
-                               href="{{ route('selectors.edit', [$selector->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                            @include('partials.boton_mostrar', ['ruta' => 'selectors', 'recurso' => $selector])
+                            @include('partials.boton_editar', ['ruta' => 'selectors', 'recurso' => $selector])
+                            {!! Form::open(['route' => ['selectors.duplicar', $selector->id], 'method' => 'POST']) !!}
+                            @include('partials.boton_duplicar')
+                            {!! Form::close() !!}
+                            {!! Form::open(['route' => ['selectors.destroy', $selector->id], 'method' => 'DELETE']) !!}
                             @include('partials.boton_borrar')
+                            {!! Form::close() !!}
                         </div>
-                        {!! Form::close() !!}
                     </td>
                 </tr>
             @endforeach
