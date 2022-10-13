@@ -328,7 +328,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::delete('/selectors/{actividad}/desasociar/{selector}', 'SelectorController@desasociar')
                 ->name('selectors.desasociar');
             Route::resource('rule_groups', 'RuleGroupController');
-            Route::get('/rule_groups/{selector}/anyadir', 'RuleGroupController@anyadir')
+            Route::get('/rule_groups/{selector}/anyadir', 'RuleGroupController@create')
                 ->name('rule_groups.anyadir');
             Route::resource('rules', 'RuleController');
             Route::get('/rules/{rule_group}/anyadir', 'RuleController@anyadir')

@@ -25,6 +25,6 @@ class RuleGroup extends Model
 
     public function actividad()
     {
-        return Actividad::findOrFail($this->resultado);
+        return Actividad::find($this->resultado);
     }
 }

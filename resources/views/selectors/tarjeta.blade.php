@@ -31,7 +31,7 @@
                                 @endforeach
                             </td>
                             <td class="text-center">{{ $rule_group->accion }}</td>
-                            <td class="text-center">{{ $rule_group->actividad()->nombre }}</td>
+                            <td class="text-center">{{ $rule_group->actividad()->nombre ?? '?' }}</td>
                             @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() == 'selectors.show')
                                 <td class="text-center">
                                     <div class='btn-group'>
@@ -54,7 +54,8 @@
     @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() == 'selectors.show')
         <hr class="my-0">
         <div class="card-body">
-            <a class="btn btn-primary" href="{{ route('rule_groups.create') }}">{{ __('New rule group') }}</a>
+            <a class="btn btn-primary"
+               href="{{ route('rule_groups.anyadir', ['selector' => $selector]) }}">{{ __('New rule group') }}</a>
         </div>
     @endif
 </div>

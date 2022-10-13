@@ -2,85 +2,72 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreRuleGroupRequest;
-use App\Http\Requests\UpdateRuleGroupRequest;
 use App\Models\RuleGroup;
+use App\Models\Selector;
+use Illuminate\Http\Request;
 
 class RuleGroupController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:profesor|admin');
+    }
+
     public function index()
     {
-        //
+        abort(404);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(Selector $selector)
     {
-        //
+        return view('rule_groups.create', compact('selector'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreRuleGroupRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreRuleGroupRequest $request)
+    public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'operador' => 'required',
+            'accion' => 'required',
+            'resultado' => 'required',
+        ]);
+
+        RuleGroup::create($request->all());
+
+        return retornar();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\RuleGroup  $ruleGroup
-     * @return \Illuminate\Http\Response
-     */
-    public function show(RuleGroup $ruleGroup)
+    public function show(RuleGroup $rule_group)
     {
-        //
+        abort(404);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\RuleGroup  $ruleGroup
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(RuleGroup $ruleGroup)
+    public function edit(RuleGroup $rule_group)
     {
-        //
+        $selector = $rule_group->selector;
+
+        $rules = $rule_group->items;
+
+        return view('rule_groups.edit', compact(['rule_group', 'selector', 'rules']));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateRuleGroupRequest  $request
-     * @param  \App\Models\RuleGroup  $ruleGroup
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateRuleGroupRequest $request, RuleGroup $ruleGroup)
+    public function update(Request $request, RuleGroup $rule_group)
     {
-        //
+        $this->validate($request, [
+            'operador' => 'required',
+            'accion' => 'required',
+            'resultado' => 'required',
+        ]);
+
+        $rule_group->update($request->all());
+
+        return retornar();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\RuleGroup  $ruleGroup
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(RuleGroup $ruleGroup)
+    public function destroy(RuleGroup $rule_group)
     {
-        //
+        $rule_group->delete();
+
+        return back();
     }
 }
