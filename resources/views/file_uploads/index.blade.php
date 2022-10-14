@@ -21,8 +21,8 @@
                 <th>#</th>
                 <th>{{ __('Title') }}</th>
                 <th>{{ __('Description') }}</th>
-                <th>{{ __('Maximum') }}</th>
-                <th>{{ __('Template') }}</th>
+                <th class="text-center">{{ __('Maximum') }}</th>
+                <th class="text-center">{{ __('Template') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -32,8 +32,8 @@
                     <td>{{ $file_upload->id }}</td>
                     <td>{{ $file_upload->titulo }}</td>
                     <td>{{ $file_upload->descripcion }}</td>
-                    <td>{{ $file_upload->max_files }}</td>
-                    <td>{!! $file_upload->plantilla ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                    <td class="text-center">{{ $file_upload->max_files }}</td>
+                    <td class="text-center">{!! $file_upload->plantilla ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
                     <td class="text-nowrap">
                         <div class='btn-group'>
                             @include('partials.boton_mostrar', ['ruta' => 'file_uploads', 'recurso' => $file_upload])
