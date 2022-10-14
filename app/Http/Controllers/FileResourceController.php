@@ -138,4 +138,13 @@ class FileResourceController extends Controller
 
         return back();
     }
+
+    public function duplicar(FileResource $file_resource)
+    {
+        $clon = $file_resource->duplicate();
+        $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
+        $clon->save();
+
+        return back();
+    }
 }

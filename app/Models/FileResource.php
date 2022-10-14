@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,6 +12,9 @@ use Illuminate\Database\Eloquent\Model;
 class FileResource extends Model
 {
     use HasFactory;
+    use Cloneable;
+
+    protected $cloneable_relations = ['files'];
 
     protected $fillable = [
         'titulo', 'descripcion',

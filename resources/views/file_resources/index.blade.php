@@ -31,17 +31,16 @@
                     <td>{{ $file_resource->titulo }}</td>
                     <td>{{ $file_resource->descripcion }}</td>
                     <td class="text-nowrap">
-                        {!! Form::open(['route' => ['file_resources.destroy', $file_resource->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>
-                            <a title="{{ __('Show') }}"
-                               href="{{ route('file_resources.show', [$file_resource->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
-                            <a title="{{ __('Edit') }}"
-                               href="{{ route('file_resources.edit', [$file_resource->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                            @include('partials.boton_mostrar', ['ruta' => 'file_resources', 'recurso' => $file_resource])
+                            @include('partials.boton_editar', ['ruta' => 'file_resources', 'recurso' => $file_resource])
+                            {!! Form::open(['route' => ['file_resources.duplicar', $file_resource->id], 'method' => 'POST']) !!}
+                            @include('partials.boton_duplicar')
+                            {!! Form::close() !!}
+                            {!! Form::open(['route' => ['file_resources.destroy', $file_resource->id], 'method' => 'DELETE']) !!}
                             @include('partials.boton_borrar')
+                            {!! Form::close() !!}
                         </div>
-                        {!! Form::close() !!}
                     </td>
                 </tr>
             @endforeach
