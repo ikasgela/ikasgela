@@ -18,7 +18,7 @@ class YoutubeVideosTableSeeder extends Seeder
 
         YoutubeVideo::factory()->create([
             'titulo' => 'How Not to Land an Orbital Rocket Booster',
-            'descripcion' => null,
+            'descripcion' => 'Recopilación de pifias de SpaceX.',
             'codigo' => 'https://youtu.be/bvim4rsNHkQ',
             'curso_id' => 1,
         ]);

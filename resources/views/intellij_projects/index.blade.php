@@ -38,6 +38,7 @@
                     <td>@include('partials.link_gitea', ['proyecto' => $intellij_project->repository() ])</td>
                     <td class="text-nowrap">
                         <div class='btn-group'>
+                            @include('partials.boton_mostrar', ['ruta' => 'intellij_projects', 'recurso' => $intellij_project])
                             @include('partials.boton_editar', ['ruta' => 'intellij_projects', 'recurso' => $intellij_project])
                             {!! Form::open(['route' => ['intellij_projects.duplicar', $intellij_project->id], 'method' => 'POST']) !!}
                             @include('partials.boton_duplicar')

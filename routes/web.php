@@ -267,6 +267,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::resource('items', 'ItemController');
             Route::get('/items/{pregunta}/anyadir', 'ItemController@anyadir')
                 ->name('items.anyadir');
+            Route::post('/cuestionarios/{cuestionario}/duplicar', 'CuestionarioController@duplicar')
+                ->name('cuestionarios.duplicar');
 
             // FileUpload
             Route::resource('file_uploads', 'FileUploadController');
@@ -280,6 +282,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('file_uploads.toggle.titulo_visible');
             Route::post('/file_uploads/{actividad}/toggle_descripcion_visible/{file_upload}', 'FileUploadController@toggle_descripcion_visible')
                 ->name('file_uploads.toggle.descripcion_visible');
+            Route::post('/file_uploads/{file_upload}/duplicar', 'FileUploadController@duplicar')
+                ->name('file_uploads.duplicar');
 
             // FileResource
             Route::resource('file_resources', 'FileResourceController');
@@ -295,6 +299,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('file_resources.toggle.titulo_visible');
             Route::post('/file_resources/{actividad}/toggle_descripcion_visible/{file_resource}', 'FileResourceController@toggle_descripcion_visible')
                 ->name('file_resources.toggle.descripcion_visible');
+            Route::post('/file_resources/{file_resource}/duplicar', 'FileResourceController@duplicar')
+                ->name('file_resources.duplicar');
 
             // LinkCollection
             Route::resource('link_collections', 'LinkCollectionController');

@@ -39,10 +39,10 @@
     </div>
     <div class="card-body">
         @include('partials.cabecera_recurso', ['recurso' => $intellij_project, 'ruta' => 'intellij_projects'])
-        @if($actividad->plantilla && Auth::user()->hasRole('alumno'))
+        @if(isset($actividad) && $actividad->plantilla && Auth::user()->hasRole('alumno'))
             <a href="{{ route('intellij_projects.download', ['intellij_project'=>$intellij_project->id]) }}"
                class="btn btn-primary">{{ __('Download the project') }}</a>
-        @elseif(!$intellij_project->isForked() && Auth::user()->hasRole('alumno') && !($repositorio['id'] == '?'))
+        @elseif(isset($actividad) && !$intellij_project->isForked() && Auth::user()->hasRole('alumno') && !($repositorio['id'] == '?'))
             @if($intellij_project->getForkStatus() == 0)
                 <a href="{{ route('intellij_projects.fork', ['actividad' => $actividad->id, 'intellij_project'=>$intellij_project->id]) }}"
                    class="btn btn-primary single_click">
@@ -85,7 +85,7 @@
                        class="btn btn-secondary">{{ __('Open in GitKraken') }}</a>
             @endswitch
             <div class='btn-group'>
-                @if(Auth::user()->hasRole('profesor'))
+                @if(isset($actividad) && Auth::user()->hasRole('profesor'))
                     @if($intellij_project->isArchivado())
                         {!! Form::open(['route' => ['intellij_projects.unlock', $intellij_project->id, $actividad->id], 'method' => 'POST']) !!}
                         <button title="{{ __('Unlock') }}"
@@ -105,7 +105,7 @@
                     @endif
                 @endif
             </div>
-            @if(Auth::user()->hasRole('profesor') && $intellij_project->open_with == 'idea' && Route::currentRouteName() != 'actividades.preview')
+            @if(isset($jplags) && Auth::user()->hasRole('profesor') && $intellij_project->open_with == 'idea' && Route::currentRouteName() != 'actividades.preview')
                 <h5 class="card-title mt-5">{{ __('JPlag results') }}</h5>
                 <div class="table-responsive">
                     <table class="table table-bordered small">

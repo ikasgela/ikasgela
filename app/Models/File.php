@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 class File extends Model
 {
     use HasFactory;
+    use Cloneable;
 
     protected $fillable = [
         'path', 'title', 'size', 'uploadable_id', 'user_id', 'uploadable_type', 'description', 'archived', 'extension',

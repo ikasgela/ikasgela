@@ -54,7 +54,7 @@ class YoutubeVideoController extends Controller
 
     public function show(YoutubeVideo $youtube_video)
     {
-        abort(404);
+        return view('youtube_videos.show', compact('youtube_video'));
     }
 
     public function edit(YoutubeVideo $youtube_video)
