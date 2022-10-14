@@ -38,6 +38,7 @@
                     </td>
                     <td class="text-nowrap">
                         <div class='btn-group'>
+                            @include('partials.boton_mostrar', ['ruta' => 'youtube_videos', 'recurso' => $youtube_video])
                             @include('partials.boton_editar', ['ruta' => 'youtube_videos', 'recurso' => $youtube_video])
                             {!! Form::open(['route' => ['youtube_videos.duplicar', $youtube_video->id], 'method' => 'POST']) !!}
                             @include('partials.boton_duplicar')
