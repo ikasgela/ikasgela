@@ -35,17 +35,16 @@
                     <td>{!! $cuestionario->plantilla ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
                     <td>{!! $cuestionario->respondido ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
                     <td class="text-nowrap">
-                        {!! Form::open(['route' => ['cuestionarios.destroy', $cuestionario->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>
-                            <a title="{{ __('Show') }}"
-                               href="{{ route('cuestionarios.show', [$cuestionario->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
-                            <a title="{{ __('Edit') }}"
-                               href="{{ route('cuestionarios.edit', [$cuestionario->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                            @include('partials.boton_mostrar', ['ruta' => 'cuestionarios', 'recurso' => $cuestionario])
+                            @include('partials.boton_editar', ['ruta' => 'cuestionarios', 'recurso' => $cuestionario])
+                            {!! Form::open(['route' => ['cuestionarios.duplicar', $cuestionario->id], 'method' => 'POST']) !!}
+                            @include('partials.boton_duplicar')
+                            {!! Form::close() !!}
+                            {!! Form::open(['route' => ['cuestionarios.destroy', $cuestionario->id], 'method' => 'DELETE']) !!}
                             @include('partials.boton_borrar')
+                            {!! Form::close() !!}
                         </div>
-                        {!! Form::close() !!}
                     </td>
                 </tr>
             @endforeach

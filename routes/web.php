@@ -267,6 +267,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::resource('items', 'ItemController');
             Route::get('/items/{pregunta}/anyadir', 'ItemController@anyadir')
                 ->name('items.anyadir');
+            Route::post('/cuestionarios/{cuestionario}/duplicar', 'CuestionarioController@duplicar')
+                ->name('cuestionarios.duplicar');
 
             // FileUpload
             Route::resource('file_uploads', 'FileUploadController');
