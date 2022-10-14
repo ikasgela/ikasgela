@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\File;
 use App\Models\FileResource;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class FileResourceSeeder extends Seeder
 {
@@ -21,12 +22,16 @@ class FileResourceSeeder extends Seeder
             'curso_id' => 1,
         ]);
 
+        $filename = md5(time()) . '/test.pdf';
+
+        Storage::disk('s3')->copy('test/test.pdf', 'documents/' . $filename);
+
         $file = File::create([
             'uploadable_id' => $file_resource->id,
             'uploadable_type' => FileResource::class,
-            'path' => '32912ec806cd1ce9ecbd59fef06b5171/01_introduccion_programacion.pdf',
-            'title' => '01_introduccion_programacion.pdf',
-            'size' => 1909079,
+            'path' => $filename,
+            'title' => 'test.pdf',
+            'size' => Storage::disk('s3')->size('documents/' . $filename),
             'extension' => 'pdf',
         ]);
 
