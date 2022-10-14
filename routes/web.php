@@ -280,6 +280,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('file_uploads.toggle.titulo_visible');
             Route::post('/file_uploads/{actividad}/toggle_descripcion_visible/{file_upload}', 'FileUploadController@toggle_descripcion_visible')
                 ->name('file_uploads.toggle.descripcion_visible');
+            Route::post('/file_uploads/{file_upload}/duplicar', 'FileUploadController@duplicar')
+                ->name('file_uploads.duplicar');
 
             // FileResource
             Route::resource('file_resources', 'FileResourceController');

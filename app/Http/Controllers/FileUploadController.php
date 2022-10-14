@@ -138,4 +138,14 @@ class FileUploadController extends Controller
 
         return back();
     }
+
+    public function duplicar(FileUpload $file_upload)
+    {
+        $clon = $file_upload->duplicate();
+        $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
+        $clon->plantilla = $file_upload->plantilla;
+        $clon->save();
+
+        return back();
+    }
 }

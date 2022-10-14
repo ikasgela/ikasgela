@@ -35,17 +35,16 @@
                     <td>{{ $file_upload->max_files }}</td>
                     <td>{!! $file_upload->plantilla ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
                     <td class="text-nowrap">
-                        {!! Form::open(['route' => ['file_uploads.destroy', $file_upload->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>
-                            <a title="{{ __('Show') }}"
-                               href="{{ route('file_uploads.show', [$file_upload->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
-                            <a title="{{ __('Edit') }}"
-                               href="{{ route('file_uploads.edit', [$file_upload->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                            @include('partials.boton_mostrar', ['ruta' => 'file_uploads', 'recurso' => $file_upload])
+                            @include('partials.boton_editar', ['ruta' => 'file_uploads', 'recurso' => $file_upload])
+                            {!! Form::open(['route' => ['file_uploads.duplicar', $file_upload->id], 'method' => 'POST']) !!}
+                            @include('partials.boton_duplicar')
+                            {!! Form::close() !!}
+                            {!! Form::open(['route' => ['file_uploads.destroy', $file_upload->id], 'method' => 'DELETE']) !!}
                             @include('partials.boton_borrar')
+                            {!! Form::close() !!}
                         </div>
-                        {!! Form::close() !!}
                     </td>
                 </tr>
             @endforeach
