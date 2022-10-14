@@ -65,7 +65,9 @@ class IntellijProjectController extends Controller
 
     public function show(IntellijProject $intellij_project)
     {
-        abort(404);
+        $repositorio = $intellij_project->repository();
+
+        return view('intellij_projects.show', compact(['intellij_project', 'repositorio']));
     }
 
     public function edit(IntellijProject $intellij_project)

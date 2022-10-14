@@ -96,7 +96,7 @@ class IntellijProject extends Model
 
     public function isArchivado()
     {
-        return $this->pivot->archivado;
+        return $this->pivot?->archivado;
     }
 
     public function archive()
