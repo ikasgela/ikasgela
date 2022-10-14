@@ -209,7 +209,7 @@ class IntellijProjectsCRUDTest extends TestCase
         $response = $this->get(route('intellij_projects.show', $intellij_project));
 
         // Then
-        $response->assertStatus(404);
+        $response->assertSuccessful()->assertSeeInOrder([__('IntelliJ project'), $intellij_project->titulo]);
     }
 
     public function testNotProfesorNotShow()
