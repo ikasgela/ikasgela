@@ -33,7 +33,12 @@
                                 <button type="submit" name="nuevoestado" value="64"
                                         class="btn btn-primary single_click">
                                     <i class="fas fa-spinner fa-spin"
-                                       style="display:none;"></i> {{ __('Next activity') }}
+                                       style="display:none;"></i>
+                                    @if(!is_null($actividad->siguiente))
+                                        {{ __('Next activity') }}
+                                    @else
+                                        {{ __('Archive') }}
+                                    @endif
                                 </button>
                             @endif
                         @endif
