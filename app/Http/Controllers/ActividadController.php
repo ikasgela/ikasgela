@@ -378,6 +378,13 @@ class ActividadController extends Controller
 
                 $tarea->puntuacion = $request->input('puntuacion');
                 $tarea->feedback = $request->input('feedback');
+                if (config('app.debug') && empty($tarea->feedback)) {
+                    if ($nuevoestado == 40) {
+                        $tarea->feedback = "Revisada: OK";
+                    } else {
+                        $tarea->feedback = "Revisada: ERROR";
+                    }
+                }
                 $tarea->increment('intentos');
 
                 $registro->detalles = $tarea->feedback;
