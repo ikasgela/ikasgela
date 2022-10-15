@@ -28,7 +28,7 @@ class T4_TareasTest extends DuskTestCase
             // Enviar para revisión
             $browser->assertSee('Primeros pasos');
 
-            $browser->press(__('Next activity'));
+            $browser->press(__('Archive'));
             $browser->assertRouteIs('users.home');
 
             // No hay más tareas
