@@ -17,8 +17,8 @@ class UserLocale
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!is_null($request->user())) {
-            setting_usuario(['user_locale' => LaravelLocalization::getCurrentLocale()], $request->user());
+        if (auth()->check()) {
+            setting_usuario(['user_locale' => LaravelLocalization::getCurrentLocale()]);
         }
 
         return $next($request);
