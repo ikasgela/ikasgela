@@ -296,7 +296,7 @@ class ActividadController extends Controller
                 if (!$tarea->actividad->auto_avance) {
                     foreach ($tarea->actividad->unidad->curso->profesores as $profesor) {
                         if (!$profesor->isBlocked() && setting_usuario('notificacion_tarea_enviada', $profesor))
-                            Mail::to($profesor)->queue(new TareaEnviada($tarea, App::getLocale()));
+                            Mail::to($profesor)->queue(new TareaEnviada($tarea, $profesor->userLocale()));
                     }
                 }
 
@@ -395,7 +395,7 @@ class ActividadController extends Controller
                 $tarea->archiveFiles();
 
                 if (setting_usuario('notificacion_feedback_recibido', $tarea->user))
-                    Mail::to($tarea->user->email)->queue(new FeedbackRecibido($tarea, App::getLocale()));
+                    Mail::to($tarea->user)->queue(new FeedbackRecibido($tarea, $tarea->user->userLocale()));
                 break;
 
             // Avance automático
@@ -442,7 +442,7 @@ class ActividadController extends Controller
                 $this->bloquearRepositorios($tarea, false);
 
                 if (setting_usuario('notificacion_actividad_asignada', $usuario))
-                    Mail::to($usuario->email)->queue(new PlazoAmpliado($usuario->name, $actividad->nombre, App::getLocale()));
+                    Mail::to($usuario)->queue(new PlazoAmpliado($usuario->name, $actividad->nombre, $usuario->userLocale()));
                 break;
 
             // Avance automático y archivada
@@ -676,7 +676,7 @@ class ActividadController extends Controller
                     // Notificar
                     if (setting_usuario('notificacion_actividad_asignada', $usuario)) {
                         $asignada = "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";
-                        Mail::to($usuario->email)->queue(new ActividadAsignada($usuario->name, $asignada, App::getLocale()));
+                        Mail::to($usuario)->queue(new ActividadAsignada($usuario->name, $asignada, $usuario->userLocale()));
                     }
                 } else {
                     // Oculta

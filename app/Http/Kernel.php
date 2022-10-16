@@ -37,6 +37,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\CheckBlocked::class,
             \App\Http\Middleware\NavigationController::class,
+            \App\Http\Middleware\UserLocale::class,
         ],
 
         'api' => [

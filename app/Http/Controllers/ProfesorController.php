@@ -412,7 +412,7 @@ class ProfesorController extends Controller
         }
 
         if (request('notificar') && setting_usuario('notificacion_actividad_asignada', $user))
-            Mail::to($user->email)->queue(new ActividadAsignada($user->name, $asignadas, App::getLocale()));
+            Mail::to($user)->queue(new ActividadAsignada($user->name, $asignadas, $user->userLocale()));
     }
 
     private function asignarTareasUsuarioEquipo($team): void
@@ -463,7 +463,7 @@ class ProfesorController extends Controller
 
         foreach ($team->users as $user) {
             if (request('notificar') && setting_usuario('notificacion_actividad_asignada', $user))
-                Mail::to($user->email)->queue(new ActividadAsignada($user->name, $asignadas, App::getLocale()));
+                Mail::to($user)->queue(new ActividadAsignada($user->name, $asignadas, $user->userLocale()));
         }
     }
 

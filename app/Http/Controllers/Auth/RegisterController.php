@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Ikasgela\Gitea\GiteaClient;
 use App\Http\Controllers\Controller;
 use App\Mail\NuevoUsuario;
 use App\Models\Organization;
 use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
+use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -144,7 +144,11 @@ class RegisterController extends Controller
             ->causedBy($laravel)
             ->log('Nuevo usuario');
 
-        Mail::to('info@ikasgela.com')->queue(new NuevoUsuario($laravel));
+        $admin_role = Role::where('name', 'admin')->first();
+
+        foreach ($admin_role->users()->get() as $admin) {
+            Mail::to($admin)->queue(new NuevoUsuario($laravel, $admin->userLocale()));
+        }
 
         return $laravel;
     }
