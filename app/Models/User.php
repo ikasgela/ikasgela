@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 use Lab404\Impersonate\Models\Impersonate;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Watson\Rememberable\Rememberable;
@@ -825,5 +826,10 @@ class User extends Authenticatable implements MustVerifyEmail
         Organization::flushCache();
         Curso::flushCache();
         Unidad::flushCache();
+    }
+
+    public function userLocale()
+    {
+        return setting_usuario('user_locale', $this) ?? App::getLocale();
     }
 }
