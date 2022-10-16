@@ -87,9 +87,9 @@ class MessagesController extends Controller
             if ($thread->alert || setting_usuario('notificacion_mensaje_recibido', $user)) {
 
                 if (!$thread->alert)
-                    Mail::to($user->email)->queue(new NuevoMensaje($thread->latestMessage, App::getLocale()));
+                    Mail::to($user)->queue(new NuevoMensaje($thread->latestMessage, $user->userLocale()));
                 else
-                    Mail::to($user->email)->queue(new Alerta($thread->latestMessage, App::getLocale()));
+                    Mail::to($user)->queue(new Alerta($thread->latestMessage, $user->userLocale()));
             }
         }
     }
