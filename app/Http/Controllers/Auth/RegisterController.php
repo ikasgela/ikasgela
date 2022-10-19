@@ -147,7 +147,7 @@ class RegisterController extends Controller
         $admin_role = Role::where('name', 'admin')->first();
 
         foreach ($admin_role->users()->get() as $admin) {
-            Mail::to($admin)->queue(new NuevoUsuario($laravel, $admin->userLocale()));
+            Mail::to($admin)->queue(new NuevoUsuario($laravel));
         }
 
         return $laravel;

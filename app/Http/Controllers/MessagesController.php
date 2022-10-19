@@ -13,7 +13,6 @@ use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
@@ -86,10 +85,11 @@ class MessagesController extends Controller
         foreach ($users as $user) {
             if ($thread->alert || setting_usuario('notificacion_mensaje_recibido', $user)) {
 
-                if (!$thread->alert)
-                    Mail::to($user)->queue(new NuevoMensaje($thread->latestMessage, $user->userLocale()));
-                else
-                    Mail::to($user)->queue(new Alerta($thread->latestMessage, $user->userLocale()));
+                if (!$thread->alert) {
+                    Mail::to($user)->queue(new NuevoMensaje($thread->latestMessage));
+                } else {
+                    Mail::to($user)->queue(new Alerta($thread->latestMessage));
+                }
             }
         }
     }

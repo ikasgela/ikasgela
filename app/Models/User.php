@@ -7,6 +7,7 @@ use App\Traits\Etiquetas;
 use Cache;
 use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -19,7 +20,7 @@ use Watson\Rememberable\Rememberable;
 /**
  * @mixin IdeHelperUser
  */
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, HasLocalePreference
 {
     use HasFactory;
     use Notifiable;
@@ -828,7 +829,7 @@ class User extends Authenticatable implements MustVerifyEmail
         Unidad::flushCache();
     }
 
-    public function userLocale()
+    public function preferredLocale()
     {
         return setting_usuario('user_locale', $this) ?? App::getLocale();
     }

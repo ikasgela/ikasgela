@@ -27,7 +27,7 @@ class NotificationController extends Controller
 
     public function test()
     {
-        Mail::to(Auth::user())->queue(new NotificationTest(Auth::user()->userLocale()));
+        Mail::to(Auth::user())->queue(new NotificationTest());
 
         return redirect(route('notifications.edit'));
     }

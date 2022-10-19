@@ -6,7 +6,6 @@ use Cmgmyr\Messenger\Models\Message;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 
@@ -18,14 +17,8 @@ class NuevoMensaje extends Mailable
     public $titulo;
     public $preview;
     public $usuario;
-    public $locale;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct(Message $mensaje, $locale = 'en')
+    public function __construct(Message $mensaje)
     {
         $this->hostName = Request::getHost();
 
@@ -38,18 +31,10 @@ class NuevoMensaje extends Mailable
         }
 
         $this->usuario = $mensaje->user;
-        $this->locale = $locale;
     }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
     public function build()
     {
-        App::setLocale($this->locale);
-
         return $this
             ->subject(__('New message'))
             ->markdown('emails.nuevo_mensaje');
