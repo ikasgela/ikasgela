@@ -6,7 +6,6 @@ use App\Models\Tarea;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Request;
 
 class FeedbackRecibido extends Mailable
@@ -15,29 +14,15 @@ class FeedbackRecibido extends Mailable
 
     public $tarea;
     public $hostName;
-    public $locale;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct(Tarea $tarea, $locale = 'en')
+    public function __construct(Tarea $tarea)
     {
         $this->tarea = $tarea;
         $this->hostName = Request::getHost();
-        $this->locale = $locale;
     }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
     public function build()
     {
-        App::setLocale($this->locale);
-
         return $this
             ->subject(__('Review completed'))
             ->markdown('emails.feedback_recibido');

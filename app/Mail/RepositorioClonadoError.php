@@ -13,21 +13,11 @@ class RepositorioClonadoError extends Mailable
 
     public $hostName;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->hostName = Request::getHost();
     }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
     public function build()
     {
         return $this
