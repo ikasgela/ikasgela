@@ -365,4 +365,12 @@ class Actividad extends Model
 
         return $recursos->sortBy('pivot.orden');
     }
+
+    public function ampliarPlazo($dias)
+    {
+        $plazo = now()->addDays($dias);
+        $this->fecha_entrega = $plazo;
+        $this->fecha_limite = $plazo;
+        $this->save();
+    }
 }

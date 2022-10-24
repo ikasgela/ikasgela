@@ -436,10 +436,7 @@ class ActividadController extends Controller
                 }
 
                 $dias = $request->input('ampliacion_plazo', 7);
-                $plazo = now()->addDays($dias);
-                $actividad->fecha_entrega = $plazo;
-                $actividad->fecha_limite = $plazo;
-                $actividad->save();
+                $actividad->ampliarPlazo($dias);
 
                 $this->bloquearRepositorios($tarea, false);
 
