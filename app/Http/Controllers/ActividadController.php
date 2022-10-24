@@ -20,7 +20,6 @@ use App\Traits\CalcularFechaEntregaActividad;
 use App\Traits\InformeActividadesCurso;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -363,9 +362,8 @@ class ActividadController extends Controller
                     abort(400, __('Invalid task state.'));
                 }
 
-                $this->calcularFechaEntrega($actividad);
-
-                $actividad->save();
+                $dias = $actividad->unidad->curso->plazo_actividad ?? 7;
+                $actividad->ampliarPlazo($dias);
 
                 $this->bloquearRepositorios($tarea, false);
 
