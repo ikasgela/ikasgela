@@ -16,7 +16,6 @@ use App\Models\Registro;
 use App\Models\Tarea;
 use App\Models\Unidad;
 use App\Models\User;
-use App\Traits\CalcularFechaEntregaActividad;
 use App\Traits\InformeActividadesCurso;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
@@ -29,7 +28,6 @@ class ActividadController extends Controller
 {
     use PaginarUltima;
     use InformeActividadesCurso;
-    use CalcularFechaEntregaActividad;
 
     public function __construct()
     {
@@ -653,7 +651,7 @@ class ActividadController extends Controller
 
             if ($clon != null) {
 
-                $this->calcularFechaEntrega($clon);
+                $clon->establecerFechaEntrega();
 
                 $clon->save();
                 $clon->orden = $clon->id;

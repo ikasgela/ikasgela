@@ -14,7 +14,6 @@ use App\Models\Tarea;
 use App\Models\Team;
 use App\Models\Unidad;
 use App\Models\User;
-use App\Traits\CalcularFechaEntregaActividad;
 use App\Traits\HerramientasIP;
 use App\Traits\JPlagRunner;
 use App\Traits\PaginarUltima;
@@ -31,7 +30,6 @@ class ProfesorController extends Controller
 {
     use PaginarUltima;
     use JPlagRunner;
-    use CalcularFechaEntregaActividad;
     use HerramientasIP;
 
     public function __construct()
@@ -387,7 +385,7 @@ class ProfesorController extends Controller
             $clon->plantilla_id = $actividad->id;
             $clon->orden = $clon->id;
 
-            $this->calcularFechaEntrega($clon);
+            $clon->establecerFechaEntrega();
 
             $clon->save();
 
@@ -428,7 +426,7 @@ class ProfesorController extends Controller
             $clon->plantilla_id = $actividad->id;
             $clon->orden = $clon->id;
 
-            $this->calcularFechaEntrega($clon);
+            $clon->establecerFechaEntrega();
 
             $clon->addEtiqueta('trabajo en equipo');
 
