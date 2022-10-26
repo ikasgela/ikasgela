@@ -67,7 +67,7 @@ class Actividad extends Model
 
             $random = array_rand($intellij_project_ids);
 
-            $this->intellij_projects()->detach($intellij_project_ids[$random]);
+            $this->intellij_projects()->sync([$intellij_project_ids[$random]]);
         }
 
         foreach ($src->cuestionarios as $cuestionario) {
