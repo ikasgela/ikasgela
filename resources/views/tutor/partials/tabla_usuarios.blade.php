@@ -5,6 +5,9 @@
             @if(!isset($exportar))
                 <th></th>
             @endif
+            @if(isset($exportar))
+                <th>{{ __('Identifier') }}</th>
+            @endif
             <th>{{ __('Name') }}</th>
             <th class="text-center">{{ __('Course passed') }}</th>
             <th class="text-center">{{ __('Continuous evaluation') }}</th>
@@ -30,6 +33,9 @@
                 @php($media = true)
             @endif
             <tr>
+                @if(isset($exportar))
+                    <th>{{ $user->identifier }}</th>
+                @endif
                 @if(!isset($exportar))
                     <td>@include('users.partials.avatar', ['user' => $user, 'width' => 35])</td>
                 @endif
