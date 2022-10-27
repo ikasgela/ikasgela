@@ -16,6 +16,7 @@
                 </div>
             </div>
 
+            {{ Form::campoTexto('identifier', __('Identifier')) }}
             {{ Form::campoTexto('name', __('Name')) }}
             {{ Form::campoTexto('surname', __('Surname')) }}
             {{ Form::campoTexto('email', __('Email')) }}

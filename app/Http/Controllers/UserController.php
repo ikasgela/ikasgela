@@ -96,6 +96,7 @@ class UserController extends Controller
 
         // Crear el usuario de Laravel
         $user = User::create([
+            'identifier' => $request->input('identifier'),
             'name' => $request->input('name'),
             'surname' => $request->input('surname'),
             'email' => $request->input('email'),
@@ -159,6 +160,7 @@ class UserController extends Controller
         ]);
 
         $user->update([
+            'identifier' => $request->input('identifier'),
             'name' => $request->input('name'),
             'surname' => $request->input('surname'),
             'email' => $request->input('email'),
