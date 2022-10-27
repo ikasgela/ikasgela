@@ -48,7 +48,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
      */
     protected $fillable = [
         'name', 'surname', 'email', 'password', 'username', 'tutorial', 'last_active',
-        'blocked_date', 'max_simultaneas', 'tags', 'baja_ansiedad'
+        'blocked_date', 'max_simultaneas', 'tags', 'baja_ansiedad', 'identifier',
     ];
 
     /**
