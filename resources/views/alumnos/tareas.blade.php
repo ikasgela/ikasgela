@@ -2,6 +2,8 @@
 
 @include('partials.prismjs')
 
+@include('partials.reload_position')
+
 @section('content')
 
     <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
