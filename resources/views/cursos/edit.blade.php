@@ -58,6 +58,7 @@
             {{ Form::campoTexto('fecha_fin', __('End date')) }}
 
             {{ Form::campoCheck('progreso_visible', __('Show course progress')) }}
+            {{ Form::campoCheck('silence_notifications', __('Silence notifications')) }}
 
             @include('partials.guardar_cancelar')
 
