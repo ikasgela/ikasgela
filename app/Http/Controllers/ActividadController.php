@@ -252,6 +252,7 @@ class ActividadController extends Controller
 
         $actividad = $tarea->actividad;
         $usuario = $tarea->user;
+        $curso = $actividad->unidad->curso;
 
         $registro = new Registro();
         $registro->user_id = $usuario->id;
@@ -292,7 +293,7 @@ class ActividadController extends Controller
                 // Notificar que hay una actividad para corregir
                 if (!$tarea->actividad->auto_avance) {
                     foreach ($tarea->actividad->unidad->curso->profesores as $profesor) {
-                        if (!$profesor->isBlocked() && setting_usuario('notificacion_tarea_enviada', $profesor)) {
+                        if (!$curso->silence_notifications && !$profesor->isBlocked() && setting_usuario('notificacion_tarea_enviada', $profesor)) {
                             Mail::to($profesor)->queue(new TareaEnviada($tarea));
                         }
                     }
@@ -391,7 +392,7 @@ class ActividadController extends Controller
 
                 $tarea->archiveFiles();
 
-                if (setting_usuario('notificacion_feedback_recibido', $tarea->user)) {
+                if (!$curso->silence_notifications && setting_usuario('notificacion_feedback_recibido', $tarea->user)) {
                     Mail::to($tarea->user)->queue(new FeedbackRecibido($tarea));
                 }
                 break;
@@ -436,7 +437,7 @@ class ActividadController extends Controller
 
                 $this->bloquearRepositorios($tarea, false);
 
-                if (setting_usuario('notificacion_actividad_asignada', $usuario)) {
+                if (!$curso->silence_notifications && setting_usuario('notificacion_actividad_asignada', $usuario)) {
                     Mail::to($usuario)->queue(new PlazoAmpliado($usuario->name, $actividad->nombre));
                 }
                 break;
@@ -670,7 +671,7 @@ class ActividadController extends Controller
                     $usuario->actividades()->attach($clon, ['estado' => 10]);
 
                     // Notificar
-                    if (setting_usuario('notificacion_actividad_asignada', $usuario)) {
+                    if (!$actividad->unidad->curso->silence_notifications && setting_usuario('notificacion_actividad_asignada', $usuario)) {
                         $asignada = "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";
                         Mail::to($usuario)->queue(new ActividadAsignada($usuario->name, $asignada));
                     }
