@@ -407,7 +407,7 @@ class ProfesorController extends Controller
             ]);
         }
 
-        if (request('notificar') && setting_usuario('notificacion_actividad_asignada', $user)) {
+        if (!$user->curso_actual()->silence_notifications && request('notificar') && setting_usuario('notificacion_actividad_asignada', $user)) {
             Mail::to($user)->queue(new ActividadAsignada($user->name, $asignadas));
         }
     }
@@ -459,7 +459,7 @@ class ProfesorController extends Controller
         }
 
         foreach ($team->users as $user) {
-            if (request('notificar') && setting_usuario('notificacion_actividad_asignada', $user)) {
+            if (!$user->curso_actual()->silence_notifications && request('notificar') && setting_usuario('notificacion_actividad_asignada', $user)) {
                 Mail::to($user)->queue(new ActividadAsignada($user->name, $asignadas));
             }
         }

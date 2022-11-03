@@ -37,6 +37,7 @@ class Curso extends Model
         'matricula_abierta',
         'tags',
         'progreso_visible',
+        'silence_notifications',
     ];
 
     protected $dates = [
