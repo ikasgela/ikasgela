@@ -117,16 +117,18 @@
                         </thead>
                         <tbody>
                         @foreach($jplags as $jplag)
-                            <tr class="{{ $jplag->percent > 75 ? 'bg-warning text-dark' : '' }}">
-                                <td>
-                                    <a href="{{ route('profesor.revisar', ['user' => $jplag->match->user->id, 'tarea' => $jplag->match->id]) }}"
-                                       class="{{ $jplag->percent > 75 ? 'text-dark' : '' }}"
-                                       target="_blank">
-                                        {{ $jplag->match->user->full_name }}
-                                    </a>
-                                </td>
-                                <td>{{ $jplag->percent }}&thinsp;%</td>
-                            </tr>
+                            @if(!is_null($jplag->match))
+                                <tr class="{{ $jplag->percent > 75 ? 'bg-warning text-dark' : '' }}">
+                                    <td>
+                                        <a href="{{ route('profesor.revisar', ['user' => $jplag->match->user->id, 'tarea' => $jplag->match->id]) }}"
+                                           class="{{ $jplag->percent > 75 ? 'text-dark' : '' }}"
+                                           target="_blank">
+                                            {{ $jplag->match->user->full_name }}
+                                        </a>
+                                    </td>
+                                    <td>{{ $jplag->percent }}&thinsp;%</td>
+                                </tr>
+                            @endif
                         @endforeach
                         </tbody>
                     </table>
