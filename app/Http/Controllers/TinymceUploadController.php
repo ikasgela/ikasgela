@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
 class TinymceUploadController extends Controller
@@ -37,6 +38,9 @@ class TinymceUploadController extends Controller
     public function getS3(Request $request)
     {
         $path = request('path');
+
+        if (!isset($path) || Str::contains($path, '..'))
+            abort(404);
 
         return isset($path) ? response()->redirectTo(Storage::disk('s3')->temporaryUrl($path, now()->addDays(2))) : '';
     }

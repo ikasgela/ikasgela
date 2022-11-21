@@ -23,6 +23,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
     Route::post('/settings/api', 'SettingController@api')
         ->name('settings.api');
 
+    // Mostrar las imágenes incrustadas
+    Route::get('/tinymce_url', 'TinymceUploadController@getS3')->name('tinymce.upload.url');
+
     // Sesión iniciada y cuenta verificada
     Route::middleware(['auth', 'verified'])->group(function () {
 
@@ -68,7 +71,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 
         // Subir ficheros a TinyMCE
         Route::post('/tinymce_upload', 'TinymceUploadController@uploadImage')->name('tinymce.upload.image');
-        Route::get('/tinymce_url', 'TinymceUploadController@getS3')->name('tinymce.upload.url');
 
         // Alumno
         Route::middleware(['role:alumno'])->group(function () {
