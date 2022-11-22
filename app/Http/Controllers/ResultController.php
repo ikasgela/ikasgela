@@ -60,7 +60,7 @@ class ResultController extends Controller
         $curso = $user->curso_actual();
 
         if (!is_null($curso)) {
-            $users = $curso->users()->rolAlumno()->noBloqueado()->orderBy('name')->get();
+            $users = $curso->alumnos_activos();
         } else {
             $users = new Collection();
         }
@@ -90,16 +90,13 @@ class ResultController extends Controller
         }
 
         // Calcular la media de actividades del grupo
-        // TODO: Usar la mediana para no tener en cuenta valores extremos
-        $total_actividades_grupo = 0;
-        foreach ($users as $usuario) {
-            $total_actividades_grupo += $usuario->num_completadas('base', null, $milestone);
-        }
-        $media = $users->count() > 0 ? $total_actividades_grupo / $users->count() : 0;
+        $media = $curso?->media($milestone);
         $media_actividades_grupo = formato_decimales($media, 2);
 
+        $mediana = $curso?->mediana($milestone);
+
         // Obtener las calificaciones del usuario
-        $calificaciones = $user->calcular_calificaciones($media, $milestone);
+        $calificaciones = $user->calcular_calificaciones($mediana, $milestone);
 
         // Gráfico de actividades
 
@@ -175,7 +172,8 @@ class ResultController extends Controller
             'pruebas_evaluacion_fondo', 'pruebas_evaluacion_dato',
             'evaluacion_continua_fondo', 'evaluacion_continua_dato',
             'calificacion_fondo', 'calificacion_dato', 'calificacion_dato_publicar',
-            'milestones', 'milestone'
+            'milestones', 'milestone',
+            'media', 'mediana',
         ]);
     }
 }
