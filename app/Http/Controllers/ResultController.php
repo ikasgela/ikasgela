@@ -162,9 +162,19 @@ class ResultController extends Controller
         $evaluacion_continua_fondo = $calificaciones->examen_final || $calificaciones->hay_nota_manual ? 'bg-light text-dark' : ($calificaciones->evaluacion_continua_superada ? 'bg-success text-dark' : 'bg-warning text-dark');
         $evaluacion_continua_dato = $calificaciones->evaluacion_continua_superada ? trans_choice('tasks.passed', 1) : trans_choice('tasks.not_passed', 1);
 
+        $usuarios = $curso?->alumnos_activos();
+
+        // Calcular la nota máxima y mínima para normalizar
+        $todas_notas = [];
+        foreach ($usuarios as $usuario) {
+            $todas_notas[] = $usuario->calcular_calificaciones($mediana, $milestone)->nota_numerica;
+        }
+        $nota_maxima = max($todas_notas);
+        $nota_minima = min($todas_notas);
+
         $calificacion_fondo = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : ($curso?->disponible() ? 'bg-light text-dark' : 'bg-warning text-dark');
-        $calificacion_dato = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada || $milestone != null) ? $calificaciones->nota_final : ($curso?->disponible() ? __('Unavailable') : __('Fail'));
-        $calificacion_dato_publicar = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada || $milestone != null) ? $calificaciones->nota_publicar : ($curso?->disponible() ? __('Unavailable') : __('Fail'));
+        $calificacion_dato = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada || $milestone != null) ? $calificaciones->nota_final(['min' => $nota_minima, 'max' => $nota_maxima]) : ($curso?->disponible() ? __('Unavailable') : __('Fail'));
+        $calificacion_dato_publicar = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada || $milestone != null) ? $calificaciones->nota_publicar($milestone, ['min' => $nota_minima, 'max' => $nota_maxima]) : ($curso?->disponible() ? __('Unavailable') : __('Fail'));
 
         return compact(['user', 'curso', 'users', 'unidades', 'calificaciones', 'media_actividades_grupo', 'chart',
             'actividades_obligatorias_fondo', 'actividades_obligatorias_dato',

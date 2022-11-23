@@ -52,6 +52,14 @@ trait InformeGrupo
                 break;
         }
 
+        // Calcular la nota máxima y mínima para normalizar
+        $todas_notas = [];
+        foreach ($usuarios as $usuario) {
+            $todas_notas[] = $usuario->calcular_calificaciones($mediana, $milestone)->nota_numerica;
+        }
+        $nota_maxima = max($todas_notas);
+        $nota_minima = min($todas_notas);
+
         // Actividades obligatorias
 
         $num_actividades_obligatorias = 0;
@@ -71,6 +79,7 @@ trait InformeGrupo
             'media_actividades_grupo', 'media_actividades_grupo_formato',
             'milestones', 'milestone',
             'mediana',
+            'nota_maxima', 'nota_minima',
         ]);
     }
 }

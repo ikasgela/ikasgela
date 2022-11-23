@@ -7,9 +7,41 @@ class ResultadoCalificaciones
     public $skills_curso = null;
     public $resultados = null;
     public $resultados_unidades = null;
-    public $nota_final = null;
-    public $nota_publicar = null;
+
     public $nota_numerica = null;
+
+    public function nota_numerica_normalizada($normalizar = null)
+    {
+        $nota = $this->nota_numerica;
+        if (!is_null($normalizar)) {
+            $nota = ($nota - $normalizar['min']) / ($normalizar['max'] - $normalizar['min']) * 10;
+        }
+        return $nota;
+    }
+
+    public function nota_final($normalizar = null)
+    {
+        $nota = $this->nota_numerica;
+        if (!is_null($normalizar)) {
+            $nota = ($nota - $normalizar['min']) / ($normalizar['max'] - $normalizar['min']) * 10;
+        }
+        return formato_decimales($nota, 2);
+    }
+
+    public function nota_publicar($milestone = null, $normalizar = null)
+    {
+        $nota = $this->nota_numerica;
+        if (!is_null($normalizar)) {
+            $nota = ($nota - $normalizar['min']) / ($normalizar['max'] - $normalizar['min']) * 10;
+        }
+
+        if (!$milestone?->truncate) {
+            return formato_decimales(min($nota, 10), $milestone->decimals ?? 2);
+        } else {
+            return truncar_decimales(min($nota, 10), $milestone->decimals ?? 2);
+        }
+    }
+
     public $actividades_obligatorias_superadas = null;
     public $num_actividades_obligatorias = null;
     public $numero_actividades_completadas = null;
