@@ -40,13 +40,14 @@ class Actividad extends Model
 
     protected $fillable = [
         'unidad_id', 'nombre', 'descripcion', 'puntuacion', 'plantilla', 'slug', 'final', 'siguiente_id', 'auto_avance', 'qualification_id', 'orden',
-        'fecha_disponibilidad', 'fecha_entrega', 'fecha_limite', 'destacada', 'tags', 'multiplicador', 'siguiente_overriden',
+        'fecha_disponibilidad', 'fecha_entrega', 'fecha_limite', 'fecha_finalizacion',
+        'destacada', 'tags', 'multiplicador', 'siguiente_overriden',
         '__import_id',
     ];
 
     protected $dates = [
         'created_at', 'updated_at', 'deleted_at',
-        'fecha_disponibilidad', 'fecha_entrega', 'fecha_limite'
+        'fecha_disponibilidad', 'fecha_entrega', 'fecha_limite', 'fecha_finalizacion',
     ];
 
     public function getFullNameAttribute()

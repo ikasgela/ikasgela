@@ -128,6 +128,7 @@ class ActividadController extends Controller
             'fecha_disponibilidad' => request('fecha_disponibilidad'),
             'fecha_entrega' => request('fecha_entrega'),
             'fecha_limite' => request('fecha_limite'),
+            'fecha_finalizacion' => request('fecha_finalizacion'),
 
             'destacada' => $request->has('destacada'),
             'tags' => request('tags'),
@@ -218,6 +219,7 @@ class ActividadController extends Controller
             'fecha_disponibilidad' => request('fecha_disponibilidad'),
             'fecha_entrega' => request('fecha_entrega'),
             'fecha_limite' => request('fecha_limite'),
+            'fecha_finalizacion' => request('fecha_finalizacion'),
 
             'destacada' => $request->has('destacada'),
             'tags' => request('tags'),
