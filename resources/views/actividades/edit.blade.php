@@ -75,6 +75,7 @@
             {{ Form::campoTexto('fecha_disponibilidad', __('Availability date')) }}
             {{ Form::campoTexto('fecha_entrega', __('Due date')) }}
             {{ Form::campoTexto('fecha_limite', __('Deadline')) }}
+            {{ Form::campoTexto('fecha_finalizacion', __('Completion date')) }}
 
             {{ Form::campoCheck('destacada', __('Highlighted')) }}
             {{ Form::campoTexto('tags', __('Tags')) }}
