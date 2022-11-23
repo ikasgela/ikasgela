@@ -321,7 +321,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         $completadas = $this->actividades()
             ->wherePivotIn('estado', [40, 60, 64]);
 
-        return $milestone == null ? $completadas : $completadas->whereBetween('tareas.updated_at', [$milestone?->curso->fecha_inicio, $milestone?->date]);
+        return $milestone == null ? $completadas : $completadas->whereBetween('actividades.fecha_finalizacion', [$milestone?->curso->fecha_inicio, $milestone?->date]);
     }
 
     public function num_actividades_completadas(Milestone $milestone = null)
