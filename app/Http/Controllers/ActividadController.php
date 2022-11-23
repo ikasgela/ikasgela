@@ -387,6 +387,11 @@ class ActividadController extends Controller
                 }
                 $tarea->increment('intentos');
 
+                if ($nuevoestado == 40) {
+                    $actividad->fecha_finalizacion = now();
+                    $actividad->save();
+                }
+
                 $registro->detalles = $tarea->feedback;
 
                 $tarea->user->last_active = now();
