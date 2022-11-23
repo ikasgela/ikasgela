@@ -460,6 +460,9 @@ class ActividadController extends Controller
                 $tarea->feedback = __('Automatically completed task, not reviewed by any teacher.');
                 $tarea->puntuacion = $actividad->puntuacion;
 
+                $actividad->fecha_finalizacion = now();
+                $actividad->save();
+
                 $this->archivarTarea($tarea, $actividad, $usuario);
                 break;
             case 70:
