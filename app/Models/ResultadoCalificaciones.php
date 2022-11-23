@@ -13,7 +13,7 @@ class ResultadoCalificaciones
     public function nota_numerica_normalizada($normalizar = null)
     {
         $nota = $this->nota_numerica;
-        if (!is_null($normalizar)) {
+        if (!is_null($normalizar) && $normalizar['max'] > 0) {
             $nota = ($nota - $normalizar['min']) / ($normalizar['max'] - $normalizar['min']) * 10;
         }
         return $nota;
@@ -22,7 +22,7 @@ class ResultadoCalificaciones
     public function nota_final($normalizar = null)
     {
         $nota = $this->nota_numerica;
-        if (!is_null($normalizar)) {
+        if (!is_null($normalizar) && $normalizar['max'] > 0) {
             $nota = ($nota - $normalizar['min']) / ($normalizar['max'] - $normalizar['min']) * 10;
         }
         return formato_decimales($nota, 2);
@@ -31,7 +31,7 @@ class ResultadoCalificaciones
     public function nota_publicar($milestone = null, $normalizar = null)
     {
         $nota = $this->nota_numerica;
-        if (!is_null($normalizar)) {
+        if (!is_null($normalizar) && $normalizar['max'] > 0) {
             $nota = ($nota - $normalizar['min']) / ($normalizar['max'] - $normalizar['min']) * 10;
         }
 
