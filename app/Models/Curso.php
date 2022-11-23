@@ -219,4 +219,35 @@ class Curso extends Model
     {
         return $this->hasMany(Milestone::class);
     }
+
+    public function alumnos_activos()
+    {
+        return $this->users()->rolAlumno()->noBloqueado()->orderBy('name')->get();
+    }
+
+    public function media(Milestone $milestone = null)
+    {
+        $users = $this->alumnos_activos();
+
+        $total_actividades_grupo = 0;
+        foreach ($users as $usuario) {
+            $total_actividades_grupo += $usuario->num_completadas('base', null, $milestone);
+        }
+        $media = $users->count() > 0 ? $total_actividades_grupo / $users->count() : 0;
+
+        return $media;
+    }
+
+    public function mediana(Milestone $milestone = null)
+    {
+        $users = $this->alumnos_activos();
+
+        $total_actividades_usuarios = [];
+        foreach ($users as $usuario) {
+            $total_actividades_usuarios[] = $usuario->num_completadas('base', null, $milestone);
+        }
+        $mediana = mediana($total_actividades_usuarios);
+
+        return $mediana;
+    }
 }

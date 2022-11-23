@@ -60,7 +60,7 @@ class ResultController extends Controller
         $curso = $user->curso_actual();
 
         if (!is_null($curso)) {
-            $users = $curso->users()->rolAlumno()->noBloqueado()->orderBy('name')->get();
+            $users = $curso->alumnos_activos();
         } else {
             $users = new Collection();
         }
@@ -90,16 +90,13 @@ class ResultController extends Controller
         }
 
         // Calcular la media de actividades del grupo
-        // TODO: Usar la mediana para no tener en cuenta valores extremos
-        $total_actividades_grupo = 0;
-        foreach ($users as $usuario) {
-            $total_actividades_grupo += $usuario->num_completadas('base', null, $milestone);
-        }
-        $media = $users->count() > 0 ? $total_actividades_grupo / $users->count() : 0;
+        $media = $curso?->media($milestone);
         $media_actividades_grupo = formato_decimales($media, 2);
 
+        $mediana = $curso?->mediana($milestone);
+
         // Obtener las calificaciones del usuario
-        $calificaciones = $user->calcular_calificaciones($media, $milestone);
+        $calificaciones = $user->calcular_calificaciones($mediana, $milestone);
 
         // Gráfico de actividades
 
@@ -165,9 +162,19 @@ class ResultController extends Controller
         $evaluacion_continua_fondo = $calificaciones->examen_final || $calificaciones->hay_nota_manual ? 'bg-light text-dark' : ($calificaciones->evaluacion_continua_superada ? 'bg-success text-dark' : 'bg-warning text-dark');
         $evaluacion_continua_dato = $calificaciones->evaluacion_continua_superada ? trans_choice('tasks.passed', 1) : trans_choice('tasks.not_passed', 1);
 
+        $usuarios = $curso?->alumnos_activos();
+
+        // Calcular la nota máxima y mínima para normalizar
+        $todas_notas = [];
+        foreach ($usuarios as $usuario) {
+            $todas_notas[] = $usuario->calcular_calificaciones($mediana, $milestone)->nota_numerica;
+        }
+        $nota_maxima = max($todas_notas);
+        $nota_minima = min($todas_notas);
+
         $calificacion_fondo = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : ($curso?->disponible() ? 'bg-light text-dark' : 'bg-warning text-dark');
-        $calificacion_dato = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada || $milestone != null) ? $calificaciones->nota_final : ($curso?->disponible() ? __('Unavailable') : __('Fail'));
-        $calificacion_dato_publicar = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada || $milestone != null) ? $calificaciones->nota_publicar : ($curso?->disponible() ? __('Unavailable') : __('Fail'));
+        $calificacion_dato = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada || $milestone != null) ? $calificaciones->nota_final(['min' => $nota_minima, 'max' => $nota_maxima]) : ($curso?->disponible() ? __('Unavailable') : __('Fail'));
+        $calificacion_dato_publicar = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada || $milestone != null) ? $calificaciones->nota_publicar($milestone, ['min' => $nota_minima, 'max' => $nota_maxima]) : ($curso?->disponible() ? __('Unavailable') : __('Fail'));
 
         return compact(['user', 'curso', 'users', 'unidades', 'calificaciones', 'media_actividades_grupo', 'chart',
             'actividades_obligatorias_fondo', 'actividades_obligatorias_dato',
@@ -175,7 +182,8 @@ class ResultController extends Controller
             'pruebas_evaluacion_fondo', 'pruebas_evaluacion_dato',
             'evaluacion_continua_fondo', 'evaluacion_continua_dato',
             'calificacion_fondo', 'calificacion_dato', 'calificacion_dato_publicar',
-            'milestones', 'milestone'
+            'milestones', 'milestone',
+            'media', 'mediana',
         ]);
     }
 }

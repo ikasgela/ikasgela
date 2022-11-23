@@ -26,7 +26,7 @@
         @php($media = false)
         @php($aprobados = 0)
         @foreach($usuarios as $user)
-            @php($calificaciones = $user->calcular_calificaciones($media_actividades_grupo, $milestone))
+            @php($calificaciones = $user->calcular_calificaciones($mediana, $milestone))
             @if(!$media && !isset($exportar) && session('tutor_filtro_alumnos') == 'P'
                     && $user->num_completadas('base', null, $milestone) > $media_actividades_grupo)
                 @include('tutor.partials.fila_media')
@@ -61,13 +61,13 @@
                 <td class="text-center {{ $calificaciones->hay_nota_manual ? '' : ($user->num_completadas('base', null, $milestone) < $media_actividades_grupo ? 'bg-warning text-dark' : '') }}">
                     {{ $user->num_completadas('base', null, $milestone) }}
                 </td>
-                <td {!! $calificaciones->nota_numerica < 5 ? 'style="color:#e3342f"' : '' !!}
+                <td {!! $calificaciones->nota_numerica_normalizada(['min' => $nota_minima, 'max' => $nota_maxima ]) < 5 ? 'style="color:#e3342f"' : '' !!}
                     class="text-center {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : ($curso?->disponible() ? '' : 'bg-warning text-dark') }}">
-                    {{ $calificaciones->nota_final }}
+                    {{ $calificaciones->nota_final(['min' => $nota_minima, 'max' => $nota_maxima ]) }}
                 </td>
-                <td {!! $calificaciones->nota_numerica < 5 ? 'style="color:#e3342f"' : '' !!}
+                <td {!! $calificaciones->nota_numerica_normalizada(['min' => $nota_minima, 'max' => $nota_maxima ]) < 5 ? 'style="color:#e3342f"' : '' !!}
                     class="text-center {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : ($curso?->disponible() ? '' : 'bg-warning text-dark') }}">
-                    {{ $calificaciones->nota_publicar }}
+                    {{ $calificaciones->nota_publicar($milestone, ['min' => $nota_minima, 'max' => $nota_maxima ]) }}
                 </td>
                 @if(!isset($exportar))
                     <td>

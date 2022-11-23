@@ -15,19 +15,6 @@ trait InformeGrupo
         $organization = $user->organizacion_actual();
         $curso = $user->curso_actual();
 
-        if ($request->has('filtro_alumnos')) {
-            session(['tutor_filtro_alumnos' => $request->input('filtro_alumnos')]);
-        }
-
-        switch (session('tutor_filtro_alumnos')) {
-            case 'P':
-                $usuarios = $curso?->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name')->get()->sortBy('num_completadas_base') ?? new Collection();
-                break;
-            default:
-                $usuarios = $curso?->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name')->get() ?? new Collection();
-                break;
-        }
-
         $unidades = $curso->unidades()->whereVisible(true)->orderBy('orden')->get();
 
         // Evaluaciones del curso actual
@@ -47,11 +34,31 @@ trait InformeGrupo
             $milestone = Milestone::find(session('filtrar_milestone_actual'));
         }
 
-        // Total de actividades para el cálculo de la media
-        $total_actividades_grupo = 0;
-        foreach ($usuarios as $usuario) {
-            $total_actividades_grupo += $usuario->num_completadas('base', null, $milestone);
+        if ($request->has('filtro_alumnos')) {
+            session(['tutor_filtro_alumnos' => $request->input('filtro_alumnos')]);
         }
+
+        $mediana = $curso?->mediana($milestone);
+
+        switch (session('tutor_filtro_alumnos')) {
+            case 'P':
+                $usuarios = $curso?->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name')->get()
+                    ->sortBy(function ($user) use ($mediana, $milestone) {
+                        return $user->num_completadas('base', null, $milestone) . $user->calcular_calificaciones($mediana, $milestone)->nota_numerica;
+                    }) ?? new Collection();
+                break;
+            default:
+                $usuarios = $curso?->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name')->get() ?? new Collection();
+                break;
+        }
+
+        // Calcular la nota máxima y mínima para normalizar
+        $todas_notas = [];
+        foreach ($usuarios as $usuario) {
+            $todas_notas[] = $usuario->calcular_calificaciones($mediana, $milestone)->nota_numerica;
+        }
+        $nota_maxima = max($todas_notas);
+        $nota_minima = min($todas_notas);
 
         // Actividades obligatorias
 
@@ -62,13 +69,17 @@ trait InformeGrupo
             }
         }
 
-        $media_actividades_grupo = $usuarios->count() > 0 ? $total_actividades_grupo / $usuarios->count() : 0;
+        $media_actividades_grupo = $curso?->media($milestone);
         $media_actividades_grupo_formato = formato_decimales($media_actividades_grupo, 2, $exportar);
 
+        $mediana = $curso?->mediana($milestone);
+
         return compact(['usuarios', 'unidades', 'organization',
-            'total_actividades_grupo', 'curso', 'num_actividades_obligatorias',
+            'curso', 'num_actividades_obligatorias',
             'media_actividades_grupo', 'media_actividades_grupo_formato',
-            'milestones', 'milestone'
+            'milestones', 'milestone',
+            'mediana',
+            'nota_maxima', 'nota_minima',
         ]);
     }
 }
