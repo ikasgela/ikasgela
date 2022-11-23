@@ -38,11 +38,13 @@ trait InformeGrupo
             session(['tutor_filtro_alumnos' => $request->input('filtro_alumnos')]);
         }
 
+        $mediana = $curso?->mediana($milestone);
+
         switch (session('tutor_filtro_alumnos')) {
             case 'P':
                 $usuarios = $curso?->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name')->get()
-                    ->sortBy(function ($user) use ($milestone) {
-                        return $user->num_completadas('base', null, $milestone);
+                    ->sortBy(function ($user) use ($mediana, $milestone) {
+                        return $user->num_completadas('base', null, $milestone) . $user->calcular_calificaciones($mediana, $milestone)->nota_numerica;
                     }) ?? new Collection();
                 break;
             default:
