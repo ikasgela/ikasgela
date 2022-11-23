@@ -15,19 +15,6 @@ trait InformeGrupo
         $organization = $user->organizacion_actual();
         $curso = $user->curso_actual();
 
-        if ($request->has('filtro_alumnos')) {
-            session(['tutor_filtro_alumnos' => $request->input('filtro_alumnos')]);
-        }
-
-        switch (session('tutor_filtro_alumnos')) {
-            case 'P':
-                $usuarios = $curso?->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name')->get()->sortBy('num_completadas_base') ?? new Collection();
-                break;
-            default:
-                $usuarios = $curso?->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name')->get() ?? new Collection();
-                break;
-        }
-
         $unidades = $curso->unidades()->whereVisible(true)->orderBy('orden')->get();
 
         // Evaluaciones del curso actual
@@ -45,6 +32,22 @@ trait InformeGrupo
             }
         } else if (!empty(session('filtrar_milestone_actual'))) {
             $milestone = Milestone::find(session('filtrar_milestone_actual'));
+        }
+
+        if ($request->has('filtro_alumnos')) {
+            session(['tutor_filtro_alumnos' => $request->input('filtro_alumnos')]);
+        }
+
+        switch (session('tutor_filtro_alumnos')) {
+            case 'P':
+                $usuarios = $curso?->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name')->get()
+                    ->sortBy(function ($user) use ($milestone) {
+                        return $user->num_completadas('base', null, $milestone);
+                    }) ?? new Collection();
+                break;
+            default:
+                $usuarios = $curso?->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name')->get() ?? new Collection();
+                break;
         }
 
         // Actividades obligatorias
