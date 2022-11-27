@@ -25,6 +25,7 @@
                 <th class="text-center">{{ __('Minimum final exams percent') }}</th>
                 <th class="text-center">{{ __('Mandatory exams') }}</th>
                 <th class="text-center">{{ __('Maximum recoverable percent') }}</th>
+                <th class="text-center">{{ __('Silence notifications') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -46,6 +47,9 @@
                     <td class="text-center">{{ $curso->minimo_examenes_finales ?? __('Undefined') }}</td>
                     <td class="text-center">{{ $curso->examenes_obligatorios ? __('Yes') : __('No') }}</td>
                     <td class="text-center">{{ $curso->maximo_recuperable_examenes_finales ?? __('Undefined') }}</td>
+                    <td class="text-center {{ $curso->silence_notifications ? 'bg-warning' : '' }}">
+                        {{ $curso->silence_notifications ? __('Yes') : __('No') }}
+                    </td>
                     <td>
                         <div class='btn-group'>
                             <a title="{{ __('Edit') }}"
