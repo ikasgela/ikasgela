@@ -101,8 +101,10 @@
 
             @include('layouts.errors')
 
-            <div>
-                <button type="submit" class="btn btn-primary mb-4">{{ __('Save assigment') }}</button>
+            <div class="mb-4">
+                <button type="submit" class="btn btn-primary mr-2">{{ __('Save assigment') }}</button>
+                <a class="btn btn-secondary"
+                   href="{{ route('file_resources.create') }}">{{ __('New files resource') }}</a>
             </div>
 
         </form>
