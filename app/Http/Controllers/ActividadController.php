@@ -280,6 +280,9 @@ class ActividadController extends Controller
                     abort(400, __('Invalid task state.'));
                 }
 
+                $actividad->fecha_comienzo = now();
+                $actividad->save();
+
                 $tarea->estado = $nuevoestado;
                 break;
             case 21:
