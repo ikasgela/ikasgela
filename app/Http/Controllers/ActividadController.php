@@ -128,6 +128,8 @@ class ActividadController extends Controller
             'fecha_disponibilidad' => request('fecha_disponibilidad'),
             'fecha_entrega' => request('fecha_entrega'),
             'fecha_limite' => request('fecha_limite'),
+
+            'fecha_comienzo' => request('fecha_comienzo'),
             'fecha_finalizacion' => request('fecha_finalizacion'),
 
             'destacada' => $request->has('destacada'),
@@ -219,6 +221,8 @@ class ActividadController extends Controller
             'fecha_disponibilidad' => request('fecha_disponibilidad'),
             'fecha_entrega' => request('fecha_entrega'),
             'fecha_limite' => request('fecha_limite'),
+
+            'fecha_comienzo' => request('fecha_comienzo'),
             'fecha_finalizacion' => request('fecha_finalizacion'),
 
             'destacada' => $request->has('destacada'),
@@ -275,6 +279,9 @@ class ActividadController extends Controller
                 if (!in_array($estado_anterior, [10]) && !$override_allowed) {
                     abort(400, __('Invalid task state.'));
                 }
+
+                $actividad->fecha_comienzo = now();
+                $actividad->save();
 
                 $tarea->estado = $nuevoestado;
                 break;
