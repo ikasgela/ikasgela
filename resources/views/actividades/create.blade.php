@@ -15,7 +15,7 @@
                     <select class="form-control" id="unidad_id" name="unidad_id">
                         @foreach($unidades as $unidad)
                             <option
-                                value="{{ $unidad->id }}" {{ session('profesor_unidad_actual') == $unidad->id ? 'selected' : '' }}>
+                                value="{{ $unidad->id }}" {{ session('profesor_unidad_id_disponibles') == $unidad->id ? 'selected' : '' }}>
                                 {{ $unidad->full_name }}</option>
                         @endforeach
                     </select>
