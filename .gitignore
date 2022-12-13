@@ -104,3 +104,7 @@ storage/
 supervisord.pid
 
 _ide_helper_models.php
+
+.scannerwork/
+
+odc-reports/
