@@ -34,7 +34,7 @@
         </div>
     </div>
 
-    @include('partials.subtitulo', ['subtitulo' => __('Course data')])
+    @include('partials.subtitulo', ['subtitulo' => __('Your data')])
     <div class="card">
         <div class="card-body">
             <div class="form-group row">

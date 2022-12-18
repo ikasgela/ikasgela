@@ -92,7 +92,6 @@
     "Copy": "Copia",
     "Correct": "Correcto",
     "Course": "Curso",
-    "Course data": "Datos del curso",
     "course feedback": "feedback de curso",
     "Course not available": "Curso no disponible",
     "Course not found.": "Curso no encontrado.",
@@ -557,6 +556,7 @@
     "You have one assigned activity": "Tienes una actividad asignada",
     "You have received a new message from :user.": "Has recibido un nuevo mensaje de :user.",
     "You need a user account to use ikasgela.": "Para utilizar ikasgela necesitas una cuenta de usuario.",
+    "Your data": "Tus datos",
     "YouTube video": "Vídeo en YouTube",
     "YouTube videos": "Vídeos en YouTube"
 }

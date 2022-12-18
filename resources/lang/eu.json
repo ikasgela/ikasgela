@@ -92,7 +92,6 @@
     "Copy": "Kopia",
     "Correct": "Zuzena",
     "Course": "Ikastaroa",
-    "Course data": "Ikastaroaren datuak",
     "course feedback": "ikastaro feedback-a",
     "Course not available": "Ikastaroa ez dago eskuragarri",
     "Course not found.": "Ikastaroa ez da aurkitu.",
@@ -557,6 +556,7 @@
     "You have one assigned activity": "Esleitutako aktibitate bat duzu",
     "You have received a new message from :user.": "Has recibido un nuevo mensaje de :user.",
     "You need a user account to use ikasgela.": "ikasgela erabiltzeko kontu bat behar duzu.",
+    "Your data": "Zure datuak",
     "YouTube video": "Vídeo en YouTube",
     "YouTube videos": "Vídeos en YouTube"
 }
