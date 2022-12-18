@@ -125,16 +125,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.253.2",
+            "version": "3.253.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "0f0e24bfae22edcdd62bcaedaff9610f8a328952"
+                "reference": "da3b60b090b2070bd452d8b87737ea1e00d8002f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0f0e24bfae22edcdd62bcaedaff9610f8a328952",
-                "reference": "0f0e24bfae22edcdd62bcaedaff9610f8a328952",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/da3b60b090b2070bd452d8b87737ea1e00d8002f",
+                "reference": "da3b60b090b2070bd452d8b87737ea1e00d8002f",
                 "shasum": ""
             },
             "require": {
@@ -213,9 +213,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.253.2"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.253.4"
             },
-            "time": "2022-12-14T19:25:13+00:00"
+            "time": "2022-12-16T19:23:03+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -5748,16 +5748,16 @@
         },
         {
             "name": "stechstudio/laravel-zipstream",
-            "version": "4.8",
+            "version": "4.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stechstudio/laravel-zipstream.git",
-                "reference": "eec27aa9dc1144a96fd0208b0bf8fcaa0455ab7b"
+                "reference": "1960242407a2d0f84370f916286db2d89122c53b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stechstudio/laravel-zipstream/zipball/eec27aa9dc1144a96fd0208b0bf8fcaa0455ab7b",
-                "reference": "eec27aa9dc1144a96fd0208b0bf8fcaa0455ab7b",
+                "url": "https://api.github.com/repos/stechstudio/laravel-zipstream/zipball/1960242407a2d0f84370f916286db2d89122c53b",
+                "reference": "1960242407a2d0f84370f916286db2d89122c53b",
                 "shasum": ""
             },
             "require": {
@@ -5804,9 +5804,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stechstudio/laravel-zipstream/issues",
-                "source": "https://github.com/stechstudio/laravel-zipstream/tree/4.8"
+                "source": "https://github.com/stechstudio/laravel-zipstream/tree/4.9"
             },
-            "time": "2022-04-04T13:05:01+00:00"
+            "time": "2022-12-15T18:50:07+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -9248,16 +9248,16 @@
         },
         {
             "name": "fidry/cpu-core-counter",
-            "version": "0.4.0",
+            "version": "0.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theofidry/cpu-core-counter.git",
-                "reference": "666cb04a02f2801f3b19955fc23c824f9018bf64"
+                "reference": "79261cc280aded96d098e1b0e0ba0c4881b432c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theofidry/cpu-core-counter/zipball/666cb04a02f2801f3b19955fc23c824f9018bf64",
-                "reference": "666cb04a02f2801f3b19955fc23c824f9018bf64",
+                "url": "https://api.github.com/repos/theofidry/cpu-core-counter/zipball/79261cc280aded96d098e1b0e0ba0c4881b432c2",
+                "reference": "79261cc280aded96d098e1b0e0ba0c4881b432c2",
                 "shasum": ""
             },
             "require": {
@@ -9297,7 +9297,7 @@
             ],
             "support": {
                 "issues": "https://github.com/theofidry/cpu-core-counter/issues",
-                "source": "https://github.com/theofidry/cpu-core-counter/tree/0.4.0"
+                "source": "https://github.com/theofidry/cpu-core-counter/tree/0.4.1"
             },
             "funding": [
                 {
@@ -9305,7 +9305,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-12-10T21:26:31+00:00"
+            "time": "2022-12-16T22:01:02+00:00"
         },
         {
             "name": "filp/whoops",
