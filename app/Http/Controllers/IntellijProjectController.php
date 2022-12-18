@@ -9,6 +9,7 @@ use App\Models\IntellijProject;
 use App\Models\MarkdownText;
 use App\Models\Tarea;
 use App\Models\Unidad;
+use App\Models\User;
 use App\Traits\ClonarRepoGitea;
 use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
@@ -29,7 +30,7 @@ class IntellijProjectController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:profesor|admin', ['except' => ['fork', 'is_forking', 'download']]);
+        $this->middleware('role:profesor|admin', ['except' => ['fork', 'is_forking', 'download', 'descargar_repos_usuario']]);
     }
 
     public function index(Request $request)
@@ -435,5 +436,30 @@ class IntellijProjectController extends Controller
         $clon->save();
 
         return back();
+    }
+
+    public function descargar_repos_usuario()
+    {
+        $user = Auth::user();
+
+        $fecha = now()->format('Ymd-His');
+        $fichero = $fecha . "-" . Str::slug($user->full_name) . ".sh";
+        $datos = "#!/bin/sh\n\n";
+
+        $actividades = $user->actividades_archivadas();
+
+        // Actividades de usuario
+        foreach ($actividades->get() as $actividad) {
+            foreach ($actividad->intellij_projects()->get() as $project) {
+                $datos .= "git clone ";
+                $repositorio = GiteaClient::repo($project->repositorio);
+                $datos .= "'" . $repositorio['http_url_to_repo'] . "'";
+                $datos .= "\n";
+            }
+        }
+
+        return response()->streamDownload(function () use ($datos) {
+            echo $datos;
+        }, $fichero);
     }
 }

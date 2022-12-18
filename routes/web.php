@@ -72,6 +72,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         // Subir ficheros a TinyMCE
         Route::post('/tinymce_upload', 'TinymceUploadController@uploadImage')->name('tinymce.upload.image');
 
+        // Descargar los repositorios propios
+        Route::post('/intellij_projects/descargar', 'IntellijProjectController@descargar_repos_usuario')
+            ->name('archivo.descargar');
+
         // Alumno
         Route::middleware(['role:alumno'])->group(function () {
 

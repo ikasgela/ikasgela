@@ -74,6 +74,7 @@
     "Check answers": "Erantzunak egiaztatu",
     "Clear filters": "Garbitu iragazkiak",
     "click here to request another": "egin klik hemen beste bat bidaltzeko",
+    "Click on the button to download the script and run it on your computer. You will need Git installed. On Windows the script can be run from Git Bash.": "Botoia sakatu script-a deskargatzeko eta zure ordenagailuan martxan jarri ezazu. Git instalatuta izan beharko duzu. Windowsen script-a Git Bashen bidez martxan jarri dezakezu.",
     "Clone": "Klonatu",
     "Clone the project": "Proiektua klonatu",
     "Cloning, please wait...": "Klonatzen, itxaron mesedez...",
@@ -116,6 +117,7 @@
     "Down": "Jeitsi",
     "Download": "Deskargatu",
     "Download projects": "Proiektuak deskargatu",
+    "Download script": "Deskargatzeko script-a",
     "Download template projects": "Proiektu ereduak deskargatu",
     "Download the project": "Proiektua deskargatu",
     "Download user projects": "Erabiltzaileen proiektuak deskargatu",
@@ -354,6 +356,7 @@
     "Profile": "Profila",
     "Progress": "Progreso",
     "Project cloner": "Clonador de proyectos",
+    "Projects": "Proiektuak",
     "Property": "Propietatea",
     "Published": "Publicada",
     "Published calification": "Calificación publicada",
@@ -553,6 +556,7 @@
     "You have one assigned activity": "Esleitutako aktibitate bat duzu",
     "You have received a new message from :user.": "Has recibido un nuevo mensaje de :user.",
     "You need a user account to use ikasgela.": "ikasgela erabiltzeko kontu bat behar duzu.",
+    "Your data": "Zure datuak",
     "YouTube video": "Vídeo en YouTube",
     "YouTube videos": "Vídeos en YouTube"
 }

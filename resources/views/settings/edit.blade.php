@@ -99,5 +99,4 @@
             {!! Form::close() !!}
         @endif
     @endauth
-
 @endsection
