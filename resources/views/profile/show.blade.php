@@ -33,4 +33,21 @@
             {!! Form::close() !!}
         </div>
     </div>
+
+    @include('partials.subtitulo', ['subtitulo' => __('Course data')])
+    <div class="card">
+        <div class="card-body">
+            <div class="form-group row">
+                {!! Form::label('intellij_projects', __('Projects'), ['class' => 'col-sm-2 col-form-label']) !!}
+                <div class="col-sm-10">
+                    {!! Form::open(['route' => ['intellij_projects.descargar'], 'method' => 'POST']) !!}
+                    {!! Form::button(__('Download script'), ['type' => 'submit',
+                        'class' => 'btn btn-primary'
+                    ]) !!}
+                    {!! Form::close() !!}
+                    <p class="small m-0 mt-2">{{ __('Click on the button to download the script and run it on your computer. You will need Git installed. On Windows the script can be run from Git Bash.') }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
