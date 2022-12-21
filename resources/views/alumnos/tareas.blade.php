@@ -20,7 +20,8 @@
                     <h2 class="text-muted font-xl">{{ __('You have :count assigned activities', ['count' => $alumno_actividades_asignadas]) }}</h2>
                 @endif
             @elseif(is_null(Auth::user()->curso_actual()))
-                <h2 class="font-xl text-danger">{{ __('No course selected') }}</h2>
+                <h2 class="font-xl"><a class="text-danger"
+                                       href="{{ route('users.portada') }}">{{ __('No course selected') }}</a></h2>
             @endif
         </div>
     </div>
