@@ -38,6 +38,7 @@ class Curso extends Model
         'tags',
         'progreso_visible',
         'silence_notifications',
+        'tarea_bienvenida_id',
     ];
 
     protected $dates = [
