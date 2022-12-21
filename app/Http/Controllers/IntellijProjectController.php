@@ -451,10 +451,12 @@ class IntellijProjectController extends Controller
         // Actividades de usuario
         foreach ($actividades->get() as $actividad) {
             foreach ($actividad->intellij_projects()->get() as $project) {
-                $datos .= "git clone ";
-                $repositorio = GiteaClient::repo($project->repositorio);
-                $datos .= "'" . $repositorio['http_url_to_repo'] . "'";
-                $datos .= "\n";
+                if (Str::length($project->pivot->fork) > 0) {
+                    $datos .= "git clone ";
+                    $repositorio = GiteaClient::repo($project->pivot->fork);
+                    $datos .= "'" . $repositorio['http_url_to_repo'] . "'";
+                    $datos .= "\n";
+                }
             }
         }
 
