@@ -60,6 +60,20 @@
             {{ Form::campoCheck('progreso_visible', __('Show course progress')) }}
             {{ Form::campoCheck('silence_notifications', __('Silence notifications')) }}
 
+            <div class="form-group row">
+                {!! Form::label('tarea_bienvenida_id', __('Welcome task'), ['class' => 'col-sm-2 col-form-label']) !!}
+                <div class="col-sm-10">
+                    <select class="form-control" id="tarea_bienvenida_id" name="tarea_bienvenida_id">
+                        @foreach($curso->actividades()->plantilla()->orderBy('orden')->get() as $actividad)
+                            <option
+                                value="{{ $actividad->id }}" {{ $curso->tarea_bienvenida_id == $actividad->id ? 'selected' : '' }}>
+                                {{ $actividad->full_name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
             @include('partials.guardar_cancelar')
 
             @include('layouts.errors')
