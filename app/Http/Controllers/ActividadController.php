@@ -371,7 +371,9 @@ class ActividadController extends Controller
                 }
 
                 $dias = $actividad->unidad->curso->plazo_actividad ?? 7;
-                $actividad->ampliarPlazo($dias);
+                if ($dias > 0) {
+                    $actividad->ampliarPlazo($dias);
+                }
 
                 $this->bloquearRepositorios($tarea, false);
 
@@ -447,7 +449,9 @@ class ActividadController extends Controller
                 }
 
                 $dias = $request->input('ampliacion_plazo', 7);
-                $actividad->ampliarPlazo($dias);
+                if ($dias > 0) {
+                    $actividad->ampliarPlazo($dias);
+                }
 
                 $this->bloquearRepositorios($tarea, false);
 
