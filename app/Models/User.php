@@ -413,6 +413,13 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         });
     }
 
+    public function scopeRolAdmin($query)
+    {
+        return $query->whereHas('roles', function ($query) {
+            $query->where('name', 'admin');
+        });
+    }
+
     public function scopeRolAlumno($query)
     {
         return $query->whereHas('roles', function ($query) {

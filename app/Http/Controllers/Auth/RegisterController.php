@@ -144,9 +144,7 @@ class RegisterController extends Controller
             ->causedBy($laravel)
             ->log('Nuevo usuario');
 
-        $admin_role = Role::where('name', 'admin')->first();
-
-        foreach ($admin_role->users()->get() as $admin) {
+        foreach ($organization->users()->rolAdmin()->get() as $admin) {
             Mail::to($admin)->queue(new NuevoUsuario($laravel));
         }
 
