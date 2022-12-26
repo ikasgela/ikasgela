@@ -14,6 +14,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Lab404\Impersonate\Models\Impersonate;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Watson\Rememberable\Rememberable;
 
@@ -831,5 +832,10 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     public function preferredLocale()
     {
         return setting_usuario('user_locale', $this) ?? App::getLocale();
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
     }
 }
