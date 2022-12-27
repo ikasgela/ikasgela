@@ -61,7 +61,6 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",
         "barryvdh/laravel-ide-helper": "^2.6",
-        "beyondcode/laravel-dump-server": "^1.0",
         "brianium/paratest": "^6.0",
         "fakerphp/faker": "^1.9.1",
         "laravel/dusk": "^7.0",
@@ -88,7 +87,6 @@
             "dont-discover": [
                 "barryvdh/laravel-debugbar",
                 "barryvdh/laravel-ide-helper",
-                "beyondcode/laravel-dump-server",
                 "brianium/paratest",
                 "fakerphp/faker",
                 "laravel/dusk",
