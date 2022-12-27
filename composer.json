@@ -89,8 +89,14 @@
                 "barryvdh/laravel-debugbar",
                 "barryvdh/laravel-ide-helper",
                 "beyondcode/laravel-dump-server",
+                "brianium/paratest",
+                "fakerphp/faker",
                 "laravel/dusk",
-                "nunomaduro/collision"
+                "laravel/tinker",
+                "mockery/mockery",
+                "nunomaduro/collision",
+                "phpunit/phpunit",
+                "spatie/laravel-ignition"
             ]
         }
     },
