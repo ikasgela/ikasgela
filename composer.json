@@ -87,7 +87,8 @@
         "laravel": {
             "dont-discover": [
                 "barryvdh/laravel-debugbar",
-                "beyondcode/laravel-dump-server"
+                "beyondcode/laravel-dump-server",
+                "laravel/dusk"
             ]
         }
     },
