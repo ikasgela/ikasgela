@@ -61,9 +61,9 @@ class File extends Model
             Storage::disk('s3')->delete('thumbnails/' . $this->path);
             Storage::disk('s3')->delete('documents/' . $this->path);
         } else {
-            Storage::disk('s3')->deleteDir('images/' . $contenedor);
-            Storage::disk('s3')->deleteDir('thumbnails/' . $contenedor);
-            Storage::disk('s3')->deleteDir('documents/' . $contenedor);
+            Storage::disk('s3')->deleteDirectory('images/' . $contenedor);
+            Storage::disk('s3')->deleteDirectory('thumbnails/' . $contenedor);
+            Storage::disk('s3')->deleteDirectory('documents/' . $contenedor);
         }
 
         return parent::delete();
