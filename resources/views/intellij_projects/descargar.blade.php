@@ -2,7 +2,36 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Units')])
+    @include('partials.titular', ['titular' => __('Download projects')])
+
+    @include('partials.subtitulo', ['subtitulo' => __('Course')])
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th>{{ __('Name') }}</th>
+                <th>{{ __('Actions') }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{ Auth::user()->curso_actual()?->full_name }}</td>
+                <td>
+                    <div class='btn-group'>
+                        {!! Form::open(['route' => ['intellij_projects.descargar.plantillas.curso'], 'method' => 'POST']) !!}
+                        {!! Form::button('<i class="fas fa-download text-danger"></i>', ['type' => 'submit',
+                            'class' => 'btn btn-light btn-sm ml-3', 'title' => __('Download template projects')
+                        ]) !!}
+                        {!! Form::close() !!}
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    @include('partials.subtitulo', ['subtitulo' => __('Units')])
 
     <div class="table-responsive">
         <table class="table table-hover">

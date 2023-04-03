@@ -409,6 +409,39 @@ class IntellijProjectController extends Controller
         return view('intellij_projects.descargar', compact(['unidades']));
     }
 
+    public function descargar_plantillas_curso(Request $request)
+    {
+        $curso_actual = Curso::find(setting_usuario('curso_actual'));
+
+        if ($curso_actual != null) {
+
+            $fecha = now()->format('Ymd-His');
+
+            $fichero = $fecha . "-" . $curso_actual->slug . ".sh";
+            $datos = "#!/bin/sh\n\n";
+
+            $actividades = $curso_actual->actividades()->plantilla()->get();
+
+            foreach ($actividades as $actividad) {
+
+                foreach ($actividad->intellij_projects()->get() as $project) {
+                    $datos .= "git clone ";
+                    $repositorio = GiteaClient::repo($project->repositorio);
+                    $datos .= "'" . $repositorio['http_url_to_repo'] . "'";
+                    $datos .= "\n";
+                }
+            }
+
+            return response()->streamDownload(function () use ($datos) {
+                echo $datos;
+            }, $fichero);
+        }
+
+        $unidades = Unidad::cursoActual()->orderBy('orden')->get();
+
+        return view('intellij_projects.descargar', compact(['unidades']));
+    }
+
     public function toggle_titulo_visible(Actividad $actividad, IntellijProject $intellij_project)
     {
         $pivote = $intellij_project->pivote($actividad);

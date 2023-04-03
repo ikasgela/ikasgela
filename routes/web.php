@@ -226,6 +226,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('intellij_projects.descargar.repos');
             Route::post('/intellij_projects/descargar_plantillas', 'IntellijProjectController@descargar_plantillas')
                 ->name('intellij_projects.descargar.plantillas');
+            Route::post('/intellij_projects/descargar_plantillas_curso', 'IntellijProjectController@descargar_plantillas_curso')
+                ->name('intellij_projects.descargar.plantillas.curso');
 
             // IntellijProject
             Route::resource('intellij_projects', 'IntellijProjectController');
