@@ -430,6 +430,13 @@ class IntellijProjectController extends Controller
                     $datos .= "'" . $repositorio['http_url_to_repo'] . "'";
                     $datos .= "\n";
                 }
+
+                foreach ($actividad->markdown_texts()->get() as $project) {
+                    $datos .= "git clone ";
+                    $repositorio = GiteaClient::repo($project->repositorio);
+                    $datos .= "'" . $repositorio['http_url_to_repo'] . "'";
+                    $datos .= "\n";
+                }
             }
 
             return response()->streamDownload(function () use ($datos) {
