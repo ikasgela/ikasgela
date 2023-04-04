@@ -420,23 +420,22 @@ class IntellijProjectController extends Controller
             $fichero = $fecha . "-" . $curso_actual->slug . ".sh";
             $datos = "#!/bin/sh\n\n";
 
-            $actividades = $curso_actual->actividades()->plantilla()->get();
+            $datos .= "# IntelliJProject (" . $curso_actual->intellij_projects()->count() . ")\n";
 
-            foreach ($actividades as $actividad) {
+            foreach ($curso_actual->intellij_projects()->get() as $project) {
+                $datos .= "git clone ";
+                $repositorio = GiteaClient::repo($project->repositorio);
+                $datos .= "'" . $repositorio['http_url_to_repo'] . "'";
+                $datos .= "\n";
+            }
 
-                foreach ($actividad->intellij_projects()->get() as $project) {
-                    $datos .= "git clone ";
-                    $repositorio = GiteaClient::repo($project->repositorio);
-                    $datos .= "'" . $repositorio['http_url_to_repo'] . "'";
-                    $datos .= "\n";
-                }
+            $datos .= "\n# MarkdownText (" . $curso_actual->markdown_texts()->count() . ")\n";
 
-                foreach ($actividad->markdown_texts()->get() as $project) {
-                    $datos .= "git clone ";
-                    $repositorio = GiteaClient::repo($project->repositorio);
-                    $datos .= "'" . $repositorio['http_url_to_repo'] . "'";
-                    $datos .= "\n";
-                }
+            foreach ($curso_actual->markdown_texts()->get() as $project) {
+                $datos .= "git clone ";
+                $repositorio = GiteaClient::repo($project->repositorio);
+                $datos .= "'" . $repositorio['http_url_to_repo'] . "'";
+                $datos .= "\n";
             }
 
             return response()->streamDownload(function () use ($datos) {
