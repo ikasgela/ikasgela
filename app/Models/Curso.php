@@ -41,9 +41,8 @@ class Curso extends Model
         'tarea_bienvenida_id',
     ];
 
-    protected $dates = [
-        'created_at', 'updated_at', 'deleted_at',
-        'fecha_inicio', 'fecha_fin'
+    protected $casts = [
+        'fecha_inicio' => 'datetime', 'fecha_fin' => 'datetime',
     ];
 
     public function getFullNameAttribute()

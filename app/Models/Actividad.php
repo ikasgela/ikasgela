@@ -47,10 +47,9 @@ class Actividad extends Model
         '__import_id',
     ];
 
-    protected $dates = [
-        'created_at', 'updated_at', 'deleted_at',
-        'fecha_disponibilidad', 'fecha_entrega', 'fecha_limite',
-        'fecha_comienzo', 'fecha_finalizacion',
+    protected $casts = [
+        'fecha_disponibilidad' => 'datetime', 'fecha_entrega' => 'datetime', 'fecha_limite' => 'datetime',
+        'fecha_comienzo' => 'datetime', 'fecha_finalizacion' => 'datetime',
     ];
 
     public function getFullNameAttribute()

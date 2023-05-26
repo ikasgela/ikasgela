@@ -16,8 +16,8 @@ class CacheClear extends Model
         'user_id', 'fecha',
     ];
 
-    protected $dates = [
-        'fecha'
+    protected $casts = [
+        'fecha' => 'datetime',
     ];
 
     public function user()
