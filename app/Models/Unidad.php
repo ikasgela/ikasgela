@@ -46,9 +46,8 @@ class Unidad extends Model
         return $full_name;
     }
 
-    protected $dates = [
-        'created_at', 'updated_at', 'deleted_at',
-        'fecha_disponibilidad', 'fecha_entrega', 'fecha_limite'
+    protected $casts = [
+        'fecha_disponibilidad' => 'datetime', 'fecha_entrega' => 'datetime', 'fecha_limite' => 'datetime',
     ];
 
     public function curso()

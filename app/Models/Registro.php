@@ -18,9 +18,8 @@ class Registro extends Model
 
     public $timestamps = false;
 
-    protected $dates = [
-        'created_at', 'updated_at', 'deleted_at',
-        'timestamp'
+    protected $casts = [
+        'timestamp' => 'datetime',
     ];
 
     public function tarea()

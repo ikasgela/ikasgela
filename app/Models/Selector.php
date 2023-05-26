@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Log;
 
+/**
+ * @mixin IdeHelperSelector
+ */
 class Selector extends Model
 {
     use HasFactory;

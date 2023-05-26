@@ -63,7 +63,9 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
     public $appends = ['last_active_time', 'num_completadas_base'];
 
-    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'last_active'];
+    protected $casts = [
+        'last_active' => 'datetime',
+    ];
 
     public function getFullNameAttribute()
     {

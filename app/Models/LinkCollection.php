@@ -6,6 +6,9 @@ use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperLinkCollection
+ */
 class LinkCollection extends Model
 {
     use HasFactory;

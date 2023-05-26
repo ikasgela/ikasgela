@@ -18,9 +18,8 @@ class Milestone extends Model
         'decimals', 'truncate',
     ];
 
-    protected $dates = [
-        'created_at', 'updated_at', 'deleted_at',
-        'date'
+    protected $casts = [
+        'date' => 'datetime',
     ];
 
     public function getFullNameAttribute()
