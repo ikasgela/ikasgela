@@ -6,6 +6,9 @@ use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperRule
+ */
 class Rule extends Model
 {
     use HasFactory;
