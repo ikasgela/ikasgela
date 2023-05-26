@@ -108,3 +108,5 @@ _ide_helper_models.php
 .scannerwork/
 
 odc-reports/
+
+.phpunit.cache/
