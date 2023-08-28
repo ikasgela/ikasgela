@@ -246,7 +246,7 @@ class Curso extends Model
         foreach ($users as $usuario) {
             $total_actividades_usuarios[] = $usuario->num_completadas('base', null, $milestone);
         }
-        $mediana = mediana($total_actividades_usuarios);
+        $mediana = count($total_actividades_usuarios) > 0 ? mediana($total_actividades_usuarios) : 0;
 
         return $mediana;
     }

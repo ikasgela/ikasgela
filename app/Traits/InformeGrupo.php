@@ -57,8 +57,8 @@ trait InformeGrupo
         foreach ($usuarios as $usuario) {
             $todas_notas[] = $usuario->calcular_calificaciones($mediana, $milestone)->nota_numerica;
         }
-        $nota_maxima = max($todas_notas);
-        $nota_minima = min($todas_notas);
+        $nota_maxima = count($todas_notas) > 0 ? max($todas_notas) : 0;
+        $nota_minima = count($todas_notas) > 0 ? min($todas_notas) : 0;
 
         // Actividades obligatorias
 
