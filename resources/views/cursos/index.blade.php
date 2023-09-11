@@ -16,6 +16,7 @@
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Slug') }}</th>
                 <th>{{ __('Tags') }}</th>
+                <th class="text-center">{{ __('Start/End dates') }}</th>
                 <th class="text-center">{{ __('Open enrollment') }}</th>
                 <th class="text-center">{{ __('Simultaneous activities') }}</th>
                 <th class="text-center">{{ __('Activity deadline') }}</th>
@@ -36,6 +37,11 @@
                     <td>{{ $curso->full_name }}</td>
                     <td>{{ $curso->slug }}</td>
                     <td>@include('partials.etiquetas', ['etiquetas' => $curso->etiquetas()])</td>
+                    <td>
+                        {{ $curso?->fecha_inicio ? $curso->fecha_inicio->isoFormat('L LT') : __('Undefined') }}
+                        <br>
+                        {{ $curso?->fecha_fin ? $curso->fecha_fin->isoFormat('L LT') : __('Undefined') }}
+                    </td>
                     <td class="text-center {{ $curso->matricula_abierta ? 'bg-warning' : '' }}">
                         {{ $curso->matricula_abierta ? __('Yes') : __('No') }}
                     </td>
