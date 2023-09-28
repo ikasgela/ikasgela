@@ -179,7 +179,7 @@ class IntellijProject extends Model
 
         if ($repository['id'] != '?') {
             $sha = GiteaClient::repo_first_sha($repository['owner'], $repository['name']);
-            return "gitkraken://repolink/$sha?url=" . str_replace('https://', "https://" . Auth::user()->username . "@", $repository['http_url_to_repo']);
+            return "gitkraken://repolink/$sha?url=" . $repository['http_url_to_repo'];
         }
 
         return null;
