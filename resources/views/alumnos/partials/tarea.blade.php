@@ -30,30 +30,39 @@
                     @endif
                 </div>
             </div>
-            @if(!$actividad->auto_avance && $actividad->tarea->estado < 60 && !$actividad->is_expired)
-                @include('alumnos.partials.tarea.linea_progreso')
-            @endif
-            @switch($actividad->tarea->estado)
-                @case(20)
-                    {{-- Aceptada --}}
-                @case(21)
-                    {{-- Feedback leído --}}
-                    @if(!$actividad->is_expired)
+            @if($actividad->hasEtiqueta('seb') && $user->curso_actual()?->token_valido() || !$actividad->hasEtiqueta('seb'))
+                @if(!$actividad->auto_avance && $actividad->tarea->estado < 60 && !$actividad->is_expired)
+                    @include('alumnos.partials.tarea.linea_progreso')
+                @endif
+                @switch($actividad->tarea->estado)
+                    @case(20)
+                        {{-- Aceptada --}}
+                    @case(21)
+                        {{-- Feedback leído --}}
+                        @if(!$actividad->is_expired)
+                            @include('partials.tarjetas_actividad')
+                        @endif
+                        @break
+                    @case(60)
+                    @case(64)
+                        {{-- Archivada --}}
                         @include('partials.tarjetas_actividad')
-                    @endif
-                    @break
-                @case(60)
-                @case(64)
-                    {{-- Archivada --}}
-                    @include('partials.tarjetas_actividad')
-                    @break
-                @default
-            @endswitch
-            @include('alumnos.partials.tarea.feedback')
-            <hr class="my-0">
-            <div class="card-body pb-1">
-                @include('alumnos.partials.tarea.boton_accion')
-            </div>
+                        @break
+                    @default
+                @endswitch
+                @include('alumnos.partials.tarea.feedback')
+                <hr class="my-0">
+                <div class="card-body pb-1">
+                    @include('alumnos.partials.tarea.boton_accion')
+                </div>
+            @else
+                <hr class="my-0">
+                <div class="card-body pb-1">
+                    <div class="alert alert-danger" role="alert">
+                        <span>{{ __('This task is only available using Safe Exam Browser.') }}</span>
+                    </div>
+                </div>
+            @endif
         </div>
         {{-- Fin tarjeta--}}
     </div>

@@ -55,6 +55,6 @@
         @include('partials.subtitulo', ['subtitulo' => __('Tests')])
         <p>IP: {{ $clientIP }} | Egibide: {{ $ip_egibide ? 'Sí' : 'No' }}</p>
         <p>Host: {{ env("HOSTNAME") }}</p>
-        <p>SEB: {{ $user->curso_actual()->first()->token_valido() ? "Sí" : "No" }}</p>
+        <p>Token válido: {{ $user->curso_actual()?->token_valido() ? "Sí" : "No" }}</p>
     @endif
 @endsection
