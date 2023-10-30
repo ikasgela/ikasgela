@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Traits\HerramientasIP;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,11 +14,19 @@ use function view;
 
 class ProfileController extends Controller
 {
+    use HerramientasIP;
+
     public function show()
     {
         $user = Auth::user();
 
-        return view('profile.show', compact('user'));
+        $clientIP = $this->clientIP();
+        $ip_egibide = $this->ip_in_range($this->clientIP(), ['150.241.173.0/24', '150.241.172.0/24']);
+
+        return view('profile.show', compact([
+            'user',
+            'ip_egibide', 'clientIP',
+        ]));
     }
 
     public function password()

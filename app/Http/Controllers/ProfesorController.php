@@ -14,7 +14,6 @@ use App\Models\Tarea;
 use App\Models\Team;
 use App\Models\Unidad;
 use App\Models\User;
-use App\Traits\HerramientasIP;
 use App\Traits\JPlagRunner;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
@@ -30,7 +29,6 @@ class ProfesorController extends Controller
 {
     use PaginarUltima;
     use JPlagRunner;
-    use HerramientasIP;
 
     public function __construct()
     {
@@ -149,9 +147,6 @@ class ProfesorController extends Controller
 
         $media_grupo_formato = $formatter->format($media_grupo);
 
-        $clientIP = $this->clientIP();
-        $ip_egibide = $this->ip_in_range($this->clientIP(), ['150.241.173.0/24', '150.241.172.0/24']);
-
         $etiquetas = [];
         foreach ($usuarios as $usuario) {
             $etiquetas = array_merge($etiquetas, $usuario->etiquetas());
@@ -161,7 +156,6 @@ class ProfesorController extends Controller
 
         return view('profesor.index', compact(['usuarios', 'unidades', 'disponibles', 'organization',
             'total_actividades_grupo', 'media_grupo', 'media_grupo_formato',
-            'ip_egibide', 'clientIP',
             'etiquetas']));
     }
 

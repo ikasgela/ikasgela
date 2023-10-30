@@ -62,8 +62,4 @@
     @include('profesor.partials.tabla_usuarios')
 
     @include('profesor.partials.disponibles_grupo')
-
-    @if(Auth::user()->hasAnyRole(['admin']))
-        <p>IP: {{ $clientIP }} | Egibide: {{ $ip_egibide ? 'Sí' : 'No' }} | Host: {{ env("HOSTNAME") }}</p>
-    @endif
 @endsection

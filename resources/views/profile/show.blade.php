@@ -50,4 +50,9 @@
             </div>
         </div>
     </div>
+
+    @if(Auth::user()->hasAnyRole(['admin']))
+        @include('partials.subtitulo', ['subtitulo' => __('Tests')])
+        <p>IP: {{ $clientIP }} | Egibide: {{ $ip_egibide ? 'Sí' : 'No' }} | Host: {{ env("HOSTNAME") }}</p>
+    @endif
 @endsection
