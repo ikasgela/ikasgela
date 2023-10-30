@@ -37,16 +37,24 @@
                     <th>{{ $user->identifier }}</th>
                 @endif
                 @if(!isset($exportar))
-                    <td>@include('users.partials.avatar', ['user' => $user, 'width' => 35])</td>
+                    @if(session('tutor_informe_anonimo') != 'A')
+                        <td>@include('users.partials.avatar', ['user' => $user, 'width' => 35])</td>
+                    @else
+                        <td>@include('users.partials.avatar', ['user' => null, 'width' => 35])</td>
+                    @endif
                 @endif
                 <td>
                     @if(!isset($exportar))
-                        {!! Form::open(['route' => ['results.alumno'], 'method' => 'POST', 'style' => 'display:inline']) !!}
-                        {!! Form::button($user->name.' '.$user->surname, ['type' => 'submit', 'class' => 'btn btn-link m-0 p-0 text-dark text-left']) !!}
-                        {!! Form::hidden('user_id',$user->id) !!}
-                        {!! Form::close() !!}
+                        @if(session('tutor_informe_anonimo') != 'A')
+                            {!! Form::open(['route' => ['results.alumno'], 'method' => 'POST', 'style' => 'display:inline']) !!}
+                            {!! Form::button($user->name.' '.$user->surname, ['type' => 'submit', 'class' => 'btn btn-link m-0 p-0 text-dark text-left']) !!}
+                            {!! Form::hidden('user_id',$user->id) !!}
+                            {!! Form::close() !!}
 
-                        @include('profesor.partials.status_usuario')
+                            @include('profesor.partials.status_usuario')
+                        @else
+                            ***
+                        @endif
                     @else
                         {{ $user->name }} {{ $user->surname }}
                     @endif

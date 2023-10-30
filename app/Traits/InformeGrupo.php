@@ -52,6 +52,15 @@ trait InformeGrupo
                 break;
         }
 
+        // Mostrar o no los nombres de los alumnos
+        if ($request->has('informe_anonimo')) {
+            if (session('tutor_informe_anonimo') == 'A') {
+                session(['tutor_informe_anonimo' => '']);
+            } else {
+                session(['tutor_informe_anonimo' => $request->input('informe_anonimo')]);
+            }
+        }
+
         // Calcular la nota máxima y mínima para normalizar
         $todas_notas = [];
         foreach ($usuarios as $usuario) {
