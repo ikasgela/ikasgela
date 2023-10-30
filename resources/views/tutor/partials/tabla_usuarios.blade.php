@@ -50,10 +50,6 @@
                             {!! Form::button($user->name.' '.$user->surname, ['type' => 'submit', 'class' => 'btn btn-link m-0 p-0 text-dark text-left']) !!}
                             {!! Form::hidden('user_id',$user->id) !!}
                             {!! Form::close() !!}
-
-                            @include('profesor.partials.status_usuario')
-                            @include('profesor.partials.etiquetas_usuario')
-                            @include('profesor.partials.baja_ansiedad_usuario')
                         @else
                             -
                         @endif
