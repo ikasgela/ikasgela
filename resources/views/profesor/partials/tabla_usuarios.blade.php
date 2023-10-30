@@ -57,7 +57,7 @@
                 </td>
                 <td class="clickable">@include('users.partials.avatar', ['user' => $user, 'width' => 35])</td>
                 <td class="clickable">
-                    {{ $user->name }} {{ $user->surname }}
+                    {{ $user->full_name }}
                     @include('profesor.partials.status_usuario')
                     @include('profesor.partials.etiquetas_usuario_filtro')
                     @include('profesor.partials.baja_ansiedad_usuario')

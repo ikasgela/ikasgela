@@ -31,7 +31,7 @@
                     <select name="users_seleccionados[]" multiple class="form-control multi-select"
                             id="users-select1">
                         @foreach($users_seleccionados as $user)
-                            <option value="{{ $user->id }}">{{ $user->name }} {{ $user->surname }}</option>
+                            <option value="{{ $user->id }}">{{ $user->full_name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -47,7 +47,7 @@
                     <label>{{ __('Available') }}</label>
                     <select multiple class="form-control multi-select" id="users-select2">
                         @foreach($users_disponibles as $user)
-                            <option value="{{ $user->id }}">{{ $user->name }} {{ $user->surname }}</option>
+                            <option value="{{ $user->id }}">{{ $user->full_name }}</option>
                         @endforeach
                     </select>
                 </div>

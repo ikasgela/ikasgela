@@ -7,7 +7,7 @@
     <ul class="list-group mb-4"> @foreach($team->users as $user)
             <li class="list-group-item">
                 @include('users.partials.avatar', ['user' => $user, 'width' => 32])
-                <span class="mx-2">{{ $user->name }} {{ $user->surname }}</span>
+                <span class="mx-2">{{ $user->full_name }}</span>
                 @include('partials.mailto', ['user' => $user])
             </li>
         @endforeach

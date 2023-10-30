@@ -40,7 +40,7 @@
                     <td class="clickable">{{ $team->group->slug }}/{{ $team->slug }}</td>
                     <td class="clickable">
                         @forelse($team->users as $user)
-                            <p class="m-0">{{ $user->name }} {{ $user->surname }}</p>
+                            <p class="m-0">{{ $user->full_name }}</p>
                         @empty
                             <p class="m-0">{{ trans_choice('genero.none', 1) }}</p>
                         @endforelse
