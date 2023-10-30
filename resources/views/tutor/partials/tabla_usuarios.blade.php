@@ -37,7 +37,7 @@
                     <th>{{ $user->identifier }}</th>
                 @endif
                 @if(!isset($exportar))
-                    @if(session('tutor_informe_anonimo') != 'A')
+                    @if(session('tutor_informe_anonimo') == 'A')
                         <td>@include('users.partials.avatar', ['user' => $user, 'width' => 35])</td>
                     @else
                         <td>@include('users.partials.avatar', ['user' => null, 'width' => 35])</td>
@@ -45,7 +45,7 @@
                 @endif
                 <td>
                     @if(!isset($exportar))
-                        @if(session('tutor_informe_anonimo') != 'A')
+                        @if(session('tutor_informe_anonimo') == 'A')
                             {!! Form::open(['route' => ['results.alumno'], 'method' => 'POST', 'style' => 'display:inline']) !!}
                             {!! Form::button($user->name.' '.$user->surname, ['type' => 'submit', 'class' => 'btn btn-link m-0 p-0 text-dark text-left']) !!}
                             {!! Form::hidden('user_id',$user->id) !!}
@@ -53,7 +53,7 @@
 
                             @include('profesor.partials.status_usuario')
                         @else
-                            ***
+                            -
                         @endif
                     @else
                         {{ $user->name }} {{ $user->surname }}

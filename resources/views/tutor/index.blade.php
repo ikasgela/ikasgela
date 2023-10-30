@@ -30,7 +30,7 @@
                 {!! Form::close() !!}
 
                 {!! Form::open(['route' => ['tutor.index.filtro'], 'method' => 'POST']) !!}
-                {!! Form::button(session('tutor_informe_anonimo') == 'A' ? __('Show names') : __('Hide names'), ['type' => 'submit',
+                {!! Form::button(session('tutor_informe_anonimo') == 'A' ? __('Hide names') : __('Show names'), ['type' => 'submit',
                     'class' => session('tutor_informe_anonimo') == 'A' ? 'btn btn-sm mx-1 btn-primary' : 'btn btn-sm mx-1 btn-outline-secondary'
                 ]) !!}
                 {!! Form::hidden('informe_anonimo','A') !!}
