@@ -28,7 +28,9 @@
                 <td>@include('users.partials.avatar', ['user' => $user, 'width' => 35])</td>
                 <td>
                     {{ $user->name }} {{ $user->surname }}
-                    @include('profesor.partials.status_usuario_filtro')
+                    @include('profesor.partials.status_usuario')
+                    @include('profesor.partials.etiquetas_usuario_filtro')
+                    @include('profesor.partials.baja_ansiedad_usuario')
                 </td>
                 <td>@include('partials.mailto', ['user' => $user])</td>
                 <td class="text-center">{{ $user->cursos()->count() }}</td>

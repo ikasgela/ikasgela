@@ -52,6 +52,8 @@
                             {!! Form::close() !!}
 
                             @include('profesor.partials.status_usuario')
+                            @include('profesor.partials.etiquetas_usuario')
+                            @include('profesor.partials.baja_ansiedad_usuario')
                         @else
                             -
                         @endif
