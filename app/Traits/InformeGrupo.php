@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Milestone;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -61,6 +62,30 @@ trait InformeGrupo
             }
         }
 
+        // Lista de usuarios para el desplegable
+        if (!is_null($curso)) {
+            $users = $curso->alumnos_activos();
+        } else {
+            $users = new Collection();
+        }
+
+        // Hay otro usuario seleccionado para mostrar
+        if (Auth::user()->hasAnyRole(['admin', 'profesor', 'tutor'])) {
+            if (!empty($request->input('user_id'))) {
+                $user_id = $request->input('user_id');
+                if ($user_id == -1) {
+                    session()->forget('filtrar_user_actual');
+                } else {
+                    $user = User::find($user_id);
+                    session(['filtrar_user_actual' => $user_id]);
+                }
+            } else if (!empty(session('filtrar_user_actual'))) {
+                $user = User::find(session('filtrar_user_actual'));
+            }
+        }
+
+        $user_seleccionado = $user;
+
         // Calcular la nota máxima y mínima para normalizar
         $todas_notas = [];
         foreach ($usuarios as $usuario) {
@@ -89,6 +114,7 @@ trait InformeGrupo
             'milestones', 'milestone',
             'mediana',
             'nota_maxima', 'nota_minima',
+            'users', 'user_seleccionado'
         ]);
     }
 }
