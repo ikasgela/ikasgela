@@ -47,16 +47,14 @@
                     @if(!isset($exportar))
                         @if(session('tutor_informe_anonimo') == 'A' || $user_seleccionado->id == $user->id)
                             {!! Form::open(['route' => ['results.alumno'], 'method' => 'POST', 'style' => 'display:inline']) !!}
-                            {!! Form::button($user->name.' '.$user->surname, ['type' => 'submit', 'class' => 'btn btn-link m-0 p-0 text-dark text-left']) !!}
+                            {!! Form::button($user->full_name, ['type' => 'submit', 'class' => 'btn btn-link m-0 p-0 text-dark text-left']) !!}
                             {!! Form::hidden('user_id',$user->id) !!}
                             {!! Form::close() !!}
-
-                            @include('profesor.partials.status_usuario')
                         @else
                             -
                         @endif
                     @else
-                        {{ $user->name }} {{ $user->surname }}
+                        {{ $user->full_name }}
                     @endif
                 </td>
                 @php($aprobados += $calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada ? 1 : 0)

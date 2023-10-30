@@ -7,7 +7,7 @@
     <div class="card">
         <div class="card-body">
 
-            <h2>{{ $user->name }} {{ $user->surname }}</h2>
+            <h2>{{ $user->full_name }}</h2>
             <p>{{ $curso->category->period->organization->name.' » '.$curso->category->period->name.' » '.$curso->nombre }}</p>
 
             {!! Form::open(['route' => ['profesor.nota_manual.update', $user->id, $curso->id], 'method' => 'POST']) !!}

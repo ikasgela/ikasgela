@@ -9,6 +9,8 @@
                            href="{{ route('profesor.tareas', ['user' => $user->id]) }}"
                            class='text-dark'>{{ $user->full_name }}</a>
                         @include('profesor.partials.status_usuario')
+                        @include('profesor.partials.etiquetas_usuario')
+                        @include('profesor.partials.baja_ansiedad_usuario')
                         @include('profesor.partials.acciones_usuario')
                     </h5>
                     @include('partials.mailto', ['user' => $user, 'format' => 'class="card-link"'])
