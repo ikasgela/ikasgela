@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Traits\Etiquetas;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+use Jenssegers\Agent\Facades\Agent;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Watson\Rememberable\Rememberable;
 
@@ -39,6 +41,7 @@ class Curso extends Model
         'progreso_visible',
         'silence_notifications',
         'tarea_bienvenida_id',
+        'token',
     ];
 
     protected $casts = [
@@ -249,5 +252,10 @@ class Curso extends Model
         $mediana = count($total_actividades_usuarios) > 0 ? mediana($total_actividades_usuarios) : 0;
 
         return $mediana;
+    }
+
+    public function token_valido()
+    {
+        return is_null($this->token) || Str::contains(Agent::getUserAgent(), "SEB/ikasgela ($this->token)");
     }
 }

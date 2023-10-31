@@ -27,6 +27,7 @@
                 <th class="text-center">{{ __('Mandatory exams') }}</th>
                 <th class="text-center">{{ __('Maximum recoverable percent') }}</th>
                 <th class="text-center">{{ __('Silence notifications') }}</th>
+                <th class="text-center">{{ __('Token') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -55,6 +56,9 @@
                     <td class="text-center">{{ $curso->maximo_recuperable_examenes_finales ?? __('Undefined') }}</td>
                     <td class="text-center {{ $curso->silence_notifications ? 'bg-warning' : '' }}">
                         {{ $curso->silence_notifications ? __('Yes') : __('No') }}
+                    </td>
+                    <td class="text-center {{ $curso->token ? 'bg-warning' : '' }}">
+                        {{ $curso->token ? __('Yes') : __('No') }}
                     </td>
                     <td>
                         <div class='btn-group'>

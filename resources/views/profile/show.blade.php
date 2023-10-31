@@ -53,6 +53,8 @@
 
     @if(Auth::user()->hasAnyRole(['admin']))
         @include('partials.subtitulo', ['subtitulo' => __('Tests')])
-        <p>IP: {{ $clientIP }} | Egibide: {{ $ip_egibide ? 'Sí' : 'No' }} | Host: {{ env("HOSTNAME") }}</p>
+        <p>IP: {{ $clientIP }} | Egibide: {{ $ip_egibide ? 'Sí' : 'No' }}</p>
+        <p>Host: {{ env("HOSTNAME") }}</p>
+        <p>Token válido: {{ $user->curso_actual()?->token_valido() ? "Sí" : "No" }}</p>
     @endif
 @endsection
