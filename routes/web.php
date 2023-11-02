@@ -357,6 +357,14 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('rules.anyadir');
             Route::post('/selectors/{selector}/duplicar', 'SelectorController@duplicar')
                 ->name('selectors.duplicar');
+
+            // Safe Exam Browser
+            Route::get('/safe_exam', 'SafeExamController@index')
+                ->name('safe_exam.index');
+            Route::delete('/safe_exam/{curso}/reset_token', 'SafeExamController@reset_token')
+                ->name('safe_exam.reset_token');
+            Route::delete('/safe_exam/{curso}/delete_token', 'SafeExamController@delete_token')
+                ->name('safe_exam.delete_token');
         });
 
         // Administrador
