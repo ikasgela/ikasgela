@@ -504,6 +504,14 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             // Reiniciar los contenidos de un curso
             Route::delete('/cursos/{curso}/reset', 'CursoController@reset')
                 ->name('cursos.reset');
+
+            // Safe Exam Browser
+            Route::get('/safe_exam', 'SafeExamController@index')
+                ->name('safe_exam.index');
+            Route::delete('/safe_exam/{curso}/reset_token', 'SafeExamController@reset_token')
+                ->name('safe_exam.reset_token');
+            Route::delete('/safe_exam/{curso}/delete_token', 'SafeExamController@delete_token')
+                ->name('safe_exam.delete_token');
         });
 
         // Alumnos y profesores

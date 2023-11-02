@@ -157,6 +157,11 @@
                 {{ __('Milestones') }}
             </a>
         </li>
+        <li class="c-sidebar-nav-item">
+            <a class="c-sidebar-nav-link" href="{{ route('safe_exam.index') }}">
+                {{ __('Safe Exam Browser') }}
+            </a>
+        </li>
     </ul>
 </li>
 <li class="c-sidebar-nav-item">
