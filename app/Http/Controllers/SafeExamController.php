@@ -55,6 +55,17 @@ class SafeExamController extends Controller
         return back();
     }
 
+    public function delete_quit_password(Curso $curso)
+    {
+        $safe_exam = SafeExam::firstOrNew(['curso_id' => $curso->id]);
+
+        $safe_exam->quit_password = "";
+        $safe_exam->curso_id = $curso->id;
+        $safe_exam->save();
+
+        return back();
+    }
+
     public function config_seb(Curso $curso)
     {
         $ruta = Storage::disk('seb')->path("/");

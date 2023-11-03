@@ -48,6 +48,13 @@
                                     class="btn btn-light btn-sm"><i class="fas fa-redo text-danger"></i>
                             </button>
                             {!! Form::close() !!}
+                            {!! Form::open(['route' => ['safe_exam.delete_quit_password', [$curso->id]], 'method' => 'DELETE']) !!}
+                            <button title="{{ __('Delete quit password') }}"
+                                    name="delete_quit_password"
+                                    type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
+                                    class="btn btn-light btn-sm"><i class="fas fa-trash text-danger"></i>
+                            </button>
+                            {!! Form::close() !!}
                         </div>
                     </td>
                 </tr>

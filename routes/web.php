@@ -519,6 +519,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('safe_exam.reset_quit_password');
             Route::delete('/safe_exam/{curso}/delete_token', 'SafeExamController@delete_token')
                 ->name('safe_exam.delete_token');
+            Route::delete('/safe_exam/{curso}/delete_quit_password', 'SafeExamController@delete_quit_password')
+                ->name('safe_exam.delete_quit_password');
         });
 
         // Alumnos y profesores
