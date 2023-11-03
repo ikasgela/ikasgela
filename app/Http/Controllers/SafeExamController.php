@@ -11,7 +11,7 @@ class SafeExamController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['config_seb']);
         $this->middleware('role:admin')->except(['config_seb']);
     }
 
