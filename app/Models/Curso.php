@@ -260,6 +260,6 @@ class Curso extends Model
 
     public function token_valido()
     {
-        return is_null($this->token) || Str::contains(Agent::getUserAgent(), "SEB/ikasgela ($this->token)");
+        return is_null($this->safe_exam?->token) || Str::contains(Agent::getUserAgent(), "SEB/ikasgela (" . $this->safe_exam?->token . ")");
     }
 }
