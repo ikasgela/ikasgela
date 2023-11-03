@@ -231,7 +231,7 @@
         <key>hashedAdminPassword</key>
         <string/>
         <key>hashedQuitPassword</key>
-        <string>03AC674216F3E15C761EE1A5E255F067953623C8B388B4459E13F978D7C846F4</string>
+        <string>IKASGELA_QUIT_PASSWORD</string>
         <key>hideBrowserWindowToolbar</key>
         <false/>
         <key>hookKeys</key>
