@@ -28,6 +28,8 @@ return [
 
     'cloud' => env('FILESYSTEM_CLOUD', 's3'),
 
+    'aws_enabled' => env('AWS_ENABLED', false),
+
     /*
     |--------------------------------------------------------------------------
     | Filesystem Disks

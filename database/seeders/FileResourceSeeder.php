@@ -16,6 +16,9 @@ class FileResourceSeeder extends Seeder
      */
     public function run()
     {
+        if (!config("AWS_ENABLED"))
+            return;
+
         $file_resource = FileResource::factory()->create([
             'titulo' => 'Presentaciones',
             'descripcion' => 'Archivos PDF con las presentaciones.',
