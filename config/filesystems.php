@@ -53,6 +53,11 @@ return [
             'root' => storage_path('temp'),
         ],
 
+        'seb' => [
+            'driver' => 'local',
+            'root' => storage_path('seb'),
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

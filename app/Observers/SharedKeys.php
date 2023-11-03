@@ -21,6 +21,7 @@ trait SharedKeys
         'siguiente_actividad_',
 
         'num_actividades_en_curso_examen_',
+        'num_actividades_en_curso_seb_',
         'num_actividades_en_curso_no_extra_examen_',
         'num_actividades_en_curso_extra_',
         'num_actividades_en_curso_enviadas_',

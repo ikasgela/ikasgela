@@ -543,6 +543,20 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         });
     }
 
+    public function actividades_en_curso_seb()
+    {
+        return $this->actividades_en_curso_autoavance()->enPlazoOrCorregida()->tag('seb');
+    }
+
+    public function num_actividades_en_curso_seb()
+    {
+        $key = 'num_actividades_en_curso_seb_' . $this->id;
+
+        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () {
+            return $this->actividades_en_curso_seb()->count();
+        });
+    }
+
     public function actividades_en_curso_no_extra_examen()
     {
         return $this->actividades_en_curso_autoavance()->tag('extra', false)->tag('examen', false);

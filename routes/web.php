@@ -76,6 +76,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::post('/intellij_projects/descargar', 'IntellijProjectController@descargar_repos_usuario')
             ->name('archivo.descargar');
 
+        // Safe exam browser
+        Route::get('/safe_exam/{curso}/config_seb', 'SafeExamController@config_seb')
+            ->withoutMiddleware('localeCookieRedirect')
+            ->name('safe_exam.config_seb');
+
         // Alumno
         Route::middleware(['role:alumno'])->group(function () {
 
