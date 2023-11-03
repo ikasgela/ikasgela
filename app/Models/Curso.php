@@ -41,7 +41,6 @@ class Curso extends Model
         'progreso_visible',
         'silence_notifications',
         'tarea_bienvenida_id',
-        'token',
     ];
 
     protected $casts = [
@@ -107,6 +106,11 @@ class Curso extends Model
     public function feedbacks()
     {
         return $this->morphMany(Feedback::class, 'comentable');
+    }
+
+    public function safe_exam()
+    {
+        return $this->hasOne(SafeExam::class);
     }
 
     public function scopeOrganizacionActual($query)
@@ -256,6 +260,6 @@ class Curso extends Model
 
     public function token_valido()
     {
-        return is_null($this->token) || Str::contains(Agent::getUserAgent(), "SEB/ikasgela ($this->token)");
+        return is_null($this->safe_exam?->token) || Str::contains(Agent::getUserAgent(), "SEB/ikasgela (" . $this->safe_exam?->token . ")");
     }
 }

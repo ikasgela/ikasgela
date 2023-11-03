@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class AlumnoController extends Controller
 {
@@ -31,7 +32,13 @@ class AlumnoController extends Controller
 
         $user = Auth::user();
 
-        return view('alumnos.tareas', compact(['user']));
+        $sebs_url = route('safe_exam.config_seb', $user->curso_actual());
+        $sebs_url = Str::replace("http", "seb", $sebs_url);
+
+        return view('alumnos.tareas', compact([
+            'user',
+            'sebs_url',
+        ]));
     }
 
     public function portada(Request $request)
