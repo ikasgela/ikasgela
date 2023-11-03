@@ -26,6 +26,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
     // Mostrar las imágenes incrustadas
     Route::get('/tinymce_url', 'TinymceUploadController@getS3')->name('tinymce.upload.url');
 
+    // Safe exam browser
+    Route::get('/safe_exam/{curso}/config_seb', 'SafeExamController@config_seb')
+        ->withoutMiddleware('localeCookieRedirect')
+        ->name('safe_exam.config_seb');
+
     // Sesión iniciada y cuenta verificada
     Route::middleware(['auth', 'verified'])->group(function () {
 
@@ -75,11 +80,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         // Descargar los repositorios propios
         Route::post('/intellij_projects/descargar', 'IntellijProjectController@descargar_repos_usuario')
             ->name('archivo.descargar');
-
-        // Safe exam browser
-        Route::get('/safe_exam/{curso}/config_seb', 'SafeExamController@config_seb')
-            ->withoutMiddleware('localeCookieRedirect')
-            ->name('safe_exam.config_seb');
 
         // Alumno
         Route::middleware(['role:alumno'])->group(function () {
