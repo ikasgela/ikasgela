@@ -28,7 +28,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 
     // Safe exam browser
     Route::get('/safe_exam/{curso}/config_seb', 'SafeExamController@config_seb')
-        ->withoutMiddleware('localeCookieRedirect')
         ->name('safe_exam.config_seb');
 
     // Sesión iniciada y cuenta verificada
@@ -517,9 +516,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             // Safe Exam Browser
             Route::get('/safe_exam', 'SafeExamController@index')
                 ->name('safe_exam.index');
-            Route::delete('/safe_exam/{curso}/reset_token', 'SafeExamController@reset_token')
+            Route::post('/safe_exam/{curso}/reset_token', 'SafeExamController@reset_token')
                 ->name('safe_exam.reset_token');
-            Route::delete('/safe_exam/{curso}/reset_quit_password', 'SafeExamController@reset_quit_password')
+            Route::post('/safe_exam/{curso}/reset_quit_password', 'SafeExamController@reset_quit_password')
                 ->name('safe_exam.reset_quit_password');
             Route::delete('/safe_exam/{curso}/delete_token', 'SafeExamController@delete_token')
                 ->name('safe_exam.delete_token');
