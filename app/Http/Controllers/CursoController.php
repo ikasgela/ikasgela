@@ -88,7 +88,6 @@ class CursoController extends Controller
             'maximo_recuperable_examenes_finales' => request('maximo_recuperable_examenes_finales'),
             'progreso_visible' => $request->has('progreso_visible'),
             'silence_notifications' => $request->has('silence_notifications'),
-            'token' => request('token'),
         ]);
 
         return retornar();
@@ -144,7 +143,6 @@ class CursoController extends Controller
             'progreso_visible' => $request->has('progreso_visible'),
             'silence_notifications' => $request->has('silence_notifications'),
             'tarea_bienvenida_id' => request('tarea_bienvenida_id'),
-            'token' => request('token'),
         ]);
 
         return retornar();

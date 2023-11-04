@@ -60,8 +60,6 @@
             {{ Form::campoCheck('progreso_visible', __('Show course progress')) }}
             {{ Form::campoCheck('silence_notifications', __('Silence notifications')) }}
 
-            {{ Form::campoTexto('token', __('Token')) }}
-
             <div class="form-group row">
                 {!! Form::label('tarea_bienvenida_id', __('Welcome task'), ['class' => 'col-sm-2 col-form-label']) !!}
                 <div class="col-sm-10">

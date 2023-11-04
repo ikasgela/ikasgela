@@ -51,8 +51,6 @@
             {{ Form::campoCheck('progreso_visible', __('Show course progress')) }}
             {{ Form::campoCheck('silence_notifications', __('Silence notifications')) }}
 
-            {{ Form::campoTexto('token', __('Token')) }}
-
             @include('partials.guardar_cancelar')
 
             @include('layouts.errors')
