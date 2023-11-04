@@ -28,6 +28,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 
     // Safe exam browser
     Route::get('/safe_exam/{curso}/config_seb', 'SafeExamController@config_seb')
+        ->withoutMiddleware('localeCookieRedirect')
         ->name('safe_exam.config_seb');
 
     // Sesión iniciada y cuenta verificada
@@ -82,6 +83,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 
         // Safe exam browser
         Route::get('/safe_exam/exit_seb/{quit_password_hash}', 'SafeExamController@exit_seb')
+            ->withoutMiddleware('localeCookieRedirect')
             ->name('safe_exam.exit_seb');
 
         // Alumno
