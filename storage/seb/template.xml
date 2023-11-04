@@ -1436,7 +1436,7 @@
         <key>proxySettingsPolicy</key>
         <integer>0</integer>
         <key>quitURL</key>
-        <string/>
+        <string>IKASGELA_EXIT_URL</string>
         <key>quitURLConfirm</key>
         <false/>
         <key>quitURLRestart</key>

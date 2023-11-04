@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class AlumnoController extends Controller
@@ -33,14 +34,16 @@ class AlumnoController extends Controller
         $user = Auth::user();
 
         $sebs_url = "";
+        $sebs_exit_url = "";
         if (!is_null($user->curso_actual())) {
             $sebs_url = route('safe_exam.config_seb', $user->curso_actual());
             $sebs_url = Str::replace("http", "seb", $sebs_url);
+            $sebs_exit_url = route('safe_exam.exit_seb', Hash::make($user->curso_actual()->safe_exam?->quit_password));
         }
 
         return view('alumnos.tareas', compact([
             'user',
-            'sebs_url',
+            'sebs_url', 'sebs_exit_url',
         ]));
     }
 
