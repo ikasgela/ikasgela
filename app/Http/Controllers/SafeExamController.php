@@ -6,13 +6,14 @@ use App\Models\Curso;
 use App\Models\SafeExam;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class SafeExamController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth')->except(['config_seb']);
-        $this->middleware('role:admin')->except(['config_seb']);
+        $this->middleware('role:admin')->except(['config_seb', 'exit_seb']);
     }
 
     public function index()
@@ -76,9 +77,15 @@ class SafeExamController extends Controller
         $xml = Str::replace("IKASGELA_TOKEN", $curso->safe_exam?->token, $xml);
         $xml = Str::replace("IKASGELA_URL", "https://" . request()->getHost(), $xml);
         $xml = Str::replace("IKASGELA_QUIT_PASSWORD", hash("sha256", $curso->safe_exam?->quit_password), $xml);
+        $xml = Str::replace("IKASGELA_EXIT_URL", LaravelLocalization::getNonLocalizedURL(route('safe_exam.exit_seb', hash("sha256", $curso->safe_exam?->quit_password))), $xml);
 
         return response()->streamDownload(function () use ($xml) {
             echo $xml;
         }, 'config.seb');
+    }
+
+    public function exit_seb()
+    {
+        return view('safe_exam.exit');
     }
 }

@@ -22,7 +22,7 @@
                     <td>{{ $curso->safe_exam?->token ?: '-' }}</td>
                     <td>
                         <div class='btn-group'>
-                            {!! Form::open(['route' => ['safe_exam.reset_token', [$curso->id]], 'method' => 'DELETE']) !!}
+                            {!! Form::open(['route' => ['safe_exam.reset_token', [$curso->id]], 'method' => 'POST']) !!}
                             <button title="{{ __('Reset token') }}"
                                     name="reset_token"
                                     type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
@@ -41,7 +41,7 @@
                     <td>{{ $curso->safe_exam?->quit_password ?: '-' }}</td>
                     <td>
                         <div class='btn-group'>
-                            {!! Form::open(['route' => ['safe_exam.reset_quit_password', [$curso->id]], 'method' => 'DELETE']) !!}
+                            {!! Form::open(['route' => ['safe_exam.reset_quit_password', [$curso->id]], 'method' => 'POST']) !!}
                             <button title="{{ __('Reset quit password') }}"
                                     name="reset_quit_password"
                                     type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"

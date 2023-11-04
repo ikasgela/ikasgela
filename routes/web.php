@@ -81,6 +81,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::post('/intellij_projects/descargar', 'IntellijProjectController@descargar_repos_usuario')
             ->name('archivo.descargar');
 
+        // Safe exam browser
+        Route::get('/safe_exam/exit_seb/{quit_password_hash}', 'SafeExamController@exit_seb')
+            ->withoutMiddleware('localeCookieRedirect')
+            ->name('safe_exam.exit_seb');
+
         // Alumno
         Route::middleware(['role:alumno'])->group(function () {
 
@@ -513,9 +518,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             // Safe Exam Browser
             Route::get('/safe_exam', 'SafeExamController@index')
                 ->name('safe_exam.index');
-            Route::delete('/safe_exam/{curso}/reset_token', 'SafeExamController@reset_token')
+            Route::post('/safe_exam/{curso}/reset_token', 'SafeExamController@reset_token')
                 ->name('safe_exam.reset_token');
-            Route::delete('/safe_exam/{curso}/reset_quit_password', 'SafeExamController@reset_quit_password')
+            Route::post('/safe_exam/{curso}/reset_quit_password', 'SafeExamController@reset_quit_password')
                 ->name('safe_exam.reset_quit_password');
             Route::delete('/safe_exam/{curso}/delete_token', 'SafeExamController@delete_token')
                 ->name('safe_exam.delete_token');
