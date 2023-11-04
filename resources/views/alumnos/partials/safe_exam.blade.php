@@ -14,7 +14,7 @@
             </div>
         </div>
     </div>
-@elseif(!empty($user->curso_actual()->safe_exam?->token) && $user->num_actividades_enviadas_seb() > 0 && $user->curso_actual()?->token_valido())
+@elseif(!empty($user->curso_actual()->safe_exam?->token) && $user->num_actividades_en_curso_examen() == 0 && $user->num_actividades_enviadas_seb() > 0 && $user->curso_actual()?->token_valido())
     <div class="row">
         <div class="col-md-12">
             <div class="card">
