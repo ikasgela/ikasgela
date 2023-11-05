@@ -74,7 +74,6 @@
                         <th>{{ __('Repository') }}</th>
                         <th>{{ __('Branch') }}</th>
                         <th>{{ __('File') }}</th>
-                        <th>{{ __('Actions') }}</th>
                     </tr>
                     </thead>
                     <tbody>
