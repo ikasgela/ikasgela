@@ -88,7 +88,7 @@
                             <td>{{ $markdown_text->rama }}</td>
                             <td>
                                 <a target="_blank"
-                                   href="https://gitea.ikasgela.{{ config('app.debug') ? 'test' : 'com' }}/{{ $markdown_text->repositorio }}/blob/{{ isset($markdown_text->rama) ? $markdown_text->rama : 'master' }}/{{ $markdown_text->archivo }}">{{ $markdown_text->archivo }}</a>
+                                   href="@include('markdown_texts.partials.enlace_readme')">{{ $markdown_text->archivo }}</a>
                             </td>
                         </tr>
                     @endforeach
