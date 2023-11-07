@@ -7,6 +7,7 @@ use App\Models\Curso;
 use App\Models\MarkdownText;
 use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
+use Cache;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -128,6 +129,14 @@ class MarkdownTextController extends Controller
         $clon = $markdown_text->duplicate();
         $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
         $clon->save();
+
+        return back();
+    }
+
+    public function borrar_cache(MarkdownText $markdown_text)
+    {
+        $key = $markdown_text->repositorio . '/' . $markdown_text->archivo;
+        Cache::forget($key);
 
         return back();
     }

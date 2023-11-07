@@ -270,6 +270,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('markdown_texts.desasociar');
             Route::post('/markdown_texts/{markdown_text}/duplicar', 'MarkdownTextController@duplicar')
                 ->name('markdown_texts.duplicar');
+            Route::get('/markdown_texts/{markdown_text}/borrar_cache', 'MarkdownTextController@borrar_cache')
+                ->name('markdown_texts.borrar_cache');
 
             // Cuestionario
             Route::resource('cuestionarios', 'CuestionarioController');
