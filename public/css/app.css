@@ -25741,6 +25741,23 @@ body {
   width: 100%;
 }
 
+.card-body td {
+  font-size: 90%;
+  border: 1px solid #c8ced3;
+  padding: 0.5em;
+}
+
+.card-body th {
+  font-size: 90%;
+  background-color: #2f353a;
+  color: #f0f3f5;
+  padding: 0.5em;
+}
+
+.card-body table {
+  margin-bottom: 1em;
+}
+
 /* Copyright 2013-2015 etc Chris Tabor. See https://github.com/christabor/css-progress-wizard/blob/master/LICENSE for details. */
 .flexer, .progress-indicator {
   display: flex;
