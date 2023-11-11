@@ -55,18 +55,12 @@ class GiteaClearOldRepositories extends Command
                 foreach ($result->values() as $proyecto) {
 
                     $repo_id = null;
-                    $user_id = null;
                     try {
                         $repo_id = GiteaClient::repo($proyecto->fork)['id'];
                     } catch (\Exception $e) {
-                        $username = Str::before($proyecto->fork, '/');
-                        try {
-                            $user_id = GiteaClient::uid($username);
-                        } catch (\Exception $e) {
-                        }
                     }
 
-                    if ($repo_id == null && $user_id == null) {
+                    if ($repo_id == null) {
                         $total++;
                         $this->info("Repositorio huerfano: " . $proyecto->fork);
                         DB::table('actividad_intellij_project')->where('id', '=', $proyecto->id)->delete();
