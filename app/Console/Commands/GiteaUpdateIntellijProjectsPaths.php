@@ -21,7 +21,7 @@ class GiteaUpdateIntellijProjectsPaths extends Command
      *
      * @var string
      */
-    protected $description = 'Actualizar las URLs de los repositorios que empiezan Borra todos los repositorios de Gitea';
+    protected $description = 'Actualizar las URLs de los repositorios de GitLab';
 
     /**
      * Create a new command instance.

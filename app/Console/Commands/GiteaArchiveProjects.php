@@ -20,7 +20,7 @@ class GiteaArchiveProjects extends Command
      *
      * @var string
      */
-    protected $description = 'Actualizar las URLs de los repositorios que empiezan Borra todos los repositorios de Gitea';
+    protected $description = 'Archivar todos los proyectos de Gitea';
 
     /**
      * Create a new command instance.
