@@ -27,7 +27,8 @@ mix.js('resources/js/app.js', 'public/js')
 
         'node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js',
         'node_modules/prismjs/plugins/autoloader/prism-autoloader.js',
-    ], 'public/js/prism.js');
+    ], 'public/js/prism.js')
+    .sourceMaps(false, 'source-map');
 
 mix.copyDirectory('node_modules/tinymce/plugins', 'public/tinymce/plugins');
 mix.copyDirectory('node_modules/tinymce/skins', 'public/tinymce/skins');
