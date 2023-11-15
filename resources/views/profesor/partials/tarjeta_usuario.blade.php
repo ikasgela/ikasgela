@@ -3,7 +3,7 @@
     <div class="card m-0">
         <div class="card-body">
             <div class="row">
-                <div class="col-12 col-sm-6 p-3">
+                <div class="col-12 col-sm-10 p-3">
                     <h5 class="card-title">
                         <a title="{{ __('Control panel') }}"
                            href="{{ route('profesor.tareas', ['user' => $user->id]) }}"
@@ -15,7 +15,7 @@
                     </h5>
                     @include('partials.mailto', ['user' => $user, 'format' => 'class="card-link"'])
                 </div>
-                <div class="col-12 col-sm-6 text-center text-sm-right">
+                <div class="col-12 col-sm-2 text-center text-sm-right">
                     @include('users.partials.avatar', ['user' => $user, 'width' => 100])
                 </div>
             </div>
