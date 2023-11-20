@@ -850,6 +850,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             Cache::forget($key . $user->id);
         }
 
+        foreach ($user->cursos as $curso) {
+            foreach ($curso->milestones as $milestone) {
+                Cache::forget('calificaciones_' . $user->id . $milestone->cache_key);
+            }
+        }
+
         Cache::forget("user.{$user->id}");
         Cache::forget("user.{$user->id}.{$user->getRememberToken()}");
         Cache::forget("roles_{$user->id}");
