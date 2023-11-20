@@ -35,6 +35,10 @@
                 ]) !!}
                 {!! Form::hidden('informe_anonimo','A') !!}
                 {!! Form::close() !!}
+
+                {!! Form::open(['route' => ['cursos.limpiar_cache', [$curso->id]], 'method' => 'POST', 'style' => 'display:inline']) !!}
+                {!! Form::button(__('Reload results'), ['type' => 'submit', 'class' => 'btn btn-sm btn-light']) !!}
+                {!! Form::close() !!}
             </div>
         </div>
         <h2 class="text-muted font-xl">{{ !is_null($curso) ? $curso->category->period->organization->name.' » '.$curso->category->period->name.' » '.$curso->nombre : '' }}</h2>

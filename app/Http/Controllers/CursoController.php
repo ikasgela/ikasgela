@@ -840,4 +840,13 @@ class CursoController extends Controller
 
         return back();
     }
+
+    public function limpiar_cache(Curso $curso)
+    {
+        foreach ($curso->users as $user) {
+            $user->clearCache();
+        }
+
+        return back();
+    }
 }
