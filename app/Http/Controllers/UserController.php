@@ -413,4 +413,11 @@ class UserController extends Controller
 
         return back()->with('success', __('Password updated'));
     }
+
+    public function limpiar_cache(User $user)
+    {
+        $user->clearCache();
+
+        return back();
+    }
 }

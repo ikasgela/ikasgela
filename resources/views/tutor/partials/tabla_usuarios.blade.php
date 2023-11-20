@@ -9,6 +9,9 @@
                 <th>{{ __('Identifier') }}</th>
             @endif
             <th>{{ __('Name') }}</th>
+            @if(!isset($exportar))
+                <th class="text-center">{{ __('Reload results') }}</th>
+            @endif
             <th class="text-center">{{ __('Course passed') }}</th>
             <th class="text-center">{{ __('Continuous evaluation') }}</th>
             <th class="text-center">{{ __('Mandatory activities') }}</th>
@@ -57,6 +60,13 @@
                         {{ $user->full_name }}
                     @endif
                 </td>
+                @if(!isset($exportar))
+                    <td class="text-center">
+                        {!! Form::open(['route' => ['users.limpiar_cache', [$user->id]], 'method' => 'POST', 'style' => 'display:inline']) !!}
+                        {!! Form::button('<i class="fas fa-broom"></i>', ['type' => 'submit', 'class' => 'btn btn-sm btn-light']) !!}
+                        {!! Form::close() !!}
+                    </td>
+                @endif
                 @php($aprobados += $calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada ? 1 : 0)
                 <td class="text-center {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : 'bg-warning text-dark' }}">
                     {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? __('Yes') : __('No') }}

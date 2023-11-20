@@ -575,6 +575,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             // Ver archivo de otros alumnos
             Route::post('/archivo', 'ArchivoController@index')
                 ->name('archivo.alumno');
+
+            // Borrar los datos en caché del usuario
+            Route::post('/users/{user}/limpiar_cache', 'UserController@limpiar_cache')
+                ->name('users.limpiar_cache');
         });
 
         // Alumno, profesor y tutor
