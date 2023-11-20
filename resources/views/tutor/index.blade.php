@@ -37,7 +37,7 @@
                 {!! Form::close() !!}
 
                 {!! Form::open(['route' => ['cursos.limpiar_cache', [$curso->id]], 'method' => 'POST', 'style' => 'display:inline']) !!}
-                {!! Form::button(__('Reload results'), ['type' => 'submit', 'class' => 'btn btn-sm btn-light']) !!}
+                {!! Form::button(__('Reload results'), ['type' => 'submit', 'class' => 'btn btn-sm btn-outline-secondary']) !!}
                 {!! Form::close() !!}
             </div>
         </div>
