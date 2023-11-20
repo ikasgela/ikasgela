@@ -103,9 +103,15 @@
                     @php($porcentaje = isset($resultados_unidades[$unidad->id]) && $resultados_unidades[$unidad->id]->actividad > 0
                         ? ($resultados_unidades[$unidad->id]?->tarea/$resultados_unidades[$unidad->id]?->actividad*100) : 0)
                     @if(isset($resultados_unidades[$unidad->id]) && $resultados_unidades[$unidad->id]?->actividad > 0)
-                        <td class="text-center {{ $calificaciones->hay_nota_manual ? '' : ($porcentaje<50 ? 'bg-warning text-dark' : ($unidad->hasEtiquetas(['examen','final']) ? 'bg-success text-dark' : '')) }}">
-                            {{ number_format ( $porcentaje, 0 ) }}{{ !isset($exportar) ? ' %' : '' }}
-                        </td>
+                        @if(!isset($exportar))
+                            <td class="text-center {{ $calificaciones->hay_nota_manual ? '' : ($porcentaje<50 ? 'bg-warning text-dark' : ($unidad->hasEtiquetas(['examen','final']) ? 'bg-success text-dark' : '')) }}">
+                                {{ number_format ( $porcentaje, 0 ) }}&thinsp;%
+                            </td>
+                        @else
+                            <td style="{{ $porcentaje<50 ? 'color:#e3342f' : '' }}">
+                                {{ number_format ( $porcentaje, 0 ) }}
+                            </td>
+                        @endif
                     @else
                         <td class="text-center">{{ !isset($exportar) ? '-' : '' }}</td>
                     @endif
