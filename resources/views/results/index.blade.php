@@ -25,6 +25,15 @@
                 @endif
             @endif
         </h1>
+        @if(Auth::user()->hasAnyRole(['profesor', 'tutor']))
+            <div class="form-inline">
+                <div class="btn-toolbar" role="toolbar">
+                    {!! Form::open(['route' => ['users.limpiar_cache', [$user->id]], 'method' => 'POST', 'style' => 'display:inline']) !!}
+                    {!! Form::button(__('Reload results'), ['type' => 'submit', 'class' => 'btn btn-sm btn-outline-secondary']) !!}
+                    {!! Form::close() !!}
+                </div>
+            </div>
+        @endif
         <h2 class="text-muted font-xl">{{ $curso?->pretty_name }}</h2>
     </div>
 
