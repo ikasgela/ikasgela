@@ -63,7 +63,7 @@
                 @if(!isset($exportar))
                     <td class="text-center">
                         {!! Form::open(['route' => ['users.limpiar_cache', [$user->id]], 'method' => 'POST', 'style' => 'display:inline']) !!}
-                        {!! Form::button('<i class="fas fa-broom"></i>', ['type' => 'submit', 'class' => 'btn btn-sm btn-light']) !!}
+                        {!! Form::button('<i class="fas fa-broom"></i>', ['type' => 'submit', 'class' => 'btn btn-sm btn-light', 'title' => __('Reload results') ]) !!}
                         {!! Form::close() !!}
                     </td>
                 @endif
