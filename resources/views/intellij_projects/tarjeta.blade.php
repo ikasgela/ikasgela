@@ -112,6 +112,7 @@
                         <thead class="thead-dark">
                         <tr>
                             <th>{{ __('User') }}</th>
+                            <th>{{ __('Repository') }}</th>
                             <th>{{ __('Percent') }}</th>
                         </tr>
                         </thead>
@@ -124,6 +125,13 @@
                                            class="{{ $jplag->percent > 75 ? 'text-dark' : '' }}"
                                            target="_blank">
                                             {{ $jplag->match->user->full_name }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ $jplag->match->actividad->intellij_projects()->first()->repository()['http_url_to_repo'] }}"
+                                           class="{{ $jplag->percent > 75 ? 'text-dark' : '' }}"
+                                           target="_blank">
+                                            {{ __('Open in Gitea') }}
                                         </a>
                                     </td>
                                     <td>{{ $jplag->percent }}&thinsp;%</td>
