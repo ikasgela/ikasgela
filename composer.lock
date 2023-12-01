@@ -129,16 +129,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.293.0",
+            "version": "3.293.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "4bcac7125bf72fa38aa8a537fb5b175862470c64"
+                "reference": "a87d99b181c95c0bffb2869dfb26243a9c8c9ee7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/4bcac7125bf72fa38aa8a537fb5b175862470c64",
-                "reference": "4bcac7125bf72fa38aa8a537fb5b175862470c64",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a87d99b181c95c0bffb2869dfb26243a9c8c9ee7",
+                "reference": "a87d99b181c95c0bffb2869dfb26243a9c8c9ee7",
                 "shasum": ""
             },
             "require": {
@@ -218,9 +218,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.293.0"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.293.1"
             },
-            "time": "2023-11-30T01:10:12+00:00"
+            "time": "2023-11-30T18:56:27+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -11154,16 +11154,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.4.2",
+            "version": "10.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "cacd8b9dd224efa8eb28beb69004126c7ca1a1a1"
+                "reference": "80cab181aebc2efac422940443e28db556137637"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/cacd8b9dd224efa8eb28beb69004126c7ca1a1a1",
-                "reference": "cacd8b9dd224efa8eb28beb69004126c7ca1a1a1",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/80cab181aebc2efac422940443e28db556137637",
+                "reference": "80cab181aebc2efac422940443e28db556137637",
                 "shasum": ""
             },
             "require": {
@@ -11203,7 +11203,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "10.4-dev"
+                    "dev-main": "10.5-dev"
                 }
             },
             "autoload": {
@@ -11235,7 +11235,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.4.2"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.0"
             },
             "funding": [
                 {
@@ -11251,7 +11251,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-10-26T07:21:45+00:00"
+            "time": "2023-12-01T06:12:50+00:00"
         },
         {
             "name": "psy/psysh",
