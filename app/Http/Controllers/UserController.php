@@ -29,7 +29,7 @@ class UserController extends Controller
         if ($request->has('filtro_etiquetas')) {
             if (request('filtro_etiquetas') == 'N') {
                 session(['profesor_filtro_etiquetas' => '']);
-                session(['tags' => []]);
+                session(['tags_usuario' => []]);
             }
         }
 
@@ -52,13 +52,13 @@ class UserController extends Controller
             $users = Organization::find(session('filtrar_organization_actual'))->users();
         }
 
-        if ($request->has('tag')) {
+        if ($request->has('tag_usuario')) {
             session(['profesor_filtro_etiquetas' => 'S']);
-            session()->push('tags', request('tag'));
+            session()->push('tags_usuario', request('tag_usuario'));
         }
 
-        if (!is_null(session('tags'))) {
-            $users = $users->tags(session('tags'));
+        if (!is_null(session('tags_usuario'))) {
+            $users = $users->tags(session('tags_usuario'));
         }
 
         $users = $users->get();
