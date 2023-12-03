@@ -5,10 +5,10 @@
 @endif
 @foreach($actividad->etiquetas() as $etiqueta)
     @isset($ruta)
-        {!! '<a class="badge badge-secondary mr-2" href="'
+        {!! '<a class="badge badge-secondary" href="'
                 . route($ruta, ['user' => $user->id ?? null, 'tag_actividad' => $etiqueta])
                 . '">' . $etiqueta . '</a>' !!}
     @else
-        {!! '<span class="badge badge-secondary mr-2">' . $etiqueta . '</span>' !!}
+        {!! '<span class="badge badge-secondary">' . $etiqueta . '</span>' !!}
     @endisset
 @endforeach
