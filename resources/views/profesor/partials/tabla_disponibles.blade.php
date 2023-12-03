@@ -29,11 +29,18 @@
                 </td>
                 <td class="clickable">{{ $actividad->id }}</td>
                 <td class="clickable">
-                    @isset($user)
-                        @include('actividades.partials.nombre_con_etiquetas', ['ruta' => explode('.', Route::currentRouteName())[0] . '.tareas.filtro'])
-                    @else
-                        @include('actividades.partials.nombre_con_etiquetas', ['ruta' => 'profesor.index.filtro'])
-                    @endif
+                    @switch(Route::currentRouteName())
+                        @case('profesor.index')
+                        @case('profesor.index.filtro')
+                            @include('actividades.partials.nombre_con_etiquetas', ['ruta' => 'profesor.index.filtro'])
+                            @break
+                        @case('profesor.tareas')
+                        @case('profesor.tareas.filtro')
+                            @include('actividades.partials.nombre_con_etiquetas', ['ruta' => 'profesor.tareas.filtro'])
+                            @break
+                        @default
+                            @include('actividades.partials.nombre_con_etiquetas')
+                    @endswitch
                     @include('actividades.partials.caducada')
                 </td>
                 <td class="clickable">{{ $actividad->unidad->slug.'/'.$actividad->slug }}</td>
