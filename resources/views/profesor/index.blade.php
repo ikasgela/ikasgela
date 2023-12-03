@@ -41,7 +41,8 @@
 
                 {!! Form::open(['route' => ['profesor.index.filtro'], 'method' => 'POST']) !!}
                 {!! Form::button(__('Clear filters'), ['type' => 'submit',
-                    'class' => session('profesor_filtro_etiquetas') == 'S' ? 'btn btn-sm mx-1 btn-primary' : 'btn btn-sm mx-1 btn-outline-secondary'
+                    'class' => (session('profesor_filtro_etiquetas') == 'S' || session('profesor_filtro_actividades_etiquetas') == 'S')
+                                    ? 'btn btn-sm mx-1 btn-primary' : 'btn btn-sm mx-1 btn-outline-secondary'
                 ]) !!}
                 {!! Form::hidden('filtro_etiquetas','N') !!}
                 {!! Form::close() !!}
