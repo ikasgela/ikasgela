@@ -56,7 +56,7 @@ class ProfesorController extends Controller
         if ($request->has('filtro_etiquetas')) {
             if (request('filtro_etiquetas') == 'N') {
                 session(['profesor_filtro_etiquetas' => '']);
-                session(['tags' => []]);
+                session(['tags_usuario' => []]);
             }
         }
 
@@ -78,9 +78,9 @@ class ProfesorController extends Controller
                 $alumnos = $alumnos->noBloqueado();
             }
 
-            if ($request->has('tag')) {
+            if ($request->has('tag_usuario')) {
                 session(['profesor_filtro_etiquetas' => 'S']);
-                session()->push('tags', request('tag'));
+                session()->push('tags_usuario', request('tag_usuario'));
             }
 
             if (session('profesor_filtro_actividades_examen') == 'E') {
@@ -97,8 +97,8 @@ class ProfesorController extends Controller
                 }
             }
 
-            if (!is_null(session('tags')))
-                $alumnos = $alumnos->tags(session('tags'));
+            if (!is_null(session('tags_usuario')))
+                $alumnos = $alumnos->tags(session('tags_usuario'));
 
             switch (session('profesor_filtro_alumnos')) {
                 case 'R':
@@ -119,6 +119,18 @@ class ProfesorController extends Controller
 
         if ($request->has('unidad_id_disponibles')) {
             session(['profesor_unidad_id_disponibles' => $request->input('unidad_id_disponibles')]);
+        }
+
+        if ($request->has('filtro_etiquetas')) {
+            if (request('filtro_etiquetas') == 'N') {
+                session(['profesor_filtro_actividades_etiquetas' => '']);
+                session(['tags_actividades' => []]);
+            }
+        }
+
+        if ($request->has('tag_actividad')) {
+            session(['profesor_filtro_actividades_etiquetas' => 'S']);
+            session()->push('tags_actividades', request('tag_actividad'));
         }
 
         $disponibles = $this->actividadesDisponibles();
@@ -210,9 +222,9 @@ class ProfesorController extends Controller
             }
         }
 
-        if ($request->has('tag')) {
+        if ($request->has('tag_actividad')) {
             session(['profesor_filtro_actividades_etiquetas' => 'S']);
-            session()->push('tags_actividades', request('tag'));
+            session()->push('tags_actividades', request('tag_actividad'));
         }
 
         if (session('profesor_filtro_actividades_etiquetas')) {
@@ -467,6 +479,10 @@ class ProfesorController extends Controller
             $disponibles = $actividades_curso->where('unidad_id', session('profesor_unidad_id_disponibles'));
         } else {
             $disponibles = $actividades_curso;
+        }
+
+        if (session('profesor_filtro_actividades_etiquetas')) {
+            $disponibles = $disponibles->tags(session('tags_actividades'));
         }
 
         return $this->paginate_ultima($disponibles, config('ikasgela.pagination_available_activities'), 'disponibles');

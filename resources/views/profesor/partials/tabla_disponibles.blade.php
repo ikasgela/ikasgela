@@ -29,7 +29,18 @@
                 </td>
                 <td class="clickable">{{ $actividad->id }}</td>
                 <td class="clickable">
-                    @include('actividades.partials.nombre_con_etiquetas')
+                    @switch(Route::currentRouteName())
+                        @case('profesor.index')
+                        @case('profesor.index.filtro')
+                            @include('actividades.partials.nombre_con_etiquetas', ['ruta' => 'profesor.index.filtro'])
+                            @break
+                        @case('profesor.tareas')
+                        @case('profesor.tareas.filtro')
+                            @include('actividades.partials.nombre_con_etiquetas', ['ruta' => 'profesor.tareas.filtro'])
+                            @break
+                        @default
+                            @include('actividades.partials.nombre_con_etiquetas')
+                    @endswitch
                     @include('actividades.partials.caducada')
                 </td>
                 <td class="clickable">{{ $actividad->unidad->slug.'/'.$actividad->slug }}</td>
