@@ -41,7 +41,7 @@
                     </td>
                     <td class="clickable">{{ $actividad->tarea->id }}</td>
                     <td class="clickable">
-                        @include('profesor.partials.nombre_tarea_etiquetas')
+                        @include('actividades.partials.nombre_con_etiquetas', ['ruta' => explode('.', Route::currentRouteName())[0] . '.tareas.filtro'])
                     </td>
                     <td class="text-center clickable">{!! $actividad->tarea->estado == 11 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-secondary"></i>' !!}</td>
                     <td class="text-center clickable">{!! $actividad->tarea->estado >= 20 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
