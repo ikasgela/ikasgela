@@ -7,31 +7,35 @@ use Tests\DuskTestCase;
 
 class T4_TareasTest extends DuskTestCase
 {
-    public function testTareaBienvenida()
+    public function testLogin()
     {
         $this->browse(function (Browser $browser) {
-
-            // Login de alumno
             $browser->visit(route('login'));
             $browser->type('email', 'marc@ikasgela.com');
             $browser->type('password', '12345Abcde');
             $browser->check('remember');
             $browser->press(__('Login'));
             $browser->assertRouteIs('users.home');
+        });
+    }
 
-            // Aceptar actividad
+    public function testAceptarTareaBienvenida()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('users.home'));
             $browser->assertSee('Tarea de bienvenida');
-
             $browser->press(__('Accept activity'));
             $browser->assertRouteIs('users.home');
+        });
+    }
 
-            // Enviar para revisión
+    public function testArchivarTareaBienvenida()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('users.home'));
             $browser->assertSee('Primeros pasos');
-
             $browser->press(__('Archive'));
             $browser->assertRouteIs('users.home');
-
-            // No hay más tareas
             $browser->assertSee(__('There are no activities in progress.'));
         });
     }
@@ -136,6 +140,15 @@ class T4_TareasTest extends DuskTestCase
 
             // No hay más tareas
             $browser->assertSee('Tres en raya');
+        });
+    }
+
+    public function testLogout()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->logout();
+            $browser->visit(route('portada'));
+            $browser->assertRouteIs('portada');
         });
     }
 }
