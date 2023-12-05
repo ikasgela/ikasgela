@@ -35,6 +35,7 @@ class CursosTableSeeder extends Seeder
             'minimo_competencias' => 50,
             'minimo_examenes' => 50,
             'examenes_obligatorios' => false,
+            'progreso_visible' => true,
         ]);
 
 /*        $category = Category::whereHas('period.organization', function ($query) {
