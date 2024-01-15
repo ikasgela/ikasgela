@@ -41,6 +41,7 @@ class Curso extends Model
         'progreso_visible',
         'silence_notifications',
         'tarea_bienvenida_id',
+        'normalizar_nota',
     ];
 
     protected $casts = [

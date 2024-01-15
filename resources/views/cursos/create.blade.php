@@ -50,6 +50,7 @@
 
             {{ Form::campoCheck('progreso_visible', __('Show course progress')) }}
             {{ Form::campoCheck('silence_notifications', __('Silence notifications')) }}
+            {{ Form::campoCheck('normalizar_nota', __('Normalize calification')) }}
 
             @include('partials.guardar_cancelar')
 
