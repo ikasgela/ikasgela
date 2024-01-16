@@ -10,30 +10,29 @@ class ResultadoCalificaciones
 
     public $nota_numerica = null;
 
-    public function nota_numerica_normalizada($normalizar = null)
+    public function normalizar_nota($rango, $nota)
     {
-        $nota = $this->nota_numerica;
-        if (!is_null($normalizar) && $normalizar['max'] > 0) {
-            $nota = ($nota - $normalizar['min']) / ($normalizar['max'] - $normalizar['min']) * 10;
+        if (!is_null($rango) && $rango['max'] > 0) {
+            $nota = ($nota - $rango['min']) / ($rango['max'] - $rango['min']) * 10;
         }
         return $nota;
     }
 
-    public function nota_final($normalizar = null)
+    public function nota_numerica_normalizada($rango = null)
     {
-        $nota = $this->nota_numerica;
-        if (!is_null($normalizar) && $normalizar['max'] > 0) {
-            $nota = ($nota - $normalizar['min']) / ($normalizar['max'] - $normalizar['min']) * 10;
-        }
+        return $this->normalizar_nota($rango, $this->nota_numerica);
+    }
+
+    public function nota_final($rango = null)
+    {
+        $nota = $this->normalizar_nota($rango, $this->nota_numerica);
+
         return formato_decimales($nota, 2);
     }
 
-    public function nota_publicar($milestone = null, $normalizar = null)
+    public function nota_publicar($milestone = null, $rango = null)
     {
-        $nota = $this->nota_numerica;
-        if (!is_null($normalizar) && $normalizar['max'] > 0) {
-            $nota = ($nota - $normalizar['min']) / ($normalizar['max'] - $normalizar['min']) * 10;
-        }
+        $nota = $this->normalizar_nota($rango, $this->nota_numerica);
 
         if (!$milestone?->truncate) {
             return formato_decimales(min($nota, 10), $milestone->decimals ?? 2);

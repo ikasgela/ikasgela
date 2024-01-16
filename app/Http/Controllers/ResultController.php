@@ -172,9 +172,12 @@ class ResultController extends Controller
         $nota_maxima = count($todas_notas) > 0 ? max($todas_notas) : 0;
         $nota_minima = count($todas_notas) > 0 ? min($todas_notas) : 0;
 
+        // Si el curso o la evaluación lo activan, normalizar la nota entre min y max
+        $rango = ($curso?->normalizar_nota || $milestone?->normalizar_nota) ? ['min' => $nota_minima, 'max' => $nota_maxima] : null;
+
         $calificacion_fondo = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : ($curso?->disponible() ? 'bg-light text-dark' : 'bg-warning text-dark');
-        $calificacion_dato = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada || $milestone != null) ? $calificaciones->nota_final(['min' => $nota_minima, 'max' => $nota_maxima]) : ($curso?->disponible() ? __('Unavailable') : __('Fail'));
-        $calificacion_dato_publicar = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada || $milestone != null) ? $calificaciones->nota_publicar($milestone, ['min' => $nota_minima, 'max' => $nota_maxima]) : ($curso?->disponible() ? __('Unavailable') : __('Fail'));
+        $calificacion_dato = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada || $milestone != null) ? $calificaciones->nota_final($rango) : ($curso?->disponible() ? __('Unavailable') : __('Fail'));
+        $calificacion_dato_publicar = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada || $milestone != null) ? $calificaciones->nota_publicar($milestone, $rango) : ($curso?->disponible() ? __('Unavailable') : __('Fail'));
 
         return compact(['user', 'curso', 'users', 'unidades', 'calificaciones', 'media_actividades_grupo', 'chart',
             'actividades_obligatorias_fondo', 'actividades_obligatorias_dato',
