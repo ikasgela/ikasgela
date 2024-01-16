@@ -803,24 +803,22 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
             if (!$r->evaluacion_continua_superada) {
                 foreach ($unidades as $unidad) {
-                    if ($unidad->hasEtiqueta('examen')
+                    if ($unidad->hasEtiquetas(['examen', 'final'])
                         && $user->num_completadas('examen', $unidad->id, $milestone) > 0
                         && $r->resultados_unidades[$unidad->id]->actividad > 0) {
 
                         $nota_examen = $r->resultados_unidades[$unidad->id]->tarea / $r->resultados_unidades[$unidad->id]->actividad;
                         $minimo_examenes_finales_superado = $nota_examen >= $r->minimo_examenes_finales / 100;
 
-                        if ($unidad->hasEtiqueta('final')) {
-                            if (!$r->examen_final) {
-                                $r->examen_final = true;
-                                $nota = 0;
-                            }
-                            if ($nota_examen * 10 > $nota) {
-                                $nota = $nota_examen * 10;
-                            }
-                            if ($minimo_examenes_finales_superado) {
-                                $r->examen_final_superado = true;
-                            }
+                        if (!$r->examen_final) {
+                            $r->examen_final = true;
+                            $nota = 0;
+                        }
+                        if ($nota_examen * 10 > $nota) {
+                            $nota = $nota_examen * 10;
+                        }
+                        if ($minimo_examenes_finales_superado) {
+                            $r->examen_final_superado = true;
                         }
                     }
                 }
