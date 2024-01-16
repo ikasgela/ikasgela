@@ -772,15 +772,10 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             }
 
             // Pruebas de evaluación
-
             $r->minimo_examenes = $curso?->minimo_examenes;
-            $r->minimo_examenes_finales = $curso?->minimo_examenes_finales;
-
             $r->pruebas_evaluacion = true;
             $r->num_pruebas_evaluacion = 0;
 
-            $r->examen_final = false;
-            $r->examen_final_superado = false;
             foreach ($unidades as $unidad) {
                 if ($unidad->hasEtiqueta('examen')
                     && $user->num_completadas('examen', $unidad->id, $milestone) > 0
@@ -789,21 +784,44 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
                     $r->num_pruebas_evaluacion += 1;
                     $nota_examen = $r->resultados_unidades[$unidad->id]->tarea / $r->resultados_unidades[$unidad->id]->actividad;
                     $minimo_examenes_superado = $nota_examen >= $r->minimo_examenes / 100;
-                    $minimo_examenes_finales_superado = $nota_examen >= $r->minimo_examenes_finales / 100;
 
-                    if ($unidad->hasEtiqueta('final')) {
-                        if (!$r->examen_final) {
-                            $r->examen_final = true;
-                            $nota = 0;
-                        }
-                        if ($nota_examen * 10 > $nota) {
-                            $nota = $nota_examen * 10;
-                        }
-                        if ($minimo_examenes_finales_superado) {
-                            $r->examen_final_superado = true;
-                        }
-                    } else if (!$minimo_examenes_superado) {
+                    if (!$minimo_examenes_superado) {
                         $r->pruebas_evaluacion = false;
+                    }
+                }
+            }
+
+            // Evaluación continua
+            $r->evaluacion_continua_superada = ($r->actividades_obligatorias_superadas || $r->num_actividades_obligatorias == 0 || $curso->minimo_entregadas == 0)
+                && (!$curso?->examenes_obligatorios || $r->pruebas_evaluacion || $r->num_pruebas_evaluacion == 0)
+                && $r->competencias_50_porciento && $nota >= 5;
+
+            // Exámenes finales
+            $r->minimo_examenes_finales = $curso?->minimo_examenes_finales;
+            $r->examen_final = false;
+            $r->examen_final_superado = false;
+
+            if (!$r->evaluacion_continua_superada) {
+                foreach ($unidades as $unidad) {
+                    if ($unidad->hasEtiqueta('examen')
+                        && $user->num_completadas('examen', $unidad->id, $milestone) > 0
+                        && $r->resultados_unidades[$unidad->id]->actividad > 0) {
+
+                        $nota_examen = $r->resultados_unidades[$unidad->id]->tarea / $r->resultados_unidades[$unidad->id]->actividad;
+                        $minimo_examenes_finales_superado = $nota_examen >= $r->minimo_examenes_finales / 100;
+
+                        if ($unidad->hasEtiqueta('final')) {
+                            if (!$r->examen_final) {
+                                $r->examen_final = true;
+                                $nota = 0;
+                            }
+                            if ($nota_examen * 10 > $nota) {
+                                $nota = $nota_examen * 10;
+                            }
+                            if ($minimo_examenes_finales_superado) {
+                                $r->examen_final_superado = true;
+                            }
+                        }
                     }
                 }
             }
@@ -824,12 +842,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
             // Nota final
             $r->nota_numerica = $nota;
-
-            // Evaluación continua
-
-            $r->evaluacion_continua_superada = ($r->actividades_obligatorias_superadas || $r->num_actividades_obligatorias == 0 || $curso->minimo_entregadas == 0)
-                && (!$curso?->examenes_obligatorios || $r->pruebas_evaluacion || $r->num_pruebas_evaluacion == 0)
-                && $r->competencias_50_porciento && $nota >= 5;
 
             return $r;
         });
