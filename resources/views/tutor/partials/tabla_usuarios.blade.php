@@ -77,13 +77,14 @@
                 <td class="text-center {{ $calificaciones->hay_nota_manual ? '' : ($user->num_completadas('base', null, $milestone) < $media_actividades_grupo ? 'bg-warning text-dark' : '') }}">
                     {{ $user->num_completadas('base', null, $milestone) }}
                 </td>
-                <td {!! $calificaciones->nota_numerica_normalizada(['min' => $nota_minima, 'max' => $nota_maxima ]) < 5 ? 'style="color:#e3342f"' : '' !!}
+                @php($rango = ($curso?->normalizar_nota || $milestone?->normalizar_nota) ? ['min' => $nota_minima, 'max' => $nota_maxima] : null)
+                <td {!! $calificaciones->nota_numerica_normalizada($rango) < 5 ? 'style="color:#e3342f"' : '' !!}
                     class="text-center {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : ($curso?->disponible() ? '' : 'bg-warning text-dark') }}">
-                    {{ $calificaciones->nota_final(['min' => $nota_minima, 'max' => $nota_maxima ]) }}
+                    {{ $calificaciones->nota_final($rango) }}
                 </td>
-                <td {!! $calificaciones->nota_numerica_normalizada(['min' => $nota_minima, 'max' => $nota_maxima ]) < 5 ? 'style="color:#e3342f"' : '' !!}
+                <td {!! $calificaciones->nota_numerica_normalizada($rango) < 5 ? 'style="color:#e3342f"' : '' !!}
                     class="text-center {{ ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : ($curso?->disponible() ? '' : 'bg-warning text-dark') }}">
-                    {{ $calificaciones->nota_publicar($milestone, ['min' => $nota_minima, 'max' => $nota_maxima ]) }}
+                    {{ $calificaciones->nota_publicar($milestone, $rango) }}
                 </td>
                 @if(!isset($exportar))
                     <td>

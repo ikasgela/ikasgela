@@ -16,6 +16,7 @@
             {{ Form::campoCheck('published', __('Published')) }}
             {{ Form::campoTexto('decimals', __('Decimals')) }}
             {{ Form::campoCheck('truncate', __('Truncate')) }}
+            {{ Form::campoCheck('normalizar_nota', __('Normalize calification')) }}
 
             @include('partials.guardar_cancelar')
 

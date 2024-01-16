@@ -45,6 +45,7 @@ class MilestoneController extends Controller
             'published' => $request->has('published'),
             'decimals' => $request->input('decimals'),
             'truncate' => $request->has('truncate'),
+            'normalizar_nota' => $request->has('normalizar_nota'),
         ]);
 
         return retornar();
@@ -77,6 +78,7 @@ class MilestoneController extends Controller
             'published' => $request->has('published'),
             'decimals' => $request->input('decimals'),
             'truncate' => $request->has('truncate'),
+            'normalizar_nota' => $request->has('normalizar_nota'),
         ]);
 
         return retornar();
