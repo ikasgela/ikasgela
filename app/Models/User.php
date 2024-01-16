@@ -829,7 +829,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
             $r->evaluacion_continua_superada = ($r->actividades_obligatorias_superadas || $r->num_actividades_obligatorias == 0 || $curso->minimo_entregadas == 0)
                 && (!$curso?->examenes_obligatorios || $r->pruebas_evaluacion || $r->num_pruebas_evaluacion == 0)
-                && $r->competencias_50_porciento && $nota >= 5;
+                && $r->competencias_50_porciento;
 
             return $r;
         });
