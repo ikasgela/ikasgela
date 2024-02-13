@@ -19,7 +19,9 @@
                 <tr>
                     <td>{{ $curso->id }}</td>
                     <td>{{ $curso->full_name }}</td>
-                    <td>{{ $curso->safe_exam?->token ?: '-' }}</td>
+                    <td>
+                        <pre class="m-0">{{ $curso->safe_exam?->token ?: '-' }}</pre>
+                    </td>
                     <td>
                         <div class='btn-group'>
                             {!! Form::open(['route' => ['safe_exam.reset_token', [$curso->id]], 'method' => 'POST']) !!}
@@ -38,7 +40,9 @@
                             {!! Form::close() !!}
                         </div>
                     </td>
-                    <td>{{ $curso->safe_exam?->quit_password ?: '-' }}</td>
+                    <td>
+                        <pre class="m-0">{{ $curso->safe_exam?->quit_password ?: '-' }}</pre>
+                    </td>
                     <td>
                         <div class='btn-group'>
                             {!! Form::open(['route' => ['safe_exam.reset_quit_password', [$curso->id]], 'method' => 'POST']) !!}
