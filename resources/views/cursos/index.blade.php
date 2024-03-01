@@ -27,6 +27,7 @@
                 <th class="text-center">{{ __('Mandatory exams') }}</th>
                 <th class="text-center">{{ __('Maximum recoverable percent') }}</th>
                 <th class="text-center">{{ __('Silence notifications') }}</th>
+                <th class="text-center">{{ __('Normalize calification') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -56,6 +57,7 @@
                     <td class="text-center {{ $curso->silence_notifications ? 'bg-warning' : '' }}">
                         {{ $curso->silence_notifications ? __('Yes') : __('No') }}
                     </td>
+                    <td class="text-center">@include('partials.check_yes_no', ['checked' => $curso->normalizar_nota])</td>
                     <td>
                         <div class='btn-group'>
                             <a title="{{ __('Edit') }}"
