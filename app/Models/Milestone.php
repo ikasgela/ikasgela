@@ -16,7 +16,7 @@ class Milestone extends Model
         'name', 'date', 'published', 'curso_id',
         '__import_id',
         'decimals', 'truncate',
-        'normalizar_nota',
+        'normalizar_nota', 'ajuste_proporcional_nota',
     ];
 
     protected $casts = [

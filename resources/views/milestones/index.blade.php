@@ -20,6 +20,7 @@
                 <th class="text-center">{{ __('Decimals') }}</th>
                 <th class="text-center">{{ __('Truncate') }}</th>
                 <th class="text-center">{{ __('Normalize calification') }}</th>
+                <th class="text-center">{{ __('Proportional calification adjustment') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -34,6 +35,18 @@
                     <td class="text-center">{{ $milestone->decimals }}</td>
                     <td class="text-center">@include('partials.check_yes_no', ['checked' => $milestone->truncate])</td>
                     <td class="text-center">@include('partials.check_yes_no', ['checked' => $milestone->normalizar_nota])</td>
+                    <td class="text-center">
+                        @switch($milestone->ajuste_proporcional_nota)
+                            @case('media')
+                                {{ __('Average') }}
+                                @break
+                            @case('mediana')
+                                {{ __('Median') }}
+                                @break
+                            @default
+                                {{ __('Undefined') }}
+                        @endswitch
+                    </td>
                     <td class="text-nowrap">
                         {!! Form::open(['route' => ['milestones.destroy', $milestone->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>

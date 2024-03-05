@@ -46,6 +46,7 @@ class MilestoneController extends Controller
             'decimals' => $request->input('decimals'),
             'truncate' => $request->has('truncate'),
             'normalizar_nota' => $request->has('normalizar_nota'),
+            'ajuste_proporcional_nota' => $request->input('ajuste_proporcional_nota'),
         ]);
 
         return retornar();
@@ -79,6 +80,7 @@ class MilestoneController extends Controller
             'decimals' => $request->input('decimals'),
             'truncate' => $request->has('truncate'),
             'normalizar_nota' => $request->has('normalizar_nota'),
+            'ajuste_proporcional_nota' => $request->input('ajuste_proporcional_nota'),
         ]);
 
         return retornar();

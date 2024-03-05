@@ -62,6 +62,21 @@
             {{ Form::campoCheck('normalizar_nota', __('Normalize calification')) }}
 
             <div class="form-group row">
+                {!! Form::label('ajuste_proporcional_nota', __('Proportional calification adjustment'), ['class' => 'col-sm-2 col-form-label']) !!}
+                <div class="col-sm-10">
+                    <select class="form-control" id="ajuste_proporcional_nota" name="ajuste_proporcional_nota">
+                        <option value="">{{ __('--- None --- ') }}</option>
+                        <option value="media" {{ $curso->ajuste_proporcional_nota == 'media' ? 'selected' : '' }}>
+                            {{ __('Average') }}
+                        </option>
+                        <option value="mediana" {{ $curso->ajuste_proporcional_nota == 'mediana' ? 'selected' : '' }}>
+                            {{ __('Median') }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
                 {!! Form::label('tarea_bienvenida_id', __('Welcome task'), ['class' => 'col-sm-2 col-form-label']) !!}
                 <div class="col-sm-10">
                     <select class="form-control" id="tarea_bienvenida_id" name="tarea_bienvenida_id">

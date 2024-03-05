@@ -18,6 +18,17 @@
             {{ Form::campoCheck('truncate', __('Truncate')) }}
             {{ Form::campoCheck('normalizar_nota', __('Normalize calification')) }}
 
+            <div class="form-group row">
+                {!! Form::label('ajuste_proporcional_nota', __('Proportional calification adjustment'), ['class' => 'col-sm-2 col-form-label']) !!}
+                <div class="col-sm-10">
+                    <select class="form-control" id="ajuste_proporcional_nota" name="ajuste_proporcional_nota">
+                        <option value="">{{ __('--- None --- ') }}</option>
+                        <option value="media">{{ __('Average') }}</option>
+                        <option value="mediana">{{ __('Median') }}</option>
+                    </select>
+                </div>
+            </div>
+
             @include('partials.guardar_cancelar')
 
             @include('layouts.errors')
