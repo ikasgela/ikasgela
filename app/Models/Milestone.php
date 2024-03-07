@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * @mixin IdeHelperMilestone
@@ -35,7 +36,7 @@ class Milestone extends Model
 
     public function getCacheKeyAttribute()
     {
-        return "_" . $this->date->timestamp;
+        return "_" . Str::slug($this->name) . "_" . $this->date->timestamp;
     }
 
     public function scopePublished($query)
