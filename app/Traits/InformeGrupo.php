@@ -39,7 +39,18 @@ trait InformeGrupo
             session(['tutor_filtro_alumnos' => $request->input('filtro_alumnos')]);
         }
 
-        $mediana = $curso?->mediana($milestone);
+        // Seleccionar el ajuste de nota a aplicar
+        $ajuste_proporcional_nota = $milestone?->ajuste_proporcional_nota ?: $curso?->ajuste_proporcional_nota;
+        switch ($ajuste_proporcional_nota) {
+            case 'media':
+                $mediana = $curso?->media($milestone);
+                break;
+            case 'mediana':
+                $mediana = $curso?->mediana($milestone);
+                break;
+            default:
+                $mediana = 0;
+        }
 
         switch (session('tutor_filtro_alumnos')) {
             case 'P':
