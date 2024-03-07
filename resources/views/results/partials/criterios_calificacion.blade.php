@@ -39,6 +39,17 @@
                 @else
                     <li>{{ __('There are no evaluation tests that require to achieve a minimal percent.') }}</li>
                 @endif
+                @php($ajuste_proporcional_nota = $milestone?->ajuste_proporcional_nota ?: $curso?->ajuste_proporcional_nota)
+                @switch($ajuste_proporcional_nota)
+                    @case('media')
+                        <li>{{ __('The qualification is adjusted proportionally to the average of mandatory activities completed by the group.') }}</li>
+                        @break
+                    @case('mediana')
+                        <li>{{ __('The qualification is adjusted proportionally to the median of mandatory activities completed by the group.') }}</li>
+                        @break
+                    @default
+                        <li>{{ __('The qualification is adjusted proportionally to the number of mandatory activities.') }}</li>
+                @endswitch
             @endif
         </ul>
     </div>
