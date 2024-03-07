@@ -28,6 +28,7 @@
                 <th class="text-center">{{ __('Maximum recoverable percent') }}</th>
                 <th class="text-center">{{ __('Silence notifications') }}</th>
                 <th class="text-center">{{ __('Normalize calification') }}</th>
+                <th class="text-center">{{ __('Proportional calification adjustment') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -58,6 +59,18 @@
                         {{ $curso->silence_notifications ? __('Yes') : __('No') }}
                     </td>
                     <td class="text-center">@include('partials.check_yes_no', ['checked' => $curso->normalizar_nota])</td>
+                    <td class="text-center">
+                        @switch($curso->ajuste_proporcional_nota)
+                            @case('media')
+                                {{ __('Average') }}
+                                @break
+                            @case('mediana')
+                                {{ __('Median') }}
+                                @break
+                            @default
+                                {{ __('Undefined') }}
+                        @endswitch
+                    </td>
                     <td>
                         <div class='btn-group'>
                             <a title="{{ __('Edit') }}"

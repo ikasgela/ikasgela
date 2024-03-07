@@ -89,14 +89,24 @@ class ResultController extends Controller
             $milestone = Milestone::find(session('filtrar_milestone_actual'));
         }
 
-        // Calcular la media de actividades del grupo
+        // Calcular la media y la mediana de actividades del grupo
         $media = $curso?->media($milestone);
-        $media_actividades_grupo = formato_decimales($media, 2);
-
         $mediana = $curso?->mediana($milestone);
+        $media_actividades_grupo = formato_decimales($media, 2);
+        $mediana_actividades_grupo = formato_decimales($mediana, 2);
 
-        // Obtener las calificaciones del usuario
-        $calificaciones = $user->calcular_calificaciones($mediana, $milestone);
+        // Ajuste proporcional de la nota según las actividades completadas
+        $ajuste_proporcional_nota = $milestone?->ajuste_proporcional_nota ?: $curso?->ajuste_proporcional_nota;
+        switch ($ajuste_proporcional_nota) {
+            case 'media':
+                $calificaciones = $user->calcular_calificaciones($media, $milestone);
+                break;
+            case 'mediana':
+                $calificaciones = $user->calcular_calificaciones($mediana, $milestone);
+                break;
+            default:
+                $calificaciones = $user->calcular_calificaciones(0, $milestone);
+        }
 
         // Gráfico de actividades
 
@@ -164,29 +174,41 @@ class ResultController extends Controller
 
         $usuarios = $curso?->alumnos_activos() ?? [];
 
-        // Calcular la nota máxima y mínima para normalizar
-        $todas_notas = [];
-        foreach ($usuarios as $usuario) {
-            $todas_notas[] = $usuario->calcular_calificaciones($mediana, $milestone)->nota_numerica;
-        }
-        $nota_maxima = count($todas_notas) > 0 ? max($todas_notas) : 0;
-        $nota_minima = count($todas_notas) > 0 ? min($todas_notas) : 0;
+        // Calcular el rango de nota máxima y mínima para normalizar
+        $rango = null;
+        if ($curso?->normalizar_nota || $milestone?->normalizar_nota) {
+            $todas_notas = [];
+            foreach ($usuarios as $usuario) {
+                switch ($ajuste_proporcional_nota) {
+                    case 'media':
+                        $todas_notas[] = $usuario->calcular_calificaciones($media, $milestone)->nota_numerica;
+                        break;
+                    case 'mediana':
+                        $todas_notas[] = $usuario->calcular_calificaciones($mediana, $milestone)->nota_numerica;
+                        break;
+                    default:
+                        $todas_notas[] = $usuario->calcular_calificaciones(0, $milestone)->nota_numerica;
+                }
+            }
+            $nota_maxima = count($todas_notas) > 0 ? max($todas_notas) : 0;
+            $nota_minima = count($todas_notas) > 0 ? min($todas_notas) : 0;
 
-        // Si el curso o la evaluación lo activan, normalizar la nota entre min y max
-        $rango = ($curso?->normalizar_nota || $milestone?->normalizar_nota) ? ['min' => $nota_minima, 'max' => $nota_maxima] : null;
+            // Si el curso o la evaluación lo activan, normalizar la nota entre min y max
+            $rango = ($curso?->normalizar_nota || $milestone?->normalizar_nota) ? ['min' => $nota_minima, 'max' => $nota_maxima] : null;
+        }
 
         $calificacion_fondo = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada) ? 'bg-success text-dark' : ($curso?->disponible() ? 'bg-light text-dark' : 'bg-warning text-dark');
         $calificacion_dato = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada || $milestone != null) ? $calificaciones->nota_final($rango) : ($curso?->disponible() ? __('Unavailable') : __('Fail'));
         $calificacion_dato_publicar = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada || $milestone != null) ? $calificaciones->nota_publicar($milestone, $rango) : ($curso?->disponible() ? __('Unavailable') : __('Fail'));
 
-        return compact(['user', 'curso', 'users', 'unidades', 'calificaciones', 'media_actividades_grupo', 'chart',
+        return compact(['user', 'curso', 'users', 'unidades', 'calificaciones', 'chart',
             'actividades_obligatorias_fondo', 'actividades_obligatorias_dato',
             'competencias_fondo', 'competencias_dato',
             'pruebas_evaluacion_fondo', 'pruebas_evaluacion_dato',
             'evaluacion_continua_fondo', 'evaluacion_continua_dato',
             'calificacion_fondo', 'calificacion_dato', 'calificacion_dato_publicar',
             'milestones', 'milestone',
-            'media', 'mediana',
+            'media', 'media_actividades_grupo', 'mediana', 'mediana_actividades_grupo',
         ]);
     }
 }

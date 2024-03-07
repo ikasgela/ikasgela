@@ -740,14 +740,18 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
             $nota = ($nota / $porcentaje_total) * 100;
 
-            // Ajustar la nota en función de las completadas 100% completadas - 100% de nota
+            // Ajustar la nota en función de las completadas 100% completadas -> 100% de nota
             // Si estamos en una evaluación parcial, ajustar en función de la media de actividades del grupo
             $r->numero_actividades_completadas = $user->num_completadas('base', null, $milestone);
             if ($r->num_actividades_obligatorias > 0) {
-                if ($milestone == null) {
-                    $nota = $nota * ($r->numero_actividades_completadas / $r->num_actividades_obligatorias);
-                } else if ($media_actividades_grupo > 0) {
-                    $nota = $nota * ($r->numero_actividades_completadas / $media_actividades_grupo);
+                $ajuste_proporcional_nota = $milestone?->ajuste_proporcional_nota ?: $curso?->ajuste_proporcional_nota;
+                switch ($ajuste_proporcional_nota) {
+                    case 'media':
+                    case 'mediana':
+                        $nota = $nota * ($r->numero_actividades_completadas / $media_actividades_grupo);
+                        break;
+                    default:
+                        $nota = $nota * ($r->numero_actividades_completadas / $r->num_actividades_obligatorias);
                 }
             }
 
