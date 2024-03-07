@@ -145,13 +145,13 @@
                 @include('tutor.partials.fila_media')
             @endif
             <tr>
-                <th colspan="2">{{ __('Student total') }}: {{ $usuarios->count() }}</th>
+                <th colspan="3">{{ __('Student total') }}: {{ $usuarios->count() }}</th>
                 <th colspan="2">
                     {{ __('Passed') }}: {{ $aprobados }}
                     ({{ formato_decimales($usuarios->count() > 0 ? $aprobados/$usuarios->count()*100 : 0, 2) }}&thinsp;%)
                 </th>
                 <th class="text-center">{{ __('Total') }}: {{ $num_actividades_obligatorias }}</th>
-                <th colspan="{{ $unidades->count() + 4 }}"></th>
+                <th colspan="{{ $unidades->count() + 3 }}"></th>
             </tr>
             </tfoot>
         @endif
