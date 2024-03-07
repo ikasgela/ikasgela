@@ -132,7 +132,7 @@
                     ({{ formato_decimales($usuarios->count() > 0 ? $aprobados/$usuarios->count()*100 : 0, 2) }}&thinsp;%)
                 </th>
                 <th class="text-center">{{ __('Total') }}: {{ $num_actividades_obligatorias }}</th>
-                <th colspan="{{ $unidades->count() + 3 }}"></th>
+                <th colspan="{{ $unidades->count() + 4 }}"></th>
             </tr>
             </tfoot>
         @endif
