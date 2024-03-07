@@ -50,6 +50,9 @@
                     @default
                         <li>{{ __('The qualification is adjusted proportionally to the number of mandatory activities.') }}</li>
                 @endswitch
+                @if($curso?->normalizar_nota || $milestone?->normalizar_nota)
+                    <li>{{ __('The qualification has been normalized.') }}</li>
+                @endif
             @endif
         </ul>
     </div>
