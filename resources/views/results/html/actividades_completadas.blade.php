@@ -40,10 +40,8 @@
             </tbody>
             <tfoot class="thead-dark">
             <tr>
-                <th colspan="4">{{ __('Completed activities') }}: {{ $calificaciones->numero_actividades_completadas }}
-                    @if(!Auth::user()->baja_ansiedad)
-                        - {{ __('Group mean') }}: {{ $media_actividades_grupo }}
-                    @endif
+                <th colspan="4">
+                    @include('results.partials.completadas')
                 </th>
             </tr>
             </tfoot>

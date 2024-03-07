@@ -30,9 +30,9 @@
             @endif
         @endforeach
         <tr>
-            <th colspan="4" class="text-left">{{ __('Completed activities') }}
-                : {{ $calificaciones->numero_actividades_completadas }}
-                - {{ __('Group mean') }}: {{ $media_actividades_grupo }}</th>
+            <th colspan="4" class="text-left">
+                @include('results.partials.completadas')
+            </th>
         </tr>
     </table>
 

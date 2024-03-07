@@ -118,12 +118,13 @@ trait InformeGrupo
         $media_actividades_grupo_formato = formato_decimales($media_actividades_grupo, 2, $exportar);
 
         $mediana = $curso?->mediana($milestone);
+        $mediana_formato = formato_decimales($mediana, 2, $exportar);
 
         return compact(['usuarios', 'unidades', 'organization',
             'curso', 'num_actividades_obligatorias',
             'media_actividades_grupo', 'media_actividades_grupo_formato',
             'milestones', 'milestone',
-            'mediana',
+            'mediana', 'mediana_formato',
             'nota_maxima', 'nota_minima',
             'users', 'user_seleccionado'
         ]);
