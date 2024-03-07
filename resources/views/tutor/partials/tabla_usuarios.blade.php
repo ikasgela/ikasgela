@@ -28,12 +28,23 @@
         <tbody>
         @php($media = false)
         @php($aprobados = 0)
+        @php($ajuste_proporcional_nota = $milestone?->ajuste_proporcional_nota ?: $curso?->ajuste_proporcional_nota)
         @foreach($usuarios as $user)
             @php($calificaciones = $user->calcular_calificaciones($mediana, $milestone))
-            @if(!$media && !isset($exportar) && session('tutor_filtro_alumnos') == 'P'
-                    && $user->num_completadas('base', null, $milestone) > $media_actividades_grupo)
-                @include('tutor.partials.fila_media')
-                @php($media = true)
+            @if(!$media && !isset($exportar) && session('tutor_filtro_alumnos') == 'P')
+                @switch($ajuste_proporcional_nota)
+                    @case('mediana')
+                        @if($user->num_completadas('base', null, $milestone) > $mediana)
+                            @include('tutor.partials.fila_media')
+                            @php($media = true)
+                        @endif
+                        @break
+                    @default
+                        @if($user->num_completadas('base', null, $milestone) > $media_actividades_grupo)
+                            @include('tutor.partials.fila_media')
+                            @php($media = true)
+                        @endif
+                @endswitch
             @endif
             <tr>
                 @if(isset($exportar))
@@ -74,7 +85,15 @@
                 <td class="text-center {{ $calificaciones->hay_nota_manual ? '' : ($calificaciones->evaluacion_continua_superada ? 'bg-success text-dark' : 'bg-warning text-dark') }}">
                     {{ $calificaciones->evaluacion_continua_superada ? trans_choice('tasks.passed', 1) : trans_choice('tasks.not_passed', 1) }}
                 </td>
-                <td class="text-center {{ $calificaciones->hay_nota_manual ? '' : ($user->num_completadas('base', null, $milestone) < $media_actividades_grupo ? 'bg-warning text-dark' : '') }}">
+                <td class="text-center
+                    @switch($ajuste_proporcional_nota)
+                        @case('mediana')
+                             {{ $calificaciones->hay_nota_manual ? '' : ($user->num_completadas('base', null, $milestone) < $mediana ? 'bg-warning text-dark' : '') }}
+                            @break
+                        @default
+                            {{ $calificaciones->hay_nota_manual ? '' : ($user->num_completadas('base', null, $milestone) < $media_actividades_grupo ? 'bg-warning text-dark' : '') }}
+                    @endswitch
+                    ">
                     {{ $user->num_completadas('base', null, $milestone) }}
                 </td>
                 @php($rango = ($curso?->normalizar_nota || $milestone?->normalizar_nota) ? ['min' => $nota_minima, 'max' => $nota_maxima] : null)
