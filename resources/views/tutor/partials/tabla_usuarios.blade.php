@@ -34,13 +34,13 @@
             @if(!$media && !isset($exportar) && session('tutor_filtro_alumnos') == 'P')
                 @switch($ajuste_proporcional_nota)
                     @case('mediana')
-                        @if($user->num_completadas('base', null, $milestone) > $mediana)
+                        @if($user->num_completadas('base', null, $milestone) >= $mediana)
                             @include('tutor.partials.fila_media')
                             @php($media = true)
                         @endif
                         @break
                     @default
-                        @if($user->num_completadas('base', null, $milestone) > $media_actividades_grupo)
+                        @if($user->num_completadas('base', null, $milestone) >= $media_actividades_grupo)
                             @include('tutor.partials.fila_media')
                             @php($media = true)
                         @endif
