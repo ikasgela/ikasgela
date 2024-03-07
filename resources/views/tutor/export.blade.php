@@ -7,6 +7,8 @@
         <h5>{{ $milestone->name . ' (' . $milestone->date->isoFormat('L LT') . ')' }}</h5>
     @endisset
     <p></p>
+    @include('tutor.partials.criterios_ajuste_nota')
+    <p></p>
 </div>
 
 @include('tutor.partials.tabla_usuarios', ['exportar' => true])

@@ -61,6 +61,10 @@
         {!! Form::close() !!}
     @endif
 
+    <div>
+        @include('tutor.partials.criterios_ajuste_nota')
+    </div>
+
     @include('tutor.partials.tabla_usuarios')
 
     <div>
