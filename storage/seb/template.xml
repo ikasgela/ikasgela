@@ -29,7 +29,7 @@
         <key>allowedDisplayBuiltinEnforce</key>
         <false/>
         <key>allowedDisplaysIgnoreFailure</key>
-        <false/>
+        <true/>
         <key>allowedDisplaysMaxNumber</key>
         <integer>2</integer>
         <key>allowFind</key>
@@ -61,7 +61,7 @@
         <key>allowVideoCapture</key>
         <false/>
         <key>allowVirtualMachine</key>
-        <false/>
+        <true/>
         <key>allowWlan</key>
         <false/>
         <key>audioControlEnabled</key>
