@@ -1678,7 +1678,10 @@
         <false/>
         <key>whitelistURLFilter</key>
         <string>
-            ^.*?:\/\/((((ikasgela\.com)|(.*?\.ikasgela\.com)))|(((ikasgela\.com)|(.*?\.ikasgela\.com))\/.*?))(()|(\?.*?))$;^jetbrains:\/\/((((.*?)|(.*?\..*?)))|(((.*?)|(.*?\..*?))\/.*?))(()|(\?.*?))$;^gitkraken:\/\/((((.*?)|(.*?\..*?)))|(((.*?)|(.*?\..*?))\/.*?))(()|(\?.*?))$;^.*?:\/\/((s3\.eu-west-1\.amazonaws\.com)|(.*?\.s3\.eu-west-1\.amazonaws\.com))\/((/ficheros\.ikasgela\.com/.*?)|(/ficheros\.ikasgela\.com/.*?))(()|(\?.*?))$
+            ^.*?:\/\/((((ikasgela\.com)|(.*?\.ikasgela\.com)))|(((ikasgela\.com)|(.*?\.ikasgela\.com))\/.*?))(()|(\?.*?))$;
+            ^jetbrains:\/\/((((.*?)|(.*?\..*?)))|(((.*?)|(.*?\..*?))\/.*?))(()|(\?.*?))$;
+            ^gitkraken:\/\/((((.*?)|(.*?\..*?)))|(((.*?)|(.*?\..*?))\/.*?))(()|(\?.*?))$;
+            ^.*?:\/\/((s3\.eu-west-1\.amazonaws\.com)|(.*?\.s3\.eu-west-1\.amazonaws\.com))\/((/ficheros\.ikasgela\.com/.*?)|(/ficheros\.ikasgela\.com/.*?))(()|(\?.*?))$;
         </string>
         <key>zoomMode</key>
         <integer>0</integer>
