@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\AllowedAppController;
+use App\Http\Controllers\AllowedUrlController;
+use App\Http\Controllers\SafeExamController;
+
 // Localización
 Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['localeCookieRedirect', 'localizationRedirect']], function () {
 
@@ -528,6 +532,35 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('safe_exam.delete_token');
             Route::delete('/safe_exam/{curso}/delete_quit_password', 'SafeExamController@delete_quit_password')
                 ->name('safe_exam.delete_quit_password');
+
+            Route::get('/safe_exam/{safe_exam}/allowed', [SafeExamController::class, 'allowed'])
+                ->name('safe_exam.allowed');
+
+            Route::get('/allowed_apps/{safe_exam}/create', [AllowedAppController::class, 'create'])
+                ->name('allowed_apps.create');
+            Route::post('/allowed_apps', [AllowedAppController::class, 'store'])
+                ->name('allowed_apps.store');
+            Route::get('/allowed_apps/{allowed_app}/edit', [AllowedAppController::class, 'edit'])
+                ->name('allowed_apps.edit');
+            Route::put('/allowed_apps/{allowed_app}', [AllowedAppController::class, 'update'])
+                ->name('allowed_apps.update');
+            Route::delete('/allowed_apps/{allowed_app}', [AllowedAppController::class, 'destroy'])
+                ->name('allowed_apps.destroy');
+            Route::post('/allowed_apps/{allowed_app}/duplicate', [AllowedAppController::class, 'duplicate'])
+                ->name('allowed_apps.duplicate');
+
+            Route::get('/allowed_urls/{safe_exam}/create', [AllowedUrlController::class, 'create'])
+                ->name('allowed_urls.create');
+            Route::post('/allowed_urls', [AllowedUrlController::class, 'store'])
+                ->name('allowed_urls.store');
+            Route::get('/allowed_urls/{allowed_url}/edit', [AllowedUrlController::class, 'edit'])
+                ->name('allowed_urls.edit');
+            Route::put('/allowed_urls/{allowed_url}', [AllowedUrlController::class, 'update'])
+                ->name('allowed_urls.update');
+            Route::delete('/allowed_urls/{allowed_url}', [AllowedUrlController::class, 'destroy'])
+                ->name('allowed_urls.destroy');
+            Route::post('/allowed_urls/{allowed_url}/duplicate', [AllowedUrlController::class, 'duplicate'])
+                ->name('allowed_urls.duplicate');
         });
 
         // Alumnos y profesores

@@ -306,166 +306,7 @@
         <integer>2</integer>
         <key>permittedProcesses</key>
         <array>
-            <dict>
-                <key>active</key>
-                <true/>
-                <key>allowUserToChooseApp</key>
-                <false/>
-                <key>arguments</key>
-                <array></array>
-                <key>autostart</key>
-                <false/>
-                <key>description</key>
-                <string/>
-                <key>executable</key>
-                <string>idea64.exe</string>
-                <key>iconInTaskbar</key>
-                <true/>
-                <key>identifier</key>
-                <string/>
-                <key>originalName</key>
-                <string/>
-                <key>os</key>
-                <integer>1</integer>
-                <key>path</key>
-                <string>%LOCALAPPDATA%\programs\intellij idea community edition\bin</string>
-                <key>runInBackground</key>
-                <false/>
-                <key>strongKill</key>
-                <false/>
-                <key>title</key>
-                <string>IntelliJ IDEA</string>
-                <key>windowHandlingProcess</key>
-                <string/>
-            </dict>
-            <dict>
-                <key>active</key>
-                <true/>
-                <key>allowUserToChooseApp</key>
-                <false/>
-                <key>arguments</key>
-                <array></array>
-                <key>autostart</key>
-                <false/>
-                <key>description</key>
-                <string/>
-                <key>executable</key>
-                <string>jetbrains-toolbox.exe</string>
-                <key>iconInTaskbar</key>
-                <false/>
-                <key>identifier</key>
-                <string/>
-                <key>originalName</key>
-                <string/>
-                <key>os</key>
-                <integer>1</integer>
-                <key>path</key>
-                <string>%LOCALAPPDATA%\jetbrains\toolbox\bin</string>
-                <key>runInBackground</key>
-                <false/>
-                <key>strongKill</key>
-                <true/>
-                <key>title</key>
-                <string>JetBrains Toolbox</string>
-                <key>windowHandlingProcess</key>
-                <string/>
-            </dict>
-            <dict>
-                <key>active</key>
-                <true/>
-                <key>allowUserToChooseApp</key>
-                <false/>
-                <key>arguments</key>
-                <array></array>
-                <key>autostart</key>
-                <false/>
-                <key>description</key>
-                <string/>
-                <key>executable</key>
-                <string>git-credential-manager.exe</string>
-                <key>iconInTaskbar</key>
-                <false/>
-                <key>identifier</key>
-                <string/>
-                <key>originalName</key>
-                <string/>
-                <key>os</key>
-                <integer>1</integer>
-                <key>path</key>
-                <string>%PROGRAMFILES%\Git\mingw64\bin</string>
-                <key>runInBackground</key>
-                <false/>
-                <key>strongKill</key>
-                <true/>
-                <key>title</key>
-                <string>Git Credential Manager (admin)</string>
-                <key>windowHandlingProcess</key>
-                <string/>
-            </dict>
-            <dict>
-                <key>active</key>
-                <true/>
-                <key>allowUserToChooseApp</key>
-                <false/>
-                <key>arguments</key>
-                <array></array>
-                <key>autostart</key>
-                <false/>
-                <key>description</key>
-                <string/>
-                <key>executable</key>
-                <string>git-credential-manager.exe</string>
-                <key>iconInTaskbar</key>
-                <false/>
-                <key>identifier</key>
-                <string/>
-                <key>originalName</key>
-                <string/>
-                <key>os</key>
-                <integer>1</integer>
-                <key>path</key>
-                <string>%LOCALAPPDATA%\Programs\Git\mingw64\bin</string>
-                <key>runInBackground</key>
-                <false/>
-                <key>strongKill</key>
-                <true/>
-                <key>title</key>
-                <string>Git Credential Manager (user)</string>
-                <key>windowHandlingProcess</key>
-                <string/>
-            </dict>
-            <dict>
-                <key>active</key>
-                <true/>
-                <key>allowUserToChooseApp</key>
-                <false/>
-                <key>arguments</key>
-                <array></array>
-                <key>autostart</key>
-                <false/>
-                <key>description</key>
-                <string/>
-                <key>executable</key>
-                <string>gitkraken.exe</string>
-                <key>iconInTaskbar</key>
-                <true/>
-                <key>identifier</key>
-                <string/>
-                <key>originalName</key>
-                <string/>
-                <key>os</key>
-                <integer>1</integer>
-                <key>path</key>
-                <string>%LOCALAPPDATA%\gitkraken</string>
-                <key>runInBackground</key>
-                <false/>
-                <key>strongKill</key>
-                <false/>
-                <key>title</key>
-                <string>GitKraken</string>
-                <key>windowHandlingProcess</key>
-                <string/>
-            </dict>
+            SAFE_EXAM_ALLOWED_APPS
         </array>
         <key>pinEmbeddedCertificates</key>
         <false/>
@@ -1635,40 +1476,11 @@
                 <key>regex</key>
                 <false/>
                 <key>expression</key>
-                <string>ikasgela.com</string>
+                <string>SAFE_EXAM_HOST</string>
                 <key>action</key>
                 <integer>1</integer>
             </dict>
-            <dict>
-                <key>active</key>
-                <true/>
-                <key>regex</key>
-                <false/>
-                <key>expression</key>
-                <string>jetbrains://*</string>
-                <key>action</key>
-                <integer>1</integer>
-            </dict>
-            <dict>
-                <key>active</key>
-                <true/>
-                <key>regex</key>
-                <false/>
-                <key>expression</key>
-                <string>gitkraken://*</string>
-                <key>action</key>
-                <integer>1</integer>
-            </dict>
-            <dict>
-                <key>active</key>
-                <true/>
-                <key>regex</key>
-                <false/>
-                <key>expression</key>
-                <string>s3.eu-west-1.amazonaws.com/ficheros.ikasgela.com/*</string>
-                <key>action</key>
-                <integer>1</integer>
-            </dict>
+            SAFE_EXAM_ALLOWED_URLS
         </array>
         <key>urlFilterTrustedContent</key>
         <true/>
@@ -1678,10 +1490,8 @@
         <false/>
         <key>whitelistURLFilter</key>
         <string>
-            ^.*?:\/\/((((ikasgela\.com)|(.*?\.ikasgela\.com)))|(((ikasgela\.com)|(.*?\.ikasgela\.com))\/.*?))(()|(\?.*?))$;
-            ^jetbrains:\/\/((((.*?)|(.*?\..*?)))|(((.*?)|(.*?\..*?))\/.*?))(()|(\?.*?))$;
-            ^gitkraken:\/\/((((.*?)|(.*?\..*?)))|(((.*?)|(.*?\..*?))\/.*?))(()|(\?.*?))$;
-            ^.*?:\/\/((s3\.eu-west-1\.amazonaws\.com)|(.*?\.s3\.eu-west-1\.amazonaws\.com))\/((/ficheros\.ikasgela\.com/.*?)|(/ficheros\.ikasgela\.com/.*?))(()|(\?.*?))$;
+            ^.*?:\/\/((((SAFE_EXAM_HOST_REGEX)|(.*?\.SAFE_EXAM_HOST_REGEX)))|(((SAFE_EXAM_HOST_REGEX)|(.*?\.SAFE_EXAM_HOST_REGEX))\/.*?))(()|(\?.*?))$;
+            SAFE_EXAM_ALLOWED_URLS_REGEX
         </string>
         <key>zoomMode</key>
         <integer>0</integer>
