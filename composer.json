@@ -38,6 +38,7 @@
         "ikasgela/laravel-gitea": "^1.0",
         "intervention/image": "^2.5",
         "jenssegers/agent": "^2.6",
+        "jeremykendall/php-domain-parser": "^6.3",
         "josiasmontag/laravel-recaptchav3": "^1.0",
         "kkomelin/laravel-translatable-string-exporter": "^1.2",
         "lab404/laravel-impersonate": "^1.7",
