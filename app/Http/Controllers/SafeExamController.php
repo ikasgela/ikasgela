@@ -27,8 +27,7 @@ class SafeExamController extends Controller
     {
         $safe_exam = SafeExam::firstOrNew(['curso_id' => $curso->id]);
 
-        $safe_exam->token = bin2hex(openssl_random_pseudo_bytes(8));
-        $safe_exam->curso_id = $curso->id;
+        $safe_exam->token = SafeExam::new_token();
         $safe_exam->save();
 
         return back();
@@ -39,7 +38,6 @@ class SafeExamController extends Controller
         $safe_exam = SafeExam::firstOrNew(['curso_id' => $curso->id]);
 
         $safe_exam->token = "";
-        $safe_exam->curso_id = $curso->id;
         $safe_exam->save();
 
         return back();
@@ -49,8 +47,7 @@ class SafeExamController extends Controller
     {
         $safe_exam = SafeExam::firstOrNew(['curso_id' => $curso->id]);
 
-        $safe_exam->quit_password = bin2hex(openssl_random_pseudo_bytes(2));
-        $safe_exam->curso_id = $curso->id;
+        $safe_exam->quit_password = SafeExam::new_quit_password();
         $safe_exam->save();
 
         return back();
@@ -61,7 +58,6 @@ class SafeExamController extends Controller
         $safe_exam = SafeExam::firstOrNew(['curso_id' => $curso->id]);
 
         $safe_exam->quit_password = "";
-        $safe_exam->curso_id = $curso->id;
         $safe_exam->save();
 
         return back();
