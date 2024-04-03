@@ -13,9 +13,9 @@
                 <th>{{ __('Title') }}</th>
                 <th>{{ __('Executable') }}</th>
                 <th>{{ __('Path') }}</th>
-                <th>{{ __('Show icon') }}</th>
-                <th>{{ __('Force close') }}</th>
-                <th>{{ __('Disabled') }}</th>
+                <th class="text-center">{{ __('Show icon') }}</th>
+                <th class="text-center">{{ __('Force close') }}</th>
+                <th class="text-center">{{ __('Disabled') }}</th>
                 <th></th>
             </tr>
             </thead>
@@ -25,9 +25,9 @@
                     <td>{{ $allowed_app->title }}</td>
                     <td>{{ $allowed_app->executable }}</td>
                     <td>{{ $allowed_app->path }}</td>
-                    <td>{{ $allowed_app->show_icon ? __('Yes') : __('No') }}</td>
-                    <td>{{ $allowed_app->force_close ? __('Yes') : __('No') }}</td>
-                    <td class="{{ $allowed_app->disabled ? 'bg-warning text-dark' : '' }}">{{ $allowed_app->disabled ? __('Yes') : __('No') }}</td>
+                    <td class="text-center">{{ $allowed_app->show_icon ? __('Yes') : __('No') }}</td>
+                    <td class="text-center">{{ $allowed_app->force_close ? __('Yes') : __('No') }}</td>
+                    <td class="text-center {{ $allowed_app->disabled ? 'bg-warning text-dark' : '' }}">{{ $allowed_app->disabled ? __('Yes') : __('No') }}</td>
                     <td>
                         <div class="d-flex">
                             <a href="{{ route('allowed_apps.edit', [$allowed_app->id]) }}"
@@ -76,7 +76,7 @@
             <thead class="thead-dark">
             <tr>
                 <th>{{ __('URL') }}</th>
-                <th>{{ __('Disabled') }}</th>
+                <th class="text-center">{{ __('Disabled') }}</th>
                 <th></th>
             </tr>
             </thead>
@@ -84,7 +84,7 @@
             @foreach($safe_exam->allowed_urls as $allowed_url)
                 <tr>
                     <td>{{ $allowed_url->url }}</td>
-                    <td class="{{ $allowed_url->disabled ? 'bg-warning text-dark' : '' }}">{{ $allowed_url->disabled ? __('Yes') : __('No') }}</td>
+                    <td class="text-center {{ $allowed_url->disabled ? 'bg-warning text-dark' : '' }}">{{ $allowed_url->disabled ? __('Yes') : __('No') }}</td>
                     <td>
                         <div class="d-flex">
                             <a href="{{ route('allowed_urls.edit', [$allowed_url->id]) }}"
