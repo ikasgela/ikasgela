@@ -27,6 +27,7 @@ class AllowedUrlController extends Controller
 
         $allowed_url = AllowedUrl::create([
             'url' => request('url'),
+            'disabled' => request()->has('disabled'),
             'safe_exam_id' => request('safe_exam_id'),
         ]);
 
@@ -46,6 +47,7 @@ class AllowedUrlController extends Controller
 
         $allowed_url->update([
             'url' => request('url'),
+            'disabled' => request()->has('disabled'),
         ]);
 
         return redirect(route('safe_exam.allowed', [$allowed_url->safe_exam->id]));

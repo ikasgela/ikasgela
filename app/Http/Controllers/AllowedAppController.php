@@ -33,6 +33,7 @@ class AllowedAppController extends Controller
             'path' => request('path'),
             'show_icon' => request()->has('show_icon'),
             'force_close' => request()->has('force_close'),
+            'disabled' => request()->has('disabled'),
             'safe_exam_id' => request('safe_exam_id'),
         ]);
 
@@ -58,6 +59,7 @@ class AllowedAppController extends Controller
             'path' => request('path'),
             'show_icon' => request()->has('show_icon'),
             'force_close' => request()->has('force_close'),
+            'disabled' => request()->has('disabled'),
         ]);
 
         return redirect(route('safe_exam.allowed', [$allowed_app->safe_exam->id]));

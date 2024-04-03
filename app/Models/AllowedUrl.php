@@ -11,7 +11,7 @@ class AllowedUrl extends Model
     use Cloneable, HasFactory;
 
     protected $fillable = [
-        'url', 'safe_exam_id',
+        'url', 'disabled', 'safe_exam_id',
     ];
 
     public function safe_exam()
