@@ -1,0 +1,10 @@
+<dict>
+    <key>active</key>
+    <true/>
+    <key>regex</key>
+    <false/>
+    <key>expression</key>
+    <string>SAFE_EXAM_URL</string>
+    <key>action</key>
+    <integer>1</integer>
+</dict>

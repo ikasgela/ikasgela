@@ -1,0 +1,32 @@
+<dict>
+    <key>active</key>
+    <true/>
+    <key>allowUserToChooseApp</key>
+    <false/>
+    <key>arguments</key>
+    <array></array>
+    <key>autostart</key>
+    <false/>
+    <key>description</key>
+    <string/>
+    <key>executable</key>
+    <string>SAFE_EXAM_APP_EXECUTABLE</string>
+    <key>iconInTaskbar</key>
+    <SAFE_EXAM_APP_ICON/>
+    <key>identifier</key>
+    <string/>
+    <key>originalName</key>
+    <string/>
+    <key>os</key>
+    <integer>1</integer>
+    <key>path</key>
+    <string>SAFE_EXAM_APP_PATH</string>
+    <key>runInBackground</key>
+    <false/>
+    <key>strongKill</key>
+    <SAFE_EXAM_APP_FORCE_CLOSE/>
+    <key>title</key>
+    <string>SAFE_EXAM_APP_TITLE</string>
+    <key>windowHandlingProcess</key>
+    <string/>
+</dict>
