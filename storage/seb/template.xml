@@ -1480,16 +1480,6 @@
                 <key>action</key>
                 <integer>1</integer>
             </dict>
-            <dict>
-                <key>active</key>
-                <true/>
-                <key>regex</key>
-                <false/>
-                <key>expression</key>
-                <string>SAFE_EXAM_URL</string>
-                <key>action</key>
-                <integer>1</integer>
-            </dict>
             SAFE_EXAM_ALLOWED_URLS
         </array>
         <key>urlFilterTrustedContent</key>
@@ -1501,7 +1491,6 @@
         <key>whitelistURLFilter</key>
         <string>
             ^.*?:\/\/((((SAFE_EXAM_HOST_REGEX)|(.*?\.SAFE_EXAM_HOST_REGEX)))|(((SAFE_EXAM_HOST_REGEX)|(.*?\.SAFE_EXAM_HOST_REGEX))\/.*?))(()|(\?.*?))$;
-            ^.*?:\/\/((((SAFE_EXAM_URL_REGEX)|(.*?\.SAFE_EXAM_URL_REGEX)))|(((SAFE_EXAM_URL_REGEX)|(.*?\.SAFE_EXAM_URL_REGEX))\/.*?))(()|(\?.*?))$;
             SAFE_EXAM_ALLOWED_URLS_REGEX
         </string>
         <key>zoomMode</key>

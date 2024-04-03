@@ -83,9 +83,6 @@ class SafeExamController extends Controller
 
         $xml = Str::replace("SAFE_EXAM_HOST_REGEX", preg_quote($this->get_domain(request()->getHost())), $xml);
         $xml = Str::replace("SAFE_EXAM_HOST", $this->get_domain(request()->getHost()), $xml);
-        $host = parse_url($safe_exam->url, PHP_URL_HOST);
-        $xml = Str::replace("SAFE_EXAM_URL_REGEX", preg_quote($this->get_domain($host)), $xml);
-        $xml = Str::replace("SAFE_EXAM_URL", $this->get_domain($host), $xml);
 
         $xml_allowed_apps = '';
         foreach ($safe_exam->allowed_apps()->get() as $app) {
