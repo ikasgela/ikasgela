@@ -88,4 +88,9 @@ class SafeExamController extends Controller
     {
         return view('safe_exam.exit');
     }
+
+    public function allowed(SafeExam $safe_exam)
+    {
+        return view('safe_exam.allowed', compact('safe_exam'));
+    }
 }

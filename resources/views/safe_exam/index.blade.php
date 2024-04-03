@@ -12,6 +12,7 @@
                 <th>{{ __('Course') }}</th>
                 <th colspan="2">{{ __('Token') }}</th>
                 <th colspan="2">{{ __('Quit password') }}</th>
+                <th>{{ __('Settings') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -60,6 +61,13 @@
                             </button>
                             {!! Form::close() !!}
                         </div>
+                    </td>
+                    <td>
+                        <a href="{{ route('safe_exam.allowed', [$curso->safe_exam?->id ?: App\Models\SafeExam::create(['curso_id' => $curso->id])->id]) }}"
+                           title="{{ __('Allowed apps and URLs') }}"
+                           class="btn btn-sm btn-light" role="button">
+                            <i class="fa-solid fa-clipboard-check"></i>
+                        </a>
                     </td>
                 </tr>
             @endforeach
