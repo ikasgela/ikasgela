@@ -3,16 +3,16 @@
 // resources/lang/es/tasks.php
 
 return [
-    'hidden' => 'Oculta|Ocultas',
-    'new' => 'Nueva|Nuevas',
-    'accepted' => 'Aceptada|Aceptadas',
+    'hidden' => 'Ezkutuan|Ezkutuan',
+    'new' => 'Berria|Berriak',
+    'accepted' => 'Onartua|Onartuak',
     'sent' => 'Bidalia|Bidaliak',
-    'reviewed' => 'Revisada|Revisadas',
-    'archived' => 'Archivada|Archivadas',
-    'finished' => 'Terminada|Terminadas',
-    'last' => 'Última|Últimas',
-    'completed' => 'Completada|Completadas',
-    'passed' => 'Superada|Superadas',
-    'not_passed' => 'No superada|No superadas',
-    'expired' => 'Caducada|Caducadas',
+    'reviewed' => 'Berrikusia|Berrikusiak',
+    'archived' => 'Artxibatuta|Artxibatutakoak',
+    'finished' => 'Amaitua|Amaituak',
+    'last' => 'Azkena|Azkenak',
+    'completed' => 'Osatua|Osatuak',
+    'passed' => 'Gainditua|Gaindituak',
+    'not_passed' => 'Gainditu gabea|Gainditu gabeak',
+    'expired' => 'Iraungita|Iraungitakoak',
 ];

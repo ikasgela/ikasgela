@@ -3,6 +3,6 @@
 // resources/lang/es/fechas.php
 
 return [
-    'remaining' => '{0}Falta menos de un día|{1}Falta un día|[2,*]Faltan :days días',
-    'expired' => 'Fecha límite superada',
+    'remaining' => '{0}Egun bat baino gutxiago geratzen da|{1}Egun bat geratzen da|[2,*]:days geratzen dira',
+    'expired' => 'Epea gainditu da',
 ];
