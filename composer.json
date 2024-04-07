@@ -1,6 +1,7 @@
 {
     "name": "ikasgela/ikasgela",
     "description": "ikasgela.com",
+    "version": "1.0.0",
     "keywords": [
         "ikasgela",
         "laravel"
