@@ -614,6 +614,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('users.limpiar_cache');
             Route::post('/cursos/{curso}/limpiar_cache', 'CursoController@limpiar_cache')
                 ->name('cursos.limpiar_cache');
+
+            // Ver diario de actividades
+            Route::get('/diario', 'ArchivoController@diario')
+                ->name('archivo.diario');
+            Route::post('/diario', 'ArchivoController@diario')
+                ->name('archivo.diario.usuario');
         });
 
         // Alumno, profesor y tutor
