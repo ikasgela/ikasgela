@@ -74,7 +74,7 @@ class Tarea extends Pivot
     public function tiempoDedicado()
     {
         $aceptada = Registro::where('tarea_id', $this->id)->where('estado', 20)->first();
-        $enviada = Registro::where('tarea_id', $this->id)->where('estado', 30)->first();
+        $enviada = Registro::where('tarea_id', $this->id)->whereIn('estado', [30, 64])->first();
 
         if (!is_null($aceptada)) {
             if (!is_null($enviada)) {
