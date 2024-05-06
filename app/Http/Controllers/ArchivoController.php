@@ -73,4 +73,17 @@ class ArchivoController extends Controller
 
         return $users;
     }
+
+    public function diario(Request $request)
+    {
+        $user = Auth::user();
+
+        $user = $this->filtrar_por_usuario($request, $user);
+
+        $actividades = $this->paginate_ultima($user->actividades(), 100);
+
+        $users = $this->usuarios_curso_actual($user);
+
+        return view('archivo.diario', compact(['actividades', 'user', 'users']));
+    }
 }

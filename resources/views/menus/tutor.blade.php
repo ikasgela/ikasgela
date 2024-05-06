@@ -29,5 +29,10 @@
                 <i class="c-sidebar-nav-icon fas fa-archive"></i> {{ __('Archived') }}
             </a>
         </li>
+        <li class="c-sidebar-nav-item">
+            <a class="c-sidebar-nav-link bg-dark" href="{{ route('archivo.diario') }}">
+                <i class="c-sidebar-nav-icon fas fa-scroll"></i> {{ __('Activity journal') }}
+            </a>
+        </li>
     </ul>
 </li>
