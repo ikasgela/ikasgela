@@ -28,6 +28,7 @@
                 <tr>
                     <th>{{ __('Unit') }}</th>
                     <th>{{ __('Name') }}</th>
+                    <th>{{ __('Start date') }}</th>
                     <th>{{ __('Elapsed time') }}</th>
                 </tr>
                 </thead>
@@ -50,6 +51,7 @@
                         <td class="align-middle">
                             @include('actividades.partials.nombre_con_etiquetas')
                         </td>
+                        <td>{{ $actividad->fecha_comienzo->isoFormat('L - LTS') }}</td>
                         <td>
                             @if ($loop->first)
                                 <span title="{{ $actividad->fecha_comienzo->isoFormat('L - LTS') }}">-</span>
