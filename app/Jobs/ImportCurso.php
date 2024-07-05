@@ -477,14 +477,13 @@ class ImportCurso implements ShouldQueue
     private function importarRepositorio(string $ruta, string $directorio, string $repositorio, string $organizacion, string $rama = 'master')
     {
         $path = $ruta . '/repositorios/' . $directorio;
-
-        $response = Terminal::in($path)
-            ->run('git push -f --set-upstream http://root:' . config('gitea.token') . '@gitea:3000/'
-                . $organizacion . '/' . $repositorio . '.git ' . $rama);
-
-        if (!$response->successful()) {
-            Log::error('Error al descargar repositorios mediante Git.', [
-                'output' => $response->lines()
+        try {
+            Terminal::in($path)
+                ->run('git push -f --set-upstream http://root:' . config('gitea.token') . '@gitea:3000/'
+                    . $organizacion . '/' . $repositorio . '.git ' . $rama);
+        } catch (\Exception $e) {
+            Log::error('Error al crear el repositorio.', [
+                'exception' => $e->getMessage(),
             ]);
         }
     }
