@@ -24,6 +24,7 @@ use App\Models\Unidad;
 use App\Models\User;
 use App\Models\YoutubeVideo;
 use App\Traits\TareaBienvenida;
+use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -532,6 +533,8 @@ class CursoController extends Controller
                 'curso_id' => $curso->id,
                 'repositorio' => "$slug_curso/$nombre_repositorio",
             ]));
+
+            GiteaClient::organization($slug_curso, 'root');
         }
 
         // Actividad "*" - "*" IntellijProject
