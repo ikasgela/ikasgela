@@ -535,6 +535,10 @@ class CursoController extends Controller
             ]));
 
             GiteaClient::organization($slug_curso, 'root');
+
+            $nombre_exportacion = Str::replace('/', '@', $objeto['repositorio']);
+
+            $this->importarRepositorio($ruta, $nombre_exportacion, $nombre_repositorio, $slug_curso);
         }
 
         // Actividad "*" - "*" IntellijProject
@@ -902,6 +906,21 @@ class CursoController extends Controller
             return response()->download($zip_path)->deleteFileAfterSend(true);
         } else {
             return "Failed to create the zip file.";
+        }
+    }
+
+    private function importarRepositorio(string $ruta, string $directorio, string $repositorio, string $organizacion, string $rama = 'master')
+    {
+        $path = $ruta . '/repositorios/' . $directorio;
+
+        $response = Terminal::in($path)
+            ->run('git push -f --set-upstream http://root:' . config('gitea.token') . '@gitea:3000/'
+                . $organizacion . '/' . $repositorio . '.git ' . $rama);
+
+        if (!$response->successful()) {
+            Log::error('Error al descargar repositorios mediante Git.', [
+                'output' => $response->lines()
+            ]);
         }
     }
 }
