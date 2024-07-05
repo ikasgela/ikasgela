@@ -865,9 +865,8 @@ class CursoController extends Controller
                     'output' => $response->lines()
                 ]);
             } else {
-                Log::debug('Descargando repositorios mediante Git.', [
-                    'output' => $response->lines()
-                ]);
+                Terminal::in($path . '/' . $repositorio['owner'] . '@' . $repositorio['name'])
+                    ->run('git remote remove origin');
             }
         }
     }
