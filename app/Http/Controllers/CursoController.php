@@ -435,7 +435,7 @@ class CursoController extends Controller
         // Curso
         $json = $this->cargarFichero($ruta, 'curso.json');
         $json['nombre'] .= '-' . bin2hex(openssl_random_pseudo_bytes(3));
-        $json['slug'] = Str::slug($json['nombre']);
+        $json['slug'] = $slug_curso = Str::slug($json['nombre']);
 
         // Curso -- Qualification
         $temp_curso_qualification_id = $json['qualification_id'];
@@ -522,8 +522,15 @@ class CursoController extends Controller
         // Curso -- "*" IntellijProject
         $json = $this->cargarFichero($ruta, 'intellij_projects.json');
         foreach ($json as $objeto) {
+            $nombre_repositorio = Str::replaceMatches(
+                pattern: '#^.*/#',
+                replace: '',
+                subject: $objeto['repositorio'],
+            );
+
             IntellijProject::create(array_merge($objeto, [
                 'curso_id' => $curso->id,
+                'repositorio' => "$slug_curso/$nombre_repositorio",
             ]));
         }
 
