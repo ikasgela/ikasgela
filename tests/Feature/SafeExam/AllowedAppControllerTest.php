@@ -3,8 +3,8 @@
 namespace Tests\Feature\SafeExam;
 
 use App\Models\AllowedApp;
-use App\Models\SafeExam;
 use App\Models\Curso;
+use App\Models\SafeExam;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 

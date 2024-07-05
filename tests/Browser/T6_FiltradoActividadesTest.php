@@ -4,7 +4,6 @@ namespace Tests\Browser;
 
 use App\Models\Actividad;
 use App\Models\Curso;
-use App\Models\Tarea;
 use App\Models\Unidad;
 use App\Models\User;
 use Laravel\Dusk\Browser;
