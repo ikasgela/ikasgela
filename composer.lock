@@ -175,16 +175,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.315.5",
+            "version": "3.315.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "3e6d619d45d8e1a8681dd58de61ddfe90e8341e6"
+                "reference": "69e19f7b083c5b5a06677b026e23dae517825c8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3e6d619d45d8e1a8681dd58de61ddfe90e8341e6",
-                "reference": "3e6d619d45d8e1a8681dd58de61ddfe90e8341e6",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/69e19f7b083c5b5a06677b026e23dae517825c8b",
+                "reference": "69e19f7b083c5b5a06677b026e23dae517825c8b",
                 "shasum": ""
             },
             "require": {
@@ -264,9 +264,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.315.5"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.315.6"
             },
-            "time": "2024-07-03T18:12:51+00:00"
+            "time": "2024-07-05T18:07:22+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -2712,16 +2712,16 @@
         },
         {
             "name": "ikasgela/laravel-gitea",
-            "version": "1.0.9",
+            "version": "1.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ikasgela/laravel-gitea.git",
-                "reference": "d8e9a1c0a05d0add6d46ebf925177bd5afab77ef"
+                "reference": "8d7d5034c773f5a01f154ffd0560dfc367ef8dbb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ikasgela/laravel-gitea/zipball/d8e9a1c0a05d0add6d46ebf925177bd5afab77ef",
-                "reference": "d8e9a1c0a05d0add6d46ebf925177bd5afab77ef",
+                "url": "https://api.github.com/repos/ikasgela/laravel-gitea/zipball/8d7d5034c773f5a01f154ffd0560dfc367ef8dbb",
+                "reference": "8d7d5034c773f5a01f154ffd0560dfc367ef8dbb",
                 "shasum": ""
             },
             "require": {
@@ -2762,7 +2762,7 @@
             ],
             "support": {
                 "issues": "https://github.com/ikasgela/laravel-gitea/issues",
-                "source": "https://github.com/ikasgela/laravel-gitea/tree/1.0.9"
+                "source": "https://github.com/ikasgela/laravel-gitea/tree/1.0.10"
             },
             "funding": [
                 {
@@ -2770,7 +2770,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-06-16T08:24:46+00:00"
+            "time": "2024-07-05T18:22:58+00:00"
         },
         {
             "name": "intervention/image",
