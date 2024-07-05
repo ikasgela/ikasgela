@@ -33,7 +33,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Log;
-use Zip;
+use TitasGailius\Terminal\Terminal;
 use ZipArchive;
 
 class CursoController extends Controller
@@ -244,6 +244,7 @@ class CursoController extends Controller
         // Crear el directorio temporal
         $directorio = '/' . Str::uuid() . '/';
         Storage::disk('temp')->makeDirectory($directorio);
+        Storage::disk('temp')->makeDirectory($directorio . '/repositorios/');
         $ruta = Storage::disk('temp')->path($directorio);
 
         // Curso
@@ -273,6 +274,8 @@ class CursoController extends Controller
 
         // IntellijProject
         $this->exportarFicheroJSON($ruta, 'intellij_projects.json', $curso->intellij_projects);
+
+        $this->exportarRepositorios($ruta, $curso);
 
         // Actividad "*" -- "*" IntellijProject
         $this->exportarRelacionJSON($ruta, $curso, 'intellij_project');
@@ -345,16 +348,6 @@ class CursoController extends Controller
         $fecha = now()->format('Ymd-His');
         $nombre = Str::slug($curso->full_name);
 
-        $ficheros = Storage::disk('temp')->files($directorio);
-
-        $ficheros_ruta_completa = [];
-        foreach ($ficheros as $fichero) {
-            array_push($ficheros_ruta_completa, Storage::disk('temp')->path($fichero));
-        }
-
-        // Almacenar el directorio para borrarlo al terminar con un evento
-        //session(['_delete_me' => $directorio]);
-
         dispatch(function () use ($directorio) {
             Log::debug('Borrando...', [
                 'directorio' => $directorio,
@@ -362,7 +355,7 @@ class CursoController extends Controller
             Storage::disk('temp')->deleteDirectory($directorio);
         })->afterResponse();
 
-        return Zip::create("ikasgela-{$nombre}-{$fecha}.zip", $ficheros_ruta_completa);
+        return $this->zipDirectoryWithSubdirs("ikasgela-{$nombre}-{$fecha}.zip", $directorio);
     }
 
     private function exportarFicheroJSON(string $ruta, string $fichero, $datos): void
@@ -852,5 +845,53 @@ class CursoController extends Controller
         }
 
         return back();
+    }
+
+    private function exportarRepositorios(string $ruta, Curso $curso)
+    {
+        $path = $ruta . '/repositorios/';
+
+        foreach ($curso->intellij_projects as $intellij_project) {
+
+            $repositorio = $intellij_project->repository_no_cache();
+
+            $response = Terminal::in($path)
+                ->run('git clone http://root:' . config('gitea.token') . '@gitea:3000/'
+                    . $repositorio['path_with_namespace'] . '.git '
+                    . $repositorio['owner'] . '@' . $repositorio['name']);
+
+            if (!$response->successful()) {
+                Log::error('Error al descargar repositorios mediante Git.', [
+                    'output' => $response->lines()
+                ]);
+            } else {
+                Log::debug('Descargando repositorios mediante Git.', [
+                    'output' => $response->lines()
+                ]);
+            }
+        }
+    }
+
+    public function zipDirectoryWithSubdirs(string $zip, string $directory)
+    {
+        $zip_path = Storage::disk('temp')->path($zip);
+
+        $zip = new ZipArchive();
+
+        if ($zip->open($zip_path, ZipArchive::CREATE) === TRUE) {
+
+            $files = Storage::disk('temp')->allFiles($directory);
+            foreach ($files as $file) {
+                $filePath = Storage::disk('temp')->path($file);
+                $relative_file = Str::replaceStart($directory, '', '/' . $file);
+                $zip->addFile($filePath, $relative_file);
+            }
+
+            $zip->close();
+
+            return response()->download($zip_path)->deleteFileAfterSend(true);
+        } else {
+            return "Failed to create the zip file.";
+        }
     }
 }
