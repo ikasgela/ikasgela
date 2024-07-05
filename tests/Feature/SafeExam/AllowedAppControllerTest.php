@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\SafeExam;
 
 use App\Models\AllowedApp;
 use App\Models\SafeExam;
