@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Curso;
 use App\Models\User;
 use App\Traits\TareaBienvenida;
+use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -166,6 +167,7 @@ class CursoController extends Controller
         */
 
         $curso->intellij_projects()->delete();
+        GiteaClient::borrar_organizacion($curso->slug);
         $curso->markdown_texts()->delete();
         $curso->youtube_videos()->delete();
         $curso->cuestionarios()->delete();
