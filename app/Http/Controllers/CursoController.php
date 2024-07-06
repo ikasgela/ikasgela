@@ -52,7 +52,7 @@ class CursoController extends Controller
             'plazo_actividad' => 'required',
         ]);
 
-        Curso::create([
+        $curso = Curso::create([
             'category_id' => request('category_id'),
             'nombre' => request('nombre'),
             'descripcion' => request('descripcion'),
@@ -75,6 +75,8 @@ class CursoController extends Controller
             'normalizar_nota' => $request->has('normalizar_nota'),
             'ajuste_proporcional_nota' => $request->input('ajuste_proporcional_nota'),
         ]);
+
+        GiteaClient::organization($curso->slug, 'root');
 
         return retornar();
     }
