@@ -12,6 +12,7 @@ class AllowedUrl extends Model
 
     protected $fillable = [
         'url', 'disabled', 'safe_exam_id',
+        '__import_id',
     ];
 
     public function safe_exam()

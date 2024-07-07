@@ -3,6 +3,8 @@
 namespace App\Jobs;
 
 use App\Models\Actividad;
+use App\Models\AllowedApp;
+use App\Models\AllowedUrl;
 use App\Models\Cuestionario;
 use App\Models\Curso;
 use App\Models\Feedback;
@@ -17,6 +19,7 @@ use App\Models\MarkdownText;
 use App\Models\Milestone;
 use App\Models\Pregunta;
 use App\Models\Qualification;
+use App\Models\SafeExam;
 use App\Models\Skill;
 use App\Models\Unidad;
 use App\Models\YoutubeVideo;
@@ -67,8 +70,10 @@ class ImportCurso implements ShouldQueue
             'feedback',
             'milestones',
             'link_collections', 'links',
+            'safe_exams', 'allowed_apps', 'allowed_urls'
         ];
 
+        // Añadir la columa __import_id a las tablas
         foreach ($import_ids as $import_id) {
             $this->addImportId($import_id);
         }
@@ -438,6 +443,31 @@ class ImportCurso implements ShouldQueue
             ]));
         }
 
+        // Curso -- SafeExam
+        $objeto = $this->cargarFichero($ruta, 'safe_exam.json');
+        SafeExam::create(array_merge($objeto, [
+            'curso_id' => $curso->id,
+        ]));
+
+        // SafeExam -- "*" AllowedApp
+        $json = $this->cargarFichero($ruta, 'safe_exam_allowed_apps.json');
+        foreach ($json as $objeto) {
+            $safe_exam = !is_null($objeto['safe_exam_id']) ? SafeExam::where('__import_id', $objeto['safe_exam_id'])->first() : null;
+            AllowedApp::create(array_merge($objeto, [
+                'safe_exam_id' => $safe_exam?->id,
+            ]));
+        }
+
+        // SafeExam -- "*" AllowedUrl
+        $json = $this->cargarFichero($ruta, 'safe_exam_allowed_urls.json');
+        foreach ($json as $objeto) {
+            $safe_exam = !is_null($objeto['safe_exam_id']) ? SafeExam::where('__import_id', $objeto['safe_exam_id'])->first() : null;
+            AllowedUrl::create(array_merge($objeto, [
+                'safe_exam_id' => $safe_exam?->id,
+            ]));
+        }
+
+        // Quitar la columa __import_id de las tablas
         foreach ($import_ids as $import_id) {
             $this->removeImportId($import_id);
         }

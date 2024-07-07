@@ -12,6 +12,7 @@ class AllowedApp extends Model
 
     protected $fillable = [
         'title', 'executable', 'path', 'show_icon', 'force_close', 'disabled', 'safe_exam_id',
+        '__import_id',
     ];
 
     public function safe_exam()
