@@ -232,6 +232,7 @@ class CursoController extends Controller
         $directorio = '/' . Str::uuid() . '/';
         Storage::disk('temp')->makeDirectory($directorio);
         Storage::disk('temp')->makeDirectory($directorio . '/repositorios/');
+        Storage::disk('temp')->makeDirectory($directorio . '/markdown/');
         $ruta = Storage::disk('temp')->path($directorio);
 
         // Curso
@@ -268,6 +269,7 @@ class CursoController extends Controller
 
         // MarkdownText
         $this->exportarFicheroJSON($ruta, 'markdown_texts.json', $curso->markdown_texts);
+        $this->exportarMarkdown($ruta, $curso);
 
         // Actividad "*" -- "*" MarkdownText
         $this->exportarRelacionJSON($ruta, $curso, 'markdown_text');
@@ -447,22 +449,35 @@ class CursoController extends Controller
         $path = $ruta . '/repositorios/';
 
         foreach ($curso->intellij_projects as $intellij_project) {
-
             $repositorio = $intellij_project->repository_no_cache();
+            $this->clonarRepositorio($path, $repositorio);
+        }
+    }
 
-            $response = Terminal::in($path)
-                ->run('git clone http://root:' . config('gitea.token') . '@gitea:3000/'
-                    . $repositorio['path_with_namespace'] . '.git '
-                    . $repositorio['owner'] . '@' . $repositorio['name']);
+    private function exportarMarkdown(string $ruta, Curso $curso)
+    {
+        $path = $ruta . '/markdown/';
 
-            if (!$response->successful()) {
-                Log::error('Error al descargar repositorios mediante Git.', [
-                    'output' => $response->lines()
-                ]);
-            } else {
-                Terminal::in($path . '/' . $repositorio['owner'] . '@' . $repositorio['name'])
-                    ->run('git remote remove origin');
-            }
+        foreach ($curso->markdown_texts as $markdown_text) {
+            $repositorio = GiteaClient::repo($markdown_text->repositorio);
+            $this->clonarRepositorio($path, $repositorio);
+        }
+    }
+
+    private function clonarRepositorio(string $path, array $repositorio): void
+    {
+        $response = Terminal::in($path)
+            ->run('git clone http://root:' . config('gitea.token') . '@gitea:3000/'
+                . $repositorio['path_with_namespace'] . '.git '
+                . $repositorio['owner'] . '@' . $repositorio['name']);
+
+        if (!$response->successful()) {
+            Log::error('Error al descargar repositorios mediante Git.', [
+                'output' => $response->lines()
+            ]);
+        } else {
+            Terminal::in($path . '/' . $repositorio['owner'] . '@' . $repositorio['name'])
+                ->run('git remote remove origin');
         }
     }
 
