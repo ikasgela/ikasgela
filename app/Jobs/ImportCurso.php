@@ -282,10 +282,29 @@ class ImportCurso implements ShouldQueue
         $json = $this->cargarFichero($ruta, 'file_resources_files.json');
         foreach ($json as $objeto) {
             $file_resource = !is_null($objeto['uploadable_id']) ? FileResource::where('__import_id', $objeto['uploadable_id'])->first() : null;
+
+            $fichero = Str::replaceMatches(
+                pattern: '#^.*/#',
+                replace: '',
+                subject: $objeto['path'],
+            );
+
+            $filename = md5(time()) . '/' . $fichero;
+
+            try {
+                Storage::disk('s3')->put('documents/' . $filename, file_get_contents($ruta . '/file_resources/' . $objeto['path']));
+            } catch (\Exception $e) {
+                Log::error('Error al crear el archivo.', [
+                    'exception' => $e->getMessage(),
+                ]);
+            }
+
             $file = File::create(array_merge($objeto, [
+                'path' => $filename,
                 'uploadable_id' => $file_resource->id,
                 'user_id' => null,
             ]));
+
             $file->orden = $file->id;
             $file->save();
         }
