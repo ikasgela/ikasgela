@@ -261,7 +261,6 @@ class CursoController extends Controller
 
         // IntellijProject
         $this->exportarFicheroJSON($ruta, 'intellij_projects.json', $curso->intellij_projects);
-
         $this->exportarRepositorios($ruta, $curso);
 
         // Actividad "*" -- "*" IntellijProject
