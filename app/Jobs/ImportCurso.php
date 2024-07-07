@@ -184,7 +184,7 @@ class ImportCurso implements ShouldQueue
 
             $nombre_exportacion = Str::replace('/', '@', $objeto['repositorio']);
 
-            $this->importarRepositorio($ruta, $nombre_exportacion, $nombre_repositorio, $slug_curso);
+            $this->importarRepositorio($ruta . '/repositorios/', $nombre_exportacion, $nombre_repositorio, $slug_curso);
         }
 
         // Actividad "*" - "*" IntellijProject
@@ -202,10 +202,25 @@ class ImportCurso implements ShouldQueue
 
         // Curso -- "*" MarkdownText
         $json = $this->cargarFichero($ruta, 'markdown_texts.json');
-        foreach ($json as $objeto) {
+        foreach ($json as $key => $objeto) {
+            $nombre_repositorio = Str::replaceMatches(
+                pattern: '#^.*/#',
+                replace: '',
+                subject: $objeto['repositorio'],
+            );
+
             MarkdownText::create(array_merge($objeto, [
                 'curso_id' => $curso->id,
+                'repositorio' => "$slug_curso/$nombre_repositorio",
             ]));
+
+            if ($key === array_key_first($json)) {
+                GiteaClient::organization($slug_curso, 'root');
+            }
+
+            $nombre_exportacion = Str::replace('/', '@', $objeto['repositorio']);
+
+            $this->importarRepositorio($ruta . '/markdown/', $nombre_exportacion, $nombre_repositorio, $slug_curso);
         }
 
         // Actividad "*" - "*" MarkdownText
@@ -476,7 +491,7 @@ class ImportCurso implements ShouldQueue
 
     private function importarRepositorio(string $ruta, string $directorio, string $repositorio, string $organizacion, string $rama = 'master')
     {
-        $path = $ruta . '/repositorios/' . $directorio;
+        $path = $ruta . $directorio;
         try {
             Terminal::in($path)
                 ->run('git push -f --set-upstream http://root:' . config('gitea.token') . '@gitea:3000/'
