@@ -285,6 +285,7 @@ class CursoController extends Controller
 
         // Files
         $this->exportarFicheroJSON($ruta, 'file_resources_files.json', $curso->file_resources_files->sortBy('orden'));
+        $this->exportarFileResources($directorio, $curso);
 
         // Actividad "*" -- "*" FileResources
         $this->exportarRelacionJSON($ruta, $curso, 'file_resource');
@@ -461,6 +462,21 @@ class CursoController extends Controller
         foreach ($curso->markdown_texts as $markdown_text) {
             $repositorio = GiteaClient::repo($markdown_text->repositorio);
             $this->clonarRepositorio($path, $repositorio);
+        }
+    }
+
+    private function exportarFileResources(string $directorio, Curso $curso)
+    {
+        $ruta = $directorio . '/file_resources/';
+        Storage::disk('temp')->makeDirectory($ruta);
+
+        foreach ($curso->file_resources as $file_resource) {
+            foreach ($file_resource->files as $file) {
+                $datos = Storage::disk('s3')->get('documents/' . $file->path);
+                if (isset($datos)) {
+                    Storage::disk('temp')->put($ruta . '/' . $file->path, $datos);
+                }
+            }
         }
     }
 
