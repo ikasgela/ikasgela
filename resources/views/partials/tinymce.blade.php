@@ -1,4 +1,4 @@
-<script src="{{ asset('/tinymce/tinymce.min.js?apiKey='.config('ikasgela.tinymce_apikey')) }}"></script>
+<script src="{{ asset('/tinymce/tinymce.min.js') }}"></script>
 
 <iframe id="frameUpload" name="frameUpload" style="display:none"></iframe>
 <form id="formUpload" target="frameUpload" method="post"

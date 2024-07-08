@@ -30,13 +30,13 @@ mix.js('resources/js/app.js', 'public/js')
     ], 'public/js/prism.js')
     .sourceMaps(false, 'source-map');
 
+mix.copyDirectory('node_modules/tinymce/icons', 'public/tinymce/icons');
+mix.copyDirectory('node_modules/tinymce/models', 'public/tinymce/models');
 mix.copyDirectory('node_modules/tinymce/plugins', 'public/tinymce/plugins');
 mix.copyDirectory('node_modules/tinymce/skins', 'public/tinymce/skins');
 mix.copyDirectory('node_modules/tinymce/themes', 'public/tinymce/themes');
-mix.copyDirectory('node_modules/tinymce/icons', 'public/tinymce/icons');
-mix.copy('node_modules/tinymce/jquery.tinymce.min.js', 'public/tinymce/jquery.tinymce.min.js');
 mix.copy('node_modules/tinymce/tinymce.min.js', 'public/tinymce/tinymce.min.js');
-mix.copyDirectory('node_modules/tinymce-i18n/langs5', 'public/tinymce/langs');
+mix.copyDirectory('node_modules/tinymce-i18n/langs7', 'public/tinymce/langs');
 
 mix.copy('node_modules/chart.js/dist/chart.min.js', 'public/js/chart.min.js');
 

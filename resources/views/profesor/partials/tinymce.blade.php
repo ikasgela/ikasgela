@@ -5,6 +5,8 @@
 <script>
     tinymce.init({
         selector: 'textarea#feedback',
+        license_key: 'gpl',
+        promotion: false,
         language: '{{ LaravelLocalization::getCurrentLocale() }}',
         plugins: "link image autolink emoticons lists hr codesample",
         default_link_target: "_blank",

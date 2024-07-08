@@ -3,6 +3,8 @@
 <script>
     tinymce.init({
         selector: 'textarea#mensaje',
+        license_key: 'gpl',
+        promotion: false,
         language: '{{ LaravelLocalization::getCurrentLocale() }}',
         plugins: "link image autolink emoticons lists hr codesample autosave",
         default_link_target: "_blank",
