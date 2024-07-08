@@ -33,6 +33,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -81,6 +82,9 @@ class ImportCurso implements ShouldQueue
         foreach ($import_ids as $import_id) {
             $this->addImportId($import_id);
         }
+
+        // Borrar la caché antes de importar
+        Cache::flush();
 
         // Curso
         $json = $this->cargarFichero($ruta, 'curso.json');
