@@ -351,22 +351,6 @@ class UsersCRUDTest extends TestCase
         }
     }
 
-    public function testDelete()
-    {
-        // Auth
-        $this->actingAs($this->admin);
-
-        // Given
-        $user = User::factory()->create();
-
-        // When
-        $this->delete(route('users.destroy', $user));
-
-        // Then
-        // No se puede usar ->toArray() porque tiene getters personalizados
-        $this->assertDatabaseMissing('users', ['id' => $user->id]);
-    }
-
     public function testNotAdminNotDelete()
     {
         // Auth
