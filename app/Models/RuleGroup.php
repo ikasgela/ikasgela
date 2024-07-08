@@ -18,6 +18,7 @@ class RuleGroup extends Model
 
     protected $fillable = [
         'operador', 'accion', 'resultado', 'selector_id',
+        '__import_id',
     ];
 
     public function selector()
