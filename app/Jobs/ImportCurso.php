@@ -487,41 +487,43 @@ class ImportCurso implements ShouldQueue
 
         // Curso -- "*" Selector
         $json = $this->cargarFichero($ruta, 'selectors.json');
-        foreach ($json as $objeto) {
-            Selector::create(array_merge($objeto, [
-                'curso_id' => $curso->id,
-            ]));
-        }
+        if (!is_null($json)) {
+            foreach ($json as $objeto) {
+                Selector::create(array_merge($objeto, [
+                    'curso_id' => $curso->id,
+                ]));
+            }
 
-        // Selector -- "*" RuleGroup
-        $json = $this->cargarFichero($ruta, 'selectors_rule_groups.json');
-        foreach ($json as $objeto) {
-            $selector = !is_null($objeto['selector_id']) ? Selector::where('__import_id', $objeto['selector_id'])->first() : null;
-            RuleGroup::create(array_merge($objeto, [
-                'selector_id' => $selector?->id,
-            ]));
-        }
+            // Selector -- "*" RuleGroup
+            $json = $this->cargarFichero($ruta, 'selectors_rule_groups.json');
+            foreach ($json as $objeto) {
+                $selector = !is_null($objeto['selector_id']) ? Selector::where('__import_id', $objeto['selector_id'])->first() : null;
+                RuleGroup::create(array_merge($objeto, [
+                    'selector_id' => $selector?->id,
+                ]));
+            }
 
-        // RuleGroup -- "*" Rule
-        $json = $this->cargarFichero($ruta, 'selectors_rules.json');
-        foreach ($json as $objeto) {
-            $rule_group = !is_null($objeto['rule_group_id']) ? RuleGroup::where('__import_id', $objeto['rule_group_id'])->first() : null;
-            Rule::create(array_merge($objeto, [
-                'rule_group_id' => $rule_group?->id,
-            ]));
-        }
+            // RuleGroup -- "*" Rule
+            $json = $this->cargarFichero($ruta, 'selectors_rules.json');
+            foreach ($json as $objeto) {
+                $rule_group = !is_null($objeto['rule_group_id']) ? RuleGroup::where('__import_id', $objeto['rule_group_id'])->first() : null;
+                Rule::create(array_merge($objeto, [
+                    'rule_group_id' => $rule_group?->id,
+                ]));
+            }
 
-        // Actividad "*" - "*" Selector
-        $json = $this->cargarFichero($ruta, 'actividad_selector.json');
-        foreach ($json as $objeto) {
-            $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
-            $selector = !is_null($objeto['selector_id']) ? Selector::where('__import_id', $objeto['selector_id'])->first() : null;
-            $actividad?->selectors()->attach($selector, [
-                'orden' => Str::orderedUuid(),
-                'titulo_visible' => $objeto['titulo_visible'],
-                'descripcion_visible' => $objeto['descripcion_visible'],
-                'columnas' => $objeto['columnas'],
-            ]);
+            // Actividad "*" - "*" Selector
+            $json = $this->cargarFichero($ruta, 'actividad_selector.json');
+            foreach ($json as $objeto) {
+                $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
+                $selector = !is_null($objeto['selector_id']) ? Selector::where('__import_id', $objeto['selector_id'])->first() : null;
+                $actividad?->selectors()->attach($selector, [
+                    'orden' => Str::orderedUuid(),
+                    'titulo_visible' => $objeto['titulo_visible'],
+                    'descripcion_visible' => $objeto['descripcion_visible'],
+                    'columnas' => $objeto['columnas'],
+                ]);
+            }
         }
 
         // Quitar la columa __import_id de las tablas
