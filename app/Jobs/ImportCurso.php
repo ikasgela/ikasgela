@@ -98,6 +98,9 @@ class ImportCurso implements ShouldQueue
         // Curso -- Qualification
         $temp_curso_qualification_id = $json['qualification_id'];
 
+        // Curso -- Tarea de bienvenida
+        $temp_tarea_bienvenida_id = $json['tarea_bienvenida_id'];
+
         // Curso
         $curso = Curso::create(array_merge($json, [
             'qualification_id' => null,
@@ -176,6 +179,11 @@ class ImportCurso implements ShouldQueue
         }
 
         Schema::enableForeignKeyConstraints();
+
+        // Curso -- Tarea de bienvenida
+        $actividad = !is_null($temp_tarea_bienvenida_id) ? Actividad::where('__import_id', $temp_tarea_bienvenida_id)->first() : null;
+        $curso->tarea_bienvenida_id = $actividad?->id;
+        $curso->save();
 
         // Curso -- "*" IntellijProject
         $json = $this->cargarFichero($ruta, 'intellij_projects.json');
