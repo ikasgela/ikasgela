@@ -340,6 +340,14 @@ class CursoController extends Controller
             $this->exportarFicheroJSON($ruta, 'safe_exam_allowed_urls.json', $curso->safe_exam->allowed_urls);
         }
 
+        // Selector
+        $this->exportarFicheroJSON($ruta, 'selectors.json', $curso->selectors);
+        $this->exportarFicheroJSON($ruta, 'selectors_rule_groups.json', $curso->rule_groups);
+        $this->exportarFicheroJSON($ruta, 'selectors_rules.json', $curso->rules);
+
+        // Actividad "*" -- "*" Selector
+        $this->exportarRelacionJSON($ruta, $curso, 'selector');
+
         // Crear el zip
         $fecha = now()->format('Ymd-His');
         $nombre = Str::slug($curso->full_name);
