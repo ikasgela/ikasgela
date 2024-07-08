@@ -206,6 +206,21 @@ class Curso extends Model
         return $this->hasManyThrough('App\Models\Link', 'App\Models\LinkCollection');
     }
 
+    public function selectors()
+    {
+        return $this->hasMany(Selector::class);
+    }
+
+    public function rule_groups()
+    {
+        return $this->hasManyThrough('App\Models\RuleGroup', 'App\Models\Selector');
+    }
+
+    public function rules()
+    {
+        return $this->hasManyDeep('App\Models\Rule', ['App\Models\Selector', 'App\Models\RuleGroup']);
+    }
+
     public function hilos()
     {
         return $this->hasMany(Hilo::class);

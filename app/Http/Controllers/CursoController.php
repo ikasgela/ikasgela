@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Curso;
 use App\Models\User;
 use App\Traits\TareaBienvenida;
+use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -51,7 +52,7 @@ class CursoController extends Controller
             'plazo_actividad' => 'required',
         ]);
 
-        Curso::create([
+        $curso = Curso::create([
             'category_id' => request('category_id'),
             'nombre' => request('nombre'),
             'descripcion' => request('descripcion'),
@@ -74,6 +75,8 @@ class CursoController extends Controller
             'normalizar_nota' => $request->has('normalizar_nota'),
             'ajuste_proporcional_nota' => $request->input('ajuste_proporcional_nota'),
         ]);
+
+        GiteaClient::organization($curso->slug, 'root');
 
         return retornar();
     }
@@ -166,6 +169,7 @@ class CursoController extends Controller
         */
 
         $curso->intellij_projects()->delete();
+        GiteaClient::borrar_organizacion($curso->slug);
         $curso->markdown_texts()->delete();
         $curso->youtube_videos()->delete();
         $curso->cuestionarios()->delete();
@@ -228,6 +232,7 @@ class CursoController extends Controller
         $directorio = '/' . Str::uuid() . '/';
         Storage::disk('temp')->makeDirectory($directorio);
         Storage::disk('temp')->makeDirectory($directorio . '/repositorios/');
+        Storage::disk('temp')->makeDirectory($directorio . '/markdown/');
         $ruta = Storage::disk('temp')->path($directorio);
 
         // Curso
@@ -257,7 +262,6 @@ class CursoController extends Controller
 
         // IntellijProject
         $this->exportarFicheroJSON($ruta, 'intellij_projects.json', $curso->intellij_projects);
-
         $this->exportarRepositorios($ruta, $curso);
 
         // Actividad "*" -- "*" IntellijProject
@@ -265,6 +269,7 @@ class CursoController extends Controller
 
         // MarkdownText
         $this->exportarFicheroJSON($ruta, 'markdown_texts.json', $curso->markdown_texts);
+        $this->exportarMarkdown($ruta, $curso);
 
         // Actividad "*" -- "*" MarkdownText
         $this->exportarRelacionJSON($ruta, $curso, 'markdown_text');
@@ -280,6 +285,7 @@ class CursoController extends Controller
 
         // Files
         $this->exportarFicheroJSON($ruta, 'file_resources_files.json', $curso->file_resources_files->sortBy('orden'));
+        $this->exportarFileResources($directorio, $curso);
 
         // Actividad "*" -- "*" FileResources
         $this->exportarRelacionJSON($ruta, $curso, 'file_resource');
@@ -326,6 +332,21 @@ class CursoController extends Controller
             }
         }
         $this->exportarFicheroJSON($ruta, 'feedbacks_actividades.json', $datos);
+
+        // SafeExam
+        if (isset($curso->safe_exam)) {
+            $this->exportarFicheroJSON($ruta, 'safe_exam.json', $curso->safe_exam);
+            $this->exportarFicheroJSON($ruta, 'safe_exam_allowed_apps.json', $curso->safe_exam->allowed_apps);
+            $this->exportarFicheroJSON($ruta, 'safe_exam_allowed_urls.json', $curso->safe_exam->allowed_urls);
+        }
+
+        // Selector
+        $this->exportarFicheroJSON($ruta, 'selectors.json', $curso->selectors);
+        $this->exportarFicheroJSON($ruta, 'selectors_rule_groups.json', $curso->rule_groups);
+        $this->exportarFicheroJSON($ruta, 'selectors_rules.json', $curso->rules);
+
+        // Actividad "*" -- "*" Selector
+        $this->exportarRelacionJSON($ruta, $curso, 'selector');
 
         // Crear el zip
         $fecha = now()->format('Ymd-His');
@@ -444,22 +465,50 @@ class CursoController extends Controller
         $path = $ruta . '/repositorios/';
 
         foreach ($curso->intellij_projects as $intellij_project) {
-
             $repositorio = $intellij_project->repository_no_cache();
+            $this->clonarRepositorio($path, $repositorio);
+        }
+    }
 
-            $response = Terminal::in($path)
-                ->run('git clone http://root:' . config('gitea.token') . '@gitea:3000/'
-                    . $repositorio['path_with_namespace'] . '.git '
-                    . $repositorio['owner'] . '@' . $repositorio['name']);
+    private function exportarMarkdown(string $ruta, Curso $curso)
+    {
+        $path = $ruta . '/markdown/';
 
-            if (!$response->successful()) {
-                Log::error('Error al descargar repositorios mediante Git.', [
-                    'output' => $response->lines()
-                ]);
-            } else {
-                Terminal::in($path . '/' . $repositorio['owner'] . '@' . $repositorio['name'])
-                    ->run('git remote remove origin');
+        foreach ($curso->markdown_texts as $markdown_text) {
+            $repositorio = GiteaClient::repo($markdown_text->repositorio);
+            $this->clonarRepositorio($path, $repositorio);
+        }
+    }
+
+    private function exportarFileResources(string $directorio, Curso $curso)
+    {
+        $ruta = $directorio . '/file_resources/';
+        Storage::disk('temp')->makeDirectory($ruta);
+
+        foreach ($curso->file_resources as $file_resource) {
+            foreach ($file_resource->files as $file) {
+                $datos = Storage::disk('s3')->get('documents/' . $file->path);
+                if (isset($datos)) {
+                    Storage::disk('temp')->put($ruta . '/' . $file->path, $datos);
+                }
             }
+        }
+    }
+
+    private function clonarRepositorio(string $path, array $repositorio): void
+    {
+        $response = Terminal::in($path)
+            ->run('git clone http://root:' . config('gitea.token') . '@gitea:3000/'
+                . $repositorio['path_with_namespace'] . '.git '
+                . $repositorio['owner'] . '@' . $repositorio['name']);
+
+        if (!$response->successful()) {
+            Log::error('Error al descargar repositorios mediante Git.', [
+                'output' => $response->lines()
+            ]);
+        } else {
+            Terminal::in($path . '/' . $repositorio['owner'] . '@' . $repositorio['name'])
+                ->run('git remote remove origin');
         }
     }
 

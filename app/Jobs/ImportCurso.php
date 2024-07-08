@@ -3,6 +3,8 @@
 namespace App\Jobs;
 
 use App\Models\Actividad;
+use App\Models\AllowedApp;
+use App\Models\AllowedUrl;
 use App\Models\Cuestionario;
 use App\Models\Curso;
 use App\Models\Feedback;
@@ -17,6 +19,10 @@ use App\Models\MarkdownText;
 use App\Models\Milestone;
 use App\Models\Pregunta;
 use App\Models\Qualification;
+use App\Models\Rule;
+use App\Models\RuleGroup;
+use App\Models\SafeExam;
+use App\Models\Selector;
 use App\Models\Skill;
 use App\Models\Unidad;
 use App\Models\YoutubeVideo;
@@ -27,6 +33,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -67,11 +74,17 @@ class ImportCurso implements ShouldQueue
             'feedback',
             'milestones',
             'link_collections', 'links',
+            'safe_exams', 'allowed_apps', 'allowed_urls',
+            'selectors', 'rule_groups', 'rules',
         ];
 
+        // Añadir la columa __import_id a las tablas
         foreach ($import_ids as $import_id) {
             $this->addImportId($import_id);
         }
+
+        // Borrar la caché antes de importar
+        Cache::flush();
 
         // Curso
         $json = $this->cargarFichero($ruta, 'curso.json');
@@ -84,6 +97,9 @@ class ImportCurso implements ShouldQueue
 
         // Curso -- Qualification
         $temp_curso_qualification_id = $json['qualification_id'];
+
+        // Curso -- Tarea de bienvenida
+        $temp_tarea_bienvenida_id = $json['tarea_bienvenida_id'];
 
         // Curso
         $curso = Curso::create(array_merge($json, [
@@ -164,6 +180,11 @@ class ImportCurso implements ShouldQueue
 
         Schema::enableForeignKeyConstraints();
 
+        // Curso -- Tarea de bienvenida
+        $actividad = !is_null($temp_tarea_bienvenida_id) ? Actividad::where('__import_id', $temp_tarea_bienvenida_id)->first() : null;
+        $curso->tarea_bienvenida_id = $actividad?->id;
+        $curso->save();
+
         // Curso -- "*" IntellijProject
         $json = $this->cargarFichero($ruta, 'intellij_projects.json');
         foreach ($json as $key => $objeto) {
@@ -184,7 +205,7 @@ class ImportCurso implements ShouldQueue
 
             $nombre_exportacion = Str::replace('/', '@', $objeto['repositorio']);
 
-            $this->importarRepositorio($ruta, $nombre_exportacion, $nombre_repositorio, $slug_curso);
+            $this->importarRepositorio($ruta . '/repositorios/', $nombre_exportacion, $nombre_repositorio, $slug_curso);
         }
 
         // Actividad "*" - "*" IntellijProject
@@ -202,10 +223,25 @@ class ImportCurso implements ShouldQueue
 
         // Curso -- "*" MarkdownText
         $json = $this->cargarFichero($ruta, 'markdown_texts.json');
-        foreach ($json as $objeto) {
+        foreach ($json as $key => $objeto) {
+            $nombre_repositorio = Str::replaceMatches(
+                pattern: '#^.*/#',
+                replace: '',
+                subject: $objeto['repositorio'],
+            );
+
             MarkdownText::create(array_merge($objeto, [
                 'curso_id' => $curso->id,
+                'repositorio' => "$slug_curso/$nombre_repositorio",
             ]));
+
+            if ($key === array_key_first($json)) {
+                GiteaClient::organization($slug_curso, 'root');
+            }
+
+            $nombre_exportacion = Str::replace('/', '@', $objeto['repositorio']);
+
+            $this->importarRepositorio($ruta . '/markdown/', $nombre_exportacion, $nombre_repositorio, $slug_curso);
         }
 
         // Actividad "*" - "*" MarkdownText
@@ -267,10 +303,29 @@ class ImportCurso implements ShouldQueue
         $json = $this->cargarFichero($ruta, 'file_resources_files.json');
         foreach ($json as $objeto) {
             $file_resource = !is_null($objeto['uploadable_id']) ? FileResource::where('__import_id', $objeto['uploadable_id'])->first() : null;
+
+            $fichero = Str::replaceMatches(
+                pattern: '#^.*/#',
+                replace: '',
+                subject: $objeto['path'],
+            );
+
+            $filename = md5(time()) . '/' . $fichero;
+
+            try {
+                Storage::disk('s3')->put('documents/' . $filename, file_get_contents($ruta . '/file_resources/' . $objeto['path']));
+            } catch (\Exception $e) {
+                Log::error('Error al crear el archivo.', [
+                    'exception' => $e->getMessage(),
+                ]);
+            }
+
             $file = File::create(array_merge($objeto, [
+                'path' => $filename,
                 'uploadable_id' => $file_resource->id,
                 'user_id' => null,
             ]));
+
             $file->orden = $file->id;
             $file->save();
         }
@@ -404,6 +459,72 @@ class ImportCurso implements ShouldQueue
             ]));
         }
 
+        // Curso -- SafeExam
+        $objeto = $this->cargarFichero($ruta, 'safe_exam.json');
+        if (!is_null($objeto)) {
+            SafeExam::create(array_merge($objeto, [
+                'curso_id' => $curso->id,
+            ]));
+
+            // SafeExam -- "*" AllowedApp
+            $json = $this->cargarFichero($ruta, 'safe_exam_allowed_apps.json');
+            foreach ($json as $objeto) {
+                $safe_exam = !is_null($objeto['safe_exam_id']) ? SafeExam::where('__import_id', $objeto['safe_exam_id'])->first() : null;
+                AllowedApp::create(array_merge($objeto, [
+                    'safe_exam_id' => $safe_exam?->id,
+                ]));
+            }
+
+            // SafeExam -- "*" AllowedUrl
+            $json = $this->cargarFichero($ruta, 'safe_exam_allowed_urls.json');
+            foreach ($json as $objeto) {
+                $safe_exam = !is_null($objeto['safe_exam_id']) ? SafeExam::where('__import_id', $objeto['safe_exam_id'])->first() : null;
+                AllowedUrl::create(array_merge($objeto, [
+                    'safe_exam_id' => $safe_exam?->id,
+                ]));
+            }
+        }
+
+        // Curso -- "*" Selector
+        $json = $this->cargarFichero($ruta, 'selectors.json');
+        foreach ($json as $objeto) {
+            Selector::create(array_merge($objeto, [
+                'curso_id' => $curso->id,
+            ]));
+        }
+
+        // Selector -- "*" RuleGroup
+        $json = $this->cargarFichero($ruta, 'selectors_rule_groups.json');
+        foreach ($json as $objeto) {
+            $selector = !is_null($objeto['selector_id']) ? Selector::where('__import_id', $objeto['selector_id'])->first() : null;
+            RuleGroup::create(array_merge($objeto, [
+                'selector_id' => $selector?->id,
+            ]));
+        }
+
+        // RuleGroup -- "*" Rule
+        $json = $this->cargarFichero($ruta, 'selectors_rules.json');
+        foreach ($json as $objeto) {
+            $rule_group = !is_null($objeto['rule_group_id']) ? RuleGroup::where('__import_id', $objeto['rule_group_id'])->first() : null;
+            Rule::create(array_merge($objeto, [
+                'rule_group_id' => $rule_group?->id,
+            ]));
+        }
+
+        // Actividad "*" - "*" Selector
+        $json = $this->cargarFichero($ruta, 'actividad_selector.json');
+        foreach ($json as $objeto) {
+            $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
+            $selector = !is_null($objeto['selector_id']) ? Selector::where('__import_id', $objeto['selector_id'])->first() : null;
+            $actividad?->selectors()->attach($selector, [
+                'orden' => Str::orderedUuid(),
+                'titulo_visible' => $objeto['titulo_visible'],
+                'descripcion_visible' => $objeto['descripcion_visible'],
+                'columnas' => $objeto['columnas'],
+            ]);
+        }
+
+        // Quitar la columa __import_id de las tablas
         foreach ($import_ids as $import_id) {
             $this->removeImportId($import_id);
         }
@@ -462,21 +583,24 @@ class ImportCurso implements ShouldQueue
         }
     }
 
-    private function cargarFichero(string $ruta, $fichero): array
+    private function cargarFichero(string $ruta, $fichero): array|null
     {
-        // Cargar el fichero
-        $path = $ruta . '/' . $fichero;
-        $json = json_decode(file_get_contents($path), true);
-        $json = $this->replaceKeys('id', '__import_id', $json);
-        $this->removeKey($json, 'created_at');
-        $this->removeKey($json, 'updated_at');
-        $this->removeKey($json, 'deleted_at');
+        try {
+            $path = $ruta . '/' . $fichero;
+            $json = json_decode(file_get_contents($path), true);
+            $json = $this->replaceKeys('id', '__import_id', $json);
+            $this->removeKey($json, 'created_at');
+            $this->removeKey($json, 'updated_at');
+            $this->removeKey($json, 'deleted_at');
+        } catch (\Exception $e) {
+            $json = null;
+        }
         return $json;
     }
 
     private function importarRepositorio(string $ruta, string $directorio, string $repositorio, string $organizacion, string $rama = 'master')
     {
-        $path = $ruta . '/repositorios/' . $directorio;
+        $path = $ruta . $directorio;
         try {
             Terminal::in($path)
                 ->run('git push -f --set-upstream http://root:' . config('gitea.token') . '@gitea:3000/'

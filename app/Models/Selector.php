@@ -20,6 +20,7 @@ class Selector extends Model
 
     protected $fillable = [
         'titulo', 'descripcion', 'curso_id',
+        '__import_id',
     ];
 
     public function actividades()
