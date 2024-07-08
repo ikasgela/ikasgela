@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\BorrarUsuario;
 use App\Models\Curso;
 use App\Models\Organization;
 use App\Models\Role;
@@ -11,7 +12,6 @@ use Carbon\Carbon;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Log;
 
@@ -191,33 +191,7 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        // Borrar el usuario de Gitea
-        if (config('ikasgela.gitea_enabled')) {
-            try {
-                GiteaClient::borrar_usuario($user->username);
-            } catch (\Exception $e) {
-                Log::error('Gitea: Error al borrar el usuario.', [
-                    'username' => $user->username,
-                    'exception' => $e->getMessage()
-                ]);
-            }
-        }
-
-        DB::table('settings')
-            ->where('user_id', '=', $user->id)
-            ->delete();
-
-        // Recorrer las actividades y borrarlas
-        foreach ($user->actividades()->get() as $actividad) {
-            $actividad->forceDelete();
-        }
-
-        foreach ($user->files as $file) {
-            $file->delete();
-        }
-
-        $user->delete();
-
+        BorrarUsuario::dispatch($user);
         return back();
     }
 
