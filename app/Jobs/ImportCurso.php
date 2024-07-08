@@ -445,26 +445,28 @@ class ImportCurso implements ShouldQueue
 
         // Curso -- SafeExam
         $objeto = $this->cargarFichero($ruta, 'safe_exam.json');
-        SafeExam::create(array_merge($objeto, [
-            'curso_id' => $curso->id,
-        ]));
-
-        // SafeExam -- "*" AllowedApp
-        $json = $this->cargarFichero($ruta, 'safe_exam_allowed_apps.json');
-        foreach ($json as $objeto) {
-            $safe_exam = !is_null($objeto['safe_exam_id']) ? SafeExam::where('__import_id', $objeto['safe_exam_id'])->first() : null;
-            AllowedApp::create(array_merge($objeto, [
-                'safe_exam_id' => $safe_exam?->id,
+        if (!is_null($objeto)) {
+            SafeExam::create(array_merge($objeto, [
+                'curso_id' => $curso->id,
             ]));
-        }
 
-        // SafeExam -- "*" AllowedUrl
-        $json = $this->cargarFichero($ruta, 'safe_exam_allowed_urls.json');
-        foreach ($json as $objeto) {
-            $safe_exam = !is_null($objeto['safe_exam_id']) ? SafeExam::where('__import_id', $objeto['safe_exam_id'])->first() : null;
-            AllowedUrl::create(array_merge($objeto, [
-                'safe_exam_id' => $safe_exam?->id,
-            ]));
+            // SafeExam -- "*" AllowedApp
+            $json = $this->cargarFichero($ruta, 'safe_exam_allowed_apps.json');
+            foreach ($json as $objeto) {
+                $safe_exam = !is_null($objeto['safe_exam_id']) ? SafeExam::where('__import_id', $objeto['safe_exam_id'])->first() : null;
+                AllowedApp::create(array_merge($objeto, [
+                    'safe_exam_id' => $safe_exam?->id,
+                ]));
+            }
+
+            // SafeExam -- "*" AllowedUrl
+            $json = $this->cargarFichero($ruta, 'safe_exam_allowed_urls.json');
+            foreach ($json as $objeto) {
+                $safe_exam = !is_null($objeto['safe_exam_id']) ? SafeExam::where('__import_id', $objeto['safe_exam_id'])->first() : null;
+                AllowedUrl::create(array_merge($objeto, [
+                    'safe_exam_id' => $safe_exam?->id,
+                ]));
+            }
         }
 
         // Quitar la columa __import_id de las tablas
@@ -526,15 +528,18 @@ class ImportCurso implements ShouldQueue
         }
     }
 
-    private function cargarFichero(string $ruta, $fichero): array
+    private function cargarFichero(string $ruta, $fichero): array|null
     {
-        // Cargar el fichero
-        $path = $ruta . '/' . $fichero;
-        $json = json_decode(file_get_contents($path), true);
-        $json = $this->replaceKeys('id', '__import_id', $json);
-        $this->removeKey($json, 'created_at');
-        $this->removeKey($json, 'updated_at');
-        $this->removeKey($json, 'deleted_at');
+        try {
+            $path = $ruta . '/' . $fichero;
+            $json = json_decode(file_get_contents($path), true);
+            $json = $this->replaceKeys('id', '__import_id', $json);
+            $this->removeKey($json, 'created_at');
+            $this->removeKey($json, 'updated_at');
+            $this->removeKey($json, 'deleted_at');
+        } catch (\Exception $e) {
+            $json = null;
+        }
         return $json;
     }
 

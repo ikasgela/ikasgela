@@ -334,9 +334,11 @@ class CursoController extends Controller
         $this->exportarFicheroJSON($ruta, 'feedbacks_actividades.json', $datos);
 
         // SafeExam
-        $this->exportarFicheroJSON($ruta, 'safe_exam.json', $curso->safe_exam);
-        $this->exportarFicheroJSON($ruta, 'safe_exam_allowed_apps.json', $curso->safe_exam->allowed_apps);
-        $this->exportarFicheroJSON($ruta, 'safe_exam_allowed_urls.json', $curso->safe_exam->allowed_urls);
+        if (isset($curso->safe_exam)) {
+            $this->exportarFicheroJSON($ruta, 'safe_exam.json', $curso->safe_exam);
+            $this->exportarFicheroJSON($ruta, 'safe_exam_allowed_apps.json', $curso->safe_exam->allowed_apps);
+            $this->exportarFicheroJSON($ruta, 'safe_exam_allowed_urls.json', $curso->safe_exam->allowed_urls);
+        }
 
         // Crear el zip
         $fecha = now()->format('Ymd-His');
