@@ -1,34 +1,41 @@
-<li class="c-sidebar-nav-title">{{ __('Student') }}</li>
-<li class="c-sidebar-nav-item">
-    <a class="c-sidebar-nav-link" href="{{ route('users.home') }}">
-        <i class="c-sidebar-nav-icon fas fa-home"></i> {{ __('Desktop') }}
-        @if( $alumno_actividades_asignadas > 0 )
-            <span class="badge badge-danger">{{ $alumno_actividades_asignadas }}</span>
-        @endif
-    </a>
-</li>
-<li class="c-sidebar-nav-item">
-    <a class="c-sidebar-nav-link" href="{{ route('messages') }}">
-        <i class="c-sidebar-nav-icon fas fa-comment"></i> {{ __('Tutorship') }}
-        @if( Auth::user()->newThreadsCount() > 0 )
-            <span class="badge badge-success">@include('messenger.unread-count')</span>
-        @endif
-    </a>
-</li>
-<li class="c-sidebar-nav-item">
-    <a class="c-sidebar-nav-link" href="{{ route('archivo.index') }}">
-        <i class="c-sidebar-nav-icon fas fa-archive"></i> {{ __('Archived') }}
-    </a>
-</li>
-@if(Auth::user()->curso_actual()?->progreso_visible && !Auth::user()->baja_ansiedad)
-    <li class="c-sidebar-nav-item">
-        <a class="c-sidebar-nav-link" href="{{ route('archivo.outline') }}">
-            <i class="c-sidebar-nav-icon fas fa-list"></i> {{ __('Course progress') }}
-        </a>
-    </li>
+@include('layouts.sidebar.nav-title', [
+    'text' => __('Student'),
+])
+@include('layouts.sidebar.nav-item', [
+    'route' => route('users.home'),
+    'text' => __('Desktop'),
+    'icon' => 'bi-house',
+])
+{{--
+@if( $alumno_actividades_asignadas > 0 )
+    <span class="badge badge-danger">{{ $alumno_actividades_asignadas }}</span>
 @endif
-<li class="c-sidebar-nav-item">
-    <a class="c-sidebar-nav-link" href="{{ route('results.index') }}">
-        <i class="c-sidebar-nav-icon fas fa-graduation-cap"></i> {{ __('Results') }}
-    </a>
-</li>
+--}}
+@include('layouts.sidebar.nav-item', [
+    'route' => route('messages'),
+    'text' => __('Tutorship'),
+    'icon' => 'bi-chat',
+])
+{{--
+@if( Auth::user()->newThreadsCount() > 0 )
+    <span class="badge badge-success">@include('messenger.unread-count')</span>
+@endif
+--}}
+@include('layouts.sidebar.nav-item', [
+    'route' => route('archivo.index'),
+    'text' => __('Archived'),
+    'icon' => 'bi-archive',
+])
+@if(Auth::user()->curso_actual()?->progreso_visible && !Auth::user()->baja_ansiedad)
+    @include('layouts.sidebar.nav-item', [
+        'route' => route('archivo.outline'),
+        'text' => __('Course progress'),
+        'icon' => 'bi-list-task',
+    ])
+@endif
+@include('layouts.sidebar.nav-item', [
+    'route' => route('results.index'),
+    'text' => __('Results'),
+    'icon' => 'bi-mortarboard',
+    'last' => true,
+])
