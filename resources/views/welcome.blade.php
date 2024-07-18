@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('partials.titular', ['titular' => __('Welcome')])
+    <h2>Welcome</h2>
 @endsection
