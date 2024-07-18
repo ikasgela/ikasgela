@@ -10,7 +10,7 @@
         "production": "mix --production"
     },
     "devDependencies": {
-        "bootstrap": "^4.6.0",
+        "bootstrap": "^5.3.3",
         "cross-env": "^7.0.3",
         "jquery": "^3.6.0",
         "laravel-mix": "^6.0.28",
@@ -22,11 +22,11 @@
         "sass-loader": "^12.1.0"
     },
     "dependencies": {
-        "@coreui/coreui": "^3.4.0",
         "@fancyapps/fancybox": "^3.5.7",
         "@fortawesome/fontawesome-free": "^6",
         "@popperjs/core": "^2.9.3",
         "axios": "^1.6.1",
+        "bootstrap-icons": "^1.11.3",
         "chart.js": "^3.5.1",
         "jquery-countdown": "^2.2.0",
         "perfect-scrollbar": "^1.5.2",

@@ -6,6 +6,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
 {{--    @vite(['resources/sass/app.scss', 'resources/js/app.js'])--}}
+    <link href="{{ asset('css/nunito.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css">
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    @yield('fancybox')
+    @yield('prismjs-css')
+    @stack('intellij-isforking')
 </head>
 <body class="d-flex flex-column h-100">
 
