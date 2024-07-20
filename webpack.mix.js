@@ -50,3 +50,9 @@ mix.copy('node_modules/chart.js/dist/chart.min.js', 'public/js/chart.min.js');
 
 mix.copy('node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.css', 'public/js/jquery.fancybox.min.css');
 mix.copy('node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.js', 'public/js/jquery.fancybox.min.js');
+
+mix.webpackConfig({
+    stats: {
+        children: false
+    }
+});
