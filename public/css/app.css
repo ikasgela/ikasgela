@@ -20208,15 +20208,15 @@ textarea.form-control-lg {
 }
 
 .hover-background-active {
-  background-color: #3490dc;
+  background-color: #5c6873;
 }
 
 .hover-background-active:hover {
-  background-color: #5c6873;
+  background-color: #3490dc;
 }
 
 .hover-background:hover {
-  background-color: #5c6873;
+  background-color: #3490dc;
 }
 
 .card-body h1, .h1 {

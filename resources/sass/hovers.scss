@@ -7,13 +7,13 @@
 }
 
 .hover-background-active {
-    background-color: $primary;
+    background-color: $gray-700;
 }
 
 .hover-background-active:hover {
-    background-color: $gray-700;
+    background-color: $primary;
 }
 
 .hover-background:hover {
-    background-color: $gray-700;
+    background-color: $primary;
 }
