@@ -1,5 +1,7 @@
 require('./bootstrap');
 
+require('./darkmode');
+
 require('jquery-countdown');
 
 // https://stackoverflow.com/a/17147973
