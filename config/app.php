@@ -163,6 +163,8 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         App\Providers\RecuentoActividadesProvider::class,
+
+        Spatie\Html\HtmlServiceProvider::class,
     ],
 
     /*

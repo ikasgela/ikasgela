@@ -53,6 +53,7 @@
         "mcamara/laravel-localization": "^2.0",
         "rap2hpoutre/laravel-log-viewer": "^2.0",
         "spatie/laravel-activitylog": "^4.0",
+        "spatie/laravel-html": "^3.11",
         "staudenmeir/eloquent-has-many-deep": "^1.7",
         "stechstudio/laravel-zipstream": "^4.4",
         "symfony/http-client": "^6.2",
