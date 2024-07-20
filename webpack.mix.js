@@ -46,7 +46,8 @@ mix.copyDirectory('node_modules/tinymce/themes', 'public/tinymce/themes');
 mix.copy('node_modules/tinymce/tinymce.min.js', 'public/tinymce/tinymce.min.js');
 mix.copyDirectory('node_modules/tinymce-i18n/langs7', 'public/tinymce/langs');
 
-mix.copy('node_modules/chart.js/dist/chart.min.js', 'public/js/chart.min.js');
+mix.copy('node_modules/chart.js/dist/chart.umd.js', 'public/js/chart.umd.js');
+mix.copy('node_modules/chart.js/dist/chart.umd.js.map', 'public/js/chart.umd.js.map');
 
 mix.copy('node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.css', 'public/js/jquery.fancybox.min.css');
 mix.copy('node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.js', 'public/js/jquery.fancybox.min.js');

@@ -359,7 +359,8 @@
     "/tinymce/langs/zh_MO.js": "/tinymce/langs/zh_MO.js",
     "/tinymce/langs/zh_SG.js": "/tinymce/langs/zh_SG.js",
     "/tinymce/langs/zh_TW.js": "/tinymce/langs/zh_TW.js",
-    "/js/chart.min.js": "/js/chart.min.js",
+    "/js/chart.umd.js": "/js/chart.umd.js",
+    "/js/chart.umd.js.map": "/js/chart.umd.js.map",
     "/js/jquery.fancybox.min.css": "/js/jquery.fancybox.min.css",
     "/js/jquery.fancybox.min.js": "/js/jquery.fancybox.min.js"
 }
