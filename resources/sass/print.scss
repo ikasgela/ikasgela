@@ -1,0 +1,33 @@
+// https://stackoverflow.com/a/48559492
+@media print {
+    .table td.bg-success {
+        background-color: $success !important;
+    }
+    .table td.bg-warning {
+        background-color: $warning !important;
+    }
+    .table td.bg-danger {
+        background-color: $danger !important;
+    }
+    .table td.bg-secondary {
+        background-color: $secondary !important;
+    }
+    .thead-dark th {
+        background-color: $dark !important;
+    }
+    .table tr.bg-secondary > th, td {
+        background-color: $secondary !important;
+    }
+}
+
+// https://github.com/asyraf9/bootstrap-sidebar/issues/10#issuecomment-69191324
+@media print {
+    .c-sidebar {
+        display: none;
+    }
+    .c-wrapper {
+        margin-left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+    }
+}
