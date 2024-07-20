@@ -5,22 +5,16 @@
     'route' => route('users.home'),
     'text' => __('Desktop'),
     'icon' => 'bi-house',
+    'badge_number' => $alumno_actividades_asignadas,
+    'badge_color' => 'danger',
 ])
-{{--
-@if( $alumno_actividades_asignadas > 0 )
-    <span class="badge badge-danger">{{ $alumno_actividades_asignadas }}</span>
-@endif
---}}
 @include('layouts.sidebar.nav-item', [
     'route' => route('messages'),
     'text' => __('Tutorship'),
     'icon' => 'bi-chat',
+    'badge_number' => Auth::user()->newThreadsCount(),
+    'badge_color' => 'success',
 ])
-{{--
-@if( Auth::user()->newThreadsCount() > 0 )
-    <span class="badge badge-success">@include('messenger.unread-count')</span>
-@endif
---}}
 @include('layouts.sidebar.nav-item', [
     'route' => route('archivo.index'),
     'text' => __('Archived'),
