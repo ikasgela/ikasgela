@@ -6,7 +6,7 @@
 
 @section('content')
 
-    <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
+    <div class="d-flex justify-content-between align-items-baseline mb-3">
         <div>
             <h1>{{ __('Desktop') }}
                 @include('partials.boton_recargar')
@@ -15,13 +15,12 @@
         <div>
             @if($alumno_actividades_asignadas > 0)
                 @if($alumno_actividades_asignadas == 1)
-                    <h2 class="text-muted font-xl">{{ __('You have one assigned activity') }}</h2>
+                    <h2 class="text-muted">{{ __('You have one assigned activity') }}</h2>
                 @else
-                    <h2 class="text-muted font-xl">{{ __('You have :count assigned activities', ['count' => $alumno_actividades_asignadas]) }}</h2>
+                    <h2 class="text-muted">{{ __('You have :count assigned activities', ['count' => $alumno_actividades_asignadas]) }}</h2>
                 @endif
             @elseif(is_null(Auth::user()->curso_actual()))
-                <h2 class="font-xl"><a class="text-danger"
-                                       href="{{ route('users.portada') }}">{{ __('No course selected') }}</a></h2>
+                <h2><a class="text-danger" href="{{ route('users.portada') }}">{{ __('No course selected') }}</a></h2>
             @endif
         </div>
     </div>
