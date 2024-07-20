@@ -1,11 +1,11 @@
 <div class="d-inline-flex align-items-center">
-    <span class="mr-2">{{ __('Need help?') }}</span>
+    <span class="me-2">{{ __('Need help?') }}</span>
 
-    {!! Form::open(['route' => ['messages.create-with-subject'], 'method' => 'POST']) !!}
+    {{ html()->form('POST', route('messages.create-with-subject'))->open() }}
 
-    {!! Form::button(__('Ask a question'), ['type' => 'submit', 'class' => 'btn btn-success']) !!}
+    {{ html()->submit(__('Ask a question'))->class('btn btn-success') }}
 
-    {!! Form::hidden('titulo', __('Activity') . ': ' . $actividad->unidad->nombre . ' » ' . $actividad->nombre) !!}
+    {{ html()->hidden('titulo', __('Activity') . ': ' . $actividad->pretty_name) }}
 
-    {!! Form::close() !!}
+    {{ html()->form()->close() }}
 </div>
