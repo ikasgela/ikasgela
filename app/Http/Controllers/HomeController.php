@@ -38,7 +38,8 @@ class HomeController extends Controller
             } else if ($user->hasAnyRole(['tutor'])) {
                 return redirect(route('tutor.index'));
             } else {
-                return redirect(route('users.home'));
+                //return redirect(route('users.home'));
+                return redirect(route('test'));
             }
         } else {
             return view('welcome');

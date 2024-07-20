@@ -8,7 +8,8 @@ use App\Http\Controllers\SafeExamController;
 Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['localeCookieRedirect', 'localizationRedirect']], function () {
 
     // Vista de prueba sin Form
-    Route::view('/test', 'test');
+    Route::view('/test', 'test')
+        ->name('test');
 
     // Página principal
     Route::get('/', 'HomeController@index')
