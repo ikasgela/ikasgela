@@ -14,7 +14,7 @@ $en_blanco = $total - $respondidas;
         </div>
     </div>
 
-    {!! Form::model($cuestionario, ['route' => ['cuestionarios.respuesta', $cuestionario->id], 'method' => 'PUT']) !!}
+    {{ html()->modelForm($cuestionario, 'PUT', route('cuestionarios.respuesta', $cuestionario->id))->open() }}
 
     @foreach($cuestionario->preguntas as $pregunta)
         <div class="card-body">
@@ -76,7 +76,7 @@ $en_blanco = $total - $respondidas;
         </div>
     @endif
 
-    {!! Form::close() !!}
+    {{ html()->closeModelForm() }}
 
 </div>
 
