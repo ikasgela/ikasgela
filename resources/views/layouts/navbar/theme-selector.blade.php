@@ -1,6 +1,6 @@
 <li class="nav-item dropdown">
     <button
-        class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center {{ $debug_text_color }}"
+        class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center text-{{ $debug_text_color }}"
         id="bd-theme"
         type="button"
         aria-expanded="false"
