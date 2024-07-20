@@ -10,6 +10,8 @@
 // Icons
 @import '~@fortawesome/fontawesome-free/css/all.min.css';
 
+@import 'hovers';
+
 .card-body h1, .h1 {
     @include font-size($h2-font-size);
 }

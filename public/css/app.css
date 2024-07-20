@@ -20199,6 +20199,26 @@ textarea.form-control-lg {
   content: "賈";
 }
 
+.hover-link {
+  text-decoration: none;
+}
+
+.hover-link:hover {
+  text-decoration: underline;
+}
+
+.hover-background-active {
+  background-color: #3490dc;
+}
+
+.hover-background-active:hover {
+  background-color: #5c6873;
+}
+
+.hover-background:hover {
+  background-color: #5c6873;
+}
+
 .card-body h1, .h1 {
   font-size: calc(1.3rem + 0.6vw);
 }
