@@ -21,7 +21,7 @@
         <tbody>
         @foreach($disponibles as $actividad)
             <tr class="table-cell-click" data-href="{{ route('actividades.preview', [$actividad->id]) }}">
-                <td class="p-0 pl-1 {{ $actividad->destacada ? 'bg-warning' : '' }}">&nbsp;</td>
+                <td class="p-0 ps-1 {{ $actividad->destacada ? 'bg-warning' : '' }}">&nbsp;</td>
                 <td>
                     <input type="checkbox"
                            data-chkbox-shiftsel="grupo2"

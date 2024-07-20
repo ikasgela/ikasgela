@@ -9,8 +9,8 @@
                 @endisset
                 @include('unidades.partials.nombre_con_etiquetas')
             </h5>
-            <p class="ml-5">{{ $unidad->descripcion }}</p>
-            <div class="ml-5 progress" style="height: 24px;">
+            <p class="ms-5">{{ $unidad->descripcion }}</p>
+            <div class="ms-5 progress" style="height: 24px;">
                 @php($hay_calificacion = $calificaciones->resultados_unidades[$unidad->id]->actividad > 0)
                 @php($porcentaje = $hay_calificacion ? round($calificaciones->resultados_unidades[$unidad->id]->tarea/$calificaciones->resultados_unidades[$unidad->id]->actividad*100) : 0)
                 <div
@@ -23,7 +23,7 @@
                 </div>
                 @if($hay_calificacion && $porcentaje<20)
                     <div
-                        class="progress-bar {{ $porcentaje > 0 ? 'bg-gray-200' : 'bg-warning w-100' }} text-left text-dark pl-2">
+                        class="progress-bar {{ $porcentaje > 0 ? 'bg-gray-200' : 'bg-warning w-100' }} text-left text-dark ps-2">
                         {{ formato_decimales($porcentaje) }}&thinsp;%
                     </div>
                 @endif

@@ -7,7 +7,7 @@ $en_blanco = $total - $respondidas;
 
 <div class="card">
     <div class="card-header d-flex justify-content-between">
-        <div><i class="fas fa-question-circle mr-2"></i>{{ $cuestionario->titulo }}</div>
+        <div><i class="fas fa-question-circle me-2"></i>{{ $cuestionario->titulo }}</div>
         <div>
             @include('partials.modificar_recursos', ['ruta' => 'cuestionarios'])
             @include('partials.editar_recurso', ['recurso' => $cuestionario, 'ruta' => 'cuestionarios'])

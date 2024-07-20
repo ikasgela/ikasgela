@@ -15,8 +15,8 @@
         <div>
             <h1>{{ __('Tutorship') }}
                 @if(!is_null($curso_actual))
-                    <a href="{{ route('messages.create') }}" class="btn btn-primary ml-3">
-                        <i class="fas fa-pencil-alt mr-1"></i> {{ __('Create new conversation') }}
+                    <a href="{{ route('messages.create') }}" class="btn btn-primary ms-3">
+                        <i class="fas fa-pencil-alt me-1"></i> {{ __('Create new conversation') }}
                     </a>
                 @endif
             </h1>
@@ -47,9 +47,9 @@
                aria-controls="pills-profile" aria-selected="true">
                 {{ trans_choice('messages.unread', 2) }}
                 @if($threads->count() > 0)
-                    <span class="ml-2 badge badge-success">{{ $threads->count() }}</span>
+                    <span class="ms-2 badge badge-success">{{ $threads->count() }}</span>
                 @else
-                    <span class="ml-2 badge badge-secondary">0</span>
+                    <span class="ms-2 badge badge-secondary">0</span>
                 @endif
             </a>
         </li>
@@ -57,7 +57,7 @@
             <a class="nav-link" id="pills-enviadas-tab" data-toggle="tab" href="#pills-enviadas" role="tab"
                aria-controls="pills-contact" aria-selected="false">
                 {{ trans_choice('messages.all', 2) }}
-                <span class="ml-2 badge badge-secondary">{{ $threads_all_count }}</span>
+                <span class="ms-2 badge badge-secondary">{{ $threads_all_count }}</span>
             </a>
         </li>
     </ul>

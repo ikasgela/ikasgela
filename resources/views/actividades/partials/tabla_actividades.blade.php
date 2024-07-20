@@ -27,7 +27,7 @@
         <tbody>
         @foreach($actividades as $actividad)
             <tr class="table-cell-click" data-href="{{ route('actividades.preview', [$actividad->id]) }}">
-                <td class="p-0 pl-1 {{ $actividad->destacada ? 'bg-warning' : '' }}">&nbsp;</td>
+                <td class="p-0 ps-1 {{ $actividad->destacada ? 'bg-warning' : '' }}">&nbsp;</td>
                 <td>
                     <input form="multiple"
                            data-chkbox-shiftsel="grupo1"
@@ -46,7 +46,7 @@
                                     form="multiple"
                                     type="submit"
                                     name="action" value="mm_{{ $actividad->id }}"
-                                    class="btn btn-light btn-sm mr-3">
+                                    class="btn btn-light btn-sm me-3">
                                 <i class="fas fa-arrow-right"></i>
                             </button>
                             {!! Form::open(['route' => ['actividades.reordenar', $ids[$loop->index], $ids[$loop->index-1] ?? -1], 'method' => 'POST']) !!}
@@ -61,7 +61,7 @@
                             <button title="{{ __('Down') }}"
                                     type="submit"
                                     {{ !isset($ids[$loop->index+1]) ? 'disabled' : '' }}
-                                    class="btn btn-light btn-sm ml-1">
+                                    class="btn btn-light btn-sm ms-1">
                                 <i class="fas fa-arrow-down"></i>
                             </button>
                             {!! Form::close() !!}
@@ -122,15 +122,15 @@
                     <button title="{{ __('Move') }}"
                             type="submit"
                             name="action" value="move"
-                            class="btn btn-light btn-sm mr-2"><i class="fas fa-file-import"></i>
+                            class="btn btn-light btn-sm me-2"><i class="fas fa-file-import"></i>
                     </button>
                     <button title="{{ __('Duplicate') }}"
                             type="submit"
                             name="action" value="duplicate"
-                            class="btn btn-light btn-sm mr-2"><i class="fas fa-copy"></i>
+                            class="btn btn-light btn-sm me-2"><i class="fas fa-copy"></i>
                     </button>
                     {{ __('to unit') }}
-                    <select class="form-control ml-2" id="unidad_id" name="unidad_id">
+                    <select class="form-control ms-2" id="unidad_id" name="unidad_id">
                         <option value="">{{ __('--- None ---') }}</option>
                         @foreach($todas_unidades as $unidad)
                             <option

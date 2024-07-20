@@ -1,7 +1,7 @@
 @isset($slug)
-    <span class="mr-2">{{ $actividad->unidad->slug.'/'.$actividad->slug }}</span>
+    <span class="me-2">{{ $actividad->unidad->slug.'/'.$actividad->slug }}</span>
 @else
-    <span class="mr-2">{{ $actividad->nombre }}</span>
+    <span class="me-2">{{ $actividad->nombre }}</span>
 @endif
 @foreach($actividad->etiquetas() as $etiqueta)
     @isset($ruta)

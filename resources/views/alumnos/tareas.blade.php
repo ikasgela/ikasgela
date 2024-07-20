@@ -36,7 +36,7 @@
                    id="pills-examen-tab" data-toggle="tab" href="#pills-examen" role="tab"
                    aria-controls="pills-contact" aria-selected="false">{{ __('Exam') }}
                     <span
-                        class="ml-2 badge badge-danger">{{ $user->num_actividades_en_curso_examen() }}</span>
+                        class="ms-2 badge badge-danger">{{ $user->num_actividades_en_curso_examen() }}</span>
                 </a>
             </li>
         @endif
@@ -47,7 +47,7 @@
                id="pills-en-curso-tab" data-toggle="tab" href="#pills-en-curso" role="tab"
                aria-controls="pills-profile" aria-selected="true">{{ __('In progress') }}
                 <span
-                    class="ml-2 badge {{ $user->num_actividades_en_curso_no_extra_examen() > 0 ? 'badge-danger' : 'badge-secondary' }}">{{ $user->num_actividades_en_curso_no_extra_examen() }}</span>
+                    class="ms-2 badge {{ $user->num_actividades_en_curso_no_extra_examen() > 0 ? 'badge-danger' : 'badge-secondary' }}">{{ $user->num_actividades_en_curso_no_extra_examen() }}</span>
             </a>
         </li>
         {{-- Extra --}}
@@ -58,7 +58,7 @@
                    id="pills-extra-tab" data-toggle="tab" href="#pills-extra" role="tab"
                    aria-controls="pills-contact" aria-selected="false">{{ __('Extra') }}
                     <span
-                        class="ml-2 badge badge-secondary">{{ $user->num_actividades_en_curso_extra() }}</span>
+                        class="ms-2 badge badge-secondary">{{ $user->num_actividades_en_curso_extra() }}</span>
                 </a>
             </li>
         @endif
@@ -67,7 +67,7 @@
             <a class="nav-link" id="pills-enviadas-tab" data-toggle="tab" href="#pills-enviadas" role="tab"
                aria-controls="pills-contact" aria-selected="false">{{ trans_choice('tasks.sent', 2) }}
                 <span
-                    class="ml-2 badge badge-secondary">{{ $user->num_actividades_en_curso_enviadas() }}</span>
+                    class="ms-2 badge badge-secondary">{{ $user->num_actividades_en_curso_enviadas() }}</span>
             </a>
         </li>
     </ul>

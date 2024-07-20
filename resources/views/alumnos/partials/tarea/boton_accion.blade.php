@@ -26,7 +26,7 @@
                             @if(!$actividad->auto_avance)
                                 <button type="submit" name="nuevoestado" value="30"
                                         onclick="return confirm('{{ __('Are you sure?') }}\n\n{{ __('This will submit the activity for review and show the next one if available.') }}')"
-                                        class="btn btn-primary mr-2 single_click">
+                                        class="btn btn-primary me-2 single_click">
                                     <i class="fas fa-spinner fa-spin"
                                        style="display:none;"></i> {{ __('Submit for review') }}</button>
                             @else
@@ -77,7 +77,7 @@
                 @endif
                 @if(config('app.debug'))
                     <button type="submit" name="nuevoestado" value="40"
-                            class="btn btn-success ml-3"> {{ __('Ok') }}
+                            class="btn btn-success ms-3"> {{ __('Ok') }}
                     </button>
                     <button type="submit" name="nuevoestado" value="41"
                             class="btn btn-danger"> {{ __('Error') }}

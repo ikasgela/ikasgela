@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between">
-        <div><i class="fas fa-file mr-2"></i>{{ __('Files') }}</div>
+        <div><i class="fas fa-file me-2"></i>{{ __('Files') }}</div>
         <div>
             @include('partials.ver_recurso', ['recurso' => $file_resource, 'ruta' => 'file_resources'])
             @include('partials.modificar_recursos', ['ruta' => 'file_resources'])

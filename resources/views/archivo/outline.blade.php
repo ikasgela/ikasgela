@@ -91,7 +91,7 @@
                             @if($minimo_entregadas > 0)
                                 <div class="row no-gutters">
                                     <div class="col text-muted small" style="flex: 0 0 10%;">0&thinsp;%</div>
-                                    <div class="col text-muted small text-right pr-1 border-right"
+                                    <div class="col text-muted small text-right pe-1 border-right"
                                          style="flex: 0 0 {{ $minimo_entregadas-10 }}%;">
                                         {{ $minimo_entregadas }}&thinsp;%
                                     </div>

@@ -34,7 +34,7 @@
                     <ul class="list-group">
                         @php($index = 0)
                         @foreach($skills_asignados as $skill)
-                            <li class="list-group-item ml-3">
+                            <li class="list-group-item ms-3">
                                 <div class="row form-inline">
                                     <div class="col-7 d-flex justify-content-start">
                                         <div class="form-check">
@@ -73,7 +73,7 @@
                                                 <button title="{{ __('Down') }}"
                                                         type="submit"
                                                         {{ !isset($ids[$index+1]) ? 'btn-light disabled' : '' }}
-                                                        class="btn {{ !isset($ids[$index+1]) ? 'btn-light' : 'btn-primary' }} btn-sm ml-1">
+                                                        class="btn {{ !isset($ids[$index+1]) ? 'btn-light' : 'btn-primary' }} btn-sm ms-1">
                                                     <i class="fas fa-arrow-down"></i>
                                                 </button>
                                                 <input type="hidden" name="a1" value="{{ $ids[$index] }}">
@@ -88,7 +88,7 @@
                         @endforeach
                     </ul>
                     <h5 class="mt-3">{{ __('Available') }}</h5>
-                    <ul class="list-group ml-3">
+                    <ul class="list-group ms-3">
                         @foreach($skills_disponibles as $skill)
                             <li class="list-group-item">
                                 <div class="row form-inline">

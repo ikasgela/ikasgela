@@ -42,7 +42,7 @@
                                         </div>
                                     </div>
                                     <div class="col-3 d-flex justify-content-end">
-                                        <input class="ml-3 form-control" type="number" min="0" max="100" step="1"
+                                        <input class="ms-3 form-control" type="number" min="0" max="100" step="1"
                                                name="percentage_{{ $skill->id }}"
                                                value="0"/>
                                     </div>

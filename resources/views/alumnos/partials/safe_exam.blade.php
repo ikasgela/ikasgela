@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="card-header text-dark bg-warning">
                     <span><i class="fas fa-exclamation-triangle"></i></span>
-                    <span class="ml-2">{{ __("Safe Exam Browser required") }}</span></span>
+                    <span class="ms-2">{{ __("Safe Exam Browser required") }}</span></span>
                 </div>
                 <div class="card-body">
                     <p>{{ __("Some of the tasks require Safe Exam Browser to access them.") }}</p>
@@ -20,7 +20,7 @@
             <div class="card">
                 <div class="card-header text-dark bg-warning">
                     <span><i class="fas fa-exclamation-triangle"></i></span>
-                    <span class="ml-2">{{ __("Safe Exam Browser") }}</span></span>
+                    <span class="ms-2">{{ __("Safe Exam Browser") }}</span></span>
                 </div>
                 <div class="card-body">
                     <p>{{ __("You are currently in a Safe Exam Browser session.") }}</p>

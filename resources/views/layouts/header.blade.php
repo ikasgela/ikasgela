@@ -13,10 +13,10 @@
     </button>
     @if(Auth::check())
         @include('layouts.partials.language_selector')
-        <ul class="c-header-nav mr-3">
+        <ul class="c-header-nav me-3">
             @auth
                 @if(Auth::user()->isImpersonated())
-                    <li class="c-header-nav-item mr-3">
+                    <li class="c-header-nav-item me-3">
                         <div class='btn-group'>
                             <a title="{{ __('Leave impersonation') }}"
                                href="{{ route('impersonate.leave') }}"
@@ -25,7 +25,7 @@
                     </li>
                 @endif
             @endauth
-            <li class="{{ config('app.debug') ? 'text-dark' : 'text-light' }} mr-2 d-sm-down-none">{{ Auth::user()->full_name }}</li>
+            <li class="{{ config('app.debug') ? 'text-dark' : 'text-light' }} me-2 d-sm-down-none">{{ Auth::user()->full_name }}</li>
             <li class="c-header-nav-item dropdown">
                 <a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button" title="{{ __('Settings') }}"
                    aria-haspopup="true"
@@ -42,26 +42,26 @@
                     @if(Auth::user()->hasAnyRole(['alumno','profesor']))
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('notifications.edit') }}">
-                        <span class="text-center ml-n2 mr-1" style="width: 1.5rem;">
+                        <span class="text-center ml-n2 me-1" style="width: 1.5rem;">
                             <i class="fas fa-bell text-primary"></i>
                         </span> {{ __('Notification settings') }}
                         </a>
                     @endif
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ url('/profile') }}">
-                        <span class="text-center ml-n2 mr-1" style="width: 1.5rem;">
+                        <span class="text-center ml-n2 me-1" style="width: 1.5rem;">
                             <i class="fas fa-user text-primary"></i>
                         </span> {{ __('Profile') }}
                     </a>
                     <a class="dropdown-item" href="{{ url('/password') }}">
-                        <span class="text-center ml-n2 mr-1" style="width: 1.5rem;">
+                        <span class="text-center ml-n2 me-1" style="width: 1.5rem;">
                         <i class="fas fa-key text-primary"></i>
                         </span> {{ __('Password') }}
                     </a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ route('logout') }}"
                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <span class="text-center ml-n2 mr-1" style="width: 1.5rem;">
+                        <span class="text-center ml-n2 me-1" style="width: 1.5rem;">
                             <i class="fas fa-sign-out-alt"></i>
                         </span> {{ __('Logout') }}
                     </a>
@@ -72,7 +72,7 @@
             </li>
         </ul>
     @else
-        <div class="c-header-nav ml-auto mr-2">
+        <div class="c-header-nav ml-auto me-2">
             @include('layouts.partials.language_selector')
         </div>
     @endif

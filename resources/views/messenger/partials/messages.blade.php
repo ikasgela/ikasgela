@@ -1,6 +1,6 @@
 <div class="media border rounded p-3 mb-3 bg-white">
     @include('users.partials.avatar', ['user' => $message->user, 'width' => 64])
-    <div class="media-body pl-3 overflow-auto">
+    <div class="media-body ps-3 overflow-auto">
         <h5 class="media-heading">
             <div class="d-flex justify-content-between">
                 <span>{{ $message->user?->name ?: __('Unknown user') }} {{ $message->user?->surname }}</span>

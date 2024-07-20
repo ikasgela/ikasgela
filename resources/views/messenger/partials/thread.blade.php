@@ -8,7 +8,7 @@
             @else
                 <i class="fas fa-exclamation-triangle"></i>
             @endif
-            <span class="ml-2">
+            <span class="ms-2">
                 {{ $thread->creator()?->name ?: __('Unknown user') }} {{ $thread->creator()?->surname }}
             </span>
         </span>

@@ -5,7 +5,7 @@
 
 <div class="card">
     <div class="card-header d-flex justify-content-between">
-        <div><i class="fas fa-file-upload mr-2"></i>{{ __('Image upload') }}</div>
+        <div><i class="fas fa-file-upload me-2"></i>{{ __('Image upload') }}</div>
         <div>
             @include('partials.modificar_recursos', ['ruta' => 'file_uploads'])
             @include('partials.editar_recurso', ['recurso' => $file_upload, 'ruta' => 'file_uploads'])
@@ -45,13 +45,13 @@
                                     <div class='btn-group'>
                                         {!! Form::open(['route' => ['files.rotate_left', $file->id], 'method' => 'POST']) !!}
                                         <button title="{{ __('Rotate left') }}"
-                                                type="submit" class="btn btn-light btn-sm mr-1">
+                                                type="submit" class="btn btn-light btn-sm me-1">
                                             <i class="fas fa-undo"></i>
                                         </button>
                                         {!! Form::close() !!}
                                         {!! Form::open(['route' => ['files.rotate_right', $file->id], 'method' => 'POST']) !!}
                                         <button title="{{ __('Rotate right') }}"
-                                                type="submit" class="btn btn-light btn-sm mr-1">
+                                                type="submit" class="btn btn-light btn-sm me-1">
                                             <i class="fas fa-undo fa-flip-horizontal"></i>
                                         </button>
                                         {!! Form::close() !!}

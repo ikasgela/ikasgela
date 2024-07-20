@@ -20,16 +20,16 @@
         <div>
             @switch($intellij_project->open_with)
                 @case('datagrip')
-                    <i class="fas fa-table mr-2"></i>{{ __('SQL project') }}
+                    <i class="fas fa-table me-2"></i>{{ __('SQL project') }}
                     @break
                 @case('idea')
-                    <i class="fab fa-java mr-2"></i>{{ __('Java project') }}
+                    <i class="fab fa-java me-2"></i>{{ __('Java project') }}
                     @break
                 @case('phpstorm')
-                    <i class="fa-brands fa-php mr-2"></i>{{ __('PHP project') }}
+                    <i class="fa-brands fa-php me-2"></i>{{ __('PHP project') }}
                     @break
                 @default
-                    <i class="fab fa-git-alt mr-2"></i>{{ __('Git repository') }}
+                    <i class="fab fa-git-alt me-2"></i>{{ __('Git repository') }}
             @endswitch
         </div>
         <div>
@@ -48,7 +48,7 @@
                    class="btn btn-primary single_click">
                     <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Clone the project') }}</a>
             @elseif($intellij_project->getForkStatus() == 1)
-                <a href="#" class="btn btn-primary disabled mr-3">
+                <a href="#" class="btn btn-primary disabled me-3">
                     <i class="fas fa-spinner fa-spin"></i> {{ __('Clone the project') }}
                 </a>
                 {{ __('Cloning, please wait...') }}

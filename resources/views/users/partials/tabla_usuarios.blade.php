@@ -57,7 +57,7 @@
                 <td colspan="100">
                     {{ __('Filter by tag') }}:
                     @foreach($etiquetas as $etiqueta)
-                        {!! '<a class="badge badge-secondary text-dark ml-2" href="'.route(explode('.',Route::currentRouteName())[0].'.index.filtro',['tag'=>$etiqueta]).'">'.$etiqueta.'</a>' !!}
+                        {!! '<a class="badge badge-secondary text-dark ms-2" href="'.route(explode('.',Route::currentRouteName())[0].'.index.filtro',['tag'=>$etiqueta]).'">'.$etiqueta.'</a>' !!}
                     @endforeach
                 </td>
             </tr>
@@ -69,10 +69,10 @@
                     <button title="{{ __('Enroll') }}"
                             type="submit"
                             name="action" value="enroll"
-                            class="btn btn-light btn-sm mr-2"><i class="fas fa-plus"></i>
+                            class="btn btn-light btn-sm me-2"><i class="fas fa-plus"></i>
                     </button>
                     {{ __('on course') }}
-                    <select class="form-control ml-2" id="curso_id" name="curso_id">
+                    <select class="form-control ms-2" id="curso_id" name="curso_id">
                         @foreach($cursos as $curso)
                             <option
                                 value="{{ $curso->id }}">{{ $curso->full_name }}</option>
@@ -101,7 +101,7 @@
                                 class="btn btn-light btn-sm"><i class="fas fa-trash text-danger"></i>
                         </button>
                     </div>
-                    <input type="text" class="form-control mr-2" size="30" name="tags" id="tags"
+                    <input type="text" class="form-control me-2" size="30" name="tags" id="tags"
                            placeholder="{{ __('Tags, separated by commas') }}"/>
                     <button title="{{ __('Add tags') }}"
                             type="submit"

@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between">
-        <div><i class="fas fa-code-branch mr-2"></i>{{ __('Selector') }}</div>
+        <div><i class="fas fa-code-branch me-2"></i>{{ __('Selector') }}</div>
         <div>
             @include('partials.ver_recurso', ['recurso' => $selector, 'ruta' => 'selectors'])
             @include('partials.modificar_recursos', ['ruta' => 'selectors'])

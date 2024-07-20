@@ -5,7 +5,7 @@
     <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
         <h1>{{ __('Group report') }}
             @if(config('ikasgela.excel_report_enabled'))
-                <a class="ml-3"
+                <a class="ms-3"
                    style="color:#1D6F42" {{-- https://www.schemecolor.com/microsoft-excel-logo-color.php --}}
                    title="{{ __('Export to an Excel file') }}"
                    href="{{ route('tutor.export') }}"><i class="fas fa-file-excel"></i>

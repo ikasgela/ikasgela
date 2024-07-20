@@ -7,7 +7,7 @@
             @if(config('ikasgela.pdf_report_enabled') && !Auth::user()->baja_ansiedad)
                 @if(!is_null($user->curso_actual()))
                     @if(!Auth::user()->hasAnyRole(['profesor', 'tutor']))
-                        <a class="ml-3"
+                        <a class="ms-3"
                            style="color:#ed2224" {{-- https://www.schemecolor.com/adobe-inc-logo-colors.php --}}
                            title="{{ __('Export to PDF') }}"
                            href="{{ route('results.pdf') }}"><i class="fas fa-file-pdf"></i>

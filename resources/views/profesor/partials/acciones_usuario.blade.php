@@ -1,11 +1,11 @@
 @if(Auth::user()?->hasRole('admin'))
-    <div class='btn-group ml-3'>
+    <div class='btn-group ms-3'>
         @include('users.partials.acciones')
     </div>
 @endif
 
 @if(Auth::user()?->hasAnyRole(['profesor', 'admin']))
-    <div class='btn-group ml-3'>
+    <div class='btn-group ms-3'>
         <a title="{{ __('Control panel') }}"
            href="{{ route('profesor.tareas', ['user' => $user->id]) }}"
            class='btn btn-light btn-sm'><i class="fas fa-tasks"></i></a>
