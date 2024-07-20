@@ -5,7 +5,7 @@
     <a class="navbar-brand {{ $debug_text_color }} m-0 text-start ps-3 text-md-center ps-md-0"
        style="width: 15rem;"
        href="{{ route('portada') }}">
-        {{ config('app.name', 'Laravel') }}
+        @include('partials.logos')
     </a>
     <button class="navbar-toggler border-0" type="button"
             data-bs-toggle="collapse"
