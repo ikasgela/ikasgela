@@ -77,7 +77,7 @@
                         data-bs-toggle="tab" type="button" role="tab"
                         aria-selected="{{ $is_extra_active ? 'true' : 'false' }}">
                     <span>{{ __('Extra') }}</span>
-                    <span class="ms-2 badge bg-dark-subtle fw-light">
+                    <span class="ms-2 badge bg-dark-subtle text-body fw-light">
                         {{ $user->num_actividades_en_curso_extra() }}
                     </span>
                 </button>
@@ -90,7 +90,7 @@
                     data-bs-toggle="tab" type="button" role="tab"
                     aria-selected="false">
                 <span>{{ trans_choice('tasks.sent', 2) }}</span>
-                <span class="ms-2 badge bg-dark-subtle fw-light">
+                <span class="ms-2 badge bg-dark-subtle text-body fw-light">
                     {{ $user->num_actividades_en_curso_enviadas() }}
                 </span>
             </button>
