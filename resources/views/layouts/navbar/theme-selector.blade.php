@@ -7,17 +7,15 @@
         data-bs-toggle="dropdown"
         data-bs-display="static"
         aria-label="Toggle theme (auto)">
-        <i class="bi bi-circle-half me-1 theme-icon-active">
-            <use href="#circle-half"></use>
-        </i>
+        <i class="bi me-1 theme-icon-active"></i>
         <span class="d-md-none ms-2" id="bd-theme-text">{{ __('Toggle theme') }}</span>
     </button>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
         <li>
             <button type="button" class="dropdown-item d-flex align-items-center"
                     data-bs-theme-value="light" aria-pressed="false">
-                <i class="bi bi-circle-half me-2 theme-icon">
-                    <use href="#sun-fill"></use>
+                <i class="bi bi-sun-fill me-2 theme-icon">
+                    <use data-icon="bi-sun-fill"></use>
                 </i>
                 {{ __('Light') }}
             </button>
@@ -26,7 +24,7 @@
             <button type="button" class="dropdown-item d-flex align-items-center"
                     data-bs-theme-value="dark" aria-pressed="false">
                 <i class="bi bi-moon-stars-fill me-2 theme-icon">
-                    <use href="#moon-stars-fill"></use>
+                    <use data-icon="bi-moon-stars-fill"></use>
                 </i>
                 {{ __('Dark') }}
             </button>
@@ -35,7 +33,7 @@
             <button type="button" class="dropdown-item d-flex align-items-center active"
                     data-bs-theme-value="auto" aria-pressed="false">
                 <i class="bi bi-circle-half me-2 theme-icon">
-                    <use href="#circle-half"></use>
+                    <use data-icon="bi-circle-half"></use>
                 </i>
                 {{ __('Auto') }}
             </button>

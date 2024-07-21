@@ -3254,13 +3254,15 @@ if (token) {
       return;
     }
     var themeSwitcherText = document.querySelector('#bd-theme-text');
-    var activeThemeIcon = document.querySelector('.theme-icon-active use');
+    var activeThemeIcon = document.querySelector('.theme-icon-active');
     var btnToActive = document.querySelector("[data-bs-theme-value=\"".concat(theme, "\"]"));
-    var svgOfActiveBtn = btnToActive.querySelector('i use').getAttribute('href');
+    var svgOfActiveBtn = btnToActive.querySelector('i use').getAttribute('data-icon');
     document.querySelectorAll('[data-bs-theme-value]').forEach(function (element) {
       element.classList.remove('active');
       element.setAttribute('aria-pressed', 'false');
     });
+    activeThemeIcon.className = "bi me-1 theme-icon-active";
+    activeThemeIcon.classList.add(svgOfActiveBtn);
     btnToActive.classList.add('active');
     btnToActive.setAttribute('aria-pressed', 'true');
     activeThemeIcon.setAttribute('href', svgOfActiveBtn);
