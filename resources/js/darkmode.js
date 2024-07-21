@@ -39,7 +39,7 @@
         const themeSwitcherText = document.querySelector('#bd-theme-text')
         const activeThemeIcon = document.querySelector('.theme-icon-active')
         const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
-        const svgOfActiveBtn = btnToActive.querySelector('i use').getAttribute('data-icon')
+        const svgOfActiveBtn = btnToActive.querySelector('i').getAttribute('data-icon')
 
         document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
             element.classList.remove('active')

@@ -3256,7 +3256,7 @@ if (token) {
     var themeSwitcherText = document.querySelector('#bd-theme-text');
     var activeThemeIcon = document.querySelector('.theme-icon-active');
     var btnToActive = document.querySelector("[data-bs-theme-value=\"".concat(theme, "\"]"));
-    var svgOfActiveBtn = btnToActive.querySelector('i use').getAttribute('data-icon');
+    var svgOfActiveBtn = btnToActive.querySelector('i').getAttribute('data-icon');
     document.querySelectorAll('[data-bs-theme-value]').forEach(function (element) {
       element.classList.remove('active');
       element.setAttribute('aria-pressed', 'false');
