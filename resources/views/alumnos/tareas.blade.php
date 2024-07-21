@@ -27,90 +27,121 @@
 
     @include('alumnos.partials.safe_exam')
 
-    <ul class="nav nav-tabs" id="pills-tab" role="tablist">
+    <ul class="nav nav-tabs" id="tab" role="tablist">
         {{-- Examen --}}
         @if($user->num_actividades_en_curso_examen() > 0)
-            <li class="nav-item">
-                <a class="nav-link {{ $user->num_actividades_en_curso_examen() > 0 ? 'active' : '' }}"
-                   id="pills-examen-tab" data-toggle="tab" href="#pills-examen" role="tab"
-                   aria-controls="pills-contact" aria-selected="false">{{ __('Exam') }}
-                    <span
-                        class="ms-2 badge badge-danger">{{ $user->num_actividades_en_curso_examen() }}</span>
-                </a>
+            <li class="nav-item" role="presentation">
+                @php
+                    $is_examen_active = $user->num_actividades_en_curso_examen() > 0;
+                @endphp
+                <button class="nav-link {{ $is_examen_active ? 'active' : '' }} d-flex align-items-center"
+                        id="examen-tab" data-bs-target="#examen-tab-pane" aria-controls="examen-tab-pane"
+                        data-bs-toggle="tab" type="button" role="tab"
+                        aria-selected="{{ $is_examen_active ? 'true' : 'false' }}">
+                    <span>{{ __('Exam') }}</span>
+                    <span class="ms-2 badge bg-danger text-light fw-light">
+                        {{ $user->num_actividades_en_curso_examen() }}
+                    </span>
+                </button>
             </li>
         @endif
         {{-- En curso --}}
-        <li class="nav-item">
-            <a class="nav-link {{ $user->num_actividades_en_curso_examen() > 0 ? '' : ($user->num_actividades_en_curso_no_extra_examen() > 0 ? 'active' : '') }}
-            {{ $user->num_actividades_en_curso_examen() == 0 && $user->num_actividades_en_curso_extra() == 0 ? 'active':'' }}"
-               id="pills-en-curso-tab" data-toggle="tab" href="#pills-en-curso" role="tab"
-               aria-controls="pills-profile" aria-selected="true">{{ __('In progress') }}
-                <span
-                    class="ms-2 badge {{ $user->num_actividades_en_curso_no_extra_examen() > 0 ? 'badge-danger' : 'badge-secondary' }}">{{ $user->num_actividades_en_curso_no_extra_examen() }}</span>
-            </a>
+        <li class="nav-item" role="presentation">
+            @php
+                $is_en_curso_active = !($user->num_actividades_en_curso_examen() > 0) && $user->num_actividades_en_curso_no_extra_examen() > 0
+                                        || $user->num_actividades_en_curso_examen() == 0 && $user->num_actividades_en_curso_extra() == 0;
+            @endphp
+            <button class="nav-link {{ $is_en_curso_active ? 'active' : '' }} d-flex align-items-center"
+                    id="en-curso-tab" data-bs-target="#en-curso-tab-pane" aria-controls="en-curso-tab-pane"
+                    data-bs-toggle="tab" type="button" role="tab"
+                    aria-selected="{{ $is_en_curso_active ? 'true' : 'false' }}">
+                <span>{{ __('In progress') }}</span>
+                @php
+                    $badge_style = $user->num_actividades_en_curso_no_extra_examen() > 0 ? 'bg-danger text-light' : 'bg-dark-subtle';
+                @endphp
+                <span class="ms-2 badge {{ $badge_style }} fw-light">
+                    {{ $user->num_actividades_en_curso_no_extra_examen() }}
+                </span>
+            </button>
         </li>
         {{-- Extra --}}
         @if($user->num_actividades_en_curso_extra() > 0)
-            <li class="nav-item">
-                <a class="nav-link
-                   {{ $user->num_actividades_en_curso_examen() == 0 && $user->num_actividades_en_curso_no_extra_examen() == 0 && $user->num_actividades_en_curso_extra() > 0 ? 'active' : '' }}"
-                   id="pills-extra-tab" data-toggle="tab" href="#pills-extra" role="tab"
-                   aria-controls="pills-contact" aria-selected="false">{{ __('Extra') }}
-                    <span
-                        class="ms-2 badge badge-secondary">{{ $user->num_actividades_en_curso_extra() }}</span>
-                </a>
+            <li class="nav-item" role="presentation">
+                @php
+                    $is_extra_active = $user->num_actividades_en_curso_examen() == 0
+                                        && $user->num_actividades_en_curso_no_extra_examen() == 0
+                                        && $user->num_actividades_en_curso_extra() > 0;
+                @endphp
+                <button class="nav-link {{ $is_extra_active ? 'active' : '' }} d-flex align-items-center"
+                        id="extra-tab" data-bs-target="#extra-tab-pane" aria-controls="extra-tab-pane"
+                        data-bs-toggle="tab" type="button" role="tab"
+                        aria-selected="{{ $is_extra_active ? 'true' : 'false' }}">
+                    <span>{{ __('Extra') }}</span>
+                    <span class="ms-2 badge bg-dark-subtle fw-light">
+                        {{ $user->num_actividades_en_curso_extra() }}
+                    </span>
+                </button>
             </li>
         @endif
         {{-- Enviadas --}}
-        <li class="nav-item">
-            <a class="nav-link" id="pills-enviadas-tab" data-toggle="tab" href="#pills-enviadas" role="tab"
-               aria-controls="pills-contact" aria-selected="false">{{ trans_choice('tasks.sent', 2) }}
-                <span
-                    class="ms-2 badge badge-secondary">{{ $user->num_actividades_en_curso_enviadas() }}</span>
-            </a>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link d-flex align-items-center"
+                    id="enviadas-tab" data-bs-target="#enviadas-tab-pane" aria-controls="enviadas-tab-pane"
+                    data-bs-toggle="tab" type="button" role="tab"
+                    aria-selected="false">
+                <span>{{ trans_choice('tasks.sent', 2) }}</span>
+                <span class="ms-2 badge bg-dark-subtle fw-light">
+                    {{ $user->num_actividades_en_curso_enviadas() }}
+                </span>
+            </button>
         </li>
     </ul>
-    <div class="tab-content border-bottom border-left border-right" id="pills-tab-content">
+    <div class="tab-content border-bottom border-left border-right" id="tab-content">
         {{-- Examen --}}
         @if($user->num_actividades_en_curso_examen() > 0)
-            <div
-                class="tab-pane fade {{ $user->num_actividades_en_curso_examen() > 0 ? 'show active' : '' }}"
-                id="pills-examen" role="tabpanel" aria-labelledby="pills-examen-tab">
+            <div class="tab-pane fade {{ $is_examen_active ? 'show active' : '' }}"
+                 id="examen-tab-pane" aria-labelledby="examen-tab"
+                 role="tabpanel">
                 <div class="p-3">
-                    @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_examen()->get(),
-                    'mensaje_ninguna' => __('There are no exam activities in progress.')
+                    @include('alumnos.partials.panel_actividades', [
+                        'actividades' => $user->actividades_en_curso_examen()->get(),
+                        'mensaje_ninguna' => __('There are no exam activities in progress.')
                     ])
                 </div>
             </div>
         @endif
         {{-- En curso --}}
-        <div
-            class="tab-pane fade {{ $user->num_actividades_en_curso_examen() > 0 ? '' : ($user->num_actividades_en_curso_no_extra_examen() > 0 ? 'show active' : '') }}
-            {{ $user->num_actividades_en_curso_examen() == 0 && $user->num_actividades_en_curso_extra() == 0 ? 'show active':'' }}"
-            id="pills-en-curso" role="tabpanel" aria-labelledby="pills-en-curso-tab">
+        <div class="tab-pane fade {{ $is_en_curso_active ? 'show active' : '' }}"
+             id="en-curso-tab-pane" aria-labelledby="en-curso-tab"
+             role="tabpanel">
             <div class="p-3">
-                @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_no_extra_examen()->get(),
-                'mensaje_ninguna' => __('There are no activities in progress.')
+                @include('alumnos.partials.panel_actividades', [
+                    'actividades' => $user->actividades_en_curso_no_extra_examen()->get(),
+                    'mensaje_ninguna' => __('There are no activities in progress.')
                 ])
             </div>
         </div>
         {{-- Extra --}}
         @if($user->num_actividades_en_curso_extra() > 0)
-            <div
-                class="tab-pane fade {{ $user->num_actividades_en_curso_examen() == 0 && $user->num_actividades_en_curso_no_extra_examen() == 0 && $user->num_actividades_en_curso_extra() > 0 ? 'show active' : '' }}"
-                id="pills-extra" role="tabpanel" aria-labelledby="pills-extra-tab">
+            <div class="tab-pane fade {{ $is_extra_active ? 'show active' : '' }}"
+                 id="extra-tab-pane" aria-labelledby="extra-tab"
+                 role="tabpanel">
                 <div class="p-3">
-                    @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_extra()->get(),
-                    'mensaje_ninguna' => __('There are no extra activities in progress.')
+                    @include('alumnos.partials.panel_actividades', [
+                        'actividades' => $user->actividades_en_curso_extra()->get(),
+                        'mensaje_ninguna' => __('There are no extra activities in progress.')
                     ])
                 </div>
             </div>
         @endif
         {{-- Enviadas --}}
-        <div class="tab-pane fade" id="pills-enviadas" role="tabpanel" aria-labelledby="pills-enviadas-tab">
+        <div class="tab-pane fade"
+             id="enviadas-tab-pane" aria-labelledby="enviadas-tab"
+             role="tabpanel">
             <div class="p-3">
-                @include('alumnos.partials.panel_actividades', ['actividades' => $user->actividades_en_curso_enviadas()->get(),
-                'mensaje_ninguna' => __('There are no sent activities.')
+                @include('alumnos.partials.panel_actividades', [
+                    'actividades' => $user->actividades_en_curso_enviadas()->get(),
+                    'mensaje_ninguna' => __('There are no sent activities.')
                 ])
             </div>
         </div>
