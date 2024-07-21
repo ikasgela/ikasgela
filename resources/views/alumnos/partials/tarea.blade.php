@@ -2,7 +2,7 @@
 
 @if(Route::current()->getName() == 'archivo.show')
     @include('partials.tutorial', [
-        'color' => 'c-callout-success',
+        'color' => 'success',
         'texto' => trans('tutorial.archivada')
     ])
 @endif

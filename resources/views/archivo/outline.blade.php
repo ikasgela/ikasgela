@@ -5,7 +5,7 @@
     @include('partials.titular', ['titular' => __('Course progress')])
 
     @include('partials.tutorial', [
-        'color' => 'c-callout-success',
+        'color' => 'success',
         'texto' => trans('tutorial.todas_actividades')
     ])
 
@@ -15,7 +15,7 @@
         {!! Form::close() !!}
     @endif
 
-    <div class="c-callout c-callout-bordered p-3">
+    <div class="c-callout bordered p-3">
         <h5><strong>{{ __('Start date') }}:</strong>
             {{ $curso?->fecha_inicio ? $curso->fecha_inicio->isoFormat('L LT') : __('Undefined') }}
         </h5>

@@ -38,7 +38,7 @@
     </div>
 
     @include('partials.tutorial', [
-        'color' => 'c-callout-success',
+        'color' => 'success',
         'texto' => trans('tutorial.resultados')
     ])
 

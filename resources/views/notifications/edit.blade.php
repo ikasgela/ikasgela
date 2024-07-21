@@ -5,7 +5,7 @@
     @include('partials.titular', ['titular' => __('Notification settings'), 'subtitulo' => ''])
 
     @include('partials.tutorial', [
-        'color' => 'c-callout-success',
+        'color' => 'success',
         'texto' => trans('tutorial.notificaciones')
     ])
 

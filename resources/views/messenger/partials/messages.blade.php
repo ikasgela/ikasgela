@@ -18,7 +18,7 @@
                 </div>
             </div>
         </h5>
-        <div class="c-callout c-callout-secondary bg-light py-3 line-numbers">
+        <div class="c-callout secondary bg-light py-3 line-numbers">
             {!! links_galeria($message->body, $message->thread->id) !!}
         </div>
         <div class="text-muted">

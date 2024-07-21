@@ -4,7 +4,7 @@
     @include('partials.titular', ['titular' => __('Password'), 'subtitulo' => ''])
 
     @include('partials.tutorial', [
-        'color' => 'c-callout-success',
+        'color' => 'success',
         'texto' => trans('tutorial.password')
     ])
 
