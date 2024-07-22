@@ -57,7 +57,7 @@
                     aria-selected="{{ $is_en_curso_active ? 'true' : 'false' }}">
                 <span>{{ __('In progress') }}</span>
                 @php
-                    $badge_style = $user->num_actividades_en_curso_no_extra_examen() > 0 ? 'bg-danger text-light' : 'bg-dark-subtle';
+                    $badge_style = $user->num_actividades_en_curso_no_extra_examen() > 0 ? 'bg-danger text-light' : 'text-bg-secondary';
                 @endphp
                 <span class="ms-2 badge {{ $badge_style }} fw-light">
                     {{ $user->num_actividades_en_curso_no_extra_examen() }}
@@ -77,7 +77,7 @@
                         data-bs-toggle="tab" type="button" role="tab"
                         aria-selected="{{ $is_extra_active ? 'true' : 'false' }}">
                     <span>{{ __('Extra') }}</span>
-                    <span class="ms-2 badge bg-dark-subtle text-body fw-light">
+                    <span class="ms-2 badge text-bg-secondary fw-light">
                         {{ $user->num_actividades_en_curso_extra() }}
                     </span>
                 </button>
@@ -90,7 +90,7 @@
                     data-bs-toggle="tab" type="button" role="tab"
                     aria-selected="false">
                 <span>{{ trans_choice('tasks.sent', 2) }}</span>
-                <span class="ms-2 badge bg-dark-subtle text-body fw-light">
+                <span class="ms-2 badge text-bg-secondary fw-light">
                     {{ $user->num_actividades_en_curso_enviadas() }}
                 </span>
             </button>
