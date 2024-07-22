@@ -9,7 +9,7 @@
                 @if(!$actividad->is_finished)
                     {{-- Mostrar si no ha superado la fecha de entrega --}}
                     <button type="submit" name="nuevoestado" value="20"
-                            class="btn btn-primary single_click">
+                            class="btn btn-primary text-light single_click">
                         <i class="fas fa-spinner fa-spin" style="display:none;"></i>
                         {{ __('Accept activity') }}
                     </button>
@@ -26,12 +26,12 @@
                             @if(!$actividad->auto_avance)
                                 <button type="submit" name="nuevoestado" value="30"
                                         onclick="return confirm('{{ __('Are you sure?') }}\n\n{{ __('This will submit the activity for review and show the next one if available.') }}')"
-                                        class="btn btn-primary me-2 single_click">
+                                        class="btn btn-primary text-light me-2 single_click">
                                     <i class="fas fa-spinner fa-spin"
                                        style="display:none;"></i> {{ __('Submit for review') }}</button>
                             @else
                                 <button type="submit" name="nuevoestado" value="64"
-                                        class="btn btn-primary single_click">
+                                        class="btn btn-primary text-light single_click">
                                     <i class="fas fa-spinner fa-spin"
                                        style="display:none;"></i>
                                     @if(!is_null($actividad->siguiente))
@@ -89,21 +89,21 @@
             @case(42)
                 {{-- Avance automático --}}
                 <button type="submit" name="nuevoestado" value="60"
-                        class="btn btn-primary single_click">
+                        class="btn btn-primary text-light single_click">
                     <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Archive') }}
                 </button>
                 @break;
             @case(41)
                 {{-- Revisada: ERROR --}}
                 <button type="submit" name="nuevoestado" value="21"
-                        class="btn btn-primary single_click">
+                        class="btn btn-primary text-light single_click">
                     <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Feedback read') }}
                 </button>
                 @break
             @case(50)
                 {{-- Terminada --}}
                 <button type="submit" name="nuevoestado" value="60"
-                        class="btn btn-primary single_click">
+                        class="btn btn-primary text-light single_click">
                     <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Archive') }}
                 </button>
                 @break

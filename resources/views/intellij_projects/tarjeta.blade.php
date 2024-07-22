@@ -41,14 +41,14 @@
         @include('partials.cabecera_recurso', ['recurso' => $intellij_project, 'ruta' => 'intellij_projects'])
         @if(isset($actividad) && $actividad->plantilla && Auth::user()->hasRole('alumno'))
             <a href="{{ route('intellij_projects.download', ['intellij_project'=>$intellij_project->id]) }}"
-               class="btn btn-primary">{{ __('Download the project') }}</a>
+               class="btn btn-primary text-light">{{ __('Download the project') }}</a>
         @elseif(isset($actividad) && !$intellij_project->isForked() && Auth::user()->hasRole('alumno') && !($repositorio['id'] == '?'))
             @if($intellij_project->getForkStatus() == 0)
                 <a href="{{ route('intellij_projects.fork', ['actividad' => $actividad->id, 'intellij_project'=>$intellij_project->id]) }}"
-                   class="btn btn-primary single_click">
+                   class="btn btn-primary text-light single_click">
                     <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Clone the project') }}</a>
             @elseif($intellij_project->getForkStatus() == 1)
-                <a href="#" class="btn btn-primary disabled me-3">
+                <a href="#" class="btn btn-primary text-light disabled me-3">
                     <i class="fas fa-spinner fa-spin"></i> {{ __('Clone the project') }}
                 </a>
                 {{ __('Cloning, please wait...') }}
@@ -61,19 +61,19 @@
             @switch($intellij_project->open_with)
                 @case('datagrip')
                     <a href="{{ $intellij_project->datagrip_deep_link() }}"
-                       class="btn btn-primary">{{ __('Open in DataGrip') }}</a>
+                       class="btn btn-primary text-light">{{ __('Open in DataGrip') }}</a>
                     @break
                 @case('idea')
                     <a href="{{ $intellij_project->intellij_idea_deep_link() }}"
-                       class="btn btn-primary">{{ __('Open in IntelliJ IDEA') }}</a>
+                       class="btn btn-primary text-light">{{ __('Open in IntelliJ IDEA') }}</a>
                     @break
                 @case('phpstorm')
                     <a href="{{ $intellij_project->phpstorm_deep_link() }}"
-                       class="btn btn-primary">{{ __('Open in PhpStorm') }}</a>
+                       class="btn btn-primary text-light">{{ __('Open in PhpStorm') }}</a>
                     @break
                 @default
                     <a href="{{ $intellij_project->gitkraken_deep_link() }}"
-                       class="btn btn-primary">{{ __('Open in GitKraken') }}</a>
+                       class="btn btn-primary text-light">{{ __('Open in GitKraken') }}</a>
             @endswitch
             <a href="{{ $repositorio['web_url']  }}" target="_blank"
                class="btn btn-secondary">{{ __('Open in Gitea') }}</a>

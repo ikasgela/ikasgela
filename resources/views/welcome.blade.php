@@ -11,7 +11,7 @@
                 </div>
                 <hr class="mt-0 mb-0">
                 <div class="card-body pb-3 text-center">
-                    <a class="btn btn-primary me-3" href="{{ route('login') }}">{{ __('Sign in') }}</a>
+                    <a class="btn btn-primary text-light me-3" href="{{ route('login') }}">{{ __('Sign in') }}</a>
                     @if(!is_null($current_organization) && $current_organization->isRegistrationOpen())
                         <span class="mx-3">{{ __('or') }}</span>
                         <a class="btn btn-link" href="{{ route('register') }}">{{ __('Sign up') }}</a>
