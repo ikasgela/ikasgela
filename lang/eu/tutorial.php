@@ -1,8 +1,9 @@
 <?php
 
-// resources/lang/es/tutorial.php
+// resources/lang/eu/tutorial.php
 
 return [
+    'titular' => 'Tutoriala',
     'ocultable' => 'Tutoriala zure erabiltzailearen profilean desaktibatu dezakezu.',
     'para_comenzar' => 'Aktibitatea hasteko, onartu ezazu. Une horretatik aurrera baliabideetarako sarbidea izango duzu.',
     'completa_envia' => 'Osatu aktibitatea eta, prest dagoenean, bidali berrikusteko.',

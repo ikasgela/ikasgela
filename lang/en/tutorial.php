@@ -3,6 +3,7 @@
 // resources/lang/en/tutorial.php
 
 return [
+    'titular' => 'Tutorial',
     'ocultable' => 'You can disable the tutorial in your user profile.',
     'para_comenzar' => 'To begin an activity, accept it. Then you will have access to its resources.',
     'completa_envia' => 'Complete the activity and, when ready, send it for review.',

@@ -11,7 +11,7 @@
             <th>{{ __('Email') }}</th>
             <th class="text-center">{{ __('Courses') }}</th>
             <th class="text-center">{{ __('Verified') }}</th>
-            <th class="text-center">{{ __('Tutorial') }}</th>
+            <th class="text-center">{{ trans('tutorial.titular') }}</th>
             <th>{{ __('Roles') }}</th>
             <th>{{ __('Actions') }}</th>
         </tr>

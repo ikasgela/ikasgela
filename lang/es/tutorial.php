@@ -3,6 +3,7 @@
 // resources/lang/es/tutorial.php
 
 return [
+    'titular' => 'Tutorial',
     'ocultable' => 'Puedes desactivar el tutorial en tu perfil de usuario.',
     'para_comenzar' => 'Para comenzar la actividad, acéptala. A partir de ese momento tendrás acceso a sus recursos.',
     'completa_envia' => 'Completa la actividad y, cuando esté lista, envíala para revisar.',
