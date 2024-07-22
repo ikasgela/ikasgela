@@ -20715,4 +20715,16 @@ textarea.form-control-lg {
   border-color: var(--bs-light);
 }
 
+.thead-dark th {
+  color: var(--bs-light);
+  background-color: var(--bs-dark);
+  border-color: var(--bs-dark);
+}
+
+[data-bs-theme=dark] .thead-dark th {
+  color: var(--bs-dark);
+  background-color: var(--bs-light);
+  border-color: var(--bs-light);
+}
+
 /*# sourceMappingURL=app.css.map*/
