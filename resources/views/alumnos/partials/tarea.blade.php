@@ -15,7 +15,7 @@
 <div class="row">
     <div class="col-md-12">
         {{-- Tarjeta --}}
-        <div class="card border-dark">
+        <div class="card tarea-card">
             @include('alumnos.partials.tarea.cabecera')
             <div class="card-body pb-1">
                 <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">

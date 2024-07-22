@@ -1,4 +1,4 @@
-<div class="card-header text-white bg-dark d-flex justify-content-between">
+<div class="card-header d-flex justify-content-between">
     <span>{{ $actividad->unidad->curso->nombre }} » {{ $actividad->unidad->nombre }}</span>
     @if(isset($actividad->fecha_entrega) && !$actividad->tarea->is_completada && !$actividad->tarea->is_enviada)
         @if(!$actividad->is_finished)

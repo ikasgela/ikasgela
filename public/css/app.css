@@ -20517,5 +20517,24 @@ textarea.form-control-lg {
     height: 100% !important;
   }
 }
+.tarea-card > .card-header {
+  color: var(--bs-light);
+  background-color: var(--bs-dark);
+  border-color: var(--bs-dark);
+}
+
+[data-bs-theme=dark] .tarea-card > .card-header {
+  color: var(--bs-dark);
+  background-color: var(--bs-light);
+  border-color: var(--bs-light);
+}
+
+.tarea-card {
+  border-color: var(--bs-dark);
+}
+
+[data-bs-theme=dark] .tarea-card {
+  border-color: var(--bs-light);
+}
 
 /*# sourceMappingURL=app.css.map*/
