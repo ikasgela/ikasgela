@@ -27,7 +27,7 @@
 
     @include('alumnos.partials.safe_exam')
 
-    <ul class="nav nav-tabs" id="tab" role="tablist">
+    <ul class="nav nav-tabs mb-3" id="tab" role="tablist">
         {{-- Examen --}}
         @if($user->num_actividades_en_curso_examen() > 0)
             <li class="nav-item" role="presentation">
@@ -96,54 +96,46 @@
             </button>
         </li>
     </ul>
-    <div class="tab-content border-bottom border-left border-right" id="tab-content">
+    <div class="tab-content" id="tab-content">
         {{-- Examen --}}
         @if($user->num_actividades_en_curso_examen() > 0)
             <div class="tab-pane fade {{ $is_examen_active ? 'show active' : '' }}"
                  id="examen-tab-pane" aria-labelledby="examen-tab"
                  role="tabpanel">
-                <div class="p-3">
-                    @include('alumnos.partials.panel_actividades', [
-                        'actividades' => $user->actividades_en_curso_examen()->get(),
-                        'mensaje_ninguna' => __('There are no exam activities in progress.')
-                    ])
-                </div>
+                @include('alumnos.partials.panel_actividades', [
+                    'actividades' => $user->actividades_en_curso_examen()->get(),
+                    'mensaje_ninguna' => __('There are no exam activities in progress.')
+                ])
             </div>
         @endif
         {{-- En curso --}}
         <div class="tab-pane fade {{ $is_en_curso_active ? 'show active' : '' }}"
              id="en-curso-tab-pane" aria-labelledby="en-curso-tab"
              role="tabpanel">
-            <div class="p-3">
-                @include('alumnos.partials.panel_actividades', [
-                    'actividades' => $user->actividades_en_curso_no_extra_examen()->get(),
-                    'mensaje_ninguna' => __('There are no activities in progress.')
-                ])
-            </div>
+            @include('alumnos.partials.panel_actividades', [
+                'actividades' => $user->actividades_en_curso_no_extra_examen()->get(),
+                'mensaje_ninguna' => __('There are no activities in progress.')
+            ])
         </div>
         {{-- Extra --}}
         @if($user->num_actividades_en_curso_extra() > 0)
             <div class="tab-pane fade {{ $is_extra_active ? 'show active' : '' }}"
                  id="extra-tab-pane" aria-labelledby="extra-tab"
                  role="tabpanel">
-                <div class="p-3">
-                    @include('alumnos.partials.panel_actividades', [
-                        'actividades' => $user->actividades_en_curso_extra()->get(),
-                        'mensaje_ninguna' => __('There are no extra activities in progress.')
-                    ])
-                </div>
+                @include('alumnos.partials.panel_actividades', [
+                    'actividades' => $user->actividades_en_curso_extra()->get(),
+                    'mensaje_ninguna' => __('There are no extra activities in progress.')
+                ])
             </div>
         @endif
         {{-- Enviadas --}}
         <div class="tab-pane fade"
              id="enviadas-tab-pane" aria-labelledby="enviadas-tab"
              role="tabpanel">
-            <div class="p-3">
-                @include('alumnos.partials.panel_actividades', [
-                    'actividades' => $user->actividades_en_curso_enviadas()->get(),
-                    'mensaje_ninguna' => __('There are no sent activities.')
-                ])
-            </div>
+            @include('alumnos.partials.panel_actividades', [
+                'actividades' => $user->actividades_en_curso_enviadas()->get(),
+                'mensaje_ninguna' => __('There are no sent activities.')
+            ])
         </div>
     </div>
 @endsection
