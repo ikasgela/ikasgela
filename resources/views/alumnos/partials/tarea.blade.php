@@ -34,25 +34,27 @@
                 @if(!$actividad->auto_avance && $actividad->tarea->estado < 60 && !$actividad->is_expired)
                     @include('alumnos.partials.tarea.linea_progreso')
                 @endif
-                @switch($actividad->tarea->estado)
-                    @case(20)
-                        {{-- Aceptada --}}
-                    @case(21)
-                        {{-- Feedback leído --}}
-                        @if(!$actividad->is_expired)
+                <div>
+                    @switch($actividad->tarea->estado)
+                        @case(20)
+                            {{-- Aceptada --}}
+                        @case(21)
+                            {{-- Feedback leído --}}
+                            @if(!$actividad->is_expired)
+                                @include('partials.tarjetas_actividad')
+                            @endif
+                            @break
+                        @case(60)
+                        @case(64)
+                            {{-- Archivada --}}
                             @include('partials.tarjetas_actividad')
-                        @endif
-                        @break
-                    @case(60)
-                    @case(64)
-                        {{-- Archivada --}}
-                        @include('partials.tarjetas_actividad')
-                        @break
-                    @default
-                @endswitch
-                @include('alumnos.partials.tarea.feedback')
+                            @break
+                        @default
+                    @endswitch
+                    @include('alumnos.partials.tarea.feedback')
+                </div>
                 <hr class="my-0">
-                <div class="card-body pb-1">
+                <div class="card-body pb-0">
                     @include('alumnos.partials.tarea.boton_accion')
                 </div>
             @else
