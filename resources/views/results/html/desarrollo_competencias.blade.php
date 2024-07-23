@@ -2,7 +2,7 @@
 
 @if(count($calificaciones->skills_curso) > 0)
     {{-- Tarjeta --}}
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
             @foreach ($calificaciones->skills_curso as $skill)
                 <h5 class="card-title">{{ $skill->name }}</h5>

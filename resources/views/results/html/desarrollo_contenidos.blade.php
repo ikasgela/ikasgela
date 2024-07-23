@@ -1,6 +1,6 @@
 @include('partials.subtitulo', ['subtitulo' => __('Content development')])
 
-<div class="card">
+<div class="card mb-3">
     <div class="card-body">
         @foreach ($unidades as $unidad)
             <h5 class="card-title">
