@@ -54,7 +54,7 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="email-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+                            <label for="email-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Email Address') }}</label>
 
                             <div class="col-md-6">
                                 <input id="email-confirm" type="email" class="form-control @error('email_confirmation') is-invalid @enderror" name="email_confirmation" value="{{ old('email_confirmation') }}" required autocomplete="email">

@@ -62,7 +62,7 @@ return [
         'delete'    => 'Ezabatu :name',
         'duplicate' => 'Bikoiztua: izena',
         'edit'      => 'Editatu :name',
-        'export'    => 'Esportatu :name',
+        'export'    => 'Export :name',
         'hide'      => 'Ezkutatu :name',
         'import'    => 'Inportatu :name',
         'new'       => 'Berria :name',
