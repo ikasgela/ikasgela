@@ -21,6 +21,14 @@
     @include('layouts.sidebar')
     <div class="p-4 col-12 col-sm-10">
         @yield('content')
+        @auth
+            @if(Auth::user()->isVerified())
+                @include('partials.tutorial', [
+                    'color' => 'danger',
+                    'texto' => trans('tutorial.ocultable')
+                ])
+            @endif
+        @endauth
     </div>
 </main>
 
