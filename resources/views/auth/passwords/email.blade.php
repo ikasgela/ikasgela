@@ -41,6 +41,7 @@
                     </form>
                 </div>
             </div>
+            @include('auth.partials.back-homepage')
         </div>
     </div>
 </div>
