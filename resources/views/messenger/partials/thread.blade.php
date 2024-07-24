@@ -29,10 +29,9 @@
         </div>
     </div>
     @if(!is_null($thread->latestMessage))
-        <small class="text-muted mx-3 mb-1">{{ __('Latest message') }}</small>
-        <div class="media rounded bg-light mx-3 mb-3 line-numbers">
-            <div class="media-body px-3 pt-3 overflow-auto"
-                 style="border-left: 4px solid #c8ced3; border-radius: 0.25em">
+        <small class="mx-3 mb-1">{{ __('Latest message') }}</small>
+        <div class="text-body bg-light-subtle mx-3 mb-3 line-numbers">
+            <div class="px-3 pt-3 overflow-auto border-start border-secondary-subtle border-4">
                 {!! links_galeria($thread->latestMessage->body, $thread->id) !!}
             </div>
         </div>
