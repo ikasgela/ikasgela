@@ -7,7 +7,7 @@
         <title>@yield('title')</title>
 
         <!-- Fonts -->
-        <link href="{{ asset('css/nunito.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('/css/nunito.css') }}" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
         <style>
