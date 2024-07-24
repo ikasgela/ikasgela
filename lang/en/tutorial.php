@@ -25,4 +25,6 @@ return [
     'notificaciones' => 'Enable or disable email notifications.',
     'perfil' => 'Update your user profile.',
     'password' => 'Update your password.',
+    'desktop' => 'Currently assigned activities will appear here.',
+    'enviadas' => 'Activities sent for review will appear here. You can reopen any activity which has not been reviewed yet.',
 ];

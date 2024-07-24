@@ -25,4 +25,6 @@ return [
     'notificaciones' => 'Aktibatu edo desaktibatu posta elektroniko bidezko jakinarazpenak.',
     'perfil' => 'Eguneratu zure erabiltzailearen profila.',
     'password' => 'Eguneratu zure pasahitza.',
+    'desktop' => 'Une bakoitzean esleitutako aktibitateak hemen agertuko dira.',
+    'enviadas' => 'Berrikusteko bidali dituzun aktibitateak hemen agertuko dira. Oraindik berrikusi ez den jarduera bat berriro ireki dezakezu.',
 ];

@@ -25,6 +25,11 @@
         </div>
     </div>
 
+    @include('partials.tutorial', [
+        'color' => 'success',
+        'texto' => trans('tutorial.desktop')
+    ])
+
     @include('alumnos.partials.safe_exam')
 
     <ul class="nav nav-tabs mb-3" id="tab" role="tablist">

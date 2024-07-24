@@ -25,4 +25,6 @@ return [
     'notificaciones' => 'Activar o desactivar las notificaciones por email.',
     'perfil' => 'Actualiza tu perfil de usuario.',
     'password' => 'Actualiza tu contraseña.',
+    'desktop' => 'Aquí aparecerán las actividades que tengas asignadas en cada momento.',
+    'enviadas' => 'Aquí aparecerán las actividades que hayas enviado a revisar. Puedes reabrir una actividad que no se haya revisado aún.',
 ];

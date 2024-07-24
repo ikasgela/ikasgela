@@ -7,7 +7,7 @@
 @else
     @include('partials.tutorial', [
         'color' => 'success',
-        'texto' => trans('tutorial.disponibles')
+        'texto' => trans('tutorial.enviadas')
     ])
     <div class="row">
         <div class="col-md-12">
