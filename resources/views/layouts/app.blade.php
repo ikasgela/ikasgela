@@ -4,8 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Laravel') }}</title>
-{{--    @vite(['resources/sass/app.scss', 'resources/js/app.js'])--}}
+    <title>
+        {{ config('app.name', 'Laravel') }}
+        {{ subdominio() != 'ikasgela' ? ' | '. subdominio() :  '' }}
+    </title>
+    @if(config('app.env') == 'production')
+        @include('layouts.partials.favicons')
+    @else
+        @include('layouts.partials.favicons_debug')
+    @endif
     <link href="{{ asset('css/nunito.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css">
     <script src="{{ asset('js/app.js') }}" defer></script>
