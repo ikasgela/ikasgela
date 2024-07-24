@@ -3,7 +3,7 @@
 
     {{ html()->form('POST', route('messages.create-with-subject'))->open() }}
 
-    {{ html()->submit(__('Ask a question'))->class('btn btn-success') }}
+    {{ html()->submit(__('Ask a question'))->class('btn btn-success text-light') }}
 
     {{ html()->hidden('titulo', __('Activity') . ': ' . $actividad->pretty_name) }}
 
