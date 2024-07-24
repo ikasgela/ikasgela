@@ -11,7 +11,7 @@
         @include('partials.cabecera_recurso', ['recurso' => $file_resource, 'ruta' => 'file_resources'])
         @if(count($file_resource->files) > 0)
             <div class="table-responsive">
-                <table class="table table-bordered small">
+                <table class="table table-bordered small m-0">
                     <thead class="thead-dark">
                     <tr>
                         <th></th>

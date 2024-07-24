@@ -7,7 +7,7 @@
             @include('partials.editar_recurso', ['recurso' => $markdown_text, 'ruta' => 'markdown_texts'])
         </div>
     </div>
-    <div class="card-body pb-1 line-numbers">
+    <div class="card-body pb-0 line-numbers">
         {!! $texto !!}
     </div>
 </div>

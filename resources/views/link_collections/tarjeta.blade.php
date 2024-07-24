@@ -11,7 +11,7 @@
         @include('partials.cabecera_recurso', ['recurso' => $link_collection, 'ruta' => 'link_collections'])
         @if(count($link_collection->links) > 0)
             <div class="table-responsive">
-                <table class="table table-bordered small">
+                <table class="table table-bordered small m-0">
                     <thead class="thead-dark">
                     <tr>
                         <th>{{ __('Link') }}</th>

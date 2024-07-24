@@ -71,7 +71,7 @@ $en_blanco = $total - $respondidas;
     @elseif(Route::currentRouteName() != 'archivo.show' && Route::currentRouteName() != 'actividades.preview' || !Auth::user()->hasRole('alumno'))
         <hr class="my-0">
         <div class="card-body">
-            <button type="submit" class="btn btn-primary single_click">
+            <button type="submit" class="btn btn-primary text-light single_click">
                 <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Check answers') }}</button>
         </div>
     @endif
