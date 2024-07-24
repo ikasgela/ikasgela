@@ -1,15 +1,14 @@
 <h3>{{ __('New reply') }}</h3>
 
-{!! Form::open(['route' => ['messages.update', $thread->id], 'method' => 'PUT', 'id' => 'nuevo_mensaje']) !!}
+{{ html()->form('PUT', route('messages.update', $thread->id))->open() }}
 
-<div class="form-group">
+<div class="input-group mb-3">
     <textarea rows="10" class="form-control" id="message" name="message">{!! old('message') !!}</textarea>
 </div>
 
-<div class="form-group">
+<div class="input-group mb-3">
     @include('partials.guardar_cancelar',['texto' => __('Send')])
 </div>
 
 @include('layouts.errors')
-{!! Form::close() !!}
-
+{{ html()->form()->close() }}

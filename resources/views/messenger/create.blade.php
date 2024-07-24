@@ -8,15 +8,20 @@
 
     @include('partials.titular', ['titular' => __('Create new conversation')])
 
-    <div class="card">
-        <div class="card-body">
+    <div class="card mb-3">
+        <div class="card-body pe-0">
 
-            {!! Form::open(['route' => ['messages.store'], 'id' => 'nuevo_mensaje']) !!}
+            {{ html()->form('POST', route('messages.store'))->open() }}
 
-            {{ Form::campoTexto('subject', __('Subject'), $titulo ?: old('subject')) }}
+            <div class="input-group row mb-3">
+                {{ html()->label(__('Subject'), 'subject')->class('col-sm-2 col-form-label') }}
+                <div class="col-sm-10">
+                    {{ html()->text('subject', $titulo ?: old('subject'))->class('form-control') }}
+                </div>
+            </div>
 
-            <div class="form-group row">
-                {!! Form::label('message', __('Message'), ['class' => 'col-sm-2 col-form-label']) !!}
+            <div class="input-group row mb-3">
+                {{ html()->label(__('Message'), 'message')->class('col-sm-2 col-form-label') }}
                 <div class="col-sm-10">
                     <textarea rows="10" class="form-control" id="message"
                               name="message">{!! old('message') !!}</textarea>
@@ -24,8 +29,8 @@
             </div>
             @if(Auth::user()->hasRole('profesor'))
                 @if($users->count() > 0)
-                    <div class="form-group row">
-                        {!! Form::label('recipients', __('Recipients'), ['class' => 'col-sm-2 col-form-label']) !!}
+                    <div class="input-group row mb-3">
+                        {{ html()->label(__('Recipients'), 'recipients')->class('col-sm-2 col-form-label') }}
                         <div class="col-sm-10">
                             <div class="form-check form-check-inline">
                                 <label class="form-check-label col-form-label">
@@ -45,12 +50,17 @@
                         </div>
                     </div>
                 @endif
-                {{ Form::campoCheck('noreply', __('No reply'), false) }}
-            @else
-                <div class="form-group row">
-                    {!! Form::label('recipients', __('Recipient'), ['class' => 'col-sm-2 col-form-label']) !!}
+                <div class="input-group row mb-3">
+                    {{ html()->label(__('No reply'), 'noreply')->class('col-sm-2 col-form-label') }}
                     <div class="col-sm-10">
-                        <select class="form-control" id="recipients" name="recipients[]">
+                        {{ html()->checkbox('noreply', false)->class('form-check-input ms-0 mt-2') }}
+                    </div>
+                </div>
+            @else
+                <div class="input-group row mb-3">
+                    {{ html()->label(__('Recipient'), 'recipients')->class('col-sm-2 col-form-label') }}
+                    <div class="col-sm-10">
+                        <select class="form-select" id="recipients" name="recipients[]">
                             @foreach($profesores as $profesor)
                                 <option value="{{ $profesor->id }}">
                                     {{ $profesor->name }} {{ $profesor->surname }}
@@ -61,11 +71,16 @@
                 </div>
             @endif
             @if(Auth::user()->hasRole('admin'))
-                {{ Form::campoCheck('alert', __('Alert (overrides notifications settings)'), false) }}
+                <div class="input-group row mb-3">
+                    {{ html()->label(__('Alert (overrides notifications settings)'), 'alert')->class('col-sm-2 col-form-label') }}
+                    <div class="col-sm-10">
+                        {{ html()->checkbox('alert', false)->class('form-check-input ms-0 mt-2') }}
+                    </div>
+                </div>
             @endif
             @include('partials.guardar_cancelar',['texto' => __('Send')])
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
         </div>
     </div>
 @endsection

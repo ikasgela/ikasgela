@@ -34,5 +34,8 @@
 
 @include('layouts.footer')
 
+@yield('tinymce')
+@yield('prismjs-scripts')
+@yield('reload_position')
 </body>
 </html>
