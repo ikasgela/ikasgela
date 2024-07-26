@@ -3239,12 +3239,18 @@ if (token) {
     }
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   };
+  function setPrismjsTheme(theme) {
+    var id = theme === 'light' ? 'prism-coy' : 'prism-tomorrow';
+    var theme_url = "https://".concat(location.hostname, "/prismjs/").concat(id, ".min.css");
+    document.querySelector('#prismjs-theme').setAttribute('href', theme_url);
+  }
   var setTheme = function setTheme(theme) {
     if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       document.documentElement.setAttribute('data-bs-theme', 'dark');
     } else {
       document.documentElement.setAttribute('data-bs-theme', theme);
     }
+    setPrismjsTheme(theme);
   };
   setTheme(getPreferredTheme());
   var showActiveTheme = function showActiveTheme(theme) {

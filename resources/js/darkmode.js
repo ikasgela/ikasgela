@@ -19,12 +19,21 @@
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
     }
 
+    function setPrismjsTheme(theme) {
+        let id = theme === 'light' ? 'prism-coy' : 'prism-tomorrow';
+        let theme_url = `https://${location.hostname}/prismjs/${id}.min.css`;
+
+        document.querySelector('#prismjs-theme').setAttribute('href', theme_url)
+    }
+
     const setTheme = theme => {
         if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             document.documentElement.setAttribute('data-bs-theme', 'dark')
         } else {
             document.documentElement.setAttribute('data-bs-theme', theme)
         }
+
+        setPrismjsTheme(theme)
     }
 
     setTheme(getPreferredTheme())

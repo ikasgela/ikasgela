@@ -13,10 +13,6 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
-    .styles([
-        'node_modules/prismjs/themes/prism-coy.css',
-        'node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css',
-    ], 'public/css/prism.css')
     .scripts([
         'node_modules/prismjs/components/prism-core.js',
         'node_modules/prismjs/components/prism-clike.js',
@@ -35,8 +31,12 @@ mix.js('resources/js/app.js', 'public/js')
 
         'node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js',
         'node_modules/prismjs/plugins/autoloader/prism-autoloader.js',
-    ], 'public/js/prism.js')
+    ], 'public/prismjs/prism.js')
     .sourceMaps(false, 'source-map');
+
+mix.copy('node_modules/prismjs/themes/prism-coy.min.css', 'public/prismjs/');
+mix.copy('node_modules/prismjs/themes/prism-tomorrow.min.css', 'public/prismjs/');
+mix.copy('node_modules/prismjs/plugins/line-numbers/prism-line-numbers.min.css', 'public/prismjs/');
 
 mix.copyDirectory('node_modules/tinymce/icons', 'public/tinymce/icons');
 mix.copyDirectory('node_modules/tinymce/models', 'public/tinymce/models');
