@@ -51,29 +51,29 @@
 
                     @if($peso_examenes>0)
                         @php($porcentaje_examen = $resultado->porcentaje_examen())
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar"
-                                 style="width: {{ $peso_examenes * $porcentaje_examen / 100 }}%"
-                                 aria-valuenow="{{ $porcentaje_examen }}" aria-valuemin="0" aria-valuemax="100"
-                                 title="{{ $resultado->puntos_examen }}/{{ $resultado->puntos_totales_examen }}">
+                        <div class="progress"
+                             style="width: {{ $peso_examenes * $porcentaje_examen / 100 }}%"
+                             aria-valuenow="{{ $porcentaje_examen }}" aria-valuemin="0" aria-valuemax="100"
+                             title="{{ $resultado->puntos_examen }}/{{ $resultado->puntos_totales_examen }}">
+                            <div class="progress-bar" role="progressbar">
                                 @if($porcentaje_examen>=40){{ formato_decimales($porcentaje_examen) }}&thinsp;%@endif
                             </div>
                         </div>
                         @if($resultado->puntos_totales_examen> 0 && $porcentaje_examen<40)
-                            <div class="progress">
-                                <div class="progress-bar bg-body-secondary bg-opacity-10 text-body text-start ps-2"
-                                     style="width:20%;">
+                            <div class="progress"
+                                 style="width:20%;">
+                                <div class="progress-bar bg-body-secondary bg-opacity-10 text-body text-start ps-2">
                                     {{ formato_decimales($porcentaje_examen) }}&thinsp;%
                                 </div>
                             </div>
-                            <div class="progress">
-                                <div class="progress-bar bg-body-secondary bg-opacity-10 text-body"
-                                     style="width: {{ $peso_examenes * (100-$porcentaje_examen) / 100 - 20 }}%"></div>
+                            <div class="progress"
+                                 style="width: {{ $peso_examenes * (100-$porcentaje_examen) / 100 - 20 }}%">
+                                <div class="progress-bar bg-body-secondary bg-opacity-10 text-body"></div>
                             </div>
                         @else
-                            <div class="progress">
-                                <div class="progress-bar bg-body-secondary bg-opacity-10 text-body"
-                                     style="width: {{ $peso_examenes * (100-$porcentaje_examen) / 100 }}%"></div>
+                            <div class="progress"
+                                 style="width: {{ $peso_examenes * (100-$porcentaje_examen) / 100 }}%">
+                                <div class="progress-bar bg-body-secondary bg-opacity-10 text-body"></div>
                             </div>
                         @endif
                     @endif
