@@ -2,7 +2,7 @@
 
 {{ html()->form('PUT', route('messages.update', $thread->id))->open() }}
 
-<div class="input-group mb-3">
+<div class="mb-3">
     <textarea rows="10" class="form-control" id="message" name="message">{!! old('message') !!}</textarea>
 </div>
 
