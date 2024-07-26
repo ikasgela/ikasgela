@@ -6,7 +6,7 @@
             <td>
                 <table class="tabla-marcador {{ $actividades_obligatorias_fondo }}">
                     <tr>
-                        <th class="text-left">{{ __('Mandatory activities') }}</th>
+                        <th class="text-start">{{ __('Mandatory activities') }}</th>
                     </tr>
                     <tr>
                         <td class="text-center">{{ $actividades_obligatorias_dato }}</td>
@@ -18,7 +18,7 @@
             <td>
                 <table class="tabla-marcador {{ $competencias_fondo }}">
                     <tr>
-                        <th class="text-left">{{ __('Skills') }}</th>
+                        <th class="text-start">{{ __('Skills') }}</th>
                     </tr>
                     <tr>
                         <td class="text-center">{{ $competencias_dato }}</td>
@@ -30,7 +30,7 @@
             <td>
                 <table class="tabla-marcador {{ $pruebas_evaluacion_fondo }}">
                     <tr>
-                        <th class="text-left">{{ __('Assessment tests') }}</th>
+                        <th class="text-start">{{ __('Assessment tests') }}</th>
                     </tr>
                     <tr>
                         <td class="text-center">{{ $pruebas_evaluacion_dato }}</td>
@@ -41,7 +41,7 @@
         <td>
             <table class="tabla-marcador {{ $evaluacion_continua_fondo }}">
                 <tr>
-                    <th class="text-left">{{ __('Continuous evaluation') }}</th>
+                    <th class="text-start">{{ __('Continuous evaluation') }}</th>
                 </tr>
                 <tr>
                     <td class="text-center">{{ $evaluacion_continua_dato }}</td>
@@ -51,7 +51,7 @@
         <td>
             <table class="tabla-marcador {{ $calificacion_fondo }}">
                 <tr>
-                    <th class="text-left">{{ __('Calification') }}</th>
+                    <th class="text-start">{{ __('Calification') }}</th>
                 </tr>
                 <tr>
                     <td class="text-center">{{ $calificacion_dato }}

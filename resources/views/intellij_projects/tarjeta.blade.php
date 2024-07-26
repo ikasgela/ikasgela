@@ -140,7 +140,7 @@
                         @endforeach
                         </tbody>
                     </table>
-                    <div class="text-right">
+                    <div class="text-end">
                         <a href="{{ route('profesor.jplag', ['tarea' => $tarea?->id]) }}"
                            class="btn btn-secondary">{{ __('Update') }}</a>
                         <a href="{{ route('profesor.jplag_download', ['tarea' => $tarea?->id]) }}"

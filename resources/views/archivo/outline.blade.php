@@ -48,7 +48,7 @@
                                 <div class="col text-muted small text-center">
                                     @include('partials.diferencia_fechas', ['fecha_inicial' => now(), 'fecha_final' => $unidad->fecha_entrega])
                                 </div>
-                                <div class="ml-auto text-right">
+                                <div class="ml-auto text-end">
                                     <div class="d-flex">
                                         <div>{{ !is_null($unidad->fecha_entrega) ? $unidad->fecha_entrega->isoFormat('L') : '-' }}</div>
                                         <div>
@@ -89,13 +89,13 @@
                                 </div>
                             </div>
                             @if($minimo_entregadas > 0)
-                                <div class="row no-gutters">
+                                <div class="row g-0">
                                     <div class="col text-muted small" style="flex: 0 0 10%;">0&thinsp;%</div>
-                                    <div class="col text-muted small text-right pe-1 border-right"
+                                    <div class="col text-muted small text-end pe-1 border-right"
                                          style="flex: 0 0 {{ $minimo_entregadas-10 }}%;">
                                         {{ $minimo_entregadas }}&thinsp;%
                                     </div>
-                                    <div class="col text-muted small text-right"
+                                    <div class="col text-muted small text-end"
                                          style="flex: 0 0 {{ 100-$minimo_entregadas }}%;">100&thinsp;%
                                     </div>
                                 </div>

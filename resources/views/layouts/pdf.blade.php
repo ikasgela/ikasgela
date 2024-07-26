@@ -58,11 +58,11 @@
             text-align: center
         }
 
-        .text-left {
+        .text-start {
             text-align: left
         }
 
-        .text-right {
+        .text-end {
             text-align: right
         }
 

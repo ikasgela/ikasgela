@@ -13,7 +13,7 @@
 
                 @php($resultado = $calificaciones->resultados[$skill->id])
 
-                <div class="row no-gutters ms-5">
+                <div class="row g-0 ms-5">
                     <div class="col" style="flex: 0 0 {{ $peso_actividades }}%;">{{ __('Activities') }}</div>
                     @if($peso_examenes>0)
                         <div style="flex: 0 0 {{ $peso_examenes }}%;">{{ __('Exams') }}</div>
@@ -30,7 +30,7 @@
                         @if($porcentaje_tarea>=30){{ formato_decimales($porcentaje_tarea) }}&thinsp;%@endif
                     </div>
                     @if($resultado->puntos_totales_tarea > 0 && $porcentaje_tarea<30)
-                        <div class="progress-bar bg-gray-200 text-dark text-left ps-2"
+                        <div class="progress-bar bg-gray-200 text-dark text-start ps-2"
                              style="width:30%;">
                             {{ formato_decimales($porcentaje_tarea) }}&thinsp;%
                         </div>
@@ -50,7 +50,7 @@
                             @if($porcentaje_examen>=40){{ formato_decimales($porcentaje_examen) }}&thinsp;%@endif
                         </div>
                         @if($resultado->puntos_totales_examen> 0 && $porcentaje_examen<40)
-                            <div class="progress-bar bg-gray-200 text-dark text-left ps-2"
+                            <div class="progress-bar bg-gray-200 text-dark text-start ps-2"
                                  style="width:20%;">
                                 {{ formato_decimales($porcentaje_examen) }}&thinsp;%
                             </div>
@@ -63,23 +63,23 @@
                     @endif
                 </div>
 
-                <div class="row no-gutters ms-5">
+                <div class="row g-0 ms-5">
                     <div class="col text-muted small" style="flex: 0 0 10%;">0&thinsp;%</div>
                     @if($peso_examenes>0)
-                        <div class="col text-muted small text-right pe-1 border-right"
+                        <div class="col text-muted small text-end pe-1 border-end"
                              style="flex: 0 0 {{ $peso_actividades-10 }}%;">{{ $peso_actividades }}&thinsp;%
                         </div>
-                        <div class="col text-muted small text-right"
+                        <div class="col text-muted small text-end"
                              style="flex: 0 0 {{ $peso_examenes }}%;">100&thinsp;%
                         </div>
                     @else
-                        <div class="col text-muted small text-right"
+                        <div class="col text-muted small text-end"
                              style="flex: 0 0 90%;">100&thinsp;%
                         </div>
                     @endif
                 </div>
 
-                <div class="row no-gutters ms-5 mt-2">
+                <div class="row g-0 ms-5 mt-2">
                     <div class="col" style="flex: 0 0 {{ $peso_actividades }}%;">
                         <span>{{ __('Total of the skill') }}</span>
                     </div>
@@ -98,7 +98,7 @@
                         @if($porcentaje_competencia>=20){{ formato_decimales($porcentaje_competencia) }}&thinsp;%@endif
                     </div>
                     @if($resultado->actividad > 0 && $porcentaje_competencia<20)
-                        <div class="progress-bar bg-gray-200 text-dark text-left ps-2">
+                        <div class="progress-bar bg-gray-200 text-dark text-start ps-2">
                             {{ formato_decimales($porcentaje_competencia) }}&thinsp;%
                         </div>
                     @endif
