@@ -34,18 +34,18 @@
                     @if($resultado->puntos_totales_tarea > 0 && $porcentaje_tarea<30)
                         <div class="progress"
                              style="width:30%;">
-                            <div class="progress-bar text-start ps-2">
+                            <div class="progress-bar bg-body-secondary bg-opacity-10 text-body text-start ps-2">
                                 {{ formato_decimales($porcentaje_tarea) }}&thinsp;%
                             </div>
                         </div>
                         <div class="progress"
                              style="width: {{ $peso_actividades * (100-$porcentaje_tarea) / 100 - 30 }}%">
-                            <div class="progress-bar"></div>
+                            <div class="progress-bar bg-body-secondary bg-opacity-10 text-body"></div>
                         </div>
                     @else
                         <div class="progress"
                              style="width: {{ $peso_actividades * (100-$porcentaje_tarea) / 100 }}%">
-                            <div class="progress-bar"></div>
+                            <div class="progress-bar bg-body-secondary bg-opacity-10 text-body"></div>
                         </div>
                     @endif
 
@@ -61,18 +61,18 @@
                         </div>
                         @if($resultado->puntos_totales_examen> 0 && $porcentaje_examen<40)
                             <div class="progress">
-                                <div class="progress-bar bg-gray-200 text-dark text-start ps-2"
+                                <div class="progress-bar bg-body-secondary bg-opacity-10 text-body text-start ps-2"
                                      style="width:20%;">
                                     {{ formato_decimales($porcentaje_examen) }}&thinsp;%
                                 </div>
                             </div>
                             <div class="progress">
-                                <div class="progress-bar bg-gray-200"
+                                <div class="progress-bar bg-body-secondary bg-opacity-10 text-body"
                                      style="width: {{ $peso_examenes * (100-$porcentaje_examen) / 100 - 20 }}%"></div>
                             </div>
                         @else
                             <div class="progress">
-                                <div class="progress-bar bg-gray-200"
+                                <div class="progress-bar bg-body-secondary bg-opacity-10 text-body"
                                      style="width: {{ $peso_examenes * (100-$porcentaje_examen) / 100 }}%"></div>
                             </div>
                         @endif
@@ -80,16 +80,16 @@
                 </div>
 
                 <div class="row g-0 ms-5">
-                    <div class="col text-muted small" style="flex: 0 0 10%;">0&thinsp;%</div>
+                    <div class="col text-secondary small" style="flex: 0 0 10%;">0&thinsp;%</div>
                     @if($peso_examenes>0)
-                        <div class="col text-muted small text-end pe-1 border-end"
+                        <div class="col text-secondary small text-end pe-1 border-end"
                              style="flex: 0 0 {{ $peso_actividades-10 }}%;">{{ $peso_actividades }}&thinsp;%
                         </div>
-                        <div class="col text-muted small text-end"
+                        <div class="col text-secondary small text-end"
                              style="flex: 0 0 {{ $peso_examenes }}%;">100&thinsp;%
                         </div>
                     @else
-                        <div class="col text-muted small text-end"
+                        <div class="col text-secondary small text-end"
                              style="flex: 0 0 90%;">100&thinsp;%
                         </div>
                     @endif
@@ -104,7 +104,7 @@
                 <div class="ms-5 progress">
                     @php($porcentaje_competencia = $resultado->porcentaje_competencia())
                     <div
-                        class="progress-bar {{ $porcentaje_competencia < $calificaciones->minimo_competencias ? 'bg-warning text-dark' : 'bg-success' }}"
+                        class="progress-bar {{ $porcentaje_competencia < $calificaciones->minimo_competencias ? 'bg-warning text-dark' : 'bg-success text-light' }}"
                         role="progressbar"
                         style="width: {{ $porcentaje_competencia }}%;"
                         aria-valuenow="{{ $porcentaje_competencia }}"
@@ -114,7 +114,7 @@
                         @if($porcentaje_competencia>=20){{ formato_decimales($porcentaje_competencia) }}&thinsp;%@endif
                     </div>
                     @if($resultado->actividad > 0 && $porcentaje_competencia<20)
-                        <div class="progress-bar bg-gray-200 text-dark text-start ps-2">
+                        <div class="progress-bar bg-body-secondary bg-opacity-10 text-body text-start ps-2">
                             {{ formato_decimales($porcentaje_competencia) }}&thinsp;%
                         </div>
                     @endif

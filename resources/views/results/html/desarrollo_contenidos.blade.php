@@ -23,12 +23,12 @@
                 </div>
                 @if($hay_calificacion && $porcentaje<20)
                     <div
-                        class="progress-bar {{ $porcentaje > 0 ? 'bg-gray-200' : 'bg-warning w-100' }} text-start text-dark ps-2">
+                        class="progress-bar {{ $porcentaje > 0 ? 'bg-body-secondary bg-opacity-10' : 'bg-warning text-dark w-100' }} text-start ps-2">
                         {{ formato_decimales($porcentaje) }}&thinsp;%
                     </div>
                 @endif
             </div>
-            <div class="text-muted small text-end">
+            <div class="text-secondary small text-end">
                 @if($hay_calificacion)
                     {{ $calificaciones->resultados_unidades[$unidad->id]->tarea + 0
                     }}/{{ $calificaciones->resultados_unidades[$unidad->id]->actividad + 0 }}
