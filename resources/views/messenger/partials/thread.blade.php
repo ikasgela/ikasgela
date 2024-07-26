@@ -29,11 +29,15 @@
         </div>
     </div>
     @if(!is_null($thread->latestMessage))
-        <small class="mx-3 mb-1">{{ __('Latest message') }}</small>
+        <small class="text-secondary mx-3 mb-1">{{ __('Latest message') }}</small>
         <div class="text-body bg-light-subtle mx-3 mb-3 line-numbers">
             <div class="px-3 pt-3 overflow-auto border-start border-secondary-subtle border-4">
                 {!! links_galeria($thread->latestMessage->body, $thread->id) !!}
             </div>
         </div>
+        <small class="text-secondary mx-3 mb-3"
+               title="{{ $thread->latestMessage->created_at->isoFormat('dddd, LL LTS') }}">
+            {{ __('Posted') }} {{ $thread->latestMessage->created_at->diffForHumans() }}
+        </small>
     @endif
 </div>
