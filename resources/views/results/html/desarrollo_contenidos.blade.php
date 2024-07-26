@@ -10,7 +10,7 @@
                 @include('unidades.partials.nombre_con_etiquetas')
             </h5>
             <p class="ms-5">{{ $unidad->descripcion }}</p>
-            <div class="ms-5 progress" style="height: 24px;">
+            <div class="ms-5 progress">
                 @php($hay_calificacion = $calificaciones->resultados_unidades[$unidad->id]->actividad > 0)
                 @php($porcentaje = $hay_calificacion ? round($calificaciones->resultados_unidades[$unidad->id]->tarea/$calificaciones->resultados_unidades[$unidad->id]->actividad*100) : 0)
                 <div
