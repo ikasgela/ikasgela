@@ -1,5 +1,5 @@
 @if(count($chart->datasets) > 0)
-    <div>
+    <div class="mb-3">
         {!! $chart->container() !!}
     </div>
 
