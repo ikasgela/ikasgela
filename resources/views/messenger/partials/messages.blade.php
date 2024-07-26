@@ -1,9 +1,9 @@
-<div class="media border rounded p-3 mb-3 bg-white">
-    @include('users.partials.avatar', ['user' => $message->user, 'width' => 64])
-    <div class="media-body ps-3 overflow-auto">
-        <h5 class="media-heading">
+<div class="card ps-3 py-3 my-3">
+    <div class="d-flex align-items-start">
+        @include('users.partials.avatar', ['user' => $message->user, 'width' => 64])
+        <div class="px-3 flex-fill">
             <div class="d-flex justify-content-between">
-                <span>{{ $message->user?->name ?: __('Unknown user') }} {{ $message->user?->surname }}</span>
+                <h5>{{ $message->user?->name ?: __('Unknown user') }} {{ $message->user?->surname }}</h5>
                 <div class="btn-group">
                     @if(Auth::user()->hasRole('profesor') && $message->user?->hasRole('alumno'))
                         <a title="{{ __('Control panel') }}" target="_blank"
@@ -11,18 +11,18 @@
                            class='btn btn-light btn-sm'><i class="fas fa-tasks"></i></a>
                     @endif
                     @if(Auth::user()->hasRole('profesor'))
-                        {!! Form::open(['route' => ['messages.destroy_message', $message->id], 'method' => 'DELETE']) !!}
+                        {{ html()->form('DELETE', route('messages.destroy_message', $message->id))->open() }}
                         @include('partials.boton_borrar')
-                        {!! Form::close() !!}
+                        {{ html()->form()->close() }}
                     @endif
                 </div>
             </div>
-        </h5>
-        <div class="c-callout secondary bg-light py-3 line-numbers">
-            {!! links_galeria($message->body, $message->thread->id) !!}
-        </div>
-        <div class="text-muted">
-            <small title="{{ $message->created_at->isoFormat('dddd, LL LTS') }}">
+            <div class="text-body bg-light-subtle line-numbers mb-3">
+                <div class="px-3 pt-3 overflow-auto border-start border-secondary-subtle border-4">
+                    {!! links_galeria($message->body, $message->thread->id) !!}
+                </div>
+            </div>
+            <small class="text-secondary" title="{{ $message->created_at->isoFormat('dddd, LL LTS') }}">
                 {{ __('Posted') }} {{ $message->created_at->diffForHumans() }}
             </small>
         </div>
