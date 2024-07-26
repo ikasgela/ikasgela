@@ -1,7 +1,7 @@
 @php( $class = !$thread->alert && $thread->isUnread(Auth::id()) ? 'bg-success text-white' : '' )
 
 <div class="card mb-3">
-    <div class="card-header d-flex justify-content-between {{ $class }} {{ $thread->alert ? 'bg-warning' : '' }}">
+    <div class="card-header d-flex justify-content-between {{ $class }} {{ $thread->alert ? 'text-bg-warning' : '' }}">
         <span>
             @if(!$thread->alert)
                 <i class="fas fa-comment"></i>
