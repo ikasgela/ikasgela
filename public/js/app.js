@@ -3242,7 +3242,10 @@ if (token) {
   function setPrismjsTheme(theme) {
     var id = theme === 'light' ? 'prism-coy' : 'prism-tomorrow';
     var theme_url = "https://".concat(location.hostname, "/prismjs/").concat(id, ".min.css");
-    document.querySelector('#prismjs-theme').setAttribute('href', theme_url);
+    var prismjs = document.querySelector('#prismjs-theme');
+    if (prismjs !== null) {
+      prismjs.setAttribute('href', theme_url);
+    }
   }
   var setTheme = function setTheme(theme) {
     if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {

@@ -1,5 +1,3 @@
-@include('partials.prismjs')
-
 @include('partials.tinymce')
 
 <script>

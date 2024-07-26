@@ -23,7 +23,10 @@
         let id = theme === 'light' ? 'prism-coy' : 'prism-tomorrow';
         let theme_url = `https://${location.hostname}/prismjs/${id}.min.css`;
 
-        document.querySelector('#prismjs-theme').setAttribute('href', theme_url)
+        const prismjs = document.querySelector('#prismjs-theme');
+        if (prismjs !== null) {
+            prismjs.setAttribute('href', theme_url)
+        }
     }
 
     const setTheme = theme => {
