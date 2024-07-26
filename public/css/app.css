@@ -20727,4 +20727,12 @@ textarea.form-control-lg {
   border-color: var(--bs-light);
 }
 
+.progress-stacked {
+  height: 24px;
+}
+
+.progress {
+  height: 24px;
+}
+
 /*# sourceMappingURL=app.css.map*/
