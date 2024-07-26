@@ -1,7 +1,7 @@
 <span class="me-2">{{ $unidad->nombre }}</span>
 @foreach($unidad->etiquetas() as $etiqueta)
     @if(!isset($pdf) || !$pdf)
-        {!! '<span class="badge badge-secondary">'.$etiqueta.'</span>' !!}
+        {!! '<span class="badge bg-body-secondary text-body-secondary">'.$etiqueta.'</span>' !!}
     @else
         {!! '<span>('.$etiqueta.')</span>' !!}
     @endif

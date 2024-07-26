@@ -1,3 +1,3 @@
 @foreach($etiquetas as $etiqueta)
-    <span class="badge bg-secondary-subtle text-body-secondary">{{ $etiqueta }}</span>
+    <span class="badge bg-body-secondary text-body-secondary">{{ $etiqueta }}</span>
 @endforeach

@@ -57,7 +57,7 @@
                 <td colspan="100">
                     {{ __('Filter by tag') }}:
                     @foreach($etiquetas as $etiqueta)
-                        {!! '<a class="badge badge-secondary text-dark ms-2" href="'.route(explode('.',Route::currentRouteName())[0].'.index.filtro',['tag'=>$etiqueta]).'">'.$etiqueta.'</a>' !!}
+                        {!! '<a class="badge bg-body-secondary text-body-secondary ms-2" href="'.route(explode('.',Route::currentRouteName())[0].'.index.filtro',['tag'=>$etiqueta]).'">'.$etiqueta.'</a>' !!}
                     @endforeach
                 </td>
             </tr>

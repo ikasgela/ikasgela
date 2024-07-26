@@ -1,1 +1,1 @@
-{!! $user->baja_ansiedad ? '<span class="badge badge-secondary ms-2">'.__('Low anxiety').'</span>' : '' !!}
+{!! $user->baja_ansiedad ? '<span class="badge bg-body-secondary text-body-secondary ms-2">'.__('Low anxiety').'</span>' : '' !!}
