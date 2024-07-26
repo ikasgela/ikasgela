@@ -10,6 +10,7 @@
                         <a class="ms-3"
                            style="color:#ed2224" {{-- https://www.schemecolor.com/adobe-inc-logo-colors.php --}}
                            title="{{ __('Export to PDF') }}"
+                           target="_blank"
                            href="{{ route('results.pdf') }}"><i class="fas fa-file-pdf"></i>
                         </a>
                     @else
