@@ -8,7 +8,7 @@
     </div>
 @endif
 
-@if (session('success'))
+@if(session('success'))
     <div class="alert alert-success mt-3 mb-0">
         {{ session('success') }}
     </div>

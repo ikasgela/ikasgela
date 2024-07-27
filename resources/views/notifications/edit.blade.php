@@ -64,6 +64,8 @@
         @include('partials.guardar')
     </div>
 
+    @include('layouts.errors')
+
     {{ html()->form()->close() }}
 
     @if(Auth::user()->hasRole('admin'))
