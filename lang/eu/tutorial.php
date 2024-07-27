@@ -27,4 +27,6 @@ return [
     'password' => 'Eguneratu zure pasahitza.',
     'desktop' => 'Une bakoitzean esleitutako aktibitateak hemen agertuko dira.',
     'enviadas' => 'Berrikusteko bidali dituzun aktibitateak hemen agertuko dira. Oraindik berrikusi ez den jarduera bat berriro ireki dezakezu.',
+    'progreso' => 'Hemen ikastaroaren eduki eta data nagusiak ikus ditzakezu.',
+    'recomendacion' => 'Unitate honek bere edukiak osatzeko eta ikastaroan zehar erritmo egokia jarraitzeko gomendatutako datak ditu. Edukiak gomendatutako amaiera datara iritsitakoan bistaratuko dira.',
 ];

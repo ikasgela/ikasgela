@@ -6,7 +6,7 @@
 
     @include('partials.tutorial', [
         'color' => 'success',
-        'texto' => trans('tutorial.todas_actividades')
+        'texto' => trans('tutorial.progreso')
     ])
 
     @if(Auth::user()->hasAnyRole(['profesor', 'tutor']))
@@ -34,6 +34,10 @@
 
             <div class="container-fluid p-0">
                 @if(!is_null($unidad->fecha_entrega) && $unidad->fecha_entrega > now())
+                    @include('partials.tutorial', [
+                        'color' => 'success',
+                        'texto' => trans('tutorial.recomendacion')
+                    ])
                     <hr class="mt-0">
                     <div class="row">
                         <div class="col-12 col-sm-3 col-md-2 col-lg-2 col-xl-2 col-xxl-1">

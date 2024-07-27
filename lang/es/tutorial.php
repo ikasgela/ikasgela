@@ -27,4 +27,6 @@ return [
     'password' => 'Actualiza tu contraseña.',
     'desktop' => 'Aquí aparecerán las actividades que tengas asignadas en cada momento.',
     'enviadas' => 'Aquí aparecerán las actividades que hayas enviado a revisar. Puedes reabrir una actividad que no se haya revisado aún.',
+    'progreso' => 'Aquí podrás ver los contenidos y las fechas clave del curso.',
+    'recomendacion' => 'Esta unidad tiene fechas recomendadas para completar sus contenidos y seguir un ritmo adecuado durante el curso. Los contenidos se mostrarán una vez alcanzada la fecha de finalización recomendada.',
 ];

@@ -27,4 +27,6 @@ return [
     'password' => 'Update your password.',
     'desktop' => 'Currently assigned activities will appear here.',
     'enviadas' => 'Activities sent for review will appear here. You can reopen any activity which has not been reviewed yet.',
+    'progreso' => 'Here you can see the contents and key dates of the course.',
+    'recomendacion' => 'This unit has recommended completion dates to ensure you follow a suitable pace throughout the course. The content will be displayed once the recommended completion date has been reached.',
 ];
