@@ -15,12 +15,15 @@
         {!! Form::close() !!}
     @endif
 
-    <div class="c-callout bordered p-3">
-        <h5><strong>{{ __('Start date') }}:</strong>
-            {{ $curso?->fecha_inicio ? $curso->fecha_inicio->isoFormat('L LT') : __('Undefined') }}
-        </h5>
-        <h5 class="mb-0"><strong>{{ __('End date') }}:</strong>
-            {{ $curso?->fecha_fin ? $curso->fecha_fin->isoFormat('L LT') : __('Undefined') }}</h5>
+    <div class="alert alert-warning">
+        <div>
+            <strong>{{ __('Start date') }}:</strong>
+            <span>{{ $curso?->fecha_inicio ? $curso->fecha_inicio->isoFormat('L LT') : __('Undefined') }}</span>
+        </div>
+        <div>
+            <strong>{{ __('End date') }}:</strong>
+            <span>{{ $curso?->fecha_fin ? $curso->fecha_fin->isoFormat('L LT') : __('Undefined') }}</span>
+        </div>
     </div>
 
     @if(count($unidades) > 0)
@@ -29,7 +32,7 @@
 
             @include('partials.subtitulo', ['subtitulo' => (isset($unidad->codigo) ? ($unidad->codigo.' - ') : '') . $unidad->nombre])
 
-            <div class="pb-3">
+            <div>
                 @if(!is_null($unidad->fecha_entrega) && $unidad->fecha_entrega > now())
                     <hr>
                     <div class="progress-group">
