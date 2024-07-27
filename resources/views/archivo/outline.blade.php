@@ -32,26 +32,24 @@
 
             @include('partials.subtitulo', ['subtitulo' => (isset($unidad->codigo) ? ($unidad->codigo.' - ') : '') . $unidad->nombre])
 
-            <div>
+            <div class="container-fluid p-0">
                 @if(!is_null($unidad->fecha_entrega) && $unidad->fecha_entrega > now())
-                    <hr>
-                    <div class="progress-group">
-                        <div class="progress-group-prepend">
-                            <span class="progress-group-text">{{ __('Recommended') }}</span>
+                    <hr class="mt-0">
+                    <div class="row">
+                        <div class="col-12 col-sm-3 col-md-2 col-lg-2 col-xl-2 col-xxl-1">
+                            <span class="">{{ __('Recommended') }}</span>
                         </div>
-                        <div class="progress-group-bars">
-                            <div class="progress-group-header">
-                                <div>
-                                    <div class="d-flex">
-                                        <div>{{ !is_null($unidad->fecha_disponibilidad) ? $unidad->fecha_disponibilidad->isoFormat('L') : '-' }}</div>
-                                        <div>
-                                            &nbsp;{{ !is_null($unidad->fecha_disponibilidad) ? $unidad->fecha_disponibilidad->isoFormat('LT') : '' }}</div>
-                                    </div>
+                        <div class="col">
+                            <div class="d-flex justify-content-between">
+                                <div class="d-flex">
+                                    <div>{{ !is_null($unidad->fecha_disponibilidad) ? $unidad->fecha_disponibilidad->isoFormat('L') : '-' }}</div>
+                                    <div>
+                                        &nbsp;{{ !is_null($unidad->fecha_disponibilidad) ? $unidad->fecha_disponibilidad->isoFormat('LT') : '' }}</div>
                                 </div>
                                 <div class="col text-muted small text-center">
                                     @include('partials.diferencia_fechas', ['fecha_inicial' => now(), 'fecha_final' => $unidad->fecha_entrega])
                                 </div>
-                                <div class="ml-auto text-end">
+                                <div class="text-end">
                                     <div class="d-flex">
                                         <div>{{ !is_null($unidad->fecha_entrega) ? $unidad->fecha_entrega->isoFormat('L') : '-' }}</div>
                                         <div>
@@ -73,12 +71,12 @@
                         </div>
                     </div>
                     <hr>
-                    <div class="progress-group">
-                        <div class="progress-group-prepend">
-                            <span class="progress-group-text">{{ __('Actual') }}</span>
+                    <div class="row">
+                        <div class="col-12 col-sm-3 col-md-2 col-lg-2 col-xl-2 col-xxl-1">
+                            <span class="">{{ __('Actual') }}</span>
                         </div>
-                        <div class="progress-group-bars">
-                            <div class="progress m-0" style="height: 24px;">
+                        <div class="col">
+                            <div class="progress m-0">
                                 @php($porcentaje = $unidad->num_actividades('base') > 0 ? $user->num_completadas('base', $unidad->id)/$unidad->num_actividades('base')*100 : 0)
                                 @php($minimo_entregadas = $unidad->minimo_entregadas ?? $curso->minimo_entregadas ?? 0)
                                 <div
@@ -94,7 +92,7 @@
                             @if($minimo_entregadas > 0)
                                 <div class="row g-0">
                                     <div class="col text-muted small" style="flex: 0 0 10%;">0&thinsp;%</div>
-                                    <div class="col text-muted small text-end pe-1 border-right"
+                                    <div class="col text-muted small text-end pe-1 border-end"
                                          style="flex: 0 0 {{ $minimo_entregadas-10 }}%;">
                                         {{ $minimo_entregadas }}&thinsp;%
                                     </div>
