@@ -61,7 +61,7 @@
     @endif
 
     <div class="mb-3">
-        {{ html()->submit(__('Save'))->class('btn btn-primary text-light') }}
+        @include('partials.guardar')
     </div>
 
     {{ html()->form()->close() }}

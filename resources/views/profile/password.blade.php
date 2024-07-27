@@ -8,19 +8,30 @@
         'texto' => trans('tutorial.password')
     ])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
-            {!! Form::open(['route' => ['profile.update.password'], 'method' => 'PUT']) !!}
+            {{ html()->form('PUT', route('profile.update.password'))->open() }}
 
-            {{ Form::campoPassword('current', __('Current password')) }}
-            {{ Form::campoPassword('password', __('New password')) }}
-            {{ Form::campoPassword('password_confirmation', __('Password confirmation')) }}
+            @include('components.label-password', [
+                'label' => __('Current password'),
+                'name' => 'current',
+            ])
+
+            @include('components.label-password', [
+                'label' => __('New password'),
+                'name' => 'password',
+            ])
+
+            @include('components.label-password', [
+                'label' => __('Password confirmation'),
+                'name' => 'password_confirmation',
+            ])
 
             @include('partials.guardar')
 
             @include('layouts.errors')
 
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
         </div>
     </div>
 @endsection

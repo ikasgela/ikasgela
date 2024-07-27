@@ -78,6 +78,6 @@ class ProfileController extends Controller
             GiteaClient::password($user->username, $request->password);
         }
 
-        return back();
+        return back()->with('success', __('Password updated'));
     }
 }
