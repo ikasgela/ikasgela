@@ -11,6 +11,8 @@ class NotificationController extends Controller
 {
     public function edit()
     {
+        session()->forget('success');
+
         return view('notifications.edit');
     }
 
