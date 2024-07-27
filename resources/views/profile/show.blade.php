@@ -8,46 +8,59 @@
         'texto' => trans('tutorial.perfil')
     ])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
-            {!! Form::model($user, ['route' => ['profile.update.user'], 'method' => 'PUT']) !!}
+            {{ html()->modelForm($user, 'PUT', route('profile.update.user', $user->id))->open() }}
 
-            <div class="form-group row">
-                {!! Form::label('avatar', __('Avatar'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10 col-form-label">
+            <div class="row mb-3">
+                <div class="col-sm-2 d-flex align-items-center">
+                    {{ html()->label(__('Avatar'), 'avatar')->class('form-label') }}
+                </div>
+                <div class="col-sm-10">
                     <div class="mb-3">
                         @include('users.partials.avatar', ['user' => $user, 'width' => 100])
                     </div>
-                    {!! __('You can manage your profile picture on <a href="https://en.gravatar.com/" target="_blank">Gravatar</a>.') !!}
+                    {!! __('You can manage your profile picture on <a href="https://gravatar.com" target="_blank">Gravatar</a>.') !!}
                 </div>
             </div>
 
-            {{ Form::campoTexto('name', __('Name')) }}
-            {{ Form::campoTexto('surname', __('Surname')) }}
-            {{ Form::campoTextoLabel('email', __('Email')) }}
+            @include('components.label-text', [
+                'label' => __('Name'),
+                'name' => 'name',
+            ])
+
+            @include('components.label-text', [
+                'label' => __('Surname'),
+                'name' => 'surname',
+            ])
+
+            @include('components.label-text-readonly', [
+                'label' => __('Email'),
+                'name' => 'email',
+            ])
 
             @include('partials.guardar')
 
             @include('layouts.errors')
 
-            {!! Form::close() !!}
+            {{ html()->closeModelForm() }}
         </div>
     </div>
 
     @include('partials.subtitulo', ['subtitulo' => __('Your data')])
-    <div class="card">
-        <div class="card-body">
-            <div class="form-group row">
-                {!! Form::label('intellij_projects', __('Projects'), ['class' => 'col-sm-2 col-form-label']) !!}
+    <div class="card mb-3">
+        <div class="card-body pb-0">
+            {{ html()->form('POST', route('intellij_projects.descargar'))->open() }}
+            <div class="row mb-3">
+                <div class="col-sm-2 d-flex align-items-center">
+                    {{ html()->label(__('Projects'), 'intellij_projects')->class('form-label') }}
+                </div>
                 <div class="col-sm-10">
-                    {!! Form::open(['route' => ['intellij_projects.descargar'], 'method' => 'POST']) !!}
-                    {!! Form::button(__('Download script'), ['type' => 'submit',
-                        'class' => 'btn btn-primary'
-                    ]) !!}
-                    {!! Form::close() !!}
+                    {{ html()->submit(__('Download script'))->class('btn btn-primary text-light') }}
                     <p class="small m-0 mt-2">{{ __('Click on the button to download the script and run it on your computer. You will need Git installed. On Windows the script can be run from Git Bash.') }}</p>
                 </div>
             </div>
+            {{ html()->form()->close() }}
         </div>
     </div>
 
