@@ -16,7 +16,7 @@
             </div>
             <div>
                 <input type="checkbox" id="notificar" name="notificar" checked="checked"/>
-                <label class="ml-1" for="notificar">{{ __('Send notification email') }}</label>
+                <label class="ms-1" for="notificar">{{ __('Send notification email') }}</label>
             </div>
         </div>
     </form>

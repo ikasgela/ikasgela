@@ -3,7 +3,7 @@
 @if(count($calificaciones->skills_curso) > 0)
     <table class="tabla-datos">
         <tr>
-            <th class="text-left">{{ __('Skill') }}</th>
+            <th class="text-start">{{ __('Skill') }}</th>
             <th>{{ __('Activities') }}</th>
             @if($calificaciones->hayExamenes)
                 <th>{{ __('Exams') }}</th>

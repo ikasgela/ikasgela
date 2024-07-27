@@ -29,7 +29,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">{{ __('Clone') }}</button>
+            <button type="submit" class="btn btn-primary text-light">{{ __('Clone') }}</button>
 
             {!! Form::close() !!}
 

@@ -5,23 +5,22 @@
             <h5 class="card-title text-primary">{{ $curso->nombre }}</h5>
             <p class="card-text" style="height: 6em;">{{ $curso->descripcion }}</p>
         </div>
-        <div class="card-footer d-flex">
+        <div class="card-footer d-flex align-items-center" style="height: 4.5em">
             @if(setting_usuario('curso_actual') != $curso->id)
                 @if(!in_array($curso->id, $matricula) && $curso->matricula_abierta)
-                    {!! Form::open(['route' => ['cursos.matricular', $curso->id, Auth::user()->id]]) !!}
-                    {!! Form::button(__('Enroll in this course'), ['type' => 'submit', 'class' => 'btn btn-sm btn-secondary mr-3']) !!}
-                    {!! Form::close() !!}
+                    {{ html()->form('POST', route('cursos.matricular', [$curso->id, Auth::user()->id]))->open() }}
+                    {{ html()->submit(__('Enroll in this course'))->class('btn btn-primary text-light me-3') }}
+                    {{ html()->form()->close() }}
                 @elseif(in_array($curso->id, $matricula))
-                    {!! Form::open(['route' => ['cursos.curso_actual', $curso->id, Auth::user()->id]]) !!}
-                    {!! Form::button(__('Set as current course'), ['type' => 'submit', 'class' => 'btn btn-sm btn-secondary mr-3']) !!}
-                    {!! Form::close() !!}
+                    {{ html()->form('POST', route('cursos.curso_actual', [$curso->id, Auth::user()->id]))->open() }}
+                    {{ html()->submit(__('Set as current course'))->class('btn btn-secondary me-3') }}
+                    {{ html()->form()->close() }}
                 @else
-                    <span class="py-1 text-muted">{{ __('Course not available') }}.</span>
+                    <span class="text-muted">{{ __('Course not available') }}.</span>
                 @endif
             @else
-                <span class="py-1">{{ __('This is the current course') }}.</span>
+                <span>{{ __('This is the current course') }}.</span>
             @endif
-            <span class="p-1">&nbsp;</span>
         </div>
     </div>
 </div>

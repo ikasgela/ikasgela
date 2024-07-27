@@ -100,7 +100,7 @@
             @include('layouts.errors')
 
             <div class="mb-4">
-                <button type="submit" class="btn btn-primary mr-2">{{ __('Save assigment') }}</button>
+                <button type="submit" class="btn btn-primary me-2">{{ __('Save assigment') }}</button>
                 <a class="btn btn-secondary"
                    href="{{ route('markdown_texts.create') }}">{{ __('New markdown text') }}</a>
             </div>

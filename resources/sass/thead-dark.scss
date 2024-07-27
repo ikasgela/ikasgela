@@ -1,0 +1,13 @@
+.thead-dark th {
+    color: var(--bs-light);
+    background-color: var(--bs-dark);
+    border-color: var(--bs-dark);
+}
+
+@include color-mode(dark) {
+    .thead-dark th {
+        color: var(--bs-dark);
+        background-color: var(--bs-light);
+        border-color: var(--bs-light);
+    }
+}

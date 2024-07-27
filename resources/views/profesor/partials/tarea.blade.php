@@ -1,5 +1,5 @@
 @include('partials.tutorial', [
-    'color' => 'c-callout-success',
+    'color' => 'success',
     'texto' => trans('tutorial.valorar_actividad')
 ])
 
@@ -36,36 +36,36 @@
                         <label class="mx-3">{{ __('Attempts') }}: {{ $tarea->intentos }}</label>
                         <div class="form-inline">
                             <button type="submit" name="nuevoestado" value="41"
-                                    class="mr-3 btn btn-warning single_click"
+                                    class="me-3 btn btn-warning single_click"
                                     onclick="return validate_feedback();">
                                 <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Send again') }}
                             </button>
-                            <label class="mr-2">{{ __('Score') }}</label>
-                            <input class="mr-2 form-control" type="number" min="0" max="100" step="1"
+                            <label class="me-2">{{ __('Score') }}</label>
+                            <input class="me-2 form-control" type="number" min="0" max="100" step="1"
                                    name="puntuacion"
                                    value="{{ !is_null($tarea->puntuacion) ? $tarea->puntuacion : $actividad->puntuacion }}"/>
-                            <label class="mr-3"> {{ __('over') }} {{ $actividad->puntuacion }}</label>
+                            <label class="me-3"> {{ __('over') }} {{ $actividad->puntuacion }}</label>
                             <button type="submit" name="nuevoestado" value="40"
-                                    class="btn btn-primary mr-3 single_click"
+                                    class="btn btn-primary me-3 single_click"
                                     onclick="return validate_feedback();">
                                 <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Finished') }}
                             </button>
                             @if($actividad->is_expired)
                                 <button type="submit" name="nuevoestado" value="62"
-                                        class="btn btn-secondary ml-3 single_click">
+                                        class="btn btn-secondary ms-3 single_click">
                                     <i class="fas fa-spinner fa-spin"
                                        style="display:none;"></i> {{ __('Archive expired') }}
                                 </button>
                                 <button type="submit" name="nuevoestado" value="63"
-                                        class="btn btn-secondary ml-3 single_click">
+                                        class="btn btn-secondary ms-3 single_click">
                                     <i class="fas fa-spinner fa-spin"
                                        style="display:none;"></i> {{ __('Extend deadline') }}
                                 </button>
                                 <label class="mx-2">{{ __('by') }}</label>
-                                <input class="mr-2 form-control" type="number" min="0" max="90" step="1"
+                                <input class="me-2 form-control" type="number" min="0" max="90" step="1"
                                        name="ampliacion_plazo"
                                        value="{{ $actividad->unidad->curso->plazo_actividad ?? 7 }}"/>
-                                <label class="mr-2">{{ __('days') }}.</label>
+                                <label class="me-2">{{ __('days') }}.</label>
                             @endif
                         </div>
                         @if(!is_null($actividad->siguiente))
@@ -144,10 +144,10 @@
                             <p>=== {{ __('Comments').' (v'.($tarea->intentos+1).')' }} ===</p>
                         </textarea>
                         <div class="form-inline mt-3 align-items-right">
-                            <label class="mr-2">{{ __('Title') }}</label>
-                            <input class="form-control mr-2" form="guardar_feedback" type="text" id="titulo"
+                            <label class="me-2">{{ __('Title') }}</label>
+                            <input class="form-control me-2" form="guardar_feedback" type="text" id="titulo"
                                    name="titulo">
-                            <label class="mr-2">{{ __('save as') }}</label>
+                            <label class="me-2">{{ __('save as') }}</label>
                             <button form="guardar_feedback" type="submit" name="tipo" value="curso"
                                     class="btn btn-primary">{{ __('course feedback') }}
                             </button>

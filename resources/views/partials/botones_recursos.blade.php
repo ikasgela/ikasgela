@@ -37,7 +37,7 @@
                 <i class="fab fa-java"></i>
             </a>
         </div>
-        <div class='btn-group ml-2'>
+        <div class='btn-group ms-2'>
             <a title="{{ __('Selector') }}"
                href="{{ route('selectors.actividad', [$actividad->id]) }}"
                class="btn btn-sm {{ $actividad->selectors()->count() > 0 ? 'btn-primary' : 'btn-light' }}">

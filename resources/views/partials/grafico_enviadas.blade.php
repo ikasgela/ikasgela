@@ -1,8 +1,8 @@
 @if(count($chart->datasets) > 0)
-    <div>
+    <div class="mb-3">
         {!! $chart->container() !!}
     </div>
 
-    <script src="{{ asset('/js/chart.min.js') }}" charset="utf-8"></script>
+    <script src="{{ asset('/js/chart.umd.js') }}" charset="utf-8"></script>
     {!! $chart->script() !!}
 @endif

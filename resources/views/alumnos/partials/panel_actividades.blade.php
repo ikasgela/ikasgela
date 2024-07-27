@@ -6,8 +6,8 @@
     @endforeach
 @else
     @include('partials.tutorial', [
-        'color' => 'c-callout-success',
-        'texto' => trans('tutorial.disponibles')
+        'color' => 'success',
+        'texto' => trans('tutorial.enviadas')
     ])
     <div class="row">
         <div class="col-md-12">

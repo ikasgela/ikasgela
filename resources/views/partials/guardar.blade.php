@@ -1,4 +1,3 @@
-<div class="form-group">
-    <button id="boton_guardar" type="submit" class="btn btn-primary single_click">
-        <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ isset($texto)? $texto : __('Save') }}</button>
-</div>
+<button id="boton_guardar" type="submit" class="btn btn-primary text-light single_click">
+    <i class="fas fa-spinner fa-spin" style="display: none"></i> {{ $texto ?? __('Save') }}
+</button>

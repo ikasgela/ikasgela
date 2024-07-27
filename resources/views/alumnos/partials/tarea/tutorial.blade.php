@@ -2,7 +2,7 @@
     @case(10)
         {{-- Nueva --}}
         @include('partials.tutorial', [
-            'color' => 'c-callout-success',
+            'color' => 'success',
             'texto' => trans('tutorial.para_comenzar')
         ])
         @break
@@ -11,14 +11,14 @@
     @case(21)
         {{-- Feedback leído --}}
         @include('partials.tutorial', [
-            'color' => 'c-callout-success',
+            'color' => 'success',
             'texto' => trans('tutorial.completa_envia')
         ])
         @break
     @case(30)
         {{-- Enviada --}}
         @include('partials.tutorial', [
-            'color' => 'c-callout-success',
+            'color' => 'success',
             'texto' => trans('tutorial.pendiente_revisar')
         ])
         @break
@@ -27,7 +27,7 @@
     @case(41)
         {{-- Revisada: ERROR --}}
         @include('partials.tutorial', [
-            'color' => 'c-callout-success',
+            'color' => 'success',
             'texto' => trans('tutorial.revisada', ['url' => route('archivo.index')])
         ])
         @break
@@ -36,7 +36,7 @@
     @case(50)
         {{-- Terminada --}}
         @include('partials.tutorial', [
-            'color' => 'c-callout-success',
+            'color' => 'success',
             'texto' => trans('tutorial.terminada', ['url' => route('archivo.index')])
         ])
         @break

@@ -61,7 +61,7 @@
                     @if(!isset($exportar))
                         @if(session('tutor_informe_anonimo') == 'A' || $user_seleccionado->id == $user->id)
                             {!! Form::open(['route' => ['results.alumno'], 'method' => 'POST', 'style' => 'display:inline']) !!}
-                            {!! Form::button($user->full_name, ['type' => 'submit', 'class' => 'btn btn-link m-0 p-0 text-dark text-left']) !!}
+                            {!! Form::button($user->full_name, ['type' => 'submit', 'class' => 'btn btn-link m-0 p-0 text-dark text-start']) !!}
                             {!! Form::hidden('user_id',$user->id) !!}
                             {!! Form::close() !!}
                         @else

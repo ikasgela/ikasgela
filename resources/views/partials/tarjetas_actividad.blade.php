@@ -1,12 +1,12 @@
 <hr class="mt-0 mb-2">
-<div class="row mt-3 mb-0 mx-2">
+<div class="row mt-3 mx-2">
     @if($actividad->hasEtiqueta('trabajo en equipo'))
         <div class="col-md-6">
             @include('teams.partials.tarjeta', ['teams' => $actividad->teams])
         </div>
     @endif
     @foreach($actividad->recursos as $recurso)
-        <div class="col-md-{{ $recurso->pivote($actividad)->columnas ?: 6 }}">
+        <div class="col-md-{{ $recurso->pivote($actividad)->columnas ?: 6 }} mb-3">
             @switch($recurso::class)
                 @case('App\Models\IntellijProject')
                     @include('intellij_projects.tarjeta', ['intellij_project' => $recurso, 'repositorio' => $recurso->repository()])

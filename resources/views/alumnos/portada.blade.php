@@ -5,7 +5,7 @@
     @include('partials.titular', ['titular' => __('Courses'), 'subtitulo' => $organization->name])
 
     @include('partials.tutorial', [
-        'color' => 'c-callout-success',
+        'color' => 'success',
         'texto' => trans('tutorial.matricula')
     ])
 

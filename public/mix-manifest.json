@@ -1,8 +1,10 @@
 {
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
-    "/css/prism.css": "/css/prism.css",
-    "/js/prism.js": "/js/prism.js",
+    "/prismjs/prism.js": "/prismjs/prism.js",
+    "/prismjs/prism-coy.min.css": "/prismjs/prism-coy.min.css",
+    "/prismjs/prism-tomorrow.min.css": "/prismjs/prism-tomorrow.min.css",
+    "/prismjs/prism-line-numbers.min.css": "/prismjs/prism-line-numbers.min.css",
     "/tinymce/icons/default/icons.js": "/tinymce/icons/default/icons.js",
     "/tinymce/icons/default/icons.min.js": "/tinymce/icons/default/icons.min.js",
     "/tinymce/icons/default/index.js": "/tinymce/icons/default/index.js",
@@ -359,7 +361,8 @@
     "/tinymce/langs/zh_MO.js": "/tinymce/langs/zh_MO.js",
     "/tinymce/langs/zh_SG.js": "/tinymce/langs/zh_SG.js",
     "/tinymce/langs/zh_TW.js": "/tinymce/langs/zh_TW.js",
-    "/js/chart.min.js": "/js/chart.min.js",
+    "/js/chart.umd.js": "/js/chart.umd.js",
+    "/js/chart.umd.js.map": "/js/chart.umd.js.map",
     "/js/jquery.fancybox.min.css": "/js/jquery.fancybox.min.css",
     "/js/jquery.fancybox.min.js": "/js/jquery.fancybox.min.js"
 }

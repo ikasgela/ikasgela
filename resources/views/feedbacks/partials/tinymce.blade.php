@@ -14,6 +14,12 @@
         codesample_languages: [
             @include('partials.tinymce.codesample_languages')
         ],
+        skin: localStorage.getItem('theme') === 'dark'
+            ? "oxide-dark"
+            : "oxide",
+        content_css: localStorage.getItem('theme') === 'dark'
+            ? "dark"
+            : "default",
         autosave_ask_before_unload: false,
         autosave_interval: "15s",
         autosave_restore_when_empty: true,

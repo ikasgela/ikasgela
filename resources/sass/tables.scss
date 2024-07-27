@@ -1,0 +1,12 @@
+.table-row, .table-row-blank td {
+    cursor: pointer;
+}
+
+.table-cell-click .clickable {
+    cursor: pointer;
+}
+
+// https://stackoverflow.com/a/27747130
+.table > tbody > tr > td {
+    vertical-align: middle;
+}

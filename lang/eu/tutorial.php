@@ -1,8 +1,9 @@
 <?php
 
-// resources/lang/es/tutorial.php
+// resources/lang/eu/tutorial.php
 
 return [
+    'titular' => 'Tutoriala',
     'ocultable' => 'Tutoriala zure erabiltzailearen profilean desaktibatu dezakezu.',
     'para_comenzar' => 'Aktibitatea hasteko, onartu ezazu. Une horretatik aurrera baliabideetarako sarbidea izango duzu.',
     'completa_envia' => 'Osatu aktibitatea eta, prest dagoenean, bidali berrikusteko.',
@@ -24,4 +25,8 @@ return [
     'notificaciones' => 'Aktibatu edo desaktibatu posta elektroniko bidezko jakinarazpenak.',
     'perfil' => 'Eguneratu zure erabiltzailearen profila.',
     'password' => 'Eguneratu zure pasahitza.',
+    'desktop' => 'Une bakoitzean esleitutako aktibitateak hemen agertuko dira.',
+    'enviadas' => 'Berrikusteko bidali dituzun aktibitateak hemen agertuko dira. Oraindik berrikusi ez den jarduera bat berriro ireki dezakezu.',
+    'progreso' => 'Hemen ikastaroaren eduki eta data nagusiak ikus ditzakezu.',
+    'recomendacion' => 'Unitate honek bere edukiak osatzeko eta ikastaroan zehar erritmo egokia jarraitzeko gomendatutako datak ditu. Edukiak gomendatutako amaiera datara iritsitakoan bistaratuko dira.',
 ];

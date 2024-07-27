@@ -3,7 +3,7 @@
 @if($unidades->count() > 0)
     <table class="tabla-datos">
         <tr>
-            <th class="text-left">{{ __('Unit') }}</th>
+            <th class="text-start">{{ __('Unit') }}</th>
             <th class="text-center">{{ __('Base') }}</th>
             <th class="text-center">{{ __('Extra') }}</th>
             <th class="text-center">{{ __('Revisit') }}</th>
@@ -30,7 +30,7 @@
             @endif
         @endforeach
         <tr>
-            <th colspan="4" class="text-left">
+            <th colspan="4" class="text-start">
                 @include('results.partials.completadas')
             </th>
         </tr>

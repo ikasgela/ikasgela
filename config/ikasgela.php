@@ -23,4 +23,6 @@ return [
     'excel_report_enabled' => env('EXCEL_REPORT_ENABLED', false),
 
     'jplag_delete_temp' => env('JPLAG_DELETE_TEMP', true),
+
+    'avatar_enabled' => env('AVATAR_ENABLED', false),
 ];

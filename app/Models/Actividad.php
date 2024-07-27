@@ -58,6 +58,12 @@ class Actividad extends Model
             . $this->nombre;
     }
 
+    public function getPrettyNameAttribute()
+    {
+        return $this->unidad->nombre . ' » '
+            . $this->nombre;
+    }
+
     public function setCloneableRelations($relations)
     {
         $this->cloneable_relations = $relations;

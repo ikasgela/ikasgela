@@ -29,7 +29,7 @@
             <tbody>
             @foreach($teams as $team)
                 <tr class="table-cell-click" data-href="{{ route('teams.show', [$team->id]) }}">
-                    <td class="p-0 pl-1"></td>
+                    <td class="p-0 ps-1"></td>
                     <td>
                         <input form="asignar" type="checkbox"
                                data-chkbox-shiftsel="grupo4"

@@ -1,6 +1,6 @@
 @include('partials.subtitulo', ['subtitulo' => __('Content development')])
 
-<div class="card">
+<div class="card mb-3">
     <div class="card-body">
         @foreach ($unidades as $unidad)
             <h5 class="card-title">
@@ -9,8 +9,8 @@
                 @endisset
                 @include('unidades.partials.nombre_con_etiquetas')
             </h5>
-            <p class="ml-5">{{ $unidad->descripcion }}</p>
-            <div class="ml-5 progress" style="height: 24px;">
+            <p class="ms-5">{{ $unidad->descripcion }}</p>
+            <div class="ms-5 progress">
                 @php($hay_calificacion = $calificaciones->resultados_unidades[$unidad->id]->actividad > 0)
                 @php($porcentaje = $hay_calificacion ? round($calificaciones->resultados_unidades[$unidad->id]->tarea/$calificaciones->resultados_unidades[$unidad->id]->actividad*100) : 0)
                 <div
@@ -23,12 +23,12 @@
                 </div>
                 @if($hay_calificacion && $porcentaje<20)
                     <div
-                        class="progress-bar {{ $porcentaje > 0 ? 'bg-gray-200' : 'bg-warning w-100' }} text-left text-dark pl-2">
+                        class="progress-bar {{ $porcentaje > 0 ? 'bg-body-secondary bg-opacity-10' : 'bg-warning text-dark w-100' }} text-start ps-2">
                         {{ formato_decimales($porcentaje) }}&thinsp;%
                     </div>
                 @endif
             </div>
-            <div class="text-muted small text-right">
+            <div class="text-secondary small text-end">
                 @if($hay_calificacion)
                     {{ $calificaciones->resultados_unidades[$unidad->id]->tarea + 0
                     }}/{{ $calificaciones->resultados_unidades[$unidad->id]->actividad + 0 }}

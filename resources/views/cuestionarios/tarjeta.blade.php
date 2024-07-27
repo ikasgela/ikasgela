@@ -7,14 +7,14 @@ $en_blanco = $total - $respondidas;
 
 <div class="card">
     <div class="card-header d-flex justify-content-between">
-        <div><i class="fas fa-question-circle mr-2"></i>{{ $cuestionario->titulo }}</div>
+        <div><i class="fas fa-question-circle me-2"></i>{{ $cuestionario->titulo }}</div>
         <div>
             @include('partials.modificar_recursos', ['ruta' => 'cuestionarios'])
             @include('partials.editar_recurso', ['recurso' => $cuestionario, 'ruta' => 'cuestionarios'])
         </div>
     </div>
 
-    {!! Form::model($cuestionario, ['route' => ['cuestionarios.respuesta', $cuestionario->id], 'method' => 'PUT']) !!}
+    {{ html()->modelForm($cuestionario, 'PUT', route('cuestionarios.respuesta', $cuestionario->id))->open() }}
 
     @foreach($cuestionario->preguntas as $pregunta)
         <div class="card-body">
@@ -71,12 +71,12 @@ $en_blanco = $total - $respondidas;
     @elseif(Route::currentRouteName() != 'archivo.show' && Route::currentRouteName() != 'actividades.preview' || !Auth::user()->hasRole('alumno'))
         <hr class="my-0">
         <div class="card-body">
-            <button type="submit" class="btn btn-primary single_click">
+            <button type="submit" class="btn btn-primary text-light single_click">
                 <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Check answers') }}</button>
         </div>
     @endif
 
-    {!! Form::close() !!}
+    {{ html()->closeModelForm() }}
 
 </div>
 

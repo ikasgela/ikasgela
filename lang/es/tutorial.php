@@ -3,6 +3,7 @@
 // resources/lang/es/tutorial.php
 
 return [
+    'titular' => 'Tutorial',
     'ocultable' => 'Puedes desactivar el tutorial en tu perfil de usuario.',
     'para_comenzar' => 'Para comenzar la actividad, acéptala. A partir de ese momento tendrás acceso a sus recursos.',
     'completa_envia' => 'Completa la actividad y, cuando esté lista, envíala para revisar.',
@@ -24,4 +25,8 @@ return [
     'notificaciones' => 'Activar o desactivar las notificaciones por email.',
     'perfil' => 'Actualiza tu perfil de usuario.',
     'password' => 'Actualiza tu contraseña.',
+    'desktop' => 'Aquí aparecerán las actividades que tengas asignadas en cada momento.',
+    'enviadas' => 'Aquí aparecerán las actividades que hayas enviado a revisar. Puedes reabrir una actividad que no se haya revisado aún.',
+    'progreso' => 'Aquí podrás ver los contenidos y las fechas clave del curso.',
+    'recomendacion' => 'Esta unidad tiene fechas recomendadas para completar sus contenidos y seguir un ritmo adecuado durante el curso. Los contenidos se mostrarán una vez alcanzada la fecha de finalización recomendada.',
 ];

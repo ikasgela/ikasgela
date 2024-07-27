@@ -1,7 +1,8 @@
 @section('prismjs-css')
-    <link rel="stylesheet" href="{{ asset('/css/prism.css') }}"/>
+    <link id="prismjs-theme" rel="stylesheet" href="{{ asset('/prismjs/prism-coy.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('/prismjs/prism-line-numbers.min.css') }}"/>
 @endsection
 
 @section('prismjs-scripts')
-    <script src="{{ asset('/js/prism.js') }}"></script>
+    <script src="{{ asset('/prismjs/prism.js') }}"></script>
 @endsection

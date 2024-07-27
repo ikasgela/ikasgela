@@ -5,7 +5,7 @@
     @include('partials.titular', ['titular' => __('Activities per day')])
 
     @include('partials.tutorial', [
-        'color' => 'c-callout-success',
+        'color' => 'success',
         'texto' => trans('tutorial.grafico')
     ])
 

@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Models\Organization;
-use Form;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -18,14 +17,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         \URL::forceScheme('https');
-
-        Form::component('campoTexto', 'components.form.text', ['name', 'label' => null, 'value' => null, 'attributes' => []]);
-        Form::component('campoPassword', 'components.form.password', ['name', 'label' => null, 'attributes' => []]);
-        Form::component('campoTextoLabel', 'components.form.text_label', ['name', 'label' => null, 'value' => null, 'attributes' => []]);
-        Form::component('campoCheck', 'components.form.check', ['name', 'label' => null, 'value' => null, 'attributes' => []]);
-        Form::component('campoCheckLabel', 'components.form.check_label', ['name', 'label' => null, 'value' => null, 'attributes' => []]);
-        Form::component('campoTextArea', 'components.form.text_area', ['name', 'label' => null, 'value' => null, 'attributes' => []]);
-        Form::component('campoLabelUrl', 'components.form.label_url', ['name', 'label' => null, 'value' => null, 'attributes' => []]);
 
         if (config('app.env', 'local') !== 'production') {
             $this->app->singleton(\Faker\Generator::class, function () {

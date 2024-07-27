@@ -21,7 +21,7 @@
                     <div class='btn-group'>
                         {!! Form::open(['route' => ['intellij_projects.descargar.plantillas.curso'], 'method' => 'POST']) !!}
                         {!! Form::button('<i class="fas fa-download text-danger"></i>', ['type' => 'submit',
-                            'class' => 'btn btn-light btn-sm ml-3', 'title' => __('Download template projects')
+                            'class' => 'btn btn-light btn-sm ms-3', 'title' => __('Download template projects')
                         ]) !!}
                         {!! Form::close() !!}
                     </div>
@@ -61,7 +61,7 @@
 
                             {!! Form::open(['route' => ['intellij_projects.descargar.plantillas'], 'method' => 'POST']) !!}
                             {!! Form::button('<i class="fas fa-download text-danger"></i>', ['type' => 'submit',
-                                'class' => 'btn btn-light btn-sm ml-3', 'title' => __('Download template projects')
+                                'class' => 'btn btn-light btn-sm ms-3', 'title' => __('Download template projects')
                             ]) !!}
                             {!! Form::hidden('unidad_id',$unidad->id) !!}
                             {!! Form::close() !!}

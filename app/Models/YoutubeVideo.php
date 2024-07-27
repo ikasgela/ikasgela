@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Bkwld\Cloner\Cloneable;
-use Cohensive\Embed\Facades\Embed;
+use Cohensive\OEmbed\Facades\OEmbed;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,14 +29,12 @@ class YoutubeVideo extends Model
 
     public function getVideoHtmlAttribute()
     {
-        $embed = Embed::make($this->codigo)->parseUrl();
+        $embed = OEmbed::get($this->codigo);
 
         if (!$embed)
             return '';
 
-        $embed->setAttribute(['rel' => 0, 'modestbranding' => 1]);
-
-        return $embed->getHtml();
+        return $embed->html(['rel' => 0, 'modestbranding' => 1]);
     }
 
     public function curso()

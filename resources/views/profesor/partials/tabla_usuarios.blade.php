@@ -41,7 +41,7 @@
                 @php($media = true)
             @endif
             <tr class="table-cell-click" data-href="{{ route('profesor.tareas', [$user->id]) }}">
-                <td class="p-0 pl-1
+                <td class="p-0 ps-1
                     @if($user->num_actividades_sin_completar() == 0)
                     bg-success
                     @elseif($user->num_actividades_enviadas_noautoavance() > 0)
@@ -100,7 +100,7 @@
                 <td colspan="6">
                     {{ __('Filter by tag') }}:
                     @foreach($etiquetas as $etiqueta)
-                        {!! '<a class="badge badge-secondary text-dark ml-2" href="'.route(explode('.',Route::currentRouteName())[0].'.index.filtro',['tag'=>$etiqueta]).'">'.$etiqueta.'</a>' !!}
+                        {!! '<a class="badge bg-body-secondary text-body-secondary ms-2" href="'.route(explode('.',Route::currentRouteName())[0].'.index.filtro',['tag'=>$etiqueta]).'">'.$etiqueta.'</a>' !!}
                     @endforeach
                 </td>
             </tr>

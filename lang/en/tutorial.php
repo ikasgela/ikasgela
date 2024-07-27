@@ -3,6 +3,7 @@
 // resources/lang/en/tutorial.php
 
 return [
+    'titular' => 'Tutorial',
     'ocultable' => 'You can disable the tutorial in your user profile.',
     'para_comenzar' => 'To begin an activity, accept it. Then you will have access to its resources.',
     'completa_envia' => 'Complete the activity and, when ready, send it for review.',
@@ -24,4 +25,8 @@ return [
     'notificaciones' => 'Enable or disable email notifications.',
     'perfil' => 'Update your user profile.',
     'password' => 'Update your password.',
+    'desktop' => 'Currently assigned activities will appear here.',
+    'enviadas' => 'Activities sent for review will appear here. You can reopen any activity which has not been reviewed yet.',
+    'progreso' => 'Here you can see the contents and key dates of the course.',
+    'recomendacion' => 'This unit has recommended completion dates to ensure you follow a suitable pace throughout the course. The content will be displayed once the recommended completion date has been reached.',
 ];

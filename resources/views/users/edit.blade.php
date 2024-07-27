@@ -75,7 +75,7 @@
                     <button data-selector="organizations" type="button" class="btn btn-primary btn-sm add">
                         <i class="fas fa-arrow-left"></i>
                     </button>
-                    <button data-selector="organizations" type="button" class="btn btn-primary btn-sm ml-1 remove">
+                    <button data-selector="organizations" type="button" class="btn btn-primary btn-sm ms-1 remove">
                         <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>

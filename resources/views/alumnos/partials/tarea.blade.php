@@ -2,7 +2,7 @@
 
 @if(Route::current()->getName() == 'archivo.show')
     @include('partials.tutorial', [
-        'color' => 'c-callout-success',
+        'color' => 'success',
         'texto' => trans('tutorial.archivada')
     ])
 @endif
@@ -15,7 +15,7 @@
 <div class="row">
     <div class="col-md-12">
         {{-- Tarjeta --}}
-        <div class="card border-dark">
+        <div class="card tarea-card mb-3">
             @include('alumnos.partials.tarea.cabecera')
             <div class="card-body pb-1">
                 <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
@@ -34,25 +34,27 @@
                 @if(!$actividad->auto_avance && $actividad->tarea->estado < 60 && !$actividad->is_expired)
                     @include('alumnos.partials.tarea.linea_progreso')
                 @endif
-                @switch($actividad->tarea->estado)
-                    @case(20)
-                        {{-- Aceptada --}}
-                    @case(21)
-                        {{-- Feedback leído --}}
-                        @if(!$actividad->is_expired)
+                <div>
+                    @switch($actividad->tarea->estado)
+                        @case(20)
+                            {{-- Aceptada --}}
+                        @case(21)
+                            {{-- Feedback leído --}}
+                            @if(!$actividad->is_expired)
+                                @include('partials.tarjetas_actividad')
+                            @endif
+                            @break
+                        @case(60)
+                        @case(64)
+                            {{-- Archivada --}}
                             @include('partials.tarjetas_actividad')
-                        @endif
-                        @break
-                    @case(60)
-                    @case(64)
-                        {{-- Archivada --}}
-                        @include('partials.tarjetas_actividad')
-                        @break
-                    @default
-                @endswitch
-                @include('alumnos.partials.tarea.feedback')
+                            @break
+                        @default
+                    @endswitch
+                    @include('alumnos.partials.tarea.feedback')
+                </div>
                 <hr class="my-0">
-                <div class="card-body pb-1">
+                <div class="card-body pb-0">
                     @include('alumnos.partials.tarea.boton_accion')
                 </div>
             @else

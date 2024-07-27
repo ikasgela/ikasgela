@@ -16,6 +16,12 @@
         codesample_languages: [
             @include('partials.tinymce.codesample_languages')
         ],
+        skin: localStorage.getItem('theme') === 'dark'
+            ? "oxide-dark"
+            : "oxide",
+        content_css: localStorage.getItem('theme') === 'dark'
+            ? "dark"
+            : "default",
         relative_urls: false,
         setup: function (editor) {
             editor.on('init', function () {

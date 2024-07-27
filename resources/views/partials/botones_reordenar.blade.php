@@ -12,7 +12,7 @@
     <button title="{{ __('Down') }}"
             type="submit"
             {{ !isset($ids[$loop->index+1]) ? 'disabled' : '' }}
-            class="btn btn-light btn-sm ml-1">
+            class="btn btn-light btn-sm ms-1">
         <i class="fas fa-arrow-down"></i>
     </button>
     {!! Form::close() !!}

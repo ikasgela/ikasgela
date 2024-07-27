@@ -15,9 +15,9 @@
     @else
         @include('layouts.partials.favicons_debug')
     @endif
-    <link href="{{ asset('css/nunito.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css">
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <link href="{{ asset('/css/nunito.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('/css/app.css') }}" rel="stylesheet" type="text/css">
+    <script src="{{ asset('/js/app.js') }}" defer></script>
     @if(config('app.env') == 'production')
         @yield('recaptcha')
     @endif

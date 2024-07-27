@@ -2,7 +2,7 @@
 
 <table class="tabla-datos">
     <tr>
-        <th class="text-left">{{ __('Unit') }}</th>
+        <th class="text-start">{{ __('Unit') }}</th>
         <th>{{ __('Score') }}</th>
         <th>{{ __('Total') }}</th>
     </tr>

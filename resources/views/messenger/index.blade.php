@@ -15,8 +15,8 @@
         <div>
             <h1>{{ __('Tutorship') }}
                 @if(!is_null($curso_actual))
-                    <a href="{{ route('messages.create') }}" class="btn btn-primary ml-3">
-                        <i class="fas fa-pencil-alt mr-1"></i> {{ __('Create new conversation') }}
+                    <a href="{{ route('messages.create') }}" class="btn btn-primary text-light ms-3">
+                        <i class="fas fa-pencil-alt me-1"></i> {{ __('Create new conversation') }}
                     </a>
                 @endif
             </h1>
@@ -35,42 +35,46 @@
     </div>
 
     @include('partials.tutorial', [
-        'color' => 'c-callout-success',
+        'color' => 'success',
         'texto' => trans('tutorial.mensajes')
     ])
 
     @include('messenger.partials.flash')
 
-    <ul class="nav nav-tabs" id="pills-tab" role="tablist">
+    <ul class="nav nav-tabs mb-3" id="tab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="pills-en-curso-tab" data-toggle="tab" href="#pills-en-curso" role="tab"
-               aria-controls="pills-profile" aria-selected="true">
-                {{ trans_choice('messages.unread', 2) }}
+            <button class="nav-link active d-flex align-items-center"
+                    id="no-leidas-tab" data-bs-target="#no-leidas-tab-pane" aria-controls="no-leidas-tab-pane"
+                    data-bs-toggle="tab" type="button" role="tab"
+                    aria-selected="true">
+                <span>{{ trans_choice('messages.unread', 2) }}</span>
                 @if($threads->count() > 0)
-                    <span class="ml-2 badge badge-success">{{ $threads->count() }}</span>
+                    <span class="ms-2 badge bg-success text-light fw-light">{{ $threads->count() }}</span>
                 @else
-                    <span class="ml-2 badge badge-secondary">0</span>
+                    <span class="ms-2 badge text-bg-secondary fw-light">0</span>
                 @endif
-            </a>
+            </button>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="pills-enviadas-tab" data-toggle="tab" href="#pills-enviadas" role="tab"
-               aria-controls="pills-contact" aria-selected="false">
-                {{ trans_choice('messages.all', 2) }}
-                <span class="ml-2 badge badge-secondary">{{ $threads_all_count }}</span>
-            </a>
+            <button class="nav-link d-flex align-items-center"
+                    id="todas-tab" data-bs-target="#todas-tab-pane" aria-controls="todas-tab-pane"
+                    data-bs-toggle="tab" type="button" role="tab"
+                    aria-selected="false">
+                <span>{{ trans_choice('messages.all', 2) }}</span>
+                <span class="ms-2 badge text-bg-secondary fw-light">{{ $threads_all_count }}</span>
+            </button>
         </li>
     </ul>
-    <div class="tab-content border-bottom border-left border-right" id="pills-tab-content">
-        <div class="tab-pane fade show active" id="pills-en-curso" role="tabpanel" aria-labelledby="pills-en-curso-tab">
-            <div class="p-3">
-                @each('messenger.partials.thread', $threads, 'thread', 'messenger.partials.no-threads')
-            </div>
+    <div class="tab-content" id="tab-content">
+        <div class="tab-pane fade show active"
+             id="no-leidas-tab-pane" aria-labelledby="no-leidas-tab"
+             role="tabpanel">
+            @each('messenger.partials.thread', $threads, 'thread', 'messenger.partials.no-threads')
         </div>
-        <div class="tab-pane fade" id="pills-enviadas" role="tabpanel" aria-labelledby="pills-enviadas-tab">
-            <div class="p-3">
-                @each('messenger.partials.thread', $threads_all, 'thread', 'messenger.partials.no-threads')
-            </div>
+        <div class="tab-pane fade"
+             id="todas-tab-pane" aria-labelledby="todas-tab"
+             role="tabpanel">
+            @each('messenger.partials.thread', $threads_all, 'thread', 'messenger.partials.no-threads')
             @include('partials.paginador', ['coleccion' => $threads_all])
         </div>
     </div>
