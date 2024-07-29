@@ -34,7 +34,7 @@ return [
      * day to day use.
      */
     'environments' => [
-//        'production',
+        'production',
 //        'local'
     ],
 
