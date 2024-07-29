@@ -62,9 +62,8 @@
 
     <div class="mb-3">
         @include('partials.guardar')
+        @include('layouts.errors')
     </div>
-
-    @include('layouts.errors')
 
     {{ html()->form()->close() }}
 
