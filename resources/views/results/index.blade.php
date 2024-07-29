@@ -50,9 +50,9 @@
     @endif
 
     @if($milestones->count() > 0)
-        {!! Form::open(['route' => ['results.milestone'], 'method' => 'POST']) !!}
+        {{ html()->form('POST', route('results.milestone'))->open() }}
         @include('partials.desplegable_milestones')
-        {!! Form::close() !!}
+        {{ html()->form()->close() }}
     @endif
 
     @if(!is_null($user->curso_actual()))
