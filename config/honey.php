@@ -4,7 +4,6 @@ use Lukeraymonddowning\Honey\Checks\JavascriptInputFilledCheck;
 use Lukeraymonddowning\Honey\Checks\MinimumTimePassedCheck;
 use Lukeraymonddowning\Honey\Checks\PresentButEmptyCheck;
 use Lukeraymonddowning\Honey\Checks\UserIsBlockedSpammerCheck;
-use Lukeraymonddowning\Honey\Features;
 use Lukeraymonddowning\Honey\InputNameSelectors\StaticInputNameSelector;
 
 return [
@@ -35,7 +34,7 @@ return [
      * day to day use.
      */
     'environments' => [
-        'production',
+//        'production',
 //        'local'
     ],
 
