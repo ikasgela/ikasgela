@@ -16,7 +16,7 @@ class FileResourceSeeder extends Seeder
      */
     public function run()
     {
-        if (!config("filesystems.aws_enabled"))
+        if (!config("AWS_ENABLED"))
             return;
 
         $file_resource = FileResource::factory()->create([
@@ -27,7 +27,7 @@ class FileResourceSeeder extends Seeder
 
         $filename = md5(time()) . '/test.pdf';
 
-        Storage::disk('s3')->writeStream('documents/' . $filename, Storage::disk('s3-static')->readStream('test/test.pdf'));
+        Storage::disk('s3')->copy('test/test.pdf', 'documents/' . $filename);
 
         $file = File::create([
             'uploadable_id' => $file_resource->id,
