@@ -22,14 +22,14 @@ class CategoriesTableSeeder extends Seeder
             ->where('slug', now()->year)
             ->first();
 
-        $name = 'Programación';
+        $name = 'DAM';
         Category::factory()->create([
             'period_id' => $period->id,
             'name' => $name,
             'slug' => Str::slug($name)
         ]);
 
-        $name = 'Sistemas';
+        $name = 'Ciber';
         Category::factory()->create([
             'period_id' => $period->id,
             'name' => $name,
@@ -42,7 +42,7 @@ class CategoriesTableSeeder extends Seeder
             ->where('slug', now()->year)
             ->first();
 
-        $name = 'Programación';
+        $name = 'GDID';
         Category::factory()->create([
             'period_id' => $period->id,
             'name' => $name,

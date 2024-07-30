@@ -49,6 +49,10 @@ class LoginController extends Controller
                 $dominios = 'deusto.es,opendeusto.es';
                 $validator = 'allowed_domains';
                 break;
+            case 'backend':
+                $dominios = 'ikasle.egibide.org,opendeusto.es';
+                $validator = 'forbidden_domains';
+                break;
             default:
                 $dominios = 'egibide.org,ikasle.egibide.org,deusto.es,opendeusto.es';
                 $validator = 'forbidden_domains';
