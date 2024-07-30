@@ -16,7 +16,7 @@ class FileResourceSeeder extends Seeder
      */
     public function run()
     {
-        if (!config("AWS_ENABLED"))
+        if (!config("filesystems.aws_enabled"))
             return;
 
         $file_resource = FileResource::factory()->create([
