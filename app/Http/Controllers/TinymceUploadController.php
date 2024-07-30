@@ -42,6 +42,6 @@ class TinymceUploadController extends Controller
         if (!isset($path) || Str::contains($path, '..'))
             abort(404);
 
-        return isset($path) ? response()->redirectTo(Storage::disk('s3-static')->temporaryUrl($path, now()->addDays(2))) : '';
+        return isset($path) ? response()->redirectTo(Storage::disk('s3')->temporaryUrl($path, now()->addDays(2))) : '';
     }
 }
