@@ -604,9 +604,13 @@ class ImportCurso implements ShouldQueue
     {
         $path = $ruta . $directorio;
         try {
-            Terminal::in($path)
+            $response = Terminal::in($path)
                 ->run('git push -f --set-upstream http://root:' . config('gitea.token') . '@gitea:3000/'
                     . $organizacion . '/' . $repositorio . '.git ' . $rama);
+
+            Log::debug('Importando repositorio.', [
+                'exception' => $response->lines(),
+            ]);
         } catch (\Exception $e) {
             Log::error('Error al crear el repositorio.', [
                 'exception' => $e->getMessage(),
