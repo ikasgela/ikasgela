@@ -34,11 +34,11 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Log;
-use TitasGailius\Terminal\Terminal;
 
 class ImportCurso implements ShouldQueue
 {
@@ -603,13 +603,14 @@ class ImportCurso implements ShouldQueue
     private function importarRepositorio(string $ruta, string $directorio, string $repositorio, string $organizacion, string $rama = 'master')
     {
         $path = $ruta . $directorio;
-        try {
-            Terminal::in($path)
-                ->run('git push -f --set-upstream http://root:' . config('gitea.token') . '@gitea:3000/'
-                    . $organizacion . '/' . $repositorio . '.git ' . $rama);
-        } catch (\Exception $e) {
+
+        $result = Process::path($path)
+            ->run('git push -f --set-upstream http://root:' . config('gitea.token') . '@gitea:3000/'
+                . $organizacion . '/' . $repositorio . '.git ' . $rama);
+
+        if ($result->failed()) {
             Log::error('Error al crear el repositorio.', [
-                'exception' => $e->getMessage(),
+                'exception' => $result->output(),
             ]);
         }
     }
