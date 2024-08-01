@@ -14,10 +14,10 @@
         codesample_languages: [
             @include('partials.tinymce.codesample_languages')
         ],
-        skin: localStorage.getItem('theme') === 'dark'
+        skin: document.documentElement.getAttribute('data-bs-theme') === 'dark'
             ? "oxide-dark"
             : "oxide",
-        content_css: localStorage.getItem('theme') === 'dark'
+        content_css: document.documentElement.getAttribute('data-bs-theme') === 'dark'
             ? "dark"
             : "default",
         autosave_ask_before_unload: false,
