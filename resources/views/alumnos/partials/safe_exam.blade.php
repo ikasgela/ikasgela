@@ -1,8 +1,8 @@
 @if(!empty($user->curso_actual()->safe_exam?->token) && ($user->num_actividades_en_curso_seb() > 0 || $user->num_actividades_enviadas_seb() > 0) && !$user->curso_actual()?->token_valido())
     <div class="row">
         <div class="col-md-12">
-            <div class="card">
-                <div class="card-header text-dark bg-warning">
+            <div class="card mb-3">
+                <div class="card-header text-bg-warning">
                     <span><i class="fas fa-exclamation-triangle"></i></span>
                     <span class="ms-2">{{ __("Safe Exam Browser required") }}</span></span>
                 </div>
@@ -17,8 +17,8 @@
 @elseif(!empty($user->curso_actual()->safe_exam?->token) && $user->num_actividades_en_curso_examen() == 0 && $user->num_actividades_enviadas_seb() > 0 && $user->curso_actual()?->token_valido())
     <div class="row">
         <div class="col-md-12">
-            <div class="card">
-                <div class="card-header text-dark bg-warning">
+            <div class="card mb-3">
+                <div class="card-header text-bg-warning">
                     <span><i class="fas fa-exclamation-triangle"></i></span>
                     <span class="ms-2">{{ __("Safe Exam Browser") }}</span></span>
                 </div>
