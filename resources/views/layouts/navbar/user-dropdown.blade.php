@@ -1,10 +1,11 @@
 <li class="nav-item dropdown d-flex align-items-center">
     <a id="navbarDropdown"
-       class="nav-link dropdown-toggle text-{{ $debug_text_color }} d-flex align-items-center py-0" href="#"
+       class="nav-link {{ !config('ikasgela.avatar_enabled') ? 'dropdown-toggle' : '' }} text-{{ $debug_text_color }} d-flex align-items-center py-0"
+       href="#"
        role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="me-1">{{ Auth::user()->name }}</span>
         @if(config('ikasgela.avatar_enabled'))
-            <span class="mx-2">
+            <span class="ms-2">
                 @include('users.partials.avatar', ['user' => Auth::user(), 'width' => 35])
             </span>
         @endif
