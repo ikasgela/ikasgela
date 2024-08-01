@@ -16,13 +16,13 @@
     <div class="collapse navbar-collapse mx-3" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto"></ul>
         <ul class="navbar-nav ms-auto">
-            @auth
-                @include('layouts.navbar.user-dropdown')
-                @include('layouts.navbar.navbar-separator')
-            @endauth
             @include('layouts.navbar.language-selector')
             @include('layouts.navbar.navbar-separator')
             @include('layouts.navbar.theme-selector')
+            @auth
+                @include('layouts.navbar.navbar-separator')
+                @include('layouts.navbar.user-dropdown')
+            @endauth
         </ul>
     </div>
 </nav>
