@@ -7,6 +7,15 @@
             @if(Auth::user()->hasRole('profesor'))
                 @include('menus.profesor')
             @endif
+            @if(Auth::user()->hasRole('tutor'))
+                @include('menus.tutor')
+            @endif
+            @if(Auth::user()->hasAnyRole(['admin', 'profesor', 'tutor']))
+                @include('menus.utilidades')
+            @endif
+            @if(Auth::user()->hasRole('admin'))
+                @include('menus.admin')
+            @endif
         </ul>
     @endauth
 </div>

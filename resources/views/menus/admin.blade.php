@@ -1,3 +1,34 @@
+@include('layouts.sidebar.nav-title', [
+    'text' => __('Administrator'),
+])
+<li class="nav-item">
+    @include('layouts.sidebar.dropdown', [
+        'text' => __('Activities'),
+        'icon' => 'bi-person-walking',
+        'collapse_id' => 'activities-collapse',
+    ])
+    <div class="collapse" id="activities-collapse">
+        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small ps-1 ms-4">
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('actividades.plantillas'),
+                'text' => __('Activity templates'),
+                'icon' => 'bi-file-text',
+            ])
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('intellij_projects.copia'),
+                'text' => __('Project cloner'),
+                'icon' => 'bi-copy',
+            ])
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('intellij_projects.descargar'),
+                'text' => __('Download projects'),
+                'icon' => 'bi-download',
+            ])
+        </ul>
+    </div>
+</li>
+
+{{--
 <li class="c-sidebar-nav-title">{{ __('Admin') }}</li>
 <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
     <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
@@ -169,3 +200,4 @@
         <i class="c-sidebar-nav-icon fas fa-stream"></i> {{ __('Records') }}
     </a>
 </li>
+--}}

@@ -1,9 +1,12 @@
-<li class="c-sidebar-nav-title">{{ __('Tutor') }}</li>
-<li class="c-sidebar-nav-item">
-    <a class="c-sidebar-nav-link" href="{{ route('tutor.index') }}">
-        <i class="c-sidebar-nav-icon fas fa-tasks"></i> {{ __('Group report') }}
-    </a>
-</li>
+@include('layouts.sidebar.nav-title', [
+    'text' => __('Tutor'),
+])
+@include('layouts.sidebar.nav-item', [
+    'route' => route('tutor.index'),
+    'text' => __('Group report'),
+    'icon' => 'bi-list-check',
+])
+{{--
 <li class="c-sidebar-nav-item">
     <a class="c-sidebar-nav-link" href="{{ route('tutor.tareas_enviadas') }}">
         <i class="c-sidebar-nav-icon fas fa-chart-bar"></i> {{ __('Activities per day') }}
@@ -36,3 +39,4 @@
         </li>
     </ul>
 </li>
+--}}
