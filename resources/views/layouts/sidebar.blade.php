@@ -4,6 +4,9 @@
             @if(Auth::user()->hasRole('alumno'))
                 @include('menus.alumno')
             @endif
+            @if(Auth::user()->hasRole('profesor'))
+                @include('menus.profesor')
+            @endif
         </ul>
     @endauth
 </div>
