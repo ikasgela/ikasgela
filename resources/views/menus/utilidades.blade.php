@@ -1,3 +1,4 @@
+{{--
 @include('layouts.sidebar.nav-title', [
     'text' => __('Utilities'),
 ])
@@ -6,3 +7,4 @@
     'text' => __('URL Shortener'),
     'icon' => 'bi-link',
 ])
+--}}
