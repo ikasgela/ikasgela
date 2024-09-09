@@ -80,6 +80,7 @@
                 {!! Form::label('tarea_bienvenida_id', __('Welcome task'), ['class' => 'col-sm-2 col-form-label']) !!}
                 <div class="col-sm-10">
                     <select class="form-control" id="tarea_bienvenida_id" name="tarea_bienvenida_id">
+                        <option value="">{{ __('--- None ---') }}</option>
                         @foreach($curso->actividades()->plantilla()->orderBy('orden')->get() as $actividad)
                             <option
                                 value="{{ $actividad->id }}" {{ $curso->tarea_bienvenida_id == $actividad->id ? 'selected' : '' }}>
