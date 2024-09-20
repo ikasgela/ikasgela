@@ -369,7 +369,7 @@ class Actividad extends Model
         return $recursos->sortBy('pivot.orden');
     }
 
-    public function establecerFechaEntrega(): void
+    public function establecerFechaEntrega($fecha_override = null): void
     {
         $ahora = now();
 
@@ -378,12 +378,17 @@ class Actividad extends Model
         }
 
         if (!isset($this->fecha_entrega)) {
-            $plazo_actividad_curso = $this->unidad->curso->plazo_actividad;
+            if (is_null($fecha_override)) {
+                $plazo_actividad_curso = $this->unidad->curso->plazo_actividad;
 
-            if ($plazo_actividad_curso > 0) {
-                $plazo = $ahora->addDays($plazo_actividad_curso);
-                $this->fecha_entrega = $plazo;
-                $this->fecha_limite = $plazo;
+                if ($plazo_actividad_curso > 0) {
+                    $plazo = $ahora->addDays($plazo_actividad_curso);
+                    $this->fecha_entrega = $plazo;
+                    $this->fecha_limite = $plazo;
+                }
+            } else {
+                $this->fecha_entrega = $fecha_override;
+                $this->fecha_limite = $fecha_override;
             }
         }
 
