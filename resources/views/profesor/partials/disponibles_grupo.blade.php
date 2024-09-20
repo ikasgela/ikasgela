@@ -11,12 +11,10 @@
             <button type="submit" class="btn btn-primary single_click">
                 <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Save assigment') }}
             </button>
-            <div class="d-flex align-items-center">
-                <input type="checkbox" id="fecha_override_enable" name="fecha_override_enable"/>
-                <label class="ml-1" for="fecha_override_enable">{{ __('Override limit date') }}</label>
-                <input class="form-control" type="text" id="fecha_override" name="fecha_override"/>
-            </div>
             <div>
+                <input type="checkbox" id="fecha_override_enable" name="fecha_override_enable"/>
+                <label class="ml-1" for="fecha_override_enable">{{ __('Override completion date') }}</label>
+                <input class="mx-2" type="text" id="fecha_override" name="fecha_override"/>
                 <input type="checkbox" id="notificar" name="notificar" checked="checked"/>
                 <label class="ml-1" for="notificar">{{ __('Send notification email') }}</label>
             </div>
