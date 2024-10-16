@@ -9,7 +9,6 @@ use App\Models\IntellijProject;
 use App\Models\MarkdownText;
 use App\Models\Tarea;
 use App\Models\Unidad;
-use App\Models\User;
 use App\Traits\ClonarRepoGitea;
 use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
@@ -141,19 +140,21 @@ class IntellijProjectController extends Controller
     {
         $proyecto = $actividad->intellij_projects()->find($intellij_project->id);
 
-        $proyecto->setForkStatus(1);  // Forking
+        if (!$proyecto->isForking()) {
+            $proyecto->setForkStatus(1);  // Forking
 
-        if (!App::environment('testing')) {
-            $team_users = [];
-            if ($actividad->hasEtiqueta('trabajo en equipo')) {
-                $compartidas = Tarea::where('actividad_id', $actividad->id)->get();
-                foreach ($compartidas as $compartida) {
-                    array_push($team_users, $compartida->user);
+            if (!App::environment('testing')) {
+                $team_users = [];
+                if ($actividad->hasEtiqueta('trabajo en equipo')) {
+                    $compartidas = Tarea::where('actividad_id', $actividad->id)->get();
+                    foreach ($compartidas as $compartida) {
+                        array_push($team_users, $compartida->user);
+                    }
                 }
+                ForkGiteaRepo::dispatch($actividad, $intellij_project, Auth::user(), $team_users);
+            } else {
+                ForkGiteaRepo::dispatchSync($actividad, $intellij_project, Auth::user());
             }
-            ForkGiteaRepo::dispatch($actividad, $intellij_project, Auth::user(), $team_users);
-        } else {
-            ForkGiteaRepo::dispatchSync($actividad, $intellij_project, Auth::user());
         }
 
         return redirect(route('users.home'));
