@@ -101,7 +101,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 
             // Fork de un proyecto de Intellij
             Route::get('/intellij_projects/{actividad}/fork/{intellij_project}', 'IntellijProjectController@fork')
-                ->name('intellij_projects.fork');
+                ->name('intellij_projects.fork')->block();
             Route::get('/intellij_projects/status/{actividad}/fork/{intellij_project}', 'IntellijProjectController@is_forking')
                 ->name('intellij_projects.is_forking');
 
