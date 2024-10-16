@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Ikasgela\Gitea\GiteaClient;
+use Illuminate\Support\Facades\Log;
 
 trait ClonarRepoGitea
 {
@@ -20,6 +21,12 @@ trait ClonarRepoGitea
 
         do {
             $result = GiteaClient::clone($repositorio, $username, $ruta, $descripcion);
+
+            Log::debug('Repositorio clonado.', [
+                'result' => $result,
+                'repo' => $repositorio,
+                'username' => $username,
+            ]);
 
             if ($result == 409) { //&& Str::contains($error_message, 'has already been taken')) {
                 $ruta = $ruta_temp . "-$n";
