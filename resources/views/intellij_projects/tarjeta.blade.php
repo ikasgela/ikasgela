@@ -44,9 +44,14 @@
                class="btn btn-primary text-light">{{ __('Download the project') }}</a>
         @elseif(isset($actividad) && !$intellij_project->isForked() && Auth::user()->hasRole('alumno') && !($repositorio['id'] == '?'))
             @if($intellij_project->getForkStatus() == 0)
-                <a href="{{ route('intellij_projects.fork', ['actividad' => $actividad->id, 'intellij_project'=>$intellij_project->id]) }}"
-                   class="btn btn-primary text-light single_click">
-                    <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Clone the project') }}</a>
+                {{ html()->form('POST', route('intellij_projects.fork', ['actividad' => $actividad->id, 'intellij_project'=>$intellij_project->id]))->open() }}
+                <button title="{{ __('Clone the project') }}"
+                        type="submit"
+                        class="btn btn-primary text-light single_click">
+                    <i class="fas fa-spinner fa-spin" style="display:none;"></i>
+                    {{ __('Clone the project') }}
+                </button>
+                {{ html()->form()->close() }}
             @elseif($intellij_project->getForkStatus() == 1)
                 <a href="#" class="btn btn-primary text-light disabled me-3">
                     <i class="fas fa-spinner fa-spin"></i> {{ __('Clone the project') }}
