@@ -40,7 +40,8 @@ class ProfileController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string',
-            'gravatar_email' => 'email',
+            'surname' => 'required|string',
+            'gravatar_email' => 'nullable|email',
         ]);
 
         $user = User::find(Auth::id());
