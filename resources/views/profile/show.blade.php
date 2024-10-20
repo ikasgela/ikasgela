@@ -12,18 +12,6 @@
         <div class="card-body">
             {{ html()->modelForm($user, 'PUT', route('profile.update.user', $user->id))->open() }}
 
-            <div class="row mb-3">
-                <div class="col-sm-2 d-flex align-items-center">
-                    {{ html()->label(__('Avatar'), 'avatar')->class('form-label') }}
-                </div>
-                <div class="col-sm-10">
-                    <div class="mb-3">
-                        @include('users.partials.avatar', ['user' => $user, 'width' => 100])
-                    </div>
-                    {!! __('You can manage your profile picture on <a href="https://gravatar.com" target="_blank">Gravatar</a>.') !!}
-                </div>
-            </div>
-
             @include('components.label-text', [
                 'label' => __('Name'),
                 'name' => 'name',
@@ -37,6 +25,23 @@
             @include('components.label-text-readonly', [
                 'label' => __('Email'),
                 'name' => 'email',
+            ])
+
+            <div class="row mb-3">
+                <div class="col-sm-2 d-flex align-items-center">
+                    {{ html()->label(__('Avatar'), 'avatar')->class('form-label') }}
+                </div>
+                <div class="col-sm-10">
+                    <div class="mb-3">
+                        @include('users.partials.avatar', ['user' => $user, 'width' => 100])
+                    </div>
+                    {!! __('You can manage your profile picture on <a href="https://gravatar.com" target="_blank">Gravatar</a>.') !!}
+                </div>
+            </div>
+
+            @include('components.label-text', [
+                'label' => __('Email for Gravatar'),
+                'name' => 'gravatar_email',
             ])
 
             @include('partials.guardar')
