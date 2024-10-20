@@ -39,13 +39,16 @@ class ProfileController extends Controller
     public function updateUser(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|string'
+            'name' => 'required|string',
+            'surname' => 'required|string',
+            'gravatar_email' => 'nullable|email',
         ]);
 
         $user = User::find(Auth::id());
 
         $user->name = $request->name;
         $user->surname = $request->surname;
+        $user->gravatar_email = $request->gravatar_email;
         $user->save();
 
         if (config('ikasgela.gitea_enabled')) {
