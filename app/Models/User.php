@@ -74,7 +74,13 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
     public function avatar_url($width = 64)
     {
-        $hash = md5(strtolower(trim($this->email)));
+        $email = $this->email;
+
+        if (isset($this->gravatar_email) && $this->gravatar_email !== '') {
+            $email = $this->gravatar_email;
+        }
+
+        $hash = md5(strtolower(trim($email)));
         return "https://www.gravatar.com/avatar/$hash?s=$width&d=identicon";
     }
 
