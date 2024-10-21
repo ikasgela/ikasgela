@@ -504,4 +504,12 @@ class IntellijProjectController extends Controller
             echo $datos;
         }, $fichero);
     }
+
+    public function borrar_cache_tarea(IntellijProject $intellij_project, Actividad $actividad)
+    {
+        $key = 'gitea_' . $intellij_project->id . '_' . $actividad->id;
+        Cache::forget($key);
+
+        return back();
+    }
 }
