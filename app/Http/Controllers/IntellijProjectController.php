@@ -512,4 +512,24 @@ class IntellijProjectController extends Controller
 
         return back();
     }
+
+    public function edit_fork(IntellijProject $intellij_project, Actividad $actividad)
+    {
+        $pivote = $intellij_project->pivote($actividad);
+
+        return view('intellij_projects.edit_fork', compact(['pivote']));
+    }
+
+    public function update_fork(Request $request, IntellijProject $intellij_project, Actividad $actividad)
+    {
+        $pivote = $intellij_project->pivote($actividad);
+
+        $pivote->fork = $request->get('fork');
+        $pivote->save();
+
+        $key = 'gitea_' . $intellij_project->id . '_' . $actividad->id;
+        Cache::forget($key);
+
+        return retornar();
+    }
 }

@@ -260,6 +260,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::get('/intellij_projects/{intellij_project}/{actividad}/borrar_cache_tarea', 'IntellijProjectController@borrar_cache_tarea')
                 ->name('intellij_projects.borrar_cache_tarea');
 
+            Route::get('/intellij_projects/{intellij_project}/{actividad}/edit_fork', 'IntellijProjectController@edit_fork')
+                ->name('intellij_projects.edit_fork');
+            Route::post('/intellij_projects/{intellij_project}/{actividad}/update_fork', 'IntellijProjectController@update_fork')
+                ->name('intellij_projects.update_fork');
+
             // Bloquear y desbloquear repositorios
             Route::post('/intellij_projects/{intellij_project}/{actividad}/lock', 'IntellijProjectController@lock')
                 ->name('intellij_projects.lock');
