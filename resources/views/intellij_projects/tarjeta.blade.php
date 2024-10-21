@@ -41,7 +41,7 @@
             @include('partials.modificar_recursos', ['ruta' => 'intellij_projects'])
             @include('partials.editar_recurso', ['recurso' => $intellij_project, 'ruta' => 'intellij_projects'])
             @if(Auth::user()->hasAnyRole(['admin','profesor']) && Route::currentRouteName() == 'profesor.revisar')
-                <a title="{{ __('Edit') }}"
+                <a title="{{ __('Edit fork') }}"
                    href="{{ route('intellij_projects.edit_fork', [$intellij_project->id, $actividad->id]) }}"
                    class='text-dark'><i class="fas fa-edit"></i></a>
             @endif
