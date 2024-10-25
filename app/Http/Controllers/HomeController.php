@@ -20,12 +20,12 @@ class HomeController extends Controller
 
             if (setting_usuario('_organization_id') == null) {
                 $organization = Organization::where('slug', subdominio())->first();
-                setting_usuario(['_organization_id' => $organization->id]);
+                setting_usuario(['_organization_id' => $organization?->id]);
             }
 
             if (setting_usuario('_period_id') == null) {
                 $organization = Organization::where('slug', subdominio())->first();
-                setting_usuario(['_period_id' => $organization->current_period_id]);
+                setting_usuario(['_period_id' => $organization?->current_period_id]);
             }
 
             if (setting_usuario('curso_actual') == null) {
