@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Watson\Rememberable\Rememberable;
 
 /**
  * @mixin IdeHelperOrganization
@@ -12,17 +11,6 @@ use Watson\Rememberable\Rememberable;
 class Organization extends Model
 {
     use HasFactory;
-    use Rememberable;
-
-    protected $rememberFor;
-    protected $rememberCacheTag;
-
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->rememberCacheTag = 'organization';
-        $this->rememberFor = config('ikasgela.eloquent_cache_time', 60);
-    }
 
     protected $fillable = [
         'name', 'slug', 'current_period_id', 'registration_open', 'seats'
