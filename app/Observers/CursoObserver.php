@@ -9,13 +9,11 @@ class CursoObserver
 {
     public function saved(Curso $curso)
     {
-        Curso::flushCache();
         $this->clearCache($curso);
     }
 
     public function deleted(Curso $curso)
     {
-        Curso::flushCache();
         $this->clearCache($curso);
     }
 

@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\App;
 use Lab404\Impersonate\Models\Impersonate;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Watson\Rememberable\Rememberable;
 
 /**
  * @mixin IdeHelperUser
@@ -29,18 +28,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     use Messagable;
     use Etiquetas;
     use Impersonate;
-    use Rememberable;
     use SharedKeys;
-
-    protected $rememberFor;
-    protected $rememberCacheTag;
-
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->rememberCacheTag = 'remember_user';
-        $this->rememberFor = config('ikasgela.eloquent_cache_time', 60);
-    }
 
     /**
      * The attributes that are mass assignable.
@@ -865,8 +853,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     {
         $user = $this;
 
-        User::flushCache();
-
         foreach ($this->keys as $key) {
             Cache::forget($key . $user->id);
         }
@@ -880,10 +866,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         Cache::forget("user.{$user->id}");
         Cache::forget("user.{$user->id}.{$user->getRememberToken()}");
         Cache::forget("roles_{$user->id}");
-
-        Organization::flushCache();
-        Curso::flushCache();
-        Unidad::flushCache();
     }
 
     public function preferredLocale()

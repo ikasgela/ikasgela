@@ -9,13 +9,11 @@ class UnidadObserver
 {
     public function saved(Unidad $unidad)
     {
-        Unidad::flushCache();
         $this->clearCache($unidad);
     }
 
     public function deleted(Unidad $unidad)
     {
-        Unidad::flushCache();
         $this->clearCache($unidad);
     }
 

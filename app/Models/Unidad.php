@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Traits\Etiquetas;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Watson\Rememberable\Rememberable;
 
 /**
  * @mixin IdeHelperUnidad
@@ -14,17 +13,6 @@ class Unidad extends Model
 {
     use HasFactory;
     use Etiquetas;
-    use Rememberable;
-
-    protected $rememberFor;
-    protected $rememberCacheTag;
-
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->rememberCacheTag = 'unidad';
-        $this->rememberFor = config('ikasgela.eloquent_cache_time', 60);
-    }
 
     protected $table = 'unidades';
 

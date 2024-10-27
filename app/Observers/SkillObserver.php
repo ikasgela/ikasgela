@@ -10,18 +10,12 @@ class SkillObserver
 {
     public function saved(Skill $skill)
     {
-        Skill::flushCache();
         $this->clearCache($skill);
-
-        Qualification::flushCache();
     }
 
     public function deleted(Skill $skill)
     {
-        Skill::flushCache();
         $this->clearCache($skill);
-
-        Qualification::flushCache();
     }
 
     private function clearCache(Skill $skill): void

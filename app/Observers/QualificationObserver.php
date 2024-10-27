@@ -3,25 +3,18 @@
 namespace App\Observers;
 
 use App\Models\Qualification;
-use App\Models\Skill;
 use Cache;
 
 class QualificationObserver
 {
     public function saved(Qualification $qualification)
     {
-        Qualification::flushCache();
         $this->clearCache($qualification);
-
-        Skill::flushCache();
     }
 
     public function deleted(Qualification $qualification)
     {
-        Qualification::flushCache();
         $this->clearCache($qualification);
-
-        Skill::flushCache();
     }
 
     private function clearCache(Qualification $qualification): void

@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Jenssegers\Agent\Facades\Agent;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
-use Watson\Rememberable\Rememberable;
 
 /**
  * @mixin IdeHelperCurso
@@ -16,20 +15,8 @@ use Watson\Rememberable\Rememberable;
 class Curso extends Model
 {
     use HasFactory;
-    use Rememberable;
     use Etiquetas;
-
-    protected $rememberFor;
-    protected $rememberCacheTag;
-
     use HasRelationships;
-
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->rememberCacheTag = 'curso';
-        $this->rememberFor = config('ikasgela.eloquent_cache_time', 60);
-    }
 
     protected $fillable = [
         'category_id', 'nombre', 'descripcion', 'slug', 'qualification_id', 'max_simultaneas',
