@@ -15,13 +15,11 @@ class CheckBlocked
      */
     public function handle($request, Closure $next)
     {
-        if (auth()->check()) {
-            if (auth()->user()->blocked_date != null) {
-                $message = __('Account blocked, contact your administrator.');
-                auth()->logout();
-                return redirect()->route('login')->withMessage($message);
-            }
+        if (auth()->user()?->isBlocked()) {
+            auth()->logout();
+            return redirect()->route('blocked');
         }
+
         return $next($request);
     }
 }

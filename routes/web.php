@@ -35,6 +35,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         ->withoutMiddleware('localeCookieRedirect')
         ->name('safe_exam.config_seb');
 
+    // Cuenta bloqueada
+    Route::view('/blocked', 'auth.blocked')
+        ->name('blocked');
+
     // Sesión iniciada y cuenta verificada
     Route::middleware(['auth', 'verified'])->group(function () {
 
