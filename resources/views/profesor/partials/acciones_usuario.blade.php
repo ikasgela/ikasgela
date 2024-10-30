@@ -10,25 +10,19 @@
            href="{{ route('profesor.tareas', ['user' => $user->id]) }}"
            class='btn btn-light btn-sm'><i class="fas fa-tasks"></i></a>
 
-        {!! Form::open(['route' => ['results.alumno'], 'method' => 'POST']) !!}
-        {!! Form::button('<i class="fas fa-graduation-cap"></i>', ['type' => 'submit',
-            'class' => 'btn btn-light btn-sm', 'title' => __('Results')
-        ]) !!}
-        {!! Form::hidden('user_id',$user->id) !!}
-        {!! Form::close() !!}
+        {{ html()->form('POST', route('results.alumno'))->open() }}
+        {{ html()->submit('<i class="fas fa-graduation-cap"></i>')->class(['btn btn-light btn-sm', 'rounded-0'])->attribute('title', __('Results')) }}
+        {{ html()->hidden('user_id', $user->id) }}
+        {{ html()->form()->close() }}
 
-        {!! Form::open(['route' => ['archivo.index'], 'method' => 'POST']) !!}
-        {!! Form::button('<i class="fas fa-archive"></i>', ['type' => 'submit',
-            'class' => 'btn btn-light btn-sm', 'title' => __('Archived')
-        ]) !!}
-        {!! Form::hidden('user_id',$user->id) !!}
-        {!! Form::close() !!}
+        {{ html()->form('POST', route('archivo.index'))->open() }}
+        {{ html()->submit('<i class="fas fa-archive"></i>')->class(['btn btn-light btn-sm', 'rounded-0'])->attribute('title', __('Archived')) }}
+        {{ html()->hidden('user_id', $user->id) }}
+        {{ html()->form()->close() }}
 
-        {!! Form::open(['route' => ['messages.create-with-subject'], 'method' => 'POST']) !!}
-        {!! Form::button('<i class="fas fa-envelope"></i>', ['type' => 'submit',
-            'class' => 'btn btn-light btn-sm', 'title' => __('Message')
-        ]) !!}
-        {!! Form::hidden('user_id', $user->id) !!}
-        {!! Form::close() !!}
+        {{ html()->form('POST', route('messages.create-with-subject'))->open() }}
+        {{ html()->submit('<i class="fas fa-envelope"></i>')->class(['btn btn-light btn-sm', 'rounded-start-0'])->attribute('title', __('Message')) }}
+        {{ html()->hidden('user_id', $user->id) }}
+        {{ html()->form()->close() }}
     </div>
 @endif

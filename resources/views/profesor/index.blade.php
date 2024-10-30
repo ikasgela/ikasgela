@@ -13,36 +13,42 @@
         <div class="btn-toolbar" role="toolbar">
 
             {{ html()->form('POST', route('profesor.index.filtro'))->open() }}
-            {{ html()->submit(__('Alphabetic order'))->class(session('profesor_filtro_alumnos') == 'A' ? 'btn btn-sm mx-1 btn-secondary' : 'btn btn-sm mx-1 btn-outline-secondary') }}
+            {{ html()->submit(__('Alphabetic order'))
+                    ->class(['btn btn-sm mx-1', session('profesor_filtro_alumnos') == 'A' ? 'btn-secondary' : 'btn-outline-secondary']) }}
             {{ html()->hidden('filtro_alumnos', 'A') }}
             {{ html()->form()->close() }}
 
             {{ html()->form('POST', route('profesor.index.filtro'))->open() }}
-            {{ html()->submit(__('Pending review'))->class(session('profesor_filtro_alumnos') == 'R' ? 'btn btn-sm mx-1 btn-secondary' : 'btn btn-sm mx-1 btn-outline-secondary') }}
+            {{ html()->submit(__('Pending review'))
+                    ->class(['btn btn-sm mx-1', session('profesor_filtro_alumnos') == 'R' ? 'btn-secondary' : 'btn-outline-secondary']) }}
             {{ html()->hidden('filtro_alumnos', 'R') }}
             {{ html()->form()->close() }}
 
             {{ html()->form('POST', route('profesor.index.filtro'))->open() }}
-            {{ html()->submit(__('Progress'))->class(session('profesor_filtro_alumnos') == 'P' ? 'btn btn-sm mx-1 btn-secondary' : 'btn btn-sm mx-1 btn-outline-secondary') }}
+            {{ html()->submit(__('Progress'))
+                    ->class(['btn btn-sm mx-1', session('profesor_filtro_alumnos') == 'P' ? 'btn-secondary' : 'btn-outline-secondary']) }}
             {{ html()->hidden('filtro_alumnos', 'P') }}
             {{ html()->form()->close() }}
 
             <span class="mx-1"></span>
 
             {{ html()->form('POST', route('profesor.index.filtro'))->open() }}
-            {{ html()->submit(session('profesor_filtro_alumnos_bloqueados') == 'B' ? __('Hide blocked') : __('Show blocked'))->class(session('profesor_filtro_alumnos_bloqueados') == 'B' ? 'btn btn-sm mx-1 btn-primary' : 'btn btn-sm mx-1 btn-outline-secondary') }}
+            {{ html()->submit(session('profesor_filtro_alumnos_bloqueados') == 'B' ? __('Hide blocked') : __('Show blocked'))
+                    ->class(['btn btn-sm mx-1', session('profesor_filtro_alumnos_bloqueados') == 'B' ? 'btn-primary' : 'btn-outline-secondary']) }}
             {{ html()->hidden('filtro_alumnos_bloqueados', 'B') }}
             {{ html()->form()->close() }}
 
             {{ html()->form('POST', route('profesor.index.filtro'))->open() }}
-            {{ html()->submit(__('Clear filters'))->class((session('profesor_filtro_etiquetas') == 'S' || session('profesor_filtro_actividades_etiquetas') == 'S') ? 'btn btn-sm mx-1 btn-primary' : 'btn btn-sm mx-1 btn-outline-secondary') }}
+            {{ html()->submit(__('Clear filters'))
+                    ->class(['btn btn-sm mx-1', (session('profesor_filtro_etiquetas') == 'S' || session('profesor_filtro_actividades_etiquetas') == 'S') ? 'btn-primary' : 'btn-outline-secondary']) }}
             {{ html()->hidden('filtro_etiquetas', 'N') }}
             {{ html()->form()->close() }}
 
             <span class="mx-1"></span>
 
             {{ html()->form('POST', route('profesor.index.filtro'))->open() }}
-            {{ html()->submit(__('Exams'))->class(session('profesor_filtro_actividades_examen') == 'E' ? 'btn btn-sm mx-1 btn-primary' : 'btn btn-sm mx-1 btn-outline-secondary') }}
+            {{ html()->submit(__('Exams'))
+                    ->class(['btn btn-sm mx-1', session('profesor_filtro_actividades_examen') == 'E' ? 'btn-primary' : 'btn-outline-secondary']) }}
             {{ html()->hidden('filtro_actividades_examen', 'E') }}
             {{ html()->form()->close() }}
         </div>

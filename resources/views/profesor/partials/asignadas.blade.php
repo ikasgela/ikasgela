@@ -13,13 +13,25 @@
                 </th>
                 <th>#</th>
                 <th>{{ __('Activity') }}</th>
-                <th class="text-center">{{ trans_choice('tasks.hidden', 1) }}</th>
-                <th class="text-center">{{ trans_choice('tasks.accepted', 1) }}</th>
-                <th class="text-center">{{ trans_choice('tasks.sent', 1) }}</th>
-                <th class="text-center">{{ trans_choice('tasks.reviewed', 1) }}</th>
-                <th class="text-center">{{ __('Score') }}</th>
-                <th class="text-center">{{ trans_choice('tasks.finished', 1) }}</th>
-                <th class="text-center">{{ trans_choice('tasks.expired', 1) }}</th>
+                <th class="text-center">
+                    @include('profesor.partials.titulo-columna', ['titulo' => trans_choice('tasks.hidden', 1)])
+                </th>
+                <th class="text-center">
+                    @include('profesor.partials.titulo-columna', ['titulo' => trans_choice('tasks.accepted', 1)])
+                </th>
+                <th class="text-center">
+                    @include('profesor.partials.titulo-columna', ['titulo' => trans_choice('tasks.sent', 1)])
+                </th>
+                <th class="text-center">
+                    @include('profesor.partials.titulo-columna', ['titulo' => trans_choice('tasks.reviewed', 1)])
+                </th>
+                <th>{{ __('Score') }}</th>
+                <th class="text-center">
+                    @include('profesor.partials.titulo-columna', ['titulo' => trans_choice('tasks.finished', 1)])
+                </th>
+                <th class="text-center">
+                    @include('profesor.partials.titulo-columna', ['titulo' => trans_choice('tasks.expired', 1)])
+                </th>
                 <th>{{ __('Next') }}</th>
                 @if(Auth::user()->hasRole('admin'))
                     <th>{{ __('Resources') }}</th>
@@ -74,7 +86,7 @@
                         <div class="d-flex justify-content-around align-items-center">
                             {!! $actividad->is_expired ? (!$actividad->tarea->is_completada ? '<i class="fas fa-exclamation-triangle text-warning"></i>' : ($actividad->tarea->is_completada_archivada ? '<i class="fas fa-exclamation-triangle text-secondary"></i>' : '<i class="fas fa-times text-secondary"></i>')) : '<i class="fas fa-times text-secondary"></i>' !!}
                             @if($actividad->is_expired && !$actividad->tarea->is_completada)
-                                {!! Form::open(['route' => ['actividades.estado', $actividad->tarea->id], 'method' => 'PUT']) !!}
+                                {{ html()->form('PUT', route('actividades.estado', $actividad->tarea->id))->open() }}
                                 <div class='btn-group'>
                                     <button type="submit" name="nuevoestado" value="63"
                                             title="{{ __('Extend deadline') }}"
@@ -83,7 +95,7 @@
                                 </div>
                                 <input type="hidden" name="ampliacion_plazo"
                                        value="{{ $actividad->unidad->curso->plazo_actividad ?? 7 }}"/>
-                                {!! Form::close() !!}
+                                {{ html()->form()->close() }}
                             @endif
                         </div>
                     </td>
@@ -128,10 +140,10 @@
             <tr>
                 <td colspan="6">
                     <div class="form-inline">
-                        {!! Form::open(['route' => ['tareas.borrar_multiple', $user->id], 'method' => 'POST', 'id' => 'multiple']) !!}
+                        {{ html()->form('DELETE', route('tareas.borrar_multiple', $user->id))->attribute('id', 'multiple')->open() }}
                         <span>{{ __('With the selected') }}: </span>
                         @include('partials.boton_borrar')
-                        {!! Form::close() !!}
+                        {{ html()->form()->close() }}
                     </div>
                 </td>
             </tr>

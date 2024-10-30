@@ -167,7 +167,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('tareas.destroy');
 
             // Borrar múltiples tareas
-            Route::post('/tareas/{user}/borrar_multiple', 'TareaController@borrarMultiple')
+            Route::delete('/tareas/{user}/borrar_multiple', 'TareaController@borrarMultiple')
                 ->name('tareas.borrar_multiple');
 
             // Editar una tarea

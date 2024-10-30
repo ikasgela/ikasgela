@@ -1,7 +1,7 @@
 <div class="row mb-3">
     <div class="col-md-12">
-        {!! Form::open(['route' => ['profesor.tareas.filtro', $user->id]]) !!}
+        {{ html()->form('POST', route('profesor.tareas.filtro', $user->id))->open() }}
         @include('partials.desplegable_unidades',['nombre_variable' => $nombre_variable])
-        {!! Form::close() !!}
+        {{ html()->form()->close() }}
     </div>
 </div>
