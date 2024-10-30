@@ -1,11 +1,11 @@
 <div class='btn-group'>
     @if(!$user->hasVerifiedEmail())
-        {!! Form::open(['route' => ['users.manual_activation'], 'method' => 'POST']) !!}
-        {!! Form::button('<i class="fas fa-user-check"></i>', ['type' => 'submit',
-            'class' => 'btn btn-light btn-sm', 'title' => __('Manual verification')
-        ]) !!}
-        {!! Form::hidden('user_id', $user->id) !!}
-        {!! Form::close() !!}
+        {{ html()->form('POST', route('users.manual_activation'))->open() }}
+        {{ html()->submit('<i class="fas fa-user-check"></i>')
+                ->class('btn btn-light btn-sm')
+                ->attribute('title',__('Manual verification')) }}
+        {{ html()->hidden('user_id', $user->id) }}
+        {{ html()->form()->close() }}
     @endif
 
     @include('users.partials.impersonate_button')
@@ -18,16 +18,14 @@
        href="{{ route('users.password', [$user->id]) }}"
        class='btn btn-light btn-sm'><i class="fas fa-key"></i></a>
 
-    {!! Form::open(['route' => ['users.toggle_blocked'], 'method' => 'POST']) !!}
-    {!! Form::button( !$user->isBlocked() ? '<i class="fas fa-unlock"></i>':'<i class="fas fa-lock"></i>', ['type' => 'submit',
-        'class' => 'btn btn-light btn-sm', 'title' => !$user->isBlocked() ? __('Block') : __('Unblock')
-    ]) !!}
-    {!! Form::hidden('user_id', $user->id) !!}
-    {!! Form::close() !!}
+    {{ html()->form('POST', route('users.toggle_blocked'))->open() }}
+    {{ html()->submit(!$user->isBlocked() ? '<i class="fas fa-unlock"></i>':'<i class="fas fa-lock"></i>')
+            ->class('btn btn-light btn-sm')
+            ->attribute('title', !$user->isBlocked() ? __('Block') : __('Unblock')) }}
+    {{ html()->hidden('user_id', $user->id) }}
+    {{ html()->form()->close() }}
 
-    <form method="POST" action="{{ route('users.destroy', [$user->id]) }}">
-        @csrf
-        @method('DELETE')
-        @include('partials.boton_borrar')
-    </form>
+    {{ html()->form('DELETE', route('users.destroy', [$user->id]))->open() }}
+    @include('partials.boton_borrar')
+    {{ html()->form()->close() }}
 </div>

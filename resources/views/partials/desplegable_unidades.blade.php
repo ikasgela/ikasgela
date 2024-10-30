@@ -1,5 +1,5 @@
 <div class="form-group d-flex flex-row justify-content-between">
-    {!! Form::label('unidad', __('Unit'), ['class' => 'col-form-label']) !!}
+    {{ html()->label(__('Unit'), 'unidad')->class('form-label') }}
     <div class="flex-fill mx-3">
         <select class="custom-select" id="{{ $nombre_variable ?? 'unidad_id' }}"
                 name="{{ $nombre_variable ?? 'unidad_id' }}">
