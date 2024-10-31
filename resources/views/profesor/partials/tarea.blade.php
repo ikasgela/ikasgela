@@ -8,7 +8,7 @@
 <div class="row mt-4">
     <div class="col-md-12">
         {{-- Tarjeta --}}
-        <div class="card border-dark">
+        <div class="card tarea-card mb-3">
             <div class="card-header text-white bg-dark d-flex justify-content-between">
                 <span>{{ $actividad->unidad->curso->nombre }} » {{ $actividad->unidad->nombre }}</span>
             </div>
