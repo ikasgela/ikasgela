@@ -6,8 +6,8 @@ use App\Models\JPlag;
 use App\Models\Tarea;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Storage;
-use TitasGailius\Terminal\Terminal;
 
 trait JPlagRunner
 {
@@ -33,7 +33,7 @@ trait JPlagRunner
                     $primero = false;
 
                     $repositorio = $intellij_project->repository_no_cache();
-                    $response = Terminal::in($ruta)
+                    $response = Process::path($ruta)
                         ->run('git clone http://root:' . config('gitea.token') . '@gitea:3000/'
                             . $repositorio['path_with_namespace'] . '.git '
                             . 'template');
@@ -46,19 +46,19 @@ trait JPlagRunner
                         'repo' => $repositorio,
                     ]);
 
-                    $response = Terminal::in($ruta)
+                    $response = Process::path($ruta)
                         ->run('git clone http://root:' . config('gitea.token') . '@gitea:3000/'
                             . $repositorio['path_with_namespace'] . '.git '
                             . $repositorio['owner'] . '@' . $repositorio['name']);
 
                     if (!$response->successful()) {
                         Log::error('Error al descargar repositorios mediante Git.', [
-                            'output' => $response->lines(),
+                            'output' => $response->output(),
                             'tarea' => route('profesor.revisar', ['user' => $tarea->user->id, 'tarea' => $tarea->id]),
                         ]);
                     } else {
                         Log::debug('Descargando repositorios mediante Git.', [
-                            'output' => $response->lines(),
+                            'output' => $response->output(),
                             'tarea' => route('profesor.revisar', ['user' => $tarea->user->id, 'tarea' => $tarea->id]),
                         ]);
                     }
@@ -67,12 +67,12 @@ trait JPlagRunner
         }
 
         // Ejecutar JPlag
-        $response = Terminal::in($ruta)
+        $response = Process::path($ruta)
             ->run('java -jar /opt/jplag.jar -l java19 -m 1000 -s -r "./__resultados" -bc template .');
 
         if (!$response->successful()) {
             Log::error('Error al ejecutar JPlag.', [
-                'output' => $response->lines(),
+                'output' => $response->output(),
                 'tarea' => route('profesor.revisar', ['user' => $tarea->user->id, 'tarea' => $tarea->id]),
             ]);
 
@@ -82,7 +82,7 @@ trait JPlagRunner
             Storage::disk('temp')->deleteDirectory($directorio);
         } else {
             Log::debug('Salida de JPlag.', [
-                'output' => $response->lines(),
+                'output' => $response->output(),
             ]);
         }
 

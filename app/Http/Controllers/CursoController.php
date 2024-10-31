@@ -14,10 +14,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File as SystemFile;
+use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Log;
-use TitasGailius\Terminal\Terminal;
 use ZipArchive;
 
 class CursoController extends Controller
@@ -415,17 +415,17 @@ class CursoController extends Controller
 
     private function clonarRepositorio(string $path, array $repositorio): void
     {
-        $response = Terminal::in($path)
+        $response = Process::path($path)
             ->run('git clone http://root:' . config('gitea.token') . '@gitea:3000/'
                 . $repositorio['path_with_namespace'] . '.git '
                 . $repositorio['owner'] . '@' . $repositorio['name']);
 
         if (!$response->successful()) {
             Log::error('Error al descargar repositorios mediante Git.', [
-                'output' => $response->lines()
+                'output' => $response->output()
             ]);
         } else {
-            Terminal::in($path . '/' . $repositorio['owner'] . '@' . $repositorio['name'])
+            Process::path($path . '/' . $repositorio['owner'] . '@' . $repositorio['name'])
                 ->run('git remote remove origin');
         }
     }
