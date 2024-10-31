@@ -27,49 +27,7 @@
                         <label class="m-0" for="feedback">{{ __('Feedback') }}</label>
                     </div>
                     <div class="border rounded p-3 mb-1">
-                        <div class="row">
-                            <div class="col-md-6 form-group d-flex flex-row justify-content-between">
-                                {!! Form::label('unidad', __('Course'), ['class' => 'col-form-label']) !!}
-                                <div class="flex-fill mx-3">
-                                    <select class="form-control" id="feedback_id" name="feedback_id">
-                                        {{--                                <option value="">{{ __('--- None ---') }}</option>--}}
-                                        @foreach($feedbacks_curso as $feedback)
-                                            <option
-                                                data-mensaje="{{ $feedback->mensaje }}"
-                                                value="{{ $feedback->id }}" {{ session('profesor_feedback_actual') == $feedback->id ? 'selected' : '' }}>
-                                                {{ $feedback->titulo }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div>
-                                    <button type="button" id="boton_feedback"
-                                            {{ $feedbacks_curso->count() == 0 ? 'disabled' : '' }}
-                                            class="btn btn-primary">{{ __('Add') }}</button>
-                                </div>
-                            </div>
-                            <div class="col-md-6 form-group d-flex flex-row justify-content-between">
-                                {!! Form::label('unidad', __('Activity'), ['class' => 'col-form-label']) !!}
-                                <div class="flex-fill mx-3">
-                                    <select class="form-control" id="feedback_actividad_id"
-                                            name="feedback_actividad_id">
-                                        {{--                                <option value="">{{ __('--- None ---') }}</option>--}}
-                                        @foreach($feedbacks_actividad as $feedback)
-                                            <option
-                                                data-mensaje="{{ $feedback->mensaje }}"
-                                                value="{{ $feedback->id }}" {{ session('profesor_feedback_actividad_actual') == $feedback->id ? 'selected' : '' }}>
-                                                {{ $feedback->titulo }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div>
-                                    <button type="button" id="boton_feedback_actividad"
-                                            {{ $feedbacks_actividad->count() == 0 ? 'disabled' : '' }}
-                                            class="btn btn-primary">{{ __('Add') }}</button>
-                                </div>
-                            </div>
-                        </div>
+                        @include('profesor.partials.selectores-feedback')
                         <textarea class="form-control"
                                   id="feedback"
                                   name="feedback"
