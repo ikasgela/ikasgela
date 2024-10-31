@@ -62,8 +62,8 @@ class T4_TareasTest extends DuskTestCase
             $browser->press(__('Save assigment'));
             $browser->assertRouteIs('profesor.index');
 
-            $browser->assertSeeIn('div > main > div > div.table-responsive > table > tbody > tr:nth-child(2) > td:nth-child(4)', 'Marc');
-            $browser->assertSeeIn('div > main > div > div.table-responsive > table > tbody > tr:nth-child(2) > td:nth-child(6)', '1');
+            $browser->assertSeeIn('main > div.p-4.col-12.col-sm-10 > div.table-responsive > table > tbody > tr:nth-child(2) > td:nth-child(4)', 'Marc');
+            $browser->assertSeeIn('main > div.p-4.col-12.col-sm-10 > div.table-responsive > table > tbody > tr:nth-child(2) > td:nth-child(6)', '1');
 
             // Cerrar sesión
             $browser->logout();
@@ -85,7 +85,7 @@ class T4_TareasTest extends DuskTestCase
             // Clonar el repositorio
             $browser->assertSee('Agenda de contactos con varias ventanas que comparten datos.');
 
-            $browser->clickLink(__('Clone the project'));
+            $browser->press(__('Clone the project'));
             $browser->assertRouteIs('users.home');
 
             $browser->pause(1000)->visit('/home');
@@ -119,7 +119,7 @@ class T4_TareasTest extends DuskTestCase
             $browser->press(__('Finished'));
             $browser->assertRouteIs('profesor.tareas', ['user' => 1]);  // $browser->assertPathIs('/alumnos/1/tareas');
 
-            $browser->assertSeeIn('div > main > div > div.table-responsive > table > tbody > tr:nth-child(2) > td:nth-child(9)', '80');
+            $browser->assertSeeIn('main > div.p-4.col-12.col-sm-10 > div.table-responsive > table > tbody > tr:nth-child(2) > td:nth-child(9)', '80');
 
             // Cerrar sesión
             $browser->logout();
