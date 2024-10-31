@@ -34,32 +34,18 @@
                                   rows="15">{{ !is_null($tarea->feedback) ? $tarea->feedback : '' }}
                             <p>=== {{ __('Comments').' (v'.($tarea->intentos+1).')' }} ===</p>
                         </textarea>
-                        <div class="form-inline mt-3 align-items-right">
-                            <label class="me-2">{{ __('Title') }}</label>
-                            <input class="form-control me-2" form="guardar_feedback" type="text" id="titulo"
-                                   name="titulo">
-                            <label class="me-2">{{ __('save as') }}</label>
-                            <button form="guardar_feedback" type="submit" name="tipo" value="curso"
-                                    class="btn btn-primary">{{ __('course feedback') }}
-                            </button>
-                            @if(isset($actividad->original))
-                                <label class="mx-2">{{ __('or') }}</label>
-                                <button form="guardar_feedback" type="submit" name="tipo" value="actividad"
-                                        class="btn btn-primary">{{ __('activity feedback') }}
-                                </button>
-                            @endif
-                        </div>
+                        @include('profesor.partials.formulario-feedback')
                     </div>
                 </div>
             </form>
-            {!! Form::open(['route' => ['feedbacks.save'], 'method' => 'POST', 'id' => 'guardar_feedback']) !!}
+            {{ html()->form('POST', route('feedbacks.save'))->attribute('id', 'guardar_feedback')->open() }}
             <input form="guardar_feedback" type="hidden" id="mensaje" name="mensaje">
             <input form="guardar_feedback" type="hidden" name="curso_id" value="{{ $actividad->unidad->curso->id }}">
             @if(isset($actividad->original))
                 <input form="guardar_feedback" type="hidden" name="actividad_id" value="{{ $actividad->original->id }}">
             @endif
             <input form="guardar_feedback" type="hidden" id="from" name="from" value="tarea">
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
             @if($tarea->estado >= 10)
                 @include('partials.tarjetas_actividad')
             @endif
