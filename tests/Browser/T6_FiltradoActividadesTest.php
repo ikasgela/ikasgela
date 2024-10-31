@@ -93,7 +93,7 @@ class T6_FiltradoActividadesTest extends DuskTestCase
 
             $browser->refresh();
 
-            $browser->click('#pills-enviadas-tab');
+            $browser->click('#enviadas-tab');
             $browser->pause(1000);
 
             $browser->assertSee($nombre);
