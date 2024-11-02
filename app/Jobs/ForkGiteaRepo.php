@@ -9,6 +9,7 @@ use App\Traits\ClonarRepoGitea;
 use Cache;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 use Log;
 
-class ForkGiteaRepo implements ShouldQueue
+class ForkGiteaRepo implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -41,6 +42,13 @@ class ForkGiteaRepo implements ShouldQueue
         $this->intellij_project = $intellij_project;
         $this->user = $user;
         $this->team_users = $team_users;
+    }
+
+    public $uniqueFor = 30;
+
+    public function uniqueId(): string
+    {
+        return $this->user->id . '-' . $this->actividad->id . '-' . $this->intellij_project->id;
     }
 
     /**
