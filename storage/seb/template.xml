@@ -194,6 +194,8 @@
         <true/>
         <key>enableRightMouse</key>
         <true/>
+        <key>enableRightMouseMac</key>
+        <true/>
         <key>enableSebBrowser</key>
         <true/>
         <key>enableStartMenu</key>
@@ -304,6 +306,12 @@
         <string>SEB_Win_2.1.1</string>
         <key>oskBehavior</key>
         <integer>2</integer>
+        <key>enableMacOSAAC</key>
+        <true/>
+        <key>allowDownloads</key>
+        <true/>
+        <key>browserWindowWebView</key>
+        <integer>3</integer>
         <key>permittedProcesses</key>
         <array>
             SAFE_EXAM_ALLOWED_APPS
