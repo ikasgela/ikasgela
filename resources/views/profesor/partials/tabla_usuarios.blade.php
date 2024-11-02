@@ -6,7 +6,9 @@
             <th>
                 <input type="checkbox" id="seleccionar_usuarios">
             </th>
-            <th></th>
+            @if(config('ikasgela.avatar_enabled'))
+                <th></th>
+            @endif
             <th>{{ __('Name') }}</th>
             <th class="text-center">
                 @include('profesor.partials.titulo-columna', ['titulo' => trans_choice('tasks.hidden', 2)])
@@ -69,7 +71,9 @@
                            data-chkbox-shiftsel="grupo1"
                            name="usuarios_seleccionados[{{ $user->id }}]" value="{{ $user->id }}">
                 </td>
-                <td class="clickable">@include('users.partials.avatar', ['user' => $user, 'width' => 35])</td>
+                @if(config('ikasgela.avatar_enabled'))
+                    <td class="clickable">@include('users.partials.avatar', ['user' => $user, 'width' => 35])</td>
+                @endif
                 <td class="clickable">
                     {{ $user->full_name }}
                     @include('profesor.partials.status_usuario')

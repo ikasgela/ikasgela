@@ -15,9 +15,11 @@
                     </h5>
                     @include('partials.mailto', ['user' => $user, 'format' => 'class="card-link"'])
                 </div>
-                <div class="col-12 col-sm-2 text-center text-sm-right">
-                    @include('users.partials.avatar', ['user' => $user, 'width' => 100])
-                </div>
+                @if(config('ikasgela.avatar_enabled'))
+                    <div class="col-12 col-sm-2 text-center text-sm-right">
+                        @include('users.partials.avatar', ['user' => $user, 'width' => 100])
+                    </div>
+                @endif
             </div>
         </div>
     </div>
