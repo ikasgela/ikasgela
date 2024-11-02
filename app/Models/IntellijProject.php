@@ -8,6 +8,8 @@ use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Jenssegers\Agent\Facades\Agent;
 use Log;
 
 /**
@@ -190,7 +192,10 @@ class IntellijProject extends Model
         $repository = $this->repository();
 
         if ($repository['id'] != '?') {
-            return "jetbrains://idea/checkout/git?checkout.repo=" . str_replace('https://', "https://" . Auth::user()->username . "@", $repository['http_url_to_repo']) . "&idea.required.plugins.id=Git4Idea";
+            if ($this->isSafeExamOnMac())
+                return str_replace('https://', "https://" . Auth::user()->username . "@", $repository['http_url_to_repo']);
+            else
+                return "jetbrains://idea/checkout/git?checkout.repo=" . str_replace('https://', "https://" . Auth::user()->username . "@", $repository['http_url_to_repo']) . "&idea.required.plugins.id=Git4Idea";
         }
 
         return null;
@@ -221,5 +226,10 @@ class IntellijProject extends Model
     public function pivote(Actividad $actividad)
     {
         return $actividad->intellij_projects()->find($this->id)->pivot;
+    }
+
+    public function isSafeExamOnMac(): bool
+    {
+        return Agent::platform() == 'OS X' && Str::contains(Agent::getUserAgent(), "SEB/ikasgela");
     }
 }

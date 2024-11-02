@@ -1,3 +1,12 @@
+<script>
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(
+            function () {
+                alert("{{ __('Link copied') }}.");
+            });
+    }
+</script>
+
 @if($intellij_project->isForking())
     @push('intellij-isforking')
         <script>
@@ -69,8 +78,17 @@
                        class="btn btn-primary text-light">{{ __('Open in DataGrip') }}</a>
                     @break
                 @case('idea')
-                    <a href="{{ $intellij_project->intellij_idea_deep_link() }}"
-                       class="btn btn-primary text-light">{{ __('Open in IntelliJ IDEA') }}</a>
+                    @if($intellij_project->isSafeExamOnMac())
+                        <button name="copy_link"
+                                type="button"
+                                onclick="copyToClipboard('{{ $intellij_project->intellij_idea_deep_link() }}')"
+                                class="btn btn-primary text-light">
+                            {{ __('Copy link for IntelliJ IDEA') }}
+                        </button>
+                    @else
+                        <a href="{{ $intellij_project->intellij_idea_deep_link() }}"
+                           class="btn btn-primary text-light">{{ __('Open in IntelliJ IDEA') }}</a>
+                    @endif
                     @break
                 @case('phpstorm')
                     <a href="{{ $intellij_project->phpstorm_deep_link() }}"
