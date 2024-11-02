@@ -23,14 +23,14 @@ class AllowedAppController extends Controller
     {
         $this->validate($request, [
             'title' => 'required|max:255',
-            'executable' => 'required|max:255',
-            'path' => 'required|max:255',
         ]);
 
         $allowed_app = AllowedApp::create([
             'title' => request('title'),
-            'executable' => request('executable'),
-            'path' => request('path'),
+            'os' => request('os'),
+            'executable' => request('executable', ''),
+            'path' => request('path', ''),
+            'identifier' => request('identifier', ''),
             'show_icon' => request()->has('show_icon'),
             'force_close' => request()->has('force_close'),
             'disabled' => request()->has('disabled'),
@@ -49,14 +49,14 @@ class AllowedAppController extends Controller
     {
         $this->validate($request, [
             'title' => 'required|max:255',
-            'executable' => 'required|max:255',
-            'path' => 'required|max:255',
         ]);
 
         $allowed_app->update([
             'title' => request('title'),
-            'executable' => request('executable'),
-            'path' => request('path'),
+            'os' => request('os'),
+            'executable' => request('executable', ''),
+            'path' => request('path', ''),
+            'identifier' => request('identifier', ''),
             'show_icon' => request()->has('show_icon'),
             'force_close' => request()->has('force_close'),
             'disabled' => request()->has('disabled'),
