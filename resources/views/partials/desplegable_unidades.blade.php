@@ -1,18 +1,16 @@
-<div class="form-group d-flex flex-row justify-content-between">
-    {!! Form::label('unidad', __('Unit'), ['class' => 'col-form-label']) !!}
+<div class="d-flex flex-row justify-content-between align-items-center">
+    {{ html()->label(__('Unit'), 'unidad')->class('form-label m-0') }}
     <div class="flex-fill mx-3">
-        <select class="custom-select" id="{{ $nombre_variable ?? 'unidad_id' }}"
-                name="{{ $nombre_variable ?? 'unidad_id' }}">
-            <option value="">{{ __('--- None ---') }}</option>
-            @foreach($unidades as $unidad)
-                <option
-                    value="{{ $unidad->id }}" {{ session('profesor_'. $nombre_variable ?? 'unidad_id') == $unidad->id ? 'selected' : '' }}>
-                    {{ $unidad->full_name }} {{ $unidad->visible ? '' : '(' . __('hidden') . ')' }}
-                </option>
-            @endforeach
-        </select>
+        {{ html()->select($nombre_variable ?? 'unidad_id')->class('form-select')->open() }}
+        {{ html()->option(__('--- None ---')) }}
+        @foreach($unidades as $unidad)
+            {{ html()->option($unidad->full_name . ($unidad->visible ? '' : ' (' . __('hidden') . ')'),
+                                $unidad->id,
+                                session('profesor_'. $nombre_variable ?? 'unidad_id') == $unidad->id) }}
+        @endforeach
+        {{ html()->select()->close() }}
     </div>
     <div>
-        <button type="submit" class="btn btn-primary">{{ __('Filter') }}</button>
+        {{ html()->submit(__('Filter'))->class('btn btn-primary text-light') }}
     </div>
 </div>

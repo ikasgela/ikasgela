@@ -1,6 +1,7 @@
 @include('layouts.sidebar.nav-title', [
     'text' => __('Administrator'),
 ])
+{{--
 <li class="nav-item">
     @include('layouts.sidebar.dropdown', [
         'text' => __('Activities'),
@@ -27,7 +28,7 @@
         </ul>
     </div>
 </li>
-
+--}}
 {{--
 <li class="c-sidebar-nav-title">{{ __('Admin') }}</li>
 <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
@@ -163,6 +164,26 @@
         </li>
     </ul>
 </li>
+--}}
+
+<li class="nav-item">
+    @include('layouts.sidebar.dropdown', [
+        'text' => __('Evaluation'),
+        'icon' => 'bi-patch-check',
+        'collapse_id' => 'activities-collapse',
+    ])
+    <div class="collapse" id="activities-collapse">
+        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small ps-1 ms-4">
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('safe_exam.index'),
+                'text' => __('Safe Exam Browser'),
+                'icon' => 'bi-cone-striped',
+            ])
+        </ul>
+    </div>
+</li>
+
+{{--
 <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
     <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
         <i class="c-sidebar-nav-icon fas fa-database"></i> {{ __('Evaluation') }}

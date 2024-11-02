@@ -8,13 +8,27 @@
             </th>
             <th></th>
             <th>{{ __('Name') }}</th>
-            <th class="text-center">{{ trans_choice('tasks.hidden', 2) }}</th>
-            <th class="text-center">{{ trans_choice('tasks.new', 2) }}</th>
-            <th class="text-center">{{ trans_choice('tasks.accepted', 2) }}</th>
-            <th class="text-center">{{ trans_choice('tasks.sent', 2) }}</th>
-            <th class="text-center">{{ trans_choice('tasks.reviewed', 2) }}</th>
-            <th class="text-center">{{ trans_choice('tasks.archived', 2) }}</th>
-            <th class="text-center">{{ trans_choice('tasks.expired', 2) }}</th>
+            <th class="text-center">
+                @include('profesor.partials.titulo-columna', ['titulo' => trans_choice('tasks.hidden', 2)])
+            </th>
+            <th class="text-center">
+                @include('profesor.partials.titulo-columna', ['titulo' => trans_choice('tasks.new', 2)])
+            </th>
+            <th class="text-center">
+                @include('profesor.partials.titulo-columna', ['titulo' => trans_choice('tasks.accepted', 2)])
+            </th>
+            <th class="text-center">
+                @include('profesor.partials.titulo-columna', ['titulo' => trans_choice('tasks.sent', 2)])
+            </th>
+            <th class="text-center">
+                @include('profesor.partials.titulo-columna', ['titulo' => trans_choice('tasks.reviewed', 2)])
+            </th>
+            <th class="text-center">
+                @include('profesor.partials.titulo-columna', ['titulo' => trans_choice('tasks.archived', 2)])
+            </th>
+            <th class="text-center">
+                @include('profesor.partials.titulo-columna', ['titulo' => trans_choice('tasks.expired', 2)])
+            </th>
             <th class="text-center">{{ __('Simultaneous') }}</th>
             <th>{{ __('Activity') }}</th>
             <th>{{ trans_choice('tasks.last', 1) }}</th>

@@ -20,6 +20,12 @@
             @include('layouts.navbar.navbar-separator')
             @include('layouts.navbar.theme-selector')
             @auth
+                @if(Auth::user()->isImpersonated())
+                    @include('layouts.navbar.navbar-separator')
+                    @include('layouts.navbar.user-impersonated')
+                @endif
+            @endauth
+            @auth
                 @include('layouts.navbar.navbar-separator')
                 @include('layouts.navbar.user-dropdown')
             @endauth

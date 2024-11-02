@@ -92,21 +92,21 @@
             <div class='btn-group'>
                 @if(isset($actividad) && Auth::user()->hasRole('profesor'))
                     @if($intellij_project->isArchivado())
-                        {!! Form::open(['route' => ['intellij_projects.unlock', $intellij_project->id, $actividad->id], 'method' => 'POST']) !!}
+                        {{ html()->form('POST', route('intellij_projects.unlock', [$intellij_project->id, $actividad->id]))->open() }}
                         <button title="{{ __('Unlock') }}"
                                 type="submit"
                                 class="btn btn-light">
                             <i class="fas fa-lock"></i>
                         </button>
-                        {!! Form::close() !!}
+                        {{ html()->form()->close() }}
                     @else
-                        {!! Form::open(['route' => ['intellij_projects.lock', $intellij_project->id, $actividad->id], 'method' => 'POST']) !!}
+                        {{ html()->form('POST', route('intellij_projects.lock', [$intellij_project->id, $actividad->id]))->open() }}
                         <button title="{{ __('Lock') }}"
                                 type="submit"
                                 class="btn btn-light">
                             <i class="fas fa-unlock"></i>
                         </button>
-                        {!! Form::close() !!}
+                        {{ html()->form()->close() }}
                     @endif
                 @endif
             </div>
