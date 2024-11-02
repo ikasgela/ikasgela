@@ -11,8 +11,8 @@
             <thead class="thead-dark">
             <tr>
                 <th>{{ __('Title') }}</th>
+                <th>{{ __('Operating system') }}</th>
                 <th>{{ __('Executable') }}</th>
-                <th>{{ __('Path') }}</th>
                 <th class="text-center">{{ __('Show icon') }}</th>
                 <th class="text-center">{{ __('Force close') }}</th>
                 <th class="text-center">{{ __('Disabled') }}</th>
@@ -23,8 +23,8 @@
             @foreach($safe_exam->allowed_apps as $allowed_app)
                 <tr>
                     <td>{{ $allowed_app->title }}</td>
+                    <td>{{ $allowed_app->os == 1 ? 'Windows' : 'macOS' }}</td>
                     <td>{{ $allowed_app->executable }}</td>
-                    <td>{{ $allowed_app->path }}</td>
                     <td class="text-center">{{ $allowed_app->show_icon ? __('Yes') : __('No') }}</td>
                     <td class="text-center">{{ $allowed_app->force_close ? __('Yes') : __('No') }}</td>
                     <td class="text-center {{ $allowed_app->disabled ? 'bg-warning text-dark' : '' }}">{{ $allowed_app->disabled ? __('Yes') : __('No') }}</td>
@@ -64,7 +64,7 @@
 
     <div>
         <a href="{{ route('allowed_apps.create', [$safe_exam->id]) }}"
-           class="btn btn-primary" role="button">
+           class="btn btn-primary text-light" role="button">
             {{ __('New allowed app') }}
         </a>
     </div>
@@ -121,7 +121,7 @@
 
     <div>
         <a href="{{ route('allowed_urls.create', [$safe_exam->id]) }}"
-           class="btn btn-primary" role="button">
+           class="btn btn-primary text-light" role="button">
             {{ __('New allowed URL') }}
         </a>
     </div>

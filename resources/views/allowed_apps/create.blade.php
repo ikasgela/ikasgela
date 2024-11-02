@@ -10,25 +10,41 @@
         <div class="row mb-3">
             <label class="col-2 col-form-label" for="title">{{ __('Title') }}</label>
             <div class="col-10">
-                <input class="form-control" type="text" id="title" name="title" value="{{ old('title') }}"
-                       placeholder="idea64"/>
+                <input class="form-control" type="text" id="title" name="title" value="{{ old('title') }}"/>
                 <span class="text-danger">{{ $errors->first('title') }}</span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-2 col-form-label" for="os">{{ __('Operating system') }}</label>
+            <div class="col-10">
+                <select class="form-select" name="os">
+                    <option value="1">Windows</option>
+                    <option value="0">macOS</option>
+                </select>
+                <span class="text-danger">{{ $errors->first('os') }}</span>
             </div>
         </div>
         <div class="row mb-3">
             <label class="col-2 col-form-label" for="executable">{{ __('Executable') }}</label>
             <div class="col-10">
                 <input class="form-control" type="text" id="executable" name="executable"
-                       value="{{ old('executable') }}" placeholder="idea64.exe"/>
+                       value="{{ old('executable') }}"/>
                 <span class="text-danger">{{ $errors->first('executable') }}</span>
             </div>
         </div>
         <div class="row mb-3">
             <label class="col-2 col-form-label" for="path">{{ __('Path') }}</label>
             <div class="col-10">
-                <input class="form-control" type="text" id="path" name="path" value="{{ old('path') }}"
-                       placeholder="%LOCALAPPDATA%\programs\intellij idea community edition\bin"/>
+                <input class="form-control" type="text" id="path" name="path" value="{{ old('path') }}"/>
                 <span class="text-danger">{{ $errors->first('path') }}</span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-2 col-form-label" for="identifier">{{ __('Identifier') }}</label>
+            <div class="col-10">
+                <input class="form-control" type="text" id="identifier" name="identifier"
+                       value="{{ old('identifier') }}"/>
+                <span class="text-danger">{{ $errors->first('identifier') }}</span>
             </div>
         </div>
         <div class="row mb-3">
@@ -56,7 +72,7 @@
             </div>
         </div>
         <div class="mt-5">
-            <input class="btn btn-primary" type="submit" name="guardar" value="{{ __('Save') }}"/>
+            <input class="btn btn-primary text-light" type="submit" name="guardar" value="{{ __('Save') }}"/>
             <a class="btn btn-link text-secondary ms-2"
                href="{{ route('safe_exam.allowed', [$safe_exam->id]) }}">{{ __('Cancel') }}</a>
         </div>

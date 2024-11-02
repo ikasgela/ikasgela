@@ -11,7 +11,7 @@ class AllowedApp extends Model
     use Cloneable, HasFactory;
 
     protected $fillable = [
-        'title', 'executable', 'path', 'show_icon', 'force_close', 'disabled', 'safe_exam_id',
+        'title', 'os', 'executable', 'path', 'identifier', 'show_icon', 'force_close', 'disabled', 'safe_exam_id',
         '__import_id',
     ];
 

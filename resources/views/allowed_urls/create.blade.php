@@ -11,7 +11,7 @@
             <label class="col-2 col-form-label" for="url">{{ __('URL') }}</label>
             <div class="col-10">
                 <input class="form-control" type="text" id="url" name="url"
-                       placeholder="https://wikipedia.org" value="{{ old('url') }}"/>
+                       value="{{ old('url') }}"/>
                 <span class="text-danger">{{ $errors->first('url') }}</span>
             </div>
         </div>
@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="mt-5">
-            <input class="btn btn-primary" type="submit" name="guardar" value="{{ __('Save') }}"/>
+            <input class="btn btn-primary text-light" type="submit" name="guardar" value="{{ __('Save') }}"/>
             <a class="btn btn-link text-secondary ms-2"
                href="{{ route('safe_exam.allowed', [$safe_exam->id]) }}">{{ __('Cancel') }}</a>
         </div>
