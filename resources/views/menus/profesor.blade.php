@@ -15,8 +15,19 @@
     'badge_number' => Auth::user()->newThreadsCount(),
     'badge_color' => 'success',
 ])
+{{--
 @include('layouts.sidebar.nav-item', [
     'route' => route('teams.index'),
     'text' => __('Teams'),
     'icon' => 'bi-people',
+])
+--}}
+@include('layouts.sidebar.nav-title', [
+    'text' => __('Ikasgela'),
+])
+@include('layouts.sidebar.nav-item', [
+    'route' => route('users.portada'),
+    'text' => __('Courses'),
+    'icon' => 'bi-collection',
+    'last' => true,
 ])
