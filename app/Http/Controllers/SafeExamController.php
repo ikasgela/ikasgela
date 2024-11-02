@@ -93,6 +93,8 @@ class SafeExamController extends Controller
                 $xml_fragment = Str::replace("SAFE_EXAM_APP_PATH", $app->path, $xml_fragment);
                 $xml_fragment = Str::replace("SAFE_EXAM_APP_ICON", $app->show_icon ? 'true' : 'false', $xml_fragment);
                 $xml_fragment = Str::replace("SAFE_EXAM_APP_FORCE_CLOSE", $app->force_close ? 'true' : 'false', $xml_fragment);
+                $xml_fragment = Str::replace("SAFE_EXAM_APP_IDENTIFIER", '', $xml_fragment);
+                $xml_fragment = Str::replace("SAFE_EXAM_APP_OS", 1, $xml_fragment); // 1 Windows, 0 macOS
 
                 $xml_allowed_apps .= $xml_fragment;
             }

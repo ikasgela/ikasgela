@@ -1,6 +1,10 @@
 <dict>
     <key>active</key>
     <true/>
+    <key>allowManualStart</key>
+    <true/>
+    <key>allowNetworkAccess</key>
+    <true/>
     <key>allowUserToChooseApp</key>
     <false/>
     <key>arguments</key>
@@ -14,11 +18,11 @@
     <key>iconInTaskbar</key>
     <SAFE_EXAM_APP_ICON/>
     <key>identifier</key>
-    <string/>
+    <string>SAFE_EXAM_APP_IDENTIFIER</string>
     <key>originalName</key>
     <string/>
     <key>os</key>
-    <integer>1</integer>
+    <integer>SAFE_EXAM_APP_OS</integer>
     <key>path</key>
     <string>SAFE_EXAM_APP_PATH</string>
     <key>runInBackground</key>
