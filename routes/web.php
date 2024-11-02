@@ -100,8 +100,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             // Mostrar el escritorio del alumno
             Route::get('/home', 'AlumnoController@tareas')
                 ->name('users.home');
-            Route::get('/portada', 'AlumnoController@portada')
-                ->name('users.portada');
 
             // Fork de un proyecto de Intellij
             Route::post('/intellij_projects/{actividad}/fork/{intellij_project}', 'IntellijProjectController@fork')
@@ -113,12 +111,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::get('/intellij_projects/{intellij_project}/download', 'IntellijProjectController@download')
                 ->withoutMiddleware('localeCookieRedirect')
                 ->name('intellij_projects.download');
-
-            // Matricularse en un curso
-            Route::post('/cursos/{curso}/{user}/matricular', 'CursoController@matricular')
-                ->name('cursos.matricular');
-            Route::post('/cursos/{curso}/{user}/curso_actual', 'CursoController@curso_actual')
-                ->name('cursos.curso_actual');
         });
 
         // Profesor
@@ -652,6 +644,16 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             // Esquema del curso
             Route::get('/outline', 'ArchivoController@outline')
                 ->name('archivo.outline');
+
+            // Portada de todos los cursos
+            Route::get('/portada', 'AlumnoController@portada')
+                ->name('users.portada');
+
+            // Matricularse en un curso
+            Route::post('/cursos/{curso}/{user}/matricular', 'CursoController@matricular')
+                ->name('cursos.matricular');
+            Route::post('/cursos/{curso}/{user}/curso_actual', 'CursoController@curso_actual')
+                ->name('cursos.curso_actual');
         });
 
         // Profesor y administrador
