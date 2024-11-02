@@ -62,8 +62,13 @@ class T4_TareasTest extends DuskTestCase
             $browser->press(__('Save assigment'));
             $browser->assertRouteIs('profesor.index');
 
-            $browser->assertSeeIn('main > div.p-4.col-12.col-sm-10 > div.table-responsive > table > tbody > tr:nth-child(2) > td:nth-child(4)', 'Marc');
-            $browser->assertSeeIn('main > div.p-4.col-12.col-sm-10 > div.table-responsive > table > tbody > tr:nth-child(2) > td:nth-child(6)', '1');
+            if (config('ikasgela.avatar_enabled')) {
+                $browser->assertSeeIn('main > div.p-4.col-12.col-sm-10 > div.table-responsive > table > tbody > tr:nth-child(2) > td:nth-child(4)', 'Marc');
+                $browser->assertSeeIn('main > div.p-4.col-12.col-sm-10 > div.table-responsive > table > tbody > tr:nth-child(2) > td:nth-child(6)', '1');
+            } else {
+                $browser->assertSeeIn('main > div.p-4.col-12.col-sm-10 > div.table-responsive > table > tbody > tr:nth-child(2) > td:nth-child(3)', 'Marc');
+                $browser->assertSeeIn('main > div.p-4.col-12.col-sm-10 > div.table-responsive > table > tbody > tr:nth-child(2) > td:nth-child(5)', '1');
+            }
 
             // Cerrar sesión
             $browser->logout();
