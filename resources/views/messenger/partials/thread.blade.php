@@ -29,11 +29,11 @@
                     </h5>
                     @auth
                         @if(Auth::user()->hasRole('profesor'))
-                            {!! Form::open(['route' => ['messages.destroy', $thread->id], 'method' => 'DELETE']) !!}
+                            {{ html()->form('DELETE', route('messages.destroy', $thread->id))->open() }}
                             <div class="btn-group">
                                 @include('partials.boton_borrar')
                             </div>
-                            {!! Form::close() !!}
+                            {{ html()->form()->close() }}
                         @endif
                     @endauth
                 </div>
