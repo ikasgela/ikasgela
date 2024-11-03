@@ -1,7 +1,7 @@
 <div class='btn-group'>
     @include('users.partials.impersonate_button')
 
-    @if($user->hasVerifiedEmail())
+    @if(!$user->hasVerifiedEmail())
         {{ html()->form('POST', route('users.manual_activation'))->open() }}
         {{ html()->submit('<i class="fas fa-user-check"></i>')
                 ->class(['btn btn-light btn-sm', 'rounded-0'])
