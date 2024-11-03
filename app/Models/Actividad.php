@@ -404,7 +404,7 @@ class Actividad extends Model
 
     public function ampliarPlazo($dias)
     {
-        $this->fecha_entrega = now()->addDays($dias);
+        $this->fecha_entrega = now()->addDays(intval($dias));
         $this->fecha_limite = $this->fecha_entrega->addMinutes(10);
         $this->save();
     }
