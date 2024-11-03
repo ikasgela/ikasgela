@@ -183,6 +183,13 @@
     </div>
 </li>
 
+@include('layouts.sidebar.nav-item', [
+    'route' => route('logs'),
+    'text' => __('Logs'),
+    'icon' => 'bi-bug',
+    'target' => '_blank',
+])
+
 {{--
 <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
     <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
