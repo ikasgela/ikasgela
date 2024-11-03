@@ -172,8 +172,8 @@
         'icon' => 'bi-patch-check',
         'collapse_id' => 'activities-collapse',
     ])
-    <div class="collapse" id="activities-collapse">
-        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small ps-1 ms-4">
+    <div class="collapse ps-3" id="activities-collapse">
+        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small ms-2">
             @include('layouts.sidebar.nav-item-desplegable', [
                 'route' => route('safe_exam.index'),
                 'text' => __('Safe Exam Browser'),
