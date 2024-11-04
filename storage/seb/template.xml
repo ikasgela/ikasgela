@@ -65,9 +65,9 @@
         <key>allowWlan</key>
         <false/>
         <key>audioControlEnabled</key>
-        <true/>
-        <key>audioMute</key>
         <false/>
+        <key>audioMute</key>
+        <true/>
         <key>audioSetVolumeLevel</key>
         <false/>
         <key>audioVolumeLevel</key>
@@ -192,6 +192,8 @@
         <false/>
         <key>enablePrivateClipboard</key>
         <true/>
+        <key>clipboardPolicy</key>
+        <integer>0</integer>
         <key>enableRightMouse</key>
         <true/>
         <key>enableRightMouseMac</key>
@@ -1447,7 +1449,7 @@
         <key>showApplicationLogButton</key>
         <false/>
         <key>showInputLanguage</key>
-        <false/>
+        <true/>
         <key>showMenuBar</key>
         <false/>
         <key>showReloadButton</key>
