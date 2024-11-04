@@ -15,8 +15,11 @@
                 <a href="{{ route('profesor.index') }}" class="btn btn-link text-secondary">{{ __('Cancel') }}</a>
             </div>
             <div>
+                <input type="checkbox" id="fecha_override_enable" name="fecha_override_enable"/>
+                <label class="ml-1" for="fecha_override_enable">{{ __('Override completion date') }}</label>
+                <input class="mx-2" type="text" id="fecha_override" name="fecha_override"/>
                 <input type="checkbox" id="notificar" name="notificar" checked="checked"/>
-                <label class="ms-1" for="notificar">{{ __('Send notification email') }}</label>
+                <label class="ml-1" for="notificar">{{ __('Send notification email') }}</label>
             </div>
         </div>
     </form>

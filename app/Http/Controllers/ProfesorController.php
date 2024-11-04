@@ -391,7 +391,10 @@ class ProfesorController extends Controller
             $clon->plantilla_id = $actividad->id;
             $clon->orden = $clon->id;
 
-            $clon->establecerFechaEntrega();
+            if (request()->has('fecha_override_enable'))
+                $clon->establecerFechaEntrega(request('fecha_override'));
+            else
+                $clon->establecerFechaEntrega();
 
             $clon->save();
 
@@ -432,7 +435,10 @@ class ProfesorController extends Controller
             $clon->plantilla_id = $actividad->id;
             $clon->orden = $clon->id;
 
-            $clon->establecerFechaEntrega();
+            if (request()->has('fecha_override_enable'))
+                $clon->establecerFechaEntrega(request('fecha_override'));
+            else
+                $clon->establecerFechaEntrega();
 
             $clon->addEtiqueta('trabajo en equipo');
 
