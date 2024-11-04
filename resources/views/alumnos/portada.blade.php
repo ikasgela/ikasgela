@@ -14,9 +14,6 @@
             @php($total = 0)
         @endonce
         @foreach($period->categories as $category)
-            @if($loop->first)
-                <h3>{{ $period->name }}</h3>
-            @endif
             @foreach($category->cursos as $curso)
                 @if($loop->first)
                     <div class="row">
