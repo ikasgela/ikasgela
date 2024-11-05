@@ -189,7 +189,7 @@
 @include('layouts.sidebar.nav-item', [
     'route' => route('registros.index'),
     'text' => __('Records'),
-    'icon' => 'bi-bar-chart',
+    'icon' => 'bi-database',
 ])
 @include('layouts.sidebar.nav-item', [
     'route' => route('logs'),

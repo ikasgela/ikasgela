@@ -5,5 +5,4 @@
     'route' => route('users.portada'),
     'text' => __('Courses'),
     'icon' => 'bi-collection',
-    'last' => true,
 ])
