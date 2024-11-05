@@ -15,10 +15,8 @@
     'badge_number' => Auth::user()->newThreadsCount(),
     'badge_color' => 'success',
 ])
-{{--
 @include('layouts.sidebar.nav-item', [
     'route' => route('teams.index'),
     'text' => __('Teams'),
     'icon' => 'bi-people',
 ])
---}}

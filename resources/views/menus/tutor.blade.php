@@ -1,4 +1,3 @@
-{{--
 @include('layouts.sidebar.nav-title', [
     'text' => __('Tutor'),
 ])
@@ -7,7 +6,6 @@
     'text' => __('Group report'),
     'icon' => 'bi-list-check',
 ])
---}}
 {{--
 <li class="c-sidebar-nav-item">
     <a class="c-sidebar-nav-link" href="{{ route('tutor.tareas_enviadas') }}">

@@ -1,7 +1,6 @@
 @include('layouts.sidebar.nav-title', [
     'text' => __('Administrator'),
 ])
-{{--
 <li class="nav-item">
     @include('layouts.sidebar.dropdown', [
         'text' => __('Activities'),
@@ -28,78 +27,58 @@
         </ul>
     </div>
 </li>
---}}
+<li class="nav-item">
+    @include('layouts.sidebar.dropdown', [
+        'text' => __('Resources'),
+        'icon' => 'bi-puzzle',
+        'collapse_id' => 'resources-collapse',
+    ])
+    <div class="collapse" id="resources-collapse">
+        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small ps-1 ms-4">
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('markdown_texts.index'),
+                'text' => __('Markdown texts'),
+                'icon' => 'bi-markdown',
+            ])
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('youtube_videos.index'),
+                'text' => __('YouTube videos'),
+                'icon' => 'bi-youtube',
+            ])
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('link_collections.index'),
+                'text' => __('Links'),
+                'icon' => 'bi-link',
+            ])
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('file_resources.index'),
+                'text' => __('Files'),
+                'icon' => 'bi-file-earmark',
+            ])
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('cuestionarios.index'),
+                'text' => __('Questionnaires'),
+                'icon' => 'bi-question-circle',
+            ])
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('file_uploads.index'),
+                'text' => __('Image uploads'),
+                'icon' => 'bi-upload',
+            ])
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('intellij_projects.index'),
+                'text' => __('IntelliJ projects'),
+                'icon' => 'bi-filetype-java',
+            ])
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('selectors.index'),
+                'text' => __('Selectors'),
+                'icon' => 'bi-shuffle',
+            ])
+        </ul>
+    </div>
+</li>
 {{--
-<li class="c-sidebar-nav-title">{{ __('Admin') }}</li>
-<li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-    <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
-        <i class="c-sidebar-nav-icon fas fa-database"></i> {{ __('Activities') }}
-    </a>
-    <ul class="c-sidebar-nav-dropdown-items">
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link bg-dark" href="{{ route('actividades.plantillas') }}">
-                <i class="c-sidebar-nav-icon fas fa-file"></i> {{ __('Activity templates') }}
-            </a>
-        </li>
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link bg-dark" href="{{ route('intellij_projects.copia') }}">
-                <i class="c-sidebar-nav-icon fas fa-copy"></i> {{ __('Project cloner') }}
-            </a>
-        </li>
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link bg-dark" href="{{ route('intellij_projects.descargar') }}">
-                <i class="c-sidebar-nav-icon fas fa-download"></i> {{ __('Download projects') }}
-            </a>
-        </li>
-    </ul>
-</li>
-<li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-    <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
-        <i class="c-sidebar-nav-icon fas fa-database"></i> {{ __('Resources') }}
-    </a>
-    <ul class="c-sidebar-nav-dropdown-items">
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link bg-dark" href="{{ route('markdown_texts.index') }}">
-                <i class="c-sidebar-nav-icon fab fa-markdown"></i> {{ __('Markdown texts') }}
-            </a>
-        </li>
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link bg-dark" href="{{ route('youtube_videos.index') }}">
-                <i class="c-sidebar-nav-icon fab fa-youtube"></i> {{ __('YouTube videos') }}
-            </a>
-        </li>
-        <li class="c-sidebar-nav-item bg-dark">
-            <a class="c-sidebar-nav-link" href="{{ route('link_collections.index') }}">
-                <i class="c-sidebar-nav-icon fas fa-link"></i> {{ __('Links') }}
-            </a>
-        </li>
-        <li class="c-sidebar-nav-item bg-dark">
-            <a class="c-sidebar-nav-link" href="{{ route('file_resources.index') }}">
-                <i class="c-sidebar-nav-icon fas fa-file"></i> {{ __('Files') }}
-            </a>
-        </li>
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link bg-dark" href="{{ route('cuestionarios.index') }}">
-                <i class="c-sidebar-nav-icon fas fa-question-circle"></i> {{ __('Questionnaires') }}
-            </a>
-        </li>
-        <li class="c-sidebar-nav-item bg-dark">
-            <a class="c-sidebar-nav-link" href="{{ route('file_uploads.index') }}">
-                <i class="c-sidebar-nav-icon fas fa-file-upload"></i> {{ __('Image uploads') }}
-            </a>
-        </li>
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link bg-dark" href="{{ route('intellij_projects.index') }}">
-                <i class="c-sidebar-nav-icon fab fa-java"></i> {{ __('IntelliJ projects') }}
-            </a>
-        </li>
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link bg-dark" href="{{ route('selectors.index') }}">
-                <i class="c-sidebar-nav-icon fas fa-code-branch"></i> {{ __('Selectors') }}
-            </a>
-        </li>
-    </ul>
-</li>
 <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
     <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
         <i class="c-sidebar-nav-icon fas fa-database"></i> {{ __('Structure') }}
@@ -170,9 +149,9 @@
     @include('layouts.sidebar.dropdown', [
         'text' => __('Evaluation'),
         'icon' => 'bi-patch-check',
-        'collapse_id' => 'activities-collapse',
+        'collapse_id' => 'evaluation-collapse',
     ])
-    <div class="collapse ps-3" id="activities-collapse">
+    <div class="collapse ps-3" id="evaluation-collapse">
         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small ms-2">
             @include('layouts.sidebar.nav-item-desplegable', [
                 'route' => route('safe_exam.index'),
