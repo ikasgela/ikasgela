@@ -1,2 +1,2 @@
-{!! $user->isBlocked() ? '<span class="badge badge-danger ms-2">'.__('Blocked').'</span>' : '' !!}
-{!! !$user->isVerified() ? '<span class="badge badge-warning ms-2">'.__('Unverified').'</span>' : '' !!}
+{!! $user->isBlocked() ? '<span class="badge text-light text-bg-danger ms-2">'.__('Blocked').'</span>' : '' !!}
+{!! !$user->isVerified() ? '<span class="badge text-bg-warning ms-2">'.__('Unverified').'</span>' : '' !!}

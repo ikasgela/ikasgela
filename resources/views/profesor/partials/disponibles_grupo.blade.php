@@ -9,7 +9,7 @@
         @include('layouts.errors')
         <div class="d-flex justify-content-between mb-4">
             <div style="flex-grow: 1">
-                <button type="submit" class="btn btn-primary single_click">
+                <button type="submit" class="btn btn-primary text-light single_click">
                     <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Save assigment') }}
                 </button>
             </div>
