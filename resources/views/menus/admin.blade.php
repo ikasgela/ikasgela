@@ -78,73 +78,78 @@
         </ul>
     </div>
 </li>
-{{--
-<li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-    <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
-        <i class="c-sidebar-nav-icon fas fa-database"></i> {{ __('Structure') }}
-    </a>
-    <ul class="c-sidebar-nav-dropdown-items">
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="{{ route('organizations.index') }}">
-                {{ __('Organizations') }}
-            </a>
-        </li>
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="{{ route('periods.index') }}">
-                {{ __('Periods') }}
-            </a>
-        </li>
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="{{ route('categories.index') }}">
-                {{ __('Categories') }}
-            </a>
-        </li>
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="{{ route('cursos.index') }}">
-                {{ __('Courses') }}
-            </a>
-        </li>
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="{{ route('unidades.index') }}">
-                {{ __('Units') }}
-            </a>
-        </li>
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="{{ route('actividades.index') }}">
-                {{ __('Activities') }}
-            </a>
-        </li>
-    </ul>
+<li class="nav-item">
+    @include('layouts.sidebar.dropdown', [
+        'text' => __('Structure'),
+        'icon' => 'bi-diagram-3',
+        'collapse_id' => 'structure-collapse',
+    ])
+    <div class="collapse" id="structure-collapse">
+        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small ps-1 ms-4">
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('organizations.index'),
+                'text' => __('Organizations'),
+                'icon' => 'bi-building',
+            ])
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('periods.index'),
+                'text' => __('Periods'),
+                'icon' => 'bi-calendar-range',
+            ])
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('categories.index'),
+                'text' => __('Categories'),
+                'icon' => 'bi-collection',
+            ])
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('cursos.index'),
+                'text' => __('Courses'),
+                'icon' => 'bi-easel',
+            ])
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('unidades.index'),
+                'text' => __('Units'),
+                'icon' => 'bi-list-ol',
+            ])
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('actividades.index'),
+                'text' => __('Activities'),
+                'icon' => 'bi-person-walking',
+            ])
+        </ul>
+    </div>
 </li>
-<li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-    <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
-        <i class="c-sidebar-nav-icon fas fa-database"></i> {{ __('Users') }}
-    </a>
-    <ul class="c-sidebar-nav-dropdown-items">
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="{{ route('groups.index') }}">
-                {{ __('Groups') }}
-            </a>
-        </li>
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="{{ route('teams.index') }}">
-                {{ __('Teams') }}
-            </a>
-        </li>
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="{{ route('users.index') }}">
-                {{ __('Users') }}
-            </a>
-        </li>
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="{{ route('roles.index') }}">
-                {{ __('Roles') }}
-            </a>
-        </li>
-    </ul>
+<li class="nav-item">
+    @include('layouts.sidebar.dropdown', [
+        'text' => __('Users'),
+        'icon' => 'bi-people',
+        'collapse_id' => 'users-collapse',
+    ])
+    <div class="collapse ps-3" id="users-collapse">
+        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small ms-2">
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('groups.index'),
+                'text' => __('Groups'),
+                'icon' => 'bi-people',
+            ])
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('teams.index'),
+                'text' => __('Teams'),
+                'icon' => 'bi-people',
+            ])
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('users.index'),
+                'text' => __('Users'),
+                'icon' => 'bi-person',
+            ])
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('roles.index'),
+                'text' => __('Roles'),
+                'icon' => 'bi-person-badge',
+            ])
+        </ul>
+    </div>
 </li>
---}}
-
 <li class="nav-item">
     @include('layouts.sidebar.dropdown', [
         'text' => __('Evaluation'),
@@ -154,6 +159,26 @@
     <div class="collapse ps-3" id="evaluation-collapse">
         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small ms-2">
             @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('qualifications.index'),
+                'text' => __('Qualifications'),
+                'icon' => 'bi-clipboard2-check',
+            ])
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('skills.index'),
+                'text' => __('Skills'),
+                'icon' => 'bi-person-check',
+            ])
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('feedbacks.index'),
+                'text' => __('Feedback'),
+                'icon' => 'bi-megaphone',
+            ])
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('milestones.index'),
+                'text' => __('Milestones'),
+                'icon' => 'bi-signpost',
+            ])
+            @include('layouts.sidebar.nav-item-desplegable', [
                 'route' => route('safe_exam.index'),
                 'text' => __('Safe Exam Browser'),
                 'icon' => 'bi-cone-striped',
@@ -161,50 +186,14 @@
         </ul>
     </div>
 </li>
-
+@include('layouts.sidebar.nav-item', [
+    'route' => route('registros.index'),
+    'text' => __('Records'),
+    'icon' => 'bi-bar-chart',
+])
 @include('layouts.sidebar.nav-item', [
     'route' => route('logs'),
     'text' => __('Logs'),
     'icon' => 'bi-bug',
     'target' => '_blank',
 ])
-
-{{--
-<li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-    <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
-        <i class="c-sidebar-nav-icon fas fa-database"></i> {{ __('Evaluation') }}
-    </a>
-    <ul class="c-sidebar-nav-dropdown-items">
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="{{ route('qualifications.index') }}">
-                {{ __('Qualifications') }}
-            </a>
-        </li>
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="{{ route('skills.index') }}">
-                {{ __('Skills') }}
-            </a>
-        </li>
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="{{ route('feedbacks.index') }}">
-                {{ __('Feedback') }}
-            </a>
-        </li>
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="{{ route('milestones.index') }}">
-                {{ __('Milestones') }}
-            </a>
-        </li>
-        <li class="c-sidebar-nav-item">
-            <a class="c-sidebar-nav-link" href="{{ route('safe_exam.index') }}">
-                {{ __('Safe Exam Browser') }}
-            </a>
-        </li>
-    </ul>
-</li>
-<li class="c-sidebar-nav-item">
-    <a class="c-sidebar-nav-link" href="{{ route('registros.index') }}">
-        <i class="c-sidebar-nav-icon fas fa-stream"></i> {{ __('Records') }}
-    </a>
-</li>
---}}
