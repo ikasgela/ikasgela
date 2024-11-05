@@ -1,17 +1,16 @@
-<div class="form-group d-flex flex-row justify-content-between">
-    {!! Form::label('organization_id', __('Organization'), ['class' => 'col-form-label']) !!}
+<div class="d-flex flex-row justify-content-between align-items-center">
+    {{ html()->label(__('Organization'), 'organization_id')->class('form-label m-0') }}
     <div class="flex-fill mx-3">
-        <select class="custom-select" id="organization_id" name="organization_id">
-            <option value="-1">{{ __('--- None --- ') }}</option>
-            @foreach($organizations as $organization)
-                <option
-                    value="{{ $organization->id }}" {{ session('filtrar_organization_actual') == $organization->id ? 'selected' : '' }}>
-                    {{ $organization->full_name }}
-                </option>
-            @endforeach
-        </select>
+        {{ html()->select('organization_id')->class('form-select')->open() }}
+        {{ html()->option(__('--- None --- '), -1) }}
+        @foreach($organizations as $organization)
+            {{ html()->option($organization->full_name,
+                                $organization->id,
+                                session('filtrar_organization_actual') == $organization->id) }}
+        @endforeach
+        {{ html()->select()->close() }}
     </div>
     <div>
-        <button type="submit" class="btn btn-primary">{{ __('Filter') }}</button>
+        {{ html()->submit(__('Filter'))->class('btn btn-primary text-light') }}
     </div>
 </div>
