@@ -51,7 +51,7 @@ class UsersTableSeeder extends Seeder
     private function generarUsuario(string $nombre, string $apellido, string $email, $roles, $equipos, $cursos, $organizations, $tags): void
     {
         $usuario = User::generar_username($email);
-        $password = App::environment(['local', 'test', 'dusk.local']) ? '12345Abcde' : bin2hex(openssl_random_pseudo_bytes(16));;   // REF: https://stackoverflow.com/a/21498316
+        $password = App::environment(['local', 'testing']) ? '12345Abcde' : bin2hex(openssl_random_pseudo_bytes(16));;   // REF: https://stackoverflow.com/a/21498316
         $fecha = Carbon::now();
 
         $user = new User();
