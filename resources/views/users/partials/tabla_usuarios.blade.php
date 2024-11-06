@@ -57,61 +57,72 @@
                 <td colspan="100">
                     {{ __('Filter by tag') }}:
                     @foreach($etiquetas as $etiqueta)
-                        {!! '<a class="badge bg-body-secondary text-body-secondary ms-2" href="'.route(explode('.',Route::currentRouteName())[0].'.index.filtro',['tag'=>$etiqueta]).'">'.$etiqueta.'</a>' !!}
+                        <span class="ms-2">
+                        {{ html()
+                            ->a(route(explode('.', Route::currentRouteName())[0] . '.index.filtro', ['tag_usuario' => $etiqueta]), $etiqueta)
+                            ->class('badge bg-body-secondary text-body-secondary') }}
+                        </span>
                     @endforeach
                 </td>
             </tr>
         @endif
-        <tr>
-            <td colspan="42">
-                <div class="form-inline">
-                    {!! Form::open(['route' => ['users.acciones_grupo'], 'method' => 'POST', 'id' => 'asignar']) !!}
-                    <button title="{{ __('Enroll') }}"
-                            type="submit"
-                            name="action" value="enroll"
-                            class="btn btn-light btn-sm me-2"><i class="fas fa-plus"></i>
-                    </button>
-                    {{ __('on course') }}
-                    <select class="form-control ms-2" id="curso_id" name="curso_id">
-                        @foreach($cursos as $curso)
-                            <option
-                                value="{{ $curso->id }}">{{ $curso->full_name }}</option>
-                            </option>
-                        @endforeach
-                    </select>
-                    <div class="btn-group mx-4">
-                        <button title="{{ __('Manual verification') }}"
-                                type="submit"
-                                name="action" value="verify"
-                                class="btn btn-light btn-sm"><i class="fas fa-user-check"></i>
-                        </button>
-                        <button title="{{ __('Block') }}"
-                                type="submit"
-                                name="action" value="block"
-                                class="btn btn-light btn-sm"><i class="fas fa-lock"></i>
-                        </button>
-                        <button title="{{ __('Unblock') }}"
-                                type="submit"
-                                name="action" value="unblock"
-                                class="btn btn-light btn-sm"><i class="fas fa-unlock"></i>
-                        </button>
-                        <button title="{{ __('Delete') }}"
-                                type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
-                                name="action" value="delete"
-                                class="btn btn-light btn-sm"><i class="fas fa-trash text-danger"></i>
-                        </button>
-                    </div>
-                    <input type="text" class="form-control me-2" size="30" name="tags" id="tags"
-                           placeholder="{{ __('Tags, separated by commas') }}"/>
-                    <button title="{{ __('Add tags') }}"
-                            type="submit"
-                            name="action" value="tag"
-                            class="btn btn-light btn-sm"><i class="fas fa-tag"></i>
-                    </button>
-                    {!! Form::close() !!}
-                </div>
-            </td>
-        </tr>
         </tfoot>
     </table>
 </div>
+
+{{ html()->form('POST', route('users.acciones_grupo', ['id' => 'asignar']))->open() }}
+<div class="row row-cols-lg-auto g-3 align-items-center">
+    <div class="col-12">
+        <button title="{{ __('Enroll') }}"
+                type="submit"
+                name="action" value="enroll"
+                class="btn btn-light btn-sm"><i class="fas fa-plus"></i>
+        </button>
+    </div>
+    <div class="col-12">
+        <span>{{ __('on course') }}</span>
+    </div>
+    <div class="col-12">
+        <select class="form-select" id="curso_id" name="curso_id">
+            @foreach($cursos as $curso)
+                <option value="{{ $curso->id }}">{{ $curso->full_name }}</option>
+            @endforeach
+        </select>
+    </div>
+    <div class="col-12">
+        <div class="btn-group">
+            <button title="{{ __('Manual verification') }}"
+                    type="submit"
+                    name="action" value="verify"
+                    class="btn btn-light btn-sm"><i class="fas fa-user-check"></i>
+            </button>
+            <button title="{{ __('Block') }}"
+                    type="submit"
+                    name="action" value="block"
+                    class="btn btn-light btn-sm"><i class="fas fa-lock"></i>
+            </button>
+            <button title="{{ __('Unblock') }}"
+                    type="submit"
+                    name="action" value="unblock"
+                    class="btn btn-light btn-sm"><i class="fas fa-unlock"></i>
+            </button>
+            <button title="{{ __('Delete') }}"
+                    type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
+                    name="action" value="delete"
+                    class="btn btn-light btn-sm"><i class="fas fa-trash text-danger"></i>
+            </button>
+        </div>
+    </div>
+    <div class="col-12">
+        <input type="text" class="form-control" size="30" name="tags" id="tags"
+               placeholder="{{ __('Tags, separated by commas') }}"/>
+    </div>
+    <div class="col-12">
+        <button title="{{ __('Add tags') }}"
+                type="submit"
+                name="action" value="tag"
+                class="btn btn-light btn-sm"><i class="fas fa-tag"></i>
+        </button>
+    </div>
+</div>
+{{ html()->form()->close() }}
