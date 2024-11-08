@@ -2,7 +2,6 @@
 
 namespace Tests\Browser\Pages\Profesor;
 
-use Illuminate\Support\Str;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
@@ -10,7 +9,6 @@ class Equipos extends DuskTestCase
 {
     public function testLogin()
     {
-        Str::limit;
         $this->browse(function (Browser $browser) {
             $browser->visit(route('login'));
             $browser->type('email', 'lucia@ikasgela.com');
