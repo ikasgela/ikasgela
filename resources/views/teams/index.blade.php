@@ -6,7 +6,7 @@
 
     @if(Auth::user()?->hasRole('admin'))
         <div class="mb-3">
-            <a class="btn btn-primary" href="{{ route('teams.create') }}">{{ __('New team') }}</a>
+            <a class="btn btn-primary text-light" href="{{ route('teams.create') }}">{{ __('New team') }}</a>
         </div>
     @endif
 
@@ -53,12 +53,12 @@
                                class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
 
                             @if(Auth::user()?->hasAnyRole(['profesor', 'admin']))
-                                {!! Form::open(['route' => ['messages.create-with-subject-team'], 'method' => 'POST']) !!}
-                                {!! Form::button('<i class="fas fa-envelope"></i>', ['type' => 'submit',
-                                    'class' => 'btn btn-light btn-sm', 'title' => __('Message')
-                                ]) !!}
-                                {!! Form::hidden('team_id', $team->id) !!}
-                                {!! Form::close() !!}
+                                {{ html()->form('POST', route('messages.create-with-subject-team'))->open() }}
+                                {{ html()->submit('<i class="fas fa-envelope"></i>')
+                                        ->class(['btn btn-light btn-sm', 'rounded-0'])
+                                        ->attribute('title', __('Message')) }}
+                                {{ html()->hidden('team_id', $team->id) }}
+                                {{ html()->form()->close() }}
                             @endif
 
                             @if(Auth::user()?->hasRole('admin'))
@@ -66,9 +66,9 @@
                                    href="{{ route('teams.edit', [$team->id]) }}"
                                    class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
 
-                                {!! Form::open(['route' => ['teams.destroy', $team->id], 'method' => 'DELETE']) !!}
-                                @include('partials.boton_borrar')
-                                {!! Form::close() !!}
+                                {{ html()->form('DELETE', route('teams.destroy', $team->id))->open() }}
+                                @include('partials.boton_borrar', ['last' => true])
+                                {{ html()->form()->close() }}
                             @endif
                         </div>
                     </td>
