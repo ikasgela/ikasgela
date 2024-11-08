@@ -1,3 +1,4 @@
+@use(Illuminate\Support\Str)
 <div class="table-responsive">
     <table class="table table-hover">
         <thead class="thead-dark">
@@ -75,10 +76,12 @@
                     <td class="clickable">@include('users.partials.avatar', ['user' => $user, 'width' => 35])</td>
                 @endif
                 <td class="clickable">
-                    {{ $user->full_name }}
-                    @include('profesor.partials.status_usuario')
-                    @include('profesor.partials.etiquetas_usuario_filtro')
-                    @include('profesor.partials.baja_ansiedad_usuario')
+                    <div class="d-flex align-items-center p-0">
+                        <span>{{ $user->full_name }}</span>
+                        @include('profesor.partials.status_usuario')
+                        @include('profesor.partials.etiquetas_usuario_filtro')
+                        @include('profesor.partials.baja_ansiedad_usuario')
+                    </div>
                 </td>
                 <td class="clickable text-center">{{ $user->num_actividades_ocultas() }}</td>
                 <td class="clickable text-center">{{ $user->num_actividades_nuevas() }}</td>
@@ -95,7 +98,11 @@
                 <td class="clickable text-center {{ $user->num_actividades_caducadas() > 0 ? 'bg-warning text-black' : '' }}">{{ $user->num_actividades_caducadas() }}</td>
                 <td class="clickable text-center">{{ $user->max_simultaneas }}</td>
                 <td class="clickable text-lowercase">{{ $user->last_active_time }}</td>
-                <td class="clickable">{{ $user->siguiente_actividad()->slug ?? '' }}</td>
+                <td class="clickable">
+                    <span title="{{ $user->siguiente_actividad()->slug ?? '' }}">
+                        {{ Str::limit($user->siguiente_actividad()->slug ?? '', 20) }}
+                    </span>
+                </td>
                 @include('profesor.partials.siguiente_actividad', ['actividad' => $user->siguiente_actividad()])
                 @if(Auth::user()->hasRole('admin'))
                     <td>
