@@ -1,7 +1,7 @@
-<div class="form-group d-flex flex-row justify-content-between">
-    {!! Form::label('user', __('User'), ['class' => 'col-form-label']) !!}
+<div class="d-flex flex-row justify-content-between align-items-center mb-3">
+    {{ html()->label(__('User'), 'user')->class('form-label m-0') }}
     <div class="flex-fill mx-3">
-        <select class="custom-select" id="user_id" name="user_id">
+        <select class="form-select" id="user_id" name="user_id">
             <option value="-1">{{ __('--- None ---') }}</option>
             @foreach($users as $user)
                 <option

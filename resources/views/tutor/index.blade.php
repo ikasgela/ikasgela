@@ -12,36 +12,34 @@
                 </a>
             @endif
         </h1>
-        <div class="form-inline">
-            <div class="btn-toolbar" role="toolbar">
-
-                {!! Form::open(['route' => ['tutor.index.filtro'], 'method' => 'POST']) !!}
-                {!! Form::button(__('Alphabetic order'), ['type' => 'submit',
-                    'class' => session('tutor_filtro_alumnos') == 'A' ? 'btn btn-sm mx-1 btn-secondary' : 'btn btn-sm mx-1 btn-outline-secondary'
-                ]) !!}
-                {!! Form::hidden('filtro_alumnos','A') !!}
-                {!! Form::close() !!}
-
-                {!! Form::open(['route' => ['tutor.index.filtro'], 'method' => 'POST']) !!}
-                {!! Form::button(__('Progress'), ['type' => 'submit',
-                    'class' => session('tutor_filtro_alumnos') == 'P' ? 'btn btn-sm mx-1 btn-secondary' : 'btn btn-sm mx-1 btn-outline-secondary'
-                ]) !!}
-                {!! Form::hidden('filtro_alumnos','P') !!}
-                {!! Form::close() !!}
-
-                {!! Form::open(['route' => ['tutor.index.filtro'], 'method' => 'POST']) !!}
-                {!! Form::button(session('tutor_informe_anonimo') == 'A' ? __('Hide names') : __('Show names'), ['type' => 'submit',
-                    'class' => session('tutor_informe_anonimo') == 'A' ? 'btn btn-sm mx-1 btn-primary' : 'btn btn-sm mx-1 btn-outline-secondary'
-                ]) !!}
-                {!! Form::hidden('informe_anonimo','A') !!}
-                {!! Form::close() !!}
-
-                {!! Form::open(['route' => ['cursos.limpiar_cache', [$curso->id]], 'method' => 'POST', 'style' => 'display:inline']) !!}
-                {!! Form::button(__('Reload results'), ['type' => 'submit', 'class' => 'btn btn-sm btn-outline-secondary']) !!}
-                {!! Form::close() !!}
-            </div>
-        </div>
         <h2 class="text-muted font-xl">{{ !is_null($curso) ? $curso->category->period->organization->name.' » '.$curso->category->period->name.' » '.$curso->nombre : '' }}</h2>
+    </div>
+
+    <div class="d-flex justify-content-end mb-3">
+        <div class="btn-toolbar" role="toolbar">
+            {{ html()->form('POST', route('tutor.index.filtro'))->open() }}
+            {{ html()->submit(__('Alphabetic order'))
+                    ->class(['btn btn-sm mx-1', session('tutor_filtro_alumnos') == 'A' ? 'btn-secondary' : 'btn-outline-secondary']) }}
+            {{ html()->hidden('filtro_alumnos', 'A') }}
+            {{ html()->form()->close() }}
+
+            {{ html()->form('POST', route('tutor.index.filtro'))->open() }}
+            {{ html()->submit(__('Progress'))
+                    ->class(['btn btn-sm mx-1', session('tutor_filtro_alumnos') == 'P' ? 'btn-secondary' : 'btn-outline-secondary']) }}
+            {{ html()->hidden('filtro_alumnos', 'P') }}
+            {{ html()->form()->close() }}
+
+            {{ html()->form('POST', route('tutor.index.filtro'))->open() }}
+            {{ html()->submit(session('tutor_informe_anonimo') == 'A' ? __('Hide names') : __('Show names'))
+                    ->class(['btn btn-sm mx-1', session('tutor_informe_anonimo') == 'A' ? 'btn-primary' : 'btn-outline-secondary']) }}
+            {{ html()->hidden('informe_anonimo', 'A') }}
+            {{ html()->form()->close() }}
+
+            {{ html()->form('POST', route('cursos.limpiar_cache', [$curso->id]))->open() }}
+            {{ html()->submit(__('Reload results'))
+                    ->class('btn btn-sm btn-outline-secondary') }}
+            {{ html()->form()->close() }}
+        </div>
     </div>
 
     @include('partials.tutorial', [
@@ -50,15 +48,15 @@
     ])
 
     @if(Auth::user()->hasAnyRole(['profesor', 'tutor']))
-        {!! Form::open(['route' => ['tutor.index'], 'method' => 'POST']) !!}
+        {{ html()->form('POST', route('tutor.index'))->open() }}
         @include('partials.desplegable_usuarios')
-        {!! Form::close() !!}
+        {{ html()->form()->close() }}
     @endif
 
     @if(Auth::user()->hasAnyRole(['admin']))
-        {!! Form::open(['route' => ['tutor.index'], 'method' => 'POST']) !!}
+        {{ html()->form('POST', route('tutor.index'))->open() }}
         @include('partials.desplegable_milestones')
-        {!! Form::close() !!}
+        {{ html()->form()->close() }}
     @endif
 
     <div>

@@ -60,10 +60,11 @@
                 <td>
                     @if(!isset($exportar))
                         @if(session('tutor_informe_anonimo') == 'A' || $user_seleccionado->id == $user->id)
-                            {!! Form::open(['route' => ['results.alumno'], 'method' => 'POST', 'style' => 'display:inline']) !!}
-                            {!! Form::button($user->full_name, ['type' => 'submit', 'class' => 'btn btn-link m-0 p-0 text-dark text-start']) !!}
-                            {!! Form::hidden('user_id',$user->id) !!}
-                            {!! Form::close() !!}
+                            {{ html()->form('POST', route('results.alumno'))->open() }}
+                            {{ html()->submit($user->full_name)
+                                    ->class(['btn btn-link m-0 p-0 text-start', session('tutor_filtro_alumnos') == 'A' ? 'btn-secondary' : 'btn-outline-secondary']) }}
+                            {{ html()->hidden('user_id', $user->id) }}
+                            {{ html()->form()->close() }}
                         @else
                             -
                         @endif
@@ -73,9 +74,11 @@
                 </td>
                 @if(!isset($exportar))
                     <td class="text-center">
-                        {!! Form::open(['route' => ['users.limpiar_cache', [$user->id]], 'method' => 'POST', 'style' => 'display:inline']) !!}
-                        {!! Form::button('<i class="fas fa-broom"></i>', ['type' => 'submit', 'class' => 'btn btn-sm btn-light', 'title' => __('Reload results') ]) !!}
-                        {!! Form::close() !!}
+                        {{ html()->form('POST', route('users.limpiar_cache', [$user->id]))->open() }}
+                        {{ html()->submit('<i class="fas fa-broom"></i>')
+                                ->attribute('title', __('Reload results'))
+                                ->class(['btn btn-sm btn-light', session('tutor_filtro_alumnos') == 'A' ? 'btn-secondary' : 'btn-outline-secondary']) }}
+                        {{ html()->form()->close() }}
                     </td>
                 @endif
                 @php($aprobados += $calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada ? 1 : 0)
