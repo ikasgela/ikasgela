@@ -24,7 +24,7 @@
            value="{{ !is_null($tarea->puntuacion) ? $tarea->puntuacion : $actividad->puntuacion }}"/>
     <label class="me-3"> {{ __('over') }} {{ $actividad->puntuacion }}</label>
     <button type="submit" name="nuevoestado" value="40"
-            class="btn btn-primary text-light me-3 single_click"
+            class="btn btn-primary me-3 single_click"
             onclick="return validate_feedback();">
         <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Finished') }}
     </button>

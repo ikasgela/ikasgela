@@ -11,7 +11,7 @@
     @endif
 
     <div class="mb-3">
-        <a class="btn btn-primary text-light" href="{{ route('intellij_projects.create') }}">{{ __('New IntelliJ project') }}</a>
+        <a class="btn btn-primary" href="{{ route('intellij_projects.create') }}">{{ __('New IntelliJ project') }}</a>
     </div>
 
     <div class="table-responsive">

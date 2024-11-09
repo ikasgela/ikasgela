@@ -11,6 +11,6 @@
         {{ html()->select()->close() }}
     </div>
     <div>
-        {{ html()->submit(__('Filter'))->class('btn btn-primary text-light') }}
+        {{ html()->submit(__('Filter'))->class('btn btn-primary') }}
     </div>
 </div>

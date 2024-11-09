@@ -16,7 +16,7 @@
         <div>
             <button type="button" id="boton_feedback"
                     {{ $feedbacks_curso->count() == 0 ? 'disabled' : '' }}
-                    class="btn btn-primary text-light">{{ __('Add') }}</button>
+                    class="btn btn-primary">{{ __('Add') }}</button>
         </div>
     </div>
     <div class="col-md-6 d-flex justify-content-between align-items-center">
@@ -37,7 +37,7 @@
         <div>
             <button type="button" id="boton_feedback_actividad"
                     {{ $feedbacks_actividad->count() == 0 ? 'disabled' : '' }}
-                    class="btn btn-primary text-light">{{ __('Add') }}</button>
+                    class="btn btn-primary">{{ __('Add') }}</button>
         </div>
     </div>
 </div>

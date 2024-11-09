@@ -1,23 +1,19 @@
 .tarea-card > .card-header {
-    color: var(--bs-light);
-    background-color: var(--bs-dark);
-    border-color: var(--bs-dark);
+    color: $light;
+    background-color: $dark;
+}
+
+.tarea-card, .tarea-card > .card-header {
+    border-color: $border-color-dark;
 }
 
 @include color-mode(dark) {
     .tarea-card > .card-header {
-        color: var(--bs-dark);
-        background-color: var(--bs-light);
-        border-color: var(--bs-light);
+        color: $light;
+        background-color: $secondary;
     }
-}
 
-.tarea-card {
-    border-color: var(--bs-dark);
-}
-
-@include color-mode(dark) {
-    .tarea-card {
-        border-color: var(--bs-light);
+    .tarea-card, .tarea-card > .card-header {
+        border-color: $border-color-dark;
     }
 }

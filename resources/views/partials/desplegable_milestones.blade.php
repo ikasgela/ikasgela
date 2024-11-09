@@ -9,5 +9,5 @@
             </option>
         @endforeach
     </select>
-    <button type="submit" class="btn btn-primary text-light">{{ __('Show') }}</button>
+    <button type="submit" class="btn btn-primary">{{ __('Show') }}</button>
 </div>

@@ -1,3 +1,4 @@
+@use(Illuminate\Support\Str)
 <div class="table-responsive">
     <table class="table table-hover">
         <thead class="thead-dark">
@@ -12,7 +13,7 @@
             @endif
             <th>{{ __('Course') }}</th>
             <th>{{ __('Unit') }}</th>
-            @if(\Illuminate\Support\Str::startsWith(Route::currentRouteName(), 'actividades.plantillas'))
+            @if(Str::startsWith(Route::currentRouteName(), 'actividades.plantillas'))
                 <th>{{ __('Order') }}</th>
             @endif
             <th>{{ __('Name') }}</th>
@@ -39,7 +40,7 @@
                 @endif
                 <td class="clickable">{{ $actividad->unidad->curso->full_name }}</td>
                 <td class="clickable">{{ $actividad->unidad->full_name }}</td>
-                @if(\Illuminate\Support\Str::startsWith(Route::currentRouteName(), 'actividades.plantillas'))
+                @if(Str::startsWith(Route::currentRouteName(), 'actividades.plantillas'))
                     <td>
                         <div class='btn-group'>
                             <button title="{{ __('Move selected activities here') }}"
@@ -49,22 +50,22 @@
                                     class="btn btn-light btn-sm me-3">
                                 <i class="fas fa-arrow-right"></i>
                             </button>
-                            {!! Form::open(['route' => ['actividades.reordenar', $ids[$loop->index], $ids[$loop->index-1] ?? -1], 'method' => 'POST']) !!}
+                            {{ html()->form('POST', route('actividades.reordenar', [$ids[$loop->index], $ids[$loop->index-1] ?? -1]))->open() }}
                             <button title="{{ __('Up') }}"
                                     type="submit"
                                     {{ !isset($ids[$loop->index-1]) ? 'disabled' : '' }}
                                     class="btn btn-light btn-sm">
                                 <i class="fas fa-arrow-up"></i>
                             </button>
-                            {!! Form::close() !!}
-                            {!! Form::open(['route' => ['actividades.reordenar', $ids[$loop->index], $ids[$loop->index+1] ?? -1], 'method' => 'POST']) !!}
+                            {{ html()->form()->close() }}
+                            {{ html()->form('POST', route('actividades.reordenar', [$ids[$loop->index], $ids[$loop->index+1] ?? -1]))->open() }}
                             <button title="{{ __('Down') }}"
                                     type="submit"
                                     {{ !isset($ids[$loop->index+1]) ? 'disabled' : '' }}
                                     class="btn btn-light btn-sm ms-1">
                                 <i class="fas fa-arrow-down"></i>
                             </button>
-                            {!! Form::close() !!}
+                            {{ html()->form()->close() }}
                         </div>
                     </td>
                 @endif
@@ -94,15 +95,15 @@
                         <a title="{{ __('Edit') }}"
                            href="{{ route('actividades.edit', [$actividad->id]) }}"
                            class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                        {!! Form::open(['route' => ['actividades.duplicar', $actividad->id], 'method' => 'POST']) !!}
+                        {{ html()->form('POST', route('actividades.duplicar', $actividad->id))->open() }}
                         <button title="{{ __('Duplicate') }}"
                                 type="submit"
                                 class="btn btn-light btn-sm"><i class="fas fa-copy"></i>
                         </button>
-                        {!! Form::close() !!}
-                        {!! Form::open(['route' => ['actividades.destroy', $actividad->id], 'method' => 'DELETE']) !!}
+                        {{ html()->form()->close() }}
+                        {{ html()->form('DELETE', route('actividades.destroy', $actividad->id))->open() }}
                         @include('partials.boton_borrar')
-                        {!! Form::close() !!}
+                        {{ html()->form()->close() }}
                     </div>
                 </td>
             </tr>
@@ -118,7 +119,7 @@
         <tr>
             <td colspan="42">
                 <div class="form-inline">
-                    {!! Form::open(['route' => ['actividades.duplicar_grupo'], 'method' => 'POST', 'id' => 'multiple']) !!}
+                    {{ html()->form('POST', route('actividades.duplicar_grupo'))->id('multiple')->open() }}
                     <button title="{{ __('Move') }}"
                             type="submit"
                             name="action" value="move"
@@ -145,7 +146,7 @@
                             </option>
                         @endforeach
                     </select>
-                    {!! Form::close() !!}
+                    {{ html()->form()->close() }}
                 </div>
             </td>
         </tr>

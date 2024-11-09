@@ -64,7 +64,7 @@
 
     <div>
         <a href="{{ route('allowed_apps.create', [$safe_exam->id]) }}"
-           class="btn btn-primary text-light" role="button">
+           class="btn btn-primary" role="button">
             {{ __('New allowed app') }}
         </a>
     </div>
@@ -121,7 +121,7 @@
 
     <div>
         <a href="{{ route('allowed_urls.create', [$safe_exam->id]) }}"
-           class="btn btn-primary text-light" role="button">
+           class="btn btn-primary" role="button">
             {{ __('New allowed URL') }}
         </a>
     </div>

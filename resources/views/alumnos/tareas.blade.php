@@ -44,7 +44,7 @@
                         data-bs-toggle="tab" type="button" role="tab"
                         aria-selected="{{ $is_examen_active ? 'true' : 'false' }}">
                     <span>{{ __('Exam') }}</span>
-                    <span class="ms-2 badge bg-danger text-light fw-light">
+                    <span class="ms-2 badge text-bg-danger fw-light">
                         {{ $user->num_actividades_en_curso_examen() }}
                     </span>
                 </button>
@@ -62,7 +62,7 @@
                     aria-selected="{{ $is_en_curso_active ? 'true' : 'false' }}">
                 <span>{{ __('In progress') }}</span>
                 @php
-                    $badge_style = $user->num_actividades_en_curso_no_extra_examen() > 0 ? 'bg-danger text-light' : 'text-bg-secondary';
+                    $badge_style = $user->num_actividades_en_curso_no_extra_examen() > 0 ? 'text-bg-danger' : 'text-bg-secondary';
                 @endphp
                 <span class="ms-2 badge {{ $badge_style }} fw-light">
                     {{ $user->num_actividades_en_curso_no_extra_examen() }}

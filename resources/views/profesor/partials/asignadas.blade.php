@@ -142,7 +142,7 @@
             <tr>
                 <td colspan="6">
                     <div class="form-inline">
-                        {{ html()->form('DELETE', route('tareas.borrar_multiple', $user->id))->attribute('id', 'multiple')->open() }}
+                        {{ html()->form('DELETE', route('tareas.borrar_multiple', $user->id))->id('multiple')->open() }}
                         <span>{{ __('With the selected') }}: </span>
                         @include('partials.boton_borrar')
                         {{ html()->form()->close() }}

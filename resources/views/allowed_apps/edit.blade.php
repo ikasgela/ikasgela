@@ -77,7 +77,7 @@
             </div>
         </div>
         <div class="mt-5">
-            <input class="btn btn-primary text-light" type="submit" name="guardar" value="{{ __('Save') }}"/>
+            <input class="btn btn-primary" type="submit" name="guardar" value="{{ __('Save') }}"/>
             <a class="btn btn-link text-secondary ms-2"
                href="{{ route('safe_exam.allowed', [$allowed_app->safe_exam->id]) }}">{{ __('Cancel') }}</a>
         </div>

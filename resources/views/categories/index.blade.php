@@ -47,7 +47,7 @@
                                 <span class="help-block text-danger">{{ $errors->first('file') }}</span>
                             </span>
                             {!! Form::button('<i class="fas fa-spinner fa-spin" style="display:none;"></i> ' . __('Import course'),
-                                ['type' => 'submit', 'class' => 'btn btn-primary text-light single_click' ]) !!}
+                                ['type' => 'submit', 'class' => 'btn btn-primary single_click' ]) !!}
                         </div>
                         {!! Form::hidden('category_id', $category->id) !!}
                         {!! Form::close() !!}
