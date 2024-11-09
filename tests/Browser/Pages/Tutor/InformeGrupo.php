@@ -24,6 +24,7 @@ class InformeGrupo extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('tutor.index'));
             $browser->assertRouteIs('tutor.index');
+            $browser->assertDontSee('Ignition');
             $browser->assertSee(__('Group report'));
         });
     }

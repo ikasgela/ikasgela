@@ -24,6 +24,7 @@ class Tutoria extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('messages'));
             $browser->assertRouteIs('messages');
+            $browser->assertDontSee('Ignition');
             $browser->assertSee(__('Tutorship'));
         });
     }

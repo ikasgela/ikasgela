@@ -24,6 +24,7 @@ class Progreso extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('archivo.outline'));
             $browser->assertRouteIs('archivo.outline');
+            $browser->assertDontSee('Ignition');
             $browser->assertSee(__('Course progress'));
         });
     }

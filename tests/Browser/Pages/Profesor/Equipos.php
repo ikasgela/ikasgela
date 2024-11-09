@@ -24,6 +24,7 @@ class Equipos extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('teams.index'));
             $browser->assertRouteIs('teams.index');
+            $browser->assertDontSee('Ignition');
             $browser->assertSee(__('Teams'));
         });
     }

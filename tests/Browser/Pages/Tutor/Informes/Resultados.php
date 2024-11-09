@@ -24,6 +24,7 @@ class Resultados extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('results.index'));
             $browser->assertRouteIs('results.index');
+            $browser->assertDontSee('Ignition');
             $browser->assertSee(__('Evaluation and calification'));
         });
     }

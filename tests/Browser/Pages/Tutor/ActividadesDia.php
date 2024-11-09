@@ -24,6 +24,7 @@ class ActividadesDia extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('tutor.tareas_enviadas'));
             $browser->assertRouteIs('tutor.tareas_enviadas');
+            $browser->assertDontSee('Ignition');
             $browser->assertSee(__('Activities per day'));
         });
     }

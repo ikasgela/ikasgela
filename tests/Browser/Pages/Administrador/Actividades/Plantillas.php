@@ -24,6 +24,7 @@ class Plantillas extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('actividades.plantillas'));
             $browser->assertRouteIs('actividades.plantillas');
+            $browser->assertDontSee('Ignition');
             $browser->assertSee(__('Activities'));
         });
     }
