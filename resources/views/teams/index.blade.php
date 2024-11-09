@@ -6,7 +6,7 @@
 
     @if(Auth::user()?->hasRole('admin'))
         <div class="mb-3">
-            <a class="btn btn-primary text-light" href="{{ route('teams.create') }}">{{ __('New team') }}</a>
+            <a class="btn btn-primary" href="{{ route('teams.create') }}">{{ __('New team') }}</a>
         </div>
     @endif
 

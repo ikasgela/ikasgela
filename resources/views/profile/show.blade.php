@@ -61,7 +61,7 @@
                     {{ html()->label(__('Projects'), 'intellij_projects')->class('form-label') }}
                 </div>
                 <div class="col-sm-10">
-                    {{ html()->submit(__('Download script'))->class('btn btn-primary text-light') }}
+                    {{ html()->submit(__('Download script'))->class('btn btn-primary') }}
                     <p class="small m-0 mt-2">{{ __('Click on the button to download the script and run it on your computer. You will need Git installed. On Windows the script can be run from Git Bash.') }}</p>
                 </div>
             </div>

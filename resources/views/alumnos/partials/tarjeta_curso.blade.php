@@ -9,7 +9,7 @@
             @if(setting_usuario('curso_actual') != $curso->id)
                 @if(!in_array($curso->id, $matricula) && $curso->matricula_abierta)
                     {{ html()->form('POST', route('cursos.matricular', [$curso->id, Auth::user()->id]))->open() }}
-                    {{ html()->submit(__('Enroll in this course'))->class('btn btn-primary text-light me-3') }}
+                    {{ html()->submit(__('Enroll in this course'))->class('btn btn-primary me-3') }}
                     {{ html()->form()->close() }}
                 @elseif(in_array($curso->id, $matricula))
                     {{ html()->form('POST', route('cursos.curso_actual', [$curso->id, Auth::user()->id]))->open() }}

@@ -59,7 +59,7 @@
 
             <span class="help-block text-danger">{{ $errors->first('url') }}</span>
 
-            <button class="btn btn-primary text-light single_click">
+            <button class="btn btn-primary single_click">
                 <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Add') }}
             </button>
 

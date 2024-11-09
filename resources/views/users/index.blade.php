@@ -8,7 +8,7 @@
         <div class="btn-toolbar" role="toolbar">
             {{ html()->form('POST', route('users.index.filtro'))->open() }}
             {{ html()->submit(__('Clear filters'))
-                    ->class(['btn btn-sm mx-1', session('profesor_filtro_etiquetas') == 'S' ? 'btn-primary text-light' : 'btn-outline-secondary']) }}
+                    ->class(['btn btn-sm mx-1', session('profesor_filtro_etiquetas') == 'S' ? 'btn-primary' : 'btn-outline-secondary']) }}
             {{ html()->hidden('filtro_etiquetas', 'N') }}
             {{ html()->form()->close() }}
         </div>
@@ -23,7 +23,7 @@
     @endif
 
     <div class="mb-3">
-        <a class="btn btn-primary text-light" href="{{ route('users.create') }}">{{ __('New user') }}</a>
+        <a class="btn btn-primary" href="{{ route('users.create') }}">{{ __('New user') }}</a>
     </div>
 
     @include('users.partials.tabla_usuarios')

@@ -66,7 +66,7 @@
                     <input type="hidden" name="file_resource_id" value="{{ $file_resource->id }}">
                     <span class="help-block text-danger">{{ $errors->first('file') }}</span>
                 </div>
-                <button class="btn btn-primary text-light single_click">
+                <button class="btn btn-primary single_click">
                     <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Upload') }}
                 </button>
             </form>

@@ -15,7 +15,7 @@
         <div>
             <h1>{{ __('Tutorship') }}
                 @if(!is_null($curso_actual))
-                    <a href="{{ route('messages.create') }}" class="btn btn-primary text-light ms-3">
+                    <a href="{{ route('messages.create') }}" class="btn btn-primary ms-3">
                         <i class="fas fa-pencil-alt me-1"></i> {{ __('Create new conversation') }}
                     </a>
                 @endif

@@ -34,13 +34,13 @@
 
             {{ html()->form('POST', route('profesor.index.filtro'))->open() }}
             {{ html()->submit(session('profesor_filtro_alumnos_bloqueados') == 'B' ? __('Hide blocked') : __('Show blocked'))
-                    ->class(['btn btn-sm mx-1', session('profesor_filtro_alumnos_bloqueados') == 'B' ? 'btn-primary text-light' : 'btn-outline-secondary']) }}
+                    ->class(['btn btn-sm mx-1', session('profesor_filtro_alumnos_bloqueados') == 'B' ? 'btn-primary' : 'btn-outline-secondary']) }}
             {{ html()->hidden('filtro_alumnos_bloqueados', 'B') }}
             {{ html()->form()->close() }}
 
             {{ html()->form('POST', route('profesor.index.filtro'))->open() }}
             {{ html()->submit(__('Clear filters'))
-                    ->class(['btn btn-sm mx-1', (session('profesor_filtro_etiquetas') == 'S' || session('profesor_filtro_actividades_etiquetas') == 'S') ? 'btn-primary text-light' : 'btn-outline-secondary']) }}
+                    ->class(['btn btn-sm mx-1', (session('profesor_filtro_etiquetas') == 'S' || session('profesor_filtro_actividades_etiquetas') == 'S') ? 'btn-primary' : 'btn-outline-secondary']) }}
             {{ html()->hidden('filtro_etiquetas', 'N') }}
             {{ html()->form()->close() }}
 
@@ -48,7 +48,7 @@
 
             {{ html()->form('POST', route('profesor.index.filtro'))->open() }}
             {{ html()->submit(__('Exams'))
-                    ->class(['btn btn-sm mx-1', session('profesor_filtro_actividades_examen') == 'E' ? 'btn-primary text-light' : 'btn-outline-secondary']) }}
+                    ->class(['btn btn-sm mx-1', session('profesor_filtro_actividades_examen') == 'E' ? 'btn-primary' : 'btn-outline-secondary']) }}
             {{ html()->hidden('filtro_actividades_examen', 'E') }}
             {{ html()->form()->close() }}
         </div>
