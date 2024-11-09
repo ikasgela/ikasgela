@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Browser\Pages\Profesor;
+namespace Tests\Browser\Pages\Tutor\Informes;
 
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class Equipos extends DuskTestCase
+class Diario extends DuskTestCase
 {
     public function testLogin()
     {
@@ -22,10 +22,10 @@ class Equipos extends DuskTestCase
     public function testIndex()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(route('teams.index'));
-            $browser->assertRouteIs('teams.index');
+            $browser->visit(route('archivo.diario'));
+            $browser->assertRouteIs('archivo.diario');
             $browser->assertDontSee('Ignition');
-            $browser->assertSee(__('Teams'));
+            $browser->assertSee(__('Activity journal'));
         });
     }
 

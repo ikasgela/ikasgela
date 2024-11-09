@@ -19,11 +19,12 @@ class PanelControl extends DuskTestCase
         });
     }
 
-    public function testPanelControl()
+    public function testIndex()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(route('profesor.index'));
             $browser->assertRouteIs('profesor.index');
+            $browser->assertDontSee('Ignition');
 
             if (config('ikasgela.avatar_enabled')) {
                 $browser->assertSeeIn('main > div.p-4.col-12.col-sm-10 > div.table-responsive > table > tbody > tr:nth-child(1) > td:nth-child(4)', 'Noa');

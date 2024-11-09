@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
+    <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3 p-0">
         <h1>{{ __('Results') }}
             @if(config('ikasgela.pdf_report_enabled') && !Auth::user()->baja_ansiedad)
                 @if(!is_null($user->curso_actual()))
@@ -14,29 +14,27 @@
                            href="{{ route('results.pdf') }}"><i class="fas fa-file-pdf"></i>
                         </a>
                     @else
-                        {!! Form::open(['route' => ['results.pdf'], 'method' => 'POST', 'class'=>'d-inline']) !!}
-                        {!! Form::button('<i class="fas fa-file-pdf"></i>', [
-                            'type' => 'submit',
-                            'class'=>'btn btn-link',
-                            'style'=>'color:#ed2224; font-size:inherit; display:inline; padding-top:0;',
-                        ]) !!}
-                        {!! Form::hidden('user_id',request()->user_id) !!}
-                        {!! Form::close() !!}
+                        {{ html()->form('POST', route('results.pdf'))->class('d-inline-flex')->open() }}
+                        {{ html()->submit('<i class="fas fa-file-pdf"></i>')
+                                ->class('btn btn-link py-0 ms-1 border-0')->style('color:#ed2224; font-size:inherit; line-height:inherit;') }}
+                        {{ html()->hidden('user_id', request()->user_id) }}
+                        {{ html()->form()->close() }}
                     @endif
                 @endif
             @endif
         </h1>
-        @if(Auth::user()->hasAnyRole(['profesor', 'tutor']))
-            <div class="form-inline">
-                <div class="btn-toolbar" role="toolbar">
-                    {!! Form::open(['route' => ['users.limpiar_cache', [$user->id]], 'method' => 'POST', 'style' => 'display:inline']) !!}
-                    {!! Form::button(__('Reload results'), ['type' => 'submit', 'class' => 'btn btn-sm btn-outline-secondary']) !!}
-                    {!! Form::close() !!}
-                </div>
-            </div>
-        @endif
-        <h2 class="text-muted font-xl">{{ $curso?->pretty_name }}</h2>
+        <h2 class="text-muted">{{ $curso?->pretty_name }}</h2>
     </div>
+
+    @if(Auth::user()->hasAnyRole(['profesor', 'tutor']))
+        <div class="d-flex justify-content-end mb-3">
+            <div class="btn-toolbar" role="toolbar">
+                {{ html()->form('POST', route('users.limpiar_cache', [$user->id]))->open() }}
+                {{ html()->submit(__('Reload results'))->class(['btn btn-sm btn-outline-secondary']) }}
+                {{ html()->form()->close() }}
+            </div>
+        </div>
+    @endif
 
     @include('partials.tutorial', [
         'color' => 'success',
@@ -44,9 +42,9 @@
     ])
 
     @if(Auth::user()->hasAnyRole(['profesor', 'tutor']))
-        {!! Form::open(['route' => ['results.alumno'], 'method' => 'POST']) !!}
+        {{ html()->form('POST', route('results.alumno'))->open() }}
         @include('partials.desplegable_usuarios')
-        {!! Form::close() !!}
+        {{ html()->form()->close() }}
     @endif
 
     @if($milestones->count() > 0)

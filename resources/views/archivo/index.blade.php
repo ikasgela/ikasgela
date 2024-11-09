@@ -16,9 +16,9 @@
     ])
 
     @if(Auth::user()->hasAnyRole(['profesor', 'tutor']))
-        {!! Form::open(['route' => ['archivo.alumno'], 'method' => 'POST']) !!}
+        {{ html()->form('POST', route('archivo.alumno'))->open() }}
         @include('partials.desplegable_usuarios')
-        {!! Form::close() !!}
+        {{ html()->form()->close() }}
     @endif
 
     @if(count($actividades) > 0)
@@ -40,7 +40,7 @@
                 @foreach($actividades as $actividad)
                     <tr class="table-row"
                         @if(Auth::user()->hasAnyRole(['admin', 'profesor', 'tutor']))
-                        data-href="{{ route('actividades.preview', $actividad->id) }}">
+                            data-href="{{ route('actividades.preview', $actividad->id) }}">
                         @else
                             data-href="{{ route('archivo.show', $actividad->id) }}">
                         @endif
