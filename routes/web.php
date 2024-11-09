@@ -598,7 +598,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('results.pdf.filtro');
 
             // Ver el progreso de otros alumnos
-            Route::post('/archivo/outline', 'ArchivoController@outline')
+            Route::post('/outline', 'ArchivoController@outline')
                 ->name('archivo.outline.filtro');
 
             // Ver archivo de otros alumnos
