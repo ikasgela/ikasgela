@@ -11,14 +11,12 @@
             @if(Route::currentRouteName() == 'actividades.index')
                 <th></th>
             @endif
-            <th>{{ __('Course') }}</th>
             <th>{{ __('Unit') }}</th>
             @if(Str::startsWith(Route::currentRouteName(), 'actividades.plantillas'))
                 <th>{{ __('Order') }}</th>
             @endif
             <th>{{ __('Name') }}</th>
-            <th>{{ __('Slug') }}</th>
-            <th>{{ __('Score') }}</th>
+            <th class="text-center">{{ __('Score') }}</th>
             <th class="text-center">{{ __('Auto') }}</th>
             <th>{{ __('Next') }}</th>
             <th colspan="2">{{ __('Resources') }}</th>
@@ -38,7 +36,6 @@
                 @if(Route::currentRouteName() == 'actividades.index')
                     <td>{!! $actividad->plantilla ? '<i class="fas fa-file"></i>' : '' !!}</td>
                 @endif
-                <td class="clickable">{{ $actividad->unidad->curso->full_name }}</td>
                 <td class="clickable">{{ $actividad->unidad->full_name }}</td>
                 @if(Str::startsWith(Route::currentRouteName(), 'actividades.plantillas'))
                     <td>
@@ -47,7 +44,7 @@
                                     form="multiple"
                                     type="submit"
                                     name="action" value="mm_{{ $actividad->id }}"
-                                    class="btn btn-light btn-sm me-3">
+                                    class="btn btn-light btn-sm me-3 rounded">
                                 <i class="fas fa-arrow-right"></i>
                             </button>
                             {{ html()->form('POST', route('actividades.reordenar', [$ids[$loop->index], $ids[$loop->index-1] ?? -1]))->open() }}
@@ -70,11 +67,15 @@
                     </td>
                 @endif
                 <td class="clickable">
-                    @include('actividades.partials.nombre_con_etiquetas')
-                    @include('actividades.partials.caducada')
+                    <div>
+                        <div class="d-flex align-items-center">
+                            @include('actividades.partials.nombre_con_etiquetas')
+                            @include('actividades.partials.caducada')
+                        </div>
+                        <span class="small text-secondary">{{ $actividad->slug }}</span>
+                    </div>
                 </td>
-                <td class="clickable">{{ $actividad->slug }}</td>
-                <td class="clickable">{{ formato_decimales($actividad->puntuacion * ($actividad->multiplicador ?: 1)) }}</td>
+                <td class="text-center clickable">{{ formato_decimales($actividad->puntuacion * ($actividad->multiplicador ?: 1)) }}</td>
                 <td class="text-center clickable">@include('partials.check_yes_no', ['checked' => $actividad->auto_avance])</td>
                 <td class="clickable">
                     @include('actividades.partials.siguiente')
@@ -98,58 +99,53 @@
                         {{ html()->form('POST', route('actividades.duplicar', $actividad->id))->open() }}
                         <button title="{{ __('Duplicate') }}"
                                 type="submit"
-                                class="btn btn-light btn-sm"><i class="fas fa-copy"></i>
+                                class="btn btn-light btn-sm rounded-0"><i class="fas fa-copy"></i>
                         </button>
                         {{ html()->form()->close() }}
                         {{ html()->form('DELETE', route('actividades.destroy', $actividad->id))->open() }}
-                        @include('partials.boton_borrar')
+                        @include('partials.boton_borrar', ['last' => true])
                         {{ html()->form()->close() }}
                     </div>
                 </td>
             </tr>
         @endforeach
         </tbody>
-        <tfoot>
-        <tr class="bg-dark">
-            <th colspan="42" class="m-0 py-1"></th>
-            @if(Route::currentRouteName() == 'actividades.index')
-                <th class="m-0 py-1"></th>
-            @endif
-        </tr>
-        <tr>
-            <td colspan="42">
-                <div class="form-inline">
-                    {{ html()->form('POST', route('actividades.duplicar_grupo'))->id('multiple')->open() }}
-                    <button title="{{ __('Move') }}"
-                            type="submit"
-                            name="action" value="move"
-                            class="btn btn-light btn-sm me-2"><i class="fas fa-file-import"></i>
-                    </button>
-                    <button title="{{ __('Duplicate') }}"
-                            type="submit"
-                            name="action" value="duplicate"
-                            class="btn btn-light btn-sm me-2"><i class="fas fa-copy"></i>
-                    </button>
-                    {{ __('to unit') }}
-                    <select class="form-control ms-2" id="unidad_id" name="unidad_id">
-                        <option value="">{{ __('--- None ---') }}</option>
-                        @foreach($todas_unidades as $unidad)
-                            <option
-                                value="{{ $unidad->id }}">
-                                {{ $unidad->curso->category->period->organization->name }}
-                                - {{ $unidad->curso->category->period->name }}
-                                - {{ $unidad->curso->nombre }} -
-                                @isset($unidad->codigo)
-                                    {{ $unidad->codigo }} -
-                                @endisset
-                                {{ $unidad->nombre }} {{ $unidad->visible ? '' : '(' . __('hidden') . ')' }}</option>
-                            </option>
-                        @endforeach
-                    </select>
-                    {{ html()->form()->close() }}
-                </div>
-            </td>
-        </tr>
-        </tfoot>
     </table>
 </div>
+
+{{ html()->form('POST', route('actividades.duplicar_grupo'))->id('multiple')->open() }}
+<div class="row row-cols-lg-auto g-3 align-items-center">
+    <div class="col-12">
+        <button title="{{ __('Move') }}"
+                type="submit"
+                name="action" value="move"
+                class="btn btn-light btn-sm"><i class="fas fa-file-import"></i>
+        </button>
+        <button title="{{ __('Duplicate') }}"
+                type="submit"
+                name="action" value="duplicate"
+                class="btn btn-light btn-sm"><i class="fas fa-copy"></i>
+        </button>
+    </div>
+    <div class="col-12">
+        {{ __('to unit') }}
+    </div>
+    <div class="col-12">
+        <select class="form-select" id="unidad_id" name="unidad_id">
+            <option value="">{{ __('--- None ---') }}</option>
+            @foreach($todas_unidades as $unidad)
+                <option
+                    value="{{ $unidad->id }}">
+                    {{ $unidad->curso->category->period->organization->name }}
+                    - {{ $unidad->curso->category->period->name }}
+                    - {{ $unidad->curso->nombre }} -
+                    @isset($unidad->codigo)
+                        {{ $unidad->codigo }} -
+                    @endisset
+                    {{ $unidad->nombre }} {{ $unidad->visible ? '' : '(' . __('hidden') . ')' }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+</div>
+{{ html()->form()->close() }}
