@@ -110,47 +110,42 @@
             </tr>
         @endforeach
         </tbody>
-        <tfoot>
-        <tr class="bg-dark">
-            <th colspan="42" class="m-0 py-1"></th>
-            @if(Route::currentRouteName() == 'actividades.index')
-                <th class="m-0 py-1"></th>
-            @endif
-        </tr>
-        <tr>
-            <td colspan="42">
-                <div class="form-inline">
-                    {{ html()->form('POST', route('actividades.duplicar_grupo'))->id('multiple')->open() }}
-                    <button title="{{ __('Move') }}"
-                            type="submit"
-                            name="action" value="move"
-                            class="btn btn-light btn-sm me-2"><i class="fas fa-file-import"></i>
-                    </button>
-                    <button title="{{ __('Duplicate') }}"
-                            type="submit"
-                            name="action" value="duplicate"
-                            class="btn btn-light btn-sm me-2"><i class="fas fa-copy"></i>
-                    </button>
-                    {{ __('to unit') }}
-                    <select class="form-control ms-2" id="unidad_id" name="unidad_id">
-                        <option value="">{{ __('--- None ---') }}</option>
-                        @foreach($todas_unidades as $unidad)
-                            <option
-                                value="{{ $unidad->id }}">
-                                {{ $unidad->curso->category->period->organization->name }}
-                                - {{ $unidad->curso->category->period->name }}
-                                - {{ $unidad->curso->nombre }} -
-                                @isset($unidad->codigo)
-                                    {{ $unidad->codigo }} -
-                                @endisset
-                                {{ $unidad->nombre }} {{ $unidad->visible ? '' : '(' . __('hidden') . ')' }}</option>
-                            </option>
-                        @endforeach
-                    </select>
-                    {{ html()->form()->close() }}
-                </div>
-            </td>
-        </tr>
-        </tfoot>
     </table>
 </div>
+
+{{ html()->form('POST', route('actividades.duplicar_grupo'))->id('multiple')->open() }}
+<div class="row row-cols-lg-auto g-3 align-items-center">
+    <div class="col-12">
+        <button title="{{ __('Move') }}"
+                type="submit"
+                name="action" value="move"
+                class="btn btn-light btn-sm"><i class="fas fa-file-import"></i>
+        </button>
+        <button title="{{ __('Duplicate') }}"
+                type="submit"
+                name="action" value="duplicate"
+                class="btn btn-light btn-sm"><i class="fas fa-copy"></i>
+        </button>
+    </div>
+    <div class="col-12">
+        {{ __('to unit') }}
+    </div>
+    <div class="col-12">
+        <select class="form-select" id="unidad_id" name="unidad_id">
+            <option value="">{{ __('--- None ---') }}</option>
+            @foreach($todas_unidades as $unidad)
+                <option
+                    value="{{ $unidad->id }}">
+                    {{ $unidad->curso->category->period->organization->name }}
+                    - {{ $unidad->curso->category->period->name }}
+                    - {{ $unidad->curso->nombre }} -
+                    @isset($unidad->codigo)
+                        {{ $unidad->codigo }} -
+                    @endisset
+                    {{ $unidad->nombre }} {{ $unidad->visible ? '' : '(' . __('hidden') . ')' }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+</div>
+{{ html()->form()->close() }}
