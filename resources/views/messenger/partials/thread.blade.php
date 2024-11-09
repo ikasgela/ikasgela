@@ -1,4 +1,4 @@
-@php( $class = !$thread->alert && $thread->isUnread(Auth::id()) ? 'bg-success text-white' : '' )
+@php( $class = !$thread->alert && $thread->isUnread(Auth::id()) ? 'text-bg-success' : '' )
 
 <div class="card mb-3">
     <div class="card-header d-flex justify-content-between {{ $class }} {{ $thread->alert ? 'text-bg-warning' : '' }}">

@@ -49,7 +49,7 @@
                     aria-selected="true">
                 <span>{{ trans_choice('messages.unread', 2) }}</span>
                 @if($threads->count() > 0)
-                    <span class="ms-2 badge bg-success text-light fw-light">{{ $threads->count() }}</span>
+                    <span class="ms-2 badge text-bg-success fw-light">{{ $threads->count() }}</span>
                 @else
                     <span class="ms-2 badge text-bg-secondary fw-light">0</span>
                 @endif

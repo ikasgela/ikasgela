@@ -13,7 +13,7 @@
             </div>
             @isset($badge_number)
                 @if($badge_number > 0)
-                    <div class="badge text-bg-{{ $badge_color ?? 'primary' }} text-light fw-light">
+                    <div class="badge text-bg-{{ $badge_color ?? 'primary' }} fw-light">
                         {{ $badge_number }}
                     </div>
                 @endif
