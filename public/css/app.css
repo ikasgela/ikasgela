@@ -20696,23 +20696,20 @@ textarea.form-control-lg {
   }
 }
 .tarea-card > .card-header {
-  color: var(--bs-light);
-  background-color: var(--bs-dark);
-  border-color: var(--bs-dark);
+  color: #f8f9fa;
+  background-color: #212529;
+}
+
+.tarea-card, .tarea-card > .card-header {
+  border-color: #495057;
 }
 
 [data-bs-theme=dark] .tarea-card > .card-header {
-  color: var(--bs-dark);
-  background-color: var(--bs-light);
-  border-color: var(--bs-light);
+  color: #f8f9fa;
+  background-color: #6c757d;
 }
-
-.tarea-card {
-  border-color: var(--bs-dark);
-}
-
-[data-bs-theme=dark] .tarea-card {
-  border-color: var(--bs-light);
+[data-bs-theme=dark] .tarea-card, [data-bs-theme=dark] .tarea-card > .card-header {
+  border-color: #495057;
 }
 
 .thead-dark th {

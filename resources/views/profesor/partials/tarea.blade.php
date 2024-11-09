@@ -9,7 +9,7 @@
     <div class="col-md-12">
         {{-- Tarjeta --}}
         <div class="card tarea-card mb-3">
-            <div class="card-header text-white bg-dark d-flex justify-content-between">
+            <div class="card-header d-flex justify-content-between">
                 <span>{{ $actividad->unidad->curso->nombre }} » {{ $actividad->unidad->nombre }}</span>
             </div>
             <form class="col-md-12 p-0"
