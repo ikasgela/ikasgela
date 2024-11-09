@@ -16,9 +16,9 @@
     ])
 
     @if(Auth::user()->hasAnyRole(['profesor', 'tutor']))
-        {!! Form::open(['route' => ['archivo.diario'], 'method' => 'POST']) !!}
+        {{ html()->form('POST', route('archivo.diario'))->open() }}
         @include('partials.desplegable_usuarios')
-        {!! Form::close() !!}
+        {{ html()->form()->close() }}
     @endif
 
     @if(count($actividades) > 0)
