@@ -9,7 +9,7 @@
 
 @include color-mode(dark) {
     .tarea-card > .card-header {
-        color: $light;
+        color: $gray-300;
         background-color: $secondary;
     }
 

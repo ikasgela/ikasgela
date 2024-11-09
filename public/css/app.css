@@ -20705,7 +20705,7 @@ textarea.form-control-lg {
 }
 
 [data-bs-theme=dark] .tarea-card > .card-header {
-  color: #f8f9fa;
+  color: #dee2e6;
   background-color: #6c757d;
 }
 [data-bs-theme=dark] .tarea-card, [data-bs-theme=dark] .tarea-card > .card-header {
@@ -20713,15 +20713,15 @@ textarea.form-control-lg {
 }
 
 .thead-dark th {
-  color: var(--bs-light);
-  background-color: var(--bs-dark);
-  border-color: var(--bs-dark);
+  color: #f8f9fa;
+  background-color: #212529;
+  border-color: #495057;
 }
 
 [data-bs-theme=dark] .thead-dark th {
-  color: var(--bs-dark);
-  background-color: var(--bs-light);
-  border-color: var(--bs-light);
+  color: #dee2e6;
+  background-color: #6c757d;
+  border-color: #495057;
 }
 
 .progress-stacked {

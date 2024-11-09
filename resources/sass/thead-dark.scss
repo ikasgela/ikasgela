@@ -1,13 +1,13 @@
 .thead-dark th {
-    color: var(--bs-light);
-    background-color: var(--bs-dark);
-    border-color: var(--bs-dark);
+    color: $light;
+    background-color: $dark;
+    border-color: $border-color-dark;
 }
 
 @include color-mode(dark) {
     .thead-dark th {
-        color: var(--bs-dark);
-        background-color: var(--bs-light);
-        border-color: var(--bs-light);
+        color: $gray-300;
+        background-color: $secondary;
+        border-color: $border-color-dark;
     }
 }
