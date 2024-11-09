@@ -38,7 +38,7 @@
                     </div>
                 </div>
             </form>
-            {{ html()->form('POST', route('feedbacks.save'))->attribute('id', 'guardar_feedback')->open() }}
+            {{ html()->form('POST', route('feedbacks.save'))->id('guardar_feedback')->open() }}
             <input form="guardar_feedback" type="hidden" id="mensaje" name="mensaje">
             <input form="guardar_feedback" type="hidden" name="curso_id" value="{{ $actividad->unidad->curso->id }}">
             @if(isset($actividad->original))
