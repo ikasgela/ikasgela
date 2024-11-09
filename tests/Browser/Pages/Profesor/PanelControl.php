@@ -19,7 +19,7 @@ class PanelControl extends DuskTestCase
         });
     }
 
-    public function testPanelControl()
+    public function testIndex()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(route('profesor.index'));

@@ -19,7 +19,7 @@ class Tutoria extends DuskTestCase
         });
     }
 
-    public function testTutoria()
+    public function testIndex()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(route('messages'));

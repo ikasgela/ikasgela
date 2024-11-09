@@ -19,7 +19,7 @@ class Equipos extends DuskTestCase
         });
     }
 
-    public function testEquipos()
+    public function testIndex()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(route('teams.index'));

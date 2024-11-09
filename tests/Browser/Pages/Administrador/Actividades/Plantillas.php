@@ -19,7 +19,7 @@ class Plantillas extends DuskTestCase
         });
     }
 
-    public function testEquipos()
+    public function testIndex()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(route('actividades.plantillas'));
