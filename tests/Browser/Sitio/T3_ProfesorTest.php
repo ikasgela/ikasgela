@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Browser\Pages\Profesor;
+namespace Tests\Browser\Sitio;
 
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class PanelControl extends DuskTestCase
+class T3_ProfesorTest extends DuskTestCase
 {
     public function testLogin()
     {
@@ -16,10 +16,11 @@ class PanelControl extends DuskTestCase
             $browser->check('remember');
             $browser->press(__('Login'));
             $browser->assertRouteIs('profesor.index');
+            $browser->assertDontSee('Ignition');
         });
     }
 
-    public function testIndex()
+    public function testPanelControl()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(route('profesor.index'));
@@ -36,12 +37,33 @@ class PanelControl extends DuskTestCase
         });
     }
 
+    public function testTutoria()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('messages'));
+            $browser->assertRouteIs('messages');
+            $browser->assertDontSee('Ignition');
+            $browser->assertSee(__('Tutorship'));
+        });
+    }
+
+    public function testEquipos()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('teams.index'));
+            $browser->assertRouteIs('teams.index');
+            $browser->assertDontSee('Ignition');
+            $browser->assertSee(__('Teams'));
+        });
+    }
+
     public function testLogout()
     {
         $this->browse(function (Browser $browser) {
             $browser->logout();
             $browser->visit(route('portada'));
             $browser->assertRouteIs('portada');
+            $browser->assertDontSee('Ignition');
         });
     }
 }

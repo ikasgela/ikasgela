@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\Actividades;
 
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class T5_AmazonS3Test extends DuskTestCase
+class T2_AmazonS3Test extends DuskTestCase
 {
     public function testSubirImagen()
     {

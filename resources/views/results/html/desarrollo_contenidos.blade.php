@@ -11,7 +11,7 @@
             </h5>
             <p class="ms-5">{{ $unidad->descripcion }}</p>
             <div class="ms-5 progress">
-                @php($hay_calificacion = $calificaciones->resultados_unidades[$unidad->id]->actividad > 0)
+                @php($hay_calificacion = ($calificaciones->resultados_unidades[$unidad->id]->actividad ?? 0) > 0)
                 @php($porcentaje = $hay_calificacion ? round($calificaciones->resultados_unidades[$unidad->id]->tarea/$calificaciones->resultados_unidades[$unidad->id]->actividad*100) : 0)
                 <div
                     class="progress-bar {{ $porcentaje< ($unidad->hasEtiqueta('examen') ? ($unidad->hasEtiqueta('final') ? $calificaciones->minimo_examenes_finales : $calificaciones->minimo_examenes) : $calificaciones->minimo_competencias) ? 'bg-warning text-dark' : 'bg-success' }}"
