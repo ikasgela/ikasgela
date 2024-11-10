@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\Actividades;
 
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class T10_TareasTest extends DuskTestCase
+class T1_TareasTest extends DuskTestCase
 {
     public function testLogin()
     {

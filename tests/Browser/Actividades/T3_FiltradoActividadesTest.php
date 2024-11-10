@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\Actividades;
 
 use App\Models\Actividad;
 use App\Models\Curso;
@@ -9,7 +9,7 @@ use App\Models\User;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class T12_FiltradoActividadesTest extends DuskTestCase
+class T3_FiltradoActividadesTest extends DuskTestCase
 {
     public function testFiltradoActividades()
     {

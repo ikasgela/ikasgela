@@ -1,66 +1,56 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\Sitio;
 
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class T4_TutorTest extends DuskTestCase
+class T2_AlumnoTest extends DuskTestCase
 {
     public function testLogin()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(route('login'));
-            $browser->type('email', 'lucia@ikasgela.com');
+            $browser->type('email', 'marc@ikasgela.com');
             $browser->type('password', '12345Abcde');
             $browser->check('remember');
             $browser->press(__('Login'));
-            $browser->assertRouteIs('profesor.index');
+            $browser->assertRouteIs('users.home');
             $browser->assertDontSee('Ignition');
         });
     }
 
-    public function testInformeGrupo()
+    public function testEscritorio()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(route('tutor.index'));
-            $browser->assertRouteIs('tutor.index');
+            $browser->visit(route('users.home'));
+            $browser->assertRouteIs('users.home');
             $browser->assertDontSee('Ignition');
-            $browser->assertSee(__('Group report'));
+            $browser->assertSee(__('Desktop'));
         });
     }
 
-    public function testActividadesDia()
+    public function testTutoria()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(route('tutor.tareas_enviadas'));
-            $browser->assertRouteIs('tutor.tareas_enviadas');
+            $browser->visit(route('messages'));
+            $browser->assertRouteIs('messages');
             $browser->assertDontSee('Ignition');
-            $browser->assertSee(__('Activities per day'));
+            $browser->assertSee(__('Tutorship'));
         });
     }
 
-    public function testInformesResultados()
+    public function testResultados()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(route('results.index'));
             $browser->assertRouteIs('results.index');
             $browser->assertDontSee('Ignition');
-            $browser->assertSee(__('Evaluation and calification'));
+            $browser->assertSee(__('Results'));
         });
     }
 
-    public function testInformesProgreso()
-    {
-        $this->browse(function (Browser $browser) {
-            $browser->visit(route('archivo.outline'));
-            $browser->assertRouteIs('archivo.outline');
-            $browser->assertDontSee('Ignition');
-            $browser->assertSee(__('Course progress'));
-        });
-    }
-
-    public function testInformesArchivo()
+    public function testArchivoAlumno()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(route('archivo.index'));
@@ -70,13 +60,23 @@ class T4_TutorTest extends DuskTestCase
         });
     }
 
-    public function testInformesDiario()
+    public function testProgresoAlumno()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(route('archivo.diario'));
-            $browser->assertRouteIs('archivo.diario');
+            $browser->visit(route('archivo.outline'));
+            $browser->assertRouteIs('archivo.outline');
             $browser->assertDontSee('Ignition');
-            $browser->assertSee(__('Activity journal'));
+            $browser->assertSee(__('Course progress'));
+        });
+    }
+
+    public function testCursos()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('users.portada'));
+            $browser->assertRouteIs('users.portada');
+            $browser->assertDontSee('Ignition');
+            $browser->assertSee(__('Courses'));
         });
     }
 
