@@ -10,9 +10,11 @@
     ])
 
     @if(Auth::user()->hasAnyRole(['profesor', 'tutor']))
-        {{ html()->form('POST', route('archivo.outline.filtro'))->open() }}
-        @include('partials.desplegable_usuarios')
-        {{ html()->form()->close() }}
+        <div class="mb-3">
+            {{ html()->form('POST', route('archivo.outline.filtro'))->open() }}
+            @include('partials.desplegable_usuarios')
+            {{ html()->form()->close() }}
+        </div>
     @endif
 
     <div class="alert alert-warning">

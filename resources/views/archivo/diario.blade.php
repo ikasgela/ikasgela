@@ -16,9 +16,11 @@
     ])
 
     @if(Auth::user()->hasAnyRole(['profesor', 'tutor']))
-        {{ html()->form('POST', route('archivo.diario'))->open() }}
-        @include('partials.desplegable_usuarios')
-        {{ html()->form()->close() }}
+        <div class="mb-3">
+            {{ html()->form('POST', route('archivo.diario'))->open() }}
+            @include('partials.desplegable_usuarios')
+            {{ html()->form()->close() }}
+        </div>
     @endif
 
     @if(count($actividades) > 0)
