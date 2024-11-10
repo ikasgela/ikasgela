@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Browser\Pages\Tutor\Informes;
+namespace Tests\Browser;
 
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class Progreso extends DuskTestCase
+class T5_AdministradorTest extends DuskTestCase
 {
     public function testLogin()
     {
@@ -16,16 +16,17 @@ class Progreso extends DuskTestCase
             $browser->check('remember');
             $browser->press(__('Login'));
             $browser->assertRouteIs('profesor.index');
+            $browser->assertDontSee('Ignition');
         });
     }
 
-    public function testIndex()
+    public function testActividadesPlantillas()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(route('archivo.outline'));
-            $browser->assertRouteIs('archivo.outline');
+            $browser->visit(route('actividades.plantillas'));
+            $browser->assertRouteIs('actividades.plantillas');
             $browser->assertDontSee('Ignition');
-            $browser->assertSee(__('Course progress'));
+            $browser->assertSee(__('Activities'));
         });
     }
 
@@ -35,6 +36,7 @@ class Progreso extends DuskTestCase
             $browser->logout();
             $browser->visit(route('portada'));
             $browser->assertRouteIs('portada');
+            $browser->assertDontSee('Ignition');
         });
     }
 }

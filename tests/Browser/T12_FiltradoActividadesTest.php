@@ -9,7 +9,7 @@ use App\Models\User;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class T6_FiltradoActividadesTest extends DuskTestCase
+class T12_FiltradoActividadesTest extends DuskTestCase
 {
     public function testFiltradoActividades()
     {
