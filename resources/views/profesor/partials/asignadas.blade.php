@@ -92,7 +92,7 @@
                                 <div class='btn-group'>
                                     <button type="submit" name="nuevoestado" value="63"
                                             title="{{ __('Extend deadline') }}"
-                                            class="btn btn-sm bg-warning">
+                                            class="btn btn-sm text-bg-warning">
                                         +{{ $actividad->unidad->curso->plazo_actividad ?? 7 }}</button>
                                 </div>
                                 <input type="hidden" name="ampliacion_plazo"
