@@ -38,14 +38,10 @@ class UsersTableSeeder extends Seeder
         $this->generarUsuario('Marc', 'Watney', 'marc@ikasgela.com', [$rol_alumno], [], [$curso_ikasgela], [$ikasgela], "B");
         $this->generarUsuario('Noa', 'Ark', 'noa@ikasgela.com', [$rol_alumno], [], [$curso_ikasgela], [$ikasgela], "A");
         $this->generarUsuario('Lucía', '', 'lucia@ikasgela.com', [$rol_profesor, $rol_admin, $rol_tutor], [], [$curso_ikasgela], [$ikasgela], "B");
-//        $this->generarUsuario('Administrador', 'admin@ikasgela.com', [$rol_admin], [], [], [$ikasgela]);
-//
-//        $this->generarUsuario('Deusto', 'ikasgela@deusto.es', [$rol_alumno], [], [$curso_deusto], [$deusto]);
-//        $this->generarUsuario('Egibide', 'ikasgela@egibide.org', [$rol_alumno], [], [$curso_egibide], [$egibide]);
-//
-//        $this->generarUsuario('Ion Jaureguialzo Sarasola', 'ijaureguialzo@ikasgela.com', [$rol_profesor, $rol_admin], [], [$curso_ikasgela], [$ikasgela]);
-//        $this->generarUsuario('Ion Jaureguialzo Sarasola', 'ijaureguialzo@egibide.org', [$rol_profesor], [], [$curso_egibide], [$egibide]);
-//        $this->generarUsuario('Ion Jaureguialzo Sarasola', 'ijaureguialzo@deusto.es', [$rol_profesor, $rol_admin], [], [$curso_deusto], [$deusto]);
+
+        $this->generarUsuario('Profesor', '', 'profesor@ikasgela.com', [$rol_profesor], [], [$curso_ikasgela], [$ikasgela], "dusk");
+        $this->generarUsuario('Tutor', '', 'tutor@ikasgela.com', [$rol_tutor], [], [$curso_ikasgela], [$ikasgela], "dusk");
+        $this->generarUsuario('Admin', '', 'admin@ikasgela.com', [$rol_admin], [], [$curso_ikasgela], [$ikasgela], "dusk");
     }
 
     private function generarUsuario(string $nombre, string $apellido, string $email, $roles, $equipos, $cursos, $organizations, $tags): void

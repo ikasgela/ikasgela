@@ -11,12 +11,13 @@ class T5_AdministradorTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(route('login'));
-            $browser->type('email', 'lucia@ikasgela.com');
+            $browser->type('email', 'admin@ikasgela.com');
             $browser->type('password', '12345Abcde');
             $browser->check('remember');
             $browser->press(__('Login'));
-            $browser->assertRouteIs('profesor.index');
+            $browser->assertRouteIs('admin.index');
             $browser->assertDontSee('Ignition');
+            $browser->assertDontSee('403');
         });
     }
 
