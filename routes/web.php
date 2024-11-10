@@ -114,7 +114,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         });
 
         // Profesor
-        Route::middleware(['role:profesor'])->group(function () {
+        Route::middleware(['role:profesor|admin'])->group(function () {
 
             // Panel de control
             Route::get('/alumnos', 'ProfesorController@index')
@@ -373,6 +373,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 
         // Administrador
         Route::middleware(['role:admin'])->group(function () {
+
+            // Portada del admin
+            Route::view('/admin', 'welcome2')
+                ->name('admin.index');
 
             // Lista de usuarios
             Route::get('/users', 'UserController@index')

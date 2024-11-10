@@ -11,12 +11,13 @@ class T3_ProfesorTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(route('login'));
-            $browser->type('email', 'lucia@ikasgela.com');
+            $browser->type('email', 'profesor@ikasgela.com');
             $browser->type('password', '12345Abcde');
             $browser->check('remember');
             $browser->press(__('Login'));
             $browser->assertRouteIs('profesor.index');
             $browser->assertDontSee('Ignition');
+            $browser->assertDontSee('403');
         });
     }
 
@@ -54,6 +55,16 @@ class T3_ProfesorTest extends DuskTestCase
             $browser->assertRouteIs('teams.index');
             $browser->assertDontSee('Ignition');
             $browser->assertSee(__('Teams'));
+        });
+    }
+
+    public function testCursos()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('users.portada'));
+            $browser->assertRouteIs('users.portada');
+            $browser->assertDontSee('Ignition');
+            $browser->assertSee(__('Courses'));
         });
     }
 

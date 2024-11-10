@@ -17,6 +17,7 @@ class T2_AlumnoTest extends DuskTestCase
             $browser->press(__('Login'));
             $browser->assertRouteIs('users.home');
             $browser->assertDontSee('Ignition');
+            $browser->assertDontSee('403');
         });
     }
 

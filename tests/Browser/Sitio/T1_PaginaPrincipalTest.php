@@ -13,6 +13,8 @@ class T1_PaginaPrincipalTest extends DuskTestCase
             $browser->visit(route('portada'));
             $browser->assertTitle('ikasgela');
             $browser->assertDontSee('Ignition');
+            $browser->assertDontSee('403');
+            $browser->assertDontSee('404');
         });
     }
 }

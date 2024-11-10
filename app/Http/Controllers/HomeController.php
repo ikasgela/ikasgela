@@ -33,9 +33,11 @@ class HomeController extends Controller
                 setting_usuario(['curso_actual' => $primer_curso ? $primer_curso->id : null]);
             }
 
-            if ($user->hasAnyRole(['profesor', 'admin'])) {
+            if ($user->hasRole('profesor')) {
                 return redirect(route('profesor.index'));
-            } else if ($user->hasAnyRole(['tutor'])) {
+            } else if ($user->hasRole('admin')) {
+                return redirect(route('admin.index'));
+            } else if ($user->hasRole('tutor')) {
                 return redirect(route('tutor.index'));
             } else {
                 return redirect(route('users.home'));
