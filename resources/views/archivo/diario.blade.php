@@ -53,10 +53,10 @@
                         <td class="align-middle">
                             @include('actividades.partials.nombre_con_etiquetas')
                         </td>
-                        <td>{{ $actividad->fecha_comienzo->isoFormat('L - LTS') }}</td>
+                        <td>{{ $actividad->fecha_comienzo?->isoFormat('L - LTS') }}</td>
                         <td>
                             @if ($loop->first)
-                                <span title="{{ $actividad->fecha_comienzo->isoFormat('L - LTS') }}">-</span>
+                                <span title="{{ $actividad->fecha_comienzo?->isoFormat('L - LTS') }}">-</span>
                             @else
                                 {{ $actividad->fecha_comienzo?->diffForHumans($actividades[$loop->index-1]->fecha_comienzo, true) ?: __('Unknown') }}
                             @endif
