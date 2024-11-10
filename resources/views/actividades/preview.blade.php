@@ -79,14 +79,14 @@
                                 @include('partials.botones_reordenar', ['ruta' => 'feedbacks.reordenar'])
                             </td>
                             <td>
-                                {!! Form::open(['route' => ['feedbacks.destroy', $feedback->id], 'method' => 'DELETE']) !!}
+                                {{ html()->form('DELETE', route('feedbacks.destroy', $feedback->id))->open() }}
                                 <div class='btn-group'>
                                     <a title="{{ __('Edit') }}"
                                        href="{{ route('feedbacks.edit', [$feedback->id]) }}"
                                        class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
                                     @include('partials.boton_borrar')
                                 </div>
-                                {!! Form::close() !!}
+                                {{ html()->form()->close() }}
                             </td>
                         </tr>
                     @endforeach
