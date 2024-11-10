@@ -42,15 +42,19 @@
     ])
 
     @if(Auth::user()->hasAnyRole(['profesor', 'tutor']))
-        {{ html()->form('POST', route('results.alumno'))->open() }}
-        @include('partials.desplegable_usuarios')
-        {{ html()->form()->close() }}
+        <div class="mb-3">
+            {{ html()->form('POST', route('results.alumno'))->open() }}
+            @include('partials.desplegable_usuarios')
+            {{ html()->form()->close() }}
+        </div>
     @endif
 
     @if($milestones->count() > 0)
-        {{ html()->form('POST', route('results.milestone'))->open() }}
-        @include('partials.desplegable_milestones')
-        {{ html()->form()->close() }}
+        <div class="mb-3">
+            {{ html()->form('POST', route('results.milestone'))->open() }}
+            @include('partials.desplegable_milestones')
+            {{ html()->form()->close() }}
+        </div>
     @endif
 
     @if(!is_null($user->curso_actual()))

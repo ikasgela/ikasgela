@@ -3,6 +3,6 @@
         {{ html()->label($label, $name)->class('form-label') }}
     </div>
     <div class="col-sm-10">
-        {{ html()->text($name)->class('form-control') }}
+        {{ html()->text($name, $value ?? null)->class('form-control') }}
     </div>
 </div>

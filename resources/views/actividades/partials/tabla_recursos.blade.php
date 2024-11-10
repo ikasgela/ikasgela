@@ -17,7 +17,7 @@
                 <td class="text-center">{{ $recurso->pivot->columnas }}</td>
                 <td>
                     <div class='btn-group'>
-                        {!! Form::open(['route' => ['actividades.recurso_modificar_columnas', $actividad->id], 'method' => 'POST']) !!}
+                        {{ html()->form('POST', route('actividades.recurso_modificar_columnas', $actividad->id))->open() }}
                         <button title="{{ __('Minus') }}"
                                 type="submit"
                                 {{ $recurso->pivot->columnas > 1 ? '' : 'disabled' }}
@@ -26,9 +26,9 @@
                         </button>
                         <input type="hidden" name="recurso" value="{{ $ids[$loop->index] }}">
                         <input type="hidden" name="accion" value="restar">
-                        {!! Form::close() !!}
+                        {{ html()->form()->close() }}
 
-                        {!! Form::open(['route' => ['actividades.recurso_modificar_columnas', $actividad->id], 'method' => 'POST']) !!}
+                        {{ html()->form('POST', route('actividades.recurso_modificar_columnas', $actividad->id))->open() }}
                         <button title="{{ __('Plus') }}"
                                 type="submit"
                                 {{ $recurso->pivot->columnas < 12 ? '' : 'disabled' }}
@@ -37,12 +37,12 @@
                         </button>
                         <input type="hidden" name="recurso" value="{{ $ids[$loop->index] }}">
                         <input type="hidden" name="accion" value="sumar">
-                        {!! Form::close() !!}
+                        {{ html()->form()->close() }}
                     </div>
                 </td>
                 <td>
                     <div class='btn-group'>
-                        {!! Form::open(['route' => ['actividades.reordenar_recursos', $actividad->id], 'method' => 'POST']) !!}
+                        {{ html()->form('POST', route('actividades.reordenar_recursos', $actividad->id))->open() }}
                         <button title="{{ __('Up') }}"
                                 type="submit"
                                 {{ !isset($ids[$loop->index-1]) ? 'disabled' : '' }}
@@ -51,9 +51,9 @@
                         </button>
                         <input type="hidden" name="a1" value="{{ $ids[$loop->index] }}">
                         <input type="hidden" name="a2" value="{{ $ids[$loop->index-1] ?? -1 }}">
-                        {!! Form::close() !!}
+                        {{ html()->form()->close() }}
 
-                        {!! Form::open(['route' => ['actividades.reordenar_recursos', $actividad->id], 'method' => 'POST']) !!}
+                        {{ html()->form('POST', route('actividades.reordenar_recursos', $actividad->id))->open() }}
                         <button title="{{ __('Down') }}"
                                 type="submit"
                                 {{ !isset($ids[$loop->index+1]) ? 'btn-light disabled' : '' }}
@@ -62,7 +62,7 @@
                         </button>
                         <input type="hidden" name="a1" value="{{ $ids[$loop->index] }}">
                         <input type="hidden" name="a2" value="{{ $ids[$loop->index+1] ?? -1 }}">
-                        {!! Form::close() !!}
+                        {{ html()->form()->close() }}
                     </div>
                 </td>
             </tr>

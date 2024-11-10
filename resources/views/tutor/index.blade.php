@@ -48,15 +48,19 @@
     ])
 
     @if(Auth::user()->hasAnyRole(['profesor', 'tutor']))
-        {{ html()->form('POST', route('tutor.index'))->open() }}
-        @include('partials.desplegable_usuarios')
-        {{ html()->form()->close() }}
+        <div class="mb-3">
+            {{ html()->form('POST', route('tutor.index'))->open() }}
+            @include('partials.desplegable_usuarios')
+            {{ html()->form()->close() }}
+        </div>
     @endif
 
     @if(Auth::user()->hasAnyRole(['admin']))
-        {{ html()->form('POST', route('tutor.index'))->open() }}
-        @include('partials.desplegable_milestones')
-        {{ html()->form()->close() }}
+        <div class="mb-3">
+            {{ html()->form('POST', route('tutor.index'))->open() }}
+            @include('partials.desplegable_milestones')
+            {{ html()->form()->close() }}
+        </div>
     @endif
 
     <div>

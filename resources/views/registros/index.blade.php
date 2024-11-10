@@ -5,9 +5,11 @@
     @include('partials.titular', ['titular' => __('Records'), 'subtitulo' => ''])
 
     @if(Auth::user()->hasAnyRole(['admin']))
-        {!! Form::open(['route' => ['registros_alumno.alumno'], 'method' => 'POST']) !!}
-        @include('partials.desplegable_usuarios')
-        {!! Form::close() !!}
+        <div class="mb-3">
+            {!! Form::open(['route' => ['registros_alumno.alumno'], 'method' => 'POST']) !!}
+            @include('partials.desplegable_usuarios')
+            {!! Form::close() !!}
+        </div>
     @endif
 
     <div class="table-responsive">

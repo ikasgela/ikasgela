@@ -1,4 +1,4 @@
-<div class="d-flex flex-row justify-content-between align-items-center mb-3">
+<div class="d-flex flex-row justify-content-between align-items-center">
     {{ html()->label(__('User'), 'user')->class('form-label m-0') }}
     <div class="flex-fill mx-3">
         <select class="form-select" id="user_id" name="user_id">

@@ -1,5 +1,5 @@
-<div class="d-flex justify-content-between align-items-end mb-3">
-    {{ html()->label(__('Milestone'), 'milestone_id')->class('form-label') }}
+<div class="d-flex flex-row justify-content-between align-items-center">
+    {{ html()->label(__('Milestone'), 'milestone_id')->class('form-label m-0') }}
     <select class="form-select mx-3" id="milestone_id" name="milestone_id">
         <option value="-1">{{ __('--- None (whole course) ---') }}</option>
         @foreach($milestones as $milestone)

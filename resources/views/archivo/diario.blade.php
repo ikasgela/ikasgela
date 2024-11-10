@@ -16,9 +16,11 @@
     ])
 
     @if(Auth::user()->hasAnyRole(['profesor', 'tutor']))
-        {{ html()->form('POST', route('archivo.diario'))->open() }}
-        @include('partials.desplegable_usuarios')
-        {{ html()->form()->close() }}
+        <div class="mb-3">
+            {{ html()->form('POST', route('archivo.diario'))->open() }}
+            @include('partials.desplegable_usuarios')
+            {{ html()->form()->close() }}
+        </div>
     @endif
 
     @if(count($actividades) > 0)
@@ -51,10 +53,10 @@
                         <td class="align-middle">
                             @include('actividades.partials.nombre_con_etiquetas')
                         </td>
-                        <td>{{ $actividad->fecha_comienzo->isoFormat('L - LTS') }}</td>
+                        <td>{{ $actividad->fecha_comienzo?->isoFormat('L - LTS') }}</td>
                         <td>
                             @if ($loop->first)
-                                <span title="{{ $actividad->fecha_comienzo->isoFormat('L - LTS') }}">-</span>
+                                <span title="{{ $actividad->fecha_comienzo?->isoFormat('L - LTS') }}">-</span>
                             @else
                                 {{ $actividad->fecha_comienzo?->diffForHumans($actividades[$loop->index-1]->fecha_comienzo, true) ?: __('Unknown') }}
                             @endif

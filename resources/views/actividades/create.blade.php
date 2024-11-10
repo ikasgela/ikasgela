@@ -6,71 +6,104 @@
 
     <div class="card">
         <div class="card-body">
+            {{ html()->form('POST', route('actividades.store'))->open() }}
 
-            {!! Form::open(['route' => 'actividades.store']) !!}
-
-            <div class="form-group row">
-                {!! Form::label('unidad', __('Unit'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
-                    <select class="form-control" id="unidad_id" name="unidad_id">
-                        @foreach($unidades as $unidad)
-                            <option
-                                value="{{ $unidad->id }}" {{ session('profesor_unidad_id_disponibles') == $unidad->id ? 'selected' : '' }}>
-                                {{ $unidad->full_name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-
-            {{ Form::campoTexto('nombre', __('Name')) }}
-            {{ Form::campoTexto('descripcion', __('Description')) }}
-            {{ Form::campoTexto('slug', __('Slug')) }}
-            {{ Form::campoTexto('puntuacion', __('Score'), 100) }}
-            {{ Form::campoCheck('plantilla', __('Template'), true) }}
-
-            <div class="form-group row">
-                {!! Form::label('siguiente_id', __('Next'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
-                    <select class="form-control" id="siguiente_id" name="siguiente_id">
-                        <option value="">{{ __('--- None ---') }}</option>
-                        @foreach($actividades as $temp)
-                            <option value="{{ $temp->id }}">{{ $temp->slug }} ({{ $temp->id }})</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-            {{ Form::campoCheck('final', __('Final')) }}
-            {{ Form::campoCheck('auto_avance', __('Auto advance')) }}
-
-            <div class="form-group row">
-                {!! Form::label('qualification_id', __('Qualification'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
-                    <select class="form-control" id="qualification_id" name="qualification_id">
-                        <option value="">{{ __('--- None ---') }}</option>
-                        @foreach($qualifications as $qualification)
-                            <option value="{{ $qualification->id }}">{{ $qualification->full_name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-
-            {{ Form::campoTexto('fecha_disponibilidad', __('Availability date')) }}
-            {{ Form::campoTexto('fecha_entrega', __('Due date')) }}
-            {{ Form::campoTexto('fecha_limite', __('Deadline')) }}
-
-            {{ Form::campoTexto('fecha_comienzo', __('Start date')) }}
-            {{ Form::campoTexto('fecha_finalizacion', __('Completion date')) }}
-
-            {{ Form::campoCheck('destacada', __('Highlighted')) }}
-            {{ Form::campoTexto('tags', __('Tags')) }}
-
-            {{ Form::campoTexto('multiplicador', __('Multiplier')) }}
+            @include('components.label-select', [
+                'label' => __('Unit'),
+                'name' => 'unidad_id',
+                'coleccion' => $unidades,
+                'opcion' => function ($unidad) {
+                        return html()->option($unidad->full_name,
+                            $unidad->id,
+                            session('profesor_unidad_id_disponibles') == $unidad->id);
+                },
+            ])
+            @include('components.label-text', [
+                'label' => __('Name'),
+                'name' => 'nombre',
+            ])
+            @include('components.label-text', [
+                'label' => __('Description'),
+                'name' => 'descripcion',
+            ])
+            @include('components.label-text', [
+                'label' => __('Slug'),
+                'name' => 'slug',
+            ])
+            @include('components.label-text', [
+                'label' => __('Score'),
+                'name' => 'puntuacion',
+                'value' => 100,
+            ])
+            @include('components.label-check', [
+                'label' => __('Template'),
+                'name' => 'plantilla',
+                'checked' => true,
+            ])
+            @include('components.label-select', [
+                'label' => __('Next'),
+                'name' => 'siguiente_id',
+                'coleccion' => $actividades,
+                'opcion' => function ($temp) {
+                        return html()->option("$temp->slug ($temp->id)",
+                            $temp->id);
+                },
+                'default' => __('--- None ---'),
+            ])
+            @include('components.label-check', [
+                'label' => __('Final'),
+                'name' => 'final',
+            ])
+            @include('components.label-check', [
+                'label' => __('Auto advance'),
+                'name' => 'auto_avance',
+            ])
+            @include('components.label-select', [
+                'label' => __('Qualification'),
+                'name' => 'qualification_id',
+                'coleccion' => $qualifications,
+                'opcion' => function ($qualification) {
+                        return html()->option($qualification->full_name,
+                            $qualification->id);
+                },
+                'default' => __('--- None ---'),
+            ])
+            @include('components.label-text', [
+                'label' => __('Availability date'),
+                'name' => 'fecha_disponibilidad',
+            ])
+            @include('components.label-text', [
+                'label' => __('Due date'),
+                'name' => 'fecha_entrega',
+            ])
+            @include('components.label-text', [
+                'label' => __('Deadline'),
+                'name' => 'fecha_limite',
+            ])
+            @include('components.label-text', [
+                'label' => __('Start date'),
+                'name' => 'fecha_comienzo',
+            ])
+            @include('components.label-text', [
+                'label' => __('Completion date'),
+                'name' => 'fecha_finalizacion',
+            ])
+            @include('components.label-check', [
+                'label' => __('Highlighted'),
+                'name' => 'destacada',
+            ])
+            @include('components.label-text', [
+                'label' => __('Tags'),
+                'name' => 'tags',
+            ])
+            @include('components.label-text', [
+                'label' => __('Multiplier'),
+                'name' => 'multiplicador',
+            ])
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
-
+            {{ html()->form()->close() }}
         </div>
     </div>
 @endsection
