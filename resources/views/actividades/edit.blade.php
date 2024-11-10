@@ -13,9 +13,9 @@
                 'name' => 'unidad_id',
                 'coleccion' => $unidades,
                 'opcion' => function ($unidad) use ($actividad) {
-                        return html()->option($unidad->full_name,
-                            $unidad->id,
-                            $actividad->unidad_id == $unidad->id);
+                    return html()->option($unidad->full_name,
+                        $unidad->id,
+                        old('unidad_id', $actividad->unidad_id) == $unidad->id);
                 },
             ])
             @include('components.label-text', [
@@ -47,9 +47,9 @@
                 'name' => 'siguiente_id',
                 'coleccion' => $actividad->plantilla ? $plantillas : $actividades,
                 'opcion' => function ($temp) use ($actividad) {
-                        return html()->option("$temp->slug ($temp->id)",
-                            $temp->id,
-                            !is_null($actividad->siguiente) && $actividad->siguiente->id == $temp->id);
+                    return html()->option("$temp->slug ($temp->id)",
+                        $temp->id,
+                        old('siguiente_id', $actividad->siguiente?->id) == $temp->id);
                 },
                 'default' => __('--- None ---'),
             ])
@@ -70,9 +70,9 @@
                 'name' => 'qualification_id',
                 'coleccion' => $qualifications,
                 'opcion' => function ($qualification) use ($actividad) {
-                        return html()->option($qualification->full_name,
-                            $qualification->id,
-                            $actividad->qualification_id == $qualification->id);
+                    return html()->option($qualification->full_name,
+                        $qualification->id,
+                        old('qualification_id', $actividad->qualification_id) == $qualification->id);
                 },
                 'default' => __('--- None ---'),
             ])
