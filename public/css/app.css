@@ -20665,6 +20665,10 @@ textarea.form-control-lg {
   vertical-align: middle;
 }
 
+.table > :not(caption) > * > * {
+  background-color: unset;
+}
+
 @media print {
   .table td.bg-success {
     background-color: #4dbd74 !important;

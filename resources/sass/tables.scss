@@ -10,3 +10,8 @@
 .table > tbody > tr > td {
     vertical-align: middle;
 }
+
+// https://github.com/twbs/bootstrap/issues/38779
+.table > :not(caption) > * > * {
+    background-color: unset;
+}
