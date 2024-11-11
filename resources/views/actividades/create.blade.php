@@ -15,7 +15,7 @@
                 'opcion' => function ($unidad) {
                         return html()->option($unidad->full_name,
                             $unidad->id,
-                            session('profesor_unidad_id_disponibles') == $unidad->id);
+                            old('unidad_id', session('profesor_unidad_id_disponibles')) == $unidad->id);
                 },
             ])
             @include('components.label-text', [
