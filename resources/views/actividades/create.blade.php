@@ -4,7 +4,7 @@
 
     @include('partials.titular', ['titular' => __('New activity')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
             {{ html()->form('POST', route('actividades.store'))->open() }}
 

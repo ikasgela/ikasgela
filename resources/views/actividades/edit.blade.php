@@ -4,7 +4,7 @@
 
     @include('partials.titular', ['titular' => __('Edit activity')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
             {{ html()->modelForm($actividad, 'PUT', route('actividades.update', $actividad->id))->open() }}
 
