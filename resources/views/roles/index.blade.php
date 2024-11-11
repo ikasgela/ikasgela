@@ -25,16 +25,14 @@
                     <td>{{ $rol->name }}</td>
                     <td>{{ $rol->description }}</td>
                     <td>
-                        <form method="POST" action="{{ route('roles.destroy', [$rol->id]) }}">
-                            @csrf
-                            @method('DELETE')
-                            <div class='btn-group'>
-                                <a title="{{ __('Edit') }}"
-                                   href="{{ route('roles.edit', [$rol->id]) }}"
-                                   class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                                @include('partials.boton_borrar')
-                            </div>
-                        </form>
+                        {{ html()->form('DELETE', route('roles.destroy', $rol->id))->open() }}
+                        <div class='btn-group'>
+                            <a title="{{ __('Edit') }}"
+                               href="{{ route('roles.edit', [$rol->id]) }}"
+                               class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                            @include('partials.boton_borrar')
+                        </div>
+                        {{ html()->form()->close() }}
                     </td>
                 </tr>
             @endforeach
