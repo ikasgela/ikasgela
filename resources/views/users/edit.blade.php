@@ -4,33 +4,69 @@
 
     @include('partials.titular', ['titular' => __('Edit user')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::model($user, ['route' => ['users.update', $user->id], 'method' => 'PUT']) !!}
+            {{ html()->modelForm($user, 'PUT', route('users.update', $user->id))->open() }}
 
-            <div class="form-group row">
-                {!! Form::label('avatar', __('Avatar'), ['class' => 'col-sm-2 col-form-label']) !!}
+            <div class="row mb-3">
+                <div class="col-sm-2 d-flex align-items-end">
+                    {{ html()->label(__('Avatar'), 'avatar')->class('form-label') }}
+                </div>
                 <div class="col-sm-10">
                     @include('users.partials.avatar', ['user' => $user, 'width' => 100])
                 </div>
             </div>
 
-            {{ Form::campoTexto('identifier', __('Identifier')) }}
-            {{ Form::campoTexto('name', __('Name')) }}
-            {{ Form::campoTexto('surname', __('Surname')) }}
-            {{ Form::campoTexto('email', __('Email')) }}
-            {{ Form::campoTexto('username', __('Username')) }}
-            {{ Form::campoTexto('last_active', __('Last active')) }}
-            {{ Form::campoTexto('blocked_date', __('Blocked')) }}
+            @include('components.label-text', [
+                'label' => __('Identifier'),
+                'name' => 'identifier',
+            ])
+            @include('components.label-text', [
+                'label' => __('Name'),
+                'name' => 'name',
+            ])
+            @include('components.label-text', [
+                'label' => __('Surname'),
+                'name' => 'surname',
+            ])
+            @include('components.label-text', [
+                'label' => __('Email'),
+                'name' => 'email',
+            ])
+            @include('components.label-text', [
+                'label' => __('Username'),
+                'name' => 'username',
+            ])
+            @include('components.label-text', [
+                'label' => __('Last active'),
+                'name' => 'last_active',
+            ])
+            @include('components.label-text', [
+                'label' => __('Blocked'),
+                'name' => 'blocked_date',
+            ])
+            @include('components.label-text', [
+                'label' => __('Simultaneous activities'),
+                'name' => 'max_simultaneas',
+            ])
+            @include('components.label-text', [
+                'label' => __('Tags'),
+                'name' => 'tags',
+            ])
+            @include('components.label-text', [
+                'label' => __(''),
+                'name' => '',
+            ])
+            @include('components.label-check', [
+                'label' => __('Low anxiety mode'),
+                'name' => 'baja_ansiedad',
+            ])
 
-            {{ Form::campoTexto('max_simultaneas', __('Simultaneous activities')) }}
-            {{ Form::campoTexto('tags', __('Tags')) }}
-
-            {{ Form::campoCheck('baja_ansiedad', __('Low anxiety mode')) }}
-
-            <div class="form-group row">
-                {!! Form::label('roles_seleccionados', __('Roles'), ['class' => 'col-sm-2 col-form-label pt-0']) !!}
+            <div class="row mb-3">
+                <div class="col-sm-2 d-flex align-items-end">
+                    {{ html()->label(__('Roles'), 'roles_seleccionados')->class('form-label') }}
+                </div>
                 <div class="col-sm-10">
                     @foreach($roles_disponibles as $rol)
                         <div class="form-check">
@@ -43,25 +79,24 @@
                 </div>
             </div>
 
-            <div class="form-group row">
-                {!! Form::label('curso_id', __('Current course'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
-                    <select class="form-control" id="curso_id" name="curso_id">
-                        <option value="">{{ __('--- None --- ') }}</option>
-                        @foreach($cursos_seleccionados as $curso)
-                            <option value="{{ $curso->id }}" <?php if ($curso_actual == $curso->id) echo 'selected'; ?>>
-                                {{ $curso->category->period->organization->name }}
-                                - {{ $curso->nombre }}
-                                - {{ $curso->category->period->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
+            @include('components.label-select', [
+                'label' => __('Current course'),
+                'name' => 'curso_id',
+                'coleccion' => $cursos_seleccionados,
+                'opcion' => function ($curso) use ($curso_actual) {
+                    return html()->option($curso->full_name,
+                        $curso->id,
+                        old('curso_id', $curso_actual) == $curso->id);
+                },
+                'default' => __('--- None --- '),
+            ])
 
             @include('users.partials.selector_cursos')
 
-            <div class="form-group row">
-                {!! Form::label('organizations_seleccionados', __('Organizations'), ['class' => 'col-sm-2 col-form-label pt-0']) !!}
+            <div class="row mb-3">
+                <div class="col-2">
+                    {{ html()->label(__('Organizations'), 'organizations_seleccionados')->class('form-label') }}
+                </div>
                 <div class="col">
                     <label>{{ __('Selected') }}</label>
                     <select name="organizations_seleccionados[]" multiple class="form-control multi-select"
@@ -89,13 +124,9 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <button id="boton_guardar" type="submit" class="btn btn-primary">{{ __('Save') }}</button>
-                <a href="{{ url()->previous() }}" class="btn btn-link text-secondary">{{ __('Cancel') }}</a>
-            </div>
-
+            @include('partials.guardar_cancelar')
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->closeModelForm() }}
 
         </div>
     </div>

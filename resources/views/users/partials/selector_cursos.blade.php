@@ -1,5 +1,7 @@
-<div class="form-group row">
-    {!! Form::label('cursos_seleccionados', __('Courses'), ['class' => 'col-sm-2 col-form-label pt-0']) !!}
+<div class="row mb-3">
+    <div class="col-2">
+        {{ html()->label(__('Courses'), 'cursos_seleccionados')->class('form-label') }}
+    </div>
     <div class="col">
         <label>{{ __('Selected') }}</label>
         <select name="cursos_seleccionados[]" multiple class="form-control multi-select"
