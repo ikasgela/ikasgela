@@ -31,6 +31,16 @@ class T5_AdministradorTest extends DuskTestCase
         });
     }
 
+    public function testActividadesClonador()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('intellij_projects.copia'));
+            $browser->assertRouteIs('intellij_projects.copia');
+            $browser->assertDontSee('Ignition');
+            $browser->assertSee(__('Project cloner'));
+        });
+    }
+
     public function testEstructuraActividades()
     {
         $this->browse(function (Browser $browser) {

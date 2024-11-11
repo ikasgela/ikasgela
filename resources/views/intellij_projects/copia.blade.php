@@ -4,34 +4,50 @@
 
     @include('partials.titular', ['titular' => __('Project cloner')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::open(['route' => 'intellij_projects.clonar']) !!}
+            {{ html()->form('POST', route('intellij_projects.clonar'))->open() }}
 
-            {{ Form::campoTexto('origen', __('Source'), session('intellij_origen', 'root/programacion.plantillas.proyecto-intellij-java'), ['placeholder' => 'root/programacion.plantillas.proyecto-intellij-java']) }}
-            {{ Form::campoTexto('destino', __('Destination'), session('intellij_destino'), ['placeholder' => 'root/copia (opcional)']) }}
-            {{ Form::campoTexto('nombre', __('New project description'), '', ['placeholder' => 'Hola Mundo (opcional, mantiene el original)']) }}
+            @include('components.label-text', [
+                'label' => __('Source'),
+                'name' => 'origen',
+                'value' => session('intellij_origen'),
+                'placeholder' => 'root/programacion.plantillas.proyecto-intellij-java',
+            ])
+            @include('components.label-text', [
+                'label' => __('Destination'),
+                'name' => 'destino',
+                'value' => session('intellij_destino'),
+                'placeholder' => 'root/copia (opcional)',
+            ])
+            @include('components.label-text', [
+                'label' => __('New project description'),
+                'name' => 'nombre',
+                'placeholder' => 'Hola Mundo (opcional, mantiene el original)',
+            ])
 
-            <div class="form-group row">
-                {!! Form::label('recurso_type', __('Create associated resource'), ['class' => 'col-sm-2 col-form-label']) !!}
+            <div class="row mb-3">
+                <div class="col-sm-2 d-flex align-items-end">
+                    {{ html()->label(__('Create associated resource'), 'recurso_type')->class('form-label') }}
+                </div>
                 <div class="col-sm-10">
-                    <select class="form-control" id="recurso_type" name="recurso_type">
-                        <option value="-1">{{ __('--- No ---') }}</option>
-                        <option value="intellij_project_idea" selected>{{ __('IntelliJ project') }} - IDEA</option>
-                        <option value="intellij_project_phpstorm">{{ __('IntelliJ project') }} - PhpStorm</option>
-                        <option value="intellij_project_datagrip">{{ __('IntelliJ project') }} - DataGrip</option>
-                        <option value="intellij_project">
-                            {{ __('IntelliJ project') }} - {{ __('No associated tool') }}
-                        </option>
-                        <option value="markdown_text">{{ __('Markdown text') }}</option>
-                    </select>
+                    {{ html()->select('recurso_type')->class('form-select')->open() }}
+                    <option value="-1">{{ __('--- No ---') }}</option>
+                    <option value="intellij_project_idea" selected>{{ __('IntelliJ project') }} - IDEA</option>
+                    <option value="intellij_project_phpstorm">{{ __('IntelliJ project') }} - PhpStorm</option>
+                    <option value="intellij_project_datagrip">{{ __('IntelliJ project') }} - DataGrip</option>
+                    <option value="intellij_project">
+                        {{ __('IntelliJ project') }} - {{ __('No associated tool') }}
+                    </option>
+                    <option value="markdown_text">{{ __('Markdown text') }}</option>
+                    {{ html()->select()->close() }}
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">{{ __('Clone') }}</button>
+            {{ html()->submit(__('Clone'))->class('btn btn-primary') }}
 
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
 
         </div>
     </div>
@@ -55,11 +71,11 @@
                     <td>{{ $proyecto['description'] }}</td>
                     <td>@include('partials.link_gitea', ['proyecto' => $proyecto ])</td>
                     <td class="text-nowrap">
-                        {!! Form::open(['route' => ['intellij_projects.borrar', $proyecto['id']], 'method' => 'DELETE']) !!}
+                        {{ html()->form('DELETE', route('intellij_projects.borrar', $proyecto['id']))->open() }}
                         <div class='btn-group'>
                             @include('partials.boton_borrar')
                         </div>
-                        {!! Form::close() !!}
+                        {{ html()->form()->close() }}
                     </td>
                 </tr>
             @endforeach
