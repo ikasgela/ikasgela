@@ -4,24 +4,42 @@
 
     @include('partials.titular', ['titular' => __('New user')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::open(['route' => ['users.store']]) !!}
+            {{ html()->form('POST', route('users.store'))->open() }}
 
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">{{ __('Organization') }}</label>
-                <div class="col-sm-10 form-control-plaintext">{{ organizacion() }}</div>
-            </div>
+            @include('components.label-value', [
+                'label' => __('Organization'),
+                'value' => organizacion(),
+            ])
 
-            {{ Form::campoTexto('identifier', __('Identifier')) }}
-            {{ Form::campoTexto('name', __('Name')) }}
-            {{ Form::campoTexto('surname', __('Surname')) }}
-            {{ Form::campoTexto('email', __('Email')) }}
-            {{ Form::campoPassword('password', __('Password')) }}
+            @include('components.label-text', [
+                'label' => __('Identifier'),
+                'name' => 'identifier',
+            ])
+            @include('components.label-text', [
+                'label' => __('Name'),
+                'name' => 'name',
+            ])
+            @include('components.label-text', [
+                'label' => __('Surname'),
+                'name' => 'surname',
+            ])
+            @include('components.label-text', [
+                'label' => __('Email'),
+                'name' => 'email',
+            ])
 
-            <div class="form-group row">
-                {!! Form::label('roles_seleccionados', __('Roles'), ['class' => 'col-sm-2 col-form-label pt-0']) !!}
+            @include('components.label-password', [
+                'label' => __('Password'),
+                'name' => 'password',
+            ])
+
+            <div class="row mb-3">
+                <div class="col-sm-2">
+                    {{ html()->label(__('Roles'), 'roles_seleccionados')->class('form-label') }}
+                </div>
                 <div class="col-sm-10">
                     @foreach($roles_disponibles as $rol)
                         <div class="form-check">
@@ -33,13 +51,9 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <button id="boton_guardar" type="submit" class="btn btn-primary">{{ __('Save') }}</button>
-                <a href="{{ url()->previous() }}" class="btn btn-link text-secondary">{{ __('Cancel') }}</a>
-            </div>
-
+            @include('partials.guardar_cancelar')
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
 
         </div>
     </div>
