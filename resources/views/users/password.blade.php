@@ -4,20 +4,27 @@
 
     @include('partials.titular', ['titular' => __('Change password')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::model($user, ['route' => ['users.update.password', $user->id], 'method' => 'PUT']) !!}
+            {{ html()->modelForm($user, 'PUT', route('users.update.password', $user->id))->open() }}
 
-            {{ Form::campoTextoLabel('username', __('Username')) }}
-
-            {{ Form::campoPassword('password', __('New password')) }}
-            {{ Form::campoPassword('password_confirmation', __('Password confirmation')) }}
+            @include('components.label-text-readonly', [
+                'label' => __('Username'),
+                'name' => 'username',
+            ])
+            @include('components.label-password', [
+                'label' => __('New password'),
+                'name' => 'password',
+            ])
+            @include('components.label-password', [
+                'label' => __('Password confirmation'),
+                'name' => 'password_confirmation',
+            ])
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->closeModelForm() }}
 
         </div>
     </div>
