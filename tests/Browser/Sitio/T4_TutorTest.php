@@ -21,7 +21,7 @@ class T4_TutorTest extends DuskTestCase
         });
     }
 
-    public function testInformeGrupo()
+    public function testInforme()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(route('tutor.index'));
@@ -31,7 +31,7 @@ class T4_TutorTest extends DuskTestCase
         });
     }
 
-    public function testActividadesDia()
+    public function testActividades()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(route('tutor.tareas_enviadas'));

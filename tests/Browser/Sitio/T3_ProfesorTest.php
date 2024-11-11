@@ -21,7 +21,7 @@ class T3_ProfesorTest extends DuskTestCase
         });
     }
 
-    public function testPanelControl()
+    public function testPanel()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(route('profesor.index'));

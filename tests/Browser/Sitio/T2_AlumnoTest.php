@@ -51,7 +51,7 @@ class T2_AlumnoTest extends DuskTestCase
         });
     }
 
-    public function testArchivoAlumno()
+    public function testArchivo()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(route('archivo.index'));
@@ -61,7 +61,7 @@ class T2_AlumnoTest extends DuskTestCase
         });
     }
 
-    public function testProgresoAlumno()
+    public function testProgreso()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(route('archivo.outline'));
