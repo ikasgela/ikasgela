@@ -41,6 +41,6 @@ class CheckBlockedTest extends TestCase
         $response = $this->get(route('users.home'));
 
         // Then
-        $response->assertRedirect(route('login'));
+        $response->assertRedirect(route('blocked'));
     }
 }
