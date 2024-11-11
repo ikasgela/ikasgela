@@ -10,7 +10,7 @@
             {{ html()->modelForm($user, 'PUT', route('users.update', $user->id))->open() }}
 
             <div class="row mb-3">
-                <div class="col-sm-2 d-flex align-items-end">
+                <div class="col-sm-2">
                     {{ html()->label(__('Avatar'), 'avatar')->class('form-label') }}
                 </div>
                 <div class="col-sm-10">
@@ -54,17 +54,13 @@
                 'label' => __('Tags'),
                 'name' => 'tags',
             ])
-            @include('components.label-text', [
-                'label' => __(''),
-                'name' => '',
-            ])
             @include('components.label-check', [
                 'label' => __('Low anxiety mode'),
                 'name' => 'baja_ansiedad',
             ])
 
             <div class="row mb-3">
-                <div class="col-sm-2 d-flex align-items-end">
+                <div class="col-sm-2">
                     {{ html()->label(__('Roles'), 'roles_seleccionados')->class('form-label') }}
                 </div>
                 <div class="col-sm-10">
