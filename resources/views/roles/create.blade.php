@@ -4,18 +4,23 @@
 
     @include('partials.titular', ['titular' => __('New role')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::open(['route' => 'roles.store']) !!}
+            {{ html()->form('POST', route('roles.store'))->open() }}
 
-            {{ Form::campoTexto('name', __('Name')) }}
-            {{ Form::campoTexto('description', __('Description')) }}
+            @include('components.label-text', [
+                'label' => __('Name'),
+                'name' => 'name',
+            ])
+            @include('components.label-text', [
+                'label' => __('Description'),
+                'name' => 'description',
+            ])
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
 
         </div>
     </div>

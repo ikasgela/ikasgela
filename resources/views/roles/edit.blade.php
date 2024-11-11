@@ -4,18 +4,23 @@
 
     @include('partials.titular', ['titular' => __('Edit role')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::model($role, ['route' => ['roles.update', $role->id], 'method' => 'PUT']) !!}
+            {{ html()->modelForm($role, 'PUT', route('roles.update', $role->id))->open() }}
 
-            {{ Form::campoTexto('name', __('Name')) }}
-            {{ Form::campoTexto('description', __('Description')) }}
+            @include('components.label-text', [
+                'label' => __('Name'),
+                'name' => 'name',
+            ])
+            @include('components.label-text', [
+                'label' => __('Description'),
+                'name' => 'description',
+            ])
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->closeModelForm() }}
 
         </div>
     </div>

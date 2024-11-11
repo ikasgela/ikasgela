@@ -61,6 +61,16 @@ class T5_AdministradorTest extends DuskTestCase
         });
     }
 
+    public function testUsuariosRoles()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('roles.index'));
+            $browser->assertRouteIs('roles.index');
+            $browser->assertDontSee('Ignition');
+            $browser->assertSee(__('Roles'));
+        });
+    }
+
     public function testLogout()
     {
         $this->browse(function (Browser $browser) {
