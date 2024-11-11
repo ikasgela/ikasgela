@@ -142,7 +142,7 @@
                         <tbody>
                         @foreach($jplags as $jplag)
                             @if(!is_null($jplag->match))
-                                <tr class="{{ $jplag->percent > 75 ? 'bg-warning text-dark' : '' }}">
+                                <tr class="{{ $jplag->percent > 75 ? 'text-bg-warning' : '' }}">
                                     <td>
                                         <a href="{{ route('profesor.revisar', ['user' => $jplag->match->user->id, 'tarea' => $jplag->match->id]) }}"
                                            class="{{ $jplag->percent > 75 ? 'text-dark' : '' }}"
@@ -157,7 +157,9 @@
                                             {{ __('Open in Gitea') }}
                                         </a>
                                     </td>
-                                    <td>{{ $jplag->percent }}&thinsp;%</td>
+                                    <td class="{{ $jplag->percent > 75 ? 'text-dark' : '' }}">
+                                        {{ $jplag->percent }}&thinsp;%
+                                    </td>
                                 </tr>
                             @endif
                         @endforeach
