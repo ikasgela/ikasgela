@@ -51,6 +51,16 @@ class T5_AdministradorTest extends DuskTestCase
         });
     }
 
+    public function testEstructuraPeriodos()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('periods.index'));
+            $browser->assertRouteIs('periods.index');
+            $browser->assertDontSee('Ignition');
+            $browser->assertSee(__('Periods'));
+        });
+    }
+
     public function testEstructuraActividades()
     {
         $this->browse(function (Browser $browser) {

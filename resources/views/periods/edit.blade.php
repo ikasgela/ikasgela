@@ -4,32 +4,34 @@
 
     @include('partials.titular', ['titular' => __('Edit period')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::model($period, ['route' => ['periods.update', $period->id], 'method' => 'PUT']) !!}
+            {{ html()->modelForm($period, 'PUT', route('periods.update', $period->id))->open() }}
 
-            <div class="form-group row">
-                {!! Form::label('organization_id', __('Organization'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
-                    <select class="form-control" id="organization_id" name="organization_id">
-                        @foreach($organizations as $organization)
-                            <option
-                                value="{{ $organization->id }}" {{ $period->organization_id == $organization->id ? 'selected' : '' }}>
-                                {{ $organization->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
+            @include('components.label-select', [
+                'label' => __('Organization'),
+                'name' => 'organization_id',
+                'coleccion' => $organizations,
+                'opcion' => function ($organization) use ($period) {
+                        return html()->option($organization->name,
+                            $organization->id,
+                            old('organization_id', $period->organization_id) == $organization->id);
+                },
+            ])
 
-            {{ Form::campoTexto('name', __('Name')) }}
-            {{ Form::campoTexto('slug', __('Slug')) }}
+            @include('components.label-text', [
+                'label' => __('Name'),
+                'name' => 'name',
+            ])
+            @include('components.label-text', [
+                'label' => __('Slug'),
+                'name' => 'slug',
+            ])
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->closeModelForm() }}
 
         </div>
     </div>

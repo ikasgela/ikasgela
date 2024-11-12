@@ -27,14 +27,14 @@
                     <td>{{ $period->name }}</td>
                     <td>{{ $period->slug }}</td>
                     <td>
-                        {!! Form::open(['route' => ['periods.destroy', $period->id], 'method' => 'DELETE']) !!}
+                        {{ html()->form('DELETE', route('periods.destroy', $period->id))->open() }}
                         <div class='btn-group'>
                             <a title="{{ __('Edit') }}"
                                href="{{ route('periods.edit', [$period->id]) }}"
                                class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
                             @include('partials.boton_borrar')
                         </div>
-                        {!! Form::close() !!}
+                        {{ html()->form()->close() }}
                     </td>
                 </tr>
             @endforeach
