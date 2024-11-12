@@ -4,29 +4,34 @@
 
     @include('partials.titular', ['titular' => __('New team')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::open(['route' => ['teams.store']]) !!}
+            {{ html()->form('POST', route('teams.store'))->open() }}
 
-            <div class="form-group row">
-                {!! Form::label('group_id', __('Group'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
-                    <select class="form-control" id="group_id" name="group_id">
-                        @foreach($groups as $group)
-                            <option value="{{ $group->id }}">{{ $group->full_name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
+            @include('components.label-select', [
+                'label' => __('Group'),
+                'name' => 'group_id',
+                'coleccion' => $groups,
+                'opcion' => function ($group) {
+                        return html()->option($group->full_name,
+                            $group->id,
+                            old('group_id', $group->id) == $group->id);
+                },
+            ])
 
-            {{ Form::campoTexto('name', __('Name')) }}
-            {{ Form::campoTexto('slug', __('Slug')) }}
+            @include('components.label-text', [
+                'label' => __('Name'),
+                'name' => 'name',
+            ])
+            @include('components.label-text', [
+                'label' => __('Slug'),
+                'name' => 'slug',
+            ])
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
 
         </div>
     </div>

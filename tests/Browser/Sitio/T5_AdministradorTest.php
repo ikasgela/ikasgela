@@ -61,6 +61,16 @@ class T5_AdministradorTest extends DuskTestCase
         });
     }
 
+    public function testUsuariosEquipos()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('teams.index'));
+            $browser->assertRouteIs('teams.index');
+            $browser->assertDontSee('Ignition');
+            $browser->assertSee(__('Teams'));
+        });
+    }
+
     public function testUsuariosUsuarios()
     {
         $this->browse(function (Browser $browser) {

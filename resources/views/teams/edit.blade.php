@@ -4,28 +4,35 @@
 
     @include('partials.titular', ['titular' => __('Edit team')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::model($team, ['route' => ['teams.update', $team->id], 'method' => 'PUT']) !!}
+            {{ html()->modelForm($team, 'PUT', route('teams.update', $team->id))->open() }}
 
-            <div class="form-group row">
-                {!! Form::label('group_id', __('Group'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
-                    <select class="form-control" id="group_id" name="group_id">
-                        @foreach($groups as $group)
-                            <option
-                                value="{{ $group->id }}" {{ $team->group_id == $group->id ? 'selected' : ''}}>{{ $group->full_name }}</option>
-                        @endforeach
-                    </select>
+            @include('components.label-select', [
+                'label' => __('Group'),
+                'name' => 'group_id',
+                'coleccion' => $groups,
+                'opcion' => function ($group) use ($team) {
+                        return html()->option($group->full_name,
+                            $group->id,
+                            old('group_id', $team->group_id) == $group->id);
+                },
+            ])
+
+            @include('components.label-text', [
+                'label' => __('Name'),
+                'name' => 'name',
+            ])
+            @include('components.label-text', [
+                'label' => __('Slug'),
+                'name' => 'slug',
+            ])
+
+            <div class="row mb-3">
+                <div class="col-2">
+                    {{ html()->label(__('Users'), 'users_seleccionados')->class('form-label') }}
                 </div>
-            </div>
-
-            {{ Form::campoTexto('name', __('Name')) }}
-            {{ Form::campoTexto('slug', __('Slug')) }}
-
-            <div class="form-group row">
-                {!! Form::label('users_seleccionados', __('Users'), ['class' => 'col-sm-2 col-form-label pt-0']) !!}
                 <div class="col">
                     <label>{{ __('Selected') }}</label>
                     <select name="users_seleccionados[]" multiple class="form-control multi-select"
@@ -53,13 +60,9 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <button id="boton_guardar" type="submit" class="btn btn-primary">{{ __('Save') }}</button>
-                <a href="{{ url()->previous() }}" class="btn btn-link text-secondary">{{ __('Cancel') }}</a>
-            </div>
-
+            @include('partials.guardar_cancelar')
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
 
         </div>
     </div>
