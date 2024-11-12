@@ -4,21 +4,30 @@
 
     @include('partials.titular', ['titular' => __('New organization')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
+            {{ html()->form('POST', route('organizations.store'))->open() }}
 
-            {!! Form::open(['route' => ['organizations.store']]) !!}
-
-            {{ Form::campoTexto('name', __('Name')) }}
-            {{ Form::campoTexto('slug', __('Slug')) }}
-
-            {{ Form::campoCheck('registration_open', __('Registration open')) }}
-            {{ Form::campoTexto('seats', __('Available seats')) }}
+            @include('components.label-text', [
+                'label' => __('Name'),
+                'name' => 'name',
+            ])
+            @include('components.label-text', [
+                'label' => __('Slug'),
+                'name' => 'slug',
+            ])
+            @include('components.label-check', [
+                'label' => __('Registration open'),
+                'name' => 'registration_open',
+            ])
+            @include('components.label-text', [
+                'label' => __('Available seats'),
+                'name' => 'seats',
+            ])
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
 
         </div>
     </div>

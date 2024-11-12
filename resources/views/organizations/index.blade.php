@@ -27,20 +27,20 @@
                     <td>{{ $organization->id }}</td>
                     <td>{{ $organization->name }}</td>
                     <td>{{ $organization->slug }}</td>
-                    <td class="text-center {{ $organization->registration_open ? 'bg-warning' : '' }}">
+                    <td class="text-center {{ $organization->registration_open ? 'text-bg-warning' : '' }}">
                         {{ $organization->registration_open ? __('Yes') : __('No') }}
                     </td>
                     <td class="text-center">{{ $organization->seats }}</td>
                     <td class="text-center">{{ $organization->current_period()->name ?? '' }}</td>
                     <td>
-                        {!! Form::open(['route' => ['organizations.destroy', $organization->id], 'method' => 'DELETE']) !!}
+                        {{ html()->form('DELETE', route('organizations.destroy', $organization->id))->open() }}
                         <div class='btn-group'>
                             <a title="{{ __('Edit') }}"
                                href="{{ route('organizations.edit', [$organization->id]) }}"
                                class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
                             @include('partials.boton_borrar')
                         </div>
-                        {!! Form::close() !!}
+                        {{ html()->form()->close() }}
                     </td>
                 </tr>
             @endforeach

@@ -4,33 +4,43 @@
 
     @include('partials.titular', ['titular' => __('Edit organization')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
+            {{ html()->modelForm($organization, 'PUT', route('organizations.update', $organization->id))->open() }}
 
-            {!! Form::model($organization, ['route' => ['organizations.update', $organization->id], 'method' => 'PUT']) !!}
+            @include('components.label-text', [
+                'label' => __('Name'),
+                'name' => 'name',
+            ])
+            @include('components.label-text', [
+                'label' => __('Slug'),
+                'name' => 'slug',
+            ])
+            @include('components.label-check', [
+                'label' => __('Registration open'),
+                'name' => 'registration_open',
+            ])
+            @include('components.label-text', [
+                'label' => __('Available seats'),
+                'name' => 'seats',
+            ])
 
-            {{ Form::campoTexto('name', __('Name')) }}
-            {{ Form::campoTexto('slug', __('Slug')) }}
-
-            {{ Form::campoCheck('registration_open', __('Registration open')) }}
-            {{ Form::campoTexto('seats', __('Available seats')) }}
-
-            <div class="form-group row">
-                {!! Form::label('current_period_id', __('Current period'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
-                    <select class="form-control" id="current_period_id" name="current_period_id">
-                        <option value="">{{ __('--- None --- ') }}</option>
-                        @foreach($organization->periods as $period)
-                            <option value="{{ $period->id }}" <?php if ($organization->current_period_id == $period->id) echo 'selected'; ?>>{{ $period->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
+            @include('components.label-select', [
+                'label' => __('Current period'),
+                'name' => 'current_period_id',
+                'coleccion' => $organization->periods,
+                'opcion' => function ($period) use ($organization) {
+                    return html()->option($period->name,
+                        $period->id,
+                        old('current_period_id', $organization->current_period_id) == $period->id);
+                },
+                'default' => __('--- None --- '),
+            ])
 
             @include('partials.guardar_cancelar')
 
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->closeModelForm() }}
 
         </div>
     </div>
