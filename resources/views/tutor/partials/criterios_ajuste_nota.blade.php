@@ -1,4 +1,4 @@
-<p>
+<p class="card-text">
     {{ __('Proportional calification adjustment') }}:
     @php($ajuste_proporcional_nota = $milestone?->ajuste_proporcional_nota ?: $curso?->ajuste_proporcional_nota)
     @switch($ajuste_proporcional_nota)
@@ -12,7 +12,7 @@
             {{ __('Undefined') }}
     @endswitch
 </p>
-<p>
+<p class="card-text">
     {{ __('Normalize calification') }}:
     {{ $curso?->normalizar_nota || $milestone?->normalizar_nota ? __('Yes'): __('No') }}
 </p>

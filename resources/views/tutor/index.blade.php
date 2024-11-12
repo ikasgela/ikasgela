@@ -63,13 +63,15 @@
         </div>
     @endif
 
-    <div>
-        @include('tutor.partials.criterios_ajuste_nota')
+    <div class="card mb-3">
+        <div class="card-body">
+            @include('tutor.partials.criterios_ajuste_nota')
+        </div>
     </div>
 
     @include('tutor.partials.tabla_usuarios')
 
     <div>
-        <p class="text-center text-muted font-xs">{{ now()->isoFormat('L LT') }}</p>
+        <p class="text-center text-secondary small">{{ now()->isoFormat('L LT') }}</p>
     </div>
 @endsection
