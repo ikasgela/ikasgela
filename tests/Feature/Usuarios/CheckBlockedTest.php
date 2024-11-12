@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Usuarios;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class CheckBlockedTest extends TestCase
@@ -12,7 +13,7 @@ class CheckBlockedTest extends TestCase
         parent::crearUsuarios();
     }
 
-    /** @test */
+    #[Test]
     public function unblocked_user_can_login()
     {
         // Auth
@@ -28,7 +29,7 @@ class CheckBlockedTest extends TestCase
         $response->assertSuccessful()->assertSee(__('Desktop'));
     }
 
-    /** @test */
+    #[Test]
     public function blocked_user_cannot_login()
     {
         // Auth
