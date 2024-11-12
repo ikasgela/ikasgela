@@ -34,23 +34,27 @@
                                href="{{ route('categories.edit', [$category->id]) }}"
                                class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
 
-                            {!! Form::open(['route' => ['categories.destroy', $category->id], 'method' => 'DELETE']) !!}
+                            {{ html()->form('DELETE', route('categories.destroy', $category->id))->open() }}
                             @include('partials.boton_borrar')
-                            {!! Form::close() !!}
+                            {{ html()->form()->close() }}
                         </div>
                     </td>
                     <td>
-                        {!! Form::open(['route' => ['cursos.import'], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
-                        <div class="form-group form-inline">
-                            <span class="d-flex flex-column">
-                                <input type="file" name="file" id="file">
-                                <span class="help-block text-danger">{{ $errors->first('file') }}</span>
-                            </span>
-                            {!! Form::button('<i class="fas fa-spinner fa-spin" style="display:none;"></i> ' . __('Import course'),
-                                ['type' => 'submit', 'class' => 'btn btn-primary single_click' ]) !!}
+                        {{ html()->form('POST', route('cursos.import'))->acceptsFiles()->open() }}
+                        <div class="d-flex flex-column">
+                            <div class="row gx-0">
+                                <div class="col-auto">
+                                    {{ html()->file('file')->class("form-control") }}
+                                </div>
+                                <div class="col">
+                                    {{ html()->submit('<i class="fas fa-spinner fa-spin" style="display:none;"></i> ' . __('Import course'))
+                                                ->class('btn btn-primary single_click ms-3') }}
+                                </div>
+                            </div>
+                            <div class="help-block small text-danger">{{ $errors->first('file') }}</div>
                         </div>
-                        {!! Form::hidden('category_id', $category->id) !!}
-                        {!! Form::close() !!}
+                        {{ html()->hidden('category_id', $category->id) }}
+                        {{ html()->form()->close() }}
                     </td>
                 </tr>
             @endforeach
