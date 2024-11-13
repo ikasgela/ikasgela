@@ -5,9 +5,11 @@
     @include('partials.titular', ['titular' => __('Units')])
 
     @if(Auth::user()->hasAnyRole(['admin']))
-        {!! Form::open(['route' => ['unidades.index.filtro'], 'method' => 'POST']) !!}
-        @include('partials.desplegable_cursos')
-        {!! Form::close() !!}
+        <div class="mb-3">
+            {{ html()->form('POST', route('unidades.index.filtro'))->open() }}
+            @include('partials.desplegable_cursos')
+            {{ html()->form()->close() }}
+        </div>
     @endif
 
     <div class="mb-3">
@@ -43,16 +45,15 @@
                     </td>
                     <td class="text-center">@include('partials.check_yes_no', ['checked' => $unidad->visible])</td>
                     <td>
-                        <form method="POST" action="{{ route('unidades.destroy', [$unidad->id]) }}">
-                            @csrf
-                            @method('DELETE')
-                            <div class='btn-group'>
-                                <a title="{{ __('Edit') }}"
-                                   href="{{ route('unidades.edit', [$unidad->id]) }}"
-                                   class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                                @include('partials.boton_borrar')
-                            </div>
-                        </form>
+                        <div class='btn-group'>
+                            <a title="{{ __('Edit') }}"
+                               href="{{ route('unidades.edit', [$unidad->id]) }}"
+                               class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+
+                            {{ html()->form('DELETE', route('unidades.destroy', $unidad->id))->open() }}
+                            @include('partials.boton_borrar', ['last' => true])
+                            {{ html()->form()->close() }}
+                        </div>
                     </td>
                 </tr>
             @endforeach

@@ -4,60 +4,86 @@
 
     @include('partials.titular', ['titular' => __('Edit unit')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::model($unidad, ['route' => ['unidades.update', $unidad->id], 'method' => 'PUT']) !!}
+            {{ html()->modelForm($unidad, 'PUT', route('unidades.update', $unidad->id))->open() }}
 
-            <div class="form-group row">
-                {!! Form::label('curso_id', __('Course'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
-                    <select class="form-control" id="curso_id" name="curso_id">
-                        @foreach($cursos as $curso)
-                            <option
-                                value="{{ $curso->id }}" {{ $unidad->curso_id == $curso->id ? 'selected' : '' }}>
-                                {{ $curso->full_name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
+            @include('components.label-select', [
+                'label' => __('Course'),
+                'name' => 'curso_id',
+                'coleccion' => $cursos,
+                'opcion' => function ($curso) use ($unidad) {
+                        return html()->option($curso->full_name,
+                            $curso->id,
+                            old('curso_id', $unidad->curso_id) == $curso->id);
+                },
+            ])
 
-            {{ Form::campoTexto('codigo', __('Code')) }}
-            {{ Form::campoTexto('nombre', __('Name')) }}
-            {{ Form::campoTexto('descripcion', __('Description')) }}
-            {{ Form::campoTexto('slug', __('Slug')) }}
+            @include('components.label-text', [
+                'label' => __('Code'),
+                'name' => 'codigo',
+            ])
+            @include('components.label-text', [
+                'label' => __('Name'),
+                'name' => 'nombre',
+            ])
+            @include('components.label-text', [
+                'label' => __('Description'),
+                'name' => 'descripcion',
+            ])
+            @include('components.label-text', [
+                'label' => __('Slug'),
+                'name' => 'slug',
+            ])
 
-            <div class="form-group row">
-                {!! Form::label('qualification_id', __('Qualification'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
-                    <select class="form-control" id="qualification_id" name="qualification_id">
-                        <option value="">{{ __('--- None ---') }}</option>
-                        @foreach($qualifications as $qualification)
-                            <option
-                                value="{{ $qualification->id }}" {{ $unidad->qualification_id == $qualification->id ? 'selected' : '' }}>
-                                {{ $qualification->full_name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
+            @include('components.label-select', [
+                'label' => __('Qualification'),
+                'name' => 'qualification_id',
+                'coleccion' => $qualifications,
+                'opcion' => function ($qualification) use ($unidad) {
+                        return html()->option($qualification->full_name,
+                            $qualification->id,
+                            old('qualification_id', $unidad->qualification_id) == $qualification->id);
+                },
+                'default' => __('--- None ---'),
+            ])
 
-            {{ Form::campoTexto('orden', __('Order')) }}
-            {{ Form::campoTexto('tags', __('Tags')) }}
+            @include('components.label-text', [
+                'label' => __('Order'),
+                'name' => 'orden',
+            ])
+            @include('components.label-text', [
+                'label' => __('Tags'),
+                'name' => 'tags',
+            ])
 
-            {{ Form::campoTexto('fecha_disponibilidad', __('Availability date')) }}
-            {{ Form::campoTexto('fecha_entrega', __('Due date')) }}
-            {{ Form::campoTexto('fecha_limite', __('Deadline')) }}
+            @include('components.label-text', [
+                'label' => __('Availability date'),
+                'name' => 'fecha_disponibilidad',
+            ])
+            @include('components.label-text', [
+                'label' => __('Due date'),
+                'name' => 'fecha_entrega',
+            ])
+            @include('components.label-text', [
+                'label' => __('Deadline'),
+                'name' => 'fecha_limite',
+            ])
 
-            {{ Form::campoTexto('minimo_entregadas', __('Minimum percent')) }}
+            @include('components.label-text', [
+                'label' => __('Minimum percent'),
+                'name' => 'minimo_entregadas',
+            ])
 
-            {{ Form::campoCheck('visible', __('Visible')) }}
+            @include('components.label-check', [
+                'label' => __('Visible'),
+                'name' => 'visible',
+            ])
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->closeModelForm() }}
 
         </div>
     </div>

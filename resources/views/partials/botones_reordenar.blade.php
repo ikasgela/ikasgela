@@ -1,19 +1,19 @@
 <div class='btn-group'>
-    {!! Form::open(['route' => [$ruta, $ids[$loop->index], $ids[$loop->index-1] ?? -1], 'method' => 'POST']) !!}
+    {{ html()->form('POST', route($ruta, [$ids[$loop->index], $ids[$loop->index-1] ?? -1]))->open() }}
     <button title="{{ __('Up') }}"
             type="submit"
             {{ !isset($ids[$loop->index-1]) ? 'disabled' : '' }}
             class="btn btn-light btn-sm">
         <i class="fas fa-arrow-up"></i>
     </button>
-    {!! Form::close() !!}
+    {{ html()->form()->close() }}
 
-    {!! Form::open(['route' => [$ruta, $ids[$loop->index], $ids[$loop->index+1] ?? -1], 'method' => 'POST']) !!}
+    {{ html()->form('POST', route($ruta, [$ids[$loop->index], $ids[$loop->index+1] ?? -1]))->open() }}
     <button title="{{ __('Down') }}"
             type="submit"
             {{ !isset($ids[$loop->index+1]) ? 'disabled' : '' }}
             class="btn btn-light btn-sm ms-1">
         <i class="fas fa-arrow-down"></i>
     </button>
-    {!! Form::close() !!}
+    {{ html()->form()->close() }}
 </div>
