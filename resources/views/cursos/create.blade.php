@@ -2,71 +2,132 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('New course')])
+    @include('partials.titular', ['titular' => __('New course'), 'subtitulo' => ''])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::open(['route' => ['cursos.store']]) !!}
+            {{ html()->form('POST', route('cursos.store'))->open() }}
 
-            <div class="form-group row">
-                {!! Form::label('category_id', __('Category'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
-                    <select class="form-control" id="category_id" name="category_id">
-                        @foreach($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->full_name }}</option>
-                        @endforeach
-                    </select>
+            @include('components.label-select', [
+                'label' => __('Category'),
+                'name' => 'category_id',
+                'coleccion' => $categories,
+                'opcion' => function ($category) {
+                        return html()->option($category->full_name,
+                            $category->id,
+                            old('category_id') == $category->id);
+                },
+            ])
+
+            @include('components.label-text', [
+                'label' => __('Name'),
+                'name' => 'nombre',
+            ])
+            @include('components.label-text', [
+                'label' => __('Description'),
+                'name' => 'descripcion',
+            ])
+            @include('components.label-text', [
+                'label' => __('Slug'),
+                'name' => 'slug',
+            ])
+            @include('components.label-text', [
+                'label' => __('Tags'),
+                'name' => 'tags',
+            ])
+            @include('components.label-check', [
+                'label' => __('Open enrollment'),
+                'name' => 'matricula_abierta',
+            ])
+
+            @include('components.label-select', [
+                'label' => __('Qualification'),
+                'name' => 'qualification_id',
+                'default' => __('--- None ---'),
+                'disabled' => true,
+            ])
+
+            @include('components.label-text', [
+                'label' => __('Simultaneous activities'),
+                'name' => 'max_simultaneas',
+                'value' => 10,
+            ])
+            @include('components.label-text', [
+                'label' => __('Activity deadline'),
+                'name' => 'plazo_actividad',
+                'value' => 7,
+            ])
+
+            @include('components.label-text', [
+                'label' => __('Minimum completed percent'),
+                'name' => 'minimo_entregadas',
+                'value' => 80,
+            ])
+            @include('components.label-text', [
+                'label' => __('Minimum skills percent'),
+                'name' => 'minimo_competencias',
+                'value' => 50,
+            ])
+            @include('components.label-text', [
+                'label' => __('Minimum exams percent'),
+                'name' => 'minimo_examenes',
+                'value' => 50,
+            ])
+            @include('components.label-text', [
+                'label' => __('Minimum final exams percent'),
+                'name' => 'minimo_examenes_finales',
+                'value' => 50,
+            ])
+            @include('components.label-check', [
+                'label' => __('Mandatory exams'),
+                'name' => 'examenes_obligatorios',
+                'checked' => true,
+            ])
+            @include('components.label-text', [
+                'label' => __('Maximum recoverable percent'),
+                'name' => 'maximo_recuperable_examenes_finales',
+                'value' => 100,
+            ])
+
+            @include('components.label-text', [
+                'label' => __('Start date'),
+                'name' => 'fecha_inicio',
+            ])
+            @include('components.label-text', [
+                'label' => __('End date'),
+                'name' => 'fecha_fin',
+            ])
+
+            @include('components.label-check', [
+                'label' => __('Show course progress'),
+                'name' => 'progreso_visible',
+            ])
+            @include('components.label-check', [
+                'label' => __('Silence notifications'),
+                'name' => 'silence_notifications',
+            ])
+            @include('components.label-check', [
+                'label' => __('Normalize calification'),
+                'name' => 'normalizar_nota',
+            ])
+
+            <div class="row mb-3">
+                <div class="col-sm-2">
+                    {{ html()->label(__('Proportional calification adjustment'), 'ajuste_proporcional_nota')->class('col-form-label') }}
                 </div>
-            </div>
-
-            {{ Form::campoTexto('nombre', __('Name')) }}
-            {{ Form::campoTexto('descripcion', __('Description')) }}
-            {{ Form::campoTexto('slug', __('Slug')) }}
-            {{ Form::campoTexto('tags', __('Tags')) }}
-            {{ Form::campoCheck('matricula_abierta', __('Open enrollment')) }}
-
-            <div class="form-group row">
-                {!! Form::label('qualification_id', __('Qualification'), ['class' => 'col-sm-2 col-form-label']) !!}
                 <div class="col-sm-10">
-                    <select class="form-control" id="qualification_id" name="qualification_id" disabled>
-                        <option value="">{{ __('--- None ---') }}</option>
-                    </select>
-                </div>
-            </div>
-
-            {{ Form::campoTexto('max_simultaneas', __('Simultaneous activities'), 10) }}
-            {{ Form::campoTexto('plazo_actividad', __('Activity deadline'), 7) }}
-
-            {{ Form::campoTexto('minimo_entregadas', __('Minimum completed percent'), 80) }}
-            {{ Form::campoTexto('minimo_competencias', __('Minimum skills percent'), 50) }}
-            {{ Form::campoTexto('minimo_examenes', __('Minimum exams percent'), 50) }}
-            {{ Form::campoTexto('minimo_examenes_finales', __('Minimum final exams percent'), 50) }}
-            {{ Form::campoCheck('examenes_obligatorios', __('Mandatory exams')) }}
-            {{ Form::campoTexto('maximo_recuperable_examenes_finales', __('Maximum recoverable percent'), 100) }}
-
-            {{ Form::campoTexto('fecha_inicio', __('Start date')) }}
-            {{ Form::campoTexto('fecha_fin', __('End date')) }}
-
-            {{ Form::campoCheck('progreso_visible', __('Show course progress')) }}
-            {{ Form::campoCheck('silence_notifications', __('Silence notifications')) }}
-            {{ Form::campoCheck('normalizar_nota', __('Normalize calification')) }}
-
-            <div class="form-group row">
-                {!! Form::label('ajuste_proporcional_nota', __('Proportional calification adjustment'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
-                    <select class="form-control" id="ajuste_proporcional_nota" name="ajuste_proporcional_nota">
-                        <option value="">{{ __('--- None --- ') }}</option>
-                        <option value="media">{{ __('Average') }}</option>
-                        <option value="mediana">{{ __('Median') }}</option>
-                    </select>
+                    {{ html()->select('ajuste_proporcional_nota')->class('form-select')->open() }}
+                    {{ html()->option(__('--- None --- ')) }}
+                    {{ html()->option(__('Average'), 'media') }}
+                    {{ html()->option(__('Median'), 'mediana') }}
+                    {{ html()->select()->close() }}
                 </div>
             </div>
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
 
         </div>
     </div>

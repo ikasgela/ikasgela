@@ -77,23 +77,23 @@
                                href="{{ route('cursos.edit', [$curso->id]) }}"
                                class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
 
-                            {!! Form::open(['route' => ['cursos.export', [$curso->id]], 'method' => 'POST']) !!}
-                            {!! Form::button('<i class="fas fa-download"></i>', ['type' => 'submit',
-                                'class' => 'btn btn-light btn-sm', 'title' => __('Export course')
-                            ]) !!}
-                            {!! Form::close() !!}
+                            {{ html()->form('POST', route('cursos.export', $curso->id))->open() }}
+                            {{ html()->submit('<i class="fas fa-download"></i>')->class(['btn btn-light btn-sm', 'rounded-0'])->attribute('title', __('Export course')) }}
+                            {{ html()->form()->close() }}
 
-                            {!! Form::open(['route' => ['cursos.reset', [$curso->id]], 'method' => 'DELETE']) !!}
-                            <button title="{{ __('Reset course') }}"
-                                    name="reset"
-                                    type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
-                                    class="btn btn-light btn-sm"><i class="fas fa-power-off text-danger"></i>
-                            </button>
-                            {!! Form::close() !!}
+                            {{ html()->form('DELETE', route('cursos.reset', $curso->id))->open() }}
+                            {{ html()
+                                ->reset('<i class="fas fa-power-off text-danger"></i>')
+                                ->name('reset')
+                                ->class(['btn btn-light btn-sm', 'rounded-0'])
+                                ->attribute('title', __('Reset course'))
+                                ->attribute('onclick', "return confirm('" . __('Are you sure?') . "')")
+                            }}
+                            {{ html()->form()->close() }}
 
-                            {!! Form::open(['route' => ['cursos.destroy', [$curso->id]], 'method' => 'DELETE']) !!}
-                            @include('partials.boton_borrar')
-                            {!! Form::close() !!}
+                            {{ html()->form('DELETE', route('cursos.destroy', $curso->id))->open() }}
+                            @include('partials.boton_borrar', ['last' => true])
+                            {{ html()->form()->close() }}
                         </div>
                     </td>
                 </tr>
