@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card mb-3">
     <div class="card-header d-flex justify-content-between">
         <div><i class="fas fa-file me-2"></i>{{ __('Files') }}</div>
         <div>
@@ -42,9 +42,9 @@
                                 </td>
                                 <td class="text-center">
                                     <div class='btn-group'>
-                                        {!! Form::open(['route' => ['files.delete', $file->id], 'method' => 'DELETE']) !!}
+                                        {{ html()->form('DELETE', route('files.delete', $file->id))->open() }}
                                         @include('partials.boton_borrar')
-                                        {!! Form::close() !!}
+                                        {{ html()->form()->close() }}
                                     </div>
                                 </td>
                             @endif
@@ -61,8 +61,11 @@
             <form action="{{ route('files.upload.document') }}" enctype="multipart/form-data" method="post">
                 @csrf
                 <div class="form-group">
-                    {{ Form::campoTexto('description', __('Description')) }}
-                    <input type="file" name="file" id="file">
+                    @include('components.label-text', [
+                        'label' => __('Description'),
+                        'name' => 'description',
+                    ])
+                    <input type="file" class="form-control mb-3" name="file" id="file">
                     <input type="hidden" name="file_resource_id" value="{{ $file_resource->id }}">
                     <span class="help-block text-danger">{{ $errors->first('file') }}</span>
                 </div>
