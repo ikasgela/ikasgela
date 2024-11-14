@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card mb-3">
     <div class="card-header d-flex justify-content-between">
         <div><i class="fas fa-link me-2"></i>{{ __('Links') }}</div>
         <div>
@@ -35,9 +35,9 @@
                                 </td>
                                 <td class="text-center">
                                     <div class='btn-group'>
-                                        {!! Form::open(['route' => ['links.destroy', $link->id], 'method' => 'DELETE']) !!}
+                                        {{ html()->form('DELETE', route('links.destroy', $link->id))->open() }}
                                         @include('partials.boton_borrar')
-                                        {!! Form::close() !!}
+                                        {{ html()->form()->close() }}
                                     </div>
                                 </td>
                             @endif
@@ -51,19 +51,26 @@
     @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() == 'link_collections.show')
         <hr class="my-0">
         <div class="card-body">
-            {!! Form::open(['route' => ['links.store']]) !!}
+            {{ html()->form('POST', route('links.store'))->open() }}
 
-            {{ Form::campoTexto('url', __('URL'), '', ['placeholder' => 'https://ikasgela.com']) }}
-            {{ Form::campoTexto('descripcion', __('Description')) }}
-            {!! Form::hidden('link_collection_id', $link_collection->id) !!}
+            @include('components.label-text', [
+                'label' => __('URL'),
+                'name' => 'url',
+                'placeholder' => 'https://ikasgela.com',
+            ])
+            @include('components.label-text', [
+                'label' => __('Description'),
+                'name' => 'descripcion',
+            ])
+            {{ html()->hidden('link_collection_id', $link_collection->id) }}
 
-            <span class="help-block text-danger">{{ $errors->first('url') }}</span>
+            <div class="help-block text-danger mb-3">{{ $errors->first('url') }}</div>
 
             <button class="btn btn-primary single_click">
                 <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Add') }}
             </button>
 
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
         </div>
     @endif
 </div>
