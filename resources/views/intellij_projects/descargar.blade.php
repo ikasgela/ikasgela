@@ -19,11 +19,9 @@
                 <td>{{ Auth::user()->curso_actual()?->full_name }}</td>
                 <td>
                     <div class='btn-group'>
-                        {!! Form::open(['route' => ['intellij_projects.descargar.plantillas.curso'], 'method' => 'POST']) !!}
-                        {!! Form::button('<i class="fas fa-download text-danger"></i>', ['type' => 'submit',
-                            'class' => 'btn btn-light btn-sm ms-3', 'title' => __('Download template projects')
-                        ]) !!}
-                        {!! Form::close() !!}
+                        {{ html()->form('POST', route('intellij_projects.descargar.plantillas.curso'))->open() }}
+                        {{ html()->submit('<i class="fas fa-download text-danger"></i>')->class(['btn btn-light btn-sm'])->attribute('title', __('Download template projects')) }}
+                        {{ html()->form()->close() }}
                     </div>
                 </td>
             </tr>
@@ -52,19 +50,15 @@
                     </td>
                     <td>
                         <div class='btn-group'>
-                            {!! Form::open(['route' => ['intellij_projects.descargar.repos'], 'method' => 'POST']) !!}
-                            {!! Form::button('<i class="fas fa-download"></i>', ['type' => 'submit',
-                                'class' => 'btn btn-light btn-sm', 'title' => __('Download user projects')
-                            ]) !!}
-                            {!! Form::hidden('unidad_id',$unidad->id) !!}
-                            {!! Form::close() !!}
+                            {{ html()->form('POST', route('intellij_projects.descargar.repos'))->open() }}
+                            {{ html()->submit('<i class="fas fa-download"></i>')->class(['btn btn-light btn-sm', 'me-2'])->attribute('title', __('Download user projects')) }}
+                            {{ html()->hidden('unidad_id', $unidad->id) }}
+                            {{ html()->form()->close() }}
 
-                            {!! Form::open(['route' => ['intellij_projects.descargar.plantillas'], 'method' => 'POST']) !!}
-                            {!! Form::button('<i class="fas fa-download text-danger"></i>', ['type' => 'submit',
-                                'class' => 'btn btn-light btn-sm ms-3', 'title' => __('Download template projects')
-                            ]) !!}
-                            {!! Form::hidden('unidad_id',$unidad->id) !!}
-                            {!! Form::close() !!}
+                            {{ html()->form('POST', route('intellij_projects.descargar.plantillas'))->open() }}
+                            {{ html()->submit('<i class="fas fa-download text-danger"></i>')->class(['btn btn-light btn-sm'])->attribute('title', __('Download template projects')) }}
+                            {{ html()->hidden('unidad_id', $unidad->id) }}
+                            {{ html()->form()->close() }}
                         </div>
                     </td>
                 </tr>

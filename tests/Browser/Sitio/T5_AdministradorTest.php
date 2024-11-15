@@ -43,6 +43,16 @@ class T5_AdministradorTest extends DuskTestCase
         });
     }
 
+    public function testActividadesDescargar()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('intellij_projects.descargar'));
+            $browser->assertRouteIs('intellij_projects.descargar');
+            $browser->assertDontSee('Ignition');
+            $browser->assertSee(__('Download projects'));
+        });
+    }
+
     // Recursos
 
     public function testRecursosMarkdown()
