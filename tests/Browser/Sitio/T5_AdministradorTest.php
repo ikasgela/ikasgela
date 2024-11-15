@@ -21,6 +21,8 @@ class T5_AdministradorTest extends DuskTestCase
         });
     }
 
+    // Actividades
+
     public function testActividadesPlantillas()
     {
         $this->browse(function (Browser $browser) {
@@ -40,6 +42,20 @@ class T5_AdministradorTest extends DuskTestCase
             $browser->assertSee(__('Project cloner'));
         });
     }
+
+    // Recursos
+
+    public function testRecursosMarkdown()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('markdown_texts.index'));
+            $browser->assertRouteIs('markdown_texts.index');
+            $browser->assertDontSee('Ignition');
+            $browser->assertSee(__('Resources: Markdown texts'));
+        });
+    }
+
+    // Estructura
 
     public function testEstructuraOrganizaciones()
     {
@@ -101,6 +117,8 @@ class T5_AdministradorTest extends DuskTestCase
         });
     }
 
+    // Usuarios
+
     public function testUsuariosGrupos()
     {
         $this->browse(function (Browser $browser) {
@@ -140,6 +158,10 @@ class T5_AdministradorTest extends DuskTestCase
             $browser->assertSee(__('Roles'));
         });
     }
+
+    // Evaluación
+
+    // Registros
 
     public function testLogout()
     {

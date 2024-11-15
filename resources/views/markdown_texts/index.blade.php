@@ -5,9 +5,11 @@
     @include('partials.titular', ['titular' => __('Resources: Markdown texts')])
 
     @if(Auth::user()->hasAnyRole(['admin']))
-        {!! Form::open(['route' => ['markdown_texts.index.filtro'], 'method' => 'POST']) !!}
-        @include('partials.desplegable_cursos')
-        {!! Form::close() !!}
+        <div class="mb-3">
+            {{ html()->form('POST', route('markdown_texts.index.filtro'))->open() }}
+            @include('partials.desplegable_cursos')
+            {{ html()->form()->close() }}
+        </div>
     @endif
 
     <div class="mb-3">
@@ -45,12 +47,12 @@
                         <div class='btn-group'>
                             @include('partials.boton_mostrar', ['ruta' => 'markdown_texts', 'recurso' => $markdown_text])
                             @include('partials.boton_editar', ['ruta' => 'markdown_texts', 'recurso' => $markdown_text])
-                            {!! Form::open(['route' => ['markdown_texts.duplicar', $markdown_text->id], 'method' => 'POST']) !!}
+                            {{ html()->form('POST', route('markdown_texts.duplicar', $markdown_text->id))->open() }}
                             @include('partials.boton_duplicar')
-                            {!! Form::close() !!}
-                            {!! Form::open(['route' => ['markdown_texts.destroy', $markdown_text->id], 'method' => 'DELETE']) !!}
+                            {{ html()->form()->close() }}
+                            {{ html()->form('DELETE', route('markdown_texts.destroy', $markdown_text->id))->open() }}
                             @include('partials.boton_borrar')
-                            {!! Form::close() !!}
+                            {{ html()->form()->close() }}
                         </div>
                     </td>
                 </tr>

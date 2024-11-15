@@ -4,21 +4,37 @@
 
     @include('partials.titular', ['titular' => __('New markdown text')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::open(['route' => ['markdown_texts.store']]) !!}
+            {{ html()->form('POST', route('markdown_texts.store'))->open() }}
 
-            {{ Form::campoTexto('titulo', __('Title')) }}
-            {{ Form::campoTexto('descripcion', __('Description')) }}
-            {{ Form::campoTexto('repositorio', __('Repository')) }}
-            {{ Form::campoTexto('rama', __('Branch')) }}
-            {{ Form::campoTexto('archivo', __('File'), 'README.md') }}
+            @include('components.label-text', [
+                'label' => __('Title'),
+                'name' => 'titulo',
+            ])
+            @include('components.label-text', [
+                'label' => __('Description'),
+                'name' => 'descripcion',
+            ])
+            @include('components.label-text', [
+                'label' => __('Repository'),
+                'name' => 'repositorio',
+            ])
+            @include('components.label-text', [
+                'label' => __('Branch'),
+                'name' => 'rama',
+                'value' => 'master',
+            ])
+            @include('components.label-text', [
+                'label' => __('File'),
+                'name' => 'archivo',
+                'value' => 'README.md',
+            ])
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
 
         </div>
     </div>
