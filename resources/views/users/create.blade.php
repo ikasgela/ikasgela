@@ -30,6 +30,10 @@
                 'label' => __('Email'),
                 'name' => 'email',
             ])
+            @include('components.label-text', [
+                'label' => __('Email for Gravatar'),
+                'name' => 'gravatar_email',
+            ])
 
             @include('components.label-password', [
                 'label' => __('Password'),

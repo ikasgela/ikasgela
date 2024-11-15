@@ -35,6 +35,10 @@
                 'name' => 'email',
             ])
             @include('components.label-text', [
+                'label' => __('Email for Gravatar'),
+                'name' => 'gravatar_email',
+            ])
+            @include('components.label-text', [
                 'label' => __('Username'),
                 'name' => 'username',
             ])
