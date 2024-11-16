@@ -2,7 +2,7 @@
     {{ html()->label(__('User'), 'user')->class('form-label m-0') }}
     <div class="flex-fill mx-3">
         <select class="form-select" id="user_id" name="user_id">
-            <option value="-1">{{ __('--- None ---') }}</option>
+            <option value="-1">{{ __('--- None --- ') }}</option>
             @foreach($users as $user)
                 <option
                     value="{{ $user->id }}" {{ session('filtrar_user_actual') == $user->id ? 'selected' : '' }}>
