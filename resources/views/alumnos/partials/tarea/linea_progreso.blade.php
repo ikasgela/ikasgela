@@ -36,7 +36,7 @@
         @switch($actividad->tarea->estado)
             @case(10)
                 {{-- Nueva --}}
-                <li><span class="bubble"></span>{{ __('Accepted') }}</li>
+                <li><span class="bubble"></span>{{ trans_choice('tasks.accepted', 1) }}</li>
                 <li><span class="bubble"></span>{{ __('Submitted') }}</li>
                 <li><span class="bubble"></span>{{ __('Feedback available') }}</li>
                 <li><span class="bubble"></span>{{ __('Finished') }}</li>
@@ -45,14 +45,14 @@
                 {{-- Aceptada --}}
             @case(21)
                 {{-- Feedback leído --}}
-                <li class="completed"><span class="bubble"></span>{{ __('Accepted') }}</li>
+                <li class="completed"><span class="bubble"></span>{{ trans_choice('tasks.accepted', 1) }}</li>
                 <li><span class="bubble"></span>{{ __('Submitted') }}</li>
                 <li><span class="bubble"></span>{{ __('Feedback available') }}</li>
                 <li><span class="bubble"></span>{{ __('Finished') }}</li>
                 @break
             @case(30)
                 {{-- Enviada --}}
-                <li class="completed"><span class="bubble"></span>{{ __('Accepted') }}</li>
+                <li class="completed"><span class="bubble"></span>{{ trans_choice('tasks.accepted', 1) }}</li>
                 <li class="completed"><span class="bubble"></span>{{ __('Submitted') }}</li>
                 <li><span class="bubble"></span>{{ __('Feedback available') }}</li>
                 <li><span class="bubble"></span>{{ __('Finished') }}</li>
@@ -61,7 +61,7 @@
                 {{-- Revisada: OK --}}
             @case(41)
                 {{-- Revisada: ERROR --}}
-                <li class="completed"><span class="bubble"></span>{{ __('Accepted') }}</li>
+                <li class="completed"><span class="bubble"></span>{{ trans_choice('tasks.accepted', 1) }}</li>
                 <li class="completed"><span class="bubble"></span>{{ __('Submitted') }}</li>
                 <li class="completed"><span class="bubble"></span>{{ __('Feedback available') }}
                 </li>
@@ -71,7 +71,7 @@
                 {{-- Avance automático --}}
             @case(50)
                 {{-- Terminada --}}
-                <li class="completed"><span class="bubble"></span>{{ __('Accepted') }}</li>
+                <li class="completed"><span class="bubble"></span>{{ trans_choice('tasks.accepted', 1) }}</li>
                 <li class="completed"><span class="bubble"></span>{{ __('Submitted') }}</li>
                 <li class="completed"><span class="bubble"></span>{{ __('Feedback available') }}
                 </li>
