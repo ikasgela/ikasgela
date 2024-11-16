@@ -77,7 +77,7 @@
                         {{ html()->form('POST', route('users.limpiar_cache', [$user->id]))->open() }}
                         {{ html()->submit('<i class="fas fa-broom"></i>')
                                 ->attribute('title', __('Reload results'))
-                                ->class(['btn btn-sm btn-light', session('tutor_filtro_alumnos') == 'A' ? 'btn-secondary' : 'btn-outline-secondary']) }}
+                                ->class(['btn btn-sm btn-light']) }}
                         {{ html()->form()->close() }}
                     </td>
                 @endif
