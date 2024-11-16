@@ -68,4 +68,12 @@ class RuleGroupController extends Controller
 
         return back();
     }
+
+    public function duplicar(RuleGroup $rule_group)
+    {
+        $clon = $rule_group->duplicate();
+        $clon->save();
+
+        return back();
+    }
 }

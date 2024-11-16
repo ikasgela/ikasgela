@@ -4,27 +4,36 @@
 
     @include('partials.titular', ['titular' => __('New rule')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::open(['route' => ['rules.store']]) !!}
+            {{ html()->form('POST', route('rules.store'))->open() }}
 
-            <div class="form-group row">
-                {!! Form::label('rule_group_id', __('Rule group'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
-                    <input type="hidden" name="rule_group_id" value="{{ $rule_group->id }}"/>
-                    <label class="col-form-label">{{ $rule_group->id }}</label>
-                </div>
-            </div>
-
-            {{ Form::campoTexto('propiedad', __('Property'), '', ['placeholder' => 'puntuacion | intentos']) }}
-            {{ Form::campoTexto('operador', __('Operator'), '', ['placeholder' => '> | < | >= | <= | == | !=']) }}
-            {{ Form::campoTexto('valor', __('Value'), '', ['placeholder' => '100']) }}
+            @include('components.label-value', [
+                'label' => __('Rule group'),
+                'name' => 'rule_group_id',
+                'value' => $rule_group->id,
+                'hidden' => $rule_group->id,
+            ])
+            @include('components.label-text', [
+                'label' => __('Property'),
+                'name' => 'propiedad',
+                'placeholder' => 'puntuacion | intentos',
+            ])
+            @include('components.label-text', [
+                'label' => __('Operator'),
+                'name' => 'operador',
+                'placeholder' => '> | < | >= | <= | == | !=',
+            ])
+            @include('components.label-text', [
+                'label' => __('Value'),
+                'name' => 'valor',
+                'placeholder' => '100',
+            ])
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
 
         </div>
     </div>

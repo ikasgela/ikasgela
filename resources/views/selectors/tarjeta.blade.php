@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card mb-3">
     <div class="card-header d-flex justify-content-between">
         <div><i class="fas fa-code-branch me-2"></i>{{ __('Selector') }}</div>
         <div>
@@ -35,12 +35,11 @@
                             @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() == 'selectors.show')
                                 <td class="text-center">
                                     <div class='btn-group'>
-                                        <a title="{{ __('Edit') }}"
-                                           href="{{ route('rule_groups.edit', [$rule_group->id]) }}"
-                                           class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                                        {!! Form::open(['route' => ['rule_groups.destroy', $rule_group->id], 'method' => 'DELETE']) !!}
-                                        @include('partials.boton_borrar')
-                                        {!! Form::close() !!}
+                                        @include('partials.boton_editar', ['ruta' => 'rule_groups', 'recurso' => $rule_group])
+                                        @include('partials.boton_duplicar', ['ruta' => 'rule_groups.duplicar', 'id' => $rule_group->id, 'middle' => true])
+                                        {{ html()->form('DELETE', route('rule_groups.destroy', $rule_group->id))->open() }}
+                                        @include('partials.boton_borrar', ['last' => true])
+                                        {{ html()->form()->close() }}
                                     </div>
                                 </td>
                             @endif

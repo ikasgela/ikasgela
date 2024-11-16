@@ -66,4 +66,12 @@ class RuleController extends Controller
 
         return back();
     }
+
+    public function duplicar(Rule $rule)
+    {
+        $clon = $rule->duplicate();
+        $clon->save();
+
+        return back();
+    }
 }

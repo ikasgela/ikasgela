@@ -4,27 +4,37 @@
 
     @include('partials.titular', ['titular' => __('Edit rule')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::model($rule, ['route' => ['rules.update', $rule->id], 'method' => 'PUT']) !!}
+            {{ html()->modelForm($rule, 'PUT', route('rules.update', $rule->id))->open() }}
 
-            <div class="form-group row">
-                {!! Form::label('rule_group_id', __('Rule group'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
-                    <input type="hidden" name="rule_group_id" value="{{ $rule->rule_group->id }}"/>
-                    <label class="col-form-label">{{ $rule->rule_group->id }}</label>
-                </div>
-            </div>
+            @include('components.label-value', [
+                'label' => __('Rule group'),
+                'name' => 'rule_group_id',
+                'value' => $rule->rule_group->id,
+                'hidden' => $rule->rule_group->id,
+            ])
 
-            {{ Form::campoTexto('propiedad', __('Property'), $rule->propiedad, ['placeholder' => 'puntuacion | intentos']) }}
-            {{ Form::campoTexto('operador', __('Operator'), $rule->operador, ['placeholder' => '> | < | >= | <= | == | !=']) }}
-            {{ Form::campoTexto('valor', __('Value'), $rule->valor, ['placeholder' => '100']) }}
+            @include('components.label-text', [
+                'label' => __('Property'),
+                'name' => 'propiedad',
+                'placeholder' => 'puntuacion | intentos',
+            ])
+            @include('components.label-text', [
+                'label' => __('Operator'),
+                'name' => 'operador',
+                'placeholder' => '> | < | >= | <= | == | !=',
+            ])
+            @include('components.label-text', [
+                'label' => __('Value'),
+                'name' => 'valor',
+                'placeholder' => '100',
+            ])
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->closeModelForm() }}
 
         </div>
     </div>

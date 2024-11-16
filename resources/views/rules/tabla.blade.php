@@ -17,14 +17,13 @@
                 <td>{{ $rule->operador }}</td>
                 <td>{{ $rule->valor }}</td>
                 <td>
-                    {!! Form::open(['route' => ['rules.destroy', $rule->id], 'method' => 'DELETE']) !!}
                     <div class='btn-group'>
-                        <a title="{{ __('Edit') }}"
-                           href="{{ route('rules.edit', [$rule->id]) }}"
-                           class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                        @include('partials.boton_borrar')
+                        @include('partials.boton_editar', ['ruta' => 'rules', 'recurso' => $rule])
+                        @include('partials.boton_duplicar', ['ruta' => 'rules.duplicar', 'id' => $rule->id, 'middle' => true])
+                        {{ html()->form('DELETE', route('rules.destroy', $rule->id))->open() }}
+                        @include('partials.boton_borrar', ['last' => true])
+                        {{ html()->form()->close() }}
                     </div>
-                    {!! Form::close() !!}
                 </td>
             </tr>
         @endforeach
