@@ -5,9 +5,7 @@
     @include('partials.titular', ['titular' => __('Resources: IntelliJ projects')])
 
     @if(Auth::user()->hasAnyRole(['admin']))
-        {!! Form::open(['route' => ['intellij_projects.index.filtro'], 'method' => 'POST']) !!}
-        @include('partials.desplegable_cursos')
-        {!! Form::close() !!}
+        @include('partials.recursos.filtro_curso', ['ruta' => 'intellij_projects.index.filtro'])
     @endif
 
     <div class="mb-3">
@@ -40,12 +38,10 @@
                         <div class='btn-group'>
                             @include('partials.boton_mostrar', ['ruta' => 'intellij_projects', 'recurso' => $intellij_project])
                             @include('partials.boton_editar', ['ruta' => 'intellij_projects', 'recurso' => $intellij_project])
-                            {!! Form::open(['route' => ['intellij_projects.duplicar', $intellij_project->id], 'method' => 'POST']) !!}
-                            @include('partials.boton_duplicar')
-                            {!! Form::close() !!}
-                            {!! Form::open(['route' => ['intellij_projects.destroy', $intellij_project->id], 'method' => 'DELETE']) !!}
-                            @include('partials.boton_borrar')
-                            {!! Form::close() !!}
+                            @include('partials.boton_duplicar', ['ruta' => 'intellij_projects.duplicar', 'id' => $intellij_project->id, 'middle' => true])
+                            {{ html()->form('DELETE', route('intellij_projects.destroy', $intellij_project->id))->open() }}
+                            @include('partials.boton_borrar', ['last' => true])
+                            {{ html()->form()->close() }}
                         </div>
                     </td>
                 </tr>

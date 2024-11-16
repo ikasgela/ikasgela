@@ -115,6 +115,16 @@ class T5_AdministradorTest extends DuskTestCase
         });
     }
 
+    public function testRecursosIntellij()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('intellij_projects.index'));
+            $browser->assertRouteIs('intellij_projects.index');
+            $browser->assertDontSee('Ignition');
+            $browser->assertSee(__('Resources: IntelliJ projects'));
+        });
+    }
+
     // Estructura
 
     public function testEstructuraOrganizaciones()

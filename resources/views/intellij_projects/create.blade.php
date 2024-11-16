@@ -4,21 +4,37 @@
 
     @include('partials.titular', ['titular' => __('New IntelliJ project')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::open(['route' => ['intellij_projects.store']]) !!}
+            {{ html()->form('POST', route('intellij_projects.store'))->open() }}
 
-            {{ Form::campoTexto('titulo', __('Title')) }}
-            {{ Form::campoTexto('descripcion', __('Description')) }}
-            {{ Form::campoTexto('host', __('Host')) }}
-            {{ Form::campoTexto('open_with', __('Open with')) }}
-            {{ Form::campoTexto('repositorio', __('Repository')) }}
+            @include('components.label-text', [
+                'label' => __('Title'),
+                'name' => 'titulo',
+            ])
+            @include('components.label-text', [
+                'label' => __('Description'),
+                'name' => 'descripcion',
+            ])
+            @include('components.label-text', [
+                'label' => __('Host'),
+                'name' => 'host',
+                'value' => 'gitea',
+            ])
+            @include('components.label-text', [
+                'label' => __('Open with'),
+                'name' => 'open_with',
+            ])
+            @include('components.label-text', [
+                'label' => __('Repository'),
+                'name' => 'repositorio',
+                'placeholder' => 'root/programacion.plantillas.proyecto-intellij-java',
+            ])
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
 
         </div>
     </div>
