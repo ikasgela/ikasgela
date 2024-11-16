@@ -5,9 +5,7 @@
     @include('partials.titular', ['titular' => __('Resources: YouTube videos')])
 
     @if(Auth::user()->hasAnyRole(['admin']))
-        {!! Form::open(['route' => ['youtube_videos.index.filtro'], 'method' => 'POST']) !!}
-        @include('partials.desplegable_cursos')
-        {!! Form::close() !!}
+        @include('partials.recursos.filtro_curso', ['ruta' => 'youtube_videos.index.filtro'])
     @endif
 
     <div class="mb-3">
@@ -40,12 +38,10 @@
                         <div class='btn-group'>
                             @include('partials.boton_mostrar', ['ruta' => 'youtube_videos', 'recurso' => $youtube_video])
                             @include('partials.boton_editar', ['ruta' => 'youtube_videos', 'recurso' => $youtube_video])
-                            {!! Form::open(['route' => ['youtube_videos.duplicar', $youtube_video->id], 'method' => 'POST']) !!}
-                            @include('partials.boton_duplicar')
-                            {!! Form::close() !!}
-                            {!! Form::open(['route' => ['youtube_videos.destroy', $youtube_video->id], 'method' => 'DELETE']) !!}
+                            @include('partials.boton_duplicar', ['ruta' => 'youtube_videos.duplicar', 'id' => $youtube_video->id])
+                            {{ html()->form('DELETE', route('youtube_videos.destroy', $youtube_video->id))->open() }}
                             @include('partials.boton_borrar')
-                            {!! Form::close() !!}
+                            {{ html()->form()->close() }}
                         </div>
                     </td>
                 </tr>

@@ -5,11 +5,7 @@
     @include('partials.titular', ['titular' => __('Resources: Markdown texts')])
 
     @if(Auth::user()->hasAnyRole(['admin']))
-        <div class="mb-3">
-            {{ html()->form('POST', route('markdown_texts.index.filtro'))->open() }}
-            @include('partials.desplegable_cursos')
-            {{ html()->form()->close() }}
-        </div>
+        @include('partials.recursos.filtro_curso', ['ruta' => 'markdown_texts.index.filtro'])
     @endif
 
     <div class="mb-3">
@@ -47,9 +43,7 @@
                         <div class='btn-group'>
                             @include('partials.boton_mostrar', ['ruta' => 'markdown_texts', 'recurso' => $markdown_text])
                             @include('partials.boton_editar', ['ruta' => 'markdown_texts', 'recurso' => $markdown_text])
-                            {{ html()->form('POST', route('markdown_texts.duplicar', $markdown_text->id))->open() }}
-                            @include('partials.boton_duplicar')
-                            {{ html()->form()->close() }}
+                            @include('partials.boton_duplicar', ['ruta' => 'markdown_texts.duplicar', 'id' => $markdown_text->id])
                             {{ html()->form('DELETE', route('markdown_texts.destroy', $markdown_text->id))->open() }}
                             @include('partials.boton_borrar')
                             {{ html()->form()->close() }}
