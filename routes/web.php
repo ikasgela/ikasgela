@@ -23,10 +23,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
     Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->middleware(['honey'])->name('password.email');
     Route::post('password/reset', 'Auth\ResetPasswordController@reset')->middleware(['honey'])->name('password.update');
 
-    // Control de la barra lateral
-    Route::post('/settings/api', 'SettingController@api')
-        ->name('settings.api');
-
     // Mostrar las imágenes incrustadas
     Route::get('/tinymce_url', 'TinymceUploadController@getS3')->name('tinymce.upload.url');
 
@@ -59,12 +55,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         // Actualizar estado de una tarea
         Route::put('/actividades/{tarea}/estado', 'ActividadController@actualizarEstado')
             ->name('actividades.estado');
-
-        // Guardar ajustes
-        Route::get('/settings', 'SettingController@editar')
-            ->name('settings.editar');
-        Route::post('/settings', 'SettingController@guardar')
-            ->name('settings.guardar');
 
         // FileUpload
         Route::post('/upload_image', 'FileController@imageUpload')->name('files.upload.image');
