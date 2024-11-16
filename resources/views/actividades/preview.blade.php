@@ -17,7 +17,7 @@
         'texto' => trans('tutorial.vista_previa')
     ])
 
-    <div class="row mt-4">
+    <div class="row">
         <div class="col-md-12">
             {{-- Tarjeta --}}
             <div class="card tarea-card mb-3">

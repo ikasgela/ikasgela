@@ -57,7 +57,7 @@
         <div class="card-body pb-0">
             {{ html()->form('POST', route('intellij_projects.descargar'))->open() }}
             <div class="row mb-3">
-                <div class="col-sm-2 d-flex align-items-center">
+                <div class="col-sm-2 d-flex align-items-top">
                     {{ html()->label(__('Projects'), 'intellij_projects')->class('form-label') }}
                 </div>
                 <div class="col-sm-10">
