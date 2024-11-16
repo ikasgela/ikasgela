@@ -4,20 +4,22 @@
 
     @include('partials.titular', ['titular' => __('Manual calification')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
             <h2>{{ $user->full_name }}</h2>
             <p>{{ $curso->category->period->organization->name.' » '.$curso->category->period->name.' » '.$curso->nombre }}</p>
 
-            {!! Form::open(['route' => ['profesor.nota_manual.update', $user->id, $curso->id], 'method' => 'POST']) !!}
+            {{ html()->form('POST', route('profesor.nota_manual.update', ['user' => $user->id, 'curso' => $curso->id]))->open() }}
 
-            {{ Form::campoTexto('nota', __('Calification'), $nota) }}
+            @include('components.label-text', [
+                'label' => __('Calification'),
+                'name' => 'nota',
+            ])
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
 
         </div>
     </div>
