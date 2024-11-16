@@ -4,40 +4,54 @@
 
     @include('partials.titular', ['titular' => __('Edit milestone')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::model($milestone, ['route' => ['milestones.update', $milestone->id], 'method' => 'PUT']) !!}
+            {{ html()->modelForm($milestone, 'PUT', route('milestones.update', $milestone->id))->open() }}
 
-            {{ Form::hidden('curso_id', $milestone->curso->id) }}
+            {{ html()->hidden('curso_id', $milestone->curso->id) }}
 
-            {{ Form::campoTexto('name', __('Name')) }}
-            {{ Form::campoTexto('date', __('Date')) }}
-            {{ Form::campoCheck('published', __('Published')) }}
-            {{ Form::campoTexto('decimals', __('Decimals')) }}
-            {{ Form::campoCheck('truncate', __('Truncate')) }}
-            {{ Form::campoCheck('normalizar_nota', __('Normalize calification')) }}
+            @include('components.label-text', [
+                'label' => __('Name'),
+                'name' => 'name',
+            ])
+            @include('components.label-text', [
+                'label' => __('Date'),
+                'name' => 'date',
+            ])
+            @include('components.label-check', [
+                'label' => __('Published'),
+                'name' => 'published',
+            ])
+            @include('components.label-text', [
+                'label' => __('Decimals'),
+                'name' => 'decimals',
+            ])
+            @include('components.label-check', [
+                'label' => __('Truncate'),
+                'name' => 'truncate',
+            ])
+            @include('components.label-check', [
+                'label' => __('Normalize calification'),
+                'name' => 'normalizar_nota',
+            ])
 
-            <div class="form-group row">
-                {!! Form::label('ajuste_proporcional_nota', __('Proportional calification adjustment'), ['class' => 'col-sm-2 col-form-label']) !!}
+            <div class="row mb-3">
+                <div class="col-sm-2">
+                    {{ html()->label(__('Proportional calification adjustment'), 'ajuste_proporcional_nota')->class('col-form-label') }}
+                </div>
                 <div class="col-sm-10">
-                    <select class="form-control" id="ajuste_proporcional_nota" name="ajuste_proporcional_nota">
-                        <option value="">{{ __('--- None --- ') }}</option>
-                        <option value="media" {{ $milestone->ajuste_proporcional_nota == 'media' ? 'selected' : '' }}>
-                            {{ __('Average') }}
-                        </option>
-                        <option
-                            value="mediana" {{ $milestone->ajuste_proporcional_nota == 'mediana' ? 'selected' : '' }}>
-                            {{ __('Median') }}
-                        </option>
-                    </select>
+                    {{ html()->select('ajuste_proporcional_nota')->class('form-select')->open() }}
+                    {{ html()->option(__('--- None --- ')) }}
+                    {{ html()->option(__('Average'), 'media', old('ajuste_proporcional_nota', $milestone->ajuste_proporcional_nota) == 'media') }}
+                    {{ html()->option(__('Median'), 'mediana', old('ajuste_proporcional_nota', $milestone->ajuste_proporcional_nota) == 'mediana') }}
+                    {{ html()->select()->close() }}
                 </div>
             </div>
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->closeModelForm() }}
 
         </div>
     </div>

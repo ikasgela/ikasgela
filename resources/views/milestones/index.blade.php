@@ -48,14 +48,12 @@
                         @endswitch
                     </td>
                     <td class="text-nowrap">
-                        {!! Form::open(['route' => ['milestones.destroy', $milestone->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>
-                            <a title="{{ __('Edit') }}"
-                               href="{{ route('milestones.edit', [$milestone->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                            @include('partials.boton_borrar')
+                            @include('partials.boton_editar', ['ruta' => 'milestones', 'recurso' => $milestone])
+                            {{ html()->form('DELETE', route('milestones.destroy', $milestone->id))->open() }}
+                            @include('partials.boton_borrar', ['last' => true])
+                            {{ html()->form()->close() }}
                         </div>
-                        {!! Form::close() !!}
                     </td>
                 </tr>
             @endforeach
