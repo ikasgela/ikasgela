@@ -119,8 +119,8 @@
                 <div class="col-sm-10">
                     {{ html()->select('ajuste_proporcional_nota')->class('form-select')->open() }}
                     {{ html()->option(__('--- None --- ')) }}
-                    {{ html()->option(__('Average'), 'media') }}
-                    {{ html()->option(__('Median'), 'mediana') }}
+                    {{ html()->option(__('Average'), 'media', old('ajuste_proporcional_nota') == 'media') }}
+                    {{ html()->option(__('Median'), 'mediana', old('ajuste_proporcional_nota') == 'mediana') }}
                     {{ html()->select()->close() }}
                 </div>
             </div>
