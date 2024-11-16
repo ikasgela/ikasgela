@@ -11,6 +11,7 @@
 
             @include('components.label-value', [
                 'label' => __('Organization'),
+                'name' => 'organization',
                 'value' => organizacion(),
             ])
 
