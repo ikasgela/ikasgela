@@ -8,34 +8,36 @@
 
     @include('partials.titular', ['titular' => __('New activity feedback message')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::open(['route' => ['feedbacks.save']]) !!}
+            {{ html()->form('POST', route('feedbacks.save'))->open() }}
 
-            <div class="form-group row">
-                {!! Form::label('actividad_id', __('Activity'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
-                    {{ $actividad->full_name }}
+            @include('components.label-value', [
+                'label' => __('Activity'),
+                'name' => 'actividad_id',
+                'value' => $actividad->full_name,
+                'hidden' => $actividad->id,
+            ])
+
+            @include('components.label-text', [
+                'label' => __('Title'),
+                'name' => 'titulo',
+            ])
+
+            <div class="form-group row mb-3">
+                <div class="col-2">
+                    {{ html()->label(__('Message'), 'mensaje')->class('col-form-label') }}
                 </div>
-            </div>
-
-            {!! Form::hidden('actividad_id', $actividad->id) !!}
-
-            {{ Form::campoTexto('titulo', __('Title')) }}
-
-            <div class="form-group row">
-                {!! Form::label('mensaje', __('Message'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
+                <div class="col-10">
                     <textarea rows="25" class="form-control" id="mensaje"
-                              name="mensaje"></textarea>
+                              name="mensaje">{{ old('mensaje') }}</textarea>
                 </div>
             </div>
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
 
         </div>
     </div>

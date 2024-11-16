@@ -33,14 +33,12 @@
                         @include('partials.botones_reordenar', ['ruta' => 'feedbacks.reordenar'])
                     </td>
                     <td>
-                        {!! Form::open(['route' => ['feedbacks.destroy', $feedback->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>
-                            <a title="{{ __('Edit') }}"
-                               href="{{ route('feedbacks.edit', [$feedback->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                            @include('partials.boton_borrar')
+                            @include('partials.boton_editar', ['ruta' => 'feedbacks', 'recurso' => $feedback])
+                            {{ html()->form('DELETE', route('feedbacks.destroy', $feedback->id))->open() }}
+                            @include('partials.boton_borrar', ['last' => true])
+                            {{ html()->form()->close() }}
                         </div>
-                        {!! Form::close() !!}
                     </td>
                 </tr>
             @endforeach
@@ -73,14 +71,12 @@
                             @include('partials.botones_reordenar', ['ruta' => 'feedbacks.reordenar'])
                         </td>
                         <td>
-                            {!! Form::open(['route' => ['feedbacks.destroy', $feedback->id], 'method' => 'DELETE']) !!}
                             <div class='btn-group'>
-                                <a title="{{ __('Edit') }}"
-                                   href="{{ route('feedbacks.edit', [$feedback->id]) }}"
-                                   class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                                @include('partials.boton_borrar')
+                                @include('partials.boton_editar', ['ruta' => 'feedbacks', 'recurso' => $feedback])
+                                {{ html()->form('DELETE', route('feedbacks.destroy', $feedback->id))->open() }}
+                                @include('partials.boton_borrar', ['last' => true])
+                                {{ html()->form()->close() }}
                             </div>
-                            {!! Form::close() !!}
                         </td>
                     </tr>
                     @if($loop->last)

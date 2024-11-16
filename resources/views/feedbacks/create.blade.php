@@ -8,39 +8,40 @@
 
     @include('partials.titular', ['titular' => __('New course feedback message')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::open(['route' => ['feedbacks.store']]) !!}
+            {{ html()->form('POST', route('feedbacks.store'))->open() }}
 
-            <div class="form-group row">
-                {!! Form::label('comentable_id', __('Course'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
-                    <select class="form-control" id="comentable_id" name="comentable_id">
-                        @foreach($cursos as $curso)
-                            <option value="{{ $curso?->id }}" {{ $curso?->id == $curso_actual?->id ? 'selected' : '' }}>
-                                {{ $curso->category->period->organization->name }}
-                                - {{ $curso->category->period->name }} - {{ $curso->nombre }}
-                            </option>
-                        @endforeach
-                    </select>
+            @include('components.label-select', [
+                'label' => __('Course'),
+                'name' => 'comentable_id',
+                'coleccion' => $cursos,
+                'opcion' => function ($curso) use ($curso_actual){
+                        return html()->option($curso->full_name,
+                            $curso->id,
+                            old('curso_id', $curso_actual?->id) == $curso->id);
+                },
+            ])
+
+            @include('components.label-text', [
+                'label' => __('Title'),
+                'name' => 'titulo',
+            ])
+
+            <div class="form-group row mb-3">
+                <div class="col-2">
+                    {{ html()->label(__('Message'), 'mensaje')->class('col-form-label') }}
                 </div>
-            </div>
-
-            {{ Form::campoTexto('titulo', __('Title')) }}
-
-            <div class="form-group row">
-                {!! Form::label('mensaje', __('Message'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
+                <div class="col-10">
                     <textarea rows="25" class="form-control" id="mensaje"
-                              name="mensaje"></textarea>
+                              name="mensaje">{{ old('mensaje') }}</textarea>
                 </div>
             </div>
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
 
         </div>
     </div>

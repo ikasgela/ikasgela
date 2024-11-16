@@ -261,6 +261,16 @@ class T5_AdministradorTest extends DuskTestCase
         });
     }
 
+    public function testEvaluacionFeedback()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('feedbacks.index'));
+            $browser->assertRouteIs('feedbacks.index');
+            $browser->assertDontSee('Ignition');
+            $browser->assertSee(__('Feedback messages'));
+        });
+    }
+
     // Registros
 
     public function testRegistros()

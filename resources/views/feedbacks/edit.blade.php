@@ -8,33 +8,36 @@
 
     @include('partials.titular', ['titular' => __('Edit feedback message')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::model($feedback, ['route' => ['feedbacks.update', $feedback->id], 'method' => 'PUT']) !!}
+            {{ html()->modelForm($feedback, 'PUT', route('feedbacks.update', $feedback->id))->open() }}
 
-            {{ Form::campoTexto('curso_actividad',
-                is_a($feedback->comentable, 'App\Models\Curso') ? __('Course') : __('Activity'),
-                is_a($feedback->comentable, 'App\Models\Curso')
-                ? $feedback->comentable->category->period->organization->name.' - '.$feedback->comentable->category->period->name.' - '.$feedback->comentable->nombre
-                : $feedback->comentable->unidad->curso->category->period->organization->name.' - '.$feedback->comentable->unidad->curso->category->period->name.' - '.$feedback->comentable->unidad->curso->nombre
-                , ['readonly'])
-                }}
-            {{ Form::hidden('comentable_id',$feedback->comentable_id) }}
-            {{ Form::campoTexto('titulo', __('Title')) }}
+            @include('components.label-value', [
+                'label' => is_a($feedback->comentable, 'App\Models\Curso') ? __('Course') : __('Activity'),
+                'name' => 'comentable_id',
+                'value' => $feedback->comentable->full_name,
+                'hidden' => $feedback->comentable_id,
+            ])
 
-            <div class="form-group row">
-                {!! Form::label('mensaje', __('Message'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
+            @include('components.label-text', [
+                'label' => __('Title'),
+                'name' => 'titulo',
+            ])
+
+            <div class="form-group row mb-3">
+                <div class="col-2">
+                    {{ html()->label(__('Message'), 'mensaje')->class('col-form-label') }}
+                </div>
+                <div class="col-10">
                     <textarea rows="25" class="form-control" id="mensaje"
-                              name="mensaje">{!! $feedback->mensaje !!}</textarea>
+                              name="mensaje">{!! old('mensaje', $feedback->mensaje) !!}</textarea>
                 </div>
             </div>
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->closeModelForm() }}
 
         </div>
     </div>
