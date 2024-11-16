@@ -5,7 +5,7 @@ $respondidas = $cuestionario->preguntas()->where('respondida', true)->count();
 $en_blanco = $total - $respondidas;
 ?>
 
-<div class="card">
+<div class="card mb-3">
     <div class="card-header d-flex justify-content-between">
         <div><i class="fas fa-question-circle me-2"></i>{{ $cuestionario->titulo }}</div>
         <div>

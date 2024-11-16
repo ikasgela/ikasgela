@@ -95,6 +95,16 @@ class T5_AdministradorTest extends DuskTestCase
         });
     }
 
+    public function testRecursosCuestionarios()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('cuestionarios.index'));
+            $browser->assertRouteIs('cuestionarios.index');
+            $browser->assertDontSee('Ignition');
+            $browser->assertSee(__('Questionnaires'));
+        });
+    }
+
     // Estructura
 
     public function testEstructuraOrganizaciones()

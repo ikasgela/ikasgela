@@ -4,20 +4,32 @@
 
     @include('partials.titular', ['titular' => __('New questionnaire')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::open(['route' => ['cuestionarios.store']]) !!}
+            {{ html()->form('POST', route('cuestionarios.store'))->open() }}
 
-            {{ Form::campoTexto('titulo', __('Title')) }}
-            {{ Form::campoTexto('descripcion', __('Description')) }}
-            {{ Form::campoCheck('plantilla', __('Template'), true) }}
-            {{ Form::campoCheck('respondido', __('Answered')) }}
+            @include('components.label-text', [
+                'label' => __('Title'),
+                'name' => 'titulo',
+            ])
+            @include('components.label-text', [
+                'label' => __('Description'),
+                'name' => 'descripcion',
+            ])
+            @include('components.label-check', [
+                'label' => __('Template'),
+                'name' => 'plantilla',
+                'checked' => true,
+            ])
+            @include('components.label-check', [
+                'label' => __('Answered'),
+                'name' => 'respondido',
+            ])
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
 
         </div>
     </div>

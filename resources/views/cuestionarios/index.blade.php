@@ -5,9 +5,7 @@
     @include('partials.titular', ['titular' => __('Questionnaires')])
 
     @if(Auth::user()->hasAnyRole(['admin']))
-        {!! Form::open(['route' => ['cuestionarios.index.filtro'], 'method' => 'POST']) !!}
-        @include('partials.desplegable_cursos')
-        {!! Form::close() !!}
+        @include('partials.recursos.filtro_curso', ['ruta' => 'cuestionarios.index.filtro'])
     @endif
 
     <div class="mb-3">
@@ -38,12 +36,10 @@
                         <div class='btn-group'>
                             @include('partials.boton_mostrar', ['ruta' => 'cuestionarios', 'recurso' => $cuestionario])
                             @include('partials.boton_editar', ['ruta' => 'cuestionarios', 'recurso' => $cuestionario])
-                            {!! Form::open(['route' => ['cuestionarios.duplicar', $cuestionario->id], 'method' => 'POST']) !!}
-                            @include('partials.boton_duplicar')
-                            {!! Form::close() !!}
-                            {!! Form::open(['route' => ['cuestionarios.destroy', $cuestionario->id], 'method' => 'DELETE']) !!}
-                            @include('partials.boton_borrar')
-                            {!! Form::close() !!}
+                            @include('partials.boton_duplicar', ['ruta' => 'cuestionarios.duplicar', 'id' => $cuestionario->id, 'middle' => true])
+                            {{ html()->form('DELETE', route('cuestionarios.destroy', $cuestionario->id))->open() }}
+                            @include('partials.boton_borrar', ['last' => true])
+                            {{ html()->form()->close() }}
                         </div>
                     </td>
                 </tr>

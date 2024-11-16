@@ -21,9 +21,7 @@ class ItemController extends Controller
 
     public function create()
     {
-        $preguntas = Pregunta::orderBy('titulo')->get();
-
-        return view('items.create', compact('preguntas'));
+        abort(404);
     }
 
     public function store(Request $request)
@@ -99,6 +97,15 @@ class ItemController extends Controller
 
         $a1->save();
         $a2->save();
+
+        return back();
+    }
+
+    public function duplicar(Item $item)
+    {
+        $clon = $item->duplicate();
+        $clon->texto = $clon->texto . " (" . __("Copy") . ')';
+        $clon->save();
 
         return back();
     }

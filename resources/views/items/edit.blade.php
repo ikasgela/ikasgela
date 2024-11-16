@@ -4,32 +4,45 @@
 
     @include('partials.titular', ['titular' => __('Edit item')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::model($item, ['route' => ['items.update', $item->id], 'method' => 'PUT']) !!}
+            {{ html()->modelForm($item, 'PUT', route('items.update', $item->id))->open() }}
 
-            <div class="form-group row">
-                {!! Form::label('pregunta_id', __('Question'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
-                    <select class="form-control" id="pregunta_id" name="pregunta_id">
-                        @foreach($preguntas as $pregunta)
-                            <option value="{{ $pregunta->id }}" <?php if ($item->pregunta_id == $pregunta->id) echo 'selected'; ?>>{{ $pregunta->titulo }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-
-            {{ Form::campoTexto('texto', __('Text')) }}
-            {{ Form::campoCheck('correcto', __('Correct')) }}
-            {{ Form::campoCheck('seleccionado', __('Selected')) }}
-            {{ Form::campoTexto('feedback', __('Feedback')) }}
-            {{ Form::campoTexto('orden', __('Order')) }}
+            @include('components.label-select', [
+                'label' => __('Question'),
+                'name' => 'pregunta_id',
+                'coleccion' => $preguntas,
+                'opcion' => function ($pregunta) use ($item) {
+                        return html()->option($pregunta->titulo,
+                            $pregunta->id,
+                            old('pregunta_id', $item->pregunta_id) == $pregunta->id);
+                },
+            ])
+            @include('components.label-text', [
+                'label' => __('Text'),
+                'name' => 'texto',
+            ])
+            @include('components.label-check', [
+                'label' => __('Correct'),
+                'name' => 'correcto',
+            ])
+            @include('components.label-check', [
+                'label' => __('Selected'),
+                'name' => 'seleccionado',
+            ])
+            @include('components.label-text', [
+                'label' => __('Feedback'),
+                'name' => 'feedback',
+            ])
+            @include('components.label-text', [
+                'label' => __('Order'),
+                'name' => 'orden',
+            ])
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->closeModelForm() }}
 
         </div>
     </div>

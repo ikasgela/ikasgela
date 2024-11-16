@@ -21,9 +21,7 @@ class PreguntaController extends Controller
 
     public function create()
     {
-        $cuestionarios = Cuestionario::orderBy('titulo')->get();
-
-        return view('preguntas.create', compact('cuestionarios'));
+        abort(404);
     }
 
     public function store(Request $request)
@@ -108,6 +106,15 @@ class PreguntaController extends Controller
 
         $a1->save();
         $a2->save();
+
+        return back();
+    }
+
+    public function duplicar(Pregunta $pregunta)
+    {
+        $clon = $pregunta->duplicate();
+        $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
+        $clon->save();
 
         return back();
     }

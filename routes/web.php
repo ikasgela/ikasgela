@@ -281,14 +281,20 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('cuestionarios.asociar');
             Route::delete('/cuestionarios/{actividad}/desasociar/{cuestionario}', 'CuestionarioController@desasociar')
                 ->name('cuestionarios.desasociar');
+
             Route::resource('preguntas', 'PreguntaController');
             Route::get('/preguntas/{cuestionario}/anyadir', 'PreguntaController@anyadir')
                 ->name('preguntas.anyadir');
             Route::resource('items', 'ItemController');
             Route::get('/items/{pregunta}/anyadir', 'ItemController@anyadir')
                 ->name('items.anyadir');
+
             Route::post('/cuestionarios/{cuestionario}/duplicar', 'CuestionarioController@duplicar')
                 ->name('cuestionarios.duplicar');
+            Route::post('/preguntas/{pregunta}/duplicar', 'PreguntaController@duplicar')
+                ->name('preguntas.duplicar');
+            Route::post('/items/{item}/duplicar', 'ItemController@duplicar')
+                ->name('items.duplicar');
 
             // FileUpload
             Route::resource('file_uploads', 'FileUploadController');

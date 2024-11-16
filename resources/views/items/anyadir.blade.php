@@ -4,29 +4,41 @@
 
     @include('partials.titular', ['titular' => __('New item')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::open(['route' => ['items.store']]) !!}
+            {{ html()->form('POST', route('items.store'))->open() }}
 
-            <div class="form-group row">
-                {!! Form::label('pregunta_id', __('Question'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
-                    <input type="hidden" name="pregunta_id" value="{{ $pregunta->id }}"/>
-                    <label class="col-form-label">{{ $pregunta->titulo }}</label>
-                </div>
-            </div>
-
-            {{ Form::campoTexto('texto', __('Text')) }}
-            {{ Form::campoCheck('correcto', __('Correct')) }}
-            {{ Form::campoCheck('seleccionado', __('Selected')) }}
-            {{ Form::campoTexto('feedback', __('Feedback')) }}
-            {{ Form::campoTexto('orden', __('Order')) }}
+            @include('components.label-value', [
+                'label' => __('Question'),
+                'name' => 'pregunta_id',
+                'value' => $pregunta->titulo,
+                'hidden' => $pregunta->id,
+            ])
+            @include('components.label-text', [
+                'label' => __('Text'),
+                'name' => 'texto',
+            ])
+            @include('components.label-check', [
+                'label' => __('Correct'),
+                'name' => 'correcto',
+            ])
+            @include('components.label-check', [
+                'label' => __('Selected'),
+                'name' => 'seleccionado',
+            ])
+            @include('components.label-text', [
+                'label' => __('Feedback'),
+                'name' => 'feedback',
+            ])
+            @include('components.label-text', [
+                'label' => __('Order'),
+                'name' => 'orden',
+            ])
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
 
         </div>
     </div>

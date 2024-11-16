@@ -27,14 +27,13 @@
                     @include('partials.botones_reordenar', ['ruta' => 'preguntas.reordenar'])
                 </td>
                 <td>
-                    {!! Form::open(['route' => ['preguntas.destroy', $pregunta->id], 'method' => 'DELETE']) !!}
                     <div class='btn-group'>
-                        <a title="{{ __('Edit') }}"
-                           href="{{ route('preguntas.edit', [$pregunta->id]) }}"
-                           class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                        @include('partials.boton_borrar')
+                        @include('partials.boton_editar', ['ruta' => 'preguntas', 'recurso' => $pregunta])
+                        @include('partials.boton_duplicar', ['ruta' => 'preguntas.duplicar', 'id' => $pregunta->id, 'middle' => true])
+                        {{ html()->form('DELETE', route('preguntas.destroy', $pregunta->id))->open() }}
+                        @include('partials.boton_borrar', ['last' => true])
+                        {{ html()->form()->close() }}
                     </div>
-                    {!! Form::close() !!}
                 </td>
             </tr>
         @endforeach

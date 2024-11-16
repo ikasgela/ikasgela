@@ -23,14 +23,13 @@
                     @include('partials.botones_reordenar', ['ruta' => 'items.reordenar'])
                 </td>
                 <td>
-                    {!! Form::open(['route' => ['items.destroy', $item->id], 'method' => 'DELETE']) !!}
                     <div class='btn-group'>
-                        <a title="{{ __('Edit') }}"
-                           href="{{ route('items.edit', [$item->id]) }}"
-                           class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                        @include('partials.boton_borrar')
+                        @include('partials.boton_editar', ['ruta' => 'items', 'recurso' => $item])
+                        @include('partials.boton_duplicar', ['ruta' => 'items.duplicar', 'id' => $item->id, 'middle' => true])
+                        {{ html()->form('DELETE', route('items.destroy', $item->id))->open() }}
+                        @include('partials.boton_borrar', ['last' => true])
+                        {{ html()->form()->close() }}
                     </div>
-                    {!! Form::close() !!}
                 </td>
             </tr>
         @endforeach

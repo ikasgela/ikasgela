@@ -4,20 +4,31 @@
 
     @include('partials.titular', ['titular' => __('Edit questionnaire')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::model($cuestionario, ['route' => ['cuestionarios.update', $cuestionario->id], 'method' => 'PUT']) !!}
+            {{ html()->modelForm($cuestionario, 'PUT', route('cuestionarios.update', $cuestionario->id))->open() }}
 
-            {{ Form::campoTexto('titulo', __('Title')) }}
-            {{ Form::campoTexto('descripcion', __('Description')) }}
-            {{ Form::campoCheck('plantilla', __('Template')) }}
-            {{ Form::campoCheck('respondido', __('Answered')) }}
+            @include('components.label-text', [
+                'label' => __('Title'),
+                'name' => 'titulo',
+            ])
+            @include('components.label-text', [
+                'label' => __('Description'),
+                'name' => 'descripcion',
+            ])
+            @include('components.label-check', [
+                'label' => __('Template'),
+                'name' => 'plantilla',
+            ])
+            @include('components.label-check', [
+                'label' => __('Answered'),
+                'name' => 'respondido',
+            ])
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->closeModelForm() }}
 
         </div>
     </div>
@@ -26,6 +37,7 @@
 
     @include('preguntas.tabla')
 
-    <a class="btn btn-primary" href="{{ route('preguntas.anyadir', $cuestionario) }}">{{ __('Add question') }}</a>
-
+    <div class="mb-3">
+        <a class="btn btn-primary" href="{{ route('preguntas.anyadir', $cuestionario) }}">{{ __('Add question') }}</a>
+    </div>
 @endsection
