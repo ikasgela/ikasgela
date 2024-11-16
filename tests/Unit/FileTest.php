@@ -6,6 +6,7 @@ use App\Models\File;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Schema;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class FileTest extends TestCase
@@ -17,7 +18,7 @@ class FileTest extends TestCase
         parent::setUp();
     }
 
-    /** @test */
+    #[Test]
     public function files_table_has_expected_columns()
     {
         // Auth
@@ -32,7 +33,7 @@ class FileTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function a_file_belongs_to_a_user()
     {
         // Auth

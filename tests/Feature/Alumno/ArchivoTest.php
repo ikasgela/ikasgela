@@ -4,6 +4,7 @@ namespace Tests\Feature\Alumno;
 
 use App\Models\Actividad;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ArchivoTest extends TestCase

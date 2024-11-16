@@ -19,10 +19,13 @@ class AllowedAppFactory extends Factory
     {
         return [
             'title' => fake()->word(),
+            'os' => fake()->numberBetween(0, 2),
             'executable' => fake()->word(),
             'path' => fake()->word(),
+            'identifier' => fake()->word(),
             'show_icon' => fake()->boolean(),
             'force_close' => fake()->boolean(),
+            'disabled' => fake()->boolean(),
             'safe_exam_id' => SafeExam::factory()->create(),
         ];
     }

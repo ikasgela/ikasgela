@@ -16,8 +16,6 @@ class AllowedAppControllerTest extends TestCase
 
     private $required = [
         'title' => 'word',
-        'executable' => 'word',
-        'path' => 'word',
     ];
 
     public function setUp(): void
