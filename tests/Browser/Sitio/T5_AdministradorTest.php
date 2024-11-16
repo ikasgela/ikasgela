@@ -243,6 +243,16 @@ class T5_AdministradorTest extends DuskTestCase
 
     // Registros
 
+    public function testRegistros()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('registros.index'));
+            $browser->assertRouteIs('registros.index');
+            $browser->assertDontSee('Ignition');
+            $browser->assertSee(__('Records'));
+        });
+    }
+
     public function testLogout()
     {
         $this->browse(function (Browser $browser) {

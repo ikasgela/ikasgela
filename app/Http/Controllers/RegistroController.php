@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Curso;
 use App\Models\Registro;
-use App\Traits\PaginarUltima;
 use App\Models\User;
+use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
 
 class RegistroController extends Controller
@@ -71,8 +71,6 @@ class RegistroController extends Controller
 
     public function destroy(Registro $registro)
     {
-        $registro->delete();
-
-        return back();
+        abort('404');
     }
 }

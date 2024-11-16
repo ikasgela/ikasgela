@@ -214,10 +214,10 @@ class RegistrosCRUDTest extends TestCase
         $registro = Registro::factory()->create();
 
         // When
-        $this->delete(route('registros.destroy', $registro));
+        $response = $this->delete(route('registros.destroy', $registro));
 
         // Then
-        $this->assertDatabaseMissing('registros', $registro->toArray());
+        $response->assertNotFound();
     }
 
     public function testNotAdminNotDelete()

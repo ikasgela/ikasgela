@@ -6,9 +6,9 @@
 
     @if(Auth::user()->hasAnyRole(['admin']))
         <div class="mb-3">
-            {!! Form::open(['route' => ['registros_alumno.alumno'], 'method' => 'POST']) !!}
+            {{ html()->form('POST', route('registros_alumno.alumno'))->open() }}
             @include('partials.desplegable_usuarios')
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
         </div>
     @endif
 
@@ -33,73 +33,82 @@
                     <td>{{ $registro->estado }}</td>
                     <td>
                         @switch($registro->estado)
-                            @case(10)   {{-- Nueva --}}
-                            Nueva
-                            @break
-                            @case(11)   {{-- Oculta --}}
-                            Oculta
-                            @break
-                            @case(20)   {{-- Aceptada --}}
-                            Aceptada
-                            @break
-                            @case(21)   {{-- Feedback leído --}}
-                            Feedback leído
-                            @break
-                            @case(30)   {{-- Enviada --}}
-                            Enviada
-                            @break
-                            @case(31)   {{-- Reiniciada --}}
-                            Reiniciada
-                            @break
-                            @case(32)   {{-- Reabierta --}}
-                            Reabierta
-                            @break
-                            @case(40)   {{-- Revisada: OK --}}
-                            Revisada: OK
-                            @break;
-                            @case(41)   {{-- Revisada: ERROR --}}
-                            Revisada: ERROR
-                            @break;
-                            @case(42)   {{-- Avance automático --}}
-                            Avance automático
-                            @break;
-                            @case(50)   {{-- Terminada --}}
-                            Terminada
-                            @break
-                            @case(60)   {{-- Archivada --}}
-                            Archivada
-                            @break
-                            @case(61)   {{-- Borrada --}}
-                            Borrada
-                            @break
-                            @case(62)   {{-- Caducada --}}
-                            Caducada
-                            @break
-                            @case(63)   {{-- Reabierta --}}
-                            Reabierta
-                            @break
-                            @case(64)   {{-- Avance automático y archivada --}}
-                            Avance automático y archivada
-                            @break
-                            @case(70)   {{-- En pausa --}}
-                            En pausa
-                            @break
-                            @case(71)   {{-- Mostrar siguiente --}}
-                            Mostrar siguiente
-                            @break
+                            @case(10)
+                                {{-- Nueva --}}
+                                Nueva
+                                @break
+                            @case(11)
+                                {{-- Oculta --}}
+                                Oculta
+                                @break
+                            @case(20)
+                                {{-- Aceptada --}}
+                                Aceptada
+                                @break
+                            @case(21)
+                                {{-- Feedback leído --}}
+                                Feedback leído
+                                @break
+                            @case(30)
+                                {{-- Enviada --}}
+                                Enviada
+                                @break
+                            @case(31)
+                                {{-- Reiniciada --}}
+                                Reiniciada
+                                @break
+                            @case(32)
+                                {{-- Reabierta --}}
+                                Reabierta
+                                @break
+                            @case(40)
+                                {{-- Revisada: OK --}}
+                                Revisada: OK
+                                @break;
+                            @case(41)
+                                {{-- Revisada: ERROR --}}
+                                Revisada: ERROR
+                                @break;
+                            @case(42)
+                                {{-- Avance automático --}}
+                                Avance automático
+                                @break;
+                            @case(50)
+                                {{-- Terminada --}}
+                                Terminada
+                                @break
+                            @case(60)
+                                {{-- Archivada --}}
+                                Archivada
+                                @break
+                            @case(61)
+                                {{-- Borrada --}}
+                                Borrada
+                                @break
+                            @case(62)
+                                {{-- Caducada --}}
+                                Caducada
+                                @break
+                            @case(63)
+                                {{-- Reabierta --}}
+                                Reabierta
+                                @break
+                            @case(64)
+                                {{-- Avance automático y archivada --}}
+                                Avance automático y archivada
+                                @break
+                            @case(70)
+                                {{-- En pausa --}}
+                                En pausa
+                                @break
+                            @case(71)
+                                {{-- Mostrar siguiente --}}
+                                Mostrar siguiente
+                                @break
                             @default
                         @endswitch
                     </td>
                     <td>{{ Carbon\Carbon::parse($registro->timestamp)->isoFormat('L HH:mm:ss') }}</td>
-                    {{--
-                                        <td>
-                                            {!! Form::open(['route' => ['registros.destroy', $registro->id], 'method' => 'DELETE']) !!}
-                                            <div class='btn-group'>
-                                                @include('partials.boton_borrar')
-                                            </div>
-                                            {!! Form::close() !!}
-                                        </td>
-                    --}}
                 </tr>
             @endforeach
             </tbody>
