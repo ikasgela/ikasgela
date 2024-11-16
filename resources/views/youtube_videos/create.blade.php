@@ -7,16 +7,24 @@
     <div class="card">
         <div class="card-body">
 
-            {!! Form::open(['route' => ['youtube_videos.store']]) !!}
+            {{ html()->form('POST', route('youtube_videos.store'))->open() }}
 
-            {{ Form::campoTexto('titulo', __('Title')) }}
-            {{ Form::campoTexto('descripcion', __('Description')) }}
-            {{ Form::campoTexto('codigo', __('Code')) }}
+            @include('components.label-text', [
+                'label' => __('Title'),
+                'name' => 'titulo',
+            ])
+            @include('components.label-text', [
+                'label' => __('Description'),
+                'name' => 'descripcion',
+            ])
+            @include('components.label-text', [
+                'label' => __('Code'),
+                'name' => 'codigo',
+            ])
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
 
         </div>
     </div>

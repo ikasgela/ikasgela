@@ -65,6 +65,16 @@ class T5_AdministradorTest extends DuskTestCase
         });
     }
 
+    public function testRecursosYoutube()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('youtube_videos.index'));
+            $browser->assertRouteIs('youtube_videos.index');
+            $browser->assertDontSee('Ignition');
+            $browser->assertSee(__('Resources: YouTube videos'));
+        });
+    }
+
     // Estructura
 
     public function testEstructuraOrganizaciones()

@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card mb-3">
     <div class="card-header d-flex justify-content-between">
         <div><i class="fab fa-youtube me-2"></i>{{ __('Video') }}</div>
         <div>

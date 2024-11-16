@@ -7,20 +7,33 @@
     <div class="card">
         <div class="card-body">
 
-            {!! Form::model($youtube_video, ['route' => ['youtube_videos.update', $youtube_video->id], 'method' => 'PUT']) !!}
+            {{ html()->modelForm($youtube_video, 'PUT', route('youtube_videos.update', $youtube_video->id))->open() }}
 
-            {{ Form::campoTexto('titulo', __('Title')) }}
-            {{ Form::campoTexto('descripcion', __('Description')) }}
-            {{ Form::campoTexto('codigo', __('Code')) }}
+            @include('components.label-text', [
+                'label' => __('Title'),
+                'name' => 'titulo',
+            ])
+            @include('components.label-text', [
+                'label' => __('Description'),
+                'name' => 'descripcion',
+            ])
+            @include('components.label-text', [
+                'label' => __('Code'),
+                'name' => 'codigo',
+            ])
 
             @if(isset($youtube_video->codigo))
-                {{ Form::campoLabelUrl('url', __('URL'), $youtube_video->codigo) }}
+                @include('components.label-link', [
+                    'label' => __('URL'),
+                    'link' => $youtube_video->codigo,
+                    'value' => $youtube_video->codigo,
+                    'target' => '_blank',
+                ])
             @endif
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->closeModelForm() }}
 
         </div>
     </div>

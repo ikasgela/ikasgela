@@ -35,6 +35,7 @@
                     'label' => __('URL'),
                     'link' => $repositorio['web_url'],
                     'value' => $repositorio['web_url'],
+                    'target' => '_blank',
                 ])
             @endif
 
