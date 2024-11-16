@@ -4,18 +4,23 @@
 
     @include('partials.titular', ['titular' => __('New link collection')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::open(['route' => ['link_collections.store']]) !!}
+            {{ html()->form('POST', route('link_collections.store'))->open() }}
 
-            {{ Form::campoTexto('titulo', __('Title')) }}
-            {{ Form::campoTexto('descripcion', __('Description')) }}
+            @include('components.label-text', [
+                'label' => __('Title'),
+                'name' => 'titulo',
+            ])
+            @include('components.label-text', [
+                'label' => __('Description'),
+                'name' => 'descripcion',
+            ])
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
 
         </div>
     </div>

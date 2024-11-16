@@ -5,9 +5,7 @@
     @include('partials.titular', ['titular' => __('Resources: Link collections')])
 
     @if(Auth::user()->hasAnyRole(['admin']))
-        {!! Form::open(['route' => ['link_collections.index.filtro'], 'method' => 'POST']) !!}
-        @include('partials.desplegable_cursos')
-        {!! Form::close() !!}
+        @include('partials.recursos.filtro_curso', ['ruta' => 'link_collections.index.filtro'])
     @endif
 
     <div class="mb-3">
@@ -34,12 +32,10 @@
                         <div class='btn-group'>
                             @include('partials.boton_mostrar', ['ruta' => 'link_collections', 'recurso' => $link_collection])
                             @include('partials.boton_editar', ['ruta' => 'link_collections', 'recurso' => $link_collection])
-                            {!! Form::open(['route' => ['link_collections.duplicar', $link_collection->id], 'method' => 'POST']) !!}
-                            @include('partials.boton_duplicar')
-                            {!! Form::close() !!}
-                            {!! Form::open(['route' => ['link_collections.destroy', $link_collection->id], 'method' => 'DELETE']) !!}
+                            @include('partials.boton_duplicar', ['ruta' => 'link_collections.duplicar', 'id' => $link_collection->id])
+                            {{ html()->form('DELETE', route('link_collections.destroy', $link_collection->id))->open() }}
                             @include('partials.boton_borrar')
-                            {!! Form::close() !!}
+                            {{ html()->form()->close() }}
                         </div>
                     </td>
                 </tr>
