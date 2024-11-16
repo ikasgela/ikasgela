@@ -46,7 +46,9 @@
                     <td>{{ $unidad->codigo }}</td>
 
                     <td>
-                        @include('unidades.partials.nombre_con_etiquetas')
+                        <div class="d-flex align-items-center">
+                            @include('unidades.partials.nombre_con_etiquetas')
+                        </div>
                     </td>
                     <td>
                         <div class='btn-group'>

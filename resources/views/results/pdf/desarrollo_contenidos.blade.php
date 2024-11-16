@@ -1,3 +1,4 @@
+@use(Illuminate\Support\Str)
 @include('partials.subtitulo', ['subtitulo' => __('Content development')])
 
 <table class="tabla-datos">
@@ -12,9 +13,9 @@
 
         <tr>
             <td>
-                @isset($unidad->codigo)
+                @if(Str::length($unidad->codigo) > 0)
                     {{ $unidad->codigo }} -
-                @endisset
+                @endif
                 @include('unidades.partials.nombre_con_etiquetas', ['pdf' => true])
             </td>
             @if($unidad->hasEtiquetas(['examen','final']) && !$calificaciones->examen_final)

@@ -1,12 +1,13 @@
+@use(Illuminate\Support\Str)
 @include('partials.subtitulo', ['subtitulo' => __('Content development')])
 
 <div class="card mb-3">
     <div class="card-body">
         @foreach ($unidades as $unidad)
             <h5 class="card-title">
-                @isset($unidad->codigo)
+                @if(Str::length($unidad->codigo) > 0)
                     {{ $unidad->codigo }} -
-                @endisset
+                @endif
                 @include('unidades.partials.nombre_con_etiquetas')
             </h5>
             <p class="ms-5">{{ $unidad->descripcion }}</p>

@@ -1,3 +1,4 @@
+@use(Illuminate\Support\Str)
 @include('partials.subtitulo', ['subtitulo' => __('Completed activities')])
 
 @if($unidades->count() > 0)
@@ -18,9 +19,9 @@
                 @if(!$unidad->hasEtiqueta('examen'))
                     <tr>
                         <td class="align-middle">
-                            @isset($unidad->codigo)
+                            @if(Str::length($unidad->codigo) > 0)
                                 {{ $unidad->codigo }} -
-                            @endisset
+                            @endif
                             @include('unidades.partials.nombre_con_etiquetas')
                         </td>
                         <td class="align-middle text-center {{ $unidad->num_actividades('base') > 0 ? $user->num_completadas('base', $unidad->id, $milestone) < $unidad->num_actividades('base') * $curso?->minimo_entregadas / 100 ? 'bg-warning text-dark' : 'bg-success' : '' }}">

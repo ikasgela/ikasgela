@@ -1,3 +1,4 @@
+@use(Illuminate\Support\Str)
 <h2>{{ __('Completed activities') }}</h2>
 
 @if($unidades->count() > 0)
@@ -12,9 +13,9 @@
             @if(!$unidad->hasEtiqueta('examen'))
                 <tr>
                     <td>
-                        @isset($unidad->codigo)
+                        @if(Str::length($unidad->codigo) > 0)
                             {{ $unidad->codigo }} -
-                        @endisset
+                        @endif
                         @include('unidades.partials.nombre_con_etiquetas')
                     </td>
                     <td class="text-center {{ $unidad->num_actividades('base') > 0 ? $user->num_completadas('base', $unidad->id, $milestone) < $unidad->num_actividades('base') * $curso?->minimo_entregadas / 100 ? 'bg-warning text-dark' : 'bg-success' : '' }}">
