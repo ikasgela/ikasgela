@@ -4,20 +4,33 @@
 
     @include('partials.titular', ['titular' => __('New image upload')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::open(['route' => ['file_uploads.store']]) !!}
+            {{ html()->form('POST', route('file_uploads.store'))->open() }}
 
-            {{ Form::campoTexto('titulo', __('Title')) }}
-            {{ Form::campoTexto('descripcion', __('Description')) }}
-            {{ Form::campoTexto('max_files', __('Maximum'), 1) }}
-            {{ Form::campoCheck('plantilla', __('Template'), true) }}
+            @include('components.label-text', [
+                'label' => __('Title'),
+                'name' => 'titulo',
+            ])
+            @include('components.label-text', [
+                'label' => __('Description'),
+                'name' => 'descripcion',
+            ])
+            @include('components.label-text', [
+                'label' => __('Maximum'),
+                'name' => 'max_files',
+                'value' => 1,
+            ])
+            @include('components.label-check', [
+                'label' => __('Template'),
+                'name' => 'plantilla',
+                'checked' => true,
+            ])
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
 
         </div>
     </div>

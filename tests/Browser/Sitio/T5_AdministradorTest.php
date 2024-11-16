@@ -105,6 +105,16 @@ class T5_AdministradorTest extends DuskTestCase
         });
     }
 
+    public function testRecursosImagenes()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('file_uploads.index'));
+            $browser->assertRouteIs('file_uploads.index');
+            $browser->assertDontSee('Ignition');
+            $browser->assertSee(__('Resources: Image uploads'));
+        });
+    }
+
     // Estructura
 
     public function testEstructuraOrganizaciones()

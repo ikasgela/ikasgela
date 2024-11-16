@@ -5,9 +5,7 @@
     @include('partials.titular', ['titular' => __('Resources: Image uploads')])
 
     @if(Auth::user()->hasAnyRole(['admin']))
-        {!! Form::open(['route' => ['file_uploads.index.filtro'], 'method' => 'POST']) !!}
-        @include('partials.desplegable_cursos')
-        {!! Form::close() !!}
+        @include('partials.recursos.filtro_curso', ['ruta' => 'file_uploads.index.filtro'])
     @endif
 
     <div class="mb-3">
@@ -38,12 +36,10 @@
                         <div class='btn-group'>
                             @include('partials.boton_mostrar', ['ruta' => 'file_uploads', 'recurso' => $file_upload])
                             @include('partials.boton_editar', ['ruta' => 'file_uploads', 'recurso' => $file_upload])
-                            {!! Form::open(['route' => ['file_uploads.duplicar', $file_upload->id], 'method' => 'POST']) !!}
-                            @include('partials.boton_duplicar')
-                            {!! Form::close() !!}
-                            {!! Form::open(['route' => ['file_uploads.destroy', $file_upload->id], 'method' => 'DELETE']) !!}
-                            @include('partials.boton_borrar')
-                            {!! Form::close() !!}
+                            @include('partials.boton_duplicar', ['ruta' => 'file_uploads.duplicar', 'id' => $file_upload->id, 'middle' => true])
+                            {{ html()->form('DELETE', route('file_uploads.destroy', $file_upload->id))->open() }}
+                            @include('partials.boton_borrar', ['last' => true])
+                            {{ html()->form()->close() }}
                         </div>
                     </td>
                 </tr>

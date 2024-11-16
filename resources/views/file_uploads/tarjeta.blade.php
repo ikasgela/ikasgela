@@ -3,7 +3,7 @@
     <script src="{{ asset('/js/jquery.fancybox.min.js') }}" defer></script>
 @endsection
 
-<div class="card">
+<div class="card mb-3">
     <div class="card-header d-flex justify-content-between">
         <div><i class="fas fa-file-upload me-2"></i>{{ __('Image upload') }}</div>
         <div>

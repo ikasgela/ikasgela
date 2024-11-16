@@ -4,20 +4,31 @@
 
     @include('partials.titular', ['titular' => __('Edit image upload')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::model($file_upload, ['route' => ['file_uploads.update', $file_upload->id], 'method' => 'PUT']) !!}
+            {{ html()->modelForm($file_upload, 'PUT', route('file_uploads.update', $file_upload->id))->open() }}
 
-            {{ Form::campoTexto('titulo', __('Title')) }}
-            {{ Form::campoTexto('descripcion', __('Description')) }}
-            {{ Form::campoTexto('max_files', __('Maximum')) }}
-            {{ Form::campoCheck('plantilla', __('Template')) }}
+            @include('components.label-text', [
+                'label' => __('Title'),
+                'name' => 'titulo',
+            ])
+            @include('components.label-text', [
+                'label' => __('Description'),
+                'name' => 'descripcion',
+            ])
+            @include('components.label-text', [
+                'label' => __('Maximum'),
+                'name' => 'max_files',
+            ])
+            @include('components.label-check', [
+                'label' => __('Template'),
+                'name' => 'plantilla',
+            ])
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->closeModelForm() }}
 
         </div>
     </div>
