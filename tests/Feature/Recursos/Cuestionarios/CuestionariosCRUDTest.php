@@ -53,10 +53,10 @@ class CuestionariosCRUDTest extends TestCase
         $response->assertDontSee($cuestionario->titulo);
     }
 
-    public function testNotProfesorNotIndex()
+    public function testNotAdminProfesorNotIndex()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         // When
@@ -90,10 +90,10 @@ class CuestionariosCRUDTest extends TestCase
         $response->assertSuccessful()->assertSeeInOrder([__('New questionnaire'), __('Save')]);
     }
 
-    public function testNotProfesorNotCreate()
+    public function testNotAdminProfesorNotCreate()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         // When
@@ -146,10 +146,10 @@ class CuestionariosCRUDTest extends TestCase
         $response->assertLocation(route('cuestionarios.edit', $guardado));
     }
 
-    public function testNotProfesorNotStore()
+    public function testNotAdminProfesorNotStore()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $cuestionario = Cuestionario::factory()->make();
@@ -231,10 +231,10 @@ class CuestionariosCRUDTest extends TestCase
         $response->assertSuccessful()->assertSeeInOrder([__('Questionnaire'), $cuestionario->titulo]);
     }
 
-    public function testNotProfesorNotShow()
+    public function testNotAdminProfesorNotShow()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $cuestionario = Cuestionario::factory()->create();
@@ -273,10 +273,10 @@ class CuestionariosCRUDTest extends TestCase
         $response->assertSuccessful()->assertSeeInOrder([$cuestionario->titulo, __('Save')]);
     }
 
-    public function testNotProfesorNotEdit()
+    public function testNotAdminProfesorNotEdit()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $cuestionario = Cuestionario::factory()->create();
@@ -317,10 +317,10 @@ class CuestionariosCRUDTest extends TestCase
         $this->assertDatabaseHas('cuestionarios', ['id' => $cuestionario->id, 'titulo' => $cuestionario->titulo]);
     }
 
-    public function testNotProfesorNotUpdate()
+    public function testNotAdminProfesorNotUpdate()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $cuestionario = Cuestionario::factory()->create();
@@ -404,10 +404,10 @@ class CuestionariosCRUDTest extends TestCase
         $this->assertDatabaseMissing('cuestionarios', $cuestionario->toArray());
     }
 
-    public function testNotProfesorNotDelete()
+    public function testNotAdminProfesorNotDelete()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $cuestionario = Cuestionario::factory()->create();

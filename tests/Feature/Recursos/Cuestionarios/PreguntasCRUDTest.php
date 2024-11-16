@@ -35,10 +35,10 @@ class PreguntasCRUDTest extends TestCase
         $response->assertStatus(404);
     }
 
-    public function testNotProfesorNotIndex()
+    public function testNotAdminProfesorNotIndex()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         // When
@@ -69,7 +69,7 @@ class PreguntasCRUDTest extends TestCase
         $response = $this->get(route('preguntas.create'));
 
         // Then
-        $response->assertSuccessful()->assertSeeInOrder([__('New question'), __('Save')]);
+        $response->assertStatus(404);
     }
 
     public function testNotProfesorNotCreate()

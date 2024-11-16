@@ -50,10 +50,10 @@ class YoutubeVideosCRUDTest extends TestCase
         $response->assertSuccessful()->assertSee($youtube_video->titulo);
     }
 
-    public function testNotProfesorNotIndex()
+    public function testNotAdminProfesorNotIndex()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         // When
@@ -87,10 +87,10 @@ class YoutubeVideosCRUDTest extends TestCase
         $response->assertSuccessful()->assertSeeInOrder([__('New YouTube video'), __('Save')]);
     }
 
-    public function testNotProfesorNotCreate()
+    public function testNotAdminProfesorNotCreate()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         // When
@@ -127,10 +127,10 @@ class YoutubeVideosCRUDTest extends TestCase
         $this->assertCount($total + 1, YoutubeVideo::all());
     }
 
-    public function testNotProfesorNotStore()
+    public function testNotAdminProfesorNotStore()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $youtube_video = YoutubeVideo::factory()->make();
@@ -212,10 +212,10 @@ class YoutubeVideosCRUDTest extends TestCase
         $response->assertSuccessful()->assertSeeInOrder([__('YouTube video'), $youtube_video->titulo]);
     }
 
-    public function testNotProfesorNotShow()
+    public function testNotAdminProfesorNotShow()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $youtube_video = YoutubeVideo::factory()->create();
@@ -255,10 +255,10 @@ class YoutubeVideosCRUDTest extends TestCase
         $response->assertSuccessful()->assertSeeInOrder([$youtube_video->titulo, $youtube_video->slug, __('Save')]);
     }
 
-    public function testNotProfesorNotEdit()
+    public function testNotAdminProfesorNotEdit()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $youtube_video = YoutubeVideo::factory()->create();
@@ -299,10 +299,10 @@ class YoutubeVideosCRUDTest extends TestCase
         $this->assertDatabaseHas('youtube_videos', ['id' => $youtube_video->id, 'titulo' => $youtube_video->titulo]);
     }
 
-    public function testNotProfesorNotUpdate()
+    public function testNotAdminProfesorNotUpdate()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $youtube_video = YoutubeVideo::factory()->create();
@@ -386,10 +386,10 @@ class YoutubeVideosCRUDTest extends TestCase
         $this->assertDatabaseMissing('youtube_videos', $youtube_video->toArray());
     }
 
-    public function testNotProfesorNotDelete()
+    public function testNotAdminProfesorNotDelete()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $youtube_video = YoutubeVideo::factory()->create();

@@ -50,10 +50,10 @@ class IntellijProjectsCRUDTest extends TestCase
         $response->assertSuccessful()->assertSee($intellij_project->repositorio);
     }
 
-    public function testNotProfesorNotIndex()
+    public function testNotAdminProfesorNotIndex()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         // When
@@ -87,10 +87,10 @@ class IntellijProjectsCRUDTest extends TestCase
         $response->assertSuccessful()->assertSeeInOrder([__('New IntelliJ project'), __('Save')]);
     }
 
-    public function testNotProfesorNotCreate()
+    public function testNotAdminProfesorNotCreate()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         // When
@@ -127,10 +127,10 @@ class IntellijProjectsCRUDTest extends TestCase
         $this->assertCount($total + 1, IntellijProject::all());
     }
 
-    public function testNotProfesorNotStore()
+    public function testNotAdminProfesorNotStore()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $intellij_project = IntellijProject::factory()->make();
@@ -212,10 +212,10 @@ class IntellijProjectsCRUDTest extends TestCase
         $response->assertSuccessful()->assertSeeInOrder([__('IntelliJ project'), $intellij_project->titulo]);
     }
 
-    public function testNotProfesorNotShow()
+    public function testNotAdminProfesorNotShow()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $intellij_project = IntellijProject::factory()->create();
@@ -255,10 +255,10 @@ class IntellijProjectsCRUDTest extends TestCase
         $response->assertSuccessful()->assertSeeInOrder([$intellij_project->repositorio, $intellij_project->slug, __('Save')]);
     }
 
-    public function testNotProfesorNotEdit()
+    public function testNotAdminProfesorNotEdit()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $intellij_project = IntellijProject::factory()->create();
@@ -299,10 +299,10 @@ class IntellijProjectsCRUDTest extends TestCase
         $this->assertDatabaseHas('intellij_projects', ['id' => $intellij_project->id, 'repositorio' => $intellij_project->repositorio]);
     }
 
-    public function testNotProfesorNotUpdate()
+    public function testNotAdminProfesorNotUpdate()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $intellij_project = IntellijProject::factory()->create();
@@ -386,10 +386,10 @@ class IntellijProjectsCRUDTest extends TestCase
         $this->assertDatabaseMissing('intellij_projects', $intellij_project->toArray());
     }
 
-    public function testNotProfesorNotDelete()
+    public function testNotAdminProfesorNotDelete()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $intellij_project = IntellijProject::factory()->create();

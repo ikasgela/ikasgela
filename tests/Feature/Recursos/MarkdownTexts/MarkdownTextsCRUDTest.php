@@ -50,10 +50,10 @@ class MarkdownTextsCRUDTest extends TestCase
         $response->assertSuccessful()->assertSee($markdown_text->titulo);
     }
 
-    public function testNotProfesorNotIndex()
+    public function testNotAdminProfesorNotIndex()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         // When
@@ -87,10 +87,10 @@ class MarkdownTextsCRUDTest extends TestCase
         $response->assertSuccessful()->assertSeeInOrder([__('New markdown text'), __('Save')]);
     }
 
-    public function testNotProfesorNotCreate()
+    public function testNotAdminProfesorNotCreate()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         // When
@@ -127,10 +127,10 @@ class MarkdownTextsCRUDTest extends TestCase
         $this->assertEquals($total + 1, MarkdownText::all()->count());
     }
 
-    public function testNotProfesorNotStore()
+    public function testNotAdminProfesorNotStore()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $markdown_text = MarkdownText::factory()->make();
@@ -212,10 +212,10 @@ class MarkdownTextsCRUDTest extends TestCase
         $response->assertSuccessful()->assertSeeInOrder([__('Markdown text'), $markdown_text->titulo]);
     }
 
-    public function testNotProfesorNotShow()
+    public function testNotAdminProfesorNotShow()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $markdown_text = MarkdownText::factory()->create();
@@ -254,10 +254,10 @@ class MarkdownTextsCRUDTest extends TestCase
         $response->assertSuccessful()->assertSeeInOrder([$markdown_text->titulo, __('Save')]);
     }
 
-    public function testNotProfesorNotEdit()
+    public function testNotAdminProfesorNotEdit()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $markdown_text = MarkdownText::factory()->create();
@@ -298,10 +298,10 @@ class MarkdownTextsCRUDTest extends TestCase
         $this->assertDatabaseHas('markdown_texts', ['id' => $markdown_text->id, 'titulo' => $markdown_text->titulo]);
     }
 
-    public function testNotProfesorNotUpdate()
+    public function testNotAdminProfesorNotUpdate()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $markdown_text = MarkdownText::factory()->create();
@@ -385,10 +385,10 @@ class MarkdownTextsCRUDTest extends TestCase
         $this->assertDatabaseMissing('markdown_texts', $markdown_text->toArray());
     }
 
-    public function testNotProfesorNotDelete()
+    public function testNotAdminProfesorNotDelete()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $markdown_text = MarkdownText::factory()->create();

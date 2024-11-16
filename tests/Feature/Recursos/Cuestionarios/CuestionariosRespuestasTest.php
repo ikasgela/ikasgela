@@ -5,6 +5,7 @@ namespace Tests\Feature\Recursos\Cuestionarios;
 use App\Models\Cuestionario;
 use App\Models\Item;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class CuestionariosRespuestasTest extends TestCase
@@ -17,7 +18,7 @@ class CuestionariosRespuestasTest extends TestCase
         parent::crearUsuarios();
     }
 
-    /** @test */
+    #[Test]
     public function cuestionario_has_respuestas()
     {
         // Auth
@@ -33,7 +34,7 @@ class CuestionariosRespuestasTest extends TestCase
         $response->assertSessionHasErrors('respuestas');
     }
 
-    /** @test */
+    #[Test]
     public function respuesta_correcta_seleccionada()
     {
         // Auth
@@ -59,7 +60,7 @@ class CuestionariosRespuestasTest extends TestCase
         $response->assertSuccessful()->assertSeeInOrder(['valid-feedback', 'Feedback OK']);
     }
 
-    /** @test */
+    #[Test]
     public function respuesta_incorrecta_seleccionada()
     {
         // Auth
@@ -85,7 +86,7 @@ class CuestionariosRespuestasTest extends TestCase
         $response->assertSuccessful()->assertSeeInOrder(['invalid-feedback', 'Feedback ERROR']);
     }
 
-    /** @test */
+    #[Test]
     public function respuesta_correcta_no_seleccionada()
     {
         // Auth

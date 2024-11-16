@@ -35,10 +35,10 @@ class ItemsCRUDTest extends TestCase
         $response->assertStatus(404);
     }
 
-    public function testNotProfesorNotIndex()
+    public function testNotAdminProfesorNotIndex()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         // When
@@ -69,7 +69,7 @@ class ItemsCRUDTest extends TestCase
         $response = $this->get(route('items.create'));
 
         // Then
-        $response->assertSuccessful()->assertSeeInOrder([__('New item'), __('Save')]);
+        $response->assertStatus(404);
     }
 
     public function testNotProfesorNotCreate()

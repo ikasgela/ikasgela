@@ -22,7 +22,7 @@ class ArchivoTest extends TestCase
         parent::crearUsuarios();
     }
 
-    /** @test */
+    #[Test]
     public function any_non_admin_user_can_see_own_archived_activities()
     {
         // Auth
@@ -57,7 +57,7 @@ class ArchivoTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function profesor_can_see_others_archive()
     {
         // Auth
@@ -91,7 +91,7 @@ class ArchivoTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function tutor_can_see_others_archive()
     {
         // Auth
@@ -125,7 +125,7 @@ class ArchivoTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function only_profesor_tutor_can_see_others_archive()
     {
         // Auth
@@ -155,7 +155,7 @@ class ArchivoTest extends TestCase
         $response->assertForbidden();
     }
 
-    /** @test */
+    #[Test]
     public function any_non_admin_user_can_see_own_archived_activity_detail()
     {
         // Auth
@@ -188,7 +188,7 @@ class ArchivoTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function only_owner_can_see_own_archived_activity_detail()
     {
         // Auth

@@ -54,10 +54,10 @@ class FileUploadsCRUDTest extends TestCase
         $response->assertDontSee($file_upload->titulo);
     }
 
-    public function testNotProfesorNotIndex()
+    public function testNotAdminProfesorNotIndex()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         // When
@@ -91,10 +91,10 @@ class FileUploadsCRUDTest extends TestCase
         $response->assertSuccessful()->assertSeeInOrder([__('New image upload'), __('Save')]);
     }
 
-    public function testNotProfesorNotCreate()
+    public function testNotAdminProfesorNotCreate()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         // When
@@ -131,10 +131,10 @@ class FileUploadsCRUDTest extends TestCase
         $this->assertEquals($total + 1, FileUpload::all()->count());
     }
 
-    public function testNotProfesorNotStore()
+    public function testNotAdminProfesorNotStore()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $file_upload = FileUpload::factory()->make();
@@ -216,10 +216,10 @@ class FileUploadsCRUDTest extends TestCase
         $response->assertSuccessful()->assertSeeInOrder([__('Image upload'), $file_upload->titulo]);
     }
 
-    public function testNotProfesorNotShow()
+    public function testNotAdminProfesorNotShow()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $file_upload = FileUpload::factory()->create();
@@ -258,10 +258,10 @@ class FileUploadsCRUDTest extends TestCase
         $response->assertSuccessful()->assertSeeInOrder([$file_upload->titulo, __('Save')]);
     }
 
-    public function testNotProfesorNotEdit()
+    public function testNotAdminProfesorNotEdit()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $file_upload = FileUpload::factory()->create();
@@ -302,10 +302,10 @@ class FileUploadsCRUDTest extends TestCase
         $this->assertDatabaseHas('file_uploads', ['id' => $file_upload->id, 'titulo' => $file_upload->titulo]);
     }
 
-    public function testNotProfesorNotUpdate()
+    public function testNotAdminProfesorNotUpdate()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $file_upload = FileUpload::factory()->create();
@@ -389,10 +389,10 @@ class FileUploadsCRUDTest extends TestCase
         $this->assertDatabaseMissing('file_uploads', $file_upload->toArray());
     }
 
-    public function testNotProfesorNotDelete()
+    public function testNotAdminProfesorNotDelete()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $file_upload = FileUpload::factory()->create();

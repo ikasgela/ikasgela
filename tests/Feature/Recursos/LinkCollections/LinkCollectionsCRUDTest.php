@@ -36,10 +36,10 @@ class LinkCollectionsCRUDTest extends TestCase
         $response->assertSuccessful()->assertSee($link_collection->titulo);
     }
 
-    public function testNotProfesorNotIndex()
+    public function testNotAdminProfesorNotIndex()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         // When
@@ -73,10 +73,10 @@ class LinkCollectionsCRUDTest extends TestCase
         $response->assertSuccessful()->assertSeeInOrder([__('New link collection'), __('Save')]);
     }
 
-    public function testNotProfesorNotCreate()
+    public function testNotAdminProfesorNotCreate()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         // When
@@ -113,10 +113,10 @@ class LinkCollectionsCRUDTest extends TestCase
         $this->assertEquals($total + 1, LinkCollection::all()->count());
     }
 
-    public function testNotProfesorNotStore()
+    public function testNotAdminProfesorNotStore()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $link_collection = LinkCollection::factory()->make();
@@ -198,10 +198,10 @@ class LinkCollectionsCRUDTest extends TestCase
         $response->assertSuccessful()->assertSeeInOrder([$link_collection->titulo, __('Add')]);
     }
 
-    public function testNotProfesorNotShow()
+    public function testNotAdminProfesorNotShow()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $link_collection = LinkCollection::factory()->create();
@@ -240,10 +240,10 @@ class LinkCollectionsCRUDTest extends TestCase
         $response->assertSuccessful()->assertSeeInOrder([$link_collection->titulo, __('Save')]);
     }
 
-    public function testNotProfesorNotEdit()
+    public function testNotAdminProfesorNotEdit()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $link_collection = LinkCollection::factory()->create();
@@ -284,10 +284,10 @@ class LinkCollectionsCRUDTest extends TestCase
         $this->assertDatabaseHas('link_collections', ['id' => $link_collection->id, 'titulo' => $link_collection->titulo]);
     }
 
-    public function testNotProfesorNotUpdate()
+    public function testNotAdminProfesorNotUpdate()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $link_collection = LinkCollection::factory()->create();
@@ -371,10 +371,10 @@ class LinkCollectionsCRUDTest extends TestCase
         $this->assertDatabaseMissing('link_collections', $link_collection->toArray());
     }
 
-    public function testNotProfesorNotDelete()
+    public function testNotAdminProfesorNotDelete()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $link_collection = LinkCollection::factory()->create();

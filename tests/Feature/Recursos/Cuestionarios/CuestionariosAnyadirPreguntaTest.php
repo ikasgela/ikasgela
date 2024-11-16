@@ -4,6 +4,7 @@ namespace Tests\Feature\Recursos\Cuestionarios;
 
 use App\Models\Cuestionario;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class CuestionariosAnyadirPreguntaTest extends TestCase
@@ -16,7 +17,7 @@ class CuestionariosAnyadirPreguntaTest extends TestCase
         parent::crearUsuarios();
     }
 
-    /** @test */
+    #[Test]
     public function anyadir_pregunta_a_cuestionario()
     {
         // Auth

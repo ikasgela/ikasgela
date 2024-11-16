@@ -36,10 +36,10 @@ class FileResourcesCRUDTest extends TestCase
         $response->assertSuccessful()->assertSee($file_resource->titulo);
     }
 
-    public function testNotProfesorNotIndex()
+    public function testNotAdminProfesorNotIndex()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         // When
@@ -73,10 +73,10 @@ class FileResourcesCRUDTest extends TestCase
         $response->assertSuccessful()->assertSeeInOrder([__('New files resource'), __('Save')]);
     }
 
-    public function testNotProfesorNotCreate()
+    public function testNotAdminProfesorNotCreate()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         // When
@@ -113,10 +113,10 @@ class FileResourcesCRUDTest extends TestCase
         $this->assertEquals($total + 1, FileResource::all()->count());
     }
 
-    public function testNotProfesorNotStore()
+    public function testNotAdminProfesorNotStore()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $file_resource = FileResource::factory()->make();
@@ -198,10 +198,10 @@ class FileResourcesCRUDTest extends TestCase
         $response->assertSuccessful()->assertSeeInOrder([$file_resource->titulo, __('Upload')]);
     }
 
-    public function testNotProfesorNotShow()
+    public function testNotAdminProfesorNotShow()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $file_resource = FileResource::factory()->create();
@@ -240,10 +240,10 @@ class FileResourcesCRUDTest extends TestCase
         $response->assertSuccessful()->assertSeeInOrder([$file_resource->titulo, __('Save')]);
     }
 
-    public function testNotProfesorNotEdit()
+    public function testNotAdminProfesorNotEdit()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $file_resource = FileResource::factory()->create();
@@ -284,10 +284,10 @@ class FileResourcesCRUDTest extends TestCase
         $this->assertDatabaseHas('file_resources', ['id' => $file_resource->id, 'titulo' => $file_resource->titulo]);
     }
 
-    public function testNotProfesorNotUpdate()
+    public function testNotAdminProfesorNotUpdate()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $file_resource = FileResource::factory()->create();
@@ -371,10 +371,10 @@ class FileResourcesCRUDTest extends TestCase
         $this->assertDatabaseMissing('file_resources', $file_resource->toArray());
     }
 
-    public function testNotProfesorNotDelete()
+    public function testNotAdminProfesorNotDelete()
     {
         // Auth
-        $this->actingAs($this->not_profesor);
+        $this->actingAs($this->not_admin_profesor);
 
         // Given
         $file_resource = FileResource::factory()->create();

@@ -18,7 +18,7 @@ class MensajeDirectoAlumnoTest extends TestCase
         parent::crearUsuarios();
     }
 
-    /** @test */
+    #[Test]
     public function seleccionar_alumno_al_enviar_mensaje()
     {
         // Auth
