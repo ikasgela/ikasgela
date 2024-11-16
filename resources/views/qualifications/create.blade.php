@@ -4,51 +4,63 @@
 
     @include('partials.titular', ['titular' => __('New qualification')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::open(['route' => ['qualifications.store']]) !!}
+            {{ html()->form('POST', route('qualifications.store'))->open() }}
 
-            <div class="form-group row">
-                {!! Form::label('curso_id', __('Course'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
-                    <select class="form-control" id="curso_id" name="curso_id">
-                        @foreach($cursos as $curso)
-                            <option
-                                value="{{ $curso?->id }}" {{ $curso_actual?->id == $curso?->id ? 'selected' : '' }}>{{ $curso->full_name }}</option>
-                        @endforeach
-                    </select>
+            @include('components.label-select', [
+                'label' => __('Course'),
+                'name' => 'curso_id',
+                'coleccion' => $cursos,
+                'opcion' => function ($curso) {
+                        return html()->option($curso->full_name,
+                            $curso->id,
+                            old('curso_id', Auth::user()->curso_actual()?->id) == $curso->id);
+                },
+            ])
+
+            @include('components.label-text', [
+                'label' => __('Name'),
+                'name' => 'name',
+            ])
+            @include('components.label-text', [
+                'label' => __('Description'),
+                'name' => 'description',
+            ])
+            @include('components.label-check', [
+                'label' => __('Template'),
+                'name' => 'template',
+                'checked' => true,
+            ])
+
+            <div class="form-group row mb-3">
+                <div class="col-2">
+                    {{ html()->label(__('Skills'), 'skills_seleccionados')->class('form-label') }}
                 </div>
-            </div>
-
-            {{ Form::campoTexto('name', __('Name')) }}
-            {{ Form::campoTexto('description', __('Description')) }}
-            {{ Form::campoCheck('template', __('Template'), true) }}
-
-            <div class="form-group row">
-                {!! Form::label('skills_seleccionados', __('Skills'), ['class' => 'col-sm-2 col-form-label pt-0']) !!}
-                <div class="col-sm-6">
+                <div class="col">
+                    <h5 class="small">{{ __('Available') }}</h5>
                     <ul class="list-group">
-                        @foreach($skills_disponibles as $skill)
+                        @forelse($skills_disponibles as $skill)
                             <li class="list-group-item">
-                                <div class="row form-inline">
-                                    <div class="col-9 d-flex justify-content-start">
-                                        <div class="form-check">
-                                            <input type="checkbox" class="form-check-input"
-                                                   name="skills_seleccionados[]"
-                                                   id="skill_{{ $skill->id }}" value="{{ $skill->id }}">
-                                            <label class="form-check-label"
-                                                   for="skill_{{ $skill->id }}">{{ $skill->full_name }}</label>
-                                        </div>
+                                <div class="row">
+                                    <div class="col-10 d-flex align-items-center">
+                                        <input type="checkbox" class="form-check-input my-0"
+                                               name="skills_seleccionados[]"
+                                               id="skill_{{ $skill->id }}" value="{{ $skill->id }}">
+                                        <label class="form-check-label ms-2"
+                                               for="skill_{{ $skill->id }}">{{ $skill->full_name }}</label>
                                     </div>
-                                    <div class="col-3 d-flex justify-content-end">
-                                        <input class="ms-3 form-control" type="number" min="0" max="100" step="1"
+                                    <div class="col-2">
+                                        <input class="form-control" type="number" min="0" max="100" step="1"
                                                name="percentage_{{ $skill->id }}"
                                                value="0"/>
                                     </div>
                                 </div>
                             </li>
-                        @endforeach
+                        @empty
+                            <p>{{ __('None') }}</p>
+                        @endforelse
                     </ul>
                 </div>
             </div>
@@ -56,7 +68,7 @@
             @include('partials.guardar_cancelar')
 
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
 
         </div>
     </div>

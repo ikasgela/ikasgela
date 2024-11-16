@@ -241,6 +241,16 @@ class T5_AdministradorTest extends DuskTestCase
 
     // Evaluación
 
+    public function testEvaluacionCualificaciones()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('qualifications.index'));
+            $browser->assertRouteIs('qualifications.index');
+            $browser->assertDontSee('Ignition');
+            $browser->assertSee(__('Qualifications'));
+        });
+    }
+
     // Registros
 
     public function testRegistros()

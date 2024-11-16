@@ -4,39 +4,47 @@
 
     @include('partials.titular', ['titular' => __('Edit qualification')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::model($qualification, ['route' => ['qualifications.update', $qualification->id], 'method' => 'PUT', 'id' => 'principal']) !!}
+            {{ html()->modelForm($qualification, 'PUT', route('qualifications.update', $qualification->id))->id('principal')->open() }}
 
-            <div class="form-group row">
-                {!! Form::label('curso_id', __('Course'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
-                    <select class="form-control" id="curso_id" name="curso_id">
-                        @foreach($cursos as $curso)
-                            <option
-                                value="{{ $curso->id }}" {{ $qualification->curso_id == $curso->id ? 'selected' : '' }}>
-                                {{ $curso->full_name }}
-                            </option>
-                        @endforeach
-                    </select>
+            @include('components.label-select', [
+                'label' => __('Course'),
+                'name' => 'curso_id',
+                'coleccion' => $cursos,
+                'opcion' => function ($curso) use ($qualification) {
+                        return html()->option($curso->full_name,
+                            $curso->id,
+                            old('curso_id', $qualification->curso_id) == $curso->id);
+                },
+            ])
+
+            @include('components.label-text', [
+                'label' => __('Name'),
+                'name' => 'name',
+            ])
+            @include('components.label-text', [
+                'label' => __('Description'),
+                'name' => 'description',
+            ])
+            @include('components.label-check', [
+                'label' => __('Template'),
+                'name' => 'template',
+            ])
+
+            <div class="form-group row mb-3">
+                <div class="col-2">
+                    {{ html()->label(__('Skills'), 'skills_seleccionados')->class('form-label') }}
                 </div>
-            </div>
-
-            {{ Form::campoTexto('name', __('Name')) }}
-            {{ Form::campoTexto('description', __('Description')) }}
-            {{ Form::campoCheck('template', __('Template')) }}
-
-            <div class="form-group row">
-                {!! Form::label('skills_seleccionados', __('Skills'), ['class' => 'col-sm-2 col-form-label pt-0']) !!}
-                <div class="col-sm-10">
-                    <h5>{{ __('Assigned') }}</h5>
-                    <ul class="list-group">
+                <div class="col">
+                    <h5 class="small">{{ __('Assigned') }}</h5>
+                    <ul class="list-group mb-3">
                         @php($index = 0)
-                        @foreach($skills_asignados as $skill)
-                            <li class="list-group-item ms-3">
-                                <div class="row form-inline">
-                                    <div class="col-7 d-flex justify-content-start">
+                        @forelse($skills_asignados as $skill)
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-9 d-flex align-items-center">
                                         <div class="form-check">
                                             <input type="checkbox" class="form-check-input"
                                                    name="skills_seleccionados[]"
@@ -46,19 +54,10 @@
                                                    for="skill_{{ $skill->id }}">{{ $skill->full_name }}</label>
                                         </div>
                                     </div>
-                                    <div class="col-3 d-flex justify-content-end">
-                                        <input class="form-control" type="number" min="0" max="100" step="1"
-                                               name="percentage_{{ $skill->id }}"
-                                               @if($qualification->skills()->find($skill->id))
-                                               value="{{ $qualification->skills()->find($skill->id)->pivot->percentage }}"/>
-                                        @else
-                                            value="0"/>
-                                        @endif
-                                    </div>
                                     @if($qualification->skills()->find($skill->id))
-                                        <div class='col-2 d-flex justify-content-end'>
+                                        <div class='col-1 d-flex align-items-center'>
                                             <div class="btn-group">
-                                                {!! Form::open(['route' => ['qualifications.reordenar_skills', $qualification->id], 'method' => 'POST']) !!}
+                                                {{ html()->form('POST', route('qualifications.reordenar_skills', $qualification->id))->open() }}
                                                 <button title="{{ __('Up') }}"
                                                         type="submit"
                                                         {{ !isset($ids[$index-1]) ? 'disabled' : '' }}
@@ -67,9 +66,9 @@
                                                 </button>
                                                 <input type="hidden" name="a1" value="{{ $ids[$index] }}">
                                                 <input type="hidden" name="a2" value="{{ $ids[$index-1] ?? -1 }}">
-                                                {!! Form::close() !!}
+                                                {{ html()->form()->close() }}
 
-                                                {!! Form::open(['route' => ['qualifications.reordenar_skills', $qualification->id], 'method' => 'POST']) !!}
+                                                {{ html()->form('POST', route('qualifications.reordenar_skills', $qualification->id))->open() }}
                                                 <button title="{{ __('Down') }}"
                                                         type="submit"
                                                         {{ !isset($ids[$index+1]) ? 'btn-light disabled' : '' }}
@@ -78,21 +77,32 @@
                                                 </button>
                                                 <input type="hidden" name="a1" value="{{ $ids[$index] }}">
                                                 <input type="hidden" name="a2" value="{{ $ids[$index+1] ?? -1 }}">
-                                                {!! Form::close() !!}
+                                                {{ html()->form()->close() }}
                                             </div>
                                         </div>
                                         @php($index += 1)
                                     @endif
+                                    <div class="col-2">
+                                        <input class="form-control" type="number" min="0" max="100" step="1"
+                                               name="percentage_{{ $skill->id }}"
+                                               @if($qualification->skills()->find($skill->id))
+                                                   value="{{ $qualification->skills()->find($skill->id)->pivot->percentage }}"/>
+                                        @else
+                                            value="0"/>
+                                        @endif
+                                    </div>
                                 </div>
                             </li>
-                        @endforeach
+                        @empty
+                            <p>{{ __('None') }}</p>
+                        @endforelse
                     </ul>
-                    <h5 class="mt-3">{{ __('Available') }}</h5>
-                    <ul class="list-group ms-3">
-                        @foreach($skills_disponibles as $skill)
+                    <h5 class="small">{{ __('Available') }}</h5>
+                    <ul class="list-group">
+                        @forelse($skills_disponibles as $skill)
                             <li class="list-group-item">
-                                <div class="row form-inline">
-                                    <div class="col-9 d-flex justify-content-start">
+                                <div class="row">
+                                    <div class="col-10 d-flex align-items-center">
                                         <div class="form-check">
                                             <input type="checkbox" class="form-check-input"
                                                    name="skills_seleccionados[]"
@@ -102,18 +112,20 @@
                                                    for="skill_{{ $skill->id }}">{{ $skill->full_name }}</label>
                                         </div>
                                     </div>
-                                    <div class="col-3 d-flex justify-content-end">
+                                    <div class="col-2">
                                         <input class="form-control" type="number" min="0" max="100" step="1"
                                                name="percentage_{{ $skill->id }}"
                                                @if($qualification->skills()->find($skill->id))
-                                               value="{{ $qualification->skills()->find($skill->id)->pivot->percentage }}"/>
+                                                   value="{{ $qualification->skills()->find($skill->id)->pivot->percentage }}"/>
                                         @else
                                             value="0"/>
                                         @endif
                                     </div>
                                 </div>
                             </li>
-                        @endforeach
+                        @empty
+                            <p>{{ __('None') }}</p>
+                        @endforelse
                     </ul>
                 </div>
             </div>
@@ -126,7 +138,7 @@
             </div>
 
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->closeModelForm() }}
 
         </div>
     </div>

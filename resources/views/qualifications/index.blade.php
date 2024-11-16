@@ -5,9 +5,7 @@
     @include('partials.titular', ['titular' => __('Qualifications')])
 
     @if(Auth::user()->hasAnyRole(['admin']))
-        {!! Form::open(['route' => ['qualifications.index.filtro'], 'method' => 'POST']) !!}
-        @include('partials.desplegable_cursos')
-        {!! Form::close() !!}
+        @include('partials.recursos.filtro_curso', ['ruta' => 'qualifications.index.filtro'])
     @endif
 
     <div class="mb-3">
@@ -33,14 +31,12 @@
                     <td>{{ $qualification->name }}</td>
                     <td>{{ $qualification->description }}</td>
                     <td class="text-nowrap">
-                        {!! Form::open(['route' => ['qualifications.destroy', $qualification->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>
-                            <a title="{{ __('Edit') }}"
-                               href="{{ route('qualifications.edit', [$qualification->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                            @include('partials.boton_borrar')
+                            @include('partials.boton_editar', ['ruta' => 'qualifications', 'recurso' => $qualification])
+                            {{ html()->form('DELETE', route('qualifications.destroy', $qualification->id))->open() }}
+                            @include('partials.boton_borrar', ['last' => true])
+                            {{ html()->form()->close() }}
                         </div>
-                        {!! Form::close() !!}
                     </td>
                 </tr>
             @endforeach
