@@ -253,6 +253,16 @@ class T5_AdministradorTest extends DuskTestCase
         });
     }
 
+    public function testLogs()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('logs'));
+            $browser->assertRouteIs('logs');
+            $browser->assertDontSee('Ignition');
+            $browser->assertSee('Laravel Log Viewer');
+        });
+    }
+
     public function testLogout()
     {
         $this->browse(function (Browser $browser) {
