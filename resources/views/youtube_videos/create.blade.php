@@ -4,7 +4,7 @@
 
     @include('partials.titular', ['titular' => __('New YouTube video')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
             {{ html()->form('POST', route('youtube_videos.store'))->open() }}

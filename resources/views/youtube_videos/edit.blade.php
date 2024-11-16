@@ -4,7 +4,7 @@
 
     @include('partials.titular', ['titular' => __('Edit YouTube video')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
             {{ html()->modelForm($youtube_video, 'PUT', route('youtube_videos.update', $youtube_video->id))->open() }}
