@@ -5,9 +5,7 @@
     @include('partials.titular', ['titular' => __('Skills')])
 
     @if(Auth::user()->hasAnyRole(['admin']))
-        {!! Form::open(['route' => ['skills.index.filtro'], 'method' => 'POST']) !!}
-        @include('partials.desplegable_cursos')
-        {!! Form::close() !!}
+        @include('partials.recursos.filtro_curso', ['ruta' => 'skills.index.filtro'])
     @endif
 
     <div class="mb-3">
@@ -37,14 +35,12 @@
                     <td>{{ $skill->peso_examen }}</td>
                     <td>{{ $skill->minimo_competencias }}</td>
                     <td class="text-nowrap">
-                        {!! Form::open(['route' => ['skills.destroy', $skill->id], 'method' => 'DELETE']) !!}
                         <div class='btn-group'>
-                            <a title="{{ __('Edit') }}"
-                               href="{{ route('skills.edit', [$skill->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-                            @include('partials.boton_borrar')
+                            @include('partials.boton_editar', ['ruta' => 'skills', 'recurso' => $skill])
+                            {{ html()->form('DELETE', route('skills.destroy', $skill->id))->open() }}
+                            @include('partials.boton_borrar', ['last' => true])
+                            {{ html()->form()->close() }}
                         </div>
-                        {!! Form::close() !!}
                     </td>
                 </tr>
             @endforeach

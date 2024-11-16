@@ -4,35 +4,42 @@
 
     @include('partials.titular', ['titular' => __('Edit skill')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::model($skill, ['route' => ['skills.update', $skill->id], 'method' => 'PUT']) !!}
+            {{ html()->modelForm($skill, 'PUT', route('skills.update', $skill->id))->open() }}
 
-            <div class="form-group row">
-                {!! Form::label('curso_id', __('Course'), ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
-                    <select class="form-control" id="curso_id" name="curso_id">
-                        @foreach($cursos as $curso)
-                            <option
-                                value="{{ $curso->id }}" {{ $skill->curso_id == $curso->id ? 'selected' : '' }}>
-                                {{ $curso->full_name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
+            @include('components.label-select', [
+                'label' => __('Course'),
+                'name' => 'curso_id',
+                'coleccion' => $cursos,
+                'opcion' => function ($curso) use ($skill) {
+                        return html()->option($curso->full_name,
+                            $curso->id,
+                            old('curso_id', $skill->curso_id) == $curso->id);
+                },
+            ])
 
-            {{ Form::campoTexto('name', __('Name')) }}
-            {{ Form::campoTexto('description', __('Description')) }}
-            {{ Form::campoTexto('peso_examen', __('Exam weight')) }}
-
-            {{ Form::campoTexto('minimo_competencias', __('Minimum percent')) }}
+            @include('components.label-text', [
+                'label' => __('Name'),
+                'name' => 'name',
+            ])
+            @include('components.label-text', [
+                'label' => __('Description'),
+                'name' => 'description',
+            ])
+            @include('components.label-text', [
+                'label' => __('Exam weight'),
+                'name' => 'peso_examen',
+            ])
+            @include('components.label-text', [
+                'label' => __('Minimum percent'),
+                'name' => 'minimo_competencias',
+            ])
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->closeModelForm() }}
 
         </div>
     </div>

@@ -251,6 +251,16 @@ class T5_AdministradorTest extends DuskTestCase
         });
     }
 
+    public function testEvaluacionCompetencias()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('skills.index'));
+            $browser->assertRouteIs('skills.index');
+            $browser->assertDontSee('Ignition');
+            $browser->assertSee(__('Skills'));
+        });
+    }
+
     // Registros
 
     public function testRegistros()
