@@ -4,18 +4,23 @@
 
     @include('partials.titular', ['titular' => __('Edit files resource')])
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
 
-            {!! Form::model($file_resource, ['route' => ['file_resources.update', $file_resource->id], 'method' => 'PUT']) !!}
+            {{ html()->modelForm($file_resource, 'PUT', route('file_resources.update', $file_resource->id))->open() }}
 
-            {{ Form::campoTexto('titulo', __('Title')) }}
-            {{ Form::campoTexto('descripcion', __('Description')) }}
+            @include('components.label-text', [
+                'label' => __('Title'),
+                'name' => 'titulo',
+            ])
+            @include('components.label-text', [
+                'label' => __('Description'),
+                'name' => 'descripcion',
+            ])
 
             @include('partials.guardar_cancelar')
-
             @include('layouts.errors')
-            {!! Form::close() !!}
+            {{ html()->closeModelForm() }}
 
         </div>
     </div>
