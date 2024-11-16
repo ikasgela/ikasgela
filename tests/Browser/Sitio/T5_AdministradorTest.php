@@ -313,6 +313,18 @@ class T5_AdministradorTest extends DuskTestCase
         });
     }
 
+    // General
+
+    public function testCursos()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('users.portada'));
+            $browser->assertRouteIs('users.portada');
+            $browser->assertDontSee('Ignition');
+            $browser->assertSee(__('Courses'));
+        });
+    }
+
     public function testLogout()
     {
         $this->browse(function (Browser $browser) {

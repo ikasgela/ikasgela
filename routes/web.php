@@ -94,6 +94,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             ->withoutMiddleware('localeCookieRedirect')
             ->name('safe_exam.exit_seb');
 
+        // Portada de todos los cursos
+        Route::get('/portada', 'AlumnoController@portada')
+            ->name('users.portada');
+
         // Alumno
         Route::middleware(['role:alumno'])->group(function () {
 
@@ -658,10 +662,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             // Esquema del curso
             Route::get('/outline', 'ArchivoController@outline')
                 ->name('archivo.outline');
-
-            // Portada de todos los cursos
-            Route::get('/portada', 'AlumnoController@portada')
-                ->name('users.portada');
 
             // Matricularse en un curso
             Route::post('/cursos/{curso}/{user}/matricular', 'CursoController@matricular')
