@@ -32,9 +32,9 @@
                         <div class='btn-group'>
                             @include('partials.boton_mostrar', ['ruta' => 'file_resources', 'recurso' => $file_resource])
                             @include('partials.boton_editar', ['ruta' => 'file_resources', 'recurso' => $file_resource])
-                            @include('partials.boton_duplicar', ['ruta' => 'file_resources.duplicar', 'id' => $file_resource->id])
+                            @include('partials.boton_duplicar', ['ruta' => 'file_resources.duplicar', 'id' => $file_resource->id, 'middle' => true])
                             {{ html()->form('DELETE', route('file_resources.destroy', $file_resource->id))->open() }}
-                            @include('partials.boton_borrar')
+                            @include('partials.boton_borrar', ['last' => true])
                             {{ html()->form()->close() }}
                         </div>
                     </td>

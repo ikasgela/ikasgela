@@ -38,9 +38,9 @@
                         <div class='btn-group'>
                             @include('partials.boton_mostrar', ['ruta' => 'youtube_videos', 'recurso' => $youtube_video])
                             @include('partials.boton_editar', ['ruta' => 'youtube_videos', 'recurso' => $youtube_video])
-                            @include('partials.boton_duplicar', ['ruta' => 'youtube_videos.duplicar', 'id' => $youtube_video->id])
+                            @include('partials.boton_duplicar', ['ruta' => 'youtube_videos.duplicar', 'id' => $youtube_video->id, 'middle' => true])
                             {{ html()->form('DELETE', route('youtube_videos.destroy', $youtube_video->id))->open() }}
-                            @include('partials.boton_borrar')
+                            @include('partials.boton_borrar', ['last' => true])
                             {{ html()->form()->close() }}
                         </div>
                     </td>

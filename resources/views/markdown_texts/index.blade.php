@@ -43,9 +43,9 @@
                         <div class='btn-group'>
                             @include('partials.boton_mostrar', ['ruta' => 'markdown_texts', 'recurso' => $markdown_text])
                             @include('partials.boton_editar', ['ruta' => 'markdown_texts', 'recurso' => $markdown_text])
-                            @include('partials.boton_duplicar', ['ruta' => 'markdown_texts.duplicar', 'id' => $markdown_text->id])
+                            @include('partials.boton_duplicar', ['ruta' => 'markdown_texts.duplicar', 'id' => $markdown_text->id, 'middle' => true])
                             {{ html()->form('DELETE', route('markdown_texts.destroy', $markdown_text->id))->open() }}
-                            @include('partials.boton_borrar')
+                            @include('partials.boton_borrar', ['last' => true])
                             {{ html()->form()->close() }}
                         </div>
                     </td>

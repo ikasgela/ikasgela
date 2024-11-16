@@ -32,9 +32,9 @@
                         <div class='btn-group'>
                             @include('partials.boton_mostrar', ['ruta' => 'link_collections', 'recurso' => $link_collection])
                             @include('partials.boton_editar', ['ruta' => 'link_collections', 'recurso' => $link_collection])
-                            @include('partials.boton_duplicar', ['ruta' => 'link_collections.duplicar', 'id' => $link_collection->id])
+                            @include('partials.boton_duplicar', ['ruta' => 'link_collections.duplicar', 'id' => $link_collection->id, 'middle' => true])
                             {{ html()->form('DELETE', route('link_collections.destroy', $link_collection->id))->open() }}
-                            @include('partials.boton_borrar')
+                            @include('partials.boton_borrar', ['last' => true])
                             {{ html()->form()->close() }}
                         </div>
                     </td>
