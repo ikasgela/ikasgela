@@ -7,7 +7,7 @@
         @csrf
         @include('profesor.partials.tabla_disponibles')
         @include('layouts.errors')
-        <div class="d-flex justify-content-between mb-4">
+        <div class="d-flex justify-content-between mb-3">
             <div style="flex-grow: 1">
                 <button type="submit" class="btn btn-primary single_click">
                     <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Save assigment') }}
@@ -26,9 +26,7 @@
         </div>
     </form>
 @else
-    <div class="row">
-        <div class="col-md">
-            <p>No hay ninguna actividad disponible.</p>
-        </div>
+    <div class="mb-3">
+        <p>No hay ninguna actividad disponible.</p>
     </div>
 @endif

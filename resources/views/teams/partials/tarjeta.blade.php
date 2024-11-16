@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card mb-3">
     <div class="card-header"><i class="fas fa-users me-2"></i>{{ __('Teamwork') }}</div>
     <div class="card-body">
         @forelse($teams as $team)

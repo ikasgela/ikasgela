@@ -7,7 +7,7 @@
         @csrf
         @include('profesor.partials.tabla_disponibles')
         @include('layouts.errors')
-        <div class="d-flex justify-content-between mb-4">
+        <div class="d-flex justify-content-between mb-3">
             <div>
                 <button type="submit" class="btn btn-primary single_click">
                     <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Save assigment') }}

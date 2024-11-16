@@ -157,9 +157,7 @@
         {{ $actividades->appends(['disponibles' => $disponibles->currentPage()])->links() }}
     </div>
 @else
-    <div class="row">
-        <div class="col-md">
-            <p>{{ __("The user doesn't have any assigned activities.") }}</p>
-        </div>
+    <div class="mb-3">
+        <p>{{ __("The user doesn't have any assigned activities.") }}</p>
     </div>
 @endif

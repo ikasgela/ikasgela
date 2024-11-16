@@ -114,7 +114,7 @@
 </div>
 
 {{ html()->form('POST', route('actividades.duplicar_grupo'))->id('multiple')->open() }}
-<div class="row row-cols-lg-auto g-3 align-items-center">
+<div class="row row-cols-lg-auto g-3 align-items-center mb-3">
     <div class="col-12">
         <button title="{{ __('Move') }}"
                 type="submit"

@@ -17,8 +17,8 @@
         {{-- Tarjeta --}}
         <div class="card tarea-card mb-3">
             @include('alumnos.partials.tarea.cabecera')
-            <div class="card-body pb-1">
-                <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
+            <div class="card-body">
+                <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline p-0">
                     <div>
                         @include('actividades.partials.encabezado_con_etiquetas')
                         <p>{{ $actividad->descripcion }}</p>
