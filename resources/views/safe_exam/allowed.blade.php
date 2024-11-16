@@ -62,14 +62,14 @@
         </table>
     </div>
 
-    <div>
+    <div class="mb-3">
         <a href="{{ route('allowed_apps.create', [$safe_exam->id]) }}"
            class="btn btn-primary" role="button">
             {{ __('New allowed app') }}
         </a>
     </div>
 
-    <h2 class="mt-5">{{ __('Allowed URLs') }}</h2>
+    <h2>{{ __('Allowed URLs') }}</h2>
 
     <div class="table-responsive">
         <table class="table align-middle table-hover">
@@ -119,14 +119,14 @@
         </table>
     </div>
 
-    <div>
+    <div class="mb-3">
         <a href="{{ route('allowed_urls.create', [$safe_exam->id]) }}"
            class="btn btn-primary" role="button">
             {{ __('New allowed URL') }}
         </a>
     </div>
 
-    <div class="mt-5">
+    <div class="mb-3">
         <a class="btn btn-secondary" href="{{ route('safe_exam.index') }}">{{ __('Back') }}</a>
     </div>
 @endsection

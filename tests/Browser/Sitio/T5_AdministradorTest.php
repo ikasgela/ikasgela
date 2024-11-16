@@ -281,6 +281,16 @@ class T5_AdministradorTest extends DuskTestCase
         });
     }
 
+    public function testEvaluacionSafeexam()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('safe_exam.index'));
+            $browser->assertRouteIs('safe_exam.index');
+            $browser->assertDontSee('Ignition');
+            $browser->assertSee(__('Safe Exam Browser'));
+        });
+    }
+
     // Registros
 
     public function testRegistros()
