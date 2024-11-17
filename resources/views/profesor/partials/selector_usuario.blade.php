@@ -1,4 +1,4 @@
-<div class="d-flex flex-row mb-4">
+<div class="d-flex justify-content-between mb-3">
     <div class="align-self-center me-3">
         @if(isset($user_anterior))
             <a class="btn btn-primary" href="{{ route('profesor.tareas', [$user_anterior]) }}">
@@ -11,7 +11,9 @@
         @endif
     </div>
 
-    @include('profesor.partials.tarjeta_usuario')
+    <div class="flex-fill">
+        @include('profesor.partials.tarjeta_usuario')
+    </div>
 
     <div class="align-self-center ms-3">
         @if(isset($user_siguiente))
