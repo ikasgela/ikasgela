@@ -1,0 +1,11 @@
+@include color-mode(dark) {
+    .btn-light {
+        @extend .btn-secondary;
+    }
+    .bg-light {
+        @extend .bg-secondary;
+    }
+    .text-bg-light {
+        @extend .text-bg-secondary;
+    }
+}

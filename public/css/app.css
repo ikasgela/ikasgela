@@ -3037,7 +3037,7 @@ textarea.form-control-lg {
   --bs-btn-disabled-border-color: #3490dc;
 }
 
-.btn-secondary {
+.btn-secondary, [data-bs-theme=dark] .btn-light {
   --bs-btn-color: #fff;
   --bs-btn-bg: #6c757d;
   --bs-btn-border-color: #6c757d;
@@ -6816,7 +6816,7 @@ textarea.form-control-lg {
   background-color: RGBA(var(--bs-primary-rgb), var(--bs-bg-opacity, 1)) !important;
 }
 
-.text-bg-secondary {
+.text-bg-secondary, [data-bs-theme=dark] .text-bg-light {
   color: #fff !important;
   background-color: RGBA(var(--bs-secondary-rgb), var(--bs-bg-opacity, 1)) !important;
 }
@@ -8736,7 +8736,7 @@ textarea.form-control-lg {
   background-color: rgba(var(--bs-primary-rgb), var(--bs-bg-opacity)) !important;
 }
 
-.bg-secondary {
+.bg-secondary, [data-bs-theme=dark] .bg-light {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-secondary-rgb), var(--bs-bg-opacity)) !important;
 }
@@ -20679,13 +20679,13 @@ textarea.form-control-lg {
   .table td.bg-danger {
     background-color: #e3342f !important;
   }
-  .table td.bg-secondary {
+  .table td.bg-secondary, .table [data-bs-theme=dark] td.bg-light, [data-bs-theme=dark] .table td.bg-light {
     background-color: #6c757d !important;
   }
   .thead-dark th {
     background-color: #212529 !important;
   }
-  .table tr.bg-secondary > th, td {
+  .table tr.bg-secondary > th, .table [data-bs-theme=dark] tr.bg-light > th, [data-bs-theme=dark] .table tr.bg-light > th, td {
     background-color: #6c757d !important;
   }
 }
