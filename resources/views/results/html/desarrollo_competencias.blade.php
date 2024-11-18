@@ -104,7 +104,7 @@
                 <div class="ms-5 progress">
                     @php($porcentaje_competencia = $resultado->porcentaje_competencia())
                     <div
-                        class="progress-bar {{ $porcentaje_competencia < $calificaciones->minimo_competencias ? 'bg-warning text-dark' : 'bg-success text-light' }}"
+                        class="progress-bar {{ $porcentaje_competencia < $calificaciones->minimo_competencias ? 'text-bg-warning' : 'text-bg-success' }}"
                         role="progressbar"
                         style="width: {{ $porcentaje_competencia }}%;"
                         aria-valuenow="{{ $porcentaje_competencia }}"

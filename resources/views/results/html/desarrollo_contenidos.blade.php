@@ -15,7 +15,7 @@
                 @php($hay_calificacion = ($calificaciones->resultados_unidades[$unidad->id]->actividad ?? 0) > 0)
                 @php($porcentaje = $hay_calificacion ? round($calificaciones->resultados_unidades[$unidad->id]->tarea/$calificaciones->resultados_unidades[$unidad->id]->actividad*100) : 0)
                 <div
-                    class="progress-bar {{ $porcentaje< ($unidad->hasEtiqueta('examen') ? ($unidad->hasEtiqueta('final') ? $calificaciones->minimo_examenes_finales : $calificaciones->minimo_examenes) : $calificaciones->minimo_competencias) ? 'bg-warning text-dark' : 'bg-success' }}"
+                    class="progress-bar {{ $porcentaje< ($unidad->hasEtiqueta('examen') ? ($unidad->hasEtiqueta('final') ? $calificaciones->minimo_examenes_finales : $calificaciones->minimo_examenes) : $calificaciones->minimo_competencias) ? 'text-bg-warning' : 'text-bg-success' }}"
                     role="progressbar"
                     style="width: {{ $porcentaje }}%;"
                     aria-valuenow="{{ $porcentaje }}"
@@ -24,7 +24,7 @@
                 </div>
                 @if($hay_calificacion && $porcentaje<20)
                     <div
-                        class="progress-bar {{ $porcentaje > 0 ? 'bg-body-secondary bg-opacity-10' : 'bg-warning text-dark w-100' }} text-start ps-2">
+                        class="progress-bar {{ $porcentaje > 0 ? 'bg-body-secondary bg-opacity-10' : 'text-bg-warning w-100' }} text-start ps-2">
                         {{ formato_decimales($porcentaje) }}&thinsp;%
                     </div>
                 @endif

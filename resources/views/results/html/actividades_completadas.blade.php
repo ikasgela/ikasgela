@@ -24,7 +24,7 @@
                             @endif
                             @include('unidades.partials.nombre_con_etiquetas')
                         </td>
-                        <td class="align-middle text-center {{ $unidad->num_actividades('base') > 0 ? $user->num_completadas('base', $unidad->id, $milestone) < $unidad->num_actividades('base') * $curso?->minimo_entregadas / 100 ? 'bg-warning text-dark' : 'bg-success' : '' }}">
+                        <td class="align-middle text-center {{ $unidad->num_actividades('base') > 0 ? $user->num_completadas('base', $unidad->id, $milestone) < $unidad->num_actividades('base') * $curso?->minimo_entregadas / 100 ? 'text-bg-warning' : 'text-bg-success' : '' }}">
                             {{ $user->num_completadas('base', $unidad->id, $milestone).'/'. $unidad->num_actividades('base') }}
                         </td>
                         @if(!Auth::user()->baja_ansiedad)
