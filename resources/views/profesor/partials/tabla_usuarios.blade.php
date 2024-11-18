@@ -47,12 +47,12 @@
         @foreach($usuarios as $user)
             @if( !$media && session('profesor_filtro_alumnos') == 'P'
                     && $user->num_completadas('base') > $media_grupo )
-                <tr class="bg-secondary-subtle">
-                    <th class="p-0"></th>
-                    <th colspan="14" class="text-dark">{{ __('Mean') }}:
-                        {{ $media_grupo_formato }} {{ mb_strtolower(__('Completed activities')) }}</th>
+                <tr class="text-bg-light small fw-light">
+                    <td class="p-0"></td>
+                    <td colspan="14" class="">{{ __('Mean') }}:
+                        {{ $media_grupo_formato }} {{ mb_strtolower(__('Completed activities')) }}</td>
                     @if(Auth::user()->hasRole('admin'))
-                        <th></th>
+                        <td></td>
                     @endif
                 </tr>
                 @php($media = true)

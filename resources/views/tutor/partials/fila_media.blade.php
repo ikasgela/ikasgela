@@ -1,4 +1,4 @@
-<tr class="bg-secondary-subtle">
+<tr class="text-bg-light small fw-light">
     <td colspan="5"></td>
     @php($ajuste_proporcional_nota = $milestone?->ajuste_proporcional_nota ?: $curso?->ajuste_proporcional_nota)
     @switch($ajuste_proporcional_nota)
