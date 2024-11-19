@@ -26,8 +26,10 @@
 @include('layouts.navbar')
 
 <main class="row flex-grow-1 m-0">
-    @include('layouts.sidebar')
-    <div class="p-4 col-12 col-sm-10">
+    <div class="p-3 text-bg-dark col-12 col-sm-3 col-xl-2">
+        @include('layouts.sidebar')
+    </div>
+    <div class="p-4 col-12 col-sm-9 col-xl-10">
         @yield('content')
         @auth
             @if(Auth::user()->isVerified())
