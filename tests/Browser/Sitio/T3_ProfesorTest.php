@@ -29,11 +29,11 @@ class T3_ProfesorTest extends DuskTestCase
             $browser->assertDontSee('Ignition');
 
             if (config('ikasgela.avatar_enabled')) {
-                $browser->assertSeeIn('main > div.p-4.col-12.col-sm-10 > div.table-responsive > table > tbody > tr:nth-child(1) > td:nth-child(4)', 'Noa');
-                $browser->assertSeeIn('main > div.p-4.col-12.col-sm-10 > div.table-responsive > table > tbody > tr:nth-child(2) > td:nth-child(4)', 'Marc');
+                $browser->assertSeeIn('main > div > div > table > tbody > tr:nth-child(1) > td:nth-child(4)', 'Noa');
+                $browser->assertSeeIn('main > div > div > table > tbody > tr:nth-child(2) > td:nth-child(4)', 'Marc');
             } else {
-                $browser->assertSeeIn('main > div.p-4.col-12.col-sm-10 > div.table-responsive > table > tbody > tr:nth-child(1) > td:nth-child(3)', 'Noa');
-                $browser->assertSeeIn('main > div.p-4.col-12.col-sm-10 > div.table-responsive > table > tbody > tr:nth-child(2) > td:nth-child(3)', 'Marc');
+                $browser->assertSeeIn('main > div > div > table > tbody > tr:nth-child(1) > td:nth-child(3)', 'Noa');
+                $browser->assertSeeIn('main > div > div > table > tbody > tr:nth-child(2) > td:nth-child(3)', 'Marc');
             }
         });
     }
