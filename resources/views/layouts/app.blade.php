@@ -36,10 +36,10 @@
     </div>
 </nav>
 <main class="row flex-grow-1 m-0">
-    <div class="collapse navbar-collapse p-3 text-bg-dark col-12 col-sm-3 col-xl-2" id="sidebar">
+    <div class="collapse py-0 pt-0 pb-3 p-sm-3 text-bg-dark col-12 d-xs d-sm-block col-sm-3 col-xl-2" id="sidebar">
         @include('layouts.sidebar')
     </div>
-    <div class="p-4 col-12 col-sm-9 col-xl-10">
+    <div class="p-3 p-sm-4 col-12 col-sm-9 col-xl-10">
         @yield('content')
         @auth
             @if(Auth::user()->isVerified())
