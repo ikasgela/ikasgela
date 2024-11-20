@@ -8,7 +8,7 @@
                     <option
                         data-mensaje="{{ $feedback->mensaje }}"
                         value="{{ $feedback->id }}" {{ session('profesor_feedback_actual') == $feedback->id ? 'selected' : '' }}>
-                        {{ $feedback->titulo }}
+                        {{ $loop->index+1 }}. {{ $feedback->titulo }}
                     </option>
                 @endforeach
             </select>
@@ -29,7 +29,7 @@
                     <option
                         data-mensaje="{{ $feedback->mensaje }}"
                         value="{{ $feedback->id }}" {{ session('profesor_feedback_actividad_actual') == $feedback->id ? 'selected' : '' }}>
-                        {{ $feedback->titulo }}
+                        {{ $loop->index+1 }}. {{ $feedback->titulo }}
                     </option>
                 @endforeach
             </select>
