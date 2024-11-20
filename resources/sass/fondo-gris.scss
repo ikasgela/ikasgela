@@ -1,3 +1,7 @@
+.text-link-light {
+    @extend .text-dark;
+}
+
 @include color-mode(dark) {
     .btn-light {
         @extend .btn-secondary;
@@ -7,5 +11,9 @@
     }
     .text-bg-light {
         @extend .text-bg-secondary;
+    }
+
+    .text-link-light {
+        @extend .text-light;
     }
 }
