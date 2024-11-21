@@ -822,6 +822,9 @@ class ActividadController extends Controller
                     $actividad->ampliarPlazo($dias);
                 }
                 $this->bloquearRepositorios($actividad->tarea, false);
+                if (!$curso->silence_notifications && setting_usuario('notificacion_actividad_asignada', $alumno)) {
+                    Mail::to($alumno)->queue(new PlazoAmpliado($alumno->name, $actividad->nombre));
+                }
             }
         }
 
