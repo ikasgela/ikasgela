@@ -743,7 +743,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
                 switch ($ajuste_proporcional_nota) {
                     case 'media':
                     case 'mediana':
-                        $nota = $nota * ($r->numero_actividades_completadas / $media_actividades_grupo);
+                        $nota = $media_actividades_grupo > 0 ? $nota * ($r->numero_actividades_completadas / $media_actividades_grupo) : -1;
                         break;
                     default:
                         $nota = $nota * ($r->numero_actividades_completadas / $r->num_actividades_obligatorias);
