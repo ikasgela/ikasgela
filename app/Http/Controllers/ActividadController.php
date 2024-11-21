@@ -812,4 +812,19 @@ class ActividadController extends Controller
         $clon->plantilla_id = $siguiente->id;
         return $clon;
     }
+
+    public function ampliar_plazo_todas(Curso $curso)
+    {
+        foreach ($curso->alumnos_activos() as $alumno) {
+            foreach ($alumno->actividades_caducadas()->get() as $actividad) {
+                $dias = $curso->plazo_actividad ?? 7;
+                if ($dias > 0) {
+                    $actividad->ampliarPlazo($dias);
+                }
+                $this->bloquearRepositorios($actividad->tarea, false);
+            }
+        }
+
+        return back();
+    }
 }

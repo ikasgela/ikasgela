@@ -168,7 +168,9 @@ class ProfesorController extends Controller
 
         return view('profesor.index', compact(['usuarios', 'unidades', 'disponibles', 'organization',
             'total_actividades_grupo', 'media_grupo', 'media_grupo_formato',
-            'etiquetas']));
+            'etiquetas',
+            'curso_actual',
+        ]));
     }
 
     public function tareas(User $user, Request $request)

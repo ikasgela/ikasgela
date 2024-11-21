@@ -624,6 +624,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('archivo.diario');
             Route::post('/diario', 'ArchivoController@diario')
                 ->name('archivo.diario.usuario');
+
+            // Ampliar el plazo de todas las actividades de un curso
+            Route::post('/actividades/{curso}/ampliar_todas', 'ActividadController@ampliar_plazo_todas')
+                ->name('actividades.ampliar_todas');
         });
 
         // Alumno, profesor y tutor
