@@ -8,6 +8,7 @@ use App\Jobs\ImportCurso;
 use App\Models\Category;
 use App\Models\Curso;
 use App\Models\User;
+use App\Traits\RecuentoEnviadas;
 use App\Traits\TareaBienvenida;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
@@ -23,6 +24,7 @@ use ZipArchive;
 class CursoController extends Controller
 {
     use TareaBienvenida;
+    use RecuentoEnviadas;
 
     public function __construct()
     {
@@ -339,6 +341,7 @@ class CursoController extends Controller
         setting_usuario(['curso_actual' => $curso->id]);
         $user->clearCache();
         $user->clearSession();
+        $this->recuento_enviadas();
 
         $this->asignarTareaBienvenida($curso, $user);
 
@@ -350,6 +353,7 @@ class CursoController extends Controller
         setting_usuario(['curso_actual' => $curso->id]);
         $user->clearCache();
         $user->clearSession();
+        $this->recuento_enviadas();
 
         return back();
     }

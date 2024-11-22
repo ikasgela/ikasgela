@@ -884,6 +884,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             'profesor_filtro_actividades_examen',
             'profesor_unidad_id_disponibles',
             'profesor_filtro_actividades_etiquetas',
+            'num_enviadas',
         ]);
     }
 

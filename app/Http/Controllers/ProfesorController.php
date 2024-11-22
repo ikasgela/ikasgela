@@ -16,6 +16,7 @@ use App\Models\Unidad;
 use App\Models\User;
 use App\Traits\JPlagRunner;
 use App\Traits\PaginarUltima;
+use App\Traits\RecuentoEnviadas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -29,6 +30,7 @@ class ProfesorController extends Controller
 {
     use PaginarUltima;
     use JPlagRunner;
+    use RecuentoEnviadas;
 
     public function __construct()
     {
@@ -366,17 +368,6 @@ class ProfesorController extends Controller
         }
 
         return back();
-    }
-
-    private function recuento_enviadas(): void
-    {
-        $tareas = Tarea::cursoActual()->usuarioNoBloqueado()->noAutoAvance()->where('estado', 30)->get();
-
-        $num_enviadas = count($tareas);
-        if ($num_enviadas > 0)
-            session(['num_enviadas' => $num_enviadas]);
-        else
-            session()->forget('num_enviadas');
     }
 
     private function asignarTareasUsuario($user): void

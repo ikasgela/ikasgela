@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Charts\TareasEnviadas;
 use App\Exports\InformeGrupoExport;
 use App\Models\Registro;
-use App\Models\Tarea;
 use App\Traits\InformeGrupo;
+use App\Traits\RecuentoEnviadas;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
@@ -16,6 +16,7 @@ use Maatwebsite\Excel\Facades\Excel;
 class TutorController extends Controller
 {
     use InformeGrupo;
+    use RecuentoEnviadas;
 
     public function __construct()
     {
@@ -27,17 +28,6 @@ class TutorController extends Controller
         $this->recuento_enviadas();
 
         return view('tutor.index', $this->datosInformeGrupo($request));
-    }
-
-    private function recuento_enviadas(): void
-    {
-        $tareas = Tarea::cursoActual()->usuarioNoBloqueado()->noAutoAvance()->where('estado', 30)->get();
-
-        $num_enviadas = count($tareas);
-        if ($num_enviadas > 0)
-            session(['num_enviadas' => $num_enviadas]);
-        else
-            session()->forget('num_enviadas');
     }
 
     public function export()
