@@ -338,6 +338,7 @@ class CursoController extends Controller
 
         setting_usuario(['curso_actual' => $curso->id]);
         $user->clearCache();
+        $user->clearSession();
 
         $this->asignarTareaBienvenida($curso, $user);
 
@@ -348,6 +349,7 @@ class CursoController extends Controller
     {
         setting_usuario(['curso_actual' => $curso->id]);
         $user->clearCache();
+        $user->clearSession();
 
         return back();
     }

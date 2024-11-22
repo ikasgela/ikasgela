@@ -868,6 +868,25 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         Cache::forget("roles_{$user->id}");
     }
 
+    public function clearSession(): void
+    {
+        session()->forget([
+            'filtrar_organization_actual',
+            'filtrar_user_actual',
+            'filtrar_curso_actual',
+            'filtrar_milestone_actual',
+            'tags_usuario',
+            'tags_actividades',
+            'profesor_filtro_etiquetas',
+            'profesor_filtro_alumnos',
+            'profesor_unidad_id_disponibles',
+            'profesor_filtro_alumnos_bloqueados',
+            'profesor_filtro_actividades_examen',
+            'profesor_unidad_id_disponibles',
+            'profesor_filtro_actividades_etiquetas',
+        ]);
+    }
+
     public function preferredLocale()
     {
         return setting_usuario('user_locale', $this) ?? App::getLocale();
