@@ -323,6 +323,9 @@ class ActividadController extends Controller
                     $this->bloquearRepositorios($tarea, true);
                     $tarea->archiveFiles();
                 }
+
+                $actividad->fecha_finalizacion = now();
+                $actividad->save();
                 break;
 
             // Reiniciada (botón de reset, para cuando se confunden y envian sin querer)
@@ -334,6 +337,9 @@ class ActividadController extends Controller
                 $tarea->estado = 20;
 
                 $this->bloquearRepositorios($tarea, false);
+
+                $actividad->fecha_finalizacion = null;
+                $actividad->save();
                 break;
 
             // Reabierta (consume un intento y resta puntuación si no es una tarea de examen)
@@ -361,6 +367,8 @@ class ActividadController extends Controller
                 $tarea->user->last_active = now();
                 $tarea->user->save();
 
+                $actividad->fecha_finalizacion = null;
+                $actividad->save();
                 break;
 
             // Revisada: ERROR
@@ -376,6 +384,9 @@ class ActividadController extends Controller
                 }
 
                 $this->bloquearRepositorios($tarea, false);
+
+                $actividad->fecha_finalizacion = null;
+                $actividad->save();
 
             // Revisada: OK
             case 40:
@@ -396,7 +407,7 @@ class ActividadController extends Controller
                 }
                 $tarea->increment('intentos');
 
-                if ($nuevoestado == 40) {
+                if ($nuevoestado == 40 && is_null($actividad->fecha_finalizacion)) {
                     $actividad->fecha_finalizacion = now();
                     $actividad->save();
                 }
@@ -423,6 +434,9 @@ class ActividadController extends Controller
 
                 $tarea->feedback = __('Automatically completed task, not reviewed by any teacher.');
                 $tarea->puntuacion = $actividad->puntuacion;
+
+                $actividad->fecha_finalizacion = now();
+                $actividad->save();
                 break;
             case 50:
                 if (!in_array($estado_anterior, [40, 41, 42]) && !$override_allowed) {
@@ -475,6 +489,9 @@ class ActividadController extends Controller
                 $actividad->save();
 
                 $this->archivarTarea($tarea, $actividad, $usuario);
+
+                $actividad->fecha_finalizacion = now();
+                $actividad->save();
                 break;
             case 70:
                 $tarea->estado = $nuevoestado;
