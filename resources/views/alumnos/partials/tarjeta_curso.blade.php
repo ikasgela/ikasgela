@@ -2,7 +2,21 @@
     <div class="card mb-3">
         <div class="card-body">
             <p class="text-muted small">{{ $category->pretty_name }}</p>
-            <h5 class="card-title text-primary">{{ $curso->nombre }}</h5>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h5 class="card-title text-primary m-0">{{ $curso->nombre }}</h5>
+                @if(Auth::user()->hasRole('profesor'))
+                    @if($curso->recuento_enviadas() > 0)
+                        <div class="badge text-bg-danger fw-light ms-auto">
+                            {{ $curso->recuento_enviadas() }}
+                        </div>
+                    @endif
+                    @if(Auth::user()->newThreadsCount($curso) > 0)
+                        <div class="badge text-bg-success fw-light ms-2">
+                            {{ Auth::user()->newThreadsCount($curso) }}
+                        </div>
+                    @endif
+                @endif
+            </div>
             <p class="card-text" style="height: 6em;">{{ $curso->descripcion }}</p>
         </div>
         <div class="card-footer d-flex align-items-center" style="height: 4.5em">

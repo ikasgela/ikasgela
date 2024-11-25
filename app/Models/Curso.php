@@ -266,4 +266,11 @@ class Curso extends Model
         return Str::length($this->safe_exam?->token) == 0
             || Str::contains(Agent::getUserAgent(), "SEB/ikasgela (" . $this->safe_exam?->token . ")");
     }
+
+    public function recuento_enviadas()
+    {
+        return Tarea::whereHas('actividad.unidad.curso', function ($query) {
+            $query->where('cursos.id', $this->id);
+        })->usuarioNoBloqueado()->noAutoAvance()->where('estado', 30)->count();
+    }
 }

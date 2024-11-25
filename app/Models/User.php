@@ -501,9 +501,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         return !$this->hasRole('admin') && !$this->isBlocked() && $this->hasVerifiedEmail();
     }
 
-    public function newThreadsCount()
+    public function newThreadsCount($curso = null)
     {
-        return Hilo::forUserWithNewMessages($this->id)->cursoActual()->count();
+        if (is_null($curso))
+            return Hilo::forUserWithNewMessages($this->id)->cursoActual()->count();
+        else
+            return Hilo::forUserWithNewMessages($this->id)->where('curso_id', $curso->id)->count();
     }
 
     public function num_actividades_asignadas_total()
