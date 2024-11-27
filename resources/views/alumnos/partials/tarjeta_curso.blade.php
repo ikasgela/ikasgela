@@ -5,14 +5,22 @@
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <h5 class="card-title text-primary m-0">{{ $curso->nombre }}</h5>
                 @if(Auth::user()->hasRole('profesor'))
-                    @if($curso->recuento_enviadas() > 0)
+                    @php($recuento = $curso->recuento_enviadas())
+                    @if($recuento > 0)
                         <div class="badge text-bg-danger fw-light ms-auto">
-                            {{ $curso->recuento_enviadas() }}
+                            {{ $recuento }}
                         </div>
                     @endif
-                    @if(Auth::user()->newThreadsCount($curso) > 0)
+                    @php($recuento = Auth::user()->newThreadsCount($curso))
+                    @if($recuento > 0)
                         <div class="badge text-bg-success fw-light ms-2">
-                            {{ Auth::user()->newThreadsCount($curso) }}
+                            {{ $recuento }}
+                        </div>
+                    @endif
+                    @php($recuento = $curso->recuento_caducadas())
+                    @if($recuento > 0)
+                        <div class="badge text-bg-warning fw-light ms-2">
+                            {{ $recuento }}
                         </div>
                     @endif
                 @endif

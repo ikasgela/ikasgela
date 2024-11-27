@@ -269,8 +269,23 @@ class Curso extends Model
 
     public function recuento_enviadas()
     {
-        return Tarea::whereHas('actividad.unidad.curso', function ($query) {
-            $query->where('cursos.id', $this->id);
-        })->usuarioNoBloqueado()->noAutoAvance()->where('estado', 30)->count();
+        $total = 0;
+
+        foreach ($this->alumnos_activos() as $alumno) {
+            $total += $alumno->num_actividades_enviadas_noautoavance_noexamen();
+        }
+
+        return $total;
+    }
+
+    public function recuento_caducadas()
+    {
+        $total = 0;
+
+        foreach ($this->alumnos_activos() as $alumno) {
+            $total += $alumno->num_actividades_caducadas();
+        }
+
+        return $total;
     }
 }
