@@ -30,7 +30,6 @@ class ProfesorController extends Controller
 {
     use PaginarUltima;
     use JPlagRunner;
-    use RecuentoEnviadas;
 
     public function __construct()
     {
@@ -39,8 +38,6 @@ class ProfesorController extends Controller
 
     public function index(Request $request)
     {
-        $this->recuento_enviadas();
-
         $organization = Organization::find(setting_usuario('_organization_id'));
 
         if ($request->has('filtro_alumnos')) {
@@ -177,8 +174,6 @@ class ProfesorController extends Controller
 
     public function tareas(User $user, Request $request)
     {
-        $this->recuento_enviadas();
-
         if ($request->has('filtro_alumnos')) {
             session(['profesor_filtro_alumnos' => $request->input('filtro_alumnos')]);
         }

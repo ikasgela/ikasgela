@@ -16,7 +16,6 @@ use Maatwebsite\Excel\Facades\Excel;
 class TutorController extends Controller
 {
     use InformeGrupo;
-    use RecuentoEnviadas;
 
     public function __construct()
     {
@@ -25,8 +24,6 @@ class TutorController extends Controller
 
     public function index(Request $request)
     {
-        $this->recuento_enviadas();
-
         return view('tutor.index', $this->datosInformeGrupo($request));
     }
 

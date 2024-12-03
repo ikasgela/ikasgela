@@ -5,7 +5,7 @@
     'route' => route('profesor.index'),
     'text' => __('Control panel'),
     'icon' => 'bi-house',
-    'badge_number' => session('num_enviadas'),
+    'badge_number' => $profesor_actividades_pendientes,
     'badge_color' => 'danger',
 ])
 @include('layouts.sidebar.nav-item', [

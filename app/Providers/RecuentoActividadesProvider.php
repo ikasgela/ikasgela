@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\View\Composers\ActividadesAsignadasComposer;
+use App\Http\View\Composers\ActividadesPendientesComposer;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,5 +27,6 @@ class RecuentoActividadesProvider extends ServiceProvider
     public function boot()
     {
         View::composer('*', ActividadesAsignadasComposer::class);
+        View::composer('*', ActividadesPendientesComposer::class);
     }
 }

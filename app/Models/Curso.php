@@ -272,7 +272,7 @@ class Curso extends Model
         $total = 0;
 
         foreach ($this->alumnos_activos() as $alumno) {
-            $total += $alumno->num_actividades_enviadas_noautoavance_noexamen();
+            $total += $alumno->num_actividades_enviadas_noautoavance();
         }
 
         return $total;
