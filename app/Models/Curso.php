@@ -280,6 +280,6 @@ class Curso extends Model
             $query->where('cursos.id', $this->id);
         })->whereHas('actividad', function ($query) {
             $query->where('fecha_limite', '<', now());
-        })->usuarioNoBloqueado()->noAutoAvance()->whereNotIn('estado', [30])->count();
+        })->usuarioNoBloqueado()->noAutoAvance()->whereNotIn('estado', [30, 40, 60, 62, 64])->count();
     }
 }
