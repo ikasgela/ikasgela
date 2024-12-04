@@ -5,12 +5,12 @@
             <div>{{ __('Remaining time') }}:
                 <span data-countdown="{{ $actividad->fecha_entrega }}"></span>
             </div>
-        @else
+        @elseif(!$actividad->auto_avance)
             <span>
-                            <i class="fas fa-exclamation-triangle text-warning"></i>
-                            {{ __('Task expired') }}
-                            <i class="fas fa-exclamation-triangle text-warning"></i>
-                        </span>
+                <i class="fas fa-exclamation-triangle text-warning"></i>
+                {{ __('Task expired') }}
+                <i class="fas fa-exclamation-triangle text-warning"></i>
+            </span>
         @endif
     @endif
     @if(isset($num_actividad))

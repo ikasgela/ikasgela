@@ -325,6 +325,9 @@ class Actividad extends Model
 
     public function getIsExpiredAttribute()
     {
+        if ($this->auto_avance)
+            return false;
+
         return isset($this->fecha_limite) && $this->fecha_limite < now()
             || !isset($this->fecha_limite) && isset($this->fecha_entrega) && $this->fecha_entrega < now();
     }

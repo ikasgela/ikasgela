@@ -195,6 +195,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     {
         return $this->actividades()
             ->caducada()
+            ->where('auto_avance', false)
             ->wherePivotNotIn('estado', [30, 40, 60, 61, 64]);
     }
 
