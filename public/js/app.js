@@ -40890,7 +40890,7 @@ process.umask = function() { return 0; };
 "use strict";
 /* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
 /* provided dependency */ var Buffer = __webpack_require__(/*! buffer */ "./node_modules/buffer/index.js")["Buffer"];
-// Axios v1.7.8 Copyright (c) 2024 Matt Zabriskie and contributors
+// Axios v1.7.9 Copyright (c) 2024 Matt Zabriskie and contributors
 
 
 function bind(fn, thisArg) {
@@ -43981,7 +43981,7 @@ function dispatchRequest(config) {
   });
 }
 
-const VERSION = "1.7.8";
+const VERSION = "1.7.9";
 
 const validators$1 = {};
 
