@@ -23,7 +23,7 @@
             @endif()
 
             <div class="card-body">
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between mb-3">
                     <h5 class="card-title"><a
                             href="{{ route('messages.show', $thread->id) }}">{{ $thread->subject }}</a>
                     </h5>

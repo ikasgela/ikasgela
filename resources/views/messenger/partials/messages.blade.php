@@ -1,12 +1,12 @@
-<div class="card ps-3 py-3 my-3">
+<div class="card ps-3 pt-3 my-3">
     @if(config('ikasgela.avatar_enabled'))
         <div class="d-flex align-items-start">
             <div>
                 @include('users.partials.avatar', ['user' => $message->user, 'width' => 64])
             </div>
             @endif
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
+            <div class="card-body pt-0">
+                <div class="d-flex justify-content-between mb-3">
                     <h5>{{ $message->user?->name ?: __('Unknown user') }} {{ $message->user?->surname }}</h5>
                     <div class="btn-group">
                         @if(Auth::user()->hasRole('profesor') && $message->user?->hasRole('alumno'))
@@ -16,7 +16,7 @@
                         @endif
                         @if(Auth::user()->hasRole('profesor'))
                             {{ html()->form('DELETE', route('messages.destroy_message', $message->id))->open() }}
-                            @include('partials.boton_borrar')
+                            @include('partials.boton_borrar', [ 'last' => $message->user?->hasRole('alumno')])
                             {{ html()->form()->close() }}
                         @endif
                     </div>
