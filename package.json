@@ -32,6 +32,6 @@
         "perfect-scrollbar": "^1.5.2",
         "prismjs": "^1.24.1",
         "tinymce": "^7.2.1",
-        "tinymce-i18n": "^24"
+        "tinymce-i18n": "^25"
     }
 }
