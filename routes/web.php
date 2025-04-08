@@ -254,6 +254,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::post('/intellij_projects/{intellij_project}/{actividad}/unlock', 'IntellijProjectController@unlock')
                 ->name('intellij_projects.unlock');
 
+            // Editar un fork ya hecho
+            Route::get('/intellij_projects/{intellij_project}/{actividad}/edit_fork', 'IntellijProjectController@edit_fork')
+                ->name('intellij_projects.edit_fork');
+            Route::put('/intellij_projects/{intellij_project}/{actividad}/update_fork', 'IntellijProjectController@update_fork')
+                ->name('intellij_projects.update_fork');
+
             // MarkdownText
             Route::resource('markdown_texts', 'MarkdownTextController');
             Route::get('/markdown_texts/{actividad}/actividad', 'MarkdownTextController@actividad')

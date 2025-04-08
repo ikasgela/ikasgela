@@ -504,4 +504,23 @@ class IntellijProjectController extends Controller
             echo $datos;
         }, $fichero);
     }
+
+    public function edit_fork(IntellijProject $intellij_project, Actividad $actividad)
+    {
+        $repositorio = $actividad->intellij_projects()->wherePivot('intellij_project_id', $intellij_project->id)->first();
+
+        return view('intellij_projects.edit_fork', compact(['intellij_project', 'actividad', 'repositorio']));
+    }
+
+    public function update_fork(Request $request, IntellijProject $intellij_project, Actividad $actividad)
+    {
+        $repositorio = $actividad->intellij_projects()->wherePivot('intellij_project_id', $intellij_project->id)->first();
+
+        $repositorio->pivot->fork = $request->get('repositorio');
+        $repositorio->pivot->save();
+
+        Cache::forget($repositorio->cacheKey());
+
+        return retornar();
+    }
 }

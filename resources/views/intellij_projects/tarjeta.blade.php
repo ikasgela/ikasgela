@@ -44,6 +44,11 @@
         <div>
             @include('partials.modificar_recursos', ['ruta' => 'intellij_projects'])
             @include('partials.editar_recurso', ['recurso' => $intellij_project, 'ruta' => 'intellij_projects'])
+            @if(Auth::user()->hasAnyRole(['admin','profesor']) && Route::currentRouteName() == 'profesor.revisar')
+                <a title="{{ __('Edit') }}"
+                   href="{{ route('intellij_projects.edit_fork', ['intellij_project' => $intellij_project->id, 'actividad' => $actividad->id]) }}"
+                   class='text-link-light'><i class="fas fa-edit"></i></a>
+            @endif
         </div>
     </div>
     <div class="card-body">
