@@ -46,12 +46,14 @@
 
             <span class="mx-1"></span>
 
-            {{ html()->form('POST', route('actividades.ampliar_todas', $curso_actual))->open() }}
-            {{ html()->submit(__('Extend all deadlines'))
-                    ->class(['btn btn-sm mx-1 btn-outline-secondary']) }}
-            {{ html()->form()->close() }}
+            @isset($curso_actual)
+                {{ html()->form('POST', route('actividades.ampliar_todas', $curso_actual))->open() }}
+                {{ html()->submit(__('Extend all deadlines'))
+                        ->class(['btn btn-sm mx-1 btn-outline-secondary']) }}
+                {{ html()->form()->close() }}
 
-            <span class="mx-1"></span>
+                <span class="mx-1"></span>
+            @endisset
 
             {{ html()->form('POST', route('profesor.index.filtro'))->open() }}
             {{ html()->submit(__('Exams'))
