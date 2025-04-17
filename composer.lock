@@ -175,16 +175,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.342.26",
+            "version": "3.342.28",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "99f6f8521117534990e608e040b083015465c49c"
+                "reference": "16cec140483869b3d244a5995b55d5365465dc58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/99f6f8521117534990e608e040b083015465c49c",
-                "reference": "99f6f8521117534990e608e040b083015465c49c",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/16cec140483869b3d244a5995b55d5365465dc58",
+                "reference": "16cec140483869b3d244a5995b55d5365465dc58",
                 "shasum": ""
             },
             "require": {
@@ -266,9 +266,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.342.26"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.342.28"
             },
-            "time": "2025-04-11T18:10:41+00:00"
+            "time": "2025-04-16T18:13:32+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -9792,16 +9792,16 @@
     "packages-dev": [
         {
             "name": "barryvdh/laravel-debugbar",
-            "version": "v3.15.3",
+            "version": "v3.15.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-debugbar.git",
-                "reference": "4ccab20844d18c5af08b68d310e7151a791c3037"
+                "reference": "c0667ea91f7185f1e074402c5788195e96bf8106"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/4ccab20844d18c5af08b68d310e7151a791c3037",
-                "reference": "4ccab20844d18c5af08b68d310e7151a791c3037",
+                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/c0667ea91f7185f1e074402c5788195e96bf8106",
+                "reference": "c0667ea91f7185f1e074402c5788195e96bf8106",
                 "shasum": ""
             },
             "require": {
@@ -9861,7 +9861,7 @@
             ],
             "support": {
                 "issues": "https://github.com/barryvdh/laravel-debugbar/issues",
-                "source": "https://github.com/barryvdh/laravel-debugbar/tree/v3.15.3"
+                "source": "https://github.com/barryvdh/laravel-debugbar/tree/v3.15.4"
             },
             "funding": [
                 {
@@ -9873,7 +9873,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-04-08T15:11:06+00:00"
+            "time": "2025-04-16T06:32:06+00:00"
         },
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -11167,16 +11167,16 @@
         },
         {
             "name": "laravel-lang/routes",
-            "version": "1.8.0",
+            "version": "1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/routes.git",
-                "reference": "8a96ea697c2e3168d284e836d8231068fb5b3a4f"
+                "reference": "d9265ff5ec572828a3f141cc07d30f8c4f3d0f75"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/routes/zipball/8a96ea697c2e3168d284e836d8231068fb5b3a4f",
-                "reference": "8a96ea697c2e3168d284e836d8231068fb5b3a4f",
+                "url": "https://api.github.com/repos/Laravel-Lang/routes/zipball/d9265ff5ec572828a3f141cc07d30f8c4f3d0f75",
+                "reference": "d9265ff5ec572828a3f141cc07d30f8c4f3d0f75",
                 "shasum": ""
             },
             "require": {
@@ -11240,7 +11240,7 @@
                 "issues": "https://github.com/Laravel-Lang/routes/issues",
                 "source": "https://github.com/Laravel-Lang/routes"
             },
-            "time": "2025-03-25T08:50:32+00:00"
+            "time": "2025-04-14T14:11:58+00:00"
         },
         {
             "name": "laravel-lang/starter-kits",
