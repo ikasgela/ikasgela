@@ -11987,14 +11987,14 @@ textarea.form-control-lg {
   }
 }
 /*!
- * Bootstrap Icons v1.11.3 (https://icons.getbootstrap.com/)
+ * Bootstrap Icons v1.12.1 (https://icons.getbootstrap.com/)
  * Copyright 2019-2024 The Bootstrap Authors
  * Licensed under MIT (https://github.com/twbs/icons/blob/main/LICENSE)
  */
 @font-face {
   font-display: block;
   font-family: "bootstrap-icons";
-  src: url(/fonts/vendor/bootstrap-icons/bootstrap-icons.woff2?b7bcc075b395c14ce8c2d75dcd5fabe5) format("woff2"), url(/fonts/vendor/bootstrap-icons/bootstrap-icons.woff?39795c0b4513de014cf8685fc5c923fe) format("woff");
+  src: url(/fonts/vendor/bootstrap-icons/bootstrap-icons.woff2?ca961065e092080ca3f5f6c8318474db) format("woff2"), url(/fonts/vendor/bootstrap-icons/bootstrap-icons.woff?ff25a7ff93ea67f144c519f90b3255ac) format("woff");
 }
 .bi::before,
 [class^=bi-]::before,
@@ -20209,6 +20209,10 @@ textarea.form-control-lg {
 
 .bi-vignette::before {
   content: "賈";
+}
+
+.bi-bluesky::before {
+  content: "\f7f9";
 }
 
 .hover-link {
