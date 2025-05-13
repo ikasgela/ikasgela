@@ -33,7 +33,7 @@
         </div>
         <div class="card-footer d-flex align-items-center" style="height: 4.5em">
             @if(setting_usuario('curso_actual') != $curso->id)
-                @if(!in_array($curso->id, $matricula) && $curso->matricula_abierta)
+                @if(!in_array($curso->id, $matricula) && $curso->matricula_abierta && $curso->disponible())
                     {{ html()->form('POST', route('cursos.matricular', [$curso->id, Auth::user()->id]))->open() }}
                     {{ html()->submit(__('Enroll in this course'))->class('btn btn-primary me-3') }}
                     {{ html()->form()->close() }}

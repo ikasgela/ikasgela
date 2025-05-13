@@ -4,6 +4,18 @@
 
     @include('partials.titular', ['titular' => __('Courses'), 'subtitulo' => $organization->name])
 
+    @if(Auth::user()->hasRole('profesor'))
+        <div class="d-flex justify-content-end mb-3">
+            <div class="btn-toolbar" role="toolbar">
+                {{ html()->form('POST', route('users.portada.filtro'))->open() }}
+                {{ html()->submit(session('users_filtro_cursos_no_disponibles') == 'S' ? __('Hide not available courses') : __('Show not available courses'))
+                        ->class(['btn btn-sm mx-1', session('users_filtro_cursos_no_disponibles') == 'S' ? 'btn-primary' : 'btn-outline-secondary']) }}
+                {{ html()->hidden('filtro_cursos_no_disponibles', 'S') }}
+                {{ html()->form()->close() }}
+            </div>
+        </div>
+    @endif
+
     @include('partials.tutorial', [
         'color' => 'success',
         'texto' => trans('tutorial.matricula')
@@ -19,8 +31,13 @@
                     <div class="row">
                 @endif
                 @if(!in_array($curso->id, $matricula) && $curso->matricula_abierta || in_array($curso->id, $matricula))
-                    @include('alumnos.partials.tarjeta_curso')
-                    @php($total += 1)
+                    @if(session('users_filtro_cursos_no_disponibles') == 'S' && !$curso->disponible())
+                        @include('alumnos.partials.tarjeta_curso')
+                        @php($total += 1)
+                    @elseif($curso->disponible())
+                        @include('alumnos.partials.tarjeta_curso')
+                        @php($total += 1)
+                    @endif
                 @endif
                 @if($loop->last)
                     </div>

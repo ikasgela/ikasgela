@@ -49,6 +49,14 @@ class AlumnoController extends Controller
 
     public function portada(Request $request)
     {
+        if ($request->has('filtro_cursos_no_disponibles')) {
+            if (session('users_filtro_cursos_no_disponibles') == 'S') {
+                session(['users_filtro_cursos_no_disponibles' => '']);
+            } else {
+                session(['users_filtro_cursos_no_disponibles' => $request->input('filtro_cursos_no_disponibles')]);
+            }
+        }
+
         $organization = Organization::where('slug', subdominio())->first();
         $periods = $organization->periods()->with('categories.cursos')->orderBy('slug', 'desc')->get();
         $matricula = Auth::user()->cursos()->pluck('curso_id')->toArray();

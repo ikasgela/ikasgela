@@ -87,6 +87,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         // Portada de todos los cursos
         Route::get('/portada', 'AlumnoController@portada')
             ->name('users.portada');
+        Route::post('/portada', 'AlumnoController@portada')
+            ->name('users.portada.filtro');
 
         // Alumno
         Route::middleware(['role:alumno'])->group(function () {
