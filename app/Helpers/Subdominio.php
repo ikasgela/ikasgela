@@ -10,6 +10,7 @@ if (!function_exists('subdominio')) {
      */
     function subdominio()
     {
-        return explode('.', Request::getHost())[0];
+        $hostname = explode('.', Request::getHost())[0];
+        return $hostname != 'host' ? $hostname : 'ikasgela';
     }
 }
