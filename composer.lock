@@ -175,16 +175,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.343.11",
+            "version": "3.343.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "f8ce590dcc151ef176ef5b0e6f3e9c59d11c363b"
+                "reference": "8bb5b542b28c4538b44de4335396e77bf9fbedf6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/f8ce590dcc151ef176ef5b0e6f3e9c59d11c363b",
-                "reference": "f8ce590dcc151ef176ef5b0e6f3e9c59d11c363b",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/8bb5b542b28c4538b44de4335396e77bf9fbedf6",
+                "reference": "8bb5b542b28c4538b44de4335396e77bf9fbedf6",
                 "shasum": ""
             },
             "require": {
@@ -266,9 +266,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.343.11"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.343.14"
             },
-            "time": "2025-05-14T18:11:59+00:00"
+            "time": "2025-05-19T18:02:45+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -392,16 +392,16 @@
         },
         {
             "name": "bkwld/cloner",
-            "version": "3.14.0",
+            "version": "3.14.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BKWLD/cloner.git",
-                "reference": "b5850d868d12c1e748ea29975b33713570aa70a4"
+                "reference": "9ee800ea2032219db8fcb845bb156e398baca484"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BKWLD/cloner/zipball/b5850d868d12c1e748ea29975b33713570aa70a4",
-                "reference": "b5850d868d12c1e748ea29975b33713570aa70a4",
+                "url": "https://api.github.com/repos/BKWLD/cloner/zipball/9ee800ea2032219db8fcb845bb156e398baca484",
+                "reference": "9ee800ea2032219db8fcb845bb156e398baca484",
                 "shasum": ""
             },
             "require": {
@@ -445,9 +445,9 @@
             "description": "A trait for Laravel Eloquent models that lets you clone of a model and it's relationships, including files.",
             "support": {
                 "issues": "https://github.com/BKWLD/cloner/issues",
-                "source": "https://github.com/BKWLD/cloner/tree/3.14.0"
+                "source": "https://github.com/BKWLD/cloner/tree/3.14.1"
             },
-            "time": "2025-03-01T16:39:38+00:00"
+            "time": "2025-05-16T16:34:22+00:00"
         },
         {
             "name": "brick/math",
@@ -11003,16 +11003,16 @@
         },
         {
             "name": "laravel-lang/moonshine",
-            "version": "1.3.6",
+            "version": "1.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/moonshine.git",
-                "reference": "4781c391bd92a360fb3035cbba80ad1d2e382104"
+                "reference": "d0d52b9932b48feb765f1a3394f12a8a8a78eefe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/moonshine/zipball/4781c391bd92a360fb3035cbba80ad1d2e382104",
-                "reference": "4781c391bd92a360fb3035cbba80ad1d2e382104",
+                "url": "https://api.github.com/repos/Laravel-Lang/moonshine/zipball/d0d52b9932b48feb765f1a3394f12a8a8a78eefe",
+                "reference": "d0d52b9932b48feb765f1a3394f12a8a8a78eefe",
                 "shasum": ""
             },
             "require": {
@@ -11065,9 +11065,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Laravel-Lang/moonshine/issues",
-                "source": "https://github.com/Laravel-Lang/moonshine/tree/1.3.6"
+                "source": "https://github.com/Laravel-Lang/moonshine/tree/1.3.7"
             },
-            "time": "2025-03-13T14:55:59+00:00"
+            "time": "2025-05-01T05:27:46+00:00"
         },
         {
             "name": "laravel-lang/publisher",
