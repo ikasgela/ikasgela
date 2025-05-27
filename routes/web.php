@@ -17,12 +17,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
     // Gestión de usuarios
     Auth::routes(['verify' => true]);
 
-    # Honey
-    Route::post('login', 'Auth\LoginController@login')->middleware(['honey']);
-    Route::post('register', 'Auth\RegisterController@register')->middleware(['honey']);
-    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->middleware(['honey'])->name('password.email');
-    Route::post('password/reset', 'Auth\ResetPasswordController@reset')->middleware(['honey'])->name('password.update');
-
     // Mostrar las imágenes incrustadas
     Route::get('/tinymce_url', 'TinymceUploadController@getS3')->name('tinymce.upload.url');
 
