@@ -4,8 +4,10 @@ namespace Database\Factories;
 
 use App\Models\YoutubeVideo;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
+/**
+ * @extends Factory<YoutubeVideo>
+ */
 class YoutubeVideoFactory extends Factory
 {
     protected $model = YoutubeVideo::class;
@@ -13,9 +15,9 @@ class YoutubeVideoFactory extends Factory
     public function definition()
     {
         return [
-            'titulo' => $this->faker->sentence(3),
-            'descripcion' => $this->faker->sentence(8),
-            'codigo' => $this->faker->regexify('[A-Za-z0-9]{12}'),
+            'titulo' => fake()->sentence(3),
+            'descripcion' => fake()->sentence(8),
+            'codigo' => fake()->regexify('[A-Za-z0-9]{12}'),
         ];
     }
 }

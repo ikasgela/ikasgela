@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Exception;
 use App\Models\Curso;
 use App\Models\Organization;
 use App\Models\Role;
@@ -95,7 +96,7 @@ class UsersTableSeeder extends Seeder
                     foreach ($usuarios as $borrar) {
                         GitLab::users()->remove($borrar['id']);
                     }
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                 }
 
                 sleep(2);   // Si no, no de la tiempo a borrar y da error
@@ -108,7 +109,7 @@ class UsersTableSeeder extends Seeder
                         'skip_confirmation' => true
                     ]);
                     echo "  INFO: Usuario de GitLab creado.\n";
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     echo "  ERROR: No se ha podido crear el usuario de GitLab asociado...\n";
                 }
             }
@@ -118,7 +119,7 @@ class UsersTableSeeder extends Seeder
             try {
                 GiteaClient::borrar_usuario($usuario);
                 echo "  INFO: Usuario borrado: $nombre - $email - $password\n";
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 echo "  ERROR: Usuario no borrado: $nombre - $email - $password\n";
             }
         }
@@ -129,7 +130,7 @@ class UsersTableSeeder extends Seeder
                 GiteaClient::user($email, $usuario, $nombre_completo, $password);
                 GiteaClient::unblock($email, $usuario);
                 echo "  INFO: Usuario generado: $nombre_completo - $email - $password\n";
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 echo "  ERROR: Usuario no generado: $nombre_completo - $email - $password\n";
             }
         }

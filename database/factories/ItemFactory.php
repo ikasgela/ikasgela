@@ -6,6 +6,9 @@ use App\Models\Item;
 use App\Models\Pregunta;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<Item>
+ */
 class ItemFactory extends Factory
 {
     protected $model = Item::class;
@@ -14,7 +17,7 @@ class ItemFactory extends Factory
     {
         return [
             'pregunta_id' => Pregunta::factory(),
-            'texto' => $this->faker->sentence(3),
+            'texto' => fake()->sentence(3),
         ];
     }
 

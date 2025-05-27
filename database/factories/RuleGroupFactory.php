@@ -7,6 +7,9 @@ use App\Models\RuleGroup;
 use App\Models\Selector;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<RuleGroup>
+ */
 class RuleGroupFactory extends Factory
 {
     protected $model = RuleGroup::class;
@@ -19,7 +22,7 @@ class RuleGroupFactory extends Factory
     public function definition()
     {
         return [
-            'operador' => $this->faker->randomElement(['and', 'or']),
+            'operador' => fake()->randomElement(['and', 'or']),
             'accion' => 'siguiente',
             'resultado' => Actividad::factory(),
             'selector_id' => Selector::factory(),

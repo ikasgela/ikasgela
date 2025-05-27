@@ -6,6 +6,9 @@ use App\Models\Curso;
 use App\Models\Qualification;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<Qualification>
+ */
 class QualificationFactory extends Factory
 {
     protected $model = Qualification::class;
@@ -14,8 +17,8 @@ class QualificationFactory extends Factory
     {
         return [
             'curso_id' => Curso::factory(),
-            'name' => $this->faker->words(3, true),
-            'description' => $this->faker->sentence(),
+            'name' => fake()->words(3, true),
+            'description' => fake()->sentence(),
         ];
     }
 }

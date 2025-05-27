@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Exception;
 use App\Models\Organization;
 use App\Models\Role;
 use App\Models\User;
@@ -58,7 +59,7 @@ class UsersAdminSeeder extends Seeder
             try {
                 GiteaClient::borrar_usuario($usuario);
                 $this->command->warn("  Usuario borrado: $email");
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->command->error("  Usuario borrado: $email");
             }
             try {
@@ -66,7 +67,7 @@ class UsersAdminSeeder extends Seeder
                 GiteaClient::user($email, $usuario, $nombre_completo, $password);
                 GiteaClient::unblock($email, $usuario);
                 $this->command->info("  Usuario generado: $email");
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->command->error("  Usuario no generado: $email");
             }
             $this->command->newLine();

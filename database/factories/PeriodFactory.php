@@ -7,13 +7,16 @@ use App\Models\Period;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
+/**
+ * @extends Factory<Period>
+ */
 class PeriodFactory extends Factory
 {
     protected $model = Period::class;
 
     public function definition()
     {
-        $name = $this->faker->unique()->year;
+        $name = fake()->unique()->year;
 
         return [
             'organization_id' => Organization::factory(),

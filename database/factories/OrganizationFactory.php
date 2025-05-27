@@ -6,18 +6,21 @@ use App\Models\Organization;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
+/**
+ * @extends Factory<Organization>
+ */
 class OrganizationFactory extends Factory
 {
     protected $model = Organization::class;
 
     public function definition()
     {
-        $name = $this->faker->company;
+        $name = fake()->company;
 
         return [
             'name' => $name,
             'slug' => Str::slug($name),
-            'seats' => $this->faker->numberBetween(5, 10),
+            'seats' => fake()->numberBetween(5, 10),
         ];
     }
 }

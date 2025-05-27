@@ -2,11 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\AllowedApp;
 use App\Models\SafeExam;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AllowedApp>
+ * @extends Factory<AllowedApp>
  */
 class AllowedAppFactory extends Factory
 {

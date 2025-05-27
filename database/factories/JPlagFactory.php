@@ -6,6 +6,9 @@ use App\Models\JPlag;
 use App\Models\Tarea;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<JPlag>
+ */
 class JPlagFactory extends Factory
 {
     protected $model = JPlag::class;
@@ -15,7 +18,7 @@ class JPlagFactory extends Factory
         return [
             'tarea_id' => Tarea::factory(),
             'match_id' => Tarea::factory(),
-            'percent' => $this->faker->randomNumber(2),
+            'percent' => fake()->randomNumber(2),
         ];
     }
 }

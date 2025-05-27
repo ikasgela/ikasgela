@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use DB;
 use Illuminate\Database\Seeder;
 
 class SkillsTableSeeder extends Seeder
@@ -14,7 +15,7 @@ class SkillsTableSeeder extends Seeder
      */
     public function run()
     {
-        \DB::table('skills')->insert(array(
+        DB::table('skills')->insert(array(
             3 =>
                 array(
                     'id' => 4,

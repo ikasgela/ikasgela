@@ -7,7 +7,7 @@ use App\Models\SafeExam;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SafeExam>
+ * @extends Factory<SafeExam>
  */
 class SafeExamFactory extends Factory
 {

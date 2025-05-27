@@ -8,6 +8,9 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<Registro>
+ */
 class RegistroFactory extends Factory
 {
     protected $model = Registro::class;
@@ -17,9 +20,9 @@ class RegistroFactory extends Factory
         return [
             'user_id' => User::factory(),
             'tarea_id' => Tarea::factory(),
-            'estado' => $this->faker->unique()->randomNumber(2),
+            'estado' => fake()->unique()->randomNumber(2),
             'timestamp' => Carbon::now(),
-            'detalles' => $this->faker->sentence(),
+            'detalles' => fake()->sentence(),
         ];
     }
 }

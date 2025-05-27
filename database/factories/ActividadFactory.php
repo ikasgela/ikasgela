@@ -7,13 +7,16 @@ use App\Models\Unidad;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
+/**
+ * @extends Factory<Actividad>
+ */
 class ActividadFactory extends Factory
 {
     protected $model = Actividad::class;
 
     public function definition()
     {
-        $nombre = $this->faker->words(3, true);
+        $nombre = fake()->words(3, true);
 
         return [
             'unidad_id' => Unidad::factory(),

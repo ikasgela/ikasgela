@@ -6,6 +6,9 @@ use App\Models\Cuestionario;
 use App\Models\Pregunta;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<Pregunta>
+ */
 class PreguntaFactory extends Factory
 {
     protected $model = Pregunta::class;
@@ -14,8 +17,8 @@ class PreguntaFactory extends Factory
     {
         return [
             'cuestionario_id' => Cuestionario::factory(),
-            'titulo' => $this->faker->words(3, true),
-            'texto' => $this->faker->sentence(16),
+            'titulo' => fake()->words(3, true),
+            'texto' => fake()->sentence(16),
             'multiple' => false,
         ];
     }

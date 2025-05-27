@@ -6,6 +6,9 @@ use App\Models\Curso;
 use App\Models\FileResource;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<FileResource>
+ */
 class FileResourceFactory extends Factory
 {
     protected $model = FileResource::class;
@@ -13,8 +16,8 @@ class FileResourceFactory extends Factory
     public function definition()
     {
         return [
-            'titulo' => $this->faker->words(3, true),
-            'descripcion' => $this->faker->sentence(6),
+            'titulo' => fake()->words(3, true),
+            'descripcion' => fake()->sentence(6),
             'curso_id' => Curso::factory(),
         ];
     }

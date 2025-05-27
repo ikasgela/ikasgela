@@ -2,11 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\AllowedUrl;
 use App\Models\SafeExam;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AllowedUrl>
+ * @extends Factory<AllowedUrl>
  */
 class AllowedUrlFactory extends Factory
 {

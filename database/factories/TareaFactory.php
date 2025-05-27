@@ -7,6 +7,9 @@ use App\Models\Tarea;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<Tarea>
+ */
 class TareaFactory extends Factory
 {
     protected $model = Tarea::class;
@@ -16,7 +19,7 @@ class TareaFactory extends Factory
         return [
             'user_id' => User::factory(),
             'actividad_id' => Actividad::factory(),
-            'estado' => $this->faker->unique()->randomNumber(2),
+            'estado' => fake()->unique()->randomNumber(2),
         ];
     }
 }

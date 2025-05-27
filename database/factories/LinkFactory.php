@@ -6,6 +6,9 @@ use App\Models\Link;
 use App\Models\LinkCollection;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<Link>
+ */
 class LinkFactory extends Factory
 {
     protected $model = Link::class;
@@ -13,8 +16,8 @@ class LinkFactory extends Factory
     public function definition()
     {
         return [
-            'url' => $this->faker->url(),
-            'descripcion' => $this->faker->sentence(6),
+            'url' => fake()->url(),
+            'descripcion' => fake()->sentence(6),
             'link_collection_id' => LinkCollection::factory(),
         ];
     }

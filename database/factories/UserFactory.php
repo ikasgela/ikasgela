@@ -7,16 +7,19 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
+/**
+ * @extends Factory<User>
+ */
 class UserFactory extends Factory
 {
     protected $model = User::class;
 
     public function definition()
     {
-        $email = $this->faker->unique()->safeEmail;
+        $email = fake()->unique()->safeEmail;
 
         return [
-            'name' => $this->faker->name,
+            'name' => fake()->name,
             'email' => $email,
             'username' => User::generar_username($email),
             'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret

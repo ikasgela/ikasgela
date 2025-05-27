@@ -11,8 +11,8 @@ class MilestoneFactory extends Factory
     {
         return [
             'curso_id' => Curso::factory(),
-            'name' => $this->faker->words(3, true),
-            'date' => $this->faker->dateTimeThisMonth(),
+            'name' => fake()->words(3, true),
+            'date' => fake()->dateTimeThisMonth(),
             'published' => true,
         ];
     }
