@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use Exception;
 use App\Models\Tarea;
 use App\Traits\JPlagRunner;
 use Illuminate\Bus\Queueable;
@@ -39,7 +40,7 @@ class RunJPlag implements ShouldQueue
 
             $this->run_jplag($this->tarea, $ruta, $directorio);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('Error al ejecutar JPlag.', [
                 'exception' => $e->getMessage(),
                 'tarea' => route('profesor.revisar', ['user' => $this->tarea->user->id, 'tarea' => $this->tarea->id]),

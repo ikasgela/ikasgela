@@ -16,12 +16,14 @@ class CacheClear extends Model
         'user_id', 'fecha',
     ];
 
-    protected $casts = [
-        'fecha' => 'datetime',
-    ];
-
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    protected function casts(): array
+    {
+        return [
+            'fecha' => 'datetime',
+        ];
     }
 }

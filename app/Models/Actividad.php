@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use App\Traits\Etiquetas;
 use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -45,11 +46,6 @@ class Actividad extends Model
         'fecha_comienzo', 'fecha_finalizacion',
         'destacada', 'tags', 'multiplicador', 'siguiente_overriden',
         '__import_id',
-    ];
-
-    protected $casts = [
-        'fecha_disponibilidad' => 'datetime', 'fecha_entrega' => 'datetime', 'fecha_limite' => 'datetime',
-        'fecha_comienzo' => 'datetime', 'fecha_finalizacion' => 'datetime',
     ];
 
     public function getFullNameAttribute()
@@ -185,12 +181,14 @@ class Actividad extends Model
             ->withTimestamps();
     }
 
-    public function scopePlantilla($query)
+    #[Scope]
+    protected function plantilla($query)
     {
         return $query->where('plantilla', true);
     }
 
-    public function scopeCursoActual($query)
+    #[Scope]
+    protected function cursoActual($query)
     {
         return $query->whereHas('unidad.curso', function ($query) {
             $query->where('cursos.id', setting_usuario('curso_actual'));
@@ -275,7 +273,8 @@ class Actividad extends Model
         return $this->morphMany(Feedback::class, 'comentable');
     }
 
-    public function scopeEnPlazo($query)
+    #[Scope]
+    protected function enPlazo($query)
     {
         return $query->where(function ($query) {
             $query->where('fecha_disponibilidad', '<=', now())->orWhereNull('fecha_disponibilidad');
@@ -284,7 +283,8 @@ class Actividad extends Model
         });
     }
 
-    public function scopeEnPlazoOrCorregida($query)
+    #[Scope]
+    protected function enPlazoOrCorregida($query)
     {
         return $query->where(function ($query) {
             $query->where('fecha_disponibilidad', '<=', now())->orWhereNull('fecha_disponibilidad')
@@ -295,19 +295,22 @@ class Actividad extends Model
         });
     }
 
-    public function scopeCaducada($query)
+    #[Scope]
+    protected function caducada($query)
     {
         return $query->where('fecha_limite', '<', now());
     }
 
-    public function scopeEstados($query, $estados)
+    #[Scope]
+    protected function estados($query, $estados)
     {
         return $query->whereHas('users', function ($q) use ($estados) {
             $q->where('user_id', Auth::user()->id)->whereIn('estado', $estados);
         });
     }
 
-    public function scopeAutoAvance($query)
+    #[Scope]
+    protected function autoAvance($query)
     {
         return $query->where('auto_avance', true);
     }
@@ -415,5 +418,12 @@ class Actividad extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults();
+    }
+    protected function casts(): array
+    {
+        return [
+            'fecha_disponibilidad' => 'datetime', 'fecha_entrega' => 'datetime', 'fecha_limite' => 'datetime',
+            'fecha_comienzo' => 'datetime', 'fecha_finalizacion' => 'datetime',
+        ];
     }
 }

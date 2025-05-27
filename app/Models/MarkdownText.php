@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Exception;
 use Bkwld\Cloner\Cloneable;
 use Cache;
 use GrahamCampbell\Markdown\Facades\Markdown;
@@ -59,7 +60,7 @@ class MarkdownText extends Model
                 // Añadir target="_blank" a los enlaces
                 $texto = preg_replace('/(<a href="[^"]+")>/is', '\\1 target="_blank">', $texto);
 
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $texto = "# " . __('Error') . "\n\n" . __('Repository not found.');
             }
 

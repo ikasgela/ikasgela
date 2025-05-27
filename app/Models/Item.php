@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,7 +27,8 @@ class Item extends Model
         return $this->belongsTo(Pregunta::class);
     }
 
-    public function scopePlantilla($query)
+    #[Scope]
+    protected function plantilla($query)
     {
         return $query->whereHas('pregunta.cuestionario', function ($query) {
             $query->where('plantilla', true);

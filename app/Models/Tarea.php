@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
@@ -50,21 +51,24 @@ class Tarea extends Pivot
         return $this->hasMany(JPlag::class);
     }
 
-    public function scopeUsuarioNoBloqueado($query)
+    #[Scope]
+    protected function usuarioNoBloqueado($query)
     {
         return $query->whereHas('user', function ($query) {
             $query->where('blocked_date', null);
         });
     }
 
-    public function scopeCursoActual($query)
+    #[Scope]
+    protected function cursoActual($query)
     {
         return $query->whereHas('actividad.unidad.curso', function ($query) {
             $query->where('cursos.id', setting_usuario('curso_actual'));
         });
     }
 
-    public function scopeNoAutoAvance($query)
+    #[Scope]
+    protected function noAutoAvance($query)
     {
         return $query->whereHas('actividad', function ($query) {
             $query->where('actividades.auto_avance', false);

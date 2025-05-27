@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use App\Observers\SharedKeys;
 use App\Traits\Etiquetas;
 use Cache;
@@ -51,10 +52,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     ];
 
     public $appends = ['last_active_time', 'num_completadas_base'];
-
-    protected $casts = [
-        'last_active' => 'datetime',
-    ];
 
     public function getFullNameAttribute()
     {
@@ -398,42 +395,48 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         return $this->blocked_date != null;
     }
 
-    public function scopeOrganizacionActual($query)
+    #[Scope]
+    protected function organizacionActual($query)
     {
         return $query->whereHas('organizations', function ($query) {
             $query->where('organizations.id', setting_usuario('_organization_id'));
         });
     }
 
-    public function scopeCursoActual($query)
+    #[Scope]
+    protected function cursoActual($query)
     {
         return $query->whereHas('cursos', function ($query) {
             $query->where('cursos.id', setting_usuario('curso_actual'));
         });
     }
 
-    public function scopeRolAdmin($query)
+    #[Scope]
+    protected function rolAdmin($query)
     {
         return $query->whereHas('roles', function ($query) {
             $query->where('name', 'admin');
         });
     }
 
-    public function scopeRolAlumno($query)
+    #[Scope]
+    protected function rolAlumno($query)
     {
         return $query->whereHas('roles', function ($query) {
             $query->where('name', 'alumno');
         });
     }
 
-    public function scopeRolProfesor($query)
+    #[Scope]
+    protected function rolProfesor($query)
     {
         return $query->whereHas('roles', function ($query) {
             $query->where('name', 'profesor');
         });
     }
 
-    public function scopeNoBloqueado($query)
+    #[Scope]
+    protected function noBloqueado($query)
     {
         return $query->where('blocked_date', null);
     }
@@ -900,5 +903,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults();
+    }
+    protected function casts(): array
+    {
+        return [
+            'last_active' => 'datetime',
+        ];
     }
 }

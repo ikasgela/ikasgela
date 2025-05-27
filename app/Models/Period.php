@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -37,7 +38,8 @@ class Period extends Model
         return $this->hasMany(Group::class);
     }
 
-    public function scopeOrganizacionActual($query)
+    #[Scope]
+    protected function organizacionActual($query)
     {
         return $query->where('organization_id', setting_usuario('_organization_id'));
     }

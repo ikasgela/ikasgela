@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -20,10 +21,6 @@ class Milestone extends Model
         'normalizar_nota', 'ajuste_proporcional_nota',
     ];
 
-    protected $casts = [
-        'date' => 'datetime',
-    ];
-
     public function getFullNameAttribute()
     {
         return $this->name . " - " . $this->date->format('d/m/Y');
@@ -39,8 +36,15 @@ class Milestone extends Model
         return "_" . Str::slug($this->name) . "_" . $this->date->timestamp;
     }
 
-    public function scopePublished($query)
+    #[Scope]
+    protected function published($query)
     {
         return $query->where('published', true);
+    }
+    protected function casts(): array
+    {
+        return [
+            'date' => 'datetime',
+        ];
     }
 }

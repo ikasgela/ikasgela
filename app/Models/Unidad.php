@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use App\Traits\Etiquetas;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -34,10 +35,6 @@ class Unidad extends Model
         return $full_name;
     }
 
-    protected $casts = [
-        'fecha_disponibilidad' => 'datetime', 'fecha_entrega' => 'datetime', 'fecha_limite' => 'datetime',
-    ];
-
     public function curso()
     {
         return $this->belongsTo(Curso::class);
@@ -53,14 +50,16 @@ class Unidad extends Model
         return $this->belongsTo(Qualification::class);
     }
 
-    public function scopeOrganizacionActual($query)
+    #[Scope]
+    protected function organizacionActual($query)
     {
         return $query->whereHas('curso.category.period.organization', function ($query) {
             $query->where('organizations.id', setting_usuario('_organization_id'));
         });
     }
 
-    public function scopeCursoActual($query)
+    #[Scope]
+    protected function cursoActual($query)
     {
         return $query->where('curso_id', setting_usuario('curso_actual'));
     }
@@ -86,5 +85,11 @@ class Unidad extends Model
         }
 
         return $total;
+    }
+    protected function casts(): array
+    {
+        return [
+            'fecha_disponibilidad' => 'datetime', 'fecha_entrega' => 'datetime', 'fecha_limite' => 'datetime',
+        ];
     }
 }

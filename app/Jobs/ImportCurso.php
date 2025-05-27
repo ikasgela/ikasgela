@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use Exception;
 use App\Models\Actividad;
 use App\Models\AllowedApp;
 use App\Models\AllowedUrl;
@@ -314,7 +315,7 @@ class ImportCurso implements ShouldQueue
 
             try {
                 Storage::disk('s3')->put('documents/' . $filename, file_get_contents($ruta . '/file_resources/' . $objeto['path']));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 Log::error('Error al crear el archivo.', [
                     'exception' => $e->getMessage(),
                 ]);
@@ -594,7 +595,7 @@ class ImportCurso implements ShouldQueue
             $this->removeKey($json, 'created_at');
             $this->removeKey($json, 'updated_at');
             $this->removeKey($json, 'deleted_at');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $json = null;
         }
         return $json;

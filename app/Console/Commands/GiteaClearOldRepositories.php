@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Exception;
 use App\Models\Actividad;
 use Cache;
 use DB;
@@ -57,7 +58,7 @@ class GiteaClearOldRepositories extends Command
                     $repo_id = null;
                     try {
                         $repo_id = GiteaClient::repo($proyecto->fork)['id'];
-                    } catch (\Exception $e) {
+                    } catch (Exception $e) {
                     }
 
                     if ($repo_id == null) {

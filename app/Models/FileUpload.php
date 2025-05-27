@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -33,7 +34,8 @@ class FileUpload extends Model
         return $this->morphMany('App\Models\File', 'uploadable');
     }
 
-    public function scopePlantilla($query)
+    #[Scope]
+    protected function plantilla($query)
     {
         return $query->where('plantilla', true);
     }

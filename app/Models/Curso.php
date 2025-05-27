@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use App\Traits\Etiquetas;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -29,10 +30,6 @@ class Curso extends Model
         'silence_notifications',
         'tarea_bienvenida_id',
         'normalizar_nota', 'ajuste_proporcional_nota',
-    ];
-
-    protected $casts = [
-        'fecha_inicio' => 'datetime', 'fecha_fin' => 'datetime',
     ];
 
     public function getFullNameAttribute()
@@ -101,14 +98,16 @@ class Curso extends Model
         return $this->hasOne(SafeExam::class);
     }
 
-    public function scopeOrganizacionActual($query)
+    #[Scope]
+    protected function organizacionActual($query)
     {
         return $query->whereHas('category.period.organization', function ($query) {
             $query->where('organizations.id', setting_usuario('_organization_id'));
         });
     }
 
-    public function scopePeriodoActual($query)
+    #[Scope]
+    protected function periodoActual($query)
     {
         return $query->whereHas('category.period', function ($query) {
             $query->where('periods.id', setting_usuario('_period_id'));
@@ -281,5 +280,11 @@ class Curso extends Model
         })->whereHas('actividad', function ($query) {
             $query->where('fecha_limite', '<', now());
         })->usuarioNoBloqueado()->noAutoAvance()->whereNotIn('estado', [30, 40, 60, 62, 64])->count();
+    }
+    protected function casts(): array
+    {
+        return [
+            'fecha_inicio' => 'datetime', 'fecha_fin' => 'datetime',
+        ];
     }
 }

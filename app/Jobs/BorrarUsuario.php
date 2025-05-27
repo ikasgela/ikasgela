@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use Exception;
 use App\Models\User;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Bus\Queueable;
@@ -38,7 +39,7 @@ class BorrarUsuario implements ShouldQueue
         if (config('ikasgela.gitea_enabled')) {
             try {
                 GiteaClient::borrar_usuario($user->username);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 Log::error('Gitea: Error al borrar el usuario.', [
                     'username' => $user->username,
                     'exception' => $e->getMessage()

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Exception;
 use Bkwld\Cloner\Cloneable;
 use Cache;
 use Ikasgela\Gitea\GiteaClient;
@@ -62,7 +63,7 @@ class IntellijProject extends Model
                             });
                         }
                     }
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     Log::error('Error al recuperar un repositorio.', [
                         'host' => $this->host,
                         'repository' => $this->repositorio,

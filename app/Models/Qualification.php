@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -60,12 +61,14 @@ class Qualification extends Model
         return $this->hasMany(Unidad::class);
     }
 
-    public function scopeCursoActual($query)
+    #[Scope]
+    protected function cursoActual($query)
     {
         return $query->where('curso_id', setting_usuario('curso_actual'));
     }
 
-    public function scopePlantilla($query)
+    #[Scope]
+    protected function plantilla($query)
     {
         return $query->where('template', true);
     }

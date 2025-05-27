@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Exception;
 use App\Models\Actividad;
 use Cache;
 use Illuminate\Console\Command;
@@ -56,7 +57,7 @@ class GiteaArchiveProjects extends Command
                                 $proyecto->archive();
                                 echo '.';
                                 $total++;
-                            } catch (\Exception $e) {
+                            } catch (Exception $e) {
                                 echo 'E';
                             }
                         }

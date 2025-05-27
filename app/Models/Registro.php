@@ -18,10 +18,6 @@ class Registro extends Model
 
     public $timestamps = false;
 
-    protected $casts = [
-        'timestamp' => 'datetime',
-    ];
-
     public function tarea()
     {
         return $this->belongsTo(Tarea::class)->withTrashed();
@@ -30,5 +26,11 @@ class Registro extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    protected function casts(): array
+    {
+        return [
+            'timestamp' => 'datetime',
+        ];
     }
 }

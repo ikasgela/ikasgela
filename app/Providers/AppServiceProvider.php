@@ -2,6 +2,14 @@
 
 namespace App\Providers;
 
+use URL;
+use Faker\Generator;
+use Faker\Factory;
+use App;
+use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
+use Laravel\Dusk\DuskServiceProvider;
+use Spatie\LaravelIgnition\IgnitionServiceProvider;
+use Laravel\Tinker\TinkerServiceProvider;
 use App\Models\Organization;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
@@ -16,15 +24,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \URL::forceScheme('https');
+        URL::forceScheme('https');
 
         if (config('app.env', 'local') !== 'production') {
-            $this->app->singleton(\Faker\Generator::class, function () {
-                return \Faker\Factory::create('es_ES');
+            $this->app->singleton(function (): Generator {
+                return Factory::create('es_ES');
             });
         }
 
-        if (!\App::runningInConsole()) {
+        if (!App::runningInConsole()) {
             $organization = Organization::where('slug', subdominio())->first();
             View::share('current_organization', $organization);
         }
@@ -41,10 +49,10 @@ class AppServiceProvider extends ServiceProvider
     {
         if (!$this->app->environment('production')) {
             $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
-            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
-            $this->app->register(\Laravel\Dusk\DuskServiceProvider::class);
-            $this->app->register(\Spatie\LaravelIgnition\IgnitionServiceProvider::class);
-            $this->app->register(\Laravel\Tinker\TinkerServiceProvider::class);
+            $this->app->register(IdeHelperServiceProvider::class);
+            $this->app->register(DuskServiceProvider::class);
+            $this->app->register(IgnitionServiceProvider::class);
+            $this->app->register(TinkerServiceProvider::class);
         }
     }
 }
