@@ -3,7 +3,7 @@
 namespace App\Console;
 
 use App\Models\Actividad;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class BloquearRepositorios
 {

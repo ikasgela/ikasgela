@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Qualification;
-use Cache;
+use Illuminate\Support\Facades\Cache;
 
 class QualificationObserver
 {

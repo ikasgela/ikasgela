@@ -3,6 +3,7 @@
 use Rector\Config\RectorConfig;
 use RectorLaravel\Rector\ClassMethod\MigrateToSimplifiedAttributeRector;
 use RectorLaravel\Set\LaravelLevelSetList;
+use RectorLaravel\Set\LaravelSetList;
 
 return RectorConfig::configure()
     ->withParallel(600, 16, 10)
@@ -14,4 +15,6 @@ return RectorConfig::configure()
     ])
     ->withSets([
         LaravelLevelSetList::UP_TO_LARAVEL_120,
+        LaravelSetList::LARAVEL_CODE_QUALITY,
+        LaravelSetList::LARAVEL_FACADE_ALIASES_TO_FULL_NAMES,
     ]);

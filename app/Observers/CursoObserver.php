@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Curso;
-use Cache;
+use Illuminate\Support\Facades\Cache;
 
 class CursoObserver
 {

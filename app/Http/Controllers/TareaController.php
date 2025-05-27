@@ -10,7 +10,7 @@ use Exception;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class TareaController extends Controller
 {

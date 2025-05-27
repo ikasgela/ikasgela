@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Skill;
-use Cache;
+use Illuminate\Support\Facades\Cache;
 
 class SkillObserver
 {

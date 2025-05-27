@@ -6,7 +6,6 @@ use App\Models\Actividad;
 use App\Models\IntellijProject;
 use App\Models\User;
 use App\Traits\ClonarRepoGitea;
-use Cache;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -14,9 +13,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
-use Log;
 
 class ForkGiteaRepo implements ShouldQueue, ShouldBeUnique
 {

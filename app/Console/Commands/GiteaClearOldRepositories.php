@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use DB;
 use Exception;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class GiteaClearOldRepositories extends Command
 {

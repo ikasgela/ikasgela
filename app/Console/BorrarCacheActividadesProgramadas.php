@@ -3,7 +3,7 @@
 namespace App\Console;
 
 use App\Models\CacheClear;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class BorrarCacheActividadesProgramadas
 {

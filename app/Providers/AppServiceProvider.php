@@ -2,18 +2,18 @@
 
 namespace App\Providers;
 
-use App;
 use App\Models\Organization;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Faker\Factory;
 use Faker\Generator;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Dusk\DuskServiceProvider;
 use Laravel\Tinker\TinkerServiceProvider;
 use Spatie\LaravelIgnition\IgnitionServiceProvider;
-use URL;
 
 class AppServiceProvider extends ServiceProvider
 {

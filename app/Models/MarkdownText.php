@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use Bkwld\Cloner\Cloneable;
-use Cache;
 use Exception;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * @mixin IdeHelperMarkdownText

@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 if (!function_exists('setting_usuario')) {
 
     function setting_usuario($key, $user = null)
