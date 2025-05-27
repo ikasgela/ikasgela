@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use Exception;
 use App\Models\Actividad;
 use App\Models\AllowedApp;
 use App\Models\AllowedUrl;
@@ -27,6 +26,7 @@ use App\Models\Selector;
 use App\Models\Skill;
 use App\Models\Unidad;
 use App\Models\YoutubeVideo;
+use Exception;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

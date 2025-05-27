@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Scope;
 use App\Observers\SharedKeys;
 use App\Traits\Etiquetas;
 use Cache;
 use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Translation\HasLocalePreference;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -904,6 +904,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     {
         return LogOptions::defaults();
     }
+
     protected function casts(): array
     {
         return [

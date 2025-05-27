@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
 use App\Jobs\BorrarUsuario;
 use App\Models\Curso;
 use App\Models\Organization;
@@ -10,6 +9,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Traits\TareaBienvenida;
 use Carbon\Carbon;
+use Exception;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

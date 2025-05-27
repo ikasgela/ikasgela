@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
-use Exception;
 use App\Models\User;
+use Exception;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

@@ -41,6 +41,7 @@ class Milestone extends Model
     {
         return $query->where('published', true);
     }
+
     protected function casts(): array
     {
         return [

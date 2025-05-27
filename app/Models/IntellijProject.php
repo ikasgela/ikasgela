@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Exception;
 use Bkwld\Cloner\Cloneable;
 use Cache;
+use Exception;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

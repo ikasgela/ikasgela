@@ -6,7 +6,6 @@ use App\Models\Actividad;
 use App\Models\Curso;
 use App\Models\Team;
 use App\Models\Unidad;
-use App\Models\User;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

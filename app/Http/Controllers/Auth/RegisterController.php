@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Exception;
 use App\Http\Controllers\Controller;
 use App\Mail\NuevoUsuario;
 use App\Models\Organization;
 use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
+use Exception;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;

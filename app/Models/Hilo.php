@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Scope;
 use Cmgmyr\Messenger\Models\Thread;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 
 /**
  * @mixin IdeHelperHilo

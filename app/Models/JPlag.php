@@ -18,11 +18,11 @@ class JPlag extends Model
 
     public function tarea()
     {
-        return $this->belongsTo(Tarea::class, 'tarea_id','id');
+        return $this->belongsTo(Tarea::class, 'tarea_id', 'id');
     }
 
     public function match()
     {
-        return $this->belongsTo(Tarea::class, 'match_id','id');
+        return $this->belongsTo(Tarea::class, 'match_id', 'id');
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Exception;
 use App\Models\Actividad;
 use Cache;
+use Exception;
 use Illuminate\Console\Command;
 
 class GiteaArchiveProjects extends Command

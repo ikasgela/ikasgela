@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
 use App\Models\Registro;
 use App\Models\Tarea;
 use App\Models\User;
 use Carbon\Carbon;
+use Exception;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

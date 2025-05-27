@@ -2,10 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Http\Response;
-use Illuminate\Http\RedirectResponse;
 use Closure;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class UserLocale

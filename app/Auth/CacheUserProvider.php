@@ -2,9 +2,9 @@
 
 namespace App\Auth;
 
-use Illuminate\Contracts\Auth\Authenticatable;
 use App\Models\User;
 use Illuminate\Auth\EloquentUserProvider;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 use Illuminate\Support\Facades\Cache;
 

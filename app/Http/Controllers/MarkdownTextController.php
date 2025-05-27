@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
 use App\Models\Actividad;
 use App\Models\Curso;
 use App\Models\MarkdownText;
 use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
 use Cache;
+use Exception;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

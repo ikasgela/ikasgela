@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Scope;
 use App\Traits\Etiquetas;
 use Bkwld\Cloner\Cloneable;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -419,6 +419,7 @@ class Actividad extends Model
     {
         return LogOptions::defaults();
     }
+
     protected function casts(): array
     {
         return [

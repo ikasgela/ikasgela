@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Scope;
 use App\Traits\Etiquetas;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -281,6 +281,7 @@ class Curso extends Model
             $query->where('fecha_limite', '<', now());
         })->usuarioNoBloqueado()->noAutoAvance()->whereNotIn('estado', [30, 40, 60, 62, 64])->count();
     }
+
     protected function casts(): array
     {
         return [

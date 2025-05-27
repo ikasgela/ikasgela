@@ -2,7 +2,6 @@
 
 namespace App\Observers;
 
-use App\Models\Qualification;
 use App\Models\Skill;
 use Cache;
 

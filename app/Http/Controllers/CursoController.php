@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Response;
 use App\Http\Requests\StoreFile;
 use App\Jobs\BorrarCurso;
 use App\Jobs\ImportCurso;
@@ -12,6 +11,7 @@ use App\Models\User;
 use App\Traits\TareaBienvenida;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File as SystemFile;
@@ -28,7 +28,7 @@ class CursoController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:admin')->except(['matricular', 'curso_actual']);;
+        $this->middleware('role:admin')->except(['matricular', 'curso_actual']);
     }
 
     public function index()

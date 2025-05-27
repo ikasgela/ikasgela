@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
 use App\Jobs\RunJPlag;
 use App\Mail\ActividadAsignada;
 use App\Models\Actividad;
@@ -17,6 +16,7 @@ use App\Models\Unidad;
 use App\Models\User;
 use App\Traits\JPlagRunner;
 use App\Traits\PaginarUltima;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
