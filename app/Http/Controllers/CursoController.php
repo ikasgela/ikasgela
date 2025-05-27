@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Response;
 use App\Http\Requests\StoreFile;
 use App\Jobs\BorrarCurso;
 use App\Jobs\ImportCurso;
 use App\Models\Category;
 use App\Models\Curso;
 use App\Models\User;
-use App\Traits\RecuentoEnviadas;
 use App\Traits\TareaBienvenida;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
@@ -90,8 +90,8 @@ class CursoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\Curso $curso
-     * @return \Illuminate\Http\Response
+     * @param Curso $curso
+     * @return Response
      */
     public function edit(Curso $curso)
     {

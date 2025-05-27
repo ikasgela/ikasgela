@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Actividad;
 use App\Models\Curso;
 use App\Models\MarkdownText;
@@ -66,7 +67,7 @@ class MarkdownTextController extends Controller
     {
         try {
             $repositorio = GiteaClient::repo($markdown_text->repositorio);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $repositorio = null;
         }
 

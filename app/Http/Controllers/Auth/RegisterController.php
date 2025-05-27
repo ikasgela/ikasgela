@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Exception;
 use App\Http\Controllers\Controller;
 use App\Mail\NuevoUsuario;
 use App\Models\Organization;
@@ -90,7 +91,7 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param array $data
-     * @return \App\Models\User
+     * @return User
      */
     protected function create(array $data)
     {
@@ -111,7 +112,7 @@ class RegisterController extends Controller
                 $nombre_completo = $data['name'] . ' ' . $data['surname'];
                 GiteaClient::user($data['email'], $nombre_usuario, $nombre_completo, $data['password']);
                 GiteaClient::block($data['email'], $nombre_usuario);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 Log::error('Gitea: Error al crear el usuario.', [
                     'username' => $nombre_usuario,
                     'exception' => $e->getMessage()

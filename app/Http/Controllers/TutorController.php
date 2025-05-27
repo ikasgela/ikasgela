@@ -6,7 +6,6 @@ use App\Charts\TareasEnviadas;
 use App\Exports\InformeGrupoExport;
 use App\Models\Registro;
 use App\Traits\InformeGrupo;
-use App\Traits\RecuentoEnviadas;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;

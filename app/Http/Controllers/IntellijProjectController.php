@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Jobs\ForkGiteaRepo;
 use App\Models\Actividad;
 use App\Models\Curso;
@@ -265,7 +266,7 @@ class IntellijProjectController extends Controller
                 default:
                     // Ok, no crear nada
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error($e);
         }
 

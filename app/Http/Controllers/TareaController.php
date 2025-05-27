@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Registro;
 use App\Models\Tarea;
 use App\Models\User;
@@ -80,7 +81,7 @@ class TareaController extends Controller
                 $repo = $intellij_project->repository();
                 try {
                     GiteaClient::borrar_repo($repo['id']);
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     Log::error("No se ha podido borrar el repositorio", ['tarea' => $tarea->id, 'repo' => $repo['path_with_namespace']]);
                 }
             }

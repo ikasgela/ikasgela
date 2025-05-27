@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Jobs\BorrarUsuario;
 use App\Models\Curso;
 use App\Models\Organization;
@@ -119,7 +120,7 @@ class UserController extends Controller
             try {
                 $nombre_completo = $user->full_name;
                 GiteaClient::user($user->email, $nombre_usuario, $nombre_completo, request('password'));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 Log::error('Gitea: Error al crear el usuario.', [
                     'username' => $nombre_usuario,
                     'exception' => $e->getMessage()

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Jobs\RunJPlag;
 use App\Mail\ActividadAsignada;
 use App\Models\Actividad;
@@ -16,7 +17,6 @@ use App\Models\Unidad;
 use App\Models\User;
 use App\Traits\JPlagRunner;
 use App\Traits\PaginarUltima;
-use App\Traits\RecuentoEnviadas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -354,7 +354,7 @@ class ProfesorController extends Controller
 
                 return Zip::create("jplag-{$nombre}-{$fecha}.zip", $ficheros_ruta_completa);
 
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 Log::error('Error al ejecutar JPlag.', [
                     'exception' => $e->getMessage(),
                     'tarea' => $tarea,
