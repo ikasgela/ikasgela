@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Dusk\DuskServiceProvider;
 use Laravel\Tinker\TinkerServiceProvider;
+use Override;
 use Spatie\LaravelIgnition\IgnitionServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,9 +28,7 @@ class AppServiceProvider extends ServiceProvider
         URL::forceScheme('https');
 
         if (config('app.env', 'local') !== 'production') {
-            $this->app->singleton(function (): Generator {
-                return Factory::create('es_ES');
-            });
+            $this->app->singleton(fn(): Generator => Factory::create('es_ES'));
         }
 
         if (!App::runningInConsole()) {
@@ -45,6 +44,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
+    #[Override]
     public function register()
     {
         if (!$this->app->environment('production')) {

@@ -91,7 +91,7 @@ class UnidadController extends Controller
             'codigo' => request('codigo'),
             'nombre' => request('nombre'),
             'descripcion' => request('descripcion'),
-            'slug' => strlen(request('slug')) > 0
+            'slug' => strlen((string)request('slug')) > 0
                 ? Str::slug(request('slug'))
                 : Str::slug(request('nombre')),
             'qualification_id' => request('qualification_id'),

@@ -11,14 +11,10 @@ class ActividadAsignada extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $usuario;
-    public $asignadas;
     public $hostName;
 
-    public function __construct($usuario, $asignadas)
+    public function __construct(public $usuario, public $asignadas)
     {
-        $this->usuario = $usuario;
-        $this->asignadas = $asignadas;
         $this->hostName = Request::getHost();
     }
 

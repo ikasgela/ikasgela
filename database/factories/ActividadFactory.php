@@ -6,6 +6,7 @@ use App\Models\Actividad;
 use App\Models\Unidad;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Override;
 
 /**
  * @extends Factory<Actividad>
@@ -25,6 +26,7 @@ class ActividadFactory extends Factory
         ];
     }
 
+    #[Override]
     public function configure()
     {
         return $this->afterCreating(function (Actividad $model) {

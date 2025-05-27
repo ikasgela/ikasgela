@@ -53,9 +53,7 @@ class TutorController extends Controller
             })
             ->orderBy('timestamp')
             ->get()
-            ->groupBy(function ($val) {
-                return Carbon::parse($val->timestamp)->isoFormat('L');
-            });
+            ->groupBy(fn($val) => Carbon::parse($val->timestamp)->isoFormat('L'));
 
         $period = CarbonPeriod::create($fecha_inicio, $fecha_fin);
 
@@ -64,9 +62,7 @@ class TutorController extends Controller
             $todas_fechas[$date->isoFormat('L')] = 0;
         }
 
-        $datos = array_merge($todas_fechas, $registros->map(function ($item, $key) {
-            return $item->count();
-        })->toArray());
+        $datos = array_merge($todas_fechas, $registros->map(fn($item, $key) => $item->count())->toArray());
 
         $chart->labels(array_keys($datos))->displayLegend(false);
 

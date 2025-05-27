@@ -113,7 +113,7 @@ class CursoController extends Controller
             'category_id' => request('category_id'),
             'nombre' => request('nombre'),
             'descripcion' => request('descripcion'),
-            'slug' => strlen(request('slug')) > 0
+            'slug' => strlen((string)request('slug')) > 0
                 ? Str::slug(request('slug'))
                 : Str::slug(request('nombre')),
             'tags' => request('tags'),

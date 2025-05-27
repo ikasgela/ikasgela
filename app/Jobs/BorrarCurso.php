@@ -18,13 +18,9 @@ class BorrarCurso implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected Curso $curso;
-
-    public function __construct(Curso $curso)
+    public function __construct(protected Curso $curso)
     {
         $this->onQueue('low');
-
-        $this->curso = $curso;
     }
 
     public function handle()

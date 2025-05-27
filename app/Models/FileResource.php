@@ -30,7 +30,7 @@ class FileResource extends Model
 
     public function files()
     {
-        return $this->morphMany('App\Models\File', 'uploadable')
+        return $this->morphMany(File::class, 'uploadable')
             ->orderBy('orden');
     }
 

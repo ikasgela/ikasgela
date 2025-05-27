@@ -57,7 +57,7 @@ class GiteaArchiveProjects extends Command
                                 $proyecto->archive();
                                 echo '.';
                                 $total++;
-                            } catch (Exception $e) {
+                            } catch (Exception) {
                                 echo 'E';
                             }
                         }

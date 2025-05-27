@@ -6,6 +6,7 @@ use App\Models\Registro;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\App;
+use Override;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Tests\TestCase;
 
@@ -17,6 +18,7 @@ class RegistrosCRUDTest extends TestCase
         'user_id', 'tarea_id', 'estado'
     ];
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

@@ -6,6 +6,7 @@ use App\Models\Curso;
 use App\Models\Unidad;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Override;
 
 /**
  * @extends Factory<Unidad>
@@ -25,6 +26,7 @@ class UnidadFactory extends Factory
         ];
     }
 
+    #[Override]
     public function configure()
     {
         return $this->afterCreating(function (Unidad $model) {

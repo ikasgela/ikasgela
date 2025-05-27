@@ -6,6 +6,7 @@ use App\Models\File;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Schema;
+use Override;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -13,6 +14,7 @@ class UserTest extends TestCase
 {
     use DatabaseTransactions;
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

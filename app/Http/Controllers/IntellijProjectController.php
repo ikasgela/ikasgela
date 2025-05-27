@@ -190,7 +190,7 @@ class IntellijProjectController extends Controller
         $destino = $request->input('destino');  // root/copia
         $nombre = $request->input('nombre');    // Nuevo proyecto
 
-        $split = explode("/", $destino);
+        $split = explode("/", (string)$destino);
 
         $usuario = $split[0] ?? '';
         $ruta = $split[1] ?? '';

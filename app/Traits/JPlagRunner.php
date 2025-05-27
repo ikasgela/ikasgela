@@ -90,9 +90,7 @@ trait JPlagRunner
 
             // Cargar el CSV del resultado
             // https://stackoverflow.com/a/50870196
-            $resultados = array_map(function ($v) {
-                return str_replace("@", "/", str_getcsv($v, ";"));
-            }, file($ruta . '/__resultados/matches_avg.csv'));
+            $resultados = array_map(fn($v) => str_replace("@", "/", str_getcsv((string)$v, ";", escape: '\\')), file($ruta . '/__resultados/matches_avg.csv'));
 
             Log::debug('Resultados de JPlag.', [
                 'resultados' => $resultados,

@@ -62,7 +62,7 @@ class OrganizationController extends Controller
 
         $organization->update([
             'name' => request('name'),
-            'slug' => strlen(request('slug')) > 0
+            'slug' => strlen((string)request('slug')) > 0
                 ? Str::slug(request('slug'))
                 : Str::slug(request('name')),
             'current_period_id' => request('current_period_id'),

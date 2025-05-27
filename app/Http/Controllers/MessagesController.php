@@ -56,7 +56,7 @@ class MessagesController extends Controller
     {
         try {
             $thread = Hilo::forUser(Auth::id())->cursoActual()->findOrFail($id);
-        } catch (ModelNotFoundException $e) {
+        } catch (ModelNotFoundException) {
             Session::flash('error_message', __('Thread not found.'));
 
             return redirect()->route('messages');
@@ -174,7 +174,7 @@ class MessagesController extends Controller
             $thread->addParticipant($request['recipients']);
         }
 
-        $this->enviarEmails($thread, Auth::id());
+        $this->enviarEmails($thread);
 
         return retornar();
     }
@@ -193,7 +193,7 @@ class MessagesController extends Controller
 
         try {
             $thread = Hilo::forUser(Auth::id())->findOrFail($id);
-        } catch (ModelNotFoundException $e) {
+        } catch (ModelNotFoundException) {
             Session::flash('error_message', __('Thread not found.'));
 
             return redirect()->route('messages');
@@ -223,7 +223,7 @@ class MessagesController extends Controller
             $thread->addParticipant($request['recipients']);
         }
 
-        $this->enviarEmails($thread, Auth::id());
+        $this->enviarEmails($thread);
 
         return redirect()->route('messages.show', $id);
     }
@@ -246,6 +246,6 @@ class MessagesController extends Controller
 
     private function filtrarParrafosVacios($mensaje)
     {
-        return preg_replace('/<p[^>]*>&nbsp;<\\/p[^>]*>/', '', $mensaje);
+        return preg_replace('/<p[^>]*>&nbsp;<\\/p[^>]*>/', '', (string)$mensaje);
     }
 }

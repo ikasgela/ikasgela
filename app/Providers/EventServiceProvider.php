@@ -2,6 +2,12 @@
 
 namespace App\Providers;
 
+use App\Listeners\ActivarUsuario;
+use App\Listeners\LoginSuccess;
+use App\Listeners\LogoutSuccess;
+use App\Listeners\UserImpersonated;
+use App\Listeners\UserImpersonatedEnded;
+use App\Listeners\ZipStreamedListener;
 use App\Models\Actividad;
 use App\Models\Category;
 use App\Models\Curso;
@@ -24,9 +30,16 @@ use App\Observers\SkillObserver;
 use App\Observers\TareaObserver;
 use App\Observers\UnidadObserver;
 use App\Observers\UserObserver;
+use Illuminate\Auth\Events\Login;
+use Illuminate\Auth\Events\Logout;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Lab404\Impersonate\Events\LeaveImpersonation;
+use Lab404\Impersonate\Events\TakeImpersonation;
+use Override;
+use STS\ZipStream\Events\ZipStreamed;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -39,23 +52,23 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        'Illuminate\Auth\Events\Verified' => [
-            'App\Listeners\ActivarUsuario',
+        Verified::class => [
+            ActivarUsuario::class,
         ],
-        'Illuminate\Auth\Events\Login' => [
-            'App\Listeners\LoginSuccess',
+        Login::class => [
+            LoginSuccess::class,
         ],
-        'Illuminate\Auth\Events\Logout' => [
-            'App\Listeners\LogoutSuccess',
+        Logout::class => [
+            LogoutSuccess::class,
         ],
-        'Lab404\Impersonate\Events\TakeImpersonation' => [
-            'App\Listeners\UserImpersonated',
+        TakeImpersonation::class => [
+            UserImpersonated::class,
         ],
-        'Lab404\Impersonate\Events\LeaveImpersonation' => [
-            'App\Listeners\UserImpersonatedEnded',
+        LeaveImpersonation::class => [
+            UserImpersonatedEnded::class,
         ],
-        'STS\ZipStream\Events\ZipStreamed' => [
-            'App\Listeners\ZipStreamedListener',
+        ZipStreamed::class => [
+            ZipStreamedListener::class,
         ],
     ];
 
@@ -64,6 +77,7 @@ class EventServiceProvider extends ServiceProvider
      *
      * @return void
      */
+    #[Override]
     public function boot()
     {
         parent::boot();

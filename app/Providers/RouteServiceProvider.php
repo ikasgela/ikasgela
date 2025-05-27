@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Mcamara\LaravelLocalization\Traits\LoadsTranslatedCachedRoutes;
+use Override;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -26,13 +27,12 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
+    #[Override]
     public function boot()
     {
-        Livewire::setUpdateRoute(function ($handle) {
-            return Route::post('/livewire/update', $handle)
-                ->middleware('web')
-                ->prefix(LaravelLocalization::setLocale());
-        });
+        Livewire::setUpdateRoute(fn($handle) => Route::post('/livewire/update', $handle)
+            ->middleware('web')
+            ->prefix(LaravelLocalization::setLocale()));
 
         parent::boot();
     }

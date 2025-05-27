@@ -67,7 +67,7 @@ class CategoryController extends Controller
         $category->update([
             'period_id' => request('period_id'),
             'name' => request('name'),
-            'slug' => strlen(request('slug')) > 0
+            'slug' => strlen((string)request('slug')) > 0
                 ? Str::slug(request('slug'))
                 : Str::slug(request('name'))
         ]);

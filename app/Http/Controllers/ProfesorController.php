@@ -99,17 +99,11 @@ class ProfesorController extends Controller
             if (!is_null(session('tags_usuario')))
                 $alumnos = $alumnos->tags(session('tags_usuario'));
 
-            switch (session('profesor_filtro_alumnos')) {
-                case 'R':
-                    $usuarios = $alumnos->orderBy('last_active')->get();
-                    break;
-                case 'P':
-                    $usuarios = $alumnos->orderBy('name')->get()->sortBy('num_completadas_base');
-                    break;
-                default:
-                    $usuarios = $alumnos->orderBy('name')->get();
-                    break;
-            }
+            $usuarios = match (session('profesor_filtro_alumnos')) {
+                'R' => $alumnos->orderBy('last_active')->get(),
+                'P' => $alumnos->orderBy('name')->get()->sortBy('num_completadas_base'),
+                default => $alumnos->orderBy('name')->get(),
+            };
         } else {
             $usuarios = User::cursoActual()->rolAlumno()->orderBy('name')->get();
         }
@@ -194,17 +188,11 @@ class ProfesorController extends Controller
             }
         }
 
-        switch (session('profesor_filtro_alumnos')) {
-            case 'R':
-                $actividades = $user->actividades_enviadas_noautoavance();
-                break;
-            case 'C':
-                $actividades = $user->actividades_caducadas();
-                break;
-            default:
-                $actividades = $user->actividades();
-                break;
-        }
+        $actividades = match (session('profesor_filtro_alumnos')) {
+            'R' => $user->actividades_enviadas_noautoavance(),
+            'C' => $user->actividades_caducadas(),
+            default => $user->actividades(),
+        };
 
         if (!session('profesor_filtro_actividades_examen') == 'E') {
             $actividades = $actividades->tag('examen', false);

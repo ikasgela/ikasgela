@@ -431,7 +431,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             // Lista de usuarios
             Route::get('/users', [UserController::class, 'index'])
                 ->name('users.index');
-            Route::match(array('GET', 'POST'), '/users/filtro', [UserController::class, 'index'])
+            Route::match(['GET', 'POST'], '/users/filtro', [UserController::class, 'index'])
                 ->name('users.index.filtro');
             Route::post('/users/acciones_grupo', [UserController::class, 'acciones_grupo'])
                 ->name('users.acciones_grupo');

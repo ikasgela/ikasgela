@@ -38,7 +38,7 @@ class MarkdownText extends Model
 
             try {
                 $repositorio = $this->repositorio;
-                $rama = isset($this->rama) ? $this->rama : 'master';
+                $rama = $this->rama ?? 'master';
                 $archivo = $this->archivo;
 
                 if (config('ikasgela.gitea_enabled')) {
@@ -60,7 +60,7 @@ class MarkdownText extends Model
                 // Añadir target="_blank" a los enlaces
                 $texto = preg_replace('/(<a href="[^"]+")>/is', '\\1 target="_blank">', $texto);
 
-            } catch (Exception $e) {
+            } catch (Exception) {
                 $texto = "# " . __('Error') . "\n\n" . __('Repository not found.');
             }
 

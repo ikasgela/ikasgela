@@ -5,6 +5,7 @@ namespace Tests\Feature\Usuarios;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Override;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Tests\TestCase;
 
@@ -16,6 +17,7 @@ class UsersCRUDTest extends TestCase
         'name', 'email', 'roles_seleccionados'
     ];
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

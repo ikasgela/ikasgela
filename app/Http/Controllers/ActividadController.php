@@ -52,9 +52,7 @@ class ActividadController extends Controller
         if (session('filtrar_curso_actual') == -1) {
             $results = Actividad::query();
         } else {
-            $results = Actividad::whereHas('unidad', function ($query) {
-                return $query->where('curso_id', session('filtrar_curso_actual'));
-            });
+            $results = Actividad::whereHas('unidad', fn($query) => $query->where('curso_id', session('filtrar_curso_actual')));
         }
 
         $actividades = $this->paginate_ultima($results, 250);
@@ -210,7 +208,7 @@ class ActividadController extends Controller
 
             'siguiente_id' => $request->input('siguiente_id'),
 
-            'slug' => strlen($request->input('slug')) > 0
+            'slug' => strlen((string)$request->input('slug')) > 0
                 ? Str::slug($request->input('slug'))
                 : Str::slug($request->input('nombre')),
 
@@ -625,8 +623,8 @@ class ActividadController extends Controller
                 }
                 break;
             default:
-                $accion = explode('_', request('action'))[0];
-                $id_destino = explode('_', request('action'))[1];
+                $accion = explode('_', (string)request('action'))[0];
+                $id_destino = explode('_', (string)request('action'))[1];
                 if ($accion == 'mm' && is_numeric($id_destino)) {
                     $destino = Actividad::findOrFail($id_destino);
 

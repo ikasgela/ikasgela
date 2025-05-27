@@ -40,7 +40,7 @@ trait Etiquetas
     public function scopeTags($query, $tags, $exists = true)
     {
         if (!is_array($tags))
-            $tags = array_map('trim', explode(',', $tags));
+            $tags = array_map('trim', explode(',', (string)$tags));
 
         foreach ($tags as $tag) {
             $query = $this->buscarEtiqueta($query, $exists, $tag);
@@ -53,7 +53,7 @@ trait Etiquetas
     {
         // Limpiar la etiqueta de posibles caracteres de expresión regular (para poder poner "*" como etiqueta, por ejemplo)
         // REF: https://stackoverflow.com/a/4936376
-        $tag = preg_quote($tag);
+        $tag = preg_quote((string)$tag);
 
         $regex = "(^|,)\s*{$tag}\s*(,|$)";  // Tag separado por comas y con espacios delante o detrás
 
@@ -68,7 +68,7 @@ trait Etiquetas
 
     public function addEtiqueta($etiqueta)
     {
-        $tags = array_map('trim', explode(',', $etiqueta));
+        $tags = array_map('trim', explode(',', (string)$etiqueta));
 
         foreach ($tags as $tag) {
             if (!$this->hasEtiqueta($tag)) {

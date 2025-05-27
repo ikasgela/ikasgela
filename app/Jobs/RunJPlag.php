@@ -20,13 +20,9 @@ class RunJPlag implements ShouldQueue
 
     use JPlagRunner;
 
-    protected Tarea $tarea;
-
-    public function __construct(Tarea $tarea)
+    public function __construct(protected Tarea $tarea)
     {
         $this->onQueue('low');
-
-        $this->tarea = $tarea;
     }
 
     public function handle()

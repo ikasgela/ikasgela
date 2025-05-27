@@ -7,6 +7,7 @@ use Illuminate\Auth\EloquentUserProvider;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 use Illuminate\Support\Facades\Cache;
+use Override;
 
 /**
  * Class CacheUserProvider
@@ -27,13 +28,13 @@ class CacheUserProvider extends EloquentUserProvider
      * @param mixed $identifier
      * @return Authenticatable|null
      */
+    #[Override]
     public function retrieveById($identifier)
     {
-        return Cache::remember("user.$identifier", config('ikasgela.eloquent_cache_time'), function () use ($identifier) {
-            return parent::retrieveById($identifier);
-        });
+        return Cache::remember("user.$identifier", config('ikasgela.eloquent_cache_time'), fn() => parent::retrieveById($identifier));
     }
 
+    #[Override]
     public function retrieveByToken($identifier, $token)
     {
         return Cache::remember("user.$identifier.$token", config('ikasgela.eloquent_cache_time'), function () use ($identifier, $token) {

@@ -26,18 +26,12 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         // Caching user
-        Auth::provider('cache-user', function () {
-            return resolve(CacheUserProvider::class);
-        });
+        Auth::provider('cache-user', fn() => resolve(CacheUserProvider::class));
 
         $this->registerPolicies();
 
-        Validator::extend('allowed_domains', function ($attribute, $value, $parameters, $validator) {
-            return in_array('*', $parameters) || in_array(explode('@', $value)[1], $parameters);
-        }, trans('auth.email'));
+        Validator::extend('allowed_domains', fn($attribute, $value, $parameters, $validator) => in_array('*', $parameters) || in_array(explode('@', (string)$value)[1], $parameters), trans('auth.email'));
 
-        Validator::extend('forbidden_domains', function ($attribute, $value, $parameters, $validator) {
-            return !in_array(explode('@', $value)[1], $parameters);
-        }, trans('auth.email'));
+        Validator::extend('forbidden_domains', fn($attribute, $value, $parameters, $validator) => !in_array(explode('@', (string)$value)[1], $parameters), trans('auth.email'));
     }
 }

@@ -11,14 +11,10 @@ class PlazoAmpliado extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $usuario;
-    public $actividad;
     public $hostName;
 
-    public function __construct($usuario, $actividad)
+    public function __construct(public $usuario, public $actividad)
     {
-        $this->usuario = $usuario;
-        $this->actividad = $actividad;
         $this->hostName = Request::getHost();
     }
 

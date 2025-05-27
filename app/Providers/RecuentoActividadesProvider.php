@@ -6,6 +6,7 @@ use App\Http\View\Composers\ActividadesAsignadasComposer;
 use App\Http\View\Composers\ActividadesPendientesComposer;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class RecuentoActividadesProvider extends ServiceProvider
 {
@@ -14,6 +15,7 @@ class RecuentoActividadesProvider extends ServiceProvider
      *
      * @return void
      */
+    #[Override]
     public function register()
     {
         //

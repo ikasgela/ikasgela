@@ -41,28 +41,17 @@ trait InformeGrupo
 
         // Seleccionar el ajuste de nota a aplicar
         $ajuste_proporcional_nota = $milestone?->ajuste_proporcional_nota ?: $curso?->ajuste_proporcional_nota;
-        switch ($ajuste_proporcional_nota) {
-            case 'media':
-                $mediana = $curso?->media($milestone);
-                break;
-            case 'mediana':
-                $mediana = $curso?->mediana($milestone);
-                break;
-            default:
-                $mediana = 0;
-        }
+        $mediana = match ($ajuste_proporcional_nota) {
+            'media' => $curso?->media($milestone),
+            'mediana' => $curso?->mediana($milestone),
+            default => 0,
+        };
 
-        switch (session('tutor_filtro_alumnos')) {
-            case 'P':
-                $usuarios = $curso?->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name')->get()
-                    ->sortBy(function ($user) use ($mediana, $milestone) {
-                        return $user->num_completadas('base', null, $milestone) . $user->calcular_calificaciones($mediana, $milestone)->nota_numerica;
-                    }) ?? new Collection();
-                break;
-            default:
-                $usuarios = $curso?->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name')->get() ?? new Collection();
-                break;
-        }
+        $usuarios = match (session('tutor_filtro_alumnos')) {
+            'P' => $curso?->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name')->get()
+                ->sortBy(fn($user) => $user->num_completadas('base', null, $milestone) . $user->calcular_calificaciones($mediana, $milestone)->nota_numerica) ?? new Collection(),
+            default => $curso?->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name')->get() ?? new Collection(),
+        };
 
         // Mostrar o no los nombres de los alumnos
         if ($request->has('informe_anonimo')) {

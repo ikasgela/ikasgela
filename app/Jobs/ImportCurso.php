@@ -45,17 +45,9 @@ class ImportCurso implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected string $category_id;
-    protected string $directorio;
-    protected string $ruta;
-
-    public function __construct(string $category_id, string $directorio, string $ruta)
+    public function __construct(protected string $category_id, protected string $directorio, protected string $ruta)
     {
         $this->onQueue('low');
-
-        $this->category_id = $category_id;
-        $this->directorio = $directorio;
-        $this->ruta = $ruta;
     }
 
     public function handle()
@@ -562,7 +554,7 @@ class ImportCurso implements ShouldQueue
 
     private function replaceKeys($oldKey, $newKey, array $input)
     {
-        $return = array();
+        $return = [];
         foreach ($input as $key => $value) {
             if ($key === $oldKey)
                 $key = $newKey;
@@ -595,7 +587,7 @@ class ImportCurso implements ShouldQueue
             $this->removeKey($json, 'created_at');
             $this->removeKey($json, 'updated_at');
             $this->removeKey($json, 'deleted_at');
-        } catch (Exception $e) {
+        } catch (Exception) {
             $json = null;
         }
         return $json;

@@ -29,15 +29,15 @@ trait HerramientasIP
         $resultado = false;
 
         foreach ($ranges as $range) {
-            if (!strpos($range, '/')) {
+            if (!strpos((string)$range, '/')) {
                 $range .= '/32';
             }
 
             // $range is in IP/CIDR format eg 127.0.0.1/24
-            list($range, $netmask) = explode('/', $range, 2);
+            [$range, $netmask] = explode('/', (string)$range, 2);
             $range_decimal = ip2long($range);
             $ip_decimal = ip2long($ip);
-            $wildcard_decimal = pow(2, (32 - $netmask)) - 1;
+            $wildcard_decimal = 2 ** (32 - $netmask) - 1;
             $netmask_decimal = ~$wildcard_decimal;
 
             $resultado |= (($ip_decimal & $netmask_decimal) == ($range_decimal & $netmask_decimal));

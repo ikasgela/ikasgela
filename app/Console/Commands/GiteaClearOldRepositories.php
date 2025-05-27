@@ -55,7 +55,7 @@ class GiteaClearOldRepositories extends Command
                     $repo_id = null;
                     try {
                         $repo_id = GiteaClient::repo($proyecto->fork)['id'];
-                    } catch (Exception $e) {
+                    } catch (Exception) {
                     }
 
                     if ($repo_id == null) {

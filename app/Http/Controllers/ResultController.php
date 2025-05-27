@@ -97,16 +97,11 @@ class ResultController extends Controller
 
         // Ajuste proporcional de la nota según las actividades completadas
         $ajuste_proporcional_nota = $milestone?->ajuste_proporcional_nota ?: $curso?->ajuste_proporcional_nota;
-        switch ($ajuste_proporcional_nota) {
-            case 'media':
-                $calificaciones = $user->calcular_calificaciones($media, $milestone);
-                break;
-            case 'mediana':
-                $calificaciones = $user->calcular_calificaciones($mediana, $milestone);
-                break;
-            default:
-                $calificaciones = $user->calcular_calificaciones(0, $milestone);
-        }
+        $calificaciones = match ($ajuste_proporcional_nota) {
+            'media' => $user->calcular_calificaciones($media, $milestone),
+            'mediana' => $user->calcular_calificaciones($mediana, $milestone),
+            default => $user->calcular_calificaciones(0, $milestone),
+        };
 
         // Gráfico de actividades
 
@@ -131,9 +126,7 @@ class ResultController extends Controller
                 })
                 ->orderBy('timestamp')
                 ->get()
-                ->groupBy(function ($val) {
-                    return Carbon::parse($val->timestamp)->isoFormat('L');
-                });
+                ->groupBy(fn($val) => Carbon::parse($val->timestamp)->isoFormat('L'));
 
             $period = CarbonPeriod::create($fecha_inicio, $fecha_fin);
 
@@ -142,9 +135,7 @@ class ResultController extends Controller
                 $todas_fechas[$date->isoFormat('L')] = 0;
             }
 
-            $datos = array_merge($todas_fechas, $registros->map(function ($item, $key) {
-                return $item->count();
-            })->toArray());
+            $datos = array_merge($todas_fechas, $registros->map(fn($item, $key) => $item->count())->toArray());
 
             $chart->labels(array_keys($datos))->displayLegend(false);
 
@@ -189,16 +180,11 @@ class ResultController extends Controller
         if ($curso?->normalizar_nota || $milestone?->normalizar_nota) {
             $todas_notas = [];
             foreach ($usuarios as $usuario) {
-                switch ($ajuste_proporcional_nota) {
-                    case 'media':
-                        $todas_notas[] = $usuario->calcular_calificaciones($media, $milestone)->nota_numerica;
-                        break;
-                    case 'mediana':
-                        $todas_notas[] = $usuario->calcular_calificaciones($mediana, $milestone)->nota_numerica;
-                        break;
-                    default:
-                        $todas_notas[] = $usuario->calcular_calificaciones(0, $milestone)->nota_numerica;
-                }
+                $todas_notas[] = match ($ajuste_proporcional_nota) {
+                    'media' => $usuario->calcular_calificaciones($media, $milestone)->nota_numerica,
+                    'mediana' => $usuario->calcular_calificaciones($mediana, $milestone)->nota_numerica,
+                    default => $usuario->calcular_calificaciones(0, $milestone)->nota_numerica,
+                };
             }
             $nota_maxima = count($todas_notas) > 0 ? max($todas_notas) : 0;
             $nota_minima = count($todas_notas) > 0 ? min($todas_notas) : 0;

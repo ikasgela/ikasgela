@@ -67,7 +67,7 @@ class UsersAdminSeeder extends Seeder
                 GiteaClient::user($email, $usuario, $nombre_completo, $password);
                 GiteaClient::unblock($email, $usuario);
                 $this->command->info("  Usuario generado: $email");
-            } catch (Exception $e) {
+            } catch (Exception) {
                 $this->command->error("  Usuario no generado: $email");
             }
             $this->command->newLine();

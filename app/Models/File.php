@@ -6,6 +6,7 @@ use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Override;
 
 /**
  * @mixin IdeHelperFile
@@ -52,6 +53,7 @@ class File extends Model
         return $this->belongsTo(User::class);
     }
 
+    #[Override]
     public function delete()
     {
         $contenedor = pathinfo($this->path, PATHINFO_DIRNAME);

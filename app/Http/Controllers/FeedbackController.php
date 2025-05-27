@@ -110,7 +110,7 @@ class FeedbackController extends Controller
         ]);
 
         // Quitar los delimitadores tipo === Comentarios (v1) ===
-        $feedback->mensaje = preg_replace('/\<p\>===.*===\<\/p\>(\\r\\n)*/', '', $feedback->mensaje);
+        $feedback->mensaje = preg_replace('/\<p\>===.*===\<\/p\>(\\r\\n)*/', '', (string)$feedback->mensaje);
 
         $feedback->orden = $feedback->id;
         $feedback->save();

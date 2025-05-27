@@ -38,7 +38,7 @@ class AlumnoController extends Controller
         if (!is_null($user->curso_actual())) {
             $sebs_url = LaravelLocalization::getNonLocalizedURL(route('safe_exam.config_seb', $user->curso_actual()));
             $sebs_url = Str::replace("http", "seb", $sebs_url);
-            $sebs_exit_url = LaravelLocalization::getNonLocalizedURL(route('safe_exam.exit_seb', hash("sha256", $user->curso_actual()->safe_exam?->quit_password)));
+            $sebs_exit_url = LaravelLocalization::getNonLocalizedURL(route('safe_exam.exit_seb', hash("sha256", (string)$user->curso_actual()->safe_exam?->quit_password)));
         }
 
         return view('alumnos.tareas', compact([

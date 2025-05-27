@@ -27,21 +27,19 @@ class ForkGiteaRepo implements ShouldQueue, ShouldBeUnique
     protected $actividad;
     protected $intellij_project;
     protected $user;
-    protected $team_users;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Actividad $actividad, IntellijProject $intellij_project, User $user, $team_users = [])
+    public function __construct(Actividad $actividad, IntellijProject $intellij_project, User $user, protected $team_users = [])
     {
         $this->onQueue('high');
 
         $this->actividad = $actividad;
         $this->intellij_project = $intellij_project;
         $this->user = $user;
-        $this->team_users = $team_users;
     }
 
     public $uniqueFor = 30;
@@ -111,9 +109,7 @@ class ForkGiteaRepo implements ShouldQueue, ShouldBeUnique
                     //Mail::to($this->user->email)->send(new RepositorioClonadoError());
                 }
             }
-        }, function () {
-            // Could not obtain lock...
-            return $this->release(5);
-        });
+        }, fn() => // Could not obtain lock...
+        $this->release(5));
     }
 }

@@ -13,11 +13,8 @@ use Intervention\Image\Facades\Image;
 
 class FileController extends Controller
 {
-    private $file;
-
-    public function __construct(File $file)
+    public function __construct(private readonly File $file)
     {
-        $this->file = $file;
     }
 
     public function getFiles()

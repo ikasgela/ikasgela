@@ -123,7 +123,7 @@ class Curso extends Model
 
     public function actividades()
     {
-        return $this->hasManyThrough('App\Models\Actividad', 'App\Models\Unidad');
+        return $this->hasManyThrough(Actividad::class, Unidad::class);
     }
 
     public function disponible()
@@ -154,12 +154,12 @@ class Curso extends Model
 
     public function preguntas()
     {
-        return $this->hasManyThrough('App\Models\Pregunta', 'App\Models\Cuestionario');
+        return $this->hasManyThrough(Pregunta::class, Cuestionario::class);
     }
 
     public function items()
     {
-        return $this->hasManyDeep('App\Models\Item', ['App\Models\Cuestionario', 'App\Models\Pregunta']);
+        return $this->hasManyDeep(Item::class, [Cuestionario::class, Pregunta::class]);
     }
 
     public function file_uploads()
@@ -174,12 +174,12 @@ class Curso extends Model
 
     public function file_resources_files()
     {
-        return $this->hasManyDeep('App\Models\File', ['App\Models\FileResource'], [null, ['uploadable_type', 'uploadable_id']]);
+        return $this->hasManyDeep(File::class, [FileResource::class], [null, ['uploadable_type', 'uploadable_id']]);
     }
 
     public function file_uploads_files()
     {
-        return $this->hasManyDeep('App\Models\File', ['App\Models\FileUpload'], [null, ['uploadable_type', 'uploadable_id']]);
+        return $this->hasManyDeep(File::class, [FileUpload::class], [null, ['uploadable_type', 'uploadable_id']]);
     }
 
     public function link_collections()
@@ -189,7 +189,7 @@ class Curso extends Model
 
     public function link_collections_links()
     {
-        return $this->hasManyThrough('App\Models\Link', 'App\Models\LinkCollection');
+        return $this->hasManyThrough(Link::class, LinkCollection::class);
     }
 
     public function selectors()
@@ -199,12 +199,12 @@ class Curso extends Model
 
     public function rule_groups()
     {
-        return $this->hasManyThrough('App\Models\RuleGroup', 'App\Models\Selector');
+        return $this->hasManyThrough(RuleGroup::class, Selector::class);
     }
 
     public function rules()
     {
-        return $this->hasManyDeep('App\Models\Rule', ['App\Models\Selector', 'App\Models\RuleGroup']);
+        return $this->hasManyDeep(Rule::class, [Selector::class, RuleGroup::class]);
     }
 
     public function hilos()
@@ -221,7 +221,7 @@ class Curso extends Model
 
     public function teams()
     {
-        return $this->hasManyDeep('App\Models\Team', ['curso_group', 'App\Models\Group']);
+        return $this->hasManyDeep(Team::class, ['curso_group', Group::class]);
     }
 
     public function milestones()
@@ -234,7 +234,7 @@ class Curso extends Model
         return $this->users()->rolAlumno()->noBloqueado()->orderBy('name')->get();
     }
 
-    public function media(Milestone $milestone = null)
+    public function media(?Milestone $milestone = null)
     {
         $users = $this->alumnos_activos();
 
@@ -247,7 +247,7 @@ class Curso extends Model
         return $media;
     }
 
-    public function mediana(Milestone $milestone = null)
+    public function mediana(?Milestone $milestone = null)
     {
         $users = $this->alumnos_activos();
 

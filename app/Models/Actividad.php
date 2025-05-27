@@ -102,8 +102,8 @@ class Actividad extends Model
 
     public function users()
     {
-        return $this->belongsToMany('App\Models\User', 'tareas')
-            ->using('App\Models\Tarea')
+        return $this->belongsToMany(User::class, 'tareas')
+            ->using(Tarea::class)
             ->as('tarea')
             ->withPivot([
                 'id',

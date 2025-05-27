@@ -26,7 +26,7 @@ class Skill extends Model
     public function qualifications()
     {
         return $this
-            ->belongsToMany('App\Models\Qualification')
+            ->belongsToMany(Qualification::class)
             ->withTimestamps()
             ->withPivot([
                 'percentage',

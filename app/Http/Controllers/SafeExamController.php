@@ -78,10 +78,10 @@ class SafeExamController extends Controller
 
         $xml = Str::replace("IKASGELA_TOKEN", $safe_exam->token, $xml);
         $xml = Str::replace("IKASGELA_URL", "https://" . request()->getHost(), $xml);
-        $xml = Str::replace("IKASGELA_QUIT_PASSWORD", hash("sha256", $safe_exam->quit_password), $xml);
-        $xml = Str::replace("IKASGELA_EXIT_URL", LaravelLocalization::getNonLocalizedURL(route('safe_exam.exit_seb', hash("sha256", $safe_exam->quit_password))), $xml);
+        $xml = Str::replace("IKASGELA_QUIT_PASSWORD", hash("sha256", (string)$safe_exam->quit_password), $xml);
+        $xml = Str::replace("IKASGELA_EXIT_URL", LaravelLocalization::getNonLocalizedURL(route('safe_exam.exit_seb', hash("sha256", (string)$safe_exam->quit_password))), $xml);
 
-        $xml = Str::replace("SAFE_EXAM_HOST_REGEX", preg_quote($this->get_domain(request()->getHost())), $xml);
+        $xml = Str::replace("SAFE_EXAM_HOST_REGEX", preg_quote((string)$this->get_domain(request()->getHost())), $xml);
         $xml = Str::replace("SAFE_EXAM_HOST", $this->get_domain(request()->getHost()), $xml);
 
         $xml_allowed_apps = '';
@@ -105,9 +105,9 @@ class SafeExamController extends Controller
         foreach ($safe_exam->allowed_urls()->get() as $url) {
             if (!$url->disabled) {
 
-                $protocol = parse_url($url->url, PHP_URL_SCHEME);
-                $host = parse_url($url->url, PHP_URL_HOST);
-                $path = parse_url($url->url, PHP_URL_PATH);
+                $protocol = parse_url((string)$url->url, PHP_URL_SCHEME);
+                $host = parse_url((string)$url->url, PHP_URL_HOST);
+                $path = parse_url((string)$url->url, PHP_URL_PATH);
 
                 $path = Str::replaceStart('/', '', $path);
                 $path = Str::replaceEnd('/*', '', $path);

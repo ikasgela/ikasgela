@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Curso;
 use App\Models\Feedback;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Override;
 
 /**
  * @extends Factory<Feedback>
@@ -23,6 +24,7 @@ class FeedbackFactory extends Factory
         ];
     }
 
+    #[Override]
     public function configure()
     {
         return $this->afterCreating(function (Feedback $model) {

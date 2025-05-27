@@ -18,13 +18,9 @@ class BorrarUsuario implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected User $user;
-
-    public function __construct(User $user)
+    public function __construct(protected User $user)
     {
         $this->onQueue('low');
-
-        $this->user = $user;
     }
 
     public function handle()

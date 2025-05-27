@@ -33,12 +33,12 @@ class Tarea extends Pivot
 
     public function actividad()
     {
-        return $this->belongsTo('App\Models\Actividad')->withTrashed();
+        return $this->belongsTo(Actividad::class)->withTrashed();
     }
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(User::class);
     }
 
     public function registros()

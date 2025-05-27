@@ -109,7 +109,7 @@ class UsersTableSeeder extends Seeder
                         'skip_confirmation' => true
                     ]);
                     echo "  INFO: Usuario de GitLab creado.\n";
-                } catch (Exception $e) {
+                } catch (Exception) {
                     echo "  ERROR: No se ha podido crear el usuario de GitLab asociado...\n";
                 }
             }
@@ -119,7 +119,7 @@ class UsersTableSeeder extends Seeder
             try {
                 GiteaClient::borrar_usuario($usuario);
                 echo "  INFO: Usuario borrado: $nombre - $email - $password\n";
-            } catch (Exception $e) {
+            } catch (Exception) {
                 echo "  ERROR: Usuario no borrado: $nombre - $email - $password\n";
             }
         }
@@ -130,7 +130,7 @@ class UsersTableSeeder extends Seeder
                 GiteaClient::user($email, $usuario, $nombre_completo, $password);
                 GiteaClient::unblock($email, $usuario);
                 echo "  INFO: Usuario generado: $nombre_completo - $email - $password\n";
-            } catch (Exception $e) {
+            } catch (Exception) {
                 echo "  ERROR: Usuario no generado: $nombre_completo - $email - $password\n";
             }
         }

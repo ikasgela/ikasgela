@@ -31,7 +31,7 @@ class FileUpload extends Model
 
     public function files()
     {
-        return $this->morphMany('App\Models\File', 'uploadable');
+        return $this->morphMany(File::class, 'uploadable');
     }
 
     #[Scope]

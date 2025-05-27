@@ -67,7 +67,7 @@ class PeriodController extends Controller
         $period->update([
             'organization_id' => request('organization_id'),
             'name' => request('name'),
-            'slug' => strlen(request('slug')) > 0
+            'slug' => strlen((string)request('slug')) > 0
                 ? Str::slug(request('slug'))
                 : Str::slug(request('name'))
         ]);

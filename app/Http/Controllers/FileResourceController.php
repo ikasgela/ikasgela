@@ -149,7 +149,7 @@ class FileResourceController extends Controller
         // Recorrer y duplicar los ficheros en S3
         foreach ($clon->files as $file) {
             $old_path = $file->path;
-            $filename = basename($old_path);
+            $filename = basename((string)$old_path);
             $new_path = md5(time()) . '/' . $filename;
 
             Storage::disk('s3')->copy('documents/' . $old_path, 'documents/' . $new_path);

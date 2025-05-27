@@ -67,7 +67,7 @@ class MarkdownTextController extends Controller
     {
         try {
             $repositorio = GiteaClient::repo($markdown_text->repositorio);
-        } catch (Exception $e) {
+        } catch (Exception) {
             $repositorio = null;
         }
 

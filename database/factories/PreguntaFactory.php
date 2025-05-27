@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Cuestionario;
 use App\Models\Pregunta;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Override;
 
 /**
  * @extends Factory<Pregunta>
@@ -23,6 +24,7 @@ class PreguntaFactory extends Factory
         ];
     }
 
+    #[Override]
     public function configure()
     {
         return $this->afterCreating(function (Pregunta $model) {
