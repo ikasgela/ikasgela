@@ -43,6 +43,7 @@ use App\Http\Controllers\TutorController;
 use App\Http\Controllers\UnidadController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\YoutubeVideoController;
+use App\Livewire\Counter;
 use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 
 // Localización
@@ -739,6 +740,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         // Pruebas
         if (config('app.debug')) {
             Route::get('/files', [FileController::class, 'getFiles'])->name('files');
+
+            // Test de Livewire
+            Route::get('/counter', Counter::class);
         }
     });
 });
