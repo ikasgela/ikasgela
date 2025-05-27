@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Recursos\FileResources;
 
+use Override;
 use App\Models\FileResource;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -14,6 +15,7 @@ class FileResourcesCRUDTest extends TestCase
         'titulo'
     ];
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

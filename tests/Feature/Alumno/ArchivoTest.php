@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Alumno;
 
+use Override;
 use App\Models\Actividad;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use PHPUnit\Framework\Attributes\Test;
@@ -15,6 +16,7 @@ class ArchivoTest extends TestCase
         'texto', 'pregunta_id'
     ];
 
+    #[Override]
     public function setUp(): void
     {
         //$this->markTestSkipped('Tests desactivados.');

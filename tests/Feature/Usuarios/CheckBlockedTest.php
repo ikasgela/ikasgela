@@ -2,11 +2,13 @@
 
 namespace Tests\Feature\Usuarios;
 
+use Override;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class CheckBlockedTest extends TestCase
 {
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Recursos\LinkCollections;
 
+use Override;
 use App\Models\Actividad;
 use App\Models\Curso;
 use App\Models\LinkCollection;
@@ -12,6 +13,7 @@ class LinkCollectionsAsociarActividadTest extends TestCase
 {
     use DatabaseTransactions;
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

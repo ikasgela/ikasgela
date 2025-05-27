@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Recursos\MarkdownTexts;
 
+use Override;
 use App\Models\Actividad;
 use App\Models\Curso;
 use App\Models\MarkdownText;
@@ -12,6 +13,7 @@ class MarkdownTextsAsociarActividadTest extends TestCase
 {
     use DatabaseTransactions;
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

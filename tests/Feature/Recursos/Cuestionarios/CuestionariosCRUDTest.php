@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Recursos\Cuestionarios;
 
+use Override;
 use App\Models\Cuestionario;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -14,6 +15,7 @@ class CuestionariosCRUDTest extends TestCase
         'titulo'
     ];
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Recursos\FileUploads;
 
+use Override;
 use App\Models\Actividad;
 use App\Models\Curso;
 use App\Models\FileUpload;
@@ -12,6 +13,7 @@ class FileUploadsAsociarActividadTest extends TestCase
 {
     use DatabaseTransactions;
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

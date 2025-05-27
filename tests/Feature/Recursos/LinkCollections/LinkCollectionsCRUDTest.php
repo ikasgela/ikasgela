@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Recursos\LinkCollections;
 
+use Override;
 use App\Models\LinkCollection;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -14,6 +15,7 @@ class LinkCollectionsCRUDTest extends TestCase
         'titulo'
     ];
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

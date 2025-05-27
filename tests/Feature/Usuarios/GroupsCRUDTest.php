@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Usuarios;
 
+use Override;
 use App\Models\Group;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -14,6 +15,7 @@ class GroupsCRUDTest extends TestCase
         'name', 'period_id'
     ];
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

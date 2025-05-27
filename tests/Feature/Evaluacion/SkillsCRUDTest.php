@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Evaluacion;
 
+use Override;
 use App\Models\Skill;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -14,6 +15,7 @@ class SkillsCRUDTest extends TestCase
         'name', 'curso_id'
     ];
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

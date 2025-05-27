@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Recursos\Cuestionarios;
 
+use Override;
 use App\Models\Cuestionario;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use PHPUnit\Framework\Attributes\Test;
@@ -11,6 +12,7 @@ class CuestionariosAnyadirPreguntaTest extends TestCase
 {
     use DatabaseTransactions;
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

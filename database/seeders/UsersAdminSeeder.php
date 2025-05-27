@@ -59,7 +59,7 @@ class UsersAdminSeeder extends Seeder
             try {
                 GiteaClient::borrar_usuario($usuario);
                 $this->command->warn("  Usuario borrado: $email");
-            } catch (Exception $e) {
+            } catch (Exception) {
                 $this->command->error("  Usuario borrado: $email");
             }
             try {

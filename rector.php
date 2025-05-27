@@ -7,6 +7,7 @@ use RectorLaravel\Set\LaravelSetList;
 
 return RectorConfig::configure()
     ->withPhpSets()
+    ->withAttributesSets()
     ->withParallel(600, 16, 10)
     ->withImportNames()
     ->withSkip([

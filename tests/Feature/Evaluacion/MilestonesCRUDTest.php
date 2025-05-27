@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Evaluacion;
 
+use Override;
 use App\Models\Milestone;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -14,6 +15,7 @@ class MilestonesCRUDTest extends TestCase
         'curso_id', 'name', 'date'
     ];
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

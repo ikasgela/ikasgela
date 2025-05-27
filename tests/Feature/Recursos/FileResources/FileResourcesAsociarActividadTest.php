@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Recursos\FileResources;
 
+use Override;
 use App\Models\Actividad;
 use App\Models\Curso;
 use App\Models\FileResource;
@@ -12,6 +13,7 @@ class FileResourcesAsociarActividadTest extends TestCase
 {
     use DatabaseTransactions;
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

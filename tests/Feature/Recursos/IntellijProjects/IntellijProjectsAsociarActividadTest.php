@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Recursos\IntellijProjects;
 
+use Override;
 use App\Models\Actividad;
 use App\Models\Curso;
 use App\Models\IntellijProject;
@@ -12,6 +13,7 @@ class IntellijProjectsAsociarActividadTest extends TestCase
 {
     use DatabaseTransactions;
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

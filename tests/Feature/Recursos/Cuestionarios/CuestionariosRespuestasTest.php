@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Recursos\Cuestionarios;
 
+use Override;
 use App\Models\Cuestionario;
 use App\Models\Item;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -12,6 +13,7 @@ class CuestionariosRespuestasTest extends TestCase
 {
     use DatabaseTransactions;
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

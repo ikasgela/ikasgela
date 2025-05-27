@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\SafeExam;
 
+use Override;
 use App\Models\AllowedApp;
 use App\Models\Curso;
 use App\Models\SafeExam;
@@ -18,6 +19,7 @@ class AllowedAppControllerTest extends TestCase
         'title' => 'word',
     ];
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

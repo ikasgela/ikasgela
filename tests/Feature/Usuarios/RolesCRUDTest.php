@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Usuarios;
 
+use Override;
 use App\Models\Role;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -14,6 +15,7 @@ class RolesCRUDTest extends TestCase
         'name', 'description'
     ];
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

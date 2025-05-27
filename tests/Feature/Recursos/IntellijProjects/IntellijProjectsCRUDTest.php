@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Recursos\IntellijProjects;
 
+use Override;
 use App\Models\IntellijProject;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -14,6 +15,7 @@ class IntellijProjectsCRUDTest extends TestCase
         'repositorio', 'titulo', 'host'
     ];
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

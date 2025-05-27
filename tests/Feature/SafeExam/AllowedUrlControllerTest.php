@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\SafeExam;
 
+use Override;
 use App\Models\AllowedUrl;
 use App\Models\Curso;
 use App\Models\SafeExam;
@@ -18,6 +19,7 @@ class AllowedUrlControllerTest extends TestCase
         'url' => 'url',
     ];
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

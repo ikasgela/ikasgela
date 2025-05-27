@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Evaluacion;
 
+use Override;
 use App\Models\Feedback;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -14,6 +15,7 @@ class FeedbacksCRUDTest extends TestCase
         'mensaje', 'comentable_id'
     ];
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

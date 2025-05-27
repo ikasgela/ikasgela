@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Recursos\FileUploads;
 
+use Override;
 use App\Models\FileUpload;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -14,6 +15,7 @@ class FileUploadsCRUDTest extends TestCase
         'titulo', 'max_files'
     ];
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

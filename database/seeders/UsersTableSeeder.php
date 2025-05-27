@@ -96,7 +96,7 @@ class UsersTableSeeder extends Seeder
                     foreach ($usuarios as $borrar) {
                         GitLab::users()->remove($borrar['id']);
                     }
-                } catch (Exception $e) {
+                } catch (Exception) {
                 }
 
                 sleep(2);   // Si no, no de la tiempo a borrar y da error

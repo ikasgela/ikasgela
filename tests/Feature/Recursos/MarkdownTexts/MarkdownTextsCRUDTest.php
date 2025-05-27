@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Recursos\MarkdownTexts;
 
+use Override;
 use App\Models\MarkdownText;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -14,6 +15,7 @@ class MarkdownTextsCRUDTest extends TestCase
         'titulo', 'repositorio', 'archivo'
     ];
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

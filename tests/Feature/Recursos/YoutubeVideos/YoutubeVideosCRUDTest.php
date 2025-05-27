@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Recursos\YoutubeVideos;
 
+use Override;
 use App\Models\YoutubeVideo;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -14,6 +15,7 @@ class YoutubeVideosCRUDTest extends TestCase
         'titulo', 'codigo'
     ];
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Profesor;
 
+use Override;
 use App\Models\Curso;
 use App\Models\Role;
 use App\Models\User;
@@ -13,6 +14,7 @@ class MensajeDirectoAlumnoTest extends TestCase
 {
     use DatabaseTransactions;
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

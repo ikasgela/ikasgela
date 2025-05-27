@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Estructura;
 
+use Override;
 use App\Models\Curso;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -14,6 +15,7 @@ class CursosCRUDTest extends TestCase
         'nombre', 'category_id', 'plazo_actividad'
     ];
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

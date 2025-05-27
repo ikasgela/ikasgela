@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Estructura;
 
+use Override;
 use App\Models\Organization;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -14,6 +15,7 @@ class OrganizationsCRUDTest extends TestCase
         'name', 'seats'
     ];
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Recursos\YoutubeVideos;
 
+use Override;
 use App\Models\Actividad;
 use App\Models\Curso;
 use App\Models\YoutubeVideo;
@@ -12,6 +13,7 @@ class YoutubeVideosAsociarActividadTest extends TestCase
 {
     use DatabaseTransactions;
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

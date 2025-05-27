@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Usuarios;
 
+use Override;
 use App\Models\Curso;
 use App\Models\Team;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -15,6 +16,7 @@ class TeamsCRUDTest extends TestCase
         'name', 'group_id'
     ];
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

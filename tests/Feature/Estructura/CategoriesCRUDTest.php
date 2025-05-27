@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Estructura;
 
+use Override;
 use App\Models\Category;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -14,6 +15,7 @@ class CategoriesCRUDTest extends TestCase
         'name', 'period_id'
     ];
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();
