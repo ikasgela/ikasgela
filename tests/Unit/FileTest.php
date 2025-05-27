@@ -42,7 +42,7 @@ class FileTest extends TestCase
         $file = File::factory()->create([
             'user_id' => $user->id,
             'uploadable_id' => $user->id,
-            'uploadable_type' => 'App\Models\User',
+            'uploadable_type' => User::class,
         ]);
 
         // When

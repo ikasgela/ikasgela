@@ -6,6 +6,7 @@ use App\Models\Registro;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\App;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Tests\TestCase;
 
 class RegistrosCRUDTest extends TestCase
@@ -69,7 +70,7 @@ class RegistrosCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $this->expectException('Symfony\Component\Routing\Exception\RouteNotFoundException');
+        $this->expectException(RouteNotFoundException::class);
 
         // When
         $this->get(route('registros.create'));
@@ -169,7 +170,7 @@ class RegistrosCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $this->expectException('Symfony\Component\Routing\Exception\RouteNotFoundException');
+        $this->expectException(RouteNotFoundException::class);
 
         // When
         $this->get(route('registros.show'));
@@ -183,7 +184,7 @@ class RegistrosCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $this->expectException('Symfony\Component\Routing\Exception\RouteNotFoundException');
+        $this->expectException(RouteNotFoundException::class);
 
         // When
         $this->get(route('registros.edit'));
@@ -197,7 +198,7 @@ class RegistrosCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $this->expectException('Symfony\Component\Routing\Exception\RouteNotFoundException');
+        $this->expectException(RouteNotFoundException::class);
 
         // When
         $this->put(route('registros.update'));

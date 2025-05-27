@@ -5,6 +5,7 @@ namespace Tests\Feature\Usuarios;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Tests\TestCase;
 
 class UsersCRUDTest extends TestCase
@@ -198,7 +199,7 @@ class UsersCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $this->expectException('Symfony\Component\Routing\Exception\RouteNotFoundException');
+        $this->expectException(RouteNotFoundException::class);
 
         // When
         $this->get(route('users.show'));

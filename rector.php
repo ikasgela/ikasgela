@@ -6,6 +6,7 @@ use RectorLaravel\Set\LaravelLevelSetList;
 use RectorLaravel\Set\LaravelSetList;
 
 return RectorConfig::configure()
+    ->withPhpSets()
     ->withParallel(600, 16, 10)
     ->withImportNames()
     ->withSkip([
