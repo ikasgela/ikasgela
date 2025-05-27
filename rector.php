@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use RectorLaravel\Rector\ClassMethod\MigrateToSimplifiedAttributeRector;
 use RectorLaravel\Set\LaravelLevelSetList;
 
 return RectorConfig::configure()
@@ -9,6 +10,7 @@ return RectorConfig::configure()
     ->withSkip([
         __DIR__ . '/vendor',
         __DIR__ . '/node_modules',
+        MigrateToSimplifiedAttributeRector::class,
     ])
     ->withSets([
         LaravelLevelSetList::UP_TO_LARAVEL_120,
