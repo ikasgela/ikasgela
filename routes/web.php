@@ -611,6 +611,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('allowed_urls.destroy');
             Route::post('/allowed_urls/{allowed_url}/duplicate', [AllowedUrlController::class, 'duplicate'])
                 ->name('allowed_urls.duplicate');
+
+            // Test de Livewire
+            Route::get('/counter', Counter::class);
         });
 
         // Alumnos y profesores
@@ -742,9 +745,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         // Pruebas
         if (config('app.debug')) {
             Route::get('/files', [FileController::class, 'getFiles'])->name('files');
-
-            // Test de Livewire
-            Route::get('/counter', Counter::class);
         }
     });
 });
