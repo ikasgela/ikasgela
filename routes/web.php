@@ -716,15 +716,24 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 
         // Mensajes
         Route::group(['prefix' => 'messages'], function () {
-            Route::get('/', ['as' => 'messages', 'uses' => 'MessagesController@index']);
-            Route::get('create', ['as' => 'messages.create', 'uses' => 'MessagesController@create']);
-            Route::post('create', ['as' => 'messages.create-with-subject', 'uses' => 'MessagesController@create']);
-            Route::post('create_team', ['as' => 'messages.create-with-subject-team', 'uses' => 'MessagesController@create_team']);
-            Route::post('/', ['as' => 'messages.store', 'uses' => 'MessagesController@store']);
-            Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
-            Route::put('{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
-            Route::delete('/delete_thread/{id}', ['as' => 'messages.destroy', 'uses' => 'MessagesController@destroy']);
-            Route::delete('/delete_message/{id}', ['as' => 'messages.destroy_message', 'uses' => 'MessagesController@destroyMessage']);
+            Route::get('/', [MessagesController::class, 'index'])
+                ->name('messages');
+            Route::get('create', [MessagesController::class, 'create'])
+                ->name('messages.create');
+            Route::post('create', [MessagesController::class, 'create'])
+                ->name('messages.create-with-subject');
+            Route::post('create_team', [MessagesController::class, 'create_team'])
+                ->name('messages.create-with-subject-team');
+            Route::post('/', [MessagesController::class, 'store'])
+                ->name('messages.store');
+            Route::get('{id}', [MessagesController::class, 'show'])
+                ->name('messages.show');
+            Route::put('{id}', [MessagesController::class, 'update'])
+                ->name('messages.update');
+            Route::delete('/delete_thread/{id}', [MessagesController::class, 'destroy'])
+                ->name('messages.destroy');
+            Route::delete('/delete_message/{id}', [MessagesController::class, 'destroyMessage'])
+                ->name('messages.destroy_message');
         });
 
         // Pruebas
