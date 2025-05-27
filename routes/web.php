@@ -1,14 +1,55 @@
 <?php
 
+use App\Http\Controllers\ActividadController;
 use App\Http\Controllers\AllowedAppController;
 use App\Http\Controllers\AllowedUrlController;
+use App\Http\Controllers\AlumnoController;
+use App\Http\Controllers\ArchivoController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CuestionarioController;
+use App\Http\Controllers\CursoController;
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\FileResourceController;
+use App\Http\Controllers\FileUploadController;
+use App\Http\Controllers\GroupController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\IntellijProjectController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\LinkCollectionController;
+use App\Http\Controllers\LinkController;
+use App\Http\Controllers\MarkdownTextController;
+use App\Http\Controllers\MessagesController;
+use App\Http\Controllers\MilestoneController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\PeriodController;
+use App\Http\Controllers\PreguntaController;
+use App\Http\Controllers\ProfesorController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QualificationController;
+use App\Http\Controllers\RegistroController;
+use App\Http\Controllers\ResultController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RuleController;
+use App\Http\Controllers\RuleGroupController;
 use App\Http\Controllers\SafeExamController;
+use App\Http\Controllers\SelectorController;
+use App\Http\Controllers\SkillController;
+use App\Http\Controllers\TareaController;
+use App\Http\Controllers\TeamController;
+use App\Http\Controllers\TinymceUploadController;
+use App\Http\Controllers\TutorController;
+use App\Http\Controllers\UnidadController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\YoutubeVideoController;
+use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 
 // Localización
 Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['localeCookieRedirect', 'localizationRedirect']], function () {
 
     // Página principal
-    Route::get('/', 'HomeController@index')
+    Route::get('/', [HomeController::class, 'index'])
         ->name('portada');
 
     // Páginas públicas
@@ -18,10 +59,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
     Auth::routes(['verify' => true]);
 
     // Mostrar las imágenes incrustadas
-    Route::get('/tinymce_url', 'TinymceUploadController@getS3')->name('tinymce.upload.url');
+    Route::get('/tinymce_url', [TinymceUploadController::class, 'getS3'])->name('tinymce.upload.url');
 
     // Safe exam browser
-    Route::get('/safe_exam/{curso}/config_seb', 'SafeExamController@config_seb')
+    Route::get('/safe_exam/{curso}/config_seb', [SafeExamController::class, 'config_seb'])
         ->withoutMiddleware('localeCookieRedirect')
         ->name('safe_exam.config_seb');
 
@@ -33,72 +74,72 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
     Route::middleware(['auth', 'verified'])->group(function () {
 
         // Perfil de usuario: activar/desactivar el tutorial
-        Route::post('/users/toggle_help', 'UserController@toggle_help')
+        Route::post('/users/toggle_help', [UserController::class, 'toggle_help'])
             ->name('users.toggle_help');
 
         // Perfil de usuario: editar y cambiar contraseña
-        Route::get('/profile', 'ProfileController@show')
+        Route::get('/profile', [ProfileController::class, 'show'])
             ->name('profile.show');
-        Route::get('/password', 'ProfileController@password')
+        Route::get('/password', [ProfileController::class, 'password'])
             ->name('profile.password');
-        Route::put('/profile/update_user', 'ProfileController@updateUser')
+        Route::put('/profile/update_user', [ProfileController::class, 'updateUser'])
             ->name('profile.update.user');
-        Route::put('/profile/update_password', 'ProfileController@updatePassword')
+        Route::put('/profile/update_password', [ProfileController::class, 'updatePassword'])
             ->name('profile.update.password');
 
         // Actualizar estado de una tarea
-        Route::put('/actividades/{tarea}/estado', 'ActividadController@actualizarEstado')
+        Route::put('/actividades/{tarea}/estado', [ActividadController::class, 'actualizarEstado'])
             ->name('actividades.estado');
 
         // FileUpload
-        Route::post('/upload_image', 'FileController@imageUpload')->name('files.upload.image');
-        Route::post('/upload_document', 'FileController@documentUpload')->name('files.upload.document');
-        Route::delete('/uploads/{file}', 'FileController@postDelete')->name('files.delete');
-        Route::post('/files/{file}/rotate_left', 'FileController@rotateLeft')->name('files.rotate_left');
-        Route::post('/files/{file}/rotate_right', 'FileController@rotateRight')->name('files.rotate_right');
+        Route::post('/upload_image', [FileController::class, 'imageUpload'])->name('files.upload.image');
+        Route::post('/upload_document', [FileController::class, 'documentUpload'])->name('files.upload.document');
+        Route::delete('/uploads/{file}', [FileController::class, 'postDelete'])->name('files.delete');
+        Route::post('/files/{file}/rotate_left', [FileController::class, 'rotateLeft'])->name('files.rotate_left');
+        Route::post('/files/{file}/rotate_right', [FileController::class, 'rotateRight'])->name('files.rotate_right');
 
         // Ajustes de notificaciones
-        Route::get('/notifications', 'NotificationController@edit')
+        Route::get('/notifications', [NotificationController::class, 'edit'])
             ->name('notifications.edit');
-        Route::put('/notifications', 'NotificationController@update')
+        Route::put('/notifications', [NotificationController::class, 'update'])
             ->name('notifications.update');
 
         // Impersonar
         Route::impersonate();
 
         // Subir ficheros a TinyMCE
-        Route::post('/tinymce_upload', 'TinymceUploadController@uploadImage')->name('tinymce.upload.image');
+        Route::post('/tinymce_upload', [TinymceUploadController::class, 'uploadImage'])->name('tinymce.upload.image');
 
         // Descargar los repositorios propios
-        Route::post('/intellij_projects/descargar', 'IntellijProjectController@descargar_repos_usuario')
+        Route::post('/intellij_projects/descargar', [IntellijProjectController::class, 'descargar_repos_usuario'])
             ->name('archivo.descargar');
 
         // Safe exam browser
-        Route::get('/safe_exam/exit_seb/{quit_password_hash}', 'SafeExamController@exit_seb')
+        Route::get('/safe_exam/exit_seb/{quit_password_hash}', [SafeExamController::class, 'exit_seb'])
             ->withoutMiddleware('localeCookieRedirect')
             ->name('safe_exam.exit_seb');
 
         // Portada de todos los cursos
-        Route::get('/portada', 'AlumnoController@portada')
+        Route::get('/portada', [AlumnoController::class, 'portada'])
             ->name('users.portada');
-        Route::post('/portada', 'AlumnoController@portada')
+        Route::post('/portada', [AlumnoController::class, 'portada'])
             ->name('users.portada.filtro');
 
         // Alumno
         Route::middleware(['role:alumno'])->group(function () {
 
             // Mostrar el escritorio del alumno
-            Route::get('/home', 'AlumnoController@tareas')
+            Route::get('/home', [AlumnoController::class, 'tareas'])
                 ->name('users.home');
 
             // Fork de un proyecto de Intellij
-            Route::post('/intellij_projects/{actividad}/fork/{intellij_project}', 'IntellijProjectController@fork')
+            Route::post('/intellij_projects/{actividad}/fork/{intellij_project}', [IntellijProjectController::class, 'fork'])
                 ->name('intellij_projects.fork')->block();
-            Route::get('/intellij_projects/status/{actividad}/fork/{intellij_project}', 'IntellijProjectController@is_forking')
+            Route::get('/intellij_projects/status/{actividad}/fork/{intellij_project}', [IntellijProjectController::class, 'is_forking'])
                 ->name('intellij_projects.is_forking');
 
             // Descargar un repositorio
-            Route::get('/intellij_projects/{intellij_project}/download', 'IntellijProjectController@download')
+            Route::get('/intellij_projects/{intellij_project}/download', [IntellijProjectController::class, 'download'])
                 ->withoutMiddleware('localeCookieRedirect')
                 ->name('intellij_projects.download');
         });
@@ -107,273 +148,273 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::middleware(['role:profesor|admin'])->group(function () {
 
             // Panel de control
-            Route::get('/alumnos', 'ProfesorController@index')
+            Route::get('/alumnos', [ProfesorController::class, 'index'])
                 ->name('profesor.index');
 
             // Selector de unidad
-            Route::post('/alumnos', 'ProfesorController@index')
+            Route::post('/alumnos', [ProfesorController::class, 'index'])
                 ->name('profesor.index.filtro');
 
-            Route::get('/alumnos/etiqueta', 'ProfesorController@index')
+            Route::get('/alumnos/etiqueta', [ProfesorController::class, 'index'])
                 ->name('profesor.index.etiqueta');
 
             // Asignar una tarea a un alumno
-            Route::post('/alumnos/asignar_tareas', 'ProfesorController@asignarTareasGrupo')
+            Route::post('/alumnos/asignar_tareas', [ProfesorController::class, 'asignarTareasGrupo'])
                 ->name('profesor.asignar_tareas_grupo');
 
             // Tareas actuales de un alumno
-            Route::get('/alumnos/{user}/tareas', 'ProfesorController@tareas')
+            Route::get('/alumnos/{user}/tareas', [ProfesorController::class, 'tareas'])
                 ->name('profesor.tareas');
 
             // Selector de unidad
-            Route::post('/alumnos/{user}/tareas', 'ProfesorController@tareas')
+            Route::post('/alumnos/{user}/tareas', [ProfesorController::class, 'tareas'])
                 ->name('profesor.tareas.filtro');
 
             // Asignar una tarea a un alumno
-            Route::post('/alumnos/{user}/asignar_tarea', 'ProfesorController@asignarTarea')
+            Route::post('/alumnos/{user}/asignar_tarea', [ProfesorController::class, 'asignarTarea'])
                 ->name('profesor.asignar_tarea');
 
             // Mostrar una tarea para revisar
-            Route::get('/profesor/{user}/revisar/{tarea}', 'ProfesorController@revisar')
+            Route::get('/profesor/{user}/revisar/{tarea}', [ProfesorController::class, 'revisar'])
                 ->name('profesor.revisar');
 
             // Ejecutar JPlag sobre una tarea
-            Route::get('/profesor/jplag/{tarea}', 'ProfesorController@jplag')
+            Route::get('/profesor/jplag/{tarea}', [ProfesorController::class, 'jplag'])
                 ->name('profesor.jplag');
-            Route::get('/profesor/jplag_download/{tarea}', 'ProfesorController@jplag_download')
+            Route::get('/profesor/jplag_download/{tarea}', [ProfesorController::class, 'jplag_download'])
                 ->withoutMiddleware('localeCookieRedirect')
                 ->name('profesor.jplag_download');
 
             // Borrar una tarea
-            Route::delete('/tareas/{user}/destroy/{tarea}', 'TareaController@destroy')
+            Route::delete('/tareas/{user}/destroy/{tarea}', [TareaController::class, 'destroy'])
                 ->name('tareas.destroy');
 
             // Borrar múltiples tareas
-            Route::delete('/tareas/{user}/borrar_multiple', 'TareaController@borrarMultiple')
+            Route::delete('/tareas/{user}/borrar_multiple', [TareaController::class, 'borrarMultiple'])
                 ->name('tareas.borrar_multiple');
 
             // Editar una tarea
-            Route::get('/tareas/{tarea}/edit', 'TareaController@edit')
+            Route::get('/tareas/{tarea}/edit', [TareaController::class, 'edit'])
                 ->name('tareas.edit');
-            Route::put('/tareas/{tarea}', 'TareaController@update')
+            Route::put('/tareas/{tarea}', [TareaController::class, 'update'])
                 ->name('tareas.update');
 
             // Gestionar plantillas de actividades
-            Route::get('/actividades/plantillas', 'ActividadController@plantillas')
+            Route::get('/actividades/plantillas', [ActividadController::class, 'plantillas'])
                 ->name('actividades.plantillas');
 
             // Gestionar plantillas de actividades - Selector de unidad
-            Route::post('/actividades/plantillas', 'ActividadController@plantillas')
+            Route::post('/actividades/plantillas', [ActividadController::class, 'plantillas'])
                 ->name('actividades.plantillas.filtro');
 
             // Reordenar actividades
-            Route::post('/actividades/reordenar/{a1}/{a2}', 'ActividadController@reordenar')
+            Route::post('/actividades/reordenar/{a1}/{a2}', [ActividadController::class, 'reordenar'])
                 ->name('actividades.reordenar');
 
             // Reordenar los recursos de una plantilla
-            Route::post('/actividades/{actividad}/reordenar_recursos', 'ActividadController@reordenar_recursos')
+            Route::post('/actividades/{actividad}/reordenar_recursos', [ActividadController::class, 'reordenar_recursos'])
                 ->name('actividades.reordenar_recursos');
 
             // Modificar el número de columnas de un recurso
-            Route::post('/actividades/{actividad}/recurso_modificar_columnas', 'ActividadController@recurso_modificar_columnas')
+            Route::post('/actividades/{actividad}/recurso_modificar_columnas', [ActividadController::class, 'recurso_modificar_columnas'])
                 ->name('actividades.recurso_modificar_columnas');
 
             // Reordenar unidades
-            Route::post('/unidades/reordenar/{a1}/{a2}', 'UnidadController@reordenar')
+            Route::post('/unidades/reordenar/{a1}/{a2}', [UnidadController::class, 'reordenar'])
                 ->name('unidades.reordenar');
 
             // Reordenar preguntas e items
-            Route::post('/preguntas/reordenar/{a1}/{a2}', 'PreguntaController@reordenar')
+            Route::post('/preguntas/reordenar/{a1}/{a2}', [PreguntaController::class, 'reordenar'])
                 ->name('preguntas.reordenar');
-            Route::post('/items/reordenar/{a1}/{a2}', 'ItemController@reordenar')
+            Route::post('/items/reordenar/{a1}/{a2}', [ItemController::class, 'reordenar'])
                 ->name('items.reordenar');
 
             // Reordenar feedback
-            Route::post('/feedbacks/reordenar/{a1}/{a2}', 'FeedbackController@reordenar')
+            Route::post('/feedbacks/reordenar/{a1}/{a2}', [FeedbackController::class, 'reordenar'])
                 ->name('feedbacks.reordenar');
 
             // Reordenar competencias de una cualificación
-            Route::post('/qualifications/{qualification}/reordenar_skills', 'QualificationController@reordenar_skills')
+            Route::post('/qualifications/{qualification}/reordenar_skills', [QualificationController::class, 'reordenar_skills'])
                 ->name('qualifications.reordenar_skills');
 
             // YoutubeVideo
-            Route::resource('youtube_videos', 'YoutubeVideoController');
-            Route::get('/youtube_videos/{actividad}/actividad', 'YoutubeVideoController@actividad')
+            Route::resource('youtube_videos', YoutubeVideoController::class);
+            Route::get('/youtube_videos/{actividad}/actividad', [YoutubeVideoController::class, 'actividad'])
                 ->name('youtube_videos.actividad');
-            Route::post('/youtube_videos/{actividad}/asociar', 'YoutubeVideoController@asociar')
+            Route::post('/youtube_videos/{actividad}/asociar', [YoutubeVideoController::class, 'asociar'])
                 ->name('youtube_videos.asociar');
-            Route::delete('/youtube_videos/{actividad}/desasociar/{youtube_video}', 'YoutubeVideoController@desasociar')
+            Route::delete('/youtube_videos/{actividad}/desasociar/{youtube_video}', [YoutubeVideoController::class, 'desasociar'])
                 ->name('youtube_videos.desasociar');
-            Route::post('/youtube_videos/{actividad}/toggle_titulo_visible/{youtube_video}', 'YoutubeVideoController@toggle_titulo_visible')
+            Route::post('/youtube_videos/{actividad}/toggle_titulo_visible/{youtube_video}', [YoutubeVideoController::class, 'toggle_titulo_visible'])
                 ->name('youtube_videos.toggle.titulo_visible');
-            Route::post('/youtube_videos/{actividad}/toggle_descripcion_visible/{youtube_video}', 'YoutubeVideoController@toggle_descripcion_visible')
+            Route::post('/youtube_videos/{actividad}/toggle_descripcion_visible/{youtube_video}', [YoutubeVideoController::class, 'toggle_descripcion_visible'])
                 ->name('youtube_videos.toggle.descripcion_visible');
-            Route::post('/youtube_videos/{youtube_video}/duplicar', 'YoutubeVideoController@duplicar')
+            Route::post('/youtube_videos/{youtube_video}/duplicar', [YoutubeVideoController::class, 'duplicar'])
                 ->name('youtube_videos.duplicar');
 
             // Clonador de IntellijProject
-            Route::get('/intellij_projects/copia', 'IntellijProjectController@copia')
+            Route::get('/intellij_projects/copia', [IntellijProjectController::class, 'copia'])
                 ->name('intellij_projects.copia');
-            Route::post('/intellij_projects/clonar', 'IntellijProjectController@clonar')
+            Route::post('/intellij_projects/clonar', [IntellijProjectController::class, 'clonar'])
                 ->name('intellij_projects.clonar');
-            Route::delete('/intellij_projects/borrar/{id}', 'IntellijProjectController@borrar')
+            Route::delete('/intellij_projects/borrar/{id}', [IntellijProjectController::class, 'borrar'])
                 ->name('intellij_projects.borrar');
 
             // Descargar proyectos de IntellijProject
-            Route::get('/intellij_projects/descargar', 'IntellijProjectController@descargar_repos')
+            Route::get('/intellij_projects/descargar', [IntellijProjectController::class, 'descargar_repos'])
                 ->name('intellij_projects.descargar');
-            Route::post('/intellij_projects/descargar_repos', 'IntellijProjectController@descargar_repos')
+            Route::post('/intellij_projects/descargar_repos', [IntellijProjectController::class, 'descargar_repos'])
                 ->name('intellij_projects.descargar.repos');
-            Route::post('/intellij_projects/descargar_plantillas', 'IntellijProjectController@descargar_plantillas')
+            Route::post('/intellij_projects/descargar_plantillas', [IntellijProjectController::class, 'descargar_plantillas'])
                 ->name('intellij_projects.descargar.plantillas');
-            Route::post('/intellij_projects/descargar_plantillas_curso', 'IntellijProjectController@descargar_plantillas_curso')
+            Route::post('/intellij_projects/descargar_plantillas_curso', [IntellijProjectController::class, 'descargar_plantillas_curso'])
                 ->name('intellij_projects.descargar.plantillas.curso');
 
             // IntellijProject
-            Route::resource('intellij_projects', 'IntellijProjectController');
-            Route::get('/intellij_projects/{actividad}/actividad', 'IntellijProjectController@actividad')
+            Route::resource('intellij_projects', IntellijProjectController::class);
+            Route::get('/intellij_projects/{actividad}/actividad', [IntellijProjectController::class, 'actividad'])
                 ->name('intellij_projects.actividad');
-            Route::post('/intellij_projects/{actividad}/asociar', 'IntellijProjectController@asociar')
+            Route::post('/intellij_projects/{actividad}/asociar', [IntellijProjectController::class, 'asociar'])
                 ->name('intellij_projects.asociar');
-            Route::delete('/intellij_projects/{actividad}/desasociar/{intellij_project}', 'IntellijProjectController@desasociar')
+            Route::delete('/intellij_projects/{actividad}/desasociar/{intellij_project}', [IntellijProjectController::class, 'desasociar'])
                 ->name('intellij_projects.desasociar');
-            Route::post('/intellij_projects/{actividad}/toggle_titulo_visible/{intellij_project}', 'IntellijProjectController@toggle_titulo_visible')
+            Route::post('/intellij_projects/{actividad}/toggle_titulo_visible/{intellij_project}', [IntellijProjectController::class, 'toggle_titulo_visible'])
                 ->name('intellij_projects.toggle.titulo_visible');
-            Route::post('/intellij_projects/{actividad}/toggle_descripcion_visible/{intellij_project}', 'IntellijProjectController@toggle_descripcion_visible')
+            Route::post('/intellij_projects/{actividad}/toggle_descripcion_visible/{intellij_project}', [IntellijProjectController::class, 'toggle_descripcion_visible'])
                 ->name('intellij_projects.toggle.descripcion_visible');
-            Route::post('/intellij_projects/{intellij_project}/duplicar', 'IntellijProjectController@duplicar')
+            Route::post('/intellij_projects/{intellij_project}/duplicar', [IntellijProjectController::class, 'duplicar'])
                 ->name('intellij_projects.duplicar');
 
             // Bloquear y desbloquear repositorios
-            Route::post('/intellij_projects/{intellij_project}/{actividad}/lock', 'IntellijProjectController@lock')
+            Route::post('/intellij_projects/{intellij_project}/{actividad}/lock', [IntellijProjectController::class, 'lock'])
                 ->name('intellij_projects.lock');
-            Route::post('/intellij_projects/{intellij_project}/{actividad}/unlock', 'IntellijProjectController@unlock')
+            Route::post('/intellij_projects/{intellij_project}/{actividad}/unlock', [IntellijProjectController::class, 'unlock'])
                 ->name('intellij_projects.unlock');
 
             // Editar un fork ya hecho
-            Route::get('/intellij_projects/{intellij_project}/{actividad}/edit_fork', 'IntellijProjectController@edit_fork')
+            Route::get('/intellij_projects/{intellij_project}/{actividad}/edit_fork', [IntellijProjectController::class, 'edit_fork'])
                 ->name('intellij_projects.edit_fork');
-            Route::put('/intellij_projects/{intellij_project}/{actividad}/update_fork', 'IntellijProjectController@update_fork')
+            Route::put('/intellij_projects/{intellij_project}/{actividad}/update_fork', [IntellijProjectController::class, 'update_fork'])
                 ->name('intellij_projects.update_fork');
 
             // MarkdownText
-            Route::resource('markdown_texts', 'MarkdownTextController');
-            Route::get('/markdown_texts/{actividad}/actividad', 'MarkdownTextController@actividad')
+            Route::resource('markdown_texts', MarkdownTextController::class);
+            Route::get('/markdown_texts/{actividad}/actividad', [MarkdownTextController::class, 'actividad'])
                 ->name('markdown_texts.actividad');
-            Route::post('/markdown_texts/{actividad}/asociar', 'MarkdownTextController@asociar')
+            Route::post('/markdown_texts/{actividad}/asociar', [MarkdownTextController::class, 'asociar'])
                 ->name('markdown_texts.asociar');
-            Route::delete('/markdown_texts/{actividad}/desasociar/{markdown_text}', 'MarkdownTextController@desasociar')
+            Route::delete('/markdown_texts/{actividad}/desasociar/{markdown_text}', [MarkdownTextController::class, 'desasociar'])
                 ->name('markdown_texts.desasociar');
-            Route::post('/markdown_texts/{markdown_text}/duplicar', 'MarkdownTextController@duplicar')
+            Route::post('/markdown_texts/{markdown_text}/duplicar', [MarkdownTextController::class, 'duplicar'])
                 ->name('markdown_texts.duplicar');
-            Route::get('/markdown_texts/{markdown_text}/borrar_cache', 'MarkdownTextController@borrar_cache')
+            Route::get('/markdown_texts/{markdown_text}/borrar_cache', [MarkdownTextController::class, 'borrar_cache'])
                 ->name('markdown_texts.borrar_cache');
 
             // Cuestionario
-            Route::resource('cuestionarios', 'CuestionarioController');
-            Route::get('/cuestionarios/{actividad}/actividad', 'CuestionarioController@actividad')
+            Route::resource('cuestionarios', CuestionarioController::class);
+            Route::get('/cuestionarios/{actividad}/actividad', [CuestionarioController::class, 'actividad'])
                 ->name('cuestionarios.actividad');
-            Route::post('/cuestionarios/{actividad}/asociar', 'CuestionarioController@asociar')
+            Route::post('/cuestionarios/{actividad}/asociar', [CuestionarioController::class, 'asociar'])
                 ->name('cuestionarios.asociar');
-            Route::delete('/cuestionarios/{actividad}/desasociar/{cuestionario}', 'CuestionarioController@desasociar')
+            Route::delete('/cuestionarios/{actividad}/desasociar/{cuestionario}', [CuestionarioController::class, 'desasociar'])
                 ->name('cuestionarios.desasociar');
 
-            Route::resource('preguntas', 'PreguntaController');
-            Route::get('/preguntas/{cuestionario}/anyadir', 'PreguntaController@anyadir')
+            Route::resource('preguntas', PreguntaController::class);
+            Route::get('/preguntas/{cuestionario}/anyadir', [PreguntaController::class, 'anyadir'])
                 ->name('preguntas.anyadir');
-            Route::resource('items', 'ItemController');
-            Route::get('/items/{pregunta}/anyadir', 'ItemController@anyadir')
+            Route::resource('items', ItemController::class);
+            Route::get('/items/{pregunta}/anyadir', [ItemController::class, 'anyadir'])
                 ->name('items.anyadir');
 
-            Route::post('/cuestionarios/{cuestionario}/duplicar', 'CuestionarioController@duplicar')
+            Route::post('/cuestionarios/{cuestionario}/duplicar', [CuestionarioController::class, 'duplicar'])
                 ->name('cuestionarios.duplicar');
-            Route::post('/preguntas/{pregunta}/duplicar', 'PreguntaController@duplicar')
+            Route::post('/preguntas/{pregunta}/duplicar', [PreguntaController::class, 'duplicar'])
                 ->name('preguntas.duplicar');
-            Route::post('/items/{item}/duplicar', 'ItemController@duplicar')
+            Route::post('/items/{item}/duplicar', [ItemController::class, 'duplicar'])
                 ->name('items.duplicar');
 
             // FileUpload
-            Route::resource('file_uploads', 'FileUploadController');
-            Route::get('/file_uploads/{actividad}/actividad', 'FileUploadController@actividad')
+            Route::resource('file_uploads', FileUploadController::class);
+            Route::get('/file_uploads/{actividad}/actividad', [FileUploadController::class, 'actividad'])
                 ->name('file_uploads.actividad');
-            Route::post('/file_uploads/{actividad}/asociar', 'FileUploadController@asociar')
+            Route::post('/file_uploads/{actividad}/asociar', [FileUploadController::class, 'asociar'])
                 ->name('file_uploads.asociar');
-            Route::delete('/file_uploads/{actividad}/desasociar/{file_upload}', 'FileUploadController@desasociar')
+            Route::delete('/file_uploads/{actividad}/desasociar/{file_upload}', [FileUploadController::class, 'desasociar'])
                 ->name('file_uploads.desasociar');
-            Route::post('/file_uploads/{actividad}/toggle_titulo_visible/{file_upload}', 'FileUploadController@toggle_titulo_visible')
+            Route::post('/file_uploads/{actividad}/toggle_titulo_visible/{file_upload}', [FileUploadController::class, 'toggle_titulo_visible'])
                 ->name('file_uploads.toggle.titulo_visible');
-            Route::post('/file_uploads/{actividad}/toggle_descripcion_visible/{file_upload}', 'FileUploadController@toggle_descripcion_visible')
+            Route::post('/file_uploads/{actividad}/toggle_descripcion_visible/{file_upload}', [FileUploadController::class, 'toggle_descripcion_visible'])
                 ->name('file_uploads.toggle.descripcion_visible');
-            Route::post('/file_uploads/{file_upload}/duplicar', 'FileUploadController@duplicar')
+            Route::post('/file_uploads/{file_upload}/duplicar', [FileUploadController::class, 'duplicar'])
                 ->name('file_uploads.duplicar');
 
             // FileResource
-            Route::resource('file_resources', 'FileResourceController');
-            Route::get('/file_resources/{actividad}/actividad', 'FileResourceController@actividad')
+            Route::resource('file_resources', FileResourceController::class);
+            Route::get('/file_resources/{actividad}/actividad', [FileResourceController::class, 'actividad'])
                 ->name('file_resources.actividad');
-            Route::post('/file_resources/{actividad}/asociar', 'FileResourceController@asociar')
+            Route::post('/file_resources/{actividad}/asociar', [FileResourceController::class, 'asociar'])
                 ->name('file_resources.asociar');
-            Route::delete('/file_resources/{actividad}/desasociar/{file_resource}', 'FileResourceController@desasociar')
+            Route::delete('/file_resources/{actividad}/desasociar/{file_resource}', [FileResourceController::class, 'desasociar'])
                 ->name('file_resources.desasociar');
-            Route::post('/files/reordenar/{a1}/{a2}', 'FileController@reordenar')
+            Route::post('/files/reordenar/{a1}/{a2}', [FileController::class, 'reordenar'])
                 ->name('files.reordenar');
-            Route::post('/file_resources/{actividad}/toggle_titulo_visible/{file_resource}', 'FileResourceController@toggle_titulo_visible')
+            Route::post('/file_resources/{actividad}/toggle_titulo_visible/{file_resource}', [FileResourceController::class, 'toggle_titulo_visible'])
                 ->name('file_resources.toggle.titulo_visible');
-            Route::post('/file_resources/{actividad}/toggle_descripcion_visible/{file_resource}', 'FileResourceController@toggle_descripcion_visible')
+            Route::post('/file_resources/{actividad}/toggle_descripcion_visible/{file_resource}', [FileResourceController::class, 'toggle_descripcion_visible'])
                 ->name('file_resources.toggle.descripcion_visible');
-            Route::post('/file_resources/{file_resource}/duplicar', 'FileResourceController@duplicar')
+            Route::post('/file_resources/{file_resource}/duplicar', [FileResourceController::class, 'duplicar'])
                 ->name('file_resources.duplicar');
 
             // LinkCollection
-            Route::resource('link_collections', 'LinkCollectionController');
-            Route::get('/link_collections/{actividad}/actividad', 'LinkCollectionController@actividad')
+            Route::resource('link_collections', LinkCollectionController::class);
+            Route::get('/link_collections/{actividad}/actividad', [LinkCollectionController::class, 'actividad'])
                 ->name('link_collections.actividad');
-            Route::post('/link_collections/{actividad}/asociar', 'LinkCollectionController@asociar')
+            Route::post('/link_collections/{actividad}/asociar', [LinkCollectionController::class, 'asociar'])
                 ->name('link_collections.asociar');
-            Route::delete('/link_collections/{actividad}/desasociar/{link_collection}', 'LinkCollectionController@desasociar')
+            Route::delete('/link_collections/{actividad}/desasociar/{link_collection}', [LinkCollectionController::class, 'desasociar'])
                 ->name('link_collections.desasociar');
-            Route::post('/links', 'LinkController@store')->name('links.store');
-            Route::delete('/links/{link}', 'LinkController@destroy')->name('links.destroy');
-            Route::post('/links/reordenar/{a1}/{a2}', 'LinkController@reordenar')
+            Route::post('/links', [LinkController::class, 'store'])->name('links.store');
+            Route::delete('/links/{link}', [LinkController::class, 'destroy'])->name('links.destroy');
+            Route::post('/links/reordenar/{a1}/{a2}', [LinkController::class, 'reordenar'])
                 ->name('links.reordenar');
-            Route::post('/link_collections/{actividad}/toggle_titulo_visible/{link_collection}', 'LinkCollectionController@toggle_titulo_visible')
+            Route::post('/link_collections/{actividad}/toggle_titulo_visible/{link_collection}', [LinkCollectionController::class, 'toggle_titulo_visible'])
                 ->name('link_collections.toggle.titulo_visible');
-            Route::post('/link_collections/{actividad}/toggle_descripcion_visible/{link_collection}', 'LinkCollectionController@toggle_descripcion_visible')
+            Route::post('/link_collections/{actividad}/toggle_descripcion_visible/{link_collection}', [LinkCollectionController::class, 'toggle_descripcion_visible'])
                 ->name('link_collections.toggle.descripcion_visible');
-            Route::post('/link_collections/{link_collection}/duplicar', 'LinkCollectionController@duplicar')
+            Route::post('/link_collections/{link_collection}/duplicar', [LinkCollectionController::class, 'duplicar'])
                 ->name('link_collections.duplicar');
 
             // Modificar la nota manualmente
-            Route::get('/profesor/{user}/{curso}/nota_manual', 'ProfesorController@editNotaManual')
+            Route::get('/profesor/{user}/{curso}/nota_manual', [ProfesorController::class, 'editNotaManual'])
                 ->name('profesor.nota_manual.edit');
-            Route::post('/profesor/{user}/{curso}/nota_manual', 'ProfesorController@updateNotaManual')
+            Route::post('/profesor/{user}/{curso}/nota_manual', [ProfesorController::class, 'updateNotaManual'])
                 ->name('profesor.nota_manual.update');
 
             // Asignar tareas a equipos
-            Route::post('/teams/filtro', 'TeamController@index')
+            Route::post('/teams/filtro', [TeamController::class, 'index'])
                 ->name('teams.index.filtro');
-            Route::post('/profesor/asignar_tareas_equipo', 'ProfesorController@asignarTareasEquipo')
+            Route::post('/profesor/asignar_tareas_equipo', [ProfesorController::class, 'asignarTareasEquipo'])
                 ->name('profesor.asignar_tareas_equipo');
 
             // Selector
-            Route::resource('selectors', 'SelectorController');
-            Route::get('/selectors/{actividad}/actividad', 'SelectorController@actividad')
+            Route::resource('selectors', SelectorController::class);
+            Route::get('/selectors/{actividad}/actividad', [SelectorController::class, 'actividad'])
                 ->name('selectors.actividad');
-            Route::post('/selectors/{actividad}/asociar', 'SelectorController@asociar')
+            Route::post('/selectors/{actividad}/asociar', [SelectorController::class, 'asociar'])
                 ->name('selectors.asociar');
-            Route::delete('/selectors/{actividad}/desasociar/{selector}', 'SelectorController@desasociar')
+            Route::delete('/selectors/{actividad}/desasociar/{selector}', [SelectorController::class, 'desasociar'])
                 ->name('selectors.desasociar');
-            Route::resource('rule_groups', 'RuleGroupController');
-            Route::get('/rule_groups/{selector}/anyadir', 'RuleGroupController@create')
+            Route::resource('rule_groups', RuleGroupController::class);
+            Route::get('/rule_groups/{selector}/anyadir', [RuleGroupController::class, 'create'])
                 ->name('rule_groups.anyadir');
-            Route::resource('rules', 'RuleController');
-            Route::get('/rules/{rule_group}/anyadir', 'RuleController@create')
+            Route::resource('rules', RuleController::class);
+            Route::get('/rules/{rule_group}/anyadir', [RuleController::class, 'create'])
                 ->name('rules.anyadir');
-            Route::post('/selectors/{selector}/duplicar', 'SelectorController@duplicar')
+            Route::post('/selectors/{selector}/duplicar', [SelectorController::class, 'duplicar'])
                 ->name('selectors.duplicar');
-            Route::post('/rule_groups/{rule_group}/duplicar', 'RuleGroupController@duplicar')
+            Route::post('/rule_groups/{rule_group}/duplicar', [RuleGroupController::class, 'duplicar'])
                 ->name('rule_groups.duplicar');
-            Route::post('/rules/{rule}/duplicar', 'RuleController@duplicar')
+            Route::post('/rules/{rule}/duplicar', [RuleController::class, 'duplicar'])
                 ->name('rules.duplicar');
         });
 
@@ -385,158 +426,158 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('admin.index');
 
             // Lista de usuarios
-            Route::get('/users', 'UserController@index')
+            Route::get('/users', [UserController::class, 'index'])
                 ->name('users.index');
-            Route::match(array('GET', 'POST'), '/users/filtro', 'UserController@index')
+            Route::match(array('GET', 'POST'), '/users/filtro', [UserController::class, 'index'])
                 ->name('users.index.filtro');
-            Route::post('/users/acciones_grupo', 'UserController@acciones_grupo')
+            Route::post('/users/acciones_grupo', [UserController::class, 'acciones_grupo'])
                 ->name('users.acciones_grupo');
 
             // Crear un usuario manualmente
-            Route::get('/users/create', 'UserController@create')
+            Route::get('/users/create', [UserController::class, 'create'])
                 ->name('users.create');
-            Route::post('/users', 'UserController@store')
+            Route::post('/users', [UserController::class, 'store'])
                 ->name('users.store');
 
             // Editar usuario
-            Route::get('/users/{user}/edit', 'UserController@edit')
+            Route::get('/users/{user}/edit', [UserController::class, 'edit'])
                 ->name('users.edit');
-            Route::put('/users/{user}', 'UserController@update')
+            Route::put('/users/{user}', [UserController::class, 'update'])
                 ->name('users.update');
-            Route::get('/users/{user}/password', 'UserController@password')
+            Route::get('/users/{user}/password', [UserController::class, 'password'])
                 ->name('users.password');
-            Route::put('/users/{user}/password', 'UserController@updatePassword')
+            Route::put('/users/{user}/password', [UserController::class, 'updatePassword'])
                 ->name('users.update.password');
 
             // Borrar un usuario
-            Route::delete('/users/{user}', 'UserController@destroy')
+            Route::delete('/users/{user}', [UserController::class, 'destroy'])
                 ->name('users.destroy');
 
             // Roles
-            Route::resource('roles', 'RoleController');
+            Route::resource('roles', RoleController::class);
 
             // Estructura del curso
-            Route::resource('cursos', 'CursoController');
-            Route::resource('unidades', 'UnidadController')
+            Route::resource('cursos', CursoController::class);
+            Route::resource('unidades', UnidadController::class)
                 ->parameters(['unidades' => 'unidad']);
-            Route::post('/actividades/{actividad}/duplicar', 'ActividadController@duplicar')
+            Route::post('/actividades/{actividad}/duplicar', [ActividadController::class, 'duplicar'])
                 ->name('actividades.duplicar');
-            Route::post('/actividades/duplicar_grupo', 'ActividadController@duplicar_grupo')
+            Route::post('/actividades/duplicar_grupo', [ActividadController::class, 'duplicar_grupo'])
                 ->name('actividades.duplicar_grupo');
-            Route::resource('actividades', 'ActividadController')
+            Route::resource('actividades', ActividadController::class)
                 ->parameters(['actividades' => 'actividad']);
 
             // CRUD - Organizaciones
-            Route::resource('organizations', 'OrganizationController');
+            Route::resource('organizations', OrganizationController::class);
 
             // CRUD - Periodos
-            Route::resource('periods', 'PeriodController');
+            Route::resource('periods', PeriodController::class);
 
             // CRUD - Categorías
-            Route::resource('categories', 'CategoryController');
+            Route::resource('categories', CategoryController::class);
 
             // CRUD - Grupos
-            Route::resource('groups', 'GroupController');
+            Route::resource('groups', GroupController::class);
 
             // Borrar entradas del registro
-            Route::delete('registros/{registro}', 'RegistroController@destroy')
+            Route::delete('registros/{registro}', [RegistroController::class, 'destroy'])
                 ->name('registros.destroy');
 
             // CRUD - Cualificaciones
-            Route::resource('qualifications', 'QualificationController');
-            Route::post('/qualifications/filtro', 'QualificationController@index')
+            Route::resource('qualifications', QualificationController::class);
+            Route::post('/qualifications/filtro', [QualificationController::class, 'index'])
                 ->name('qualifications.index.filtro');
 
             // CRUD - Competencias
-            Route::resource('skills', 'SkillController');
-            Route::post('/skills/filtro', 'SkillController@index')
+            Route::resource('skills', SkillController::class);
+            Route::post('/skills/filtro', [SkillController::class, 'index'])
                 ->name('skills.index.filtro');
 
             // Filtros por curso
-            Route::post('/unidades/filtro', 'UnidadController@index')
+            Route::post('/unidades/filtro', [UnidadController::class, 'index'])
                 ->name('unidades.index.filtro');
-            Route::post('/actividades/filtro', 'ActividadController@index')
+            Route::post('/actividades/filtro', [ActividadController::class, 'index'])
                 ->name('actividades.index.filtro');
-            Route::post('/intellij_projects/filtro', 'IntellijProjectController@index')
+            Route::post('/intellij_projects/filtro', [IntellijProjectController::class, 'index'])
                 ->name('intellij_projects.index.filtro');
-            Route::post('/markdown_texts/filtro', 'MarkdownTextController@index')
+            Route::post('/markdown_texts/filtro', [MarkdownTextController::class, 'index'])
                 ->name('markdown_texts.index.filtro');
-            Route::post('/youtube_videos/filtro', 'YoutubeVideoController@index')
+            Route::post('/youtube_videos/filtro', [YoutubeVideoController::class, 'index'])
                 ->name('youtube_videos.index.filtro');
-            Route::post('/file_resources/filtro', 'FileResourceController@index')
+            Route::post('/file_resources/filtro', [FileResourceController::class, 'index'])
                 ->name('file_resources.index.filtro');
-            Route::post('/file_uploads/filtro', 'FileUploadController@index')
+            Route::post('/file_uploads/filtro', [FileUploadController::class, 'index'])
                 ->name('file_uploads.index.filtro');
-            Route::post('/cuestionarios/filtro', 'CuestionarioController@index')
+            Route::post('/cuestionarios/filtro', [CuestionarioController::class, 'index'])
                 ->name('cuestionarios.index.filtro');
-            Route::post('/link_collections/filtro', 'LinkCollectionController@index')
+            Route::post('/link_collections/filtro', [LinkCollectionController::class, 'index'])
                 ->name('link_collections.index.filtro');
-            Route::post('/selectors/filtro', 'SelectorController@index')
+            Route::post('/selectors/filtro', [SelectorController::class, 'index'])
                 ->name('selectors.index.filtro');
 
             // CRUD - Feedbacks
-            Route::resource('feedbacks', 'FeedbackController');
-            Route::post('/feedback_mensaje', 'FeedbackController@save')
+            Route::resource('feedbacks', FeedbackController::class);
+            Route::post('/feedback_mensaje', [FeedbackController::class, 'save'])
                 ->name('feedbacks.save');
-            Route::get('/feedbacks/{actividad}/create_actividad', 'FeedbackController@create_actividad')
+            Route::get('/feedbacks/{actividad}/create_actividad', [FeedbackController::class, 'create_actividad'])
                 ->name('feedbacks.create_actividad');
 
             // CRUD - Milestones
-            Route::resource('milestones', 'MilestoneController');
-            Route::post('/milestones/filtro', 'MilestoneController@index')
+            Route::resource('milestones', MilestoneController::class);
+            Route::post('/milestones/filtro', [MilestoneController::class, 'index'])
                 ->name('milestones.index.filtro');
 
             // Visor de logs: https://github.com/rap2hpoutre/laravel-log-viewer
-            Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')
+            Route::get('logs', [LogViewerController::class, 'index'])
                 ->name('logs');
 
             // Ver entradas en el registro
-            Route::get('/registros', 'RegistroController@index')
+            Route::get('/registros', [RegistroController::class, 'index'])
                 ->name('registros.index');
 
             // Filtrar el registro por alumno
-            Route::get('/registros_alumno', 'RegistroController@index')
+            Route::get('/registros_alumno', [RegistroController::class, 'index'])
                 ->name('registros_alumno.index');
-            Route::post('/registros_alumno', 'RegistroController@index')
+            Route::post('/registros_alumno', [RegistroController::class, 'index'])
                 ->name('registros_alumno.alumno');
 
             // Probar notificaciones
-            Route::get('/notifications/test', 'NotificationController@test')
+            Route::get('/notifications/test', [NotificationController::class, 'test'])
                 ->name('notifications.test');
 
             // Activación manual de usuario
-            Route::post('/user_manual_activation', 'UserController@manualActivation')
+            Route::post('/user_manual_activation', [UserController::class, 'manualActivation'])
                 ->name('users.manual_activation');
 
             // Bloqueo/desbloqueo del usuario
-            Route::post('/user_toggle_blocked', 'UserController@toggleBlocked')
+            Route::post('/user_toggle_blocked', [UserController::class, 'toggleBlocked'])
                 ->name('users.toggle_blocked');
 
             // Informe de todas las actividades del curso
-            Route::get('/actividades_export', 'ActividadController@export')
+            Route::get('/actividades_export', [ActividadController::class, 'export'])
                 ->withoutMiddleware('localeCookieRedirect')
                 ->name('actividades.export');
 
             // Exportar/importar cursos
-            Route::post('/cursos/{curso}/export', 'CursoController@export')
+            Route::post('/cursos/{curso}/export', [CursoController::class, 'export'])
                 ->name('cursos.export');
-            Route::post('/cursos.import', 'CursoController@import')
+            Route::post('/cursos.import', [CursoController::class, 'import'])
                 ->name('cursos.import');
 
             // Reiniciar los contenidos de un curso
-            Route::delete('/cursos/{curso}/reset', 'CursoController@reset')
+            Route::delete('/cursos/{curso}/reset', [CursoController::class, 'reset'])
                 ->name('cursos.reset');
 
             // Safe Exam Browser
-            Route::get('/safe_exam', 'SafeExamController@index')
+            Route::get('/safe_exam', [SafeExamController::class, 'index'])
                 ->name('safe_exam.index');
-            Route::post('/safe_exam/{curso}/reset_token', 'SafeExamController@reset_token')
+            Route::post('/safe_exam/{curso}/reset_token', [SafeExamController::class, 'reset_token'])
                 ->name('safe_exam.reset_token');
-            Route::post('/safe_exam/{curso}/reset_quit_password', 'SafeExamController@reset_quit_password')
+            Route::post('/safe_exam/{curso}/reset_quit_password', [SafeExamController::class, 'reset_quit_password'])
                 ->name('safe_exam.reset_quit_password');
-            Route::delete('/safe_exam/{curso}/delete_token', 'SafeExamController@delete_token')
+            Route::delete('/safe_exam/{curso}/delete_token', [SafeExamController::class, 'delete_token'])
                 ->name('safe_exam.delete_token');
-            Route::delete('/safe_exam/{curso}/delete_quit_password', 'SafeExamController@delete_quit_password')
+            Route::delete('/safe_exam/{curso}/delete_quit_password', [SafeExamController::class, 'delete_quit_password'])
                 ->name('safe_exam.delete_quit_password');
 
             Route::get('/safe_exam/{safe_exam}/allowed', [SafeExamController::class, 'allowed'])
@@ -573,15 +614,15 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::middleware(['role:alumno|profesor'])->group(function () {
 
             // Crear entradas en el registro
-            Route::post('/registros', 'RegistroController@store')
+            Route::post('/registros', [RegistroController::class, 'store'])
                 ->name('registros.store');
 
             // Responder a cuestionarios
-            Route::put('/cuestionarios/{cuestionario}/respuesta', 'CuestionarioController@respuesta')
+            Route::put('/cuestionarios/{cuestionario}/respuesta', [CuestionarioController::class, 'respuesta'])
                 ->name('cuestionarios.respuesta');
 
             // Previsualizar una actividad
-            Route::get('/actividades/{actividad}/preview', 'ActividadController@preview')
+            Route::get('/actividades/{actividad}/preview', [ActividadController::class, 'preview'])
                 ->name('actividades.preview');
         });
 
@@ -589,46 +630,46 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::middleware(['role:profesor|tutor'])->group(function () {
 
             // Informe de grupo
-            Route::get('/tutor', 'TutorController@index')
+            Route::get('/tutor', [TutorController::class, 'index'])
                 ->name('tutor.index');
-            Route::post('/tutor', 'TutorController@index')
+            Route::post('/tutor', [TutorController::class, 'index'])
                 ->name('tutor.index.filtro');
-            Route::get('/tutor/export', 'TutorController@export')
+            Route::get('/tutor/export', [TutorController::class, 'export'])
                 ->withoutMiddleware('localeCookieRedirect')
                 ->name('tutor.export');
-            Route::get('/tutor/tareas_enviadas', 'TutorController@tareas_enviadas')
+            Route::get('/tutor/tareas_enviadas', [TutorController::class, 'tareas_enviadas'])
                 ->name('tutor.tareas_enviadas');
 
             // Ver resultados de otros alumnos
-            Route::post('/results', 'ResultController@index')
+            Route::post('/results', [ResultController::class, 'index'])
                 ->name('results.alumno');
 
             // Resultados de otro usuario en PDF
-            Route::post('/results/pdf', 'ResultController@pdf')
+            Route::post('/results/pdf', [ResultController::class, 'pdf'])
                 ->name('results.pdf.filtro');
 
             // Ver el progreso de otros alumnos
-            Route::post('/outline', 'ArchivoController@outline')
+            Route::post('/outline', [ArchivoController::class, 'outline'])
                 ->name('archivo.outline.filtro');
 
             // Ver archivo de otros alumnos
-            Route::post('/archivo', 'ArchivoController@index')
+            Route::post('/archivo', [ArchivoController::class, 'index'])
                 ->name('archivo.alumno');
 
             // Borrar los datos en caché del usuario
-            Route::post('/users/{user}/limpiar_cache', 'UserController@limpiar_cache')
+            Route::post('/users/{user}/limpiar_cache', [UserController::class, 'limpiar_cache'])
                 ->name('users.limpiar_cache');
-            Route::post('/cursos/{curso}/limpiar_cache', 'CursoController@limpiar_cache')
+            Route::post('/cursos/{curso}/limpiar_cache', [CursoController::class, 'limpiar_cache'])
                 ->name('cursos.limpiar_cache');
 
             // Ver diario de actividades
-            Route::get('/diario', 'ArchivoController@diario')
+            Route::get('/diario', [ArchivoController::class, 'diario'])
                 ->name('archivo.diario');
-            Route::post('/diario', 'ArchivoController@diario')
+            Route::post('/diario', [ArchivoController::class, 'diario'])
                 ->name('archivo.diario.usuario');
 
             // Ampliar el plazo de todas las actividades de un curso
-            Route::post('/actividades/{curso}/ampliar_todas', 'ActividadController@ampliar_plazo_todas')
+            Route::post('/actividades/{curso}/ampliar_todas', [ActividadController::class, 'ampliar_plazo_todas'])
                 ->name('actividades.ampliar_todas');
         });
 
@@ -636,33 +677,33 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::middleware(['role:alumno|profesor|tutor'])->group(function () {
 
             // Resultados propios
-            Route::get('/results', 'ResultController@index')
+            Route::get('/results', [ResultController::class, 'index'])
                 ->name('results.index');
 
             // Resultados propios en PDF
-            Route::get('/results/pdf', 'ResultController@pdf')
+            Route::get('/results/pdf', [ResultController::class, 'pdf'])
                 ->name('results.pdf');
 
             // Resultados de otras evaluaciones
-            Route::get('/results/milestone', 'ResultController@index')
+            Route::get('/results/milestone', [ResultController::class, 'index'])
                 ->name('results.milestone.index');
-            Route::post('/results/milestone', 'ResultController@index')
+            Route::post('/results/milestone', [ResultController::class, 'index'])
                 ->name('results.milestone');
 
             // Archivo propio
-            Route::get('/archivo/{actividad}', 'ArchivoController@show')
+            Route::get('/archivo/{actividad}', [ArchivoController::class, 'show'])
                 ->name('archivo.show');
-            Route::get('/archivo', 'ArchivoController@index')
+            Route::get('/archivo', [ArchivoController::class, 'index'])
                 ->name('archivo.index');
 
             // Esquema del curso
-            Route::get('/outline', 'ArchivoController@outline')
+            Route::get('/outline', [ArchivoController::class, 'outline'])
                 ->name('archivo.outline');
 
             // Matricularse en un curso
-            Route::post('/cursos/{curso}/{user}/matricular', 'CursoController@matricular')
+            Route::post('/cursos/{curso}/{user}/matricular', [CursoController::class, 'matricular'])
                 ->name('cursos.matricular');
-            Route::post('/cursos/{curso}/{user}/curso_actual', 'CursoController@curso_actual')
+            Route::post('/cursos/{curso}/{user}/curso_actual', [CursoController::class, 'curso_actual'])
                 ->name('cursos.curso_actual');
         });
 
@@ -670,7 +711,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::middleware(['role:profesor|admin'])->group(function () {
 
             // CRUD - Equipos
-            Route::resource('teams', 'TeamController');
+            Route::resource('teams', TeamController::class);
         });
 
         // Mensajes
@@ -688,7 +729,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 
         // Pruebas
         if (config('app.debug')) {
-            Route::get('/files', 'FileController@getFiles')->name('files');
+            Route::get('/files', [FileController::class, 'getFiles'])->name('files');
         }
     });
 });
