@@ -38,38 +38,38 @@ class CursosTableSeeder extends Seeder
             'progreso_visible' => true,
         ]);
 
-/*        $category = Category::whereHas('period.organization', function ($query) {
-            $query->where('organizations.slug', 'deusto');
-        })
-            ->where('slug', 'programacion')
-            ->first();
+        /*        $category = Category::whereHas('period.organization', function ($query) {
+                    $query->where('organizations.slug', 'deusto');
+                })
+                    ->where('slug', 'programacion')
+                    ->first();
 
-        $nombre = 'Programación I';
+                $nombre = 'Programación I';
 
-        Curso::factory()->create([
-            'category_id' => $category->id,
-            'nombre' => $nombre,
-            'descripcion' => 'Asignatura: Programación I, Grado Dual en Industria Digital.',
-            'slug' => Str::slug($nombre),
-            'fecha_inicio' => now()->addDays(-7),
-            'fecha_fin' => now()->addMonths(3),
-        ]);
+                Curso::factory()->create([
+                    'category_id' => $category->id,
+                    'nombre' => $nombre,
+                    'descripcion' => 'Asignatura: Programación I, Grado Dual en Industria Digital.',
+                    'slug' => Str::slug($nombre),
+                    'fecha_inicio' => now()->addDays(-7),
+                    'fecha_fin' => now()->addMonths(3),
+                ]);
 
-        $category = Category::whereHas('period.organization', function ($query) {
-            $query->where('organizations.slug', 'egibide');
-        })
-            ->where('slug', 'programacion')
-            ->first();
+                $category = Category::whereHas('period.organization', function ($query) {
+                    $query->where('organizations.slug', 'egibide');
+                })
+                    ->where('slug', 'programacion')
+                    ->first();
 
-        $nombre = 'Programación';
+                $nombre = 'Programación';
 
-        Curso::factory()->create([
-            'category_id' => $category->id,
-            'nombre' => $nombre,
-            'descripcion' => 'Módulo: Programación, CFGS en Desarrollo de Aplicaciones Multiplataforma.',
-            'slug' => Str::slug($nombre),
-            'fecha_inicio' => now()->addDays(-7),
-            'fecha_fin' => now()->addMonths(3),
-        ]);*/
+                Curso::factory()->create([
+                    'category_id' => $category->id,
+                    'nombre' => $nombre,
+                    'descripcion' => 'Módulo: Programación, CFGS en Desarrollo de Aplicaciones Multiplataforma.',
+                    'slug' => Str::slug($nombre),
+                    'fecha_inicio' => now()->addDays(-7),
+                    'fecha_fin' => now()->addMonths(3),
+                ]);*/
     }
 }

@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Actividad;
-use App\Models\IntellijProject;
 use App\Models\MarkdownText;
 use App\Models\Rule;
 use App\Models\RuleGroup;

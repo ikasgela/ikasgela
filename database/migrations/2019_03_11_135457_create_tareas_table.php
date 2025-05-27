@@ -17,9 +17,9 @@ class CreateTareasTable extends Migration
         Schema::create('tareas', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->bigInteger('user_id')->unsigned()->index();;
+            $table->bigInteger('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->bigInteger('actividad_id')->unsigned()->index();;
+            $table->bigInteger('actividad_id')->unsigned()->index();
             $table->foreign('actividad_id')->references('id')->on('actividades')->onDelete('cascade');
 
             $table->integer('estado')->nullable()->index()->default(10);

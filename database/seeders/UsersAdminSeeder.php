@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Exception;
 use App\Models\Organization;
 use App\Models\Role;
 use App\Models\User;
+use Exception;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Database\Seeder;
 

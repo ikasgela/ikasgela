@@ -2,13 +2,13 @@
 
 namespace Database\Seeders;
 
-use Exception;
 use App\Models\Curso;
 use App\Models\Organization;
 use App\Models\Role;
 use App\Models\Team;
 use App\Models\User;
 use Carbon\Carbon;
+use Exception;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
@@ -48,7 +48,7 @@ class UsersTableSeeder extends Seeder
     private function generarUsuario(string $nombre, string $apellido, string $email, $roles, $equipos, $cursos, $organizations, $tags): void
     {
         $usuario = User::generar_username($email);
-        $password = App::environment(['local', 'testing']) ? '12345Abcde' : bin2hex(openssl_random_pseudo_bytes(16));;   // REF: https://stackoverflow.com/a/21498316
+        $password = App::environment(['local', 'testing']) ? '12345Abcde' : bin2hex(openssl_random_pseudo_bytes(16));   // REF: https://stackoverflow.com/a/21498316
         $fecha = Carbon::now();
 
         $user = new User();

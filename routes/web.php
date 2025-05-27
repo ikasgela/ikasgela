@@ -44,6 +44,8 @@ use App\Http\Controllers\UnidadController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\YoutubeVideoController;
 use App\Livewire\Counter;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 
 // Localización
