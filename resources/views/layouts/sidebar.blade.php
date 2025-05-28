@@ -21,6 +21,11 @@
     @endif
     @if(Auth::user()->hasRole('admin'))
         <ul class="nav nav-pills flex-column">
+            @include('menus.pruebas')
+        </ul>
+    @endif
+    @if(Auth::user()->hasRole('admin'))
+        <ul class="nav nav-pills flex-column">
             @include('menus.admin')
         </ul>
     @endif
