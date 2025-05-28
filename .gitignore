@@ -110,3 +110,5 @@ _ide_helper_models.php
 odc-reports/
 
 .phpunit.cache/
+
+_ide_helper
