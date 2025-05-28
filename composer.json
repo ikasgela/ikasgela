@@ -112,6 +112,7 @@
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan ide-helper:generate",
+            "php artisan ide-helper:models --nowrite --write-mixin --write-eloquent-helper",
             "php artisan ide-helper:meta"
         ]
     },
