@@ -8,6 +8,7 @@ class ListaTareas extends Component
 {
     public function render()
     {
-        return view('livewire.lista-tareas');
+        return view('livewire.lista-tareas')
+            ->extends('layouts.app');
     }
 }
