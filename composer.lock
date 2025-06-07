@@ -75,16 +75,16 @@
         },
         {
             "name": "archtechx/enums",
-            "version": "v1.1.1",
+            "version": "v1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/archtechx/enums.git",
-                "reference": "27d0405b983b14a2ee90621c4034eeb6010c0a0c"
+                "reference": "81375b71c176f680880a95e7448d84258cfb5c72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/archtechx/enums/zipball/27d0405b983b14a2ee90621c4034eeb6010c0a0c",
-                "reference": "27d0405b983b14a2ee90621c4034eeb6010c0a0c",
+                "url": "https://api.github.com/repos/archtechx/enums/zipball/81375b71c176f680880a95e7448d84258cfb5c72",
+                "reference": "81375b71c176f680880a95e7448d84258cfb5c72",
                 "shasum": ""
             },
             "require": {
@@ -92,11 +92,18 @@
             },
             "require-dev": {
                 "larastan/larastan": "^2.4",
-                "orchestra/testbench": "^8.0",
+                "orchestra/testbench": "^8.0 || ^9.0",
                 "pestphp/pest": "^2.0",
                 "pestphp/pest-plugin-laravel": "^2.0"
             },
             "type": "library",
+            "extra": {
+                "phpstan": {
+                    "includes": [
+                        "extension.neon"
+                    ]
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "ArchTech\\Enums\\": "src/"
@@ -115,9 +122,9 @@
             "description": "Helpers for making PHP enums more lovable.",
             "support": {
                 "issues": "https://github.com/archtechx/enums/issues",
-                "source": "https://github.com/archtechx/enums/tree/v1.1.1"
+                "source": "https://github.com/archtechx/enums/tree/v1.1.2"
             },
-            "time": "2024-10-29T15:38:32+00:00"
+            "time": "2025-06-06T23:15:09+00:00"
         },
         {
             "name": "aws/aws-crt-php",
@@ -175,16 +182,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.344.0",
+            "version": "3.344.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "787a8ec6301657d9cbdb389db4fa92243c68666a"
+                "reference": "3a6aaaea75f4605f89aa57ad63b9a077bf01e1e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/787a8ec6301657d9cbdb389db4fa92243c68666a",
-                "reference": "787a8ec6301657d9cbdb389db4fa92243c68666a",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3a6aaaea75f4605f89aa57ad63b9a077bf01e1e5",
+                "reference": "3a6aaaea75f4605f89aa57ad63b9a077bf01e1e5",
                 "shasum": ""
             },
             "require": {
@@ -266,9 +273,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.344.0"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.344.2"
             },
-            "time": "2025-06-04T18:36:41+00:00"
+            "time": "2025-06-06T18:14:42+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -12292,16 +12299,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "12.1.6",
+            "version": "12.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "2fdf0056c673c8f0f1eed00030be5f8243c1e6e0"
+                "reference": "5f09fda04e7caea93cff50b4e90319184f3e6ee3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2fdf0056c673c8f0f1eed00030be5f8243c1e6e0",
-                "reference": "2fdf0056c673c8f0f1eed00030be5f8243c1e6e0",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/5f09fda04e7caea93cff50b4e90319184f3e6ee3",
+                "reference": "5f09fda04e7caea93cff50b4e90319184f3e6ee3",
                 "shasum": ""
             },
             "require": {
@@ -12315,7 +12322,7 @@
                 "phar-io/manifest": "^2.0.4",
                 "phar-io/version": "^3.2.1",
                 "php": ">=8.3",
-                "phpunit/php-code-coverage": "^12.2.1",
+                "phpunit/php-code-coverage": "^12.3.0",
                 "phpunit/php-file-iterator": "^6.0.0",
                 "phpunit/php-invoker": "^6.0.0",
                 "phpunit/php-text-template": "^5.0.0",
@@ -12323,7 +12330,7 @@
                 "sebastian/cli-parser": "^4.0.0",
                 "sebastian/comparator": "^7.0.1",
                 "sebastian/diff": "^7.0.0",
-                "sebastian/environment": "^8.0.1",
+                "sebastian/environment": "^8.0.2",
                 "sebastian/exporter": "^7.0.0",
                 "sebastian/global-state": "^8.0.0",
                 "sebastian/object-enumerator": "^7.0.0",
@@ -12337,7 +12344,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "12.1-dev"
+                    "dev-main": "12.2-dev"
                 }
             },
             "autoload": {
@@ -12369,7 +12376,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.1.6"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.2.1"
             },
             "funding": [
                 {
@@ -12393,7 +12400,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-05-21T12:36:31+00:00"
+            "time": "2025-06-07T05:17:47+00:00"
         },
         {
             "name": "psy/psysh",
