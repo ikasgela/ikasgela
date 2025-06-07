@@ -50103,17 +50103,42 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
 /* harmony import */ var pusher_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 /* harmony import */ var pusher_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(pusher_js__WEBPACK_IMPORTED_MODULE_1__);
-var _import$meta$env$VITE, _import$meta$env$VITE2, _import$meta$env$VITE3;
+var _process$env$MIX_REVE, _process$env$MIX_REVE2, _process$env$MIX_REVE3;
 
 
 window.Pusher = (pusher_js__WEBPACK_IMPORTED_MODULE_1___default());
+
+/*
+window.Echo = new Echo({
+    broadcaster: 'reverb',
+    key: import.meta.env.VITE_REVERB_APP_KEY,
+    wsHost: import.meta.env.VITE_REVERB_HOST,
+    wsPort: import.meta.env.VITE_REVERB_PORT ?? 80,
+    wssPort: import.meta.env.VITE_REVERB_PORT ?? 443,
+    forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'https') === 'https',
+    enabledTransports: ['ws', 'wss'],
+});
+*/
+
+/*
+window.Echo = new Echo({
+    broadcaster: 'reverb',
+    key: '573egi3zm3zvlqkbr6vt',
+    wsHost: 'ws.ikasgela.test',
+    wsPort: 80,
+    wssPort: 443,
+    forceTLS: 'https',
+    enabledTransports: ['wss'],
+});
+*/
+
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'reverb',
-  key: /* unsupported import.meta.env.VITE_REVERB_APP_KEY */ undefined.VITE_REVERB_APP_KEY,
-  wsHost: /* unsupported import.meta.env.VITE_REVERB_HOST */ undefined.VITE_REVERB_HOST,
-  wsPort: (_import$meta$env$VITE = /* unsupported import.meta.env.VITE_REVERB_PORT */ undefined.VITE_REVERB_PORT) !== null && _import$meta$env$VITE !== void 0 ? _import$meta$env$VITE : 80,
-  wssPort: (_import$meta$env$VITE2 = /* unsupported import.meta.env.VITE_REVERB_PORT */ undefined.VITE_REVERB_PORT) !== null && _import$meta$env$VITE2 !== void 0 ? _import$meta$env$VITE2 : 443,
-  forceTLS: ((_import$meta$env$VITE3 = /* unsupported import.meta.env.VITE_REVERB_SCHEME */ undefined.VITE_REVERB_SCHEME) !== null && _import$meta$env$VITE3 !== void 0 ? _import$meta$env$VITE3 : 'https') === 'https',
+  key: "573egi3zm3zvlqkbr6vt",
+  wsHost: "ws.ikasgela.test",
+  wsPort: (_process$env$MIX_REVE = "443") !== null && _process$env$MIX_REVE !== void 0 ? _process$env$MIX_REVE : 80,
+  wssPort: (_process$env$MIX_REVE2 = "443") !== null && _process$env$MIX_REVE2 !== void 0 ? _process$env$MIX_REVE2 : 443,
+  forceTLS: ((_process$env$MIX_REVE3 = "https") !== null && _process$env$MIX_REVE3 !== void 0 ? _process$env$MIX_REVE3 : 'https') === 'https',
   enabledTransports: ['ws', 'wss']
 });
 

@@ -8,6 +8,8 @@ use App\Models\IntellijProject;
 use App\Models\Tarea;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class TarjetaIntellij extends Component
@@ -51,14 +53,19 @@ class TarjetaIntellij extends Component
                         array_push($team_users, $compartida->user);
                     }
                 }
-                ForkGiteaRepo::dispatchSync($actividad, $intellij_project, Auth::user());
-
-//                ForkGiteaRepo::dispatch($actividad, $intellij_project, Auth::user(), $team_users);
+                ForkGiteaRepo::dispatch($actividad, $intellij_project, Auth::user(), $team_users);
             } else {
                 ForkGiteaRepo::dispatchSync($actividad, $intellij_project, Auth::user());
             }
-
-            $this->fork_status = 2; // Forked
         }
+    }
+
+    #[On('echo:forks.{intellij_project.id},GiteaRepoForked')]
+    public function notifyNewOrder($event)
+    {
+        Log::debug("El mensaje ha llegado.");
+        Log::debug($event);
+        $this->repositorio = $this->intellij_project->repository();
+        $this->fork_status = 2; // Forked
     }
 }
