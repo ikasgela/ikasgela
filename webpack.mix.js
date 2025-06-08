@@ -1,5 +1,8 @@
 const mix = require('laravel-mix');
 
+require('mix-env-file');
+mix.env(process.env.ENV_FILE);
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management

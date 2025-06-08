@@ -7,16 +7,18 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "ENV_FILE=.env.production mix --production"
     },
     "devDependencies": {
         "bootstrap": "^5.3.3",
         "cross-env": "^7.0.3",
         "jquery": "^3.6.0",
+        "laravel-echo": "^2.1.5",
         "laravel-mix": "^6.0.28",
         "lodash": "^4.17.21",
         "popper.js": "^1.16.1",
         "postcss": "^8.3.6",
+        "pusher-js": "^8.4.0",
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.38.2",
         "sass-loader": "^16.0.2"
@@ -29,6 +31,7 @@
         "bootstrap-icons": "^1.11.3",
         "chart.js": "^4.4.3",
         "jquery-countdown": "^2.2.0",
+        "mix-env-file": "^0.1.1",
         "perfect-scrollbar": "^1.5.2",
         "prismjs": "^1.24.1",
         "tinymce": "^7.2.1",

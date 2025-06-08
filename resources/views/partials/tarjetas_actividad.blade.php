@@ -9,7 +9,7 @@
         <div class="col-md-{{ $recurso->pivote($actividad)->columnas ?: 6 }}">
             @switch($recurso::class)
                 @case('App\Models\IntellijProject')
-                    @include('intellij_projects.tarjeta', ['intellij_project' => $recurso, 'repositorio' => $recurso->repository()])
+                    @livewire('tarjeta-intellij', ['actividad' => $actividad, 'intellij_project' => $recurso])
                     @break
                 @case('App\Models\MarkdownText')
                     @include('markdown_texts.tarjeta', ['markdown_text' => $recurso, 'texto' => $recurso->markdown()])

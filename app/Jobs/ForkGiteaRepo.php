@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\GiteaRepoForked;
 use App\Models\Actividad;
 use App\Models\IntellijProject;
 use App\Models\User;
@@ -100,6 +101,8 @@ class ForkGiteaRepo implements ShouldQueue, ShouldBeUnique
 
                     Cache::put($ij->cacheKey(), $fork, now()->addDays(config('ikasgela.repo_cache_days')));
                     Log::debug("Repositorio en caché después del fork: ", ['key' => $ij->cacheKey(), 'repo' => $fork['path_with_namespace']]);
+
+                    GiteaRepoForked::dispatch($this->actividad, $this->intellij_project);
 
                     //Mail::to($this->user->email)->send(new RepositorioClonado());
 

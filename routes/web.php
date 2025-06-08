@@ -44,6 +44,8 @@ use App\Http\Controllers\UnidadController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\YoutubeVideoController;
 use App\Livewire\Counter;
+use App\Livewire\ListaTareas;
+use App\Livewire\TarjetaIntellij;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Rap2hpoutre\LaravelLogViewer\LogViewerController;
@@ -613,7 +615,14 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('allowed_urls.duplicate');
 
             // Test de Livewire
-            Route::get('/counter', Counter::class);
+            Route::name('lw.')->group(function () {
+                Route::get('livewire', Counter::class)
+                    ->name('livewire');
+                Route::get('lista_tareas', ListaTareas::class)
+                    ->name('lista_tareas');
+                Route::get('tarjeta_intellij', TarjetaIntellij::class)
+                    ->name('tarjeta_intellij');
+            });
         });
 
         // Alumnos y profesores
