@@ -20,6 +20,7 @@ use App\Traits\InformeActividadesCurso;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
@@ -275,13 +276,16 @@ class ActividadController extends Controller
                 break;
             case 20:
                 if (!in_array($estado_anterior, [10]) && !$override_allowed) {
-                    abort(400, __('Invalid task state.'));
+                    Log::error(__('Invalid task state.'), [
+                        'usuario' => $usuario->id,
+                        'tarea' => $tarea->id,
+                    ]);
+                } else {
+                    $actividad->fecha_comienzo = now();
+                    $actividad->save();
+
+                    $tarea->estado = $nuevoestado;
                 }
-
-                $actividad->fecha_comienzo = now();
-                $actividad->save();
-
-                $tarea->estado = $nuevoestado;
                 break;
             case 21:
                 if (!in_array($estado_anterior, [41]) && !$override_allowed) {
