@@ -55,7 +55,7 @@
                 </div>
                 <hr class="my-0">
                 <div class="card-body pb-0">
-                    @include('alumnos.partials.tarea.boton_accion')
+                    @livewire('boton-accion', ['actividad' => $actividad, 'tarea' => $actividad?->tarea])
                 </div>
             @else
                 <hr class="my-0">

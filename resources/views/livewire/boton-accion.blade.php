@@ -1,9 +1,9 @@
 <div class="mb-3">
     <form method="POST"
-          action="{{ route('actividades.estado', [$actividad->tarea->id]) }}">
+          action="{{ route('actividades.estado', [$tarea->id]) }}">
         @csrf
         @method('PUT')
-        @switch($actividad->tarea->estado)
+        @switch($tarea->estado)
             @case(10)
                 {{-- Nueva --}}
                 @if(!$actividad->is_finished)
@@ -53,7 +53,7 @@
                             class="btn btn-light single_click">
                         <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Show next') }}
                     </button>
-                @endif()
+                @endif
                 @break
             @case(30)
                 {{-- Enviada --}}

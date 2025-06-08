@@ -57,6 +57,7 @@ class TarjetaIntellij extends Component
         $this->intellij_project = $this->actividad->intellij_projects()->find($event['intellij_project']['id']);
         $this->fork_status = $this->intellij_project->getForkStatus();
         $this->repositorio = $this->intellij_project->repository();
+        $this->dispatch("status-updated.{$this->actividad->id}");
         Log::debug("Fork del repositorio completado", $event);
     }
 }
