@@ -72,25 +72,29 @@ class ForkGiteaRepo implements ShouldQueue, ShouldBeUnique
             } else {
                 $fork = null;
 
-                $ruta = $this->actividad->unidad->curso->slug
-                    . '-' . $this->actividad->unidad->slug
-                    . '-' . $this->actividad->slug;
+                if (!$ij->isForking()) {
+                    $ij->setForkStatus(1);  // Forking
 
-                $ruta .= '-' . bin2hex(openssl_random_pseudo_bytes(3));
+                    $ruta = $this->actividad->unidad->curso->slug
+                        . '-' . $this->actividad->unidad->slug
+                        . '-' . $this->actividad->slug;
 
-                $proyecto = GiteaClient::repo($this->intellij_project->repositorio);
+                    $ruta .= '-' . bin2hex(openssl_random_pseudo_bytes(3));
 
-                if (empty($this->intellij_project->descripcion)) {
-                    $descripcion = $proyecto['description'];
-                } else {
-                    $descripcion = $this->intellij_project->descripcion;
+                    $proyecto = GiteaClient::repo($this->intellij_project->repositorio);
+
+                    if (empty($this->intellij_project->descripcion)) {
+                        $descripcion = $proyecto['description'];
+                    } else {
+                        $descripcion = $this->intellij_project->descripcion;
+                    }
+
+                    if (!$proyecto['template']) {
+                        GiteaClient::template($proyecto['owner'], $proyecto['name'], true);
+                    }
+
+                    $fork = $this->clonar_repositorio($this->intellij_project->repositorio, $username, Str::slug($ruta), $descripcion);
                 }
-
-                if (!$proyecto['template']) {
-                    GiteaClient::template($proyecto['owner'], $proyecto['name'], true);
-                }
-
-                $fork = $this->clonar_repositorio($this->intellij_project->repositorio, $username, Str::slug($ruta), $descripcion);
 
                 if (!is_null($fork) && isset($fork['id'])) {
                     $ij->setForkStatus(2, $fork['path_with_namespace']);  // Ok
