@@ -101,16 +101,11 @@ class ForkGiteaRepo implements ShouldQueue, ShouldBeUnique
 
                     Cache::put($ij->cacheKey(), $fork, now()->addDays(config('ikasgela.repo_cache_days')));
                     Log::debug("Repositorio en caché después del fork: ", ['key' => $ij->cacheKey(), 'repo' => $fork['path_with_namespace']]);
-
-                    GiteaRepoForked::dispatch($this->intellij_project);
-
-                    //Mail::to($this->user->email)->send(new RepositorioClonado());
-
                 } else {
                     $ij->setForkStatus(3);  // Error
-
-                    //Mail::to($this->user->email)->send(new RepositorioClonadoError());
                 }
+
+                GiteaRepoForked::dispatch($this->intellij_project);
             }
         }, fn() => // Could not obtain lock...
         $this->release(5));
