@@ -43,6 +43,7 @@
             @elseif(isset($actividad) && !$intellij_project->isForked() && Auth::user()->hasRole('alumno') && !($repositorio['id'] == '?'))
                 @if($fork_status == 0)
                     <button wire:click="fork"
+                            dusk="clone-button"
                             title="{{ __('Clone the project') }}"
                             type="submit"
                             class="btn btn-primary single_click">
@@ -59,7 +60,7 @@
                         <span>{{ __('Server error, contact with your administrator.') }}</span>
                     </div>
                 @endif
-            @elseif($fork_status == 2 && isset($repositorio['web_url']))
+            @elseif(isset($repositorio['web_url']))
                 @switch($intellij_project->open_with)
                     @case('datagrip')
                         <a href="{{ $intellij_project->datagrip_deep_link() }}"

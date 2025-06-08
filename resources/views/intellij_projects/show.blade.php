@@ -6,7 +6,7 @@
 
     <div class="row">
         <div class="col-md-6">
-            @include('intellij_projects.tarjeta')
+            @livewire('tarjeta-intellij', ['actividad' => null, 'intellij_project' => $intellij_project])
         </div>
     </div>
 

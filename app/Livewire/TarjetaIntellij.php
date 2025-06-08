@@ -14,14 +14,13 @@ use Livewire\Component;
 
 class TarjetaIntellij extends Component
 {
-    public $actividad;
-    public $intellij_project;
+    public ?Actividad $actividad;
+    public IntellijProject $intellij_project;
     public $repositorio;
     public $fork_status;    // 0 sin clonar, 1 clonando, 2 completado, 3 error
 
-    public function mount(Actividad $actividad, IntellijProject $intellij_project)
+    public function mount(IntellijProject $intellij_project)
     {
-        $this->actividad = $actividad;
         $this->intellij_project = $intellij_project;
         $this->fork_status = $this->intellij_project->getForkStatus();
         $this->repositorio = $this->intellij_project->repository();
@@ -52,7 +51,7 @@ class TarjetaIntellij extends Component
         }
     }
 
-    #[On('echo:forks.{actividad.id}.{intellij_project.id},GiteaRepoForked')]
+    #[On('echo:forks.{intellij_project.id},GiteaRepoForked')]
     public function forked($event)
     {
         $this->intellij_project = $this->actividad->intellij_projects()->find($event['intellij_project']['id']);

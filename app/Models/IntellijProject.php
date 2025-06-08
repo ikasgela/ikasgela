@@ -224,9 +224,9 @@ class IntellijProject extends Model
         return null;
     }
 
-    public function pivote(Actividad $actividad)
+    public function pivote(?Actividad $actividad)
     {
-        return $actividad->intellij_projects()->find($this->id)->pivot;
+        return $actividad?->intellij_projects()->find($this->id)->pivot ?? null;
     }
 
     public function isSafeExamOnMac(): bool

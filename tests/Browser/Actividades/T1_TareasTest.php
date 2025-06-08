@@ -89,11 +89,13 @@ class T1_TareasTest extends DuskTestCase
 
             // Clonar el repositorio
             $browser->assertSee('Agenda de contactos con varias ventanas que comparten datos.');
+            $browser->assertSee(__('Clone the project'));
 
-            $browser->press(__('Clone the project'));
-            $browser->assertRouteIs('users.home');
+            $browser->press('@clone-button');
 
-            $browser->pause(1000)->visit('/home');
+            $browser->pause(1000);
+
+            $browser->visit(route('users.home'));
 
             $browser->assertSee(__('Open in IntelliJ IDEA'));
 
