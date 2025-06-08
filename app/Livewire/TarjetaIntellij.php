@@ -17,55 +17,47 @@ class TarjetaIntellij extends Component
     public $actividad;
     public $intellij_project;
     public $repositorio;
-    public $fork_status;
+    public $fork_status;    // 0 sin clonar, 1 clonando, 2 completado, 3 error
 
     public function mount(Actividad $actividad, IntellijProject $intellij_project)
     {
-        $this->intellij_project = $intellij_project;
         $this->actividad = $actividad;
+        $this->intellij_project = $intellij_project;
+        $this->fork_status = $this->intellij_project->getForkStatus();
         $this->repositorio = $this->intellij_project->repository();
-        $this->fork_status = $intellij_project->getForkStatus();
     }
 
     public function render()
     {
         return view('livewire.tarjeta-intellij');
-//            ->extends('layouts.app');
     }
 
-    public function prueba()
+    public function fork()
     {
-        $this->fork($this->actividad, $this->intellij_project);
-    }
-
-    public function fork(Actividad $actividad, IntellijProject $intellij_project)
-    {
-        $proyecto = $intellij_project;
-
-        if (!$proyecto->isForking()) {
-            $this->fork_status = 1; // Forking
+        if (!$this->intellij_project->isForking()) {
+            $this->fork_status = 1;
 
             if (!App::environment('testing')) {
                 $team_users = [];
-                if ($actividad->hasEtiqueta('trabajo en equipo')) {
-                    $compartidas = Tarea::where('actividad_id', $actividad->id)->get();
+                if ($this->actividad->hasEtiqueta('trabajo en equipo')) {
+                    $compartidas = Tarea::where('actividad_id', $this->actividad->id)->get();
                     foreach ($compartidas as $compartida) {
                         array_push($team_users, $compartida->user);
                     }
                 }
-                ForkGiteaRepo::dispatch($actividad, $intellij_project, Auth::user(), $team_users);
+                ForkGiteaRepo::dispatch($this->actividad, $this->intellij_project, Auth::user(), $team_users);
             } else {
-                ForkGiteaRepo::dispatchSync($actividad, $intellij_project, Auth::user());
+                ForkGiteaRepo::dispatchSync($this->actividad, $this->intellij_project, Auth::user());
             }
         }
     }
 
-    #[On('echo:forks.{intellij_project.id},GiteaRepoForked')]
-    public function notifyNewOrder($event)
+    #[On('echo:forks.{actividad.id}.{intellij_project.id},GiteaRepoForked')]
+    public function forked($event)
     {
-        Log::debug("El mensaje ha llegado.");
-        Log::debug($event);
+        $this->intellij_project = $this->actividad->intellij_projects()->find($event['intellij_project']['id']);
+        $this->fork_status = $this->intellij_project->getForkStatus();
         $this->repositorio = $this->intellij_project->repository();
-        $this->fork_status = 2; // Forked
+        Log::debug("Fork del repositorio completado", $event);
     }
 }

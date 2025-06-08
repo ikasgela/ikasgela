@@ -1,5 +1,4 @@
 <div>
-    <h5>Componente</h5>
     <script>
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(
@@ -8,29 +7,6 @@
                 });
         }
     </script>
-
-{{--
-    @if($intellij_project->isForking())
-        @push('intellij-isforking')
-            <script>
-                (function () {
-                    setInterval(function () {
-                        axios.get('{{ route('intellij_projects.is_forking', ['actividad' => $actividad->id, 'intellij_project'=>$intellij_project->id]) }}')
-                            .then(function (response) {
-                                if (response.data === 2 || response.data === 3) {
-                                    location.reload();
-                                }
-                            });
-                    }, 2000);
-                })();
-            </script>
-        @endpush
-    @endif
---}}
-
-    <div>
-    <?php dump($repositorio) ?>
-    </div>
 
     <div class="card mb-3">
         <div class="card-header d-flex justify-content-between">
@@ -66,27 +42,13 @@
                    class="btn btn-primary">{{ __('Download the project') }}</a>
             @elseif(isset($actividad) && !$intellij_project->isForked() && Auth::user()->hasRole('alumno') && !($repositorio['id'] == '?'))
                 @if($fork_status == 0)
-
-                    <button wire:click="prueba"
+                    <button wire:click="fork"
                             title="{{ __('Clone the project') }}"
                             type="submit"
                             class="btn btn-primary single_click">
                         <i class="fas fa-spinner fa-spin" style="display:none;"></i>
                         {{ __('Clone the project') }}
                     </button>
-
-
-{{--
-                    {{ html()->form('POST', route('intellij_projects.fork', ['actividad' => $actividad->id, 'intellij_project'=>$intellij_project->id]))->open() }}
-                    <button title="{{ __('Clone the project') }}"
-                            type="submit"
-                            class="btn btn-primary single_click">
-                        <i class="fas fa-spinner fa-spin" style="display:none;"></i>
-                        {{ __('Clone the project') }}
-                    </button>
-                    {{ html()->form()->close() }}
---}}
-
                 @elseif($fork_status == 1)
                     <a href="#" class="btn btn-primary disabled me-3">
                         <i class="fas fa-spinner fa-spin"></i> {{ __('Clone the project') }}
