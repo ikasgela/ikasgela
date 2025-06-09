@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Encoders\WebpEncoder;
+use Intervention\Image\Laravel\Facades\Image;
 
 class TinymceUploadController extends Controller
 {
@@ -16,13 +17,11 @@ class TinymceUploadController extends Controller
 
         $filename = md5(time()) . '/' . $fichero->getClientOriginalName();
 
-        $imagen = Image::make($fichero)->orientate()
-            ->resize(3000, 3000, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            })->stream();
+        $imagen = Image::read($fichero)
+            ->scaleDown(2000, 2000)
+            ->encode(new WebpEncoder(quality: 80));
 
-        Storage::disk('s3')->put('images/' . $filename, $imagen->__toString());
+        Storage::disk('s3')->put('images/' . $filename, $imagen);
 
         Auth::user()->files()->create([
             'path' => $filename,

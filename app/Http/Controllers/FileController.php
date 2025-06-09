@@ -9,14 +9,11 @@ use App\Models\FileResource;
 use App\Models\FileUpload;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Encoders\WebpEncoder;
+use Intervention\Image\Laravel\Facades\Image;
 
 class FileController extends Controller
 {
-    public function __construct(private readonly File $file)
-    {
-    }
-
     public function getFiles()
     {
         return view('pruebas.ficheros')->with('files', auth()->user()->files);
@@ -27,29 +24,17 @@ class FileController extends Controller
         $fichero = $request->file;
 
         $filename = md5(time()) . '/' . $fichero->getClientOriginalName();
-        $extension = $fichero->getClientOriginalExtension();
 
-        $imagen = Image::make($fichero)
-            ->orientate()
-            ->resize(2000, 2000, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            })
-            ->encode('jpg', 80)
-            ->stream();
+        $imagen = Image::read($fichero)
+            ->scaleDown(2000, 2000)
+            ->encode(new WebpEncoder(quality: 80));
 
-        $thumbnail = Image::make($fichero)
-            ->orientate()
-            ->resize(128, null, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            })
-            ->crop(128, 128)
-            ->encode('jpg', 80)
-            ->stream();
+        $thumbnail = Image::read($fichero)
+            ->coverDown(128, 128)
+            ->encode(new WebpEncoder(quality: 80));
 
-        Storage::disk('s3')->put('images/' . $filename, $imagen->__toString());
-        Storage::disk('s3')->put('thumbnails/' . $filename, $thumbnail->__toString());
+        Storage::disk('s3')->put('images/' . $filename, $imagen);
+        Storage::disk('s3')->put('thumbnails/' . $filename, $thumbnail);
 
         $file_upload = FileUpload::find(request('file_upload_id'));
 
@@ -110,7 +95,7 @@ class FileController extends Controller
 
     public function rotateRight(File $file)
     {
-        $this->rotate($file, false);
+        $this->rotate($file);
         return back();
     }
 
@@ -125,16 +110,16 @@ class FileController extends Controller
 
         // Rotar 90º a derecha o izquierda
         if (!$left) {
-            $imagen = Image::make($fichero_imagen)->rotate(-90)->stream();
-            $thumbnail = Image::make($fichero_thumbnail)->rotate(-90)->stream();
+            $imagen = Image::read($fichero_imagen)->rotate(-90);
+            $thumbnail = Image::read($fichero_thumbnail)->rotate(-90);
         } else {
-            $imagen = Image::make($fichero_imagen)->rotate(90)->stream();
-            $thumbnail = Image::make($fichero_thumbnail)->rotate(90)->stream();
+            $imagen = Image::read($fichero_imagen)->rotate(90);
+            $thumbnail = Image::read($fichero_thumbnail)->rotate(90);
         }
 
         // Volver a subir los ficheros en el mismo path
-        Storage::disk('s3')->put($ruta_imagen, $imagen->__toString());
-        Storage::disk('s3')->put($ruta_thumbnail, $thumbnail->__toString());
+        Storage::disk('s3')->put($ruta_imagen, $imagen->encode());
+        Storage::disk('s3')->put($ruta_thumbnail, $thumbnail->encode());
     }
 
     public function reordenar(File $a1, File $a2)

@@ -26,14 +26,14 @@ class T2_AmazonS3Test extends DuskTestCase
             // Subir el archivo
             $browser->attach('file', base_path("public/icons_debug/test.png"));
             $browser->press(__('Upload'));
-            $browser->assertSee(formato_decimales(38.59, 2) . ' KB');
+            $browser->assertSee(formato_decimales(10.49, 2) . ' KB');
 
             // Borrar el fichero
             $browser->press('borrar');
             $browser->acceptDialog();
 
             // Se vuelve a mostrar el botón de subir fichero
-            $browser->assertDontSee(formato_decimales(38.59, 2) . ' KB');
+            $browser->assertDontSee(formato_decimales(10.49, 2) . ' KB');
 
             // Abrir la actividad de subida de archivo
             $browser->visit('/file_uploads/1');
@@ -42,14 +42,14 @@ class T2_AmazonS3Test extends DuskTestCase
             // Subir el archivo
             $browser->attach('file', base_path("public/icons_debug/test.jpg"));
             $browser->press(__('Upload'));
-            $browser->assertSee(formato_decimales(38.65, 2) . ' KB');
+            $browser->assertSee(formato_decimales(10.55, 2) . ' KB');
 
             // Borrar el fichero
             $browser->press('borrar');
             $browser->acceptDialog();
 
             // Se vuelve a mostrar el botón de subir fichero
-            $browser->assertDontSee(formato_decimales(38.65, 2) . ' KB');
+            $browser->assertDontSee(formato_decimales(10.55, 2) . ' KB');
         });
     }
 }
