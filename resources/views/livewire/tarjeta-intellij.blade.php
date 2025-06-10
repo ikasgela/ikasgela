@@ -92,7 +92,7 @@
                             {{ html()->form('POST', route('intellij_projects.unlock', [$intellij_project->id, $actividad->id]))->open() }}
                             <button title="{{ __('Unlock') }}"
                                     type="submit"
-                                    class="btn btn-light mb-3">
+                                    class="btn btn-light mb-3 ms-2">
                                 <i class="fas fa-lock"></i>
                             </button>
                             {{ html()->form()->close() }}
@@ -100,7 +100,7 @@
                             {{ html()->form('POST', route('intellij_projects.lock', [$intellij_project->id, $actividad->id]))->open() }}
                             <button title="{{ __('Lock') }}"
                                     type="submit"
-                                    class="btn btn-light mb-3">
+                                    class="btn btn-light mb-3 ms-2">
                                 <i class="fas fa-unlock"></i>
                             </button>
                             {{ html()->form()->close() }}
@@ -153,7 +153,7 @@
                     </div>
                 @endif
             @else
-                <div class="alert alert-danger mb-0 mt-3" role="alert">
+                <div class="alert alert-danger" role="alert">
                     <span>{{ __('Server error, contact with your administrator.') }}</span>
                 </div>
             @endif
