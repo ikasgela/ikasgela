@@ -19,7 +19,6 @@
     <script src="{{ asset('/js/app.js') }}"></script>
     @yield('fancybox')
     @yield('prismjs-css')
-    @stack('intellij-isforking')
 </head>
 <body class="d-flex flex-column h-100">
 

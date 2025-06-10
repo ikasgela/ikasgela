@@ -43,9 +43,6 @@ use App\Http\Controllers\TutorController;
 use App\Http\Controllers\UnidadController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\YoutubeVideoController;
-use App\Livewire\Counter;
-use App\Livewire\ListaTareas;
-use App\Livewire\TarjetaIntellij;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Rap2hpoutre\LaravelLogViewer\LogViewerController;
@@ -136,12 +133,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             // Mostrar el escritorio del alumno
             Route::get('/home', [AlumnoController::class, 'tareas'])
                 ->name('users.home');
-
-            // Fork de un proyecto de Intellij
-            Route::post('/intellij_projects/{actividad}/fork/{intellij_project}', [IntellijProjectController::class, 'fork'])
-                ->name('intellij_projects.fork')->block();
-            Route::get('/intellij_projects/status/{actividad}/fork/{intellij_project}', [IntellijProjectController::class, 'is_forking'])
-                ->name('intellij_projects.is_forking');
 
             // Descargar un repositorio
             Route::get('/intellij_projects/{intellij_project}/download', [IntellijProjectController::class, 'download'])
@@ -613,16 +604,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('allowed_urls.destroy');
             Route::post('/allowed_urls/{allowed_url}/duplicate', [AllowedUrlController::class, 'duplicate'])
                 ->name('allowed_urls.duplicate');
-
-            // Test de Livewire
-            Route::name('lw.')->group(function () {
-                Route::get('livewire', Counter::class)
-                    ->name('livewire');
-                Route::get('lista_tareas', ListaTareas::class)
-                    ->name('lista_tareas');
-                Route::get('tarjeta_intellij', TarjetaIntellij::class)
-                    ->name('tarjeta_intellij');
-            });
         });
 
         // Alumnos y profesores

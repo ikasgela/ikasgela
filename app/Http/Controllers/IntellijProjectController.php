@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\ForkGiteaRepo;
 use App\Models\Actividad;
 use App\Models\Curso;
 use App\Models\IntellijProject;
 use App\Models\MarkdownText;
-use App\Models\Tarea;
 use App\Models\Unidad;
 use App\Traits\ClonarRepoGitea;
 use App\Traits\FiltroCurso;
@@ -15,7 +13,6 @@ use App\Traits\PaginarUltima;
 use Exception;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -30,7 +27,7 @@ class IntellijProjectController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:profesor|admin', ['except' => ['fork', 'is_forking', 'download', 'descargar_repos_usuario']]);
+        $this->middleware('role:profesor|admin', ['except' => ['download', 'descargar_repos_usuario']]);
     }
 
     public function index(Request $request)
@@ -135,37 +132,6 @@ class IntellijProjectController extends Controller
     {
         $actividad->intellij_projects()->detach($intellij_project);
         return redirect(route('intellij_projects.actividad', ['actividad' => $actividad->id]));
-    }
-
-    public function fork(Actividad $actividad, IntellijProject $intellij_project)
-    {
-        $proyecto = $actividad->intellij_projects()->find($intellij_project->id);
-
-        if (!$proyecto->isForking()) {
-            $proyecto->setForkStatus(1);  // Forking
-
-            if (!App::environment('testing')) {
-                $team_users = [];
-                if ($actividad->hasEtiqueta('trabajo en equipo')) {
-                    $compartidas = Tarea::where('actividad_id', $actividad->id)->get();
-                    foreach ($compartidas as $compartida) {
-                        array_push($team_users, $compartida->user);
-                    }
-                }
-                ForkGiteaRepo::dispatch($actividad, $intellij_project, Auth::user(), $team_users);
-            } else {
-                ForkGiteaRepo::dispatchSync($actividad, $intellij_project, Auth::user());
-            }
-        }
-
-        return redirect(route('users.home'));
-    }
-
-    public function is_forking(Actividad $actividad, IntellijProject $intellij_project, Request $request)
-    {
-        $proyecto = $actividad->intellij_projects()->find($intellij_project->id);
-
-        return $proyecto->getForkStatus();  // 0 sin clonar, 1 clonando, 2 completado, 3 error
     }
 
     public function copia()

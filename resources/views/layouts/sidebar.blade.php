@@ -14,18 +14,6 @@
             @include('menus.tutor')
         </ul>
     @endif
-    @if(Auth::user()->hasAnyRole(['admin', 'profesor', 'tutor']))
-        <ul class="nav nav-pills flex-column">
-            @include('menus.utilidades')
-        </ul>
-    @endif
-    {{--
-    @if(Auth::user()->hasRole('admin'))
-        <ul class="nav nav-pills flex-column">
-            @include('menus.pruebas')
-        </ul>
-    @endif
-    --}}
     @if(Auth::user()->hasRole('admin'))
         <ul class="nav nav-pills flex-column">
             @include('menus.admin')
