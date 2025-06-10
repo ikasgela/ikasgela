@@ -35,23 +35,23 @@
                 @endif
             </div>
         </div>
-        <div class="card-body">
+        <div class="card-body pb-0">
             @include('partials.cabecera_recurso', ['recurso' => $intellij_project, 'ruta' => 'intellij_projects'])
             @if(isset($actividad) && $actividad->plantilla && Auth::user()->hasRole('alumno'))
                 <a href="{{ route('intellij_projects.download', ['intellij_project'=>$intellij_project->id]) }}"
-                   class="btn btn-primary">{{ __('Download the project') }}</a>
+                   class="btn btn-primary mb-3">{{ __('Download the project') }}</a>
             @elseif(isset($actividad) && !$intellij_project->isForked() && Auth::user()->hasRole('alumno') && !($repositorio['id'] == '?'))
                 @if($fork_status == 0)
                     <button wire:click="fork"
                             dusk="clone-button"
                             title="{{ __('Clone the project') }}"
                             type="submit"
-                            class="btn btn-primary single_click">
+                            class="btn btn-primary mb-3 single_click">
                         <i class="fas fa-spinner fa-spin" style="display:none;"></i>
                         {{ __('Clone the project') }}
                     </button>
                 @elseif($fork_status == 1)
-                    <a href="#" class="btn btn-primary disabled me-3">
+                    <a href="#" class="btn btn-primary mb-3 disabled me-3">
                         <i class="fas fa-spinner fa-spin"></i> {{ __('Clone the project') }}
                     </a>
                     {{ __('Cloning, please wait...') }}
@@ -64,45 +64,35 @@
                 @switch($intellij_project->open_with)
                     @case('datagrip')
                         <a href="{{ $intellij_project->datagrip_deep_link() }}"
-                           class="btn btn-primary">{{ __('Open in DataGrip') }}</a>
+                           class="btn btn-primary mb-3">{{ __('Open in DataGrip') }}</a>
                         @break
                     @case('idea')
                         @if($intellij_project->isSafeExamOnMac())
                             <button name="copy_link"
                                     type="button"
                                     onclick="copyToClipboard('{{ $intellij_project->intellij_idea_deep_link() }}')"
-                                    class="btn btn-primary">
+                                    class="btn btn-primary mb-3">
                                 {{ __('Copy link for IntelliJ IDEA') }}
                             </button>
                         @else
                             <a href="{{ $intellij_project->intellij_idea_deep_link() }}"
-                               class="btn btn-primary">{{ __('Open in IntelliJ IDEA') }}</a>
+                               class="btn btn-primary mb-3">{{ __('Open in IntelliJ IDEA') }}</a>
                         @endif
                         @break
                     @case('phpstorm')
                         <a href="{{ $intellij_project->phpstorm_deep_link() }}"
-                           class="btn btn-primary">{{ __('Open in PhpStorm') }}</a>
+                           class="btn btn-primary mb-3">{{ __('Open in PhpStorm') }}</a>
                         @break
-                    @default
-                        <a href="{{ $intellij_project->gitkraken_deep_link() }}"
-                           class="btn btn-primary">{{ __('Open in GitKraken') }}</a>
                 @endswitch
                 <a href="{{ $repositorio['web_url']  }}" target="_blank"
-                   class="btn btn-secondary">{{ __('Open in Gitea') }}</a>
-                @switch($intellij_project->open_with)
-                    @case('datagrip')
-                    @case('idea')
-                    @case('phpstorm')
-                        <a href="{{ $intellij_project->gitkraken_deep_link() }}"
-                           class="btn btn-secondary">{{ __('Open in GitKraken') }}</a>
-                @endswitch
+                   class="btn btn-secondary mb-3">{{ __('Open in Gitea') }}</a>
                 <div class='btn-group'>
                     @if(isset($actividad) && Auth::user()->hasRole('profesor'))
                         @if($intellij_project->isArchivado())
                             {{ html()->form('POST', route('intellij_projects.unlock', [$intellij_project->id, $actividad->id]))->open() }}
                             <button title="{{ __('Unlock') }}"
                                     type="submit"
-                                    class="btn btn-light">
+                                    class="btn btn-light mb-3">
                                 <i class="fas fa-lock"></i>
                             </button>
                             {{ html()->form()->close() }}
@@ -110,7 +100,7 @@
                             {{ html()->form('POST', route('intellij_projects.lock', [$intellij_project->id, $actividad->id]))->open() }}
                             <button title="{{ __('Lock') }}"
                                     type="submit"
-                                    class="btn btn-light">
+                                    class="btn btn-light mb-3">
                                 <i class="fas fa-unlock"></i>
                             </button>
                             {{ html()->form()->close() }}
@@ -156,9 +146,9 @@
                         </table>
                         <div class="text-end">
                             <a href="{{ route('profesor.jplag', ['tarea' => $tarea?->id]) }}"
-                               class="btn btn-secondary">{{ __('Update') }}</a>
+                               class="btn btn-secondary mb-3">{{ __('Update') }}</a>
                             <a href="{{ route('profesor.jplag_download', ['tarea' => $tarea?->id]) }}"
-                               class="btn btn-secondary">{{ __('Download') }}</a>
+                               class="btn btn-secondary mb-3">{{ __('Download') }}</a>
                         </div>
                     </div>
                 @endif
