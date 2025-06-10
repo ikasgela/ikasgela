@@ -52,22 +52,7 @@
         </div>
     </div>
 
-    @include('partials.subtitulo', ['subtitulo' => __('Your data')])
-    <div class="card mb-3">
-        <div class="card-body pb-0">
-            {{ html()->form('POST', route('intellij_projects.descargar'))->open() }}
-            <div class="row mb-3">
-                <div class="col-sm-2 d-flex align-items-top">
-                    {{ html()->label(__('Projects'), 'intellij_projects')->class('form-label') }}
-                </div>
-                <div class="col-sm-10">
-                    {{ html()->submit(__('Download script'))->class('btn btn-primary') }}
-                    <p class="small m-0 mt-2">{{ __('Click on the button to download the script and run it on your computer. You will need Git installed. On Windows the script can be run from Git Bash.') }}</p>
-                </div>
-            </div>
-            {{ html()->form()->close() }}
-        </div>
-    </div>
+    @livewire('exportar-usuario', ['user' => $user])
 
     @if(Auth::user()->hasAnyRole(['admin']))
         @include('partials.subtitulo', ['subtitulo' => __('Tests')])
