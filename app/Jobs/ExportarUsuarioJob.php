@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Models\Actividad;
 use App\Models\User;
+use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Storage;
@@ -27,33 +27,83 @@ class ExportarUsuarioJob implements ShouldQueue
         Storage::disk('temp')->makeDirectory($directorio);
         //$ruta = Storage::disk('temp')->path($directorio);
 
-        // Obtener las actividades del usuario
-        $actividades = $this->user->actividades()->get();
+        // Cargar la cabecera y el pie
+        $cabecera = Storage::disk('templates')->get('header.html');
+        $pie = Storage::disk('templates')->get('footer.html');
 
-        // Recorrer las actividades
-        $actividades->each(function (Actividad $actividad) use ($directorio) {
+        // Recorrer las actividades del usuario
+        $primera = true;
+        foreach ($this->user->actividades as $actividad) {
+
+            // Crear un fichero index.html.temporal
+            if ($primera) {
+                $primera = false;
+                $html = '<h2>' . $actividad->unidad->curso->nombre . ' ' . $actividad->unidad->curso->category->period->name . '</h2>';
+                $html .= '<ul class="mb-4">';
+            }
+
+            // Crear una carpeta para la actividad
             $subdirectorio = Str::slug($actividad->full_name);
-            Storage::disk('temp')->makeDirectory($directorio . '/' . $subdirectorio);
+            $ruta = $directorio . '/' . $subdirectorio;
+            Storage::disk('temp')->makeDirectory($ruta);
 
+            // Crear un fichero index.html.temporal
+            $html_actividad = '<h2>' . $actividad->full_name . '</h2>';
 
-        });
+            // Recorrer los recursos de la actividad
+            $html_actividad .= '<ul class="mb-4">';
 
+            // Proyectos de IntelliJ
+            foreach ($actividad->intellij_projects as $intellij_project) {
+                // Descargar el repositorio
+                $repositorio = $intellij_project->repository(true);
+                $descarga = GiteaClient::download($repositorio['owner'], $repositorio['name'], 'master.zip');
+                $nombre_fichero = Str::slug($repositorio['name']) . '.zip';
+                Storage::disk('temp')->put($ruta . '/' . $nombre_fichero, $descarga);
 
-        // Crear una carpeta para la actividad
+                // Enlazarlo en el HTML
+                $html_actividad .= '<li>';
+                $html_actividad .= 'Proyecto: <a href="' . $nombre_fichero . '">' . $repositorio['name'] . '</a>';
+                $html_actividad .= '</li>';
+            }
 
-        // Recorrer los recursos de la actividad
+            $html_actividad .= '</ul>';
 
-        // Crear un fichero index.html.temporal
-        // Descargar y enlazar los recursos
-        // Concatenar la cabecera y el pie al indice principal para crear el index.html
-        // Borrar el index.html temporal
+            // Añadir el enlace de retorno
+            $html_actividad .= '<a href="../index.html">Volver</a>';
+
+            // Concatenar la cabecera y el pie para crear el index.html
+            $html_actividad = $cabecera . $html_actividad . $pie;
+
+            // Escribir el index.html de la actividad
+            Storage::disk('temp')->put($ruta . '/index.html', $html_actividad);
+
+            // Enlazar la actividad en el HTML general
+            $html .= '<li>';
+            $html .= '<a href="' . $subdirectorio . '/index.html">' . $actividad->full_name . '</a>';
+            $html .= '</li>';
+        }
+        $html .= '</ul>';
 
         // Crear un fichero index.html.temporal
         // Recorrer el directorio y crear el indice principal
         // Concatenar la cabecera y el pie al indice principal para crear el index.html
         // Borrar el index.html temporal
 
+        // Corregir la ruta del CSS
+        $cabecera = Str::replace('../', '', $cabecera);
+
+        // Concatenar la cabecera y el pie al indice principal para crear el index.html
+        $html = $cabecera . $html . $pie;
+
+        // Escribir el index.html general
+        Storage::disk('temp')->put($directorio . '/index.html', $html);
+
         // Copiar el bootstrap.min a la carpeta
+        Storage::disk('temp')->put(
+            $directorio . '/css/bootstrap.min.css',
+            Storage::disk('templates')->get('bootstrap.min.css')
+        );
 
         // Comprimir la carpeta
 
