@@ -57,6 +57,32 @@ class ExportarUsuarioJob implements ShouldQueue
             // Recorrer los recursos de la actividad
             $html_actividad .= '<ul class="mb-4">';
 
+            // Texto Markdown
+
+            // Vídeos de YouTube
+            foreach ($actividad->youtube_videos as $youtube_video) {
+                // Enlazarlo en el HTML
+                $html_actividad .= '<li>';
+                $html_actividad .= 'Vídeo: <a target="_blank" href="' . $youtube_video->codigo . '">' . $youtube_video->titulo . '</a>';
+                $html_actividad .= '</li>';
+            }
+
+            // Enlaces
+            foreach ($actividad->link_collections as $link_collection) {
+                foreach ($link_collection->links as $link) {
+                    // Enlazarlo en el HTML
+                    $html_actividad .= '<li>';
+                    $html_actividad .= 'Enlace: <a target="_blank" href="' . $link->url . '">' . ($link->descripcion ?: $link->url) . '</a>';
+                    $html_actividad .= '</li>';
+                }
+            }
+
+            // Archivos
+
+            // Cuestionarios
+
+            // Subidas de imágenes
+
             // Proyectos de IntelliJ
             foreach ($actividad->intellij_projects as $intellij_project) {
                 // Descargar el repositorio
@@ -71,13 +97,6 @@ class ExportarUsuarioJob implements ShouldQueue
                 $html_actividad .= '</li>';
             }
 
-            // Vídeos de YouTube
-            foreach ($actividad->youtube_videos as $youtube_video) {
-                // Enlazarlo en el HTML
-                $html_actividad .= '<li>';
-                $html_actividad .= 'Vídeo: <a target="_blank" href="' . $youtube_video->codigo . '">' . $youtube_video->titulo . '</a>';
-                $html_actividad .= '</li>';
-            }
 
             $html_actividad .= '</ul>';
 
