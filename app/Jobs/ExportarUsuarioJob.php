@@ -78,6 +78,21 @@ class ExportarUsuarioJob implements ShouldQueue
             }
 
             // Archivos
+            foreach ($actividad->file_resources as $file_resource) {
+                foreach ($file_resource->files as $file) {
+                    // Descargar el fichero
+                    $nombre_fichero = Str::replace('/', '-', $file->path);
+                    Storage::disk('temp')->put(
+                        $ruta . '/' . $nombre_fichero,
+                        Storage::disk('s3')->get('documents/' . $file->path)
+                    );
+
+                    // Enlazarlo en el HTML
+                    $html_actividad .= '<li>';
+                    $html_actividad .= 'Archivo: <a target="_blank" href="' . $nombre_fichero . '">' . ($file->description ?: $file->title) . '</a>';
+                    $html_actividad .= '</li>';
+                }
+            }
 
             // Cuestionarios
 
