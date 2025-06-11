@@ -21,6 +21,7 @@ class ExportarUsuarioJob implements ShouldQueue
     public function __construct(User $user)
     {
         $this->user = $user->withRelationshipAutoloading();
+        $this->onQueue('low');
     }
 
     public function handle(): void

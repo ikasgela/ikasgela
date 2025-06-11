@@ -19,6 +19,6 @@ class ExportarUsuario extends Component
     {
         $this->exporting = false;
 
-        ExportarUsuarioJob::dispatchSync(Auth::user());
+        ExportarUsuarioJob::dispatch(Auth::user());
     }
 }
