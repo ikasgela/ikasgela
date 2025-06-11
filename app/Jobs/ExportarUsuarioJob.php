@@ -2,14 +2,13 @@
 
 namespace App\Jobs;
 
-use App\Mail\ExportCompletado;
 use App\Models\Actividad;
 use App\Models\User;
 use App\Models\UserExport;
+use Exception;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use ZipArchive;
@@ -154,18 +153,25 @@ class ExportarUsuarioJob implements ShouldQueue
 
             // Proyectos de IntelliJ
             foreach ($actividad->intellij_projects as $intellij_project) {
-                $total_recursos += 1;
+                try {
+                    // Descargar el repositorio
+                    if (!$intellij_project->isForked()) {
+                        $repositorio = GiteaClient::repo($intellij_project->repositorio);
+                    } else {
+                        $repositorio = GiteaClient::repo($intellij_project->pivot->fork);
+                    }
+                    $descarga = GiteaClient::download($repositorio['owner'], $repositorio['name'], 'master.zip');
+                    $nombre_fichero = Str::slug($repositorio['name']) . '.zip';
+                    Storage::disk('temp')->put($ruta . '/' . $nombre_fichero, $descarga);
 
-                // Descargar el repositorio
-                $repositorio = $intellij_project->repository(true);
-                $descarga = GiteaClient::download($repositorio['owner'], $repositorio['name'], 'master.zip');
-                $nombre_fichero = Str::slug($repositorio['name']) . '.zip';
-                Storage::disk('temp')->put($ruta . '/' . $nombre_fichero, $descarga);
+                    $total_recursos += 1;
 
-                // Enlazarlo en el HTML
-                $html_actividad .= '<li>';
-                $html_actividad .= 'Proyecto: <a href="' . $nombre_fichero . '">' . $repositorio['name'] . '</a>';
-                $html_actividad .= '</li>';
+                    // Enlazarlo en el HTML
+                    $html_actividad .= '<li>';
+                    $html_actividad .= 'Proyecto: <a href="' . $nombre_fichero . '">' . $repositorio['name'] . '</a>';
+                    $html_actividad .= '</li>';
+                } catch (Exception) {
+                }
             }
 
             $html_actividad .= '</ul>';
