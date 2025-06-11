@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Mail\ExportCompletado;
 use App\Models\User;
+use App\Models\UserExport;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
@@ -221,6 +222,12 @@ class ExportarUsuarioJob implements ShouldQueue
 
         // Enviar el email con el enlace al fichero de S3
         Mail::to($this->user)->queue(new ExportCompletado($url));
+
+        // Registrar la última exportación
+        UserExport::updateOrCreate(['user_id' => $this->user->id], [
+            'fecha' => now(),
+            'url' => $url,
+        ]);
     }
 
     public function zipDirectoryWithSubdirs(string $zip, string $directory)

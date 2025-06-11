@@ -108,6 +108,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             ->withTimestamps();
     }
 
+    public function user_export()
+    {
+        return $this->hasOne(UserExport::class);
+    }
+
     public function authorizeRoles($roles)
     {
         if ($this->hasAnyRole($roles)) {
