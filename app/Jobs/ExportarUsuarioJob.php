@@ -18,8 +18,11 @@ class ExportarUsuarioJob implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct(public User $user)
+    public User $user;
+
+    public function __construct(User $user)
     {
+        $this->user = $user->withoutRelations();
         $this->onQueue('low');
     }
 
