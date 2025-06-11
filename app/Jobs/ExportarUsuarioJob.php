@@ -105,6 +105,23 @@ class ExportarUsuarioJob implements ShouldQueue
             // Cuestionarios
 
             // Subidas de imágenes
+            foreach ($actividad->file_uploads as $file_upload) {
+                $total_recursos += 1;
+
+                foreach ($file_upload->files as $file) {
+                    // Descargar el fichero
+                    $nombre_fichero = Str::replace('/', '-', $file->path);
+                    Storage::disk('temp')->put(
+                        $ruta . '/' . $nombre_fichero,
+                        Storage::disk('s3')->get('images/' . $file->path)
+                    );
+
+                    // Enlazarlo en el HTML
+                    $html_actividad .= '<li>';
+                    $html_actividad .= 'Imagen: <a target="_blank" href="' . $nombre_fichero . '">' . ($file->description ?: $file->title) . '</a>';
+                    $html_actividad .= '</li>';
+                }
+            }
 
             // Proyectos de IntelliJ
             foreach ($actividad->intellij_projects as $intellij_project) {
