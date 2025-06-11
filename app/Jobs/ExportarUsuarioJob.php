@@ -71,6 +71,14 @@ class ExportarUsuarioJob implements ShouldQueue
                 $html_actividad .= '</li>';
             }
 
+            // Vídeos de YouTube
+            foreach ($actividad->youtube_videos as $youtube_video) {
+                // Enlazarlo en el HTML
+                $html_actividad .= '<li>';
+                $html_actividad .= 'Vídeo: <a target="_blank" href="' . $youtube_video->codigo . '">' . $youtube_video->titulo . '</a>';
+                $html_actividad .= '</li>';
+            }
+
             $html_actividad .= '</ul>';
 
             // Añadir el enlace de retorno
