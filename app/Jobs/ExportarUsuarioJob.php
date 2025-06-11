@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Mail\ExportCompletado;
+use App\Models\Actividad;
 use App\Models\User;
 use App\Models\UserExport;
 use Ikasgela\Gitea\GiteaClient;
@@ -17,11 +18,8 @@ class ExportarUsuarioJob implements ShouldQueue
 {
     use Queueable;
 
-    protected User $user;
-
-    public function __construct(User $user)
+    public function __construct(public User $user)
     {
-        $this->user = $user->withRelationshipAutoloading();
         $this->onQueue('low');
     }
 
@@ -41,7 +39,13 @@ class ExportarUsuarioJob implements ShouldQueue
 
         // Recorrer las actividades del usuario
         $total = 0;
-        foreach ($this->user->actividades as $actividad) {
+
+        // Recuperar las actividades del usuario
+        $actividades = Actividad::whereHas('users', function ($query) {
+            $query->where('user_id', $this->user->id);
+        })->get();
+
+        foreach ($actividades as $actividad) {
 
             // Añadir el nombre del curso
             if ($total == 0) {
