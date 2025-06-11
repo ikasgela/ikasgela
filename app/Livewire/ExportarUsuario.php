@@ -22,7 +22,7 @@ class ExportarUsuario extends Component
 
             if ($usuario->user_export->fichero == null) {
                 $this->exporting = true;
-            } else if ($usuario->user_export->fecha->greaterThan(now())) {
+            } else if ($usuario->user_export->fecha?->greaterThan(now())) {
                 $this->already_exported = true;
                 $this->url = $usuario->user_export->url;
             } else {
