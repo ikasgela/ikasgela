@@ -57,10 +57,14 @@ class ExportarUsuarioJob implements ShouldQueue
             // Recorrer los recursos de la actividad
             $html_actividad .= '<ul class="mb-4">';
 
+            $total_recursos = 0;
+
             // Texto Markdown
 
             // Vídeos de YouTube
             foreach ($actividad->youtube_videos as $youtube_video) {
+                $total_recursos += 1;
+
                 // Enlazarlo en el HTML
                 $html_actividad .= '<li>';
                 $html_actividad .= 'Vídeo: <a target="_blank" href="' . $youtube_video->codigo . '">' . $youtube_video->titulo . '</a>';
@@ -69,6 +73,8 @@ class ExportarUsuarioJob implements ShouldQueue
 
             // Enlaces
             foreach ($actividad->link_collections as $link_collection) {
+                $total_recursos += 1;
+
                 foreach ($link_collection->links as $link) {
                     // Enlazarlo en el HTML
                     $html_actividad .= '<li>';
@@ -79,6 +85,8 @@ class ExportarUsuarioJob implements ShouldQueue
 
             // Archivos
             foreach ($actividad->file_resources as $file_resource) {
+                $total_recursos += 1;
+
                 foreach ($file_resource->files as $file) {
                     // Descargar el fichero
                     $nombre_fichero = Str::replace('/', '-', $file->path);
@@ -100,6 +108,8 @@ class ExportarUsuarioJob implements ShouldQueue
 
             // Proyectos de IntelliJ
             foreach ($actividad->intellij_projects as $intellij_project) {
+                $total_recursos += 1;
+
                 // Descargar el repositorio
                 $repositorio = $intellij_project->repository(true);
                 $descarga = GiteaClient::download($repositorio['owner'], $repositorio['name'], 'master.zip');
@@ -112,8 +122,11 @@ class ExportarUsuarioJob implements ShouldQueue
                 $html_actividad .= '</li>';
             }
 
-
             $html_actividad .= '</ul>';
+
+            if ($total_recursos == 0) {
+                $html_actividad .= '<p>No hay ningún recurso disponible en esta actividad.</p>';
+            }
 
             // Añadir el enlace de retorno
             $html_actividad .= '<a href="../index.html">Volver</a>';
