@@ -13,8 +13,9 @@ return new class extends Migration {
         Schema::create('user_exports', function (Blueprint $table) {
             $table->id();
 
-            $table->dateTimeTz('fecha');
-            $table->text('url');
+            $table->dateTimeTz('fecha')->nullable();
+            $table->text('url')->nullable();
+            $table->string('fichero')->nullable();
 
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
 

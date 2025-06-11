@@ -218,15 +218,17 @@ class ExportarUsuarioJob implements ShouldQueue
         Storage::disk('temp')->deleteDirectory($directorio);
 
         // Obtener la URL temporal del fichero
-        $url = Storage::disk('s3')->temporaryUrl('exports/' . $nombre_fichero, now()->addHours(24));
+        $fecha_caducidad = now()->addHours(24);
+        $url = Storage::disk('s3')->temporaryUrl('exports/' . $nombre_fichero, $fecha_caducidad);
 
         // Enviar el email con el enlace al fichero de S3
         Mail::to($this->user)->queue(new ExportCompletado($url));
 
-        // Registrar la última exportación
+        // Registrar cuando se puede hacer la siguiente exportación
         UserExport::updateOrCreate(['user_id' => $this->user->id], [
-            'fecha' => now(),
+            'fecha' => $fecha_caducidad,
             'url' => $url,
+            'fichero' => 'exports/' . $nombre_fichero,
         ]);
     }
 

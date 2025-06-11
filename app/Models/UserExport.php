@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserExport extends Model
 {
     protected $fillable = [
-        'fecha', 'url', 'user_id',
+        'fecha', 'url', 'fichero', 'user_id',
     ];
 
     public function user()

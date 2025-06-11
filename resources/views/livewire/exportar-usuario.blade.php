@@ -9,11 +9,15 @@
                 <div class="col-sm-10">
                     <button wire:click="export"
                             title="{{ __('Request an export') }}"
-                            class="btn single_click {{ !$exporting ? 'btn-primary' : 'btn-secondary disabled' }}">
+                            class="btn single_click {{ !$already_exported && !$exporting ? 'btn-primary' : 'btn-secondary disabled' }}">
                         <i class="fas fa-spinner fa-spin" style="display:none;"></i>
                         {{ __('Request an export') }}
                     </button>
-                    @if(!$exporting)
+                    @if($already_exported)
+                        <p class="small m-0 mt-2">{{ __('Only one export per 24 hours is allowed.') }}
+                            <a href="{{ $url }}">{{ __('Click here to download current export.') }}</a>
+                        </p>
+                    @elseif(!$exporting)
                         <p class="small m-0 mt-2">{{ __('Click on the button to request a data export.') }}</p>
                     @else
                         <p class="small m-0 mt-2">{{ __('Export in progress. You will receive an email when the download is ready.') }}</p>
