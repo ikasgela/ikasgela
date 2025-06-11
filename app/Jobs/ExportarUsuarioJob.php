@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use ZipArchive;
 
 class ExportarUsuarioJob implements ShouldQueue
 {
@@ -197,18 +198,25 @@ class ExportarUsuarioJob implements ShouldQueue
         );
 
         // Comprimir la carpeta
+        $nombre_fichero = Str::slug('ikasgela-' . $this->user->full_name . '-' . now()->format('YmdHis')) . '.zip';
+        $this->zipDirectoryWithSubdirs($nombre_fichero, $directorio);
 
-        // Subirla a S3
+        // Subir el .zip a S3
+        Storage::disk('s3')->put(
+            'exports/' . $nombre_fichero,
+            Storage::disk('temp')->get($nombre_fichero)
+        );
 
         // Borrar el zip
+        Storage::disk('temp')->delete($nombre_fichero);
+
         // Borrar la carpeta
+        Storage::disk('temp')->deleteDirectory($directorio);
 
         // Enviar el email con el enlace al fichero de S3
 
     }
-}
 
-/*
     public function zipDirectoryWithSubdirs(string $zip, string $directory)
     {
         $zip_path = Storage::disk('temp')->path($zip);
@@ -226,10 +234,9 @@ class ExportarUsuarioJob implements ShouldQueue
 
             $zip->close();
 
-            return response()->download($zip_path)->deleteFileAfterSend(true);
+            return $zip_path;
         } else {
             return "Failed to create the zip file.";
         }
     }
 }
-*/
