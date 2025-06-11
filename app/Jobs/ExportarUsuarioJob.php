@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Mail\ExportCompletado;
 use App\Models\Actividad;
 use App\Models\User;
 use App\Models\UserExport;
@@ -9,6 +10,7 @@ use Exception;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use ZipArchive;
