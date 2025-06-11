@@ -45,6 +45,8 @@ class ImportCurso implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $timeout = 600;
+
     public function __construct(protected string $category_id, protected string $directorio, protected string $ruta)
     {
         $this->onQueue('low');

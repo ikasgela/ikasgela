@@ -23,6 +23,8 @@ class ForkGiteaRepo implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $timeout = 120;
+
     use ClonarRepoGitea;
 
     protected $actividad;

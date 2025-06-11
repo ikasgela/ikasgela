@@ -18,6 +18,8 @@ class ExportarUsuarioJob implements ShouldQueue
 {
     use Queueable;
 
+    public $timeout = 600;
+
     public User $user;
 
     public function __construct(User $user)

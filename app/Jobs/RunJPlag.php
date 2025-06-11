@@ -18,6 +18,8 @@ class RunJPlag implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $timeout = 600;
+
     use JPlagRunner;
 
     public function __construct(protected Tarea $tarea)
