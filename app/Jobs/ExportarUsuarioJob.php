@@ -60,6 +60,21 @@ class ExportarUsuarioJob implements ShouldQueue
             $total_recursos = 0;
 
             // Texto Markdown
+            foreach ($actividad->markdown_texts as $markdown_text) {
+                $total_recursos += 1;
+
+                // Descargar el fichero
+                $nombre_fichero = Str::slug($markdown_text->titulo) . '.md';
+                Storage::disk('temp')->put(
+                    $ruta . '/' . $nombre_fichero,
+                    $markdown_text->raw()
+                );
+
+                // Enlazarlo en el HTML
+                $html_actividad .= '<li>';
+                $html_actividad .= 'Markdown: <a target="_blank" href="' . $nombre_fichero . '">' . $markdown_text->titulo . '</a>';
+                $html_actividad .= '</li>';
+            }
 
             // Vídeos de YouTube
             foreach ($actividad->youtube_videos as $youtube_video) {

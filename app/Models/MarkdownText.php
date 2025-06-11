@@ -68,6 +68,28 @@ class MarkdownText extends Model
         });
     }
 
+    public function raw()
+    {
+        try {
+            $repositorio = $this->repositorio;
+            $rama = $this->rama ?? 'master';
+            $archivo = $this->archivo;
+
+            if (config('ikasgela.gitea_enabled')) {
+                $proyecto = GiteaClient::repo($repositorio);
+                $texto = GiteaClient::file($proyecto['owner'], $proyecto['name'], $archivo, $rama);
+            }
+
+            // Añadir target="_blank" a los enlaces
+            $texto = preg_replace('/(<a href="[^"]+")>/is', '\\1 target="_blank">', $texto);
+
+        } catch (Exception) {
+            $texto = "# " . __('Error') . "\n\n" . __('Repository not found.');
+        }
+
+        return $texto;
+    }
+
     public function curso()
     {
         return $this->belongsTo(Curso::class);
