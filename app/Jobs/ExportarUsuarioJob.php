@@ -2,10 +2,12 @@
 
 namespace App\Jobs;
 
+use App\Mail\ExportCompletado;
 use App\Models\User;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use ZipArchive;
@@ -213,8 +215,11 @@ class ExportarUsuarioJob implements ShouldQueue
         // Borrar la carpeta
         Storage::disk('temp')->deleteDirectory($directorio);
 
-        // Enviar el email con el enlace al fichero de S3
+        // Obtener la URL temporal del fichero
+        $url = Storage::disk('s3')->temporaryUrl('exports/' . $nombre_fichero, now()->addHours(24));
 
+        // Enviar el email con el enlace al fichero de S3
+        Mail::to($this->user)->queue(new ExportCompletado($url));
     }
 
     public function zipDirectoryWithSubdirs(string $zip, string $directory)
