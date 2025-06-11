@@ -31,16 +31,20 @@ class ExportarUsuarioJob implements ShouldQueue
         $cabecera = Storage::disk('templates')->get('header.html');
         $pie = Storage::disk('templates')->get('footer.html');
 
+        // Crear un fichero index.html.temporal
+        $html = "";
+
         // Recorrer las actividades del usuario
-        $primera = true;
+        $total = 0;
         foreach ($this->user->actividades as $actividad) {
 
-            // Crear un fichero index.html.temporal
-            if ($primera) {
-                $primera = false;
-                $html = '<h2>' . $actividad->unidad->curso->nombre . ' ' . $actividad->unidad->curso->category->period->name . '</h2>';
+            // Añadir el nombre del curso
+            if ($total == 0) {
+                $html .= '<h2>' . $actividad->unidad->curso->nombre . ' ' . $actividad->unidad->curso->category->period->name . '</h2>';
                 $html .= '<ul class="mb-4">';
             }
+
+            $total += 1;
 
             // Crear una carpeta para la actividad
             $subdirectorio = Str::slug($actividad->full_name);
@@ -83,7 +87,12 @@ class ExportarUsuarioJob implements ShouldQueue
             $html .= '<a href="' . $subdirectorio . '/index.html">' . $actividad->full_name . '</a>';
             $html .= '</li>';
         }
-        $html .= '</ul>';
+
+        if ($total > 0) {
+            $html .= '</ul>';
+        } else {
+            $html .= '<p>No hay actividades.</p>';
+        }
 
         // Crear un fichero index.html.temporal
         // Recorrer el directorio y crear el indice principal
