@@ -76,19 +76,22 @@ class ExportarUsuarioJob implements ShouldQueue
 
             // Texto Markdown
             foreach ($actividad->markdown_texts as $markdown_text) {
-                $total_recursos += 1;
+                try {
+                    // Descargar el fichero
+                    $nombre_fichero = Str::slug($markdown_text->titulo) . '.md';
+                    Storage::disk('temp')->put(
+                        $ruta . '/' . $nombre_fichero,
+                        $markdown_text->raw()
+                    );
 
-                // Descargar el fichero
-                $nombre_fichero = Str::slug($markdown_text->titulo) . '.md';
-                Storage::disk('temp')->put(
-                    $ruta . '/' . $nombre_fichero,
-                    $markdown_text->raw()
-                );
+                    $total_recursos += 1;
 
-                // Enlazarlo en el HTML
-                $html_actividad .= '<li>';
-                $html_actividad .= 'Markdown: <a target="_blank" href="' . $nombre_fichero . '">' . $markdown_text->titulo . '</a>';
-                $html_actividad .= '</li>';
+                    // Enlazarlo en el HTML
+                    $html_actividad .= '<li>';
+                    $html_actividad .= 'Markdown: <a target="_blank" href="' . $nombre_fichero . '">' . $markdown_text->titulo . '</a>';
+                    $html_actividad .= '</li>';
+                } catch (Exception) {
+                }
             }
 
             // Vídeos de YouTube
@@ -103,9 +106,9 @@ class ExportarUsuarioJob implements ShouldQueue
 
             // Enlaces
             foreach ($actividad->link_collections as $link_collection) {
-                $total_recursos += 1;
-
                 foreach ($link_collection->links as $link) {
+                    $total_recursos += 1;
+
                     // Enlazarlo en el HTML
                     $html_actividad .= '<li>';
                     $html_actividad .= 'Enlace: <a target="_blank" href="' . $link->url . '">' . ($link->descripcion ?: $link->url) . '</a>';
@@ -115,20 +118,23 @@ class ExportarUsuarioJob implements ShouldQueue
 
             // Archivos
             foreach ($actividad->file_resources as $file_resource) {
-                $total_recursos += 1;
-
                 foreach ($file_resource->files as $file) {
-                    // Descargar el fichero
-                    $nombre_fichero = Str::replace('/', '-', $file->path);
-                    Storage::disk('temp')->put(
-                        $ruta . '/' . $nombre_fichero,
-                        Storage::disk('s3')->get('documents/' . $file->path)
-                    );
+                    try {
+                        // Descargar el fichero
+                        $nombre_fichero = Str::replace('/', '-', $file->path);
+                        Storage::disk('temp')->put(
+                            $ruta . '/' . $nombre_fichero,
+                            Storage::disk('s3')->get('documents/' . $file->path)
+                        );
 
-                    // Enlazarlo en el HTML
-                    $html_actividad .= '<li>';
-                    $html_actividad .= 'Archivo: <a target="_blank" href="' . $nombre_fichero . '">' . ($file->description ?: $file->title) . '</a>';
-                    $html_actividad .= '</li>';
+                        $total_recursos += 1;
+
+                        // Enlazarlo en el HTML
+                        $html_actividad .= '<li>';
+                        $html_actividad .= 'Archivo: <a target="_blank" href="' . $nombre_fichero . '">' . ($file->description ?: $file->title) . '</a>';
+                        $html_actividad .= '</li>';
+                    } catch (Exception) {
+                    }
                 }
             }
 
@@ -136,20 +142,23 @@ class ExportarUsuarioJob implements ShouldQueue
 
             // Subidas de imágenes
             foreach ($actividad->file_uploads as $file_upload) {
-                $total_recursos += 1;
-
                 foreach ($file_upload->files as $file) {
-                    // Descargar el fichero
-                    $nombre_fichero = Str::replace('/', '-', $file->path);
-                    Storage::disk('temp')->put(
-                        $ruta . '/' . $nombre_fichero,
-                        Storage::disk('s3')->get('images/' . $file->path)
-                    );
+                    try {
+                        // Descargar el fichero
+                        $nombre_fichero = Str::replace('/', '-', $file->path);
+                        Storage::disk('temp')->put(
+                            $ruta . '/' . $nombre_fichero,
+                            Storage::disk('s3')->get('images/' . $file->path)
+                        );
 
-                    // Enlazarlo en el HTML
-                    $html_actividad .= '<li>';
-                    $html_actividad .= 'Imagen: <a target="_blank" href="' . $nombre_fichero . '">' . ($file->description ?: $file->title) . '</a>';
-                    $html_actividad .= '</li>';
+                        $total_recursos += 1;
+
+                        // Enlazarlo en el HTML
+                        $html_actividad .= '<li>';
+                        $html_actividad .= 'Imagen: <a target="_blank" href="' . $nombre_fichero . '">' . ($file->description ?: $file->title) . '</a>';
+                        $html_actividad .= '</li>';
+                    } catch (Exception) {
+                    }
                 }
             }
 
