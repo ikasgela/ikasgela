@@ -60,6 +60,11 @@ return [
             'root' => storage_path('seb'),
         ],
 
+        'templates' => [
+            'driver' => 'local',
+            'root' => storage_path('templates'),
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
