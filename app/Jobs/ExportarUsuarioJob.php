@@ -10,6 +10,7 @@ use Exception;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -39,6 +40,13 @@ class ExportarUsuarioJob implements ShouldQueue
         // Cargar la cabecera y el pie
         $cabecera = Storage::disk('templates')->get('header.html');
         $pie = Storage::disk('templates')->get('footer.html');
+
+        // Definir la localización
+        App::setLocale($this->user->preferredLocale());
+
+        // Definir el copyright localizado
+        $copyright = '&copy; ' . date('Y') . ' Ion Jaureguialzo Sarasola. ' . __('All rights reserved.');
+        $pie = Str::replace('COPYRIGHT_IKASGELA', $copyright, $pie);
 
         // Crear un fichero index.html.temporal
         $html = "";
@@ -88,7 +96,7 @@ class ExportarUsuarioJob implements ShouldQueue
 
                     // Enlazarlo en el HTML
                     $html_actividad .= '<li>';
-                    $html_actividad .= 'Markdown: <a target="_blank" href="' . $nombre_fichero . '">' . $markdown_text->titulo . '</a>';
+                    $html_actividad .= __('Markdown text') . ': <a target="_blank" href="' . $nombre_fichero . '">' . $markdown_text->titulo . '</a>';
                     $html_actividad .= '</li>';
                 } catch (Exception) {
                 }
@@ -100,7 +108,7 @@ class ExportarUsuarioJob implements ShouldQueue
 
                 // Enlazarlo en el HTML
                 $html_actividad .= '<li>';
-                $html_actividad .= 'Vídeo: <a target="_blank" href="' . $youtube_video->codigo . '">' . $youtube_video->titulo . '</a>';
+                $html_actividad .= __('YouTube video') . ': <a target="_blank" href="' . $youtube_video->codigo . '">' . $youtube_video->titulo . '</a>';
                 $html_actividad .= '</li>';
             }
 
@@ -111,7 +119,7 @@ class ExportarUsuarioJob implements ShouldQueue
 
                     // Enlazarlo en el HTML
                     $html_actividad .= '<li>';
-                    $html_actividad .= 'Enlace: <a target="_blank" href="' . $link->url . '">' . ($link->descripcion ?: $link->url) . '</a>';
+                    $html_actividad .= __('Link') . ': <a target="_blank" href="' . $link->url . '">' . ($link->descripcion ?: $link->url) . '</a>';
                     $html_actividad .= '</li>';
                 }
             }
@@ -131,7 +139,7 @@ class ExportarUsuarioJob implements ShouldQueue
 
                         // Enlazarlo en el HTML
                         $html_actividad .= '<li>';
-                        $html_actividad .= 'Archivo: <a target="_blank" href="' . $nombre_fichero . '">' . ($file->description ?: $file->title) . '</a>';
+                        $html_actividad .= __('File') . ': <a target="_blank" href="' . $nombre_fichero . '">' . ($file->description ?: $file->title) . '</a>';
                         $html_actividad .= '</li>';
                     } catch (Exception) {
                     }
@@ -155,7 +163,7 @@ class ExportarUsuarioJob implements ShouldQueue
 
                         // Enlazarlo en el HTML
                         $html_actividad .= '<li>';
-                        $html_actividad .= 'Imagen: <a target="_blank" href="' . $nombre_fichero . '">' . ($file->description ?: $file->title) . '</a>';
+                        $html_actividad .= __('Image') . ': <a target="_blank" href="' . $nombre_fichero . '">' . ($file->description ?: $file->title) . '</a>';
                         $html_actividad .= '</li>';
                     } catch (Exception) {
                     }
@@ -179,7 +187,7 @@ class ExportarUsuarioJob implements ShouldQueue
 
                     // Enlazarlo en el HTML
                     $html_actividad .= '<li>';
-                    $html_actividad .= 'Proyecto: <a href="' . $nombre_fichero . '">' . $repositorio['name'] . '</a>';
+                    $html_actividad .= __('IntelliJ project') . ': <a href="' . $nombre_fichero . '">' . $repositorio['name'] . '</a>';
                     $html_actividad .= '</li>';
                 } catch (Exception) {
                 }
@@ -188,11 +196,11 @@ class ExportarUsuarioJob implements ShouldQueue
             $html_actividad .= '</ul>';
 
             if ($total_recursos == 0) {
-                $html_actividad .= '<p>No hay ningún recurso disponible en esta actividad.</p>';
+                $html_actividad .= '<p>' . __('There are no resources in this activity.') . '</p>';
             }
 
             // Añadir el enlace de retorno
-            $html_actividad .= '<a href="../index.html">Volver</a>';
+            $html_actividad .= '<a href="../index.html">' . __('Back') . '</a>';
 
             // Concatenar la cabecera y el pie para crear el index.html
             $html_actividad = $cabecera . $html_actividad . $pie;
@@ -209,7 +217,7 @@ class ExportarUsuarioJob implements ShouldQueue
         if ($total > 0) {
             $html .= '</ul>';
         } else {
-            $html .= '<p>No hay actividades.</p>';
+            $html .= '<p>' . __('There are no activities.') . '</p>';
         }
 
         // Corregir la ruta del CSS
