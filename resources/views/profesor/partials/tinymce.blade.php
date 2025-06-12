@@ -3,7 +3,7 @@
 @include('partials.tinymce')
 
 <script>
-    tinymce.init({
+    const tinymce_config = {
         selector: 'textarea#feedback',
         license_key: 'gpl',
         promotion: false,
@@ -35,7 +35,9 @@
                 $('#formUpload input').click();
             }
         }
-    });
+    };
+
+    tinymce.init(tinymce_config);
 
     function validate_feedback() {
         if ((tinymce.EditorManager.get('feedback').getContent()) === '') {
