@@ -132,7 +132,7 @@ class ExportarUsuarioJob implements ShouldQueue
                         $nombre_fichero = Str::replace('/', '-', $file->path);
                         Storage::disk('temp')->put(
                             $ruta . '/' . $nombre_fichero,
-                            Storage::disk('s3')->get('documents/' . $file->path)
+                            Storage::disk('s3')->get('documents/' . $file->path) ?: ''
                         );
 
                         $total_recursos += 1;
@@ -156,7 +156,7 @@ class ExportarUsuarioJob implements ShouldQueue
                         $nombre_fichero = Str::replace('/', '-', $file->path);
                         Storage::disk('temp')->put(
                             $ruta . '/' . $nombre_fichero,
-                            Storage::disk('s3')->get('images/' . $file->path)
+                            Storage::disk('s3')->get('images/' . $file->path) ?: ''
                         );
 
                         $total_recursos += 1;
@@ -181,7 +181,7 @@ class ExportarUsuarioJob implements ShouldQueue
                     }
                     $descarga = GiteaClient::download($repositorio['owner'], $repositorio['name'], 'HEAD.zip');
                     $nombre_fichero = Str::slug($repositorio['name']) . '.zip';
-                    Storage::disk('temp')->put($ruta . '/' . $nombre_fichero, $descarga);
+                    Storage::disk('temp')->put($ruta . '/' . $nombre_fichero, $descarga ?: '');
 
                     $total_recursos += 1;
 
