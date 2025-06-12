@@ -20,6 +20,27 @@
     </style>
 </head>
 <body class="container py-5">
+<script>
+    /*!
+     * Color mode toggler for Bootstrap's docs (https://getbootstrap.com/)
+     * Copyright 2011-2025 The Bootstrap Authors
+     * Licensed under the Creative Commons Attribution 3.0 Unported License.
+     */
+
+    (() => {
+        'use strict'
+
+        const getPreferredTheme = () => {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        }
+
+        const setTheme = theme => {
+            document.documentElement.setAttribute('data-bs-theme', theme)
+        }
+
+        setTheme(getPreferredTheme())
+    })()
+</script>
 <h1 class="mx-3">ikasgela</h1>
 <hr class="bg-secondary rounded" style="height:0.25em;">
 <div class="mx-3">
