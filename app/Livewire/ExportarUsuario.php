@@ -42,10 +42,12 @@ class ExportarUsuario extends Component
         if (!$this->exporting) {
             $this->exporting = true;
 
-            // Registrar el comienzo de la exportación
-            UserExport::updateOrCreate(['user_id' => Auth::user()->id], [
-                'fecha' => now(),
-            ]);
+            if (config('app.env') === 'production') {
+                // Registrar el comienzo de la exportación
+                UserExport::updateOrCreate(['user_id' => Auth::user()->id], [
+                    'fecha' => now(),
+                ]);
+            }
 
             ExportarUsuarioJob::dispatch(Auth::user());
         }

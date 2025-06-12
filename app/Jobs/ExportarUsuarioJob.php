@@ -231,31 +231,33 @@ class ExportarUsuarioJob implements ShouldQueue
         $nombre_fichero = Str::slug('ikasgela-' . $this->user->full_name . '-' . now()->format('YmdHis')) . '.zip';
         $this->zipDirectoryWithSubdirs($nombre_fichero, $directorio);
 
-        // Subir el .zip a S3
-        Storage::disk('s3')->put(
-            'exports/' . $nombre_fichero,
-            Storage::disk('temp')->get($nombre_fichero)
-        );
+        if (config('app.env') === 'production') {
+            // Subir el .zip a S3
+            Storage::disk('s3')->put(
+                'exports/' . $nombre_fichero,
+                Storage::disk('temp')->get($nombre_fichero)
+            );
 
-        // Borrar el zip
-        Storage::disk('temp')->delete($nombre_fichero);
+            // Borrar el zip
+            Storage::disk('temp')->delete($nombre_fichero);
 
-        // Borrar la carpeta
-        Storage::disk('temp')->deleteDirectory($directorio);
+            // Borrar la carpeta
+            Storage::disk('temp')->deleteDirectory($directorio);
 
-        // Obtener la URL temporal del fichero
-        $fecha_caducidad = now()->addHours(24);
-        $url = Storage::disk('s3')->temporaryUrl('exports/' . $nombre_fichero, $fecha_caducidad);
+            // Obtener la URL temporal del fichero
+            $fecha_caducidad = now()->addHours(24);
+            $url = Storage::disk('s3')->temporaryUrl('exports/' . $nombre_fichero, $fecha_caducidad);
 
-        // Enviar el email con el enlace al fichero de S3
-        Mail::to($this->user)->queue(new ExportCompletado($url));
+            // Enviar el email con el enlace al fichero de S3
+            Mail::to($this->user)->queue(new ExportCompletado($url));
 
-        // Registrar cuando se puede hacer la siguiente exportación
-        UserExport::updateOrCreate(['user_id' => $this->user->id], [
-            'fecha' => $fecha_caducidad,
-            'url' => $url,
-            'fichero' => 'exports/' . $nombre_fichero,
-        ]);
+            // Registrar cuando se puede hacer la siguiente exportación
+            UserExport::updateOrCreate(['user_id' => $this->user->id], [
+                'fecha' => $fecha_caducidad,
+                'url' => $url,
+                'fichero' => 'exports/' . $nombre_fichero,
+            ]);
+        }
     }
 
     public function zipDirectoryWithSubdirs(string $zip, string $directory)
