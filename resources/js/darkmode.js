@@ -36,6 +36,7 @@
             document.documentElement.setAttribute('data-bs-theme', theme)
         }
 
+        tinymce_reload()
         setPrismjsTheme(theme)
     }
 
@@ -92,4 +93,21 @@
                 })
             })
     })
+
+    function tinymce_reload() {
+        if (typeof tinymce_config !== 'undefined') {
+            let content = tinymce.activeEditor.getContent();
+            tinymce.activeEditor.destroy();
+
+            tinymce_config.skin = document.documentElement.getAttribute('data-bs-theme') === 'dark'
+                ? "oxide-dark"
+                : "oxide";
+            tinymce_config.content_css = document.documentElement.getAttribute('data-bs-theme') === 'dark'
+                ? "dark"
+                : "default";
+
+            tinymce.init(tinymce_config);
+            tinymce.activeEditor.setContent(content);
+        }
+    }
 })()

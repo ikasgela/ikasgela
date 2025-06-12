@@ -1,7 +1,7 @@
 @include('partials.tinymce')
 
 <script>
-    tinymce.init({
+    const tinymce_config = {
         selector: 'textarea#mensaje',
         license_key: 'gpl',
         promotion: false,
@@ -30,5 +30,7 @@
                 $('#formUpload input').click();
             }
         }
-    });
+    };
+
+    tinymce.init(tinymce_config);
 </script>
