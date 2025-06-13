@@ -51,173 +51,197 @@ class ExportarUsuarioJob implements ShouldQueue
         // Crear un fichero index.html.temporal
         $html = "";
 
-        // Recorrer las actividades del usuario
-        $total = 0;
+        $total_cursos = 0;
 
-        // Recuperar las actividades del usuario
-        $actividades = Actividad::whereHas('users', function ($query) {
-            $query->where('user_id', $this->user->id);
-        })->get();
+        foreach ($this->user->cursos as $curso) {
+            if (isset($curso->fecha_fin) && $curso->fecha_fin->lt(now())) {
 
-        foreach ($actividades as $actividad) {
+                $total_cursos += 1;
 
-            // Añadir el nombre del curso
-            if ($total == 0) {
-                $html .= '<h2>' . $actividad->unidad->curso->nombre . ' ' . $actividad->unidad->curso->category->period->name . '</h2>';
-                $html .= '<ul class="mb-4">';
-            }
+                // Añadir el nombre del curso
+                $html .= '<h2>' . $curso->nombre . ' ' . $curso->category->period->name . '</h2>';
 
-            $total += 1;
+                // Recuperar las actividades del usuario
+                $actividades = Actividad::whereHas('users', function ($query) use ($curso) {
+                    $query->where('user_id', $this->user->id);
+                })->whereHas('unidad.curso', function ($query) use ($curso) {
+                    $query->where('curso_id', $curso->id);
+                })->get();
 
-            // Crear una carpeta para la actividad
-            $subdirectorio = Str::slug($actividad->full_name);
-            $ruta = $directorio . '/' . $subdirectorio;
-            Storage::disk('temp')->makeDirectory($ruta);
+                // Recorrer las actividades del usuario
+                $total = 0;
 
-            // Crear un fichero index.html.temporal
-            $html_actividad = '<h2>' . $actividad->full_name . '</h2>';
+                foreach ($actividades as $actividad) {
 
-            // Recorrer los recursos de la actividad
-            $html_actividad .= '<ul class="mb-4">';
+                    if ($total == 0) {
+                        $html .= '<ul class="mb-4">';
+                    }
 
-            $total_recursos = 0;
+                    $total += 1;
 
-            // Texto Markdown
-            foreach ($actividad->markdown_texts as $markdown_text) {
-                try {
-                    // Descargar el fichero
-                    $nombre_fichero = Str::slug($markdown_text->titulo) . '.md';
-                    Storage::disk('temp')->put(
-                        $ruta . '/' . $nombre_fichero,
-                        $markdown_text->raw()
-                    );
+                    // Crear una carpeta para la actividad
+                    $subdirectorio = Str::slug($actividad->full_name);
+                    $ruta = $directorio . '/' . $subdirectorio;
 
-                    $total_recursos += 1;
+                    // Evitar colisiones de nombre
+                    while (Storage::disk('temp')->directoryExists($ruta)) {
+                        $secuencia = bin2hex(openssl_random_pseudo_bytes(3));
+                        $subdirectorio = Str::slug($actividad->full_name) . '-' . $secuencia;
+                        $ruta = $directorio . '/' . $subdirectorio;
+                    }
 
-                    // Enlazarlo en el HTML
-                    $html_actividad .= '<li>';
-                    $html_actividad .= __('Markdown text') . ': <a target="_blank" href="' . $nombre_fichero . '">' . $markdown_text->titulo . '</a>';
-                    $html_actividad .= '</li>';
-                } catch (Exception) {
-                }
-            }
+                    Storage::disk('temp')->makeDirectory($ruta);
 
-            // Vídeos de YouTube
-            foreach ($actividad->youtube_videos as $youtube_video) {
-                $total_recursos += 1;
+                    // Crear un fichero index.html.temporal
+                    $html_actividad = '<h2>' . $actividad->full_name . '</h2>';
 
-                // Enlazarlo en el HTML
-                $html_actividad .= '<li>';
-                $html_actividad .= __('YouTube video') . ': <a target="_blank" href="' . $youtube_video->codigo . '">' . $youtube_video->titulo . '</a>';
-                $html_actividad .= '</li>';
-            }
+                    // Recorrer los recursos de la actividad
+                    $html_actividad .= '<ul class="mb-4">';
 
-            // Enlaces
-            foreach ($actividad->link_collections as $link_collection) {
-                foreach ($link_collection->links as $link) {
-                    $total_recursos += 1;
+                    $total_recursos = 0;
 
-                    // Enlazarlo en el HTML
-                    $html_actividad .= '<li>';
-                    $html_actividad .= __('Link') . ': <a target="_blank" href="' . $link->url . '">' . ($link->descripcion ?: $link->url) . '</a>';
-                    $html_actividad .= '</li>';
-                }
-            }
+                    // Texto Markdown
+                    foreach ($actividad->markdown_texts as $markdown_text) {
+                        try {
+                            // Descargar el fichero
+                            $nombre_fichero = Str::slug($markdown_text->titulo) . '.md';
+                            Storage::disk('temp')->put(
+                                $ruta . '/' . $nombre_fichero,
+                                $markdown_text->raw()
+                            );
 
-            // Archivos
-            foreach ($actividad->file_resources as $file_resource) {
-                foreach ($file_resource->files as $file) {
-                    try {
-                        // Descargar el fichero
-                        $nombre_fichero = Str::replace('/', '-', $file->path);
-                        Storage::disk('temp')->put(
-                            $ruta . '/' . $nombre_fichero,
-                            Storage::disk('s3')->get('documents/' . $file->path) ?: ''
-                        );
+                            $total_recursos += 1;
 
+                            // Enlazarlo en el HTML
+                            $html_actividad .= '<li>';
+                            $html_actividad .= __('Markdown text') . ': <a target="_blank" href="' . $nombre_fichero . '">' . $markdown_text->titulo . '</a>';
+                            $html_actividad .= '</li>';
+                        } catch (Exception) {
+                        }
+                    }
+
+                    // Vídeos de YouTube
+                    foreach ($actividad->youtube_videos as $youtube_video) {
                         $total_recursos += 1;
 
                         // Enlazarlo en el HTML
                         $html_actividad .= '<li>';
-                        $html_actividad .= __('File') . ': <a target="_blank" href="' . $nombre_fichero . '">' . ($file->description ?: $file->title) . '</a>';
+                        $html_actividad .= __('YouTube video') . ': <a target="_blank" href="' . $youtube_video->codigo . '">' . $youtube_video->titulo . '</a>';
                         $html_actividad .= '</li>';
-                    } catch (Exception) {
                     }
+
+                    // Enlaces
+                    foreach ($actividad->link_collections as $link_collection) {
+                        foreach ($link_collection->links as $link) {
+                            $total_recursos += 1;
+
+                            // Enlazarlo en el HTML
+                            $html_actividad .= '<li>';
+                            $html_actividad .= __('Link') . ': <a target="_blank" href="' . $link->url . '">' . ($link->descripcion ?: $link->url) . '</a>';
+                            $html_actividad .= '</li>';
+                        }
+                    }
+
+                    // Archivos
+                    foreach ($actividad->file_resources as $file_resource) {
+                        foreach ($file_resource->files as $file) {
+                            try {
+                                // Descargar el fichero
+                                $nombre_fichero = Str::replace('/', '-', $file->path);
+                                Storage::disk('temp')->put(
+                                    $ruta . '/' . $nombre_fichero,
+                                    Storage::disk('s3')->get('documents/' . $file->path) ?: ''
+                                );
+
+                                $total_recursos += 1;
+
+                                // Enlazarlo en el HTML
+                                $html_actividad .= '<li>';
+                                $html_actividad .= __('File') . ': <a target="_blank" href="' . $nombre_fichero . '">' . ($file->description ?: $file->title) . '</a>';
+                                $html_actividad .= '</li>';
+                            } catch (Exception) {
+                            }
+                        }
+                    }
+
+                    // Cuestionarios
+
+                    // Subidas de imágenes
+                    foreach ($actividad->file_uploads as $file_upload) {
+                        foreach ($file_upload->files as $file) {
+                            try {
+                                // Descargar el fichero
+                                $nombre_fichero = Str::replace('/', '-', $file->path);
+                                Storage::disk('temp')->put(
+                                    $ruta . '/' . $nombre_fichero,
+                                    Storage::disk('s3')->get('images/' . $file->path) ?: ''
+                                );
+
+                                $total_recursos += 1;
+
+                                // Enlazarlo en el HTML
+                                $html_actividad .= '<li>';
+                                $html_actividad .= __('Image') . ': <a target="_blank" href="' . $nombre_fichero . '">' . ($file->description ?: $file->title) . '</a>';
+                                $html_actividad .= '</li>';
+                            } catch (Exception) {
+                            }
+                        }
+                    }
+
+                    // Proyectos de IntelliJ
+                    foreach ($actividad->intellij_projects as $intellij_project) {
+                        try {
+                            // Descargar el repositorio
+                            if (!$intellij_project->isForked()) {
+                                $repositorio = GiteaClient::repo($intellij_project->repositorio);
+                            } else {
+                                $repositorio = GiteaClient::repo($intellij_project->pivot->fork);
+                            }
+                            $descarga = GiteaClient::download($repositorio['owner'], $repositorio['name'], 'HEAD.zip');
+                            $nombre_fichero = Str::slug($repositorio['name']) . '.zip';
+                            Storage::disk('temp')->put($ruta . '/' . $nombre_fichero, $descarga ?: '');
+
+                            $total_recursos += 1;
+
+                            // Enlazarlo en el HTML
+                            $html_actividad .= '<li>';
+                            $html_actividad .= __('IntelliJ project') . ': <a href="' . $nombre_fichero . '">' . $repositorio['name'] . '</a>';
+                            $html_actividad .= '</li>';
+                        } catch (Exception) {
+                        }
+                    }
+
+                    $html_actividad .= '</ul>';
+
+                    if ($total_recursos == 0) {
+                        $html_actividad .= '<p>' . __('There are no resources in this activity.') . '</p>';
+                    }
+
+                    // Añadir el enlace de retorno
+                    $html_actividad .= '<a href="../index.html">' . __('Back') . '</a>';
+
+                    // Concatenar la cabecera y el pie para crear el index.html
+                    $html_actividad = $cabecera . $html_actividad . $pie;
+
+                    // Escribir el index.html de la actividad
+                    Storage::disk('temp')->put($ruta . '/index.html', $html_actividad);
+
+                    // Enlazar la actividad en el HTML general
+                    $html .= '<li>';
+                    $html .= '<a href="' . $subdirectorio . '/index.html">' . $actividad->full_name . '</a>';
+                    $html .= '</li>';
+                }
+
+                if ($total > 0) {
+                    $html .= '</ul>';
+                } else {
+                    $html .= '<p>' . __('There are no activities.') . '</p>';
                 }
             }
-
-            // Cuestionarios
-
-            // Subidas de imágenes
-            foreach ($actividad->file_uploads as $file_upload) {
-                foreach ($file_upload->files as $file) {
-                    try {
-                        // Descargar el fichero
-                        $nombre_fichero = Str::replace('/', '-', $file->path);
-                        Storage::disk('temp')->put(
-                            $ruta . '/' . $nombre_fichero,
-                            Storage::disk('s3')->get('images/' . $file->path) ?: ''
-                        );
-
-                        $total_recursos += 1;
-
-                        // Enlazarlo en el HTML
-                        $html_actividad .= '<li>';
-                        $html_actividad .= __('Image') . ': <a target="_blank" href="' . $nombre_fichero . '">' . ($file->description ?: $file->title) . '</a>';
-                        $html_actividad .= '</li>';
-                    } catch (Exception) {
-                    }
-                }
-            }
-
-            // Proyectos de IntelliJ
-            foreach ($actividad->intellij_projects as $intellij_project) {
-                try {
-                    // Descargar el repositorio
-                    if (!$intellij_project->isForked()) {
-                        $repositorio = GiteaClient::repo($intellij_project->repositorio);
-                    } else {
-                        $repositorio = GiteaClient::repo($intellij_project->pivot->fork);
-                    }
-                    $descarga = GiteaClient::download($repositorio['owner'], $repositorio['name'], 'HEAD.zip');
-                    $nombre_fichero = Str::slug($repositorio['name']) . '.zip';
-                    Storage::disk('temp')->put($ruta . '/' . $nombre_fichero, $descarga ?: '');
-
-                    $total_recursos += 1;
-
-                    // Enlazarlo en el HTML
-                    $html_actividad .= '<li>';
-                    $html_actividad .= __('IntelliJ project') . ': <a href="' . $nombre_fichero . '">' . $repositorio['name'] . '</a>';
-                    $html_actividad .= '</li>';
-                } catch (Exception) {
-                }
-            }
-
-            $html_actividad .= '</ul>';
-
-            if ($total_recursos == 0) {
-                $html_actividad .= '<p>' . __('There are no resources in this activity.') . '</p>';
-            }
-
-            // Añadir el enlace de retorno
-            $html_actividad .= '<a href="../index.html">' . __('Back') . '</a>';
-
-            // Concatenar la cabecera y el pie para crear el index.html
-            $html_actividad = $cabecera . $html_actividad . $pie;
-
-            // Escribir el index.html de la actividad
-            Storage::disk('temp')->put($ruta . '/index.html', $html_actividad);
-
-            // Enlazar la actividad en el HTML general
-            $html .= '<li>';
-            $html .= '<a href="' . $subdirectorio . '/index.html">' . $actividad->full_name . '</a>';
-            $html .= '</li>';
         }
 
-        if ($total > 0) {
-            $html .= '</ul>';
-        } else {
-            $html .= '<p>' . __('There are no activities.') . '</p>';
+        if ($total_cursos == 0) {
+            $html .= '<p>' . __('There are no courses available') . '.</p>';
         }
 
         // Corregir la ruta del CSS

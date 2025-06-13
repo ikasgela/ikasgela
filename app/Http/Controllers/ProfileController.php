@@ -23,9 +23,18 @@ class ProfileController extends Controller
         $clientIP = $this->clientIP();
         $ip_egibide = $this->ip_in_range($this->clientIP(), ['150.241.173.0/24', '150.241.172.0/24']);
 
+        // Contar si el usuario tiene cursos finalizados para permitir exportarlos
+        $cursos_finalizados = 0;
+        $user->cursos->each(function ($curso) use (&$cursos_finalizados) {
+            if (isset($curso->fecha_fin) && $curso->fecha_fin->lt(now())) {
+                $cursos_finalizados += 1;
+            }
+        });
+
         return view('profile.show', compact([
             'user',
             'ip_egibide', 'clientIP',
+            'cursos_finalizados',
         ]));
     }
 

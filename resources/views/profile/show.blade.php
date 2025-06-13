@@ -52,7 +52,9 @@
         </div>
     </div>
 
-    @livewire('exportar-usuario', ['user' => $user])
+    @if($cursos_finalizados > 0 || Auth::user()->hasAnyRole(['admin']))
+        @livewire('exportar-usuario', ['user' => $user])
+    @endif
 
     @if(Auth::user()->hasAnyRole(['admin']))
         @include('partials.subtitulo', ['subtitulo' => __('Tests')])
