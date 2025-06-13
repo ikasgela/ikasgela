@@ -265,6 +265,8 @@ class ExportarUsuarioJob implements ShouldQueue
                 'url' => $url,
                 'fichero' => 'exports/' . $nombre_fichero,
             ]);
+        } else {
+            Mail::to($this->user)->queue(new ExportCompletado('https://example.org'));
         }
     }
 
