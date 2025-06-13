@@ -20,7 +20,7 @@ class ExportarUsuarioJob implements ShouldQueue
 {
     use Queueable;
 
-    public $timeout = 600;
+    public $timeout = 3600;
 
     public User $user;
 
