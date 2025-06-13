@@ -6,7 +6,7 @@
     <form id="asignar" method="POST" action="{{ route('profesor.asignar_tareas_grupo') }}">
         @csrf
         @include('profesor.partials.tabla_disponibles')
-        @include('layouts.errors')
+        @include('layouts.errors', ['margenes' => 'mt-0 mb-3'])
         <div class="d-flex justify-content-between mb-3">
             <div style="flex-grow: 1">
                 <button type="submit" class="btn btn-primary single_click">

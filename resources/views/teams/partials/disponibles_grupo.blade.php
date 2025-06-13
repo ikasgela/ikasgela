@@ -6,7 +6,7 @@
     <form id="asignar" method="POST" action="{{ route('profesor.asignar_tareas_equipo') }}">
         @csrf
         @include('profesor.partials.tabla_disponibles')
-        @include('layouts.errors')
+        @include('layouts.errors', ['margenes' => 'mt-0 mb-3'])
         <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-4">
             <button type="submit" class="btn btn-primary single_click">
                 <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Save assigment') }}

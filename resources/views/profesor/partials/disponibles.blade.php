@@ -6,7 +6,7 @@
     <form method="POST" action="{{ route('profesor.asignar_tarea', ['user' => $user->id]) }}">
         @csrf
         @include('profesor.partials.tabla_disponibles')
-        @include('layouts.errors')
+        @include('layouts.errors', ['margenes' => 'mt-0 mb-3'])
         <div class="d-flex justify-content-between mb-3">
             <div>
                 <button type="submit" class="btn btn-primary single_click">

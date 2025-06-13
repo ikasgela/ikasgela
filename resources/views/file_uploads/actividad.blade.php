@@ -4,7 +4,9 @@
 
     @include('partials.titular', ['titular' => __('Resources: Image uploads')])
 
-    @include('partials.cabecera_actividad')
+    <div class="mb-3">
+        @include('partials.cabecera_actividad')
+    </div>
 
     @include('partials.subtitulo', ['subtitulo' => __('Assigned resources')])
 
@@ -103,7 +105,7 @@
 
             @include('partials.paginador', ['coleccion' => $disponibles])
 
-            @include('layouts.errors')
+            @include('layouts.errors', ['margenes' => 'mt-0 mb-3'])
 
             <div class="mb-4">
                 <button type="submit" class="btn btn-primary me-2">{{ __('Save assigment') }}</button>
