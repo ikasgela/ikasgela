@@ -82,6 +82,14 @@ class ExportarUsuarioJob implements ShouldQueue
                     // Crear una carpeta para la actividad
                     $subdirectorio = Str::slug($actividad->full_name);
                     $ruta = $directorio . '/' . $subdirectorio;
+
+                    // Evitar colisiones de nombre
+                    while (Storage::disk('temp')->directoryExists($ruta)) {
+                        $secuencia = bin2hex(openssl_random_pseudo_bytes(3));
+                        $subdirectorio = Str::slug($actividad->full_name) . '-' . $secuencia;
+                        $ruta = $directorio . '/' . $subdirectorio;
+                    }
+
                     Storage::disk('temp')->makeDirectory($ruta);
 
                     // Crear un fichero index.html.temporal
