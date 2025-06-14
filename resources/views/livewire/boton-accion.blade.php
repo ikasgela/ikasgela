@@ -6,7 +6,7 @@
         @switch($tarea->estado)
             @case(10)
                 {{-- Nueva --}}
-                @if(!$actividad->is_finished)
+                @if(!$actividad->is_finished || $actividad->auto_avance)
                     {{-- Mostrar si no ha superado la fecha de entrega --}}
                     <button type="submit" name="nuevoestado" value="20"
                             class="btn btn-primary single_click">
