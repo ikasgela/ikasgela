@@ -9,7 +9,7 @@
             <div class="btn-toolbar" role="toolbar">
                 {{ html()->form('POST', route('users.portada.filtro'))->open() }}
                 {{ html()->submit(session('users_filtro_cursos_no_disponibles') == 'S' ? __('Hide not available courses') : __('Show not available courses'))
-                        ->class(['btn btn-sm mx-1', session('users_filtro_cursos_no_disponibles') == 'S' ? 'btn-primary' : 'btn-outline-secondary']) }}
+                        ->class(['btn btn-sm ms-1', session('users_filtro_cursos_no_disponibles') == 'S' ? 'btn-primary' : 'btn-outline-secondary']) }}
                 {{ html()->hidden('filtro_cursos_no_disponibles', 'S') }}
                 {{ html()->form()->close() }}
             </div>

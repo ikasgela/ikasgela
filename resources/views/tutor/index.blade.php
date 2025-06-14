@@ -15,29 +15,29 @@
         <h2 class="text-muted font-xl">{{ !is_null($curso) ? $curso->category->period->organization->name.' » '.$curso->category->period->name.' » '.$curso->nombre : '' }}</h2>
     </div>
 
-    <div class="d-flex justify-content-end mb-3">
+    <div class="d-flex justify-content-end">
         <div class="btn-toolbar" role="toolbar">
             {{ html()->form('POST', route('tutor.index.filtro'))->open() }}
             {{ html()->submit(__('Alphabetic order'))
-                    ->class(['btn btn-sm mx-1', session('tutor_filtro_alumnos') == 'A' ? 'btn-secondary' : 'btn-outline-secondary']) }}
+                    ->class(['btn btn-sm mx-1 mb-3', session('tutor_filtro_alumnos') == 'A' ? 'btn-secondary' : 'btn-outline-secondary']) }}
             {{ html()->hidden('filtro_alumnos', 'A') }}
             {{ html()->form()->close() }}
 
             {{ html()->form('POST', route('tutor.index.filtro'))->open() }}
             {{ html()->submit(__('Progress'))
-                    ->class(['btn btn-sm mx-1', session('tutor_filtro_alumnos') == 'P' ? 'btn-secondary' : 'btn-outline-secondary']) }}
+                    ->class(['btn btn-sm mx-1 mb-3', session('tutor_filtro_alumnos') == 'P' ? 'btn-secondary' : 'btn-outline-secondary']) }}
             {{ html()->hidden('filtro_alumnos', 'P') }}
             {{ html()->form()->close() }}
 
             {{ html()->form('POST', route('tutor.index.filtro'))->open() }}
             {{ html()->submit(session('tutor_informe_anonimo') == 'A' ? __('Hide names') : __('Show names'))
-                    ->class(['btn btn-sm mx-1', session('tutor_informe_anonimo') == 'A' ? 'btn-primary' : 'btn-outline-secondary']) }}
+                    ->class(['btn btn-sm mx-1 mb-3', session('tutor_informe_anonimo') == 'A' ? 'btn-primary' : 'btn-outline-secondary']) }}
             {{ html()->hidden('informe_anonimo', 'A') }}
             {{ html()->form()->close() }}
 
             {{ html()->form('POST', route('cursos.limpiar_cache', [$curso->id]))->open() }}
             {{ html()->submit(__('Reload results'))
-                    ->class('btn btn-sm btn-outline-secondary') }}
+                    ->class('btn btn-sm ms-1 mb-3 btn-outline-secondary') }}
             {{ html()->form()->close() }}
         </div>
     </div>
