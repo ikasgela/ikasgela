@@ -28,7 +28,7 @@ class TarjetaIntellij extends Component
         $this->fork_status = $this->intellij_project->getForkStatus();
         $this->repositorio = $this->intellij_project->repository();
 
-        if (Auth::user()->hasRole('profesor')) {
+        if ($this->actividad != null && Auth::user()->hasRole('profesor')) {
             $this->tarea = Tarea::where('actividad_id', $this->actividad->id)->first();
             $this->jplags = JPlag::where('tarea_id', $this->tarea->id)->orderBy('percent', 'desc')->get();
         }
