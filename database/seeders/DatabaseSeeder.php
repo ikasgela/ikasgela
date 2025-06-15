@@ -44,5 +44,7 @@ class DatabaseSeeder extends Seeder
         $this->call(MilestoneSeeder::class);
 
         $this->call(SelectorSeeder::class);
+
+        $this->call(RubricSeeder::class);
     }
 }
