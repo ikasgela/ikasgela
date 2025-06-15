@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Jobs\ForkGiteaRepo;
 use App\Models\Actividad;
 use App\Models\IntellijProject;
+use App\Models\JPlag;
 use App\Models\Tarea;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -18,12 +19,19 @@ class TarjetaIntellij extends Component
     public IntellijProject $intellij_project;
     public $repositorio;
     public $fork_status;    // 0 sin clonar, 1 clonando, 2 completado, 3 error
+    public ?Tarea $tarea;
+    public $jplags;
 
     public function mount(IntellijProject $intellij_project)
     {
         $this->intellij_project = $intellij_project;
         $this->fork_status = $this->intellij_project->getForkStatus();
         $this->repositorio = $this->intellij_project->repository();
+
+        if (Auth::user()->hasRole('profesor')) {
+            $this->tarea = Tarea::where('actividad_id', $this->actividad->id)->first();
+            $this->jplags = JPlag::where('tarea_id', $this->tarea->id)->orderBy('percent', 'desc')->get();
+        }
     }
 
     public function render()
