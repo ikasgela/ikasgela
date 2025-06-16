@@ -5,8 +5,8 @@
     @include('partials.titular', ['titular' => __('Rubric')])
 
     <div class="row">
-        <div class="col-md-6">
-            @include('rubrics.tarjeta')
+        <div class="col-md-12">
+            @livewire('rubric-show', ['rubric' => $rubric])
         </div>
     </div>
 

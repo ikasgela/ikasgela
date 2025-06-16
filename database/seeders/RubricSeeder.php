@@ -42,6 +42,7 @@ class RubricSeeder extends Seeder
             'texto' => 'Entregado a tiempo',
             'puntuacion' => 10,
             'criteria_group_id' => $c1->id,
+            'seleccionado' => true,
         ]);
 
         $c2 = CriteriaGroup::factory()->create([
