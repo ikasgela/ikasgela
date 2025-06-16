@@ -11,7 +11,7 @@ use Livewire\Component;
 class RubricComponent extends Component
 {
     public Rubric $rubric;
-    public $is_editing = true;
+    public $rubric_is_editing = false;
 
     public function mount(Rubric $rubric)
     {
@@ -48,7 +48,7 @@ class RubricComponent extends Component
 
     public function toggle_edit()
     {
-        $this->is_editing = !$this->is_editing;
+        $this->rubric_is_editing = !$this->rubric_is_editing;
     }
 
 

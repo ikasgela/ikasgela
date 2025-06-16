@@ -3,27 +3,23 @@
 namespace App\Livewire;
 
 use App\Models\Criteria;
+use Livewire\Attributes\Reactive;
 use Livewire\Component;
 
 class CriteriaComponent extends Component
 {
+    #[Reactive]
     public Criteria $criteria;
 
-    public $rubric_edit_mode = false;
-    public $is_editing = false;
+    #[Reactive]
+    public $rubric_is_editing = false;
+    public $criteria_is_editing = false;
 
     public $texto;
     public $puntuacion;
 
+    #[Reactive]
     public $total = 0;
-
-    public function mount(Criteria $criteria)
-    {
-        $this->criteria = $criteria;
-
-        $this->texto = $criteria->texto;
-        $this->puntuacion = $criteria->puntuacion;
-    }
 
     public function render()
     {
@@ -32,7 +28,7 @@ class CriteriaComponent extends Component
 
     public function toggle_edit()
     {
-        $this->is_editing = !$this->is_editing;
+        $this->criteria_is_editing = !$this->criteria_is_editing;
     }
 
     public function save()
@@ -41,6 +37,6 @@ class CriteriaComponent extends Component
         $this->criteria->puntuacion = $this->puntuacion;
         $this->criteria->save();
 
-        $this->is_editing = false;
+        $this->criteria_is_editing = false;
     }
 }

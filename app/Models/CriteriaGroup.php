@@ -41,4 +41,9 @@ class CriteriaGroup extends Model
             $query->where('plantilla', true);
         });
     }
+
+    public function getTotalAttribute()
+    {
+        return $this->criterias()->where('seleccionado', true)->sum('puntuacion');
+    }
 }

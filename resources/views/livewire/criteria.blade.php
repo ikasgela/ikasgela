@@ -1,18 +1,19 @@
 <div class="mb-3">
     <div>
-        @if(!$rubric_edit_mode)
+        @if(!$rubric_is_editing)
             <div class="btn-group">
                 <button
-                    wire:click="seleccionar({{ $criteria->id }})"
+                    wire:click="$parent.seleccionar({{ $criteria->id }})"
                     class="btn {{ $criteria->seleccionado ? 'btn-primary' : 'btn-outline-primary' }} p-3">
                     {{ $criteria->texto }}
                 </button>
                 <button
+                    wire:click="$parent.seleccionar({{ $criteria->id }})"
                     class="btn {{ $criteria->seleccionado ? 'btn-secondary' : 'btn-outline-secondary' }} p-3">
                     {{ $criteria->puntuacion }}
                 </button>
             </div>
-        @elseif($rubric_edit_mode && !$is_editing)
+        @elseif(!$criteria_is_editing)
             <div class="btn-group mb-3">
                 <button
                     wire:click="toggle_edit"

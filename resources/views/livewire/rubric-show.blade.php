@@ -27,14 +27,15 @@
                         @foreach($criteria_group->criterias as $criteria)
                             <div class="col-auto">
                                 <livewire:criteria-component
-                                    :criteria="$criteria"
+                                    :$criteria
                                     :key="$criteria->id"
-                                    :rubric_edit_mode="$is_editing"/>
+                                    :$rubric_is_editing
+                                    :$total/>
                             </div>
                         @endforeach
                     </div>
                 </div>
-                @if($is_editing)
+                @if($rubric_is_editing)
                     <div class="col-auto">
                         <button class="btn btn-secondary"
                                 wire:click="add_criteria({{ $criteria_group->id }})">
@@ -43,7 +44,7 @@
                     </div>
                 @endif
                 <div class="col-auto">
-                    <p>{{ $total }}</p>
+                    <p>{{ $criteria_group->total }}</p>
                 </div>
             </div>
             @php($total_rubrica += $total)
