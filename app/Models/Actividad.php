@@ -239,6 +239,17 @@ class Actividad extends Model
             ->withTimestamps();
     }
 
+    public function rubrics()
+    {
+        return $this
+            ->belongsToMany(Rubric::class)
+            ->withPivot([
+                'orden',
+                'titulo_visible', 'descripcion_visible', 'columnas',
+            ])
+            ->withTimestamps();
+    }
+
     public function envioPermitido()
     {
         $enviar = true;

@@ -71,6 +71,11 @@
                 'icon' => 'bi-filetype-java',
             ])
             @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('rubrics.index'),
+                'text' => __('Rubrics'),
+                'icon' => 'bi-ui-checks-grid',
+            ])
+            @include('layouts.sidebar.nav-item-desplegable', [
                 'route' => route('selectors.index'),
                 'text' => __('Selectors'),
                 'icon' => 'bi-shuffle',

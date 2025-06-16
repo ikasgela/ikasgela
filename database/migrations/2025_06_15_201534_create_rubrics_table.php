@@ -15,8 +15,8 @@ return new class extends Migration {
 
             $table->string('titulo');
             $table->string('descripcion')->nullable();
-            $table->boolean('plantilla')->default(false)->nullable();
-            $table->boolean('completada')->default(false)->nullable();
+            $table->boolean('plantilla')->nullable()->default(false);
+            $table->boolean('completada')->nullable()->default(false);
 
             $table->foreignId('curso_id')->nullable()->constrained()->cascadeOnDelete();
 

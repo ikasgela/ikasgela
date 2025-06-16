@@ -38,6 +38,11 @@
             </a>
         </div>
         <div class='btn-group ms-2'>
+            <a title="{{ __('Rubric') }}"
+               href="{{ route('rubrics.actividad', [$actividad->id]) }}"
+               class="btn btn-sm {{ $actividad->rubrics()->count() > 0 ? 'btn-primary' : 'btn-light' }}">
+                <i class="bi bi-ui-checks-grid"></i>
+            </a>
             <a title="{{ __('Selector') }}"
                href="{{ route('selectors.actividad', [$actividad->id]) }}"
                class="btn btn-sm {{ $actividad->selectors()->count() > 0 ? 'btn-primary' : 'btn-light' }}">

@@ -31,6 +31,7 @@ use App\Http\Controllers\QualificationController;
 use App\Http\Controllers\RegistroController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RubricController;
 use App\Http\Controllers\RuleController;
 use App\Http\Controllers\RuleGroupController;
 use App\Http\Controllers\SafeExamController;
@@ -412,6 +413,17 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('rule_groups.duplicar');
             Route::post('/rules/{rule}/duplicar', [RuleController::class, 'duplicar'])
                 ->name('rules.duplicar');
+
+            // Rúbricas
+            Route::resource('rubrics', RubricController::class);
+            Route::get('/rubrics/{actividad}/actividad', [RubricController::class, 'actividad'])
+                ->name('rubrics.actividad');
+            Route::post('/rubrics/{actividad}/asociar', [RubricController::class, 'asociar'])
+                ->name('rubrics.asociar');
+            Route::delete('/rubrics/{actividad}/desasociar/{rubric}', [RubricController::class, 'desasociar'])
+                ->name('rubrics.desasociar');
+            Route::post('/rubrics/{rubric}/duplicar', [RubricController::class, 'duplicar'])
+                ->name('rubrics.duplicar');
         });
 
         // Administrador
@@ -510,6 +522,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('link_collections.index.filtro');
             Route::post('/selectors/filtro', [SelectorController::class, 'index'])
                 ->name('selectors.index.filtro');
+            Route::post('/rubrics/filtro', [RubricController::class, 'index'])
+                ->name('rubrics.index.filtro');
 
             // CRUD - Feedbacks
             Route::resource('feedbacks', FeedbackController::class);
