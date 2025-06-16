@@ -1,6 +1,19 @@
 <div>
     <div class="mb-3">
-        @if(!$rubric_is_editing)
+        @if(!Auth::user()->hasAnyRole(['admin','profesor']))
+            <div class="btn-group">
+                <button
+                    disabled
+                    class="btn opacity-100 {{ $criteria->seleccionado ? 'btn-primary' : 'btn-outline-primary' }} p-3">
+                    {{ $criteria->texto }}
+                </button>
+                <button
+                    disabled
+                    class="btn opacity-100 {{ $criteria->seleccionado ? 'btn-secondary' : 'btn-outline-secondary' }} p-3">
+                    {{ $criteria->puntuacion }}
+                </button>
+            </div>
+        @elseif(!$rubric_is_editing)
             <div class="btn-group">
                 <button
                     wire:click="$parent.seleccionar({{ $criteria->id }})"
