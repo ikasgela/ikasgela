@@ -34,6 +34,7 @@ class Actividad extends Model
         'feedbacks',
         'link_collections',
         'selectors',
+        'rubrics',
     ];
 
     protected $clone_exempt_attributes = ['plantilla', 'siguiente_overriden'];
@@ -386,6 +387,10 @@ class Actividad extends Model
         }
 
         foreach ($this->selectors()->get() as $recurso) {
+            $recursos->add($recurso);
+        }
+
+        foreach ($this->rubrics()->get() as $recurso) {
             $recursos->add($recurso);
         }
 
