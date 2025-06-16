@@ -23,6 +23,9 @@
     @case('App\Models\Selector')
         {{ __('Selector') }}
         @break
+    @case('App\Models\Rubric')
+        {{ __('Rubric') }}
+        @break
     @default
         {{ __('Unknown') }}
 @endswitch

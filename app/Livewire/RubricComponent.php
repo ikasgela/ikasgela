@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Actividad;
 use App\Models\Criteria;
 use App\Models\CriteriaGroup;
 use App\Models\Rubric;
@@ -10,6 +11,7 @@ use Livewire\Component;
 
 class RubricComponent extends Component
 {
+    public ?Actividad $actividad;
     public Rubric $rubric;
     public $rubric_is_editing = false;
 

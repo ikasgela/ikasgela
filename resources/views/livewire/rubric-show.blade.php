@@ -1,19 +1,19 @@
 <div>
-    <div class="mb-3">
-        <button class="btn btn-secondary" wire:click="toggle_edit">
-            <i class="bi bi-pencil"></i>
-        </button>
-    </div>
+    @if(Auth::user()->hasAnyRole(['admin','profesor']) && Route::currentRouteName() == 'actividades.preview')
+        <div class="mb-3">
+            <button class="btn btn-secondary" wire:click="toggle_edit">
+                <i class="bi bi-pencil"></i>
+            </button>
+        </div>
+    @endif
 
     <div class="card mb-3">
         <div class="card-header d-flex justify-content-between">
             <div><i class="bi bi-ui-checks-grid me-2"></i>{{ $rubric->titulo }}</div>
-            {{--
-                        <div>
-                            @include('partials.modificar_recursos', ['ruta' => 'rubrics'])
-                            @include('partials.editar_recurso', ['recurso' => $rubric, 'ruta' => 'rubrics'])
-                        </div>
-            --}}
+            <div>
+                @include('partials.modificar_recursos', ['ruta' => 'rubrics'])
+                @include('partials.editar_recurso', ['recurso' => $rubric, 'ruta' => 'rubrics'])
+            </div>
         </div>
 
         @foreach($rubric->criteria_groups as $criteria_group)

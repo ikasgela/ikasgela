@@ -93,6 +93,17 @@ class Actividad extends Model
             ]);
         }
 
+        foreach ($src->rubrics as $rubric) {
+            $copia = $rubric->duplicate();
+            $this->rubrics()->detach($rubric);
+            $this->rubrics()->attach($copia, [
+                'orden' => $rubric->pivot->orden,
+                'titulo_visible' => $rubric->pivot->titulo_visible,
+                'descripcion_visible' => $rubric->pivot->descripcion_visible,
+                'columnas' => $rubric->pivot->columnas,
+            ]);
+        }
+
         $this->orden = $this->id;
     }
 
