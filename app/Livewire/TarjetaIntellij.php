@@ -30,7 +30,9 @@ class TarjetaIntellij extends Component
 
         if ($this->actividad != null && Auth::user()->hasRole('profesor')) {
             $this->tarea = Tarea::where('actividad_id', $this->actividad->id)->first();
-            $this->jplags = JPlag::where('tarea_id', $this->tarea->id)->orderBy('percent', 'desc')->get();
+            if ($this->tarea != null) {
+                $this->jplags = JPlag::where('tarea_id', $this->tarea->id)->orderBy('percent', 'desc')->get();
+            }
         }
     }
 
