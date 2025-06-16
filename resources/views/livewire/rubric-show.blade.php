@@ -1,7 +1,9 @@
 <div>
-    <button class="btn btn-secondary" wire:click="toggle_edit">
-        <i class="bi bi-pencil"></i>
-    </button>
+    <div class="mb-3">
+        <button class="btn btn-secondary" wire:click="toggle_edit">
+            <i class="bi bi-pencil"></i>
+        </button>
+    </div>
 
     <div class="card mb-3">
         <div class="card-header d-flex justify-content-between">
@@ -14,23 +16,20 @@
             --}}
         </div>
 
-        @php($total_rubrica = 0)
         @foreach($rubric->criteria_groups as $criteria_group)
-            <div class="card-body row">
+            <div class="card-body row pb-0">
                 <div class="col-2">
                     <h5 class="card-title">{{ $criteria_group->titulo }}</h5>
                     <p class="small">{{ $criteria_group->descripcion }}</p>
                 </div>
                 <div class="col">
                     <div class="row">
-                        @php($total = 0)
                         @foreach($criteria_group->criterias as $criteria)
                             <div class="col-auto">
                                 <livewire:criteria-component
                                     :$criteria
                                     :key="$criteria->id"
-                                    :$rubric_is_editing
-                                    :$total/>
+                                    :$rubric_is_editing/>
                             </div>
                         @endforeach
                     </div>
@@ -43,11 +42,10 @@
                         </button>
                     </div>
                 @endif
-                <div class="col-auto">
-                    <p>{{ $criteria_group->total }}</p>
+                <div class="col-1 d-flex justify-content-center align-items-center mb-3">
+                    <span class="badge text-bg-secondary fs-6">{{ $criteria_group->total }}</span>
                 </div>
             </div>
-            @php($total_rubrica += $total)
             @if(!$loop->last)
                 <hr class="my-0">
             @endif
@@ -56,8 +54,8 @@
             <div class="row">
                 <div class="col">
                 </div>
-                <div class="col-1">
-                    <p>{{ $total_rubrica }}</p>
+                <div class="col-1 d-flex justify-content-center align-items-center py-3">
+                    <span class="badge text-bg-warning fs-6">{{ $rubric->total }}</span>
                 </div>
             </div>
         </div>

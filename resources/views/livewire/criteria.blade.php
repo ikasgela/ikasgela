@@ -1,5 +1,5 @@
-<div class="mb-3">
-    <div>
+<div>
+    <div class="mb-3">
         @if(!$rubric_is_editing)
             <div class="btn-group">
                 <button
