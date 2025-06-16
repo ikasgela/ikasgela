@@ -41,7 +41,7 @@ class RubricComponent extends Component
         Criteria::create([
             'texto' => __('Write your criteria here'),
             'puntuacion' => 0,
-            'orden' => Str::ulid(),
+            'orden' => Str::orderedUuid(),
             'criteria_group_id' => $criteria_group->id,
         ]);
     }

@@ -105,7 +105,10 @@ class RubricController extends Controller
 
         foreach (request('seleccionadas') as $recurso_id) {
             $recurso = Rubric::find($recurso_id);
-            $actividad->rubrics()->attach($recurso, ['orden' => Str::ulid()]);
+            $actividad->rubrics()->attach($recurso, [
+                'orden' => Str::orderedUuid(),
+                'columnas' => 12,
+            ]);
         }
 
         return redirect(route('rubrics.actividad', ['actividad' => $actividad->id]));

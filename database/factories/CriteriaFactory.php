@@ -21,7 +21,7 @@ class CriteriaFactory extends Factory
         return [
             'texto' => fake()->sentence(8),
             'puntuacion' => 0,
-            'orden' => Str::ulid(),
+            'orden' => Str::orderedUuid(),
             'seleccionado' => false,
             'criteria_group_id' => CriteriaGroup::factory(),
         ];

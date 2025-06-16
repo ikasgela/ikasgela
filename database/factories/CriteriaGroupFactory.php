@@ -22,7 +22,7 @@ class CriteriaGroupFactory extends Factory
         return [
             'titulo' => null,
             'descripcion' => null,
-            'orden' => Str::ulid(),
+            'orden' => Str::orderedUuid(),
             'rubric_id' => Rubric::factory(),
         ];
     }
