@@ -3,21 +3,24 @@
 namespace App\Livewire;
 
 use App\Models\Criteria;
+use App\Models\CriteriaGroup;
 use App\Models\Rubric;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
-class RubricShow extends Component
+class RubricComponent extends Component
 {
     public Rubric $rubric;
+    public $is_editing = true;
 
     public function mount(Rubric $rubric)
     {
         $this->rubric = $rubric;
     }
 
-    public function seleccionar($id)
+    public function seleccionar($criteria_id)
     {
-        $criteria = Criteria::findOrFail($id);
+        $criteria = Criteria::findOrFail($criteria_id);
         $criteria->seleccionado = !$criteria->seleccionado;
         $criteria->save();
 
@@ -29,6 +32,25 @@ class RubricShow extends Component
             }
         }
     }
+
+
+    public function add_criteria($criteria_group_id)
+    {
+        $criteria_group = CriteriaGroup::findOrFail($criteria_group_id);
+
+        Criteria::create([
+            'texto' => __('Write your criteria here'),
+            'puntuacion' => 0,
+            'orden' => Str::ulid(),
+            'criteria_group_id' => $criteria_group->id,
+        ]);
+    }
+
+    public function toggle_edit()
+    {
+        $this->is_editing = !$this->is_editing;
+    }
+
 
     public function render()
     {

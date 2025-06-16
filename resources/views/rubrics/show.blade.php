@@ -6,7 +6,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            @livewire('rubric-show', ['rubric' => $rubric])
+            @livewire('rubric-component', ['rubric' => $rubric])
         </div>
     </div>
 

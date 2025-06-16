@@ -1,4 +1,8 @@
 <div>
+    <button class="btn btn-secondary" wire:click="toggle_edit">
+        <i class="bi bi-pencil"></i>
+    </button>
+
     <div class="card mb-3">
         <div class="card-header d-flex justify-content-between">
             <div><i class="bi bi-ui-checks-grid me-2"></i>{{ $rubric->titulo }}</div>
@@ -13,26 +17,32 @@
         @php($total_rubrica = 0)
         @foreach($rubric->criteria_groups as $criteria_group)
             <div class="card-body row">
-                <div class="col-3">
+                <div class="col-2">
                     <h5 class="card-title">{{ $criteria_group->titulo }}</h5>
                     <p class="small">{{ $criteria_group->descripcion }}</p>
                 </div>
                 <div class="col">
-                    <div class="row btn-group">
+                    <div class="row">
                         @php($total = 0)
                         @foreach($criteria_group->criterias as $criteria)
-                            <button
-                                wire:click="seleccionar({{ $criteria->id }})"
-                                class="btn {{ $criteria->seleccionado ? 'btn-primary' : 'btn-outline-primary' }} col-auto p-3">
-                                {{ $criteria->texto }}
-                            </button>
-                            @if($criteria->seleccionado)
-                                @php($total += $criteria->puntuacion)
-                            @endif
+                            <div class="col-auto">
+                                <livewire:criteria-component
+                                    :criteria="$criteria"
+                                    :key="$criteria->id"
+                                    :rubric_edit_mode="$is_editing"/>
+                            </div>
                         @endforeach
                     </div>
                 </div>
-                <div class="col-1">
+                @if($is_editing)
+                    <div class="col-auto">
+                        <button class="btn btn-secondary"
+                                wire:click="add_criteria({{ $criteria_group->id }})">
+                            <i class="bi bi-plus-lg"></i>
+                        </button>
+                    </div>
+                @endif
+                <div class="col-auto">
                     <p>{{ $total }}</p>
                 </div>
             </div>
