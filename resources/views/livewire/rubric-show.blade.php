@@ -37,14 +37,12 @@
                 <div class="col">
                     <div class="row">
                         @foreach($criteria_group->criterias as $criteria)
-                            <div class="col-auto">
-                                <livewire:criteria-component
-                                    :$criteria
-                                    :key="'criteria-'.$criteria->id"
-                                    :$rubric_is_editing
-                                    :$rubric_is_qualifying
-                                />
-                            </div>
+                            <livewire:criteria-component
+                                :$criteria
+                                :key="'criteria-'.$criteria->id"
+                                :$rubric_is_editing
+                                :$rubric_is_qualifying
+                            />
                         @endforeach
                         @if($rubric_is_editing)
                             <div class="col-auto align-content-center mb-3">

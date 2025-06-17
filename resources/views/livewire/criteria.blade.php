@@ -1,4 +1,4 @@
-<div>
+<div class="col-auto">
     <div class="mb-3">
         @if($rubric_is_qualifying)
             <div class="btn-toolbar justify-content-center">
