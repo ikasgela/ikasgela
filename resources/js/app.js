@@ -1,5 +1,7 @@
 require('./bootstrap');
 
+import '../../vendor/aliqasemzadeh/livewire-bootstrap-modal/resources/js/modals.js';
+
 require('./darkmode');
 
 require('jquery-countdown');

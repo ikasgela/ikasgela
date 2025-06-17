@@ -49798,9 +49798,13 @@ runtime.setup(pusher_Pusher);
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _vendor_aliqasemzadeh_livewire_bootstrap_modal_resources_js_modals_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../vendor/aliqasemzadeh/livewire-bootstrap-modal/resources/js/modals.js */ "./vendor/aliqasemzadeh/livewire-bootstrap-modal/resources/js/modals.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+
 __webpack_require__(/*! ./darkmode */ "./resources/js/darkmode.js");
 __webpack_require__(/*! jquery-countdown */ "./node_modules/jquery-countdown/dist/jquery.countdown.js");
 
@@ -50169,6 +50173,32 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
 
+
+/***/ }),
+
+/***/ "./vendor/aliqasemzadeh/livewire-bootstrap-modal/resources/js/modals.js":
+/*!******************************************************************************!*\
+  !*** ./vendor/aliqasemzadeh/livewire-bootstrap-modal/resources/js/modals.js ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
+
+var modalsElement = document.getElementById('livewire-bootstrap-modal');
+modalsElement.addEventListener('hidden.bs.modal', function () {
+  Livewire.dispatch('resetModal');
+});
+Livewire.on('showBootstrapModal', function (e) {
+  var modal = bootstrap__WEBPACK_IMPORTED_MODULE_0__.Modal.getOrCreateInstance(modalsElement);
+  modal.show();
+});
+Livewire.on('hideModal', function () {
+  var modal = bootstrap__WEBPACK_IMPORTED_MODULE_0__.Modal.getInstance(modalsElement);
+  modal.hide();
+  Livewire.dispatch('resetModal');
+});
 
 /***/ })
 
