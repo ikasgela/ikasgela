@@ -68,7 +68,8 @@
                                 </button>
                             </div>
                             <div class="btn-group-sm btn-group-vertical ms-2">
-                                <button class="btn btn-danger" wire:click="toggle_edit">
+                                <button class="btn btn-danger"
+                                        wire:click="delete_criteria_group({{ $criteria_group->id }})">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>
