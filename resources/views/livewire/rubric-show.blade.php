@@ -48,7 +48,7 @@
                         @endforeach
                         @if($rubric_is_editing)
                             <div class="col-auto align-content-center mb-3">
-                                <button class="btn btn-sm btn-secondary h-100"
+                                <button class="btn btn-sm btn-success h-100"
                                         wire:click="add_criteria({{ $criteria_group->id }})">
                                     <i class="bi bi-plus-lg"></i>
                                 </button>
@@ -96,7 +96,7 @@
         @if($rubric_is_editing)
             <hr class="my-0">
             <div class="p-3 text-center">
-                <button class="btn btn-sm btn-secondary w-100"
+                <button class="btn btn-sm btn-success w-100"
                         wire:click="add_criteria_group">
                     <i class="bi bi-plus-lg"></i>
                 </button>
