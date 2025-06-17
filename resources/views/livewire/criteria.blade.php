@@ -42,11 +42,9 @@
                     </button>
                 </div>
                 <div class="btn-group btn-group-sm ms-2">
-                    <button class="btn btn-danger">
+                    <button class="btn btn-danger"
+                            wire:click="$parent.delete_criteria({{ $criteria->id }})">
                         <i class="bi bi-trash"></i>
-                    </button>
-                    <button class="btn btn-secondary">
-                        <i class="bi bi-plus-lg"></i>
                     </button>
                 </div>
             </div>

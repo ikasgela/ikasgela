@@ -48,6 +48,28 @@ class RubricComponent extends Component
         ]);
     }
 
+    public function delete_criteria($criteria_id)
+    {
+        $criteria = Criteria::findOrFail($criteria_id);
+        $criteria->delete();
+    }
+
+    public function add_criteria_group()
+    {
+        CriteriaGroup::create([
+            'titulo' => '',
+            'descripcion' => '',
+            'orden' => Str::orderedUuid(),
+            'rubric_id' => $this->rubric->id,
+        ]);
+    }
+
+    public function delete_criteria_group($criteria_group_id)
+    {
+        $criteria_group = CriteriaGroup::findOrFail($criteria_group_id);
+        $criteria_group->delete();
+    }
+
     public function toggle_edit()
     {
         $this->rubric_is_editing = !$this->rubric_is_editing;
