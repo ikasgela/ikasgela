@@ -16,6 +16,8 @@
     @endif
     <link href="{{ asset('/css/nunito.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet" type="text/css">
+    <livewire:modals/>
+    <livewire:scripts/>
     <script src="{{ asset('/js/app.js') }}"></script>
     @yield('fancybox')
     @yield('prismjs-css')

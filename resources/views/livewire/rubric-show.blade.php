@@ -1,5 +1,5 @@
 <div>
-    @if(Auth::user()->hasAnyRole(['admin','profesor']) && Route::currentRouteName() == 'actividades.preview')
+    @if(Auth::user()->hasAnyRole(['admin','profesor']) && !$rubric_is_qualifying)
         <div class="mb-3">
             <button class="btn btn-secondary" wire:click="toggle_edit">
                 <i class="bi bi-pencil"></i>
@@ -23,8 +23,16 @@
         @foreach($rubric->criteria_groups as $criteria_group)
             <div class="card-body row pb-0">
                 <div class="col-2">
-                    <h5 class="card-title">{{ $criteria_group->titulo }}</h5>
-                    <p class="small">{{ $criteria_group->descripcion }}</p>
+                    @if($rubric_is_editing && $criteria_group->titulo == null)
+                        <h5 class="card-title border border-1 text-muted px-2">{{ __('Title') }}</h5>
+                    @else
+                        <h5 class="card-title">{{ $criteria_group->titulo }}</h5>
+                    @endif
+                    @if($rubric_is_editing && $criteria_group->descripcion == null)
+                        <p class="small border border-1 text-muted px-2">{{ __('Description') }}</p>
+                    @else
+                        <p class="small">{{ $criteria_group->descripcion }}</p>
+                    @endif
                 </div>
                 <div class="col">
                     <div class="row">
@@ -33,17 +41,39 @@
                                 <livewire:criteria-component
                                     :$criteria
                                     :key="$criteria->id"
-                                    :$rubric_is_editing/>
+                                    :$rubric_is_editing
+                                    :$rubric_is_qualifying
+                                />
                             </div>
                         @endforeach
                     </div>
                 </div>
                 @if($rubric_is_editing)
                     <div class="col-auto">
-                        <button class="btn btn-secondary"
-                                wire:click="add_criteria({{ $criteria_group->id }})">
-                            <i class="bi bi-plus-lg"></i>
-                        </button>
+                        <div class="btn-toolbar">
+                            <div class="btn-group-sm btn-group-vertical">
+                                <button class="btn btn-primary" wire:click="toggle_edit">
+                                    <i class="bi bi-arrow-up"></i>
+                                </button>
+                                <button class="btn btn-primary" wire:click="toggle_edit">
+                                    <i class="bi bi-arrow-down"></i>
+                                </button>
+                            </div>
+                            <div class="btn-group-sm btn-group-vertical ms-2">
+                                <button class="btn btn-danger" wire:click="toggle_edit">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                                <button class="btn btn-secondary"
+                                        wire:click="add_criteria({{ $criteria_group->id }})">
+                                    <i class="bi bi-plus-lg"></i>
+                                </button>
+                            </div>
+                            <div class="btn-group-sm btn-group-vertical ms-2">
+                                <button class="btn btn-secondary" wire:click="toggle_edit">
+                                    <i class="bi bi-power"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 @endif
                 <div class="col-auto mb-3">
