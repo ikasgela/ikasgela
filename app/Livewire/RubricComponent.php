@@ -14,6 +14,7 @@ class RubricComponent extends Component
     public ?Actividad $actividad;
     public Rubric $rubric;
     public $rubric_is_editing = false;
+    public $rubric_is_qualifying = false;
 
     public function mount(Rubric $rubric)
     {
@@ -35,7 +36,6 @@ class RubricComponent extends Component
         }
     }
 
-
     public function add_criteria($criteria_group_id)
     {
         $criteria_group = CriteriaGroup::findOrFail($criteria_group_id);
@@ -52,7 +52,6 @@ class RubricComponent extends Component
     {
         $this->rubric_is_editing = !$this->rubric_is_editing;
     }
-
 
     public function render()
     {

@@ -1,5 +1,5 @@
 <div>
-    @if(Auth::user()->hasAnyRole(['admin','profesor']))
+    @if(Auth::user()->hasAnyRole(['admin','profesor']) && !$rubric_is_qualifying)
         <div class="mb-3">
             <button class="btn btn-secondary" wire:click="toggle_edit">
                 <i class="bi bi-pencil"></i>
@@ -41,7 +41,9 @@
                                 <livewire:criteria-component
                                     :$criteria
                                     :key="$criteria->id"
-                                    :$rubric_is_editing/>
+                                    :$rubric_is_editing
+                                    :$rubric_is_qualifying
+                                />
                             </div>
                         @endforeach
                     </div>

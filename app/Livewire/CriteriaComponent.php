@@ -15,6 +15,9 @@ class CriteriaComponent extends Component
     #[Reactive]
     public $rubric_is_editing = false;
 
+    #[Reactive]
+    public $rubric_is_qualifying = false;
+
     public function render()
     {
         return view('livewire.criteria');

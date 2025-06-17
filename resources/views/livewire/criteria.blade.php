@@ -1,22 +1,6 @@
 <div>
     <div class="mb-3">
-        @if(!Auth::user()->hasAnyRole(['admin','profesor']))
-            <div class="btn-toolbar justify-content-center">
-                <div class="btn-group">
-                    <button
-                        style="min-width: 6em; max-width: 12em; font-size: 80%;"
-                        disabled
-                        class="btn opacity-100 {{ $criteria->seleccionado ? 'btn-primary' : 'btn-outline-primary' }} p-3">
-                        {{ $criteria->texto }}
-                    </button>
-                    <button
-                        disabled
-                        class="btn opacity-100 {{ $criteria->seleccionado ? 'btn-secondary' : 'btn-outline-secondary' }} p-3">
-                        {{ $criteria->puntuacion }}
-                    </button>
-                </div>
-            </div>
-        @elseif(!$rubric_is_editing)
+        @if($rubric_is_qualifying)
             <div class="btn-toolbar justify-content-center">
                 <div class="btn-group">
                     <button
@@ -32,7 +16,7 @@
                     </button>
                 </div>
             </div>
-        @else
+        @elseif($rubric_is_editing)
             <div class="btn-toolbar justify-content-center">
                 <div class="btn-group mb-3">
                     <button
@@ -63,6 +47,22 @@
                     </button>
                     <button class="btn btn-secondary">
                         <i class="bi bi-plus-lg"></i>
+                    </button>
+                </div>
+            </div>
+        @else
+            <div class="btn-toolbar justify-content-center">
+                <div class="btn-group">
+                    <button
+                        style="min-width: 6em; max-width: 12em; font-size: 80%;"
+                        disabled
+                        class="btn opacity-100 {{ $criteria->seleccionado ? 'btn-primary' : 'btn-outline-primary' }} p-3">
+                        {{ $criteria->texto }}
+                    </button>
+                    <button
+                        disabled
+                        class="btn opacity-100 {{ $criteria->seleccionado ? 'btn-secondary' : 'btn-outline-secondary' }} p-3">
+                        {{ $criteria->puntuacion }}
                     </button>
                 </div>
             </div>
