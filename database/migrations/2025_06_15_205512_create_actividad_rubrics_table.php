@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('actividad_rubric', function (Blueprint $table) {
             $table->id();
 
-            $table->ulid('orden')->index()->nullable();
+            $table->uuid('orden')->index()->nullable();
             $table->boolean('titulo_visible')->default(true)->nullable();
             $table->boolean('descripcion_visible')->default(true)->nullable();
             $table->integer('columnas')->default(6)->nullable();

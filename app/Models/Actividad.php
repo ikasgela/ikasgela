@@ -34,6 +34,7 @@ class Actividad extends Model
         'feedbacks',
         'link_collections',
         'selectors',
+        'rubrics',
     ];
 
     protected $clone_exempt_attributes = ['plantilla', 'siguiente_overriden'];
@@ -89,6 +90,17 @@ class Actividad extends Model
                 'titulo_visible' => $file_upload->pivot->titulo_visible,
                 'descripcion_visible' => $file_upload->pivot->descripcion_visible,
                 'columnas' => $file_upload->pivot->columnas,
+            ]);
+        }
+
+        foreach ($src->rubrics as $rubric) {
+            $copia = $rubric->duplicate();
+            $this->rubrics()->detach($rubric);
+            $this->rubrics()->attach($copia, [
+                'orden' => $rubric->pivot->orden,
+                'titulo_visible' => $rubric->pivot->titulo_visible,
+                'descripcion_visible' => $rubric->pivot->descripcion_visible,
+                'columnas' => $rubric->pivot->columnas,
             ]);
         }
 
@@ -386,6 +398,10 @@ class Actividad extends Model
         }
 
         foreach ($this->selectors()->get() as $recurso) {
+            $recursos->add($recurso);
+        }
+
+        foreach ($this->rubrics()->get() as $recurso) {
             $recursos->add($recurso);
         }
 

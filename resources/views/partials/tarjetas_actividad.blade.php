@@ -29,6 +29,9 @@
                 @case('App\Models\LinkCollection')
                     @include('link_collections.tarjeta', ['link_collection' => $recurso])
                     @break
+                @case('App\Models\Rubric')
+                    @livewire('rubric-component', ['actividad' => $actividad, 'rubric' => $recurso])
+                    @break
                 @case('App\Models\Selector')
                     @if(Auth::user()->hasAnyRole(['profesor', 'admin', 'tutor']))
                         @include('selectors.tarjeta', ['selector' => $recurso])

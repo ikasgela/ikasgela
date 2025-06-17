@@ -52,4 +52,13 @@ class Rubric extends Model
     {
         return $actividad->rubrics()->find($this->id)->pivot;
     }
+
+    public function getTotalAttribute()
+    {
+        $total = 0;
+        foreach ($this->criteria_groups as $criteria_group) {
+            $total += $criteria_group->total;
+        }
+        return $total;
+    }
 }

@@ -15,7 +15,7 @@ return new class extends Migration {
 
             $table->text('texto');
             $table->integer('puntuacion');
-            $table->ulid('orden');
+            $table->uuid('orden');
             $table->boolean('seleccionado')->default(false)->nullable();
 
             $table->foreignId('criteria_group_id')->constrained()->cascadeOnDelete();
