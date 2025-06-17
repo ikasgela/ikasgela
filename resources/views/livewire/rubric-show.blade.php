@@ -1,5 +1,5 @@
 <div>
-    @if(Auth::user()->hasAnyRole(['admin','profesor']) && Route::currentRouteName() == 'actividades.preview')
+    @if(Auth::user()->hasAnyRole(['admin','profesor']))
         <div class="mb-3">
             <button class="btn btn-secondary" wire:click="toggle_edit">
                 <i class="bi bi-pencil"></i>
@@ -40,10 +40,25 @@
                 </div>
                 @if($rubric_is_editing)
                     <div class="col-auto">
-                        <button class="btn btn-secondary"
-                                wire:click="add_criteria({{ $criteria_group->id }})">
-                            <i class="bi bi-plus-lg"></i>
-                        </button>
+                        <div class="btn-toolbar">
+                            <div class="btn-group-sm btn-group-vertical">
+                                <button class="btn btn-primary" wire:click="toggle_edit">
+                                    <i class="bi bi-arrow-up"></i>
+                                </button>
+                                <button class="btn btn-primary" wire:click="toggle_edit">
+                                    <i class="bi bi-arrow-down"></i>
+                                </button>
+                            </div>
+                            <div class="btn-group-sm btn-group-vertical ms-2">
+                                <button class="btn btn-danger" wire:click="toggle_edit">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                                <button class="btn btn-secondary"
+                                        wire:click="add_criteria({{ $criteria_group->id }})">
+                                    <i class="bi bi-plus-lg"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 @endif
                 <div class="col-auto mb-3">

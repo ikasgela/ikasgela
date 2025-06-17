@@ -30,22 +30,32 @@
             <div class="btn-group mb-3">
                 <button
                     wire:click="toggle_edit"
-                    class="btn {{ $criteria->seleccionado ? 'btn-primary' : 'btn-outline-primary' }} p-3">
+                    class="btn btn-primary p-3">
                     {{ $criteria->texto }}
                 </button>
                 <button
                     wire:click="toggle_edit"
-                    class="btn {{ $criteria->seleccionado ? 'btn-secondary' : 'btn-outline-secondary' }} p-3">
+                    class="btn btn-secondary p-3">
                     {{ $criteria->puntuacion }}
                 </button>
             </div>
-            <div class="btn-group-sm text-center">
-                <button class="btn btn-secondary" wire:click="toggle_edit">
-                    <i class="bi bi-pencil"></i>
-                </button>
-                <button class="btn btn-danger" wire:click="toggle_edit">
-                    <i class="bi bi-trash"></i>
-                </button>
+            <div class="btn-toolbar justify-content-center">
+                <div class="btn-group btn-group-sm">
+                    <button class="btn btn-primary" wire:click="toggle_edit">
+                        <i class="bi bi-arrow-left"></i>
+                    </button>
+                    <button class="btn btn-primary" wire:click="toggle_edit">
+                        <i class="bi bi-arrow-right"></i>
+                    </button>
+                </div>
+                <div class="btn-group btn-group-sm ms-2">
+                    <button class="btn btn-danger" wire:click="toggle_edit">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                    <button class="btn btn-secondary">
+                        <i class="bi bi-plus-lg"></i>
+                    </button>
+                </div>
             </div>
         @else
             <form wire:submit="save">
