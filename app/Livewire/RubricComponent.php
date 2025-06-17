@@ -48,6 +48,16 @@ class RubricComponent extends Component
         ]);
     }
 
+    public function add_criteria_group()
+    {
+        CriteriaGroup::create([
+            'titulo' => '',
+            'descripcion' => '',
+            'orden' => Str::orderedUuid(),
+            'rubric_id' => $this->rubric->id,
+        ]);
+    }
+
     public function toggle_edit()
     {
         $this->rubric_is_editing = !$this->rubric_is_editing;

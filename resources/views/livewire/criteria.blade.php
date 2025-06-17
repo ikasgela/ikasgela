@@ -45,9 +45,6 @@
                     <button class="btn btn-danger">
                         <i class="bi bi-trash"></i>
                     </button>
-                    <button class="btn btn-secondary">
-                        <i class="bi bi-plus-lg"></i>
-                    </button>
                 </div>
             </div>
         @else

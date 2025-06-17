@@ -46,6 +46,14 @@
                                 />
                             </div>
                         @endforeach
+                        @if($rubric_is_editing)
+                            <div class="col-auto align-content-center mb-3">
+                                <button class="btn btn-sm btn-secondary h-100"
+                                        wire:click="add_criteria({{ $criteria_group->id }})">
+                                    <i class="bi bi-plus-lg"></i>
+                                </button>
+                            </div>
+                        @endif
                     </div>
                 </div>
                 @if($rubric_is_editing)
@@ -62,10 +70,6 @@
                             <div class="btn-group-sm btn-group-vertical ms-2">
                                 <button class="btn btn-danger" wire:click="toggle_edit">
                                     <i class="bi bi-trash"></i>
-                                </button>
-                                <button class="btn btn-secondary"
-                                        wire:click="add_criteria({{ $criteria_group->id }})">
-                                    <i class="bi bi-plus-lg"></i>
                                 </button>
                             </div>
                             <div class="btn-group-sm btn-group-vertical ms-2">
@@ -88,6 +92,15 @@
                 <hr class="my-0">
             @endif
         @endforeach
+        @if($rubric_is_editing)
+            <hr class="my-0">
+            <div class="p-3 text-center">
+                <button class="btn btn-sm btn-secondary w-100"
+                        wire:click="add_criteria_group">
+                    <i class="bi bi-plus-lg"></i>
+                </button>
+            </div>
+        @endif
         <hr class="my-0">
         <div class="card-body">
             <div class="row">
