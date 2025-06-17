@@ -21,7 +21,7 @@
         </div>
         <hr class="my-0">
         @foreach($rubric->criteria_groups as $criteria_group)
-            <div class="card-body row pb-0">
+            <div class="card-body row pb-0" wire:key="criteria-group-{{ $criteria_group->id }}">
                 <div class="col-2">
                     @if($rubric_is_editing && $criteria_group->titulo == null)
                         <h5 class="card-title border border-1 text-muted px-2">{{ __('Title') }}</h5>
@@ -40,7 +40,7 @@
                             <div class="col-auto">
                                 <livewire:criteria-component
                                     :$criteria
-                                    :key="$criteria->id"
+                                    :key="'criteria-'.$criteria->id"
                                     :$rubric_is_editing
                                     :$rubric_is_qualifying
                                 />

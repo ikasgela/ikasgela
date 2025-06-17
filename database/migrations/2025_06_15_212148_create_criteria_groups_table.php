@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->foreignId('rubric_id')->constrained()->cascadeOnDelete();
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

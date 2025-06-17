@@ -6,6 +6,7 @@ use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @mixin IdeHelperCriteria
@@ -14,6 +15,7 @@ class Criteria extends Model
 {
     use HasFactory;
     use Cloneable;
+    use SoftDeletes;
 
     protected $clone_exempt_attributes = ['seleccionado'];
 
