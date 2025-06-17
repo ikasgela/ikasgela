@@ -23,8 +23,16 @@
         @foreach($rubric->criteria_groups as $criteria_group)
             <div class="card-body row pb-0">
                 <div class="col-2">
-                    <h5 class="card-title">{{ $criteria_group->titulo }}</h5>
-                    <p class="small">{{ $criteria_group->descripcion }}</p>
+                    @if($rubric_is_editing && $criteria_group->titulo == null)
+                        <h5 class="card-title border border-1 text-muted px-2">{{ __('Title') }}</h5>
+                    @else
+                        <h5 class="card-title">{{ $criteria_group->titulo }}</h5>
+                    @endif
+                    @if($rubric_is_editing && $criteria_group->descripcion == null)
+                        <p class="small border border-1 text-muted px-2">{{ __('Description') }}</p>
+                    @else
+                        <p class="small">{{ $criteria_group->descripcion }}</p>
+                    @endif
                 </div>
                 <div class="col">
                     <div class="row">
