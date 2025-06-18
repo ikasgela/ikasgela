@@ -30,19 +30,23 @@
                 </a>
             @elseif($titulo)
                 <a wire:click.prevent="toggle_edit_cabecera">
-                    <h5 class="card-title">{{ $rubric->titulo }}</h5>
+                    <h5 class="card-title">{{ $titulo }}</h5>
                 </a>
             @endif
-            @if($rubric_is_editing && $is_editing_cabecera)
-                <input type="text" class="form-control" wire:model="descripcion" wire:keydown.enter="save"
-                       placeholder="{{ __('Description') }}"/>
-            @elseif($rubric_is_editing && !$descripcion)
-                <a wire:click.prevent="toggle_edit_cabecera">
-                    <p class="small border border-1 text-muted px-2">{{ __('Description') }}</p>
-                </a>
+            @if($rubric_is_editing)
+                <div>
+                    @if($is_editing_cabecera)
+                        <input type="text" class="form-control" wire:model="descripcion" wire:keydown.enter="save"
+                               placeholder="{{ __('Description') }}"/>
+                    @elseif(!$descripcion)
+                        <a wire:click.prevent="toggle_edit_cabecera">
+                            <p class="small border border-1 text-muted px-2">{{ __('Description') }}</p>
+                        </a>
+                    @endif
+                </div>
             @elseif($descripcion)
                 <a wire:click.prevent="toggle_edit_cabecera">
-                    <p class="small">{{ $rubric->descripcion }}</p>
+                    <p class="small">{{ $descripcion }}</p>
                 </a>
             @endif
         </div>
