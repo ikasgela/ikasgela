@@ -96,8 +96,13 @@
                 <div class="col text-end">
                     <button
                         disabled
-                        class="btn opacity-100 btn-warning p-3" style="min-width: 4em;">
-                        {{ $rubric->total }}
+                        class="btn opacity-100 btn-warning p-3 me-2" style="min-width: 6em;">
+                        {{ formato_decimales($this->total / $this->max_total * 100) }}/100
+                    </button>
+                    <button
+                        disabled
+                        class="btn opacity-100 btn-secondary p-3" style="min-width: 6em;">
+                        {{ $this->total }}/{{ $this->max_total }}
                     </button>
                 </div>
             </div>

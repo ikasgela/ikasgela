@@ -70,10 +70,18 @@
         </div>
     @endif
     <div class="col-auto mb-3">
-        <button
-            disabled
-            class="btn opacity-100 btn-secondary p-3" style="min-width: 4em;">
-            {{ $criteria_group->total }}
-        </button>
+        @if($rubric_is_editing)
+            <button
+                disabled
+                class="btn opacity-100 btn-secondary p-3" style="min-width: 4em;">
+                {{ $this->max_total }}
+            </button>
+        @else
+            <button
+                disabled
+                class="btn opacity-100 btn-secondary p-3" style="min-width: 4em;">
+                {{ $this->total }}
+            </button>
+        @endif
     </div>
 </div>

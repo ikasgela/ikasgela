@@ -6,6 +6,8 @@ use App\Models\Actividad;
 use App\Models\CriteriaGroup;
 use App\Models\Rubric;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class RubricComponent extends Component
@@ -94,5 +96,30 @@ class RubricComponent extends Component
         $this->rubric->titulo = $this->titulo;
         $this->rubric->descripcion = $this->descripcion;
         $this->rubric->save();
+    }
+
+    #[Computed]
+    public function total()
+    {
+        $total = 0;
+        foreach ($this->rubric->criteria_groups as $criteria_group) {
+            $total += $criteria_group->criterias()->where('seleccionado', true)->sum('puntuacion');
+        }
+        return $total;
+    }
+
+    #[Computed]
+    public function max_total()
+    {
+        $total = 0;
+        foreach ($this->rubric->criteria_groups as $criteria_group) {
+            $total += $criteria_group->criterias()->max('puntuacion');
+        }
+        return $total;
+    }
+
+    #[On('hideModal')]
+    public function refresh()
+    {
     }
 }

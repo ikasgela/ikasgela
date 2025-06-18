@@ -6,6 +6,7 @@ use App\Models\Criteria;
 use App\Models\CriteriaGroup;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Reactive;
 use Livewire\Component;
 
@@ -64,6 +65,7 @@ class CriteriaGroupComponent extends Component
                 $other_criteria->save();
             }
         }
+        $this->dispatch('$parent.$refresh');
     }
 
     public function add_criteria($criteria_group_id)
@@ -126,5 +128,22 @@ class CriteriaGroupComponent extends Component
         $this->criteria_group->titulo = $this->titulo;
         $this->criteria_group->descripcion = $this->descripcion;
         $this->criteria_group->save();
+    }
+
+    #[Computed]
+    public function total()
+    {
+        return $this->criteria_group->criterias()->where('seleccionado', true)->sum('puntuacion');
+    }
+
+    #[Computed]
+    public function max_total()
+    {
+        return $this->criteria_group->criterias()->max('puntuacion') ?: 0;
+    }
+
+    #[On('hideModal')]
+    public function refresh()
+    {
     }
 }
