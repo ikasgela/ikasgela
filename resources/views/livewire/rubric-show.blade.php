@@ -58,10 +58,12 @@
                     <div class="col-auto">
                         <div class="btn-toolbar">
                             <div class="btn-group-sm btn-group-vertical">
-                                <button class="btn btn-primary" wire:click="toggle_edit">
+                                <button class="btn btn-primary"
+                                        wire:click="up_criteria_group({{ $criteria_group->id }})">
                                     <i class="bi bi-arrow-up"></i>
                                 </button>
-                                <button class="btn btn-primary" wire:click="toggle_edit">
+                                <button class="btn btn-primary"
+                                        wire:click="down_criteria_group({{ $criteria_group->id }})">
                                     <i class="bi bi-arrow-down"></i>
                                 </button>
                             </div>
