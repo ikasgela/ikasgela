@@ -1,14 +1,26 @@
 <div class="card-body row pb-0">
     <div class="col-2">
-        @if($rubric_is_editing && $criteria_group->titulo == null)
-            <h5 class="card-title border border-1 text-muted px-2">{{ __('Title') }}</h5>
+        @if($rubric_is_editing && $is_editing)
+            <input type="text" class="form-control" wire:model="titulo" wire:keydown.enter="save"/>
+        @elseif($rubric_is_editing && !$titulo)
+            <a wire:click="toggle_edit">
+                <h5 class="card-title border border-1 text-muted px-2">{{ __('Title') }}</h5>
+            </a>
         @else
-            <h5 class="card-title">{{ $criteria_group->titulo }}</h5>
+            <a wire:click="toggle_edit">
+                <h5 class="card-title">{{ $criteria_group->titulo }}</h5>
+            </a>
         @endif
-        @if($rubric_is_editing && $criteria_group->descripcion == null)
-            <p class="small border border-1 text-muted px-2">{{ __('Description') }}</p>
+        @if($rubric_is_editing && $is_editing)
+            <input type="text" class="form-control" wire:model="descripcion" wire:keydown.enter="save"/>
+        @elseif($rubric_is_editing && !$descripcion)
+            <a wire:click="toggle_edit">
+                <p class="small border border-1 text-muted px-2">{{ __('Description') }}</p>
+            </a>
         @else
-            <p class="small">{{ $criteria_group->descripcion }}</p>
+            <a wire:click="toggle_edit">
+                <p class="small">{{ $criteria_group->descripcion }}</p>
+            </a>
         @endif
     </div>
     <div class="col">

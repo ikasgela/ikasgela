@@ -19,6 +19,17 @@ class CriteriaGroupComponent extends Component
     #[Reactive]
     public $rubric_is_qualifying = false;
 
+    public $is_editing = false;
+
+    public $titulo;
+    public $descripcion;
+
+    public function mount()
+    {
+        $this->titulo = $this->criteria_group->titulo;
+        $this->descripcion = $this->criteria_group->descripcion;
+    }
+
     public function render()
     {
         return view('livewire.criteria-group-component');
@@ -102,5 +113,18 @@ class CriteriaGroupComponent extends Component
             $c1->save();
             $c2->save();
         }
+    }
+
+    public function toggle_edit()
+    {
+        $this->is_editing = !$this->is_editing;
+    }
+
+    public function save()
+    {
+        $this->is_editing = false;
+        $this->criteria_group->titulo = $this->titulo;
+        $this->criteria_group->descripcion = $this->descripcion;
+        $this->criteria_group->save();
     }
 }
