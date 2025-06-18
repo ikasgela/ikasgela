@@ -65,6 +65,10 @@ class CriteriaGroupComponent extends Component
                 $other_criteria->save();
             }
         }
+
+        $criteria_group->rubric->completada = true;
+        $criteria_group->rubric->save();
+
         $this->dispatch('hideModal');
         $this->dispatch('$parent.$refresh');
     }

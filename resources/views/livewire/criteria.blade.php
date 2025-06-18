@@ -53,17 +53,31 @@
         @else
             <div class="btn-toolbar justify-content-center">
                 <div class="btn-group">
-                    <button
-                        style="min-width: 6em; max-width: 12em; font-size: 80%;"
-                        disabled
-                        class="btn opacity-100 {{ $criteria->seleccionado ? 'btn-primary' : 'btn-outline-primary' }} p-3">
-                        {{ $criteria->texto }}
-                    </button>
-                    <button
-                        disabled
-                        class="btn opacity-100 {{ $criteria->seleccionado ? 'btn-secondary' : 'btn-outline-secondary' }} p-3">
-                        {{ $criteria->puntuacion }}
-                    </button>
+                    @if(!$this->is_rubric_completed)
+                        <button
+                            style="min-width: 6em; max-width: 12em; font-size: 80%;"
+                            disabled
+                            class="btn opacity-100 {{ !$rubric_is_qualifying ? 'btn-primary' : 'btn-outline-primary' }} p-3">
+                            {{ $criteria->texto }}
+                        </button>
+                        <button
+                            disabled
+                            class="btn opacity-100 {{ !$rubric_is_qualifying ? 'btn-secondary' : 'btn-outline-secondary' }} p-3">
+                            {{ $criteria->puntuacion }}
+                        </button>
+                    @else
+                        <button
+                            style="min-width: 6em; max-width: 12em; font-size: 80%;"
+                            disabled
+                            class="btn opacity-100 {{ $criteria->seleccionado ? 'btn-primary' : 'btn-outline-primary' }} p-3">
+                            {{ $criteria->texto }}
+                        </button>
+                        <button
+                            disabled
+                            class="btn opacity-100 {{ $criteria->seleccionado ? 'btn-secondary' : 'btn-outline-secondary' }} p-3">
+                            {{ $criteria->puntuacion }}
+                        </button>
+                    @endif
                 </div>
             </div>
         @endif

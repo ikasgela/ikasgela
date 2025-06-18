@@ -44,4 +44,11 @@ class CriteriaComponent extends Component
         $orden = $criteria->criteria_group?->criterias()->max('orden');
         return $criteria->orden == $orden;
     }
+
+    #[Computed]
+    public function is_rubric_completed()
+    {
+        $criteria = Criteria::find($this->criteria->id);
+        return $criteria->criteria_group?->rubric?->completada;
+    }
 }
