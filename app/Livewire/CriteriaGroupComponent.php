@@ -151,4 +151,11 @@ class CriteriaGroupComponent extends Component
     public function refresh()
     {
     }
+
+    #[Computed]
+    public function is_rubric_completed()
+    {
+        $criteria_group = CriteriaGroup::find($this->criteria_group->id);
+        return $criteria_group?->rubric?->completada;
+    }
 }

@@ -87,26 +87,31 @@
                 </button>
             </div>
         @endif
-        <hr class="my-0">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-2">
-                    <h5 class="card-title">{{ __('Total') }}</h5>
-                </div>
-                <div class="col text-end">
-                    <button
-                        disabled
-                        class="btn opacity-100 btn-warning p-3 me-2" style="min-width: 6em;">
-                        {{ $this->total > 0 ? formato_decimales($this->total / $this->max_total * 100) : 0 }}/100
-                    </button>
-                    <button
-                        disabled
-                        class="btn opacity-100 btn-secondary p-3" style="min-width: 6em;">
-                        {{ $this->total }}/{{ $this->max_total }}
-                    </button>
+        @if($rubric->completada || $rubric_is_editing)
+            <hr class="my-0">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-2">
+                        <h5 class="card-title">{{ __('Total') }}</h5>
+                    </div>
+                    <div class="col text-end">
+                        @if($rubric->completada)
+                            <button
+                                disabled
+                                class="btn opacity-100 btn-warning p-3 me-2" style="min-width: 6em;">
+                                {{ $this->total > 0 ? formato_decimales($this->total / $this->max_total * 100) : 0 }}
+                                /100
+                            </button>
+                        @endif
+                        <button
+                            disabled
+                            class="btn opacity-100 btn-secondary p-3" style="min-width: 6em;">
+                            {{ $rubric->completada ? $this->total . '/' : '' }}{{ $this->max_total }}
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif
     </div>
     @include('layouts.errors')
 </div>
