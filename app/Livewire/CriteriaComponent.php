@@ -33,7 +33,7 @@ class CriteriaComponent extends Component
     public function is_first_in_group()
     {
         $criteria = Criteria::find($this->criteria->id);
-        $orden = $criteria->criteria_group->criterias()->min('orden');
+        $orden = $criteria->criteria_group?->criterias()->min('orden');
         return $criteria->orden == $orden;
     }
 
@@ -41,7 +41,7 @@ class CriteriaComponent extends Component
     public function is_last_in_group()
     {
         $criteria = Criteria::find($this->criteria->id);
-        $orden = $criteria->criteria_group->criterias()->max('orden');
+        $orden = $criteria->criteria_group?->criterias()->max('orden');
         return $criteria->orden == $orden;
     }
 }
