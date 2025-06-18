@@ -5,6 +5,8 @@ namespace App\Jobs;
 use App\Models\Actividad;
 use App\Models\AllowedApp;
 use App\Models\AllowedUrl;
+use App\Models\Criteria;
+use App\Models\CriteriaGroup;
 use App\Models\Cuestionario;
 use App\Models\Curso;
 use App\Models\Feedback;
@@ -19,6 +21,7 @@ use App\Models\MarkdownText;
 use App\Models\Milestone;
 use App\Models\Pregunta;
 use App\Models\Qualification;
+use App\Models\Rubric;
 use App\Models\Rule;
 use App\Models\RuleGroup;
 use App\Models\SafeExam;
@@ -71,6 +74,7 @@ class ImportCurso implements ShouldQueue
             'link_collections', 'links',
             'safe_exams', 'allowed_apps', 'allowed_urls',
             'selectors', 'rule_groups', 'rules',
+            'rubrics', 'criteria_groups', 'criterias',
         ];
 
         // Añadir la columa __import_id a las tablas
@@ -519,6 +523,48 @@ class ImportCurso implements ShouldQueue
                     'columnas' => $objeto['columnas'],
                 ]);
             }
+        }
+
+
+        // Curso -- "*" Rubric
+        $json = $this->cargarFichero($ruta, 'rubrics.json');
+        foreach ($json as $objeto) {
+            Rubric::create(array_merge($objeto, [
+                'curso_id' => $curso->id,
+            ]));
+        }
+
+        // Rubric -- "*" CriteriaGroup
+        $json = $this->cargarFichero($ruta, 'criteria_groups.json');
+        foreach ($json as $objeto) {
+            $rubric = !is_null($objeto['rubric_id']) ? Rubric::where('__import_id', $objeto['rubric_id'])->first() : null;
+            CriteriaGroup::create(array_merge($objeto, [
+                'rubric_id' => $rubric?->id,
+                'orden' => Str::orderedUuid(),
+            ]));
+        }
+
+        // CriteriaGroup -- "*" Criteria
+        $json = $this->cargarFichero($ruta, 'criterias.json');
+        foreach ($json as $objeto) {
+            $criteria_group = !is_null($objeto['criteria_group_id']) ? CriteriaGroup::where('__import_id', $objeto['criteria_group_id'])->first() : null;
+            Criteria::create(array_merge($objeto, [
+                'criteria_group_id' => $criteria_group?->id,
+                'orden' => Str::orderedUuid(),
+            ]));
+        }
+
+        // Actividad "*" - "*" Rubric
+        $json = $this->cargarFichero($ruta, 'actividad_rubric.json');
+        foreach ($json as $objeto) {
+            $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
+            $rubric = !is_null($objeto['rubric_id']) ? Rubric::where('__import_id', $objeto['rubric_id'])->first() : null;
+            $actividad?->rubrics()->attach($rubric, [
+                'orden' => Str::orderedUuid(),
+                'titulo_visible' => $objeto['titulo_visible'],
+                'descripcion_visible' => $objeto['descripcion_visible'],
+                'columnas' => $objeto['columnas'],
+            ]);
         }
 
         // Quitar la columa __import_id de las tablas

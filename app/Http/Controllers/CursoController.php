@@ -244,6 +244,19 @@ class CursoController extends Controller
         // Milestone
         $this->exportarFicheroJSON($ruta, 'milestones.json', $curso->milestones()->orderBy('date')->get());
 
+        // Rubric
+        $rubrics = $curso->rubrics()->plantilla()->get();
+        $this->exportarFicheroJSON($ruta, 'rubrics.json', $rubrics);
+
+        // CriteriaGroup
+        $this->exportarFicheroJSON($ruta, 'criteria_groups.json', $curso->criteria_groups()->plantilla()->orderBy('orden')->get());
+
+        // Criteria
+        $this->exportarFicheroJSON($ruta, 'criterias.json', $curso->criterias()->plantilla()->orderBy('orden')->get());
+
+        // Actividad "*" -- "*" Rubric
+        $this->exportarRelacionJSON($ruta, $curso, 'rubric');
+
         $datos = new Collection();
         foreach ($curso->actividades()->get() as $actividad) {
             foreach ($actividad->feedbacks()->orderBy('orden')->get() as $feedback) {

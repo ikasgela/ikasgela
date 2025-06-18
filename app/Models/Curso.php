@@ -162,6 +162,21 @@ class Curso extends Model
         return $this->hasManyDeep(Item::class, [Cuestionario::class, Pregunta::class]);
     }
 
+    public function rubrics()
+    {
+        return $this->hasMany(Rubric::class);
+    }
+
+    public function criteria_groups()
+    {
+        return $this->hasManyThrough(CriteriaGroup::class, Rubric::class);
+    }
+
+    public function criterias()
+    {
+        return $this->hasManyDeep(Criteria::class, [Rubric::class, CriteriaGroup::class]);
+    }
+
     public function file_uploads()
     {
         return $this->hasMany(FileUpload::class);
