@@ -75,11 +75,6 @@
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>
-                            <div class="btn-group-sm btn-group-vertical ms-2">
-                                <button class="btn btn-secondary" wire:click="toggle_edit">
-                                    <i class="bi bi-power"></i>
-                                </button>
-                            </div>
                         </div>
                     </div>
                 @endif

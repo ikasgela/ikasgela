@@ -16,7 +16,6 @@ return new class extends Migration {
             $table->string('titulo')->nullable();
             $table->string('descripcion')->nullable();
             $table->uuid('orden');
-            $table->boolean('desactivado')->default(false)->nullable();
 
             $table->foreignId('rubric_id')->constrained()->cascadeOnDelete();
 
