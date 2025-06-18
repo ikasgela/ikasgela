@@ -20,20 +20,22 @@
                 @endif
             </div>
         </div>
-        <div class="card-body">
-            @if($rubric_is_editing && $is_editing_cabecera)
-                <input type="text" class="form-control" wire:model="titulo" wire:keydown.enter="save"
-                       placeholder="{{ __('Title') }}"/>
-            @elseif($rubric_is_editing && !$titulo)
-                <a wire:click.prevent="toggle_edit_cabecera">
-                    <h5 class="card-title border border-1 text-muted px-2">{{ __('Title') }}</h5>
-                </a>
-            @elseif($titulo)
-                <a wire:click.prevent="toggle_edit_cabecera">
-                    <h5 class="card-title">{{ $titulo }}</h5>
-                </a>
-            @endif
-            @if($rubric_is_editing)
+        @if($rubric_is_editing)
+            <div class="card-body">
+                <div>
+                    @if($is_editing_cabecera)
+                        <input type="text" class="form-control" wire:model="titulo" wire:keydown.enter="save"
+                               placeholder="{{ __('Title') }}"/>
+                    @elseif(!$titulo)
+                        <a wire:click.prevent="toggle_edit_cabecera">
+                            <h5 class="card-title border border-1 text-muted px-2">{{ __('Title') }}</h5>
+                        </a>
+                    @else
+                        <a wire:click.prevent="toggle_edit_cabecera">
+                            <h5 class="card-title">{{ $titulo }}</h5>
+                        </a>
+                    @endif
+                </div>
                 <div>
                     @if($is_editing_cabecera)
                         <input type="text" class="form-control" wire:model="descripcion" wire:keydown.enter="save"
@@ -42,15 +44,25 @@
                         <a wire:click.prevent="toggle_edit_cabecera">
                             <p class="small border border-1 text-muted px-2">{{ __('Description') }}</p>
                         </a>
+                    @else
+                        <a wire:click.prevent="toggle_edit_cabecera">
+                            <p class="small">{{ $descripcion }}</p>
+                        </a>
                     @endif
                 </div>
-            @elseif($descripcion)
+            </div>
+            <hr class="my-0">
+        @elseif($titulo || $descripcion)
+            <div class="card-body">
+                <a wire:click.prevent="toggle_edit_cabecera">
+                    <h5 class="card-title">{{ $titulo }}</h5>
+                </a>
                 <a wire:click.prevent="toggle_edit_cabecera">
                     <p class="small">{{ $descripcion }}</p>
                 </a>
-            @endif
-        </div>
-        <hr class="my-0">
+            </div>
+            <hr class="my-0">
+        @endif
         @foreach($rubric->criteria_groups as $criteria_group)
             <livewire:criteria-group-component
                 :$criteria_group
