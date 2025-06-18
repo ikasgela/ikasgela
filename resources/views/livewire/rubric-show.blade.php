@@ -3,12 +3,20 @@
         <div class="card-header d-flex justify-content-between">
             <div><i class="bi bi-ui-checks-grid me-2"></i>{{ __('Rubric') }}</div>
             <div>
-                @include('partials.modificar_recursos', ['ruta' => 'rubrics'])
-                @if(Auth::user()->hasAnyRole(['admin','profesor']) && !$rubric_is_qualifying)
-                    <a title="{{ __('Edit') }}"
-                       href="#"
-                       wire:click.prevent="toggle_edit"
-                       class='text-link-light'><i class="fas fa-edit"></i></a>
+                @if(!$rubric_is_qualifying)
+                    @if(Auth::user()->hasAnyRole(['admin','profesor']))
+                        @isset($actividad)
+                            <a title="{{ __('Edit resources') }}"
+                               href="{{ route('rubrics.actividad', [$actividad->id]) }}"
+                               class="text-link-light me-2">
+                                <i class="fas fa-list"></i>
+                            </a>
+                        @endisset
+                        <a title="{{ __('Edit') }}"
+                           href="#"
+                           wire:click.prevent="toggle_edit"
+                           class='text-link-light'><i class="fas fa-edit"></i></a>
+                    @endif
                 @endif
             </div>
         </div>
