@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use App\Models\Actividad;
-use App\Models\Criteria;
 use App\Models\CriteriaGroup;
 use App\Models\Rubric;
 use Illuminate\Support\Str;
@@ -16,42 +15,15 @@ class RubricComponent extends Component
     public $rubric_is_editing = false;
     public $rubric_is_qualifying = false;
 
+    public $is_editing_cabecera = false;
+    public $titulo;
+    public $descripcion;
+
     public function mount(Rubric $rubric)
     {
         $this->rubric = $rubric;
-    }
-
-    public function seleccionar($criteria_id)
-    {
-        $criteria = Criteria::findOrFail($criteria_id);
-        $criteria->seleccionado = !$criteria->seleccionado;
-        $criteria->save();
-
-        $criteria_group = $criteria->criteria_group;
-        foreach ($criteria_group->criterias as $other_criteria) {
-            if ($other_criteria->id != $criteria->id) {
-                $other_criteria->seleccionado = false;
-                $other_criteria->save();
-            }
-        }
-    }
-
-    public function add_criteria($criteria_group_id)
-    {
-        $criteria_group = CriteriaGroup::findOrFail($criteria_group_id);
-
-        Criteria::create([
-            'texto' => __('Write your criteria here'),
-            'puntuacion' => 0,
-            'orden' => Str::orderedUuid(),
-            'criteria_group_id' => $criteria_group->id,
-        ]);
-    }
-
-    public function delete_criteria($criteria_id)
-    {
-        $criteria = Criteria::findOrFail($criteria_id);
-        $criteria->delete();
+        $this->titulo = $rubric->titulo;
+        $this->descripcion = $rubric->descripcion;
     }
 
     public function add_criteria_group()
@@ -70,6 +42,37 @@ class RubricComponent extends Component
         $criteria_group->delete();
     }
 
+    public function up_criteria_group($criteria_group_id)
+    {
+        $c1 = CriteriaGroup::findOrFail($criteria_group_id);
+        $orden = $this->rubric->criteria_groups()->where('orden', '<', $c1->orden)->max('orden');
+        $c2 = CriteriaGroup::where('orden', $orden)->first();
+
+        if ($c2 != null) {
+            $temp = $c1->orden;
+            $c1->orden = $c2->orden;
+            $c2->orden = $temp;
+
+            $c1->save();
+            $c2->save();
+        }
+    }
+
+    public function down_criteria_group($criteria_group_id)
+    {
+        $c1 = CriteriaGroup::findOrFail($criteria_group_id);
+        $c2 = $this->rubric->criteria_groups()->where('orden', '>', $c1->orden)->first();
+
+        if ($c2 != null) {
+            $temp = $c1->orden;
+            $c1->orden = $c2->orden;
+            $c2->orden = $temp;
+
+            $c1->save();
+            $c2->save();
+        }
+    }
+
     public function toggle_edit()
     {
         $this->rubric_is_editing = !$this->rubric_is_editing;
@@ -78,5 +81,18 @@ class RubricComponent extends Component
     public function render()
     {
         return view('livewire.rubric-show');
+    }
+
+    public function toggle_edit_cabecera()
+    {
+        $this->is_editing_cabecera = !$this->is_editing_cabecera;
+    }
+
+    public function save()
+    {
+        $this->is_editing_cabecera = false;
+        $this->rubric->titulo = $this->titulo;
+        $this->rubric->descripcion = $this->descripcion;
+        $this->rubric->save();
     }
 }

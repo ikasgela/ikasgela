@@ -20,7 +20,7 @@ class CriteriaGroup extends Model
     protected $cloneable_relations = ['criterias'];
 
     protected $fillable = [
-        'titulo', 'descripcion', 'orden', 'desactivado',
+        'titulo', 'descripcion', 'orden',
         'rubric_id',
         '__import_id',
     ];
