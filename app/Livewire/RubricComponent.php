@@ -7,6 +7,7 @@ use App\Models\Criteria;
 use App\Models\CriteriaGroup;
 use App\Models\Rubric;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class RubricComponent extends Component
@@ -130,6 +131,22 @@ class RubricComponent extends Component
             $c1->save();
             $c2->save();
         }
+    }
+
+    #[Computed]
+    public function is_first_criteria_group($criteria_group_id)
+    {
+        $criteria_group = CriteriaGroup::findOrFail($criteria_group_id);
+        $orden = $this->rubric->criteria_groups()->min('orden');
+        return $criteria_group->orden == $orden;
+    }
+
+    #[Computed]
+    public function is_last_criteria_group($criteria_group_id)
+    {
+        $criteria_group = CriteriaGroup::findOrFail($criteria_group_id);
+        $orden = $this->rubric->criteria_groups()->max('orden');
+        return $criteria_group->orden == $orden;
     }
 
     public function toggle_edit()

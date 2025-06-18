@@ -58,12 +58,14 @@
                     <div class="col-auto">
                         <div class="btn-toolbar">
                             <div class="btn-group-sm btn-group-vertical">
-                                <button class="btn btn-primary"
-                                        wire:click="up_criteria_group({{ $criteria_group->id }})">
+                                <button
+                                    class="btn {{ !$this->is_first_criteria_group($criteria_group->id) ? 'btn-primary' : 'btn-light disabled' }}"
+                                    wire:click="up_criteria_group({{ $criteria_group->id }})">
                                     <i class="bi bi-arrow-up"></i>
                                 </button>
-                                <button class="btn btn-primary"
-                                        wire:click="down_criteria_group({{ $criteria_group->id }})">
+                                <button
+                                    class="btn {{ !$this->is_last_criteria_group($criteria_group->id) ? 'btn-primary' : 'btn-light disabled' }}"
+                                    wire:click="down_criteria_group({{ $criteria_group->id }})">
                                     <i class="bi bi-arrow-down"></i>
                                 </button>
                             </div>
