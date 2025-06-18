@@ -17,11 +17,11 @@
                 <input type="text" class="form-control" wire:model="titulo" wire:keydown.enter="save"
                        placeholder="{{ __('Title') }}"/>
             @elseif($rubric_is_editing && !$titulo)
-                <a wire:click="toggle_edit_cabecera">
+                <a wire:click.prevent="toggle_edit_cabecera">
                     <h5 class="card-title border border-1 text-muted px-2">{{ __('Title') }}</h5>
                 </a>
             @else
-                <a wire:click="toggle_edit_cabecera">
+                <a wire:click.prevent="toggle_edit_cabecera">
                     <h5 class="card-title">{{ $rubric->titulo }}</h5>
                 </a>
             @endif
@@ -29,11 +29,11 @@
                 <input type="text" class="form-control" wire:model="descripcion" wire:keydown.enter="save"
                        placeholder="{{ __('Description') }}"/>
             @elseif($rubric_is_editing && !$descripcion)
-                <a wire:click="toggle_edit_cabecera">
+                <a wire:click.prevent="toggle_edit_cabecera">
                     <p class="small border border-1 text-muted px-2">{{ __('Description') }}</p>
                 </a>
             @else
-                <a wire:click="toggle_edit_cabecera">
+                <a wire:click.prevent="toggle_edit_cabecera">
                     <p class="small">{{ $rubric->descripcion }}</p>
                 </a>
             @endif
