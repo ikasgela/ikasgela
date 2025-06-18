@@ -97,7 +97,7 @@
                     <button
                         disabled
                         class="btn opacity-100 btn-warning p-3 me-2" style="min-width: 6em;">
-                        {{ formato_decimales($this->total / $this->max_total * 100) }}/100
+                        {{ $this->total > 0 ? formato_decimales($this->total / $this->max_total * 100) : 0 }}/100
                     </button>
                     <button
                         disabled
