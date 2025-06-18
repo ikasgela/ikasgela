@@ -4,7 +4,7 @@
             <div class="btn-toolbar justify-content-center">
                 <div class="btn-group">
                     <button
-                        style="min-width: 6em; max-width: 12em; font-size: 80%;"
+                        style="min-width: 6em; max-width: 24em; font-size: 80%;"
                         wire:click="$parent.seleccionar({{ $criteria->id }})"
                         class="btn {{ $criteria->seleccionado ? 'btn-primary' : 'btn-outline-primary' }} p-3">
                         {{ $criteria->texto }}
@@ -20,7 +20,7 @@
             <div class="btn-toolbar justify-content-center">
                 <div class="btn-group mb-3">
                     <button
-                        style="min-width: 6em; max-width: 12em; font-size: 80%;"
+                        style="min-width: 6em; max-width: 24em; font-size: 80%;"
                         wire:click="$dispatch('showModal', {data: {'alias' : 'edit-criteria','params' :{'criteria_id': {{ $criteria->id }} }}})"
                         class="btn btn-primary p-3">
                         {{ $criteria->texto }}
@@ -55,7 +55,7 @@
                 <div class="btn-group">
                     @if(!$this->is_rubric_completed)
                         <button
-                            style="min-width: 6em; max-width: 12em; font-size: 80%;"
+                            style="min-width: 6em; max-width: 24em; font-size: 80%;"
                             disabled
                             class="btn opacity-100 {{ !$rubric_is_qualifying ? 'btn-primary' : 'btn-outline-primary' }} p-3">
                             {{ $criteria->texto }}
@@ -67,7 +67,7 @@
                         </button>
                     @else
                         <button
-                            style="min-width: 6em; max-width: 12em; font-size: 80%;"
+                            style="min-width: 6em; max-width: 24em; font-size: 80%;"
                             disabled
                             class="btn opacity-100 {{ $criteria->seleccionado ? 'btn-primary' : 'btn-outline-primary' }} p-3">
                             {{ $criteria->texto }}
