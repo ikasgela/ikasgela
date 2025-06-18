@@ -65,6 +65,7 @@ class CriteriaGroupComponent extends Component
                 $other_criteria->save();
             }
         }
+        $this->dispatch('hideModal');
         $this->dispatch('$parent.$refresh');
     }
 
