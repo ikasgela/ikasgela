@@ -25,8 +25,8 @@
             </a>
         @endif
     </div>
-    <div class="col">
-        <div class="row h-100">
+    <div class="col overflow-x-auto">
+        <div class="row h-100 flex-nowrap">
             @foreach($criteria_group->criterias as $criteria)
                 <livewire:criteria-component
                     :$criteria
