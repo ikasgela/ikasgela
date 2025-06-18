@@ -7,7 +7,7 @@
             <a wire:click.prevent="toggle_edit">
                 <h5 class="card-title border border-1 text-muted px-2">{{ __('Title') }}</h5>
             </a>
-        @else
+        @elseif($titulo)
             <a wire:click.prevent="toggle_edit">
                 <h5 class="card-title">{{ $criteria_group->titulo }}</h5>
             </a>
@@ -19,7 +19,7 @@
             <a wire:click.prevent="toggle_edit">
                 <p class="small border border-1 text-muted px-2">{{ __('Description') }}</p>
             </a>
-        @else
+        @elseif($descripcion)
             <a wire:click.prevent="toggle_edit">
                 <p class="small">{{ $criteria_group->descripcion }}</p>
             </a>

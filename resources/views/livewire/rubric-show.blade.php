@@ -28,7 +28,7 @@
                 <a wire:click.prevent="toggle_edit_cabecera">
                     <h5 class="card-title border border-1 text-muted px-2">{{ __('Title') }}</h5>
                 </a>
-            @else
+            @elseif($titulo)
                 <a wire:click.prevent="toggle_edit_cabecera">
                     <h5 class="card-title">{{ $rubric->titulo }}</h5>
                 </a>
@@ -40,7 +40,7 @@
                 <a wire:click.prevent="toggle_edit_cabecera">
                     <p class="small border border-1 text-muted px-2">{{ __('Description') }}</p>
                 </a>
-            @else
+            @elseif($descripcion)
                 <a wire:click.prevent="toggle_edit_cabecera">
                     <p class="small">{{ $rubric->descripcion }}</p>
                 </a>
