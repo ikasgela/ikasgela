@@ -26,7 +26,7 @@
         @endif
     </div>
     <div class="col">
-        <div class="row">
+        <div class="row h-100">
             @foreach($criteria_group->criterias as $criteria)
                 <livewire:criteria-component
                     :$criteria
