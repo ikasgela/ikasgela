@@ -21,7 +21,7 @@
             </a>
         @elseif($descripcion)
             <a wire:click.prevent="toggle_edit">
-                <p class="small">{{ $criteria_group->descripcion }}</p>
+                <span class="small">{{ $criteria_group->descripcion }}</span>
             </a>
         @endif
     </div>

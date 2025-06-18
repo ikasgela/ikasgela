@@ -22,7 +22,7 @@
                     <button
                         style="min-width: 6em; max-width: 12em; font-size: 80%;"
                         wire:click="$dispatch('showModal', {data: {'alias' : 'edit-criteria','params' :{'criteria_id': {{ $criteria->id }} }}})"
-                        class="btn btn-secondary p-3">
+                        class="btn btn-primary p-3">
                         {{ $criteria->texto }}
                     </button>
                     <button
