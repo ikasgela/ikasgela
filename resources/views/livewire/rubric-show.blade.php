@@ -1,18 +1,15 @@
 <div>
-    @if(Auth::user()->hasAnyRole(['admin','profesor']) && !$rubric_is_qualifying)
-        <div class="mb-3">
-            <button class="btn btn-secondary" wire:click="toggle_edit">
-                <i class="bi bi-pencil"></i>
-            </button>
-        </div>
-    @endif
-
     <div class="card mb-3">
         <div class="card-header d-flex justify-content-between">
             <div><i class="bi bi-ui-checks-grid me-2"></i>{{ __('Rubric') }}</div>
             <div>
                 @include('partials.modificar_recursos', ['ruta' => 'rubrics'])
-                @include('partials.editar_recurso', ['recurso' => $rubric, 'ruta' => 'rubrics'])
+                @if(Auth::user()->hasAnyRole(['admin','profesor']) && !$rubric_is_qualifying)
+                    <a title="{{ __('Edit') }}"
+                       href="#"
+                       wire:click.prevent="toggle_edit"
+                       class='text-link-light'><i class="fas fa-edit"></i></a>
+                @endif
             </div>
         </div>
         <div class="card-body">
