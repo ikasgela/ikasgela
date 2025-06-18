@@ -15,9 +15,15 @@ class RubricComponent extends Component
     public $rubric_is_editing = false;
     public $rubric_is_qualifying = false;
 
+    public $is_editing_cabecera = false;
+    public $titulo;
+    public $descripcion;
+
     public function mount(Rubric $rubric)
     {
         $this->rubric = $rubric;
+        $this->titulo = $rubric->titulo;
+        $this->descripcion = $rubric->descripcion;
     }
 
     public function add_criteria_group()
@@ -75,5 +81,18 @@ class RubricComponent extends Component
     public function render()
     {
         return view('livewire.rubric-show');
+    }
+
+    public function toggle_edit_cabecera()
+    {
+        $this->is_editing_cabecera = !$this->is_editing_cabecera;
+    }
+
+    public function save()
+    {
+        $this->is_editing_cabecera = false;
+        $this->rubric->titulo = $this->titulo;
+        $this->rubric->descripcion = $this->descripcion;
+        $this->rubric->save();
     }
 }
