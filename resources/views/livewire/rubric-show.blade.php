@@ -21,8 +21,8 @@
             </div>
         </div>
         @if($rubric_is_editing)
-            <div class="card-body">
-                <div>
+            <div class="card-body pb-0">
+                <div class="mb-2">
                     @if($is_editing_cabecera)
                         <input type="text" class="form-control" wire:model="titulo" wire:keydown.enter="save"
                                placeholder="{{ __('Title') }}"/>
@@ -36,17 +36,17 @@
                         </a>
                     @endif
                 </div>
-                <div>
+                <div class="mb-3">
                     @if($is_editing_cabecera)
                         <input type="text" class="form-control" wire:model="descripcion" wire:keydown.enter="save"
                                placeholder="{{ __('Description') }}"/>
                     @elseif(!$descripcion)
                         <a wire:click.prevent="toggle_edit_cabecera">
-                            <p class="small border border-1 text-muted px-2">{{ __('Description') }}</p>
+                            <p class="card-text border border-1 text-muted px-2">{{ __('Description') }}</p>
                         </a>
                     @else
                         <a wire:click.prevent="toggle_edit_cabecera">
-                            <p class="small">{{ $descripcion }}</p>
+                            <p class="card-text">{{ $descripcion }}</p>
                         </a>
                     @endif
                 </div>
@@ -54,12 +54,16 @@
             <hr class="my-0">
         @elseif($titulo || $descripcion)
             <div class="card-body">
-                <a wire:click.prevent="toggle_edit_cabecera">
-                    <h5 class="card-title">{{ $titulo }}</h5>
-                </a>
-                <a wire:click.prevent="toggle_edit_cabecera">
-                    <p class="small">{{ $descripcion }}</p>
-                </a>
+                @if($titulo)
+                    <a wire:click.prevent="toggle_edit_cabecera">
+                        <h5 class="card-title">{{ $titulo }}</h5>
+                    </a>
+                @endif
+                @if($descripcion)
+                    <a wire:click.prevent="toggle_edit_cabecera">
+                        <p class="card-text">{{ $descripcion }}</p>
+                    </a>
+                @endif
             </div>
             <hr class="my-0">
         @endif
