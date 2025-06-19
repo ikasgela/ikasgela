@@ -641,17 +641,27 @@ class ImportCurso implements ShouldQueue
         return $json;
     }
 
-    private function importarRepositorio(string $ruta, string $directorio, string $repositorio, string $organizacion, string $rama = 'master')
+    private function importarRepositorio(string $ruta, string $directorio, string $repositorio, string $organizacion)
     {
         $path = $ruta . $directorio;
 
-        $result = Process::path($path)
-            ->run('git push -f --set-upstream http://root:' . config('gitea.token') . '@gitea:3000/'
-                . $organizacion . '/' . $repositorio . '.git ' . $rama);
+        try {
+            $rama = Process::path($path)
+                ->run('git rev-parse --abbrev-ref HEAD')->output();
 
-        if ($result->failed()) {
+            $result = Process::path($path)
+                ->run('git push -f --set-upstream http://root:' . config('gitea.token') . '@gitea:3000/'
+                    . $organizacion . '/' . $repositorio . '.git ' . $rama);
+
+            if ($result->failed()) {
+                Log::error('Error al crear el repositorio.', [
+                    'exception' => $result->errorOutput(),
+                    'repositorio' => $organizacion . '/' . $repositorio,
+                ]);
+            }
+        } catch (Exception $e) {
             Log::error('Error al crear el repositorio.', [
-                'exception' => $result->output(),
+                'exception' => $e->getMessage(),
             ]);
         }
     }
