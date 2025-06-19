@@ -81,8 +81,8 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
-            'throw' => env('AWS_S3_DEBUG'),
-            'report' => env('AWS_S3_DEBUG'),
+            'throw' => env('AWS_S3_DEBUG', false),
+            'report' => env('AWS_S3_DEBUG', false),
         ],
 
         's3-urls' => [
@@ -94,8 +94,8 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_EXTERNAL_URL'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
-            'throw' => env('AWS_S3_DEBUG'),
-            'report' => env('AWS_S3_DEBUG'),
+            'throw' => env('AWS_S3_DEBUG', false),
+            'report' => env('AWS_S3_DEBUG', false),
         ],
     ],
 
