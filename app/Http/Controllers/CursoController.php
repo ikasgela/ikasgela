@@ -438,7 +438,7 @@ class CursoController extends Controller
 
         if (!$response->successful()) {
             Log::error('Error al descargar repositorios mediante Git.', [
-                'output' => $response->output()
+                'output' => $response->errorOutput()
             ]);
         } else {
             Process::path($path . '/' . $repositorio['owner'] . '@' . $repositorio['name'])
