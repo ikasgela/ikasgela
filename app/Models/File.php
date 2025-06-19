@@ -25,12 +25,12 @@ class File extends Model
 
     public function getUrlAttribute()
     {
-        return Storage::disk('s3')->temporaryUrl($this->path, now()->addDays(2));
+        return Storage::disk('s3-urls')->temporaryUrl($this->path, now()->addDays(2));
     }
 
     public function imageUrl($path = '')
     {
-        return Storage::disk('s3')->temporaryUrl($path . '/' . $this->path, now()->addDays(2));
+        return Storage::disk('s3-urls')->temporaryUrl($path . '/' . $this->path, now()->addDays(2));
     }
 
     public function getUploadedTimeAttribute()

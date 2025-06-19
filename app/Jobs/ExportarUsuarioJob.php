@@ -278,7 +278,7 @@ class ExportarUsuarioJob implements ShouldQueue
 
             // Obtener la URL temporal del fichero
             $fecha_caducidad = now()->addHours(24);
-            $url = Storage::disk('s3')->temporaryUrl('exports/' . $nombre_fichero, $fecha_caducidad);
+            $url = Storage::disk('s3-urls')->temporaryUrl('exports/' . $nombre_fichero, $fecha_caducidad);
 
             // Enviar el email con el enlace al fichero de S3
             Mail::to($this->user)->queue(new ExportCompletado($url));
