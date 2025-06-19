@@ -35,7 +35,6 @@
                     <td class="text-nowrap">
                         <div class='btn-group'>
                             @include('partials.boton_mostrar', ['ruta' => 'rubrics', 'recurso' => $rubric])
-                            @include('partials.boton_editar', ['ruta' => 'rubrics', 'recurso' => $rubric])
                             @include('partials.boton_duplicar', ['ruta' => 'rubrics.duplicar', 'id' => $rubric->id, 'middle' => true])
                             {{ html()->form('DELETE', route('rubrics.destroy', $rubric->id))->open() }}
                             @include('partials.boton_borrar', ['last' => true])

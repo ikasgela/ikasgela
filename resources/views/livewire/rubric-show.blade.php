@@ -2,8 +2,8 @@
     <div class="card mb-3">
         <div class="card-header d-flex justify-content-between">
             <div><i class="bi bi-ui-checks-grid me-2"></i>{{ __('Rubric') }}</div>
-            <div>
-                @if(Auth::user()->hasAnyRole(['admin','profesor']))
+            @if(Auth::user()->hasAnyRole(['admin','profesor']))
+                <div>
                     @if(!$rubric_is_qualifying)
                         @isset($actividad)
                             <a title="{{ __('Edit resources') }}"
@@ -13,12 +13,18 @@
                             </a>
                         @endisset
                     @endif
-                    <a title="{{ __('Edit') }}"
-                       href="#"
-                       wire:click.prevent="toggle_edit"
-                       class='text-link-light'><i class="fas fa-edit"></i></a>
-                @endif
-            </div>
+                    @if($rubric_is_qualifying)
+                        <a title="{{ __('Show') }}"
+                           href="{{ route('rubrics.show', [$rubric->id]) }}"
+                           class='text-link-light'><i class="fas fa-eye"></i></a>
+                    @else
+                        <a title="{{ __('Edit') }}"
+                           href="#"
+                           wire:click.prevent="toggle_edit"
+                           class='text-link-light'><i class="fas fa-edit"></i></a>
+                    @endif
+                </div>
+            @endif
         </div>
         @if($rubric_is_editing)
             <div class="card-body pb-0">
