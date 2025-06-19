@@ -135,7 +135,7 @@ class ImportCurso implements ShouldQueue
             $skill = Skill::where('__import_id', $objeto['skill_id'])->first();
             $qualification?->skills()->attach($skill, [
                 'percentage' => $objeto['percentage'],
-                'orden' => Str::orderedUuid(),
+                'orden' => $objeto['orden'],
             ]);
         }
 
@@ -213,7 +213,7 @@ class ImportCurso implements ShouldQueue
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $intellij_project = !is_null($objeto['intellij_project_id']) ? IntellijProject::where('__import_id', $objeto['intellij_project_id'])->first() : null;
             $actividad?->intellij_projects()->attach($intellij_project, [
-                'orden' => Str::orderedUuid(),
+                'orden' => $objeto['orden'],
                 'titulo_visible' => $objeto['titulo_visible'],
                 'descripcion_visible' => $objeto['descripcion_visible'],
                 'columnas' => $objeto['columnas'],
@@ -249,7 +249,7 @@ class ImportCurso implements ShouldQueue
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $markdown_text = !is_null($objeto['markdown_text_id']) ? MarkdownText::where('__import_id', $objeto['markdown_text_id'])->first() : null;
             $actividad?->markdown_texts()->attach($markdown_text, [
-                'orden' => Str::orderedUuid(),
+                'orden' => $objeto['orden'],
                 'titulo_visible' => $objeto['titulo_visible'],
                 'descripcion_visible' => $objeto['descripcion_visible'],
                 'columnas' => $objeto['columnas'],
@@ -270,7 +270,7 @@ class ImportCurso implements ShouldQueue
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $youtube_video = !is_null($objeto['youtube_video_id']) ? YoutubeVideo::where('__import_id', $objeto['youtube_video_id'])->first() : null;
             $actividad?->youtube_videos()->attach($youtube_video, [
-                'orden' => Str::orderedUuid(),
+                'orden' => $objeto['orden'],
                 'titulo_visible' => $objeto['titulo_visible'],
                 'descripcion_visible' => $objeto['descripcion_visible'],
                 'columnas' => $objeto['columnas'],
@@ -291,7 +291,7 @@ class ImportCurso implements ShouldQueue
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $file_resource = !is_null($objeto['file_resource_id']) ? FileResource::where('__import_id', $objeto['file_resource_id'])->first() : null;
             $actividad?->file_resources()->attach($file_resource, [
-                'orden' => Str::orderedUuid(),
+                'orden' => $objeto['orden'],
                 'titulo_visible' => $objeto['titulo_visible'],
                 'descripcion_visible' => $objeto['descripcion_visible'],
                 'columnas' => $objeto['columnas'],
@@ -343,7 +343,7 @@ class ImportCurso implements ShouldQueue
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $link_collection = !is_null($objeto['link_collection_id']) ? LinkCollection::where('__import_id', $objeto['link_collection_id'])->first() : null;
             $actividad?->link_collections()->attach($link_collection, [
-                'orden' => Str::orderedUuid(),
+                'orden' => $objeto['orden'],
                 'titulo_visible' => $objeto['titulo_visible'],
                 'descripcion_visible' => $objeto['descripcion_visible'],
                 'columnas' => $objeto['columnas'],
@@ -375,7 +375,7 @@ class ImportCurso implements ShouldQueue
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $file_upload = !is_null($objeto['file_upload_id']) ? FileUpload::where('__import_id', $objeto['file_upload_id'])->first() : null;
             $actividad?->file_uploads()->attach($file_upload, [
-                'orden' => Str::orderedUuid(),
+                'orden' => $objeto['orden'],
                 'titulo_visible' => $objeto['titulo_visible'],
                 'descripcion_visible' => $objeto['descripcion_visible'],
                 'columnas' => $objeto['columnas'],
@@ -418,7 +418,7 @@ class ImportCurso implements ShouldQueue
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $cuestionario = !is_null($objeto['cuestionario_id']) ? Cuestionario::where('__import_id', $objeto['cuestionario_id'])->first() : null;
             $actividad?->cuestionarios()->attach($cuestionario, [
-                'orden' => Str::orderedUuid(),
+                'orden' => $objeto['orden'],
                 'titulo_visible' => $objeto['titulo_visible'],
                 'descripcion_visible' => $objeto['descripcion_visible'],
                 'columnas' => $objeto['columnas'],
@@ -517,7 +517,7 @@ class ImportCurso implements ShouldQueue
                 $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
                 $selector = !is_null($objeto['selector_id']) ? Selector::where('__import_id', $objeto['selector_id'])->first() : null;
                 $actividad?->selectors()->attach($selector, [
-                    'orden' => Str::orderedUuid(),
+                    'orden' => $objeto['orden'],
                     'titulo_visible' => $objeto['titulo_visible'],
                     'descripcion_visible' => $objeto['descripcion_visible'],
                     'columnas' => $objeto['columnas'],
@@ -540,7 +540,7 @@ class ImportCurso implements ShouldQueue
             $rubric = !is_null($objeto['rubric_id']) ? Rubric::where('__import_id', $objeto['rubric_id'])->first() : null;
             CriteriaGroup::create(array_merge($objeto, [
                 'rubric_id' => $rubric?->id,
-                'orden' => Str::orderedUuid(),
+                'orden' => $objeto['orden'],
             ]));
         }
 
@@ -550,7 +550,7 @@ class ImportCurso implements ShouldQueue
             $criteria_group = !is_null($objeto['criteria_group_id']) ? CriteriaGroup::where('__import_id', $objeto['criteria_group_id'])->first() : null;
             Criteria::create(array_merge($objeto, [
                 'criteria_group_id' => $criteria_group?->id,
-                'orden' => Str::orderedUuid(),
+                'orden' => $objeto['orden'],
             ]));
         }
 
@@ -560,7 +560,7 @@ class ImportCurso implements ShouldQueue
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $rubric = !is_null($objeto['rubric_id']) ? Rubric::where('__import_id', $objeto['rubric_id'])->first() : null;
             $actividad?->rubrics()->attach($rubric, [
-                'orden' => Str::orderedUuid(),
+                'orden' => $objeto['orden'],
                 'titulo_visible' => $objeto['titulo_visible'],
                 'descripcion_visible' => $objeto['descripcion_visible'],
                 'columnas' => $objeto['columnas'],
