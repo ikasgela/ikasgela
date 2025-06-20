@@ -56,20 +56,8 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        switch (subdominio()) {
-            case 'egibide':
-                $dominios = 'egibide.org,ikasle.egibide.org';
-                $validator = 'allowed_domains';
-                break;
-            case 'deusto':
-                $dominios = 'deusto.es,opendeusto.es';
-                $validator = 'allowed_domains';
-                break;
-            default:
-                $dominios = 'egibide.org,ikasle.egibide.org,deusto.es,opendeusto.es';
-                $validator = 'forbidden_domains';
-                break;
-        }
+        $dominios = 'ikasgela.com,egibide.org,ikasle.egibide.org,deusto.es,opendeusto.es';
+        $validator = 'allowed_domains';
 
         if (config('app.debug'))
             return Validator::make($data, [
