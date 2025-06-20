@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\Etiquetas;
+use App\Traits\SerializarFechas;
 use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,6 +24,7 @@ class Actividad extends Model
     use LogsActivity;
     use SoftDeletes;
     use Etiquetas;
+    use SerializarFechas;
 
     protected $cloneable_relations = [
         'intellij_projects',

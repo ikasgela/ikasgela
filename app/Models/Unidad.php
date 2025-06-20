@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\Etiquetas;
+use App\Traits\SerializarFechas;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +15,7 @@ class Unidad extends Model
 {
     use HasFactory;
     use Etiquetas;
+    use SerializarFechas;
 
     protected $table = 'unidades';
 
