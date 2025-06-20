@@ -40,24 +40,8 @@ class LoginController extends Controller
 
     protected function validateLogin(Request $request)
     {
-        switch (subdominio()) {
-            case 'egibide':
-                $dominios = 'egibide.org,ikasle.egibide.org';
-                $validator = 'allowed_domains';
-                break;
-            case 'deusto':
-                $dominios = 'deusto.es,opendeusto.es';
-                $validator = 'allowed_domains';
-                break;
-            case 'backend':
-                $dominios = 'ikasle.egibide.org,opendeusto.es';
-                $validator = 'forbidden_domains';
-                break;
-            default:
-                $dominios = 'egibide.org,ikasle.egibide.org,deusto.es,opendeusto.es';
-                $validator = 'forbidden_domains';
-                break;
-        }
+        $dominios = 'ikasgela.com,egibide.org,ikasle.egibide.org,deusto.es,opendeusto.es';
+        $validator = 'allowed_domains';
 
         $request->validate([
             $this->username() => "required|string|email|$validator:$dominios",
