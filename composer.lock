@@ -2680,16 +2680,16 @@
         },
         {
             "name": "ikasgela/laravel-gitea",
-            "version": "1.0.11",
+            "version": "1.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ikasgela/laravel-gitea.git",
-                "reference": "68c87dda565476c498016cad3c476a271cda90d4"
+                "reference": "61a4185d2c61d993be71bf147a6612d4abccbf7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ikasgela/laravel-gitea/zipball/68c87dda565476c498016cad3c476a271cda90d4",
-                "reference": "68c87dda565476c498016cad3c476a271cda90d4",
+                "url": "https://api.github.com/repos/ikasgela/laravel-gitea/zipball/61a4185d2c61d993be71bf147a6612d4abccbf7c",
+                "reference": "61a4185d2c61d993be71bf147a6612d4abccbf7c",
                 "shasum": ""
             },
             "require": {
@@ -2730,7 +2730,7 @@
             ],
             "support": {
                 "issues": "https://github.com/ikasgela/laravel-gitea/issues",
-                "source": "https://github.com/ikasgela/laravel-gitea/tree/1.0.11"
+                "source": "https://github.com/ikasgela/laravel-gitea/tree/1.0.12"
             },
             "funding": [
                 {
@@ -2738,7 +2738,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-07-06T15:51:55+00:00"
+            "time": "2025-06-21T10:45:43+00:00"
         },
         {
             "name": "intervention/gif",
