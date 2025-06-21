@@ -70,7 +70,7 @@
     </table>
 </div>
 
-{{ html()->form('POST', route('users.acciones_grupo', ['id' => 'asignar']))->open() }}
+{{ html()->form('POST', route('users.acciones_grupo'))->id('asignar')->open() }}
 <div class="row row-cols-lg-auto g-3 align-items-center mb-3">
     <div class="col-12">
         <button title="{{ __('Enroll') }}"
