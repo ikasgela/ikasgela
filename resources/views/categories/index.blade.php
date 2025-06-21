@@ -29,15 +29,14 @@
                     <td>{{ $category->name }}</td>
                     <td>{{ $category->slug }}</td>
                     <td>
+                        {{ html()->form('DELETE', route('categories.destroy', $category->id))->open() }}
                         <div class='btn-group'>
                             <a title="{{ __('Edit') }}"
                                href="{{ route('categories.edit', [$category->id]) }}"
                                class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
-
-                            {{ html()->form('DELETE', route('categories.destroy', $category->id))->open() }}
                             @include('partials.boton_borrar')
-                            {{ html()->form()->close() }}
                         </div>
+                        {{ html()->form()->close() }}
                     </td>
                     <td>
                         {{ html()->form('POST', route('cursos.import'))->acceptsFiles()->open() }}
