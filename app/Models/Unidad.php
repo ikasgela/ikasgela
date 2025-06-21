@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Traits\Etiquetas;
-use App\Traits\SerializarFechas;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +14,6 @@ class Unidad extends Model
 {
     use HasFactory;
     use Etiquetas;
-    use SerializarFechas;
 
     protected $table = 'unidades';
 
@@ -92,7 +90,9 @@ class Unidad extends Model
     protected function casts(): array
     {
         return [
-            'fecha_disponibilidad' => 'datetime', 'fecha_entrega' => 'datetime', 'fecha_limite' => 'datetime',
+            'fecha_disponibilidad' => 'datetime:Y-m-d H:i:s',
+            'fecha_entrega' => 'datetime:Y-m-d H:i:s',
+            'fecha_limite' => 'datetime:Y-m-d H:i:s',
         ];
     }
 }

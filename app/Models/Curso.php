@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Traits\Etiquetas;
-use App\Traits\SerializarFechas;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,7 +18,6 @@ class Curso extends Model
     use HasFactory;
     use Etiquetas;
     use HasRelationships;
-    use SerializarFechas;
 
     protected $fillable = [
         'category_id', 'nombre', 'descripcion', 'slug', 'qualification_id', 'max_simultaneas',
@@ -302,7 +300,8 @@ class Curso extends Model
     protected function casts(): array
     {
         return [
-            'fecha_inicio' => 'datetime', 'fecha_fin' => 'datetime',
+            'fecha_inicio' => 'datetime:Y-m-d H:i:s',
+            'fecha_fin' => 'datetime:Y-m-d H:i:s',
         ];
     }
 }
