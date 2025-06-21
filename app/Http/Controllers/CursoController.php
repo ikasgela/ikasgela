@@ -13,6 +13,7 @@ use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File as SystemFile;
 use Illuminate\Support\Facades\Log;
@@ -35,7 +36,9 @@ class CursoController extends Controller
     {
         $cursos = Curso::all();
 
-        return view('cursos.index', compact('cursos'));
+        $usuario = Auth::user();
+
+        return view('cursos.index', compact(['cursos', 'usuario']));
     }
 
     public function create()

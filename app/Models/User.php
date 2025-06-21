@@ -870,4 +870,10 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             'last_active' => 'datetime',
         ];
     }
+
+    public function isMatriculado(Curso $curso)
+    {
+        $matricula = $this->cursos()->pluck('curso_id')->toArray();
+        return in_array($curso->id, $matricula);
+    }
 }
