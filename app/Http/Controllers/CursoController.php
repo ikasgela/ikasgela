@@ -299,7 +299,12 @@ class CursoController extends Controller
 
     private function exportarFicheroJSON(string $ruta, string $fichero, $datos): void
     {
-        SystemFile::put($ruta . $fichero, $datos->toJson(JSON_PRETTY_PRINT));
+        $ok = SystemFile::put($ruta . $fichero, $datos->toJson(JSON_PRETTY_PRINT));
+        if ($ok) {
+            SystemFile::append($ruta . "log.txt", $fichero . ': ' . $datos->count() . PHP_EOL);
+        } else {
+            SystemFile::append($ruta . "log.txt", $fichero . ': ERROR' . PHP_EOL);
+        }
     }
 
     public function import(StoreFile $request)
