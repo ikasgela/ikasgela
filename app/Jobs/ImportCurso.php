@@ -157,6 +157,7 @@ class ImportCurso implements ShouldQueue
 
         Schema::disableForeignKeyConstraints();
 
+        $total = 0;
         $json = $this->cargarFichero($ruta, 'actividades.json');
         foreach ($json as $objeto) {
             $unidad = !is_null($objeto['unidad_id']) ? Unidad::where('__import_id', $objeto['unidad_id'])->first() : null;
@@ -167,7 +168,9 @@ class ImportCurso implements ShouldQueue
             ]));
             $actividad->orden = $actividad->id;
             $actividad->save();
+            $total += 1;
         }
+        Log::info("Elementos importados.", ['actividades' => $total]);
 
         // Actividad --> Actividad: siguiente
         $actividades = Actividad::whereNotNull('__import_id')->get();
@@ -185,6 +188,7 @@ class ImportCurso implements ShouldQueue
         $curso->save();
 
         // Curso -- "*" IntellijProject
+        $total = 0;
         $json = $this->cargarFichero($ruta, 'intellij_projects.json');
         foreach ($json as $key => $objeto) {
             $nombre_repositorio = Str::replaceMatches(
@@ -204,8 +208,12 @@ class ImportCurso implements ShouldQueue
 
             $nombre_exportacion = Str::replace('/', '@', $objeto['repositorio']);
 
-            $this->importarRepositorio($ruta . '/repositorios/', $nombre_exportacion, $nombre_repositorio, $slug_curso);
+            $ok = $this->importarRepositorio($ruta . '/repositorios/', $nombre_exportacion, $nombre_repositorio, $slug_curso);
+            if ($ok) {
+                $total += 1;
+            }
         }
+        Log::info("Elementos importados.", ['intellij_projects' => $total]);
 
         // Actividad "*" - "*" IntellijProject
         $json = $this->cargarFichero($ruta, 'actividad_intellij_project.json');
@@ -221,6 +229,7 @@ class ImportCurso implements ShouldQueue
         }
 
         // Curso -- "*" MarkdownText
+        $total = 0;
         $json = $this->cargarFichero($ruta, 'markdown_texts.json');
         foreach ($json as $key => $objeto) {
             $nombre_repositorio = Str::replaceMatches(
@@ -240,8 +249,12 @@ class ImportCurso implements ShouldQueue
 
             $nombre_exportacion = Str::replace('/', '@', $objeto['repositorio']);
 
-            $this->importarRepositorio($ruta . '/markdown/', $nombre_exportacion, $nombre_repositorio, $slug_curso);
+            $ok = $this->importarRepositorio($ruta . '/markdown/', $nombre_exportacion, $nombre_repositorio, $slug_curso);
+            if ($ok) {
+                $total += 1;
+            }
         }
+        Log::info("Elementos importados.", ['markdown_texts' => $total]);
 
         // Actividad "*" - "*" MarkdownText
         $json = $this->cargarFichero($ruta, 'actividad_markdown_text.json');
@@ -299,6 +312,7 @@ class ImportCurso implements ShouldQueue
         }
 
         // FileResource -- "*" File
+        $total = 0;
         $json = $this->cargarFichero($ruta, 'file_resources_files.json');
         foreach ($json as $objeto) {
             $file_resource = !is_null($objeto['uploadable_id']) ? FileResource::where('__import_id', $objeto['uploadable_id'])->first() : null;
@@ -313,6 +327,7 @@ class ImportCurso implements ShouldQueue
 
             try {
                 Storage::disk('s3')->put('documents/' . $filename, file_get_contents($ruta . '/file_resources/' . $objeto['path']));
+                $total += 1;
             } catch (Exception $e) {
                 Log::error('Error al crear el archivo.', [
                     'exception' => $e->getMessage(),
@@ -328,6 +343,7 @@ class ImportCurso implements ShouldQueue
             $file->orden = $file->id;
             $file->save();
         }
+        Log::info("Elementos importados.", ['file_resources_files' => $total]);
 
         // Curso -- "*" LinkCollection
         $json = $this->cargarFichero($ruta, 'link_collections.json');
@@ -659,10 +675,12 @@ class ImportCurso implements ShouldQueue
                     'repositorio' => $organizacion . '/' . $repositorio,
                 ]);
             }
+            return true;
         } catch (Exception $e) {
             Log::error('Error al crear el repositorio.', [
                 'exception' => $e->getMessage(),
             ]);
+            return false;
         }
     }
 }
