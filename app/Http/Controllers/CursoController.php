@@ -301,7 +301,7 @@ class CursoController extends Controller
     {
         $ok = SystemFile::put($ruta . $fichero, $datos->toJson(JSON_PRETTY_PRINT));
         if ($ok) {
-            SystemFile::append($ruta . "log.txt", $fichero . ': ' . $datos->count() . PHP_EOL);
+            SystemFile::append($ruta . "log.txt", $fichero . ': ' . (!is_a($datos, Curso::class) ? $datos->count() : 1) . PHP_EOL);
         } else {
             SystemFile::append($ruta . "log.txt", $fichero . ': ERROR' . PHP_EOL);
         }
