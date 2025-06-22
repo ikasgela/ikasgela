@@ -12,6 +12,7 @@ use App\Traits\TareaBienvenida;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -283,6 +284,11 @@ class CursoController extends Controller
         // Actividad "*" -- "*" Selector
         $this->exportarRelacionJSON($ruta, $curso, 'selector');
 
+        // Exportar el log
+        $this->log_txt = Arr::sort($this->log_txt);
+        $this->log_txt = Arr::join($this->log_txt, PHP_EOL);
+        SystemFile::append($ruta . "log.txt", $this->log_txt);
+
         // Crear el zip
         $fecha = now()->format('Ymd-His');
         $nombre = Str::slug($curso->full_name);
@@ -297,13 +303,15 @@ class CursoController extends Controller
         return $this->zipDirectoryWithSubdirs("ikasgela-{$nombre}-{$fecha}.zip", $directorio);
     }
 
+    private $log_txt = [];
+
     private function exportarFicheroJSON(string $ruta, string $fichero, $datos): void
     {
         $ok = SystemFile::put($ruta . $fichero, $datos->toJson(JSON_PRETTY_PRINT));
         if ($ok) {
-            SystemFile::append($ruta . "log.txt", $fichero . ': ' . (!is_a($datos, Curso::class) ? $datos->count() : 1) . PHP_EOL);
+            $this->log_txt[] = $fichero . ': ' . (!is_a($datos, Curso::class) ? $datos->count() : 1);
         } else {
-            SystemFile::append($ruta . "log.txt", $fichero . ': ERROR' . PHP_EOL);
+            $this->log_txt[] = $fichero . ': ERROR';
         }
     }
 
