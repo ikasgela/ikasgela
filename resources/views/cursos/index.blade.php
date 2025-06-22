@@ -14,21 +14,42 @@
             <tr>
                 <th>#</th>
                 <th>{{ __('Name') }}</th>
-                <th>{{ __('Slug') }}</th>
                 <th>{{ __('Tags') }}</th>
                 <th class="text-center">{{ __('Start/End dates') }}</th>
                 <th class="text-center">{{ __('Open enrollment') }}</th>
-                <th class="text-center">{{ __('Simultaneous activities') }}</th>
-                <th class="text-center">{{ __('Activity deadline') }}</th>
-                <th class="text-center">{{ __('Minimum completed percent') }}</th>
-                <th class="text-center">{{ __('Minimum skills percent') }}</th>
-                <th class="text-center">{{ __('Minimum exams percent') }}</th>
-                <th class="text-center">{{ __('Minimum final exams percent') }}</th>
-                <th class="text-center">{{ __('Mandatory exams') }}</th>
-                <th class="text-center">{{ __('Maximum recoverable percent') }}</th>
-                <th class="text-center">{{ __('Silence notifications') }}</th>
-                <th class="text-center">{{ __('Normalize calification') }}</th>
-                <th class="text-center">{{ __('Proportional calification adjustment') }}</th>
+                <th class="text-center">
+                    @include('profesor.partials.titulo-columna', ['titulo' => __('Simultaneous activities')])
+                </th>
+                <th class="text-center">
+                    @include('profesor.partials.titulo-columna', ['titulo' => __('Activity deadline')])
+                </th>
+                <th class="text-center">
+                    @include('profesor.partials.titulo-columna', ['titulo' => __('Minimum completed percent')])
+                </th>
+                <th class="text-center">
+                    @include('profesor.partials.titulo-columna', ['titulo' => __('Minimum skills percent')])
+                </th>
+                <th class="text-center">
+                    @include('profesor.partials.titulo-columna', ['titulo' =>  __('Minimum exams percent')])
+                </th>
+                <th class="text-center">
+                    @include('profesor.partials.titulo-columna', ['titulo' => __('Minimum final exams percent')])
+                </th>
+                <th class="text-center">
+                    @include('profesor.partials.titulo-columna', ['titulo' => __('Mandatory exams')])
+                </th>
+                <th class="text-center">
+                    @include('profesor.partials.titulo-columna', ['titulo' => __('Maximum recoverable percent')])
+                </th>
+                <th class="text-center">
+                    @include('profesor.partials.titulo-columna', ['titulo' => __('Silence notifications') ])
+                </th>
+                <th class="text-center">
+                    @include('profesor.partials.titulo-columna', ['titulo' => __('Normalize calification')])
+                </th>
+                <th class="text-center">
+                    @include('profesor.partials.titulo-columna', ['titulo' => __('Proportional calification adjustment')])
+                </th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -36,10 +57,13 @@
             @foreach($cursos as $curso)
                 <tr>
                     <td>{{ $curso->id }}</td>
-                    <td>{{ $curso->full_name }}</td>
-                    <td>{{ $curso->slug }}</td>
+                    <td class="small">
+                        {{ $curso->full_name }}
+                        <br>
+                        <span class="text-muted">{{ $curso->slug }}</span>
+                    </td>
                     <td>@include('partials.etiquetas', ['etiquetas' => $curso->etiquetas()])</td>
-                    <td>
+                    <td class="small">
                         {{ $curso?->fecha_inicio ? $curso->fecha_inicio->isoFormat('L LT') : __('Undefined') }}
                         <br>
                         {{ $curso?->fecha_fin ? $curso->fecha_fin->isoFormat('L LT') : __('Undefined') }}
