@@ -242,16 +242,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.346.2",
+            "version": "3.347.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "d1403b5a39af7ab7af4fc538deb33013c19c8d33"
+                "reference": "c66a35e650f077caddd7db8d3a1f58b2c2b8c78b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/d1403b5a39af7ab7af4fc538deb33013c19c8d33",
-                "reference": "d1403b5a39af7ab7af4fc538deb33013c19c8d33",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c66a35e650f077caddd7db8d3a1f58b2c2b8c78b",
+                "reference": "c66a35e650f077caddd7db8d3a1f58b2c2b8c78b",
                 "shasum": ""
             },
             "require": {
@@ -333,9 +333,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.346.2"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.347.0"
             },
-            "time": "2025-06-20T18:10:21+00:00"
+            "time": "2025-06-23T18:12:15+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -12043,16 +12043,16 @@
         },
         {
             "name": "laravel-lang/lang",
-            "version": "15.22.1",
+            "version": "15.22.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/lang.git",
-                "reference": "d91e4bb9da1adc8945dc87d76801838ee539745f"
+                "reference": "17851c0c7ad613db3ed3ee2a740513c98fea73b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/d91e4bb9da1adc8945dc87d76801838ee539745f",
-                "reference": "d91e4bb9da1adc8945dc87d76801838ee539745f",
+                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/17851c0c7ad613db3ed3ee2a740513c98fea73b0",
+                "reference": "17851c0c7ad613db3ed3ee2a740513c98fea73b0",
                 "shasum": ""
             },
             "require": {
@@ -12102,7 +12102,7 @@
                 "issues": "https://github.com/Laravel-Lang/lang/issues",
                 "source": "https://github.com/Laravel-Lang/lang"
             },
-            "time": "2025-06-23T09:32:57+00:00"
+            "time": "2025-06-23T16:53:01+00:00"
         },
         {
             "name": "laravel-lang/models",
