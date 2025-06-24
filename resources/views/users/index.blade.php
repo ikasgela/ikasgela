@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('partials.titular', ['titular' => __('Users'), 'subtitulo' => subdominio()])
+    @include('partials.titular', ['titular' => __('Users'), 'subtitulo' => ''])
 
     <div class="d-flex justify-content-end mb-3">
         <div class="btn-toolbar" role="toolbar">
