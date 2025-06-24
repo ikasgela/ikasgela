@@ -51,10 +51,12 @@
                         {{ __('Clone the project') }}
                     </button>
                 @elseif($fork_status == 1)
-                    <a href="#" class="btn btn-primary mb-3 disabled me-3">
-                        <i class="fas fa-spinner fa-spin"></i> {{ __('Clone the project') }}
-                    </a>
-                    {{ __('Cloning, please wait...') }}
+                    <div class="mb-3 d-flex align-items-center">
+                        <a href="#" class="btn btn-primary disabled me-3">
+                            <i class="fas fa-spinner fa-spin"></i> {{ __('Clone the project') }}
+                        </a>
+                        <span>{{ __('Cloning, please wait...') }}</span>
+                    </div>
                 @elseif($fork_status == 3)
                     <div class="alert alert-danger mb-0 mt-3" role="alert">
                         <span>{{ __('Server error, contact with your administrator.') }}</span>
