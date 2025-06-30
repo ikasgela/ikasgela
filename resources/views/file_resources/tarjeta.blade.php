@@ -26,29 +26,38 @@
                     </thead>
                     <tbody>
                     @foreach ($file_resource->files as $file)
-                        <tr>
-                            <td class="text-center font-xl">@include('file_resources.partials.icono', ['extension' => $file->extension])</td>
-                            <td>
-                                <a href="{{ $file->imageUrl('documents') }}"
-                                    @include('file_resources.partials.destino', ['extension' => $file->extension])>
-                                    {{ $file->description ?: $file->title }}
-                                </a>
-                            </td>
-                            <td>{{ $file->size_in_kb }} KB</td>
-                            @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() == 'file_resources.show')
-                                <td>{{ $file->uploaded_time }}</td>
+                        @if($file->visible || Auth::user()->hasRole('profesor') && Route::currentRouteName() == 'file_resources.show')
+                            <tr>
+                                <td class="text-center font-xl">@include('file_resources.partials.icono', ['extension' => $file->extension])</td>
                                 <td>
-                                    @include('partials.botones_reordenar', ['ruta' => 'files.reordenar'])
+                                    <a href="{{ $file->imageUrl('documents') }}"
+                                        @include('file_resources.partials.destino', ['extension' => $file->extension])>
+                                        {{ $file->description ?: $file->title }}
+                                    </a>
                                 </td>
-                                <td class="text-center">
-                                    <div class='btn-group'>
-                                        {{ html()->form('DELETE', route('files.delete', $file->id))->open() }}
-                                        @include('partials.boton_borrar')
-                                        {{ html()->form()->close() }}
-                                    </div>
-                                </td>
-                            @endif
-                        </tr>
+                                <td>{{ $file->size_in_kb }} KB</td>
+                                @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() == 'file_resources.show')
+                                    <td>{{ $file->uploaded_time }}</td>
+                                    <td>
+                                        @include('partials.botones_reordenar', ['ruta' => 'files.reordenar'])
+                                    </td>
+                                    <td class="text-center">
+                                        <div class='btn-group me-2'>
+                                            {{ html()->form('POST', route('files.toggle.visible', $file->id))->open() }}
+                                            {{ html()->submit($file->visible ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>')
+                                                        ->class(['btn btn-sm', $file->visible ? 'btn-primary' : 'btn-light'])
+                                                        ->attribute('title', $file->visible ? __('Visible') : __('Hidden')) }}
+                                            {{ html()->form()->close() }}
+                                        </div>
+                                        <div class='btn-group'>
+                                            {{ html()->form('DELETE', route('files.delete', $file->id))->open() }}
+                                            @include('partials.boton_borrar')
+                                            {{ html()->form()->close() }}
+                                        </div>
+                                    </td>
+                                @endif
+                            </tr>
+                        @endif
                     @endforeach
                     </tbody>
                 </table>

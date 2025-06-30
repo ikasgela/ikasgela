@@ -361,6 +361,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('file_resources.toggle.descripcion_visible');
             Route::post('/file_resources/{file_resource}/duplicar', [FileResourceController::class, 'duplicar'])
                 ->name('file_resources.duplicar');
+            Route::post('/files/{file}/toggle_visible', [FileController::class, 'toggle_visible'])
+                ->name('files.toggle.visible');
 
             // LinkCollection
             Route::resource('link_collections', LinkCollectionController::class);

@@ -133,4 +133,12 @@ class FileController extends Controller
 
         return back();
     }
+
+    public function toggle_visible(File $file)
+    {
+        $file->visible = !$file->visible;
+        $file->save();
+
+        return back();
+    }
 }
