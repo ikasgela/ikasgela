@@ -35,7 +35,9 @@
                         <th class="text-center">{{ __('Attempts') }}</th>
                         <th>{{ __('Time spent') }}</th>
                     @endif
-                    <th>{{ __('Score') }}</th>
+                    @if($curso?->mostrar_calificaciones)
+                        <th>{{ __('Score') }}</th>
+                    @endif
                 </tr>
                 </thead>
                 <tbody>
@@ -62,7 +64,9 @@
                             <td class="align-middle text-center">{{ $actividad->tarea->intentos }}</td>
                             <td class="align-middle">{{ $actividad->tarea->tiempoDedicado() }}</td>
                         @endif
-                        <td>@include('actividades.partials.puntuacion')</td>
+                        @if($curso?->mostrar_calificaciones)
+                            <td>@include('actividades.partials.puntuacion')</td>
+                        @endif
                     </tr>
                 @endforeach
                 </tbody>
