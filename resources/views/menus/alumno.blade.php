@@ -15,11 +15,13 @@
     'badge_number' => Auth::user()->newThreadsCount(),
     'badge_color' => 'success',
 ])
-@include('layouts.sidebar.nav-item', [
-    'route' => route('results.index'),
-    'text' => __('Results'),
-    'icon' => 'bi-mortarboard',
-])
+@if(Auth::user()->curso_actual()?->mostrar_calificaciones)
+    @include('layouts.sidebar.nav-item', [
+        'route' => route('results.index'),
+        'text' => __('Results'),
+        'icon' => 'bi-mortarboard',
+    ])
+@endif
 @include('layouts.sidebar.nav-title', [
     'text' => __('Course'),
 ])
@@ -28,7 +30,7 @@
     'text' => __('Archived'),
     'icon' => 'bi-archive',
 ])
-@if(Auth::user()->curso_actual()?->progreso_visible && !Auth::user()->baja_ansiedad)
+@if(Auth::user()->curso_actual()?->mostrar_calificaciones && Auth::user()->curso_actual()?->progreso_visible && !Auth::user()->baja_ansiedad)
     @include('layouts.sidebar.nav-item', [
         'route' => route('archivo.outline'),
         'text' => __('Progress'),
