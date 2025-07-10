@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use League\Csv\Reader;
 
 trait JPlagRunner
 {
@@ -33,10 +35,10 @@ trait JPlagRunner
                     $primero = false;
 
                     $repositorio = $intellij_project->repository_no_cache();
-                    $response = Process::path($ruta)
+                    Process::path($ruta)
                         ->run('git clone http://root:' . config('gitea.token') . '@gitea:3000/'
                             . $repositorio['path_with_namespace'] . '.git '
-                            . 'template');
+                            . '__template');
                 }
 
                 $repositorio = $intellij_project->repository();
@@ -68,7 +70,7 @@ trait JPlagRunner
 
         // Ejecutar JPlag
         $response = Process::path($ruta)
-            ->run('java -jar /opt/jplag.jar -l java19 -m 1000 -s -r "./__resultados" -bc template .');
+            ->run('java -jar /opt/jplag.jar --language=java --subdirectory=src --base-code=./__template --min-tokens=7 --result-file=__resultados --csv-export --mode=RUN .');
 
         if (!$response->successful()) {
             Log::error('Error al ejecutar JPlag.', [
@@ -86,16 +88,13 @@ trait JPlagRunner
             ]);
         }
 
-        if (Storage::disk('temp')->exists($directorio . '/__resultados/matches_avg.csv')) {
+        if (Storage::disk('temp')->exists($directorio . '/__resultados/results.csv')) {
 
             // Cargar el CSV del resultado
             // https://stackoverflow.com/a/50870196
-            $resultados = array_map(fn($v) => str_replace("@", "/", str_getcsv((string)$v, ";", escape: '\\')), file($ruta . '/__resultados/matches_avg.csv'));
 
-            Log::debug('Resultados de JPlag.', [
-                'resultados' => $resultados,
-                'tarea' => route('profesor.revisar', ['user' => $tarea->user->id, 'tarea' => $tarea->id]),
-            ]);
+            $csv = Reader::createFromPath($ruta . '/__resultados/results.csv', 'r');
+            $csv->setHeaderOffset(0);
 
             // Borrar las entradas de envíos anteriores
             if ($tarea->id > 0)
@@ -104,59 +103,46 @@ trait JPlagRunner
             // Recorrer los datos del CSV e insertarlos en la BD
             foreach ($tarea->actividad->intellij_projects()->get() as $intellij_project) {
                 $enviado = $intellij_project->repository();
+
+                $resultados = $csv->getRecords();
                 foreach ($resultados as $resultado) {
-                    $resultado = array_filter($resultado, 'strlen');
+
+                    $submissionName1 = Str::replace('@', '/', $resultado['submissionName1']);
+                    $submissionName2 = Str::replace('@', '/', $resultado['submissionName2']);
+                    $porcentaje = $resultado['averageSimilarity'] * 100;
 
                     Log::debug('Resultado individual de JPlag.', [
-                        'enviado' => $enviado,
-                        'resultado' => $resultado,
+                        'enviado' => $enviado['path_with_namespace'],
+                        'resultado1' => $submissionName1,
+                        'resultado2' => $submissionName2,
+                        'porcentaje' => $porcentaje,
                     ]);
 
-                    if ($enviado['path_with_namespace'] == $resultado[0]) {
-                        // Recorrer todos y añadirlos a la tabla
-                        for ($i = 0; $i < intdiv(count($resultado), 3); ++$i) {
-                            $repo = $resultado[$i * 3 + 2];
-                            $porcentaje = $resultado[$i * 3 + 3];
+                    if ($enviado['path_with_namespace'] == $submissionName1 || $enviado['path_with_namespace'] == $submissionName2) {
 
-                            $datos = DB::table('actividad_intellij_project')
-                                ->where('fork', '=', $repo)
-                                ->first();
-
-                            // Insertar los resultados en la tabla RegistrosJPlag
-                            if ($datos != null) {
-                                JPlag::create([
-                                    'tarea_id' => $tarea->id,
-                                    'match_id' => Tarea::where('actividad_id', $datos->actividad_id)->first()->id,
-                                    'percent' => $porcentaje,
-                                ]);
-                            } else {
-                                Log::error('Error al ejecutar JPlag, no se han encontrado datos.', [
-                                    'enviado' => $enviado,
-                                    'resultado' => $resultado,
-                                    'tarea' => route('profesor.revisar', ['user' => $tarea->user->id, 'tarea' => $tarea->id]),
-                                ]);
-                            }
+                        if ($enviado['path_with_namespace'] == $submissionName1) {
+                            $repo = $submissionName2;
+                        } else {
+                            $repo = $submissionName1;
                         }
-                    } else {
-                        // Recorrer pero solo añadir el primero si aparece el enviado
-                        for ($i = 0; $i < intdiv(count($resultado), 3); ++$i) {
-                            $repo = $resultado[$i * 3 + 2];
-                            $porcentaje = $resultado[$i * 3 + 3];
 
-                            if ($repo == $enviado['path_with_namespace']) {
-                                $datos = DB::table('actividad_intellij_project')
-                                    ->where('fork', '=', $resultado[0])
-                                    ->first();
+                        $datos = DB::table('actividad_intellij_project')
+                            ->where('fork', '=', $repo)
+                            ->first();
 
-                                // Insertar los resultados en la tabla RegistrosJPlag
-                                if ($datos != null) {
-                                    JPlag::create([
-                                        'tarea_id' => $tarea->id,
-                                        'match_id' => Tarea::where('actividad_id', $datos->actividad_id)->first()->id,
-                                        'percent' => $porcentaje,
-                                    ]);
-                                }
-                            }
+                        // Insertar los resultados en la tabla RegistrosJPlag
+                        if ($datos != null) {
+                            JPlag::create([
+                                'tarea_id' => $tarea->id,
+                                'match_id' => Tarea::where('actividad_id', $datos->actividad_id)->first()->id,
+                                'percent' => $porcentaje,
+                            ]);
+                        } else {
+                            Log::error('Error al ejecutar JPlag, no se han encontrado datos.', [
+                                'enviado' => $enviado,
+                                'resultado' => $resultado,
+                                'tarea' => route('profesor.revisar', ['user' => $tarea->user->id, 'tarea' => $tarea->id]),
+                            ]);
                         }
                     }
                 }
