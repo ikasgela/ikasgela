@@ -426,7 +426,7 @@ class Actividad extends Model
             }
         }
 
-        if (!isset($this->fecha_limite)) {
+        if (isset($this->fecha_entrega) && !isset($this->fecha_limite)) {
             $this->fecha_limite = $this->fecha_entrega->addMinutes(10);
         }
 
