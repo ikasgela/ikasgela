@@ -20,12 +20,14 @@
 
     {{ html()->form('POST', route('users.toggle_blocked'))->open() }}
     {{ html()->submit(!$user->isBlocked() ? '<i class="fas fa-unlock"></i>':'<i class="fas fa-lock"></i>')
-            ->class(['btn btn-light btn-sm', 'rounded-0'])
+            ->class(['btn btn-light btn-sm', Route::currentRouteName() == 'users.index' ? 'rounded-0' : 'rounded-start-0'])
             ->attribute('title', !$user->isBlocked() ? __('Block') : __('Unblock')) }}
     {{ html()->hidden('user_id', $user->id) }}
     {{ html()->form()->close() }}
 
-    {{ html()->form('DELETE', route('users.destroy', [$user->id]))->open() }}
-    @include('partials.boton_borrar', ['last' => true])
-    {{ html()->form()->close() }}
+    @if(Route::currentRouteName() == 'users.index')
+        {{ html()->form('DELETE', route('users.destroy', [$user->id]))->open() }}
+        @include('partials.boton_borrar', ['last' => true])
+        {{ html()->form()->close() }}
+    @endif
 </div>
