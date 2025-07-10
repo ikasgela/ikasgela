@@ -89,17 +89,19 @@
             </li>
         @endif
         {{-- Enviadas --}}
-        <li class="nav-item" role="presentation">
-            <button class="nav-link d-flex align-items-center"
-                    id="enviadas-tab" data-bs-target="#enviadas-tab-pane" aria-controls="enviadas-tab-pane"
-                    data-bs-toggle="tab" type="button" role="tab"
-                    aria-selected="false">
-                <span>{{ trans_choice('tasks.sent', 2) }}</span>
-                <span class="ms-2 badge text-bg-secondary fw-light">
-                    {{ $user->num_actividades_en_curso_enviadas() }}
-                </span>
-            </button>
-        </li>
+        @if($user->curso_actual()?->mostrar_calificaciones)
+            <li class="nav-item" role="presentation">
+                <button class="nav-link d-flex align-items-center"
+                        id="enviadas-tab" data-bs-target="#enviadas-tab-pane" aria-controls="enviadas-tab-pane"
+                        data-bs-toggle="tab" type="button" role="tab"
+                        aria-selected="false">
+                    <span>{{ trans_choice('tasks.sent', 2) }}</span>
+                    <span class="ms-2 badge text-bg-secondary fw-light">
+                        {{ $user->num_actividades_en_curso_enviadas() }}
+                    </span>
+                </button>
+            </li>
+        @endif
     </ul>
     <div class="tab-content" id="tab-content">
         {{-- Examen --}}
@@ -134,13 +136,15 @@
             </div>
         @endif
         {{-- Enviadas --}}
-        <div class="tab-pane fade"
-             id="enviadas-tab-pane" aria-labelledby="enviadas-tab"
-             role="tabpanel">
-            @include('alumnos.partials.panel_actividades', [
-                'actividades' => $user->actividades_en_curso_enviadas()->get(),
-                'mensaje_ninguna' => __('There are no sent activities.')
-            ])
-        </div>
+        @if($user->curso_actual()?->mostrar_calificaciones)
+            <div class="tab-pane fade"
+                 id="enviadas-tab-pane" aria-labelledby="enviadas-tab"
+                 role="tabpanel">
+                @include('alumnos.partials.panel_actividades', [
+                    'actividades' => $user->actividades_en_curso_enviadas()->get(),
+                    'mensaje_ninguna' => __('There are no sent activities.')
+                ])
+            </div>
+        @endif
     </div>
 @endsection

@@ -410,10 +410,8 @@ class Actividad extends Model
 
     public function establecerFechaEntrega($fecha_override = null): void
     {
-        $ahora = now();
-
         if (!isset($this->fecha_disponibilidad)) {
-            $this->fecha_disponibilidad = $ahora;
+            $this->fecha_disponibilidad = now();
         }
 
         if (!isset($this->fecha_entrega)) {
@@ -421,7 +419,7 @@ class Actividad extends Model
                 $plazo_actividad_curso = $this->unidad->curso->plazo_actividad;
 
                 if ($plazo_actividad_curso > 0) {
-                    $this->fecha_entrega = $ahora->addDays($plazo_actividad_curso);
+                    $this->fecha_entrega = now()->addDays($plazo_actividad_curso);
                 }
             } else {
                 $this->fecha_entrega = $fecha_override;

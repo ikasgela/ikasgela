@@ -30,6 +30,7 @@ class Curso extends Model
         'silence_notifications',
         'tarea_bienvenida_id',
         'normalizar_nota', 'ajuste_proporcional_nota',
+        'mostrar_calificaciones',
     ];
 
     public function getFullNameAttribute()

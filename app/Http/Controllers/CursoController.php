@@ -79,6 +79,7 @@ class CursoController extends Controller
             'silence_notifications' => $request->has('silence_notifications'),
             'normalizar_nota' => $request->has('normalizar_nota'),
             'ajuste_proporcional_nota' => $request->input('ajuste_proporcional_nota'),
+            'mostrar_calificaciones' => $request->has('mostrar_calificaciones'),
         ]);
 
         GiteaClient::organization($curso->slug, 'root');
@@ -138,6 +139,7 @@ class CursoController extends Controller
             'tarea_bienvenida_id' => request('tarea_bienvenida_id'),
             'normalizar_nota' => $request->has('normalizar_nota'),
             'ajuste_proporcional_nota' => $request->input('ajuste_proporcional_nota'),
+            'mostrar_calificaciones' => $request->has('mostrar_calificaciones'),
         ]);
 
         return retornar();

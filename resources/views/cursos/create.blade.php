@@ -125,6 +125,11 @@
                 </div>
             </div>
 
+            @include('components.label-check', [
+                'label' => __('Show califications'),
+                'name' => 'mostrar_calificaciones',
+            ])
+
             @include('partials.guardar_cancelar')
             @include('layouts.errors')
             {{ html()->form()->close() }}
