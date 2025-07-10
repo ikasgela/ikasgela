@@ -327,12 +327,12 @@ class ProfesorController extends Controller
 
                 $ficheros_ruta_completa = [];
                 foreach ($ficheros as $fichero) {
-                    array_push($ficheros_ruta_completa, Storage::disk('temp')->path($fichero));
+                    $ficheros_ruta_completa[] = Storage::disk('temp')->path($fichero);
                 }
 
-                // Almacenar el directorio para borrarlo al terminar con un evento
-                //session(['_delete_me' => $directorio]);
+                $ficheros_ruta_completa[] = Storage::disk('temp')->path($directorio . '/__resultados.jplag');
 
+                // Disparar un evento para borrar el directorio después de enviar el zip
                 dispatch(function () use ($directorio) {
                     Log::debug('Borrando...', [
                         'directorio' => $directorio,
