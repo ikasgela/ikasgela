@@ -26,8 +26,8 @@
                     </thead>
                     <tbody>
                     @foreach ($file_resource->files as $file)
-                        @if($file->visible || Auth::user()->hasRole('profesor') && Route::currentRouteName() == 'file_resources.show')
-                            <tr>
+                        @if($file->visible || Auth::user()->hasRole('profesor'))
+                            <tr class="{{ !$file->visible && Route::currentRouteName() != 'file_resources.show' ? 'opacity-25' : '' }}">
                                 <td class="text-center font-xl">@include('file_resources.partials.icono', ['extension' => $file->extension])</td>
                                 <td>
                                     <a href="{{ $file->imageUrl('documents') }}"
