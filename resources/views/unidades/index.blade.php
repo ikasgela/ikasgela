@@ -25,6 +25,7 @@
                 <th>{{ __('Code') }}</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Slug') }}</th>
+                <th class="text-center">{{ __('Activities') }}</th>
                 <th>{{ __('Order') }}</th>
                 <th class="text-center">{{ __('Visible') }}</th>
                 <th>{{ __('Actions') }}</th>
@@ -40,6 +41,7 @@
                         @include('unidades.partials.nombre_con_etiquetas')
                     </td>
                     <td>{{ $unidad->slug }}</td>
+                    <td class="text-center">{{ $unidad->actividades()->plantilla()->count() }}</td>
                     <td>
                         @include('partials.botones_reordenar', ['ruta' => 'unidades.reordenar'])
                     </td>
