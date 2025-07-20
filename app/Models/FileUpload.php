@@ -72,6 +72,7 @@ class FileUpload extends Model
         } else {
             $clon->curso_id = $curso_destino->id;
         }
+        $clon->plantilla = $this->plantilla;
         $clon->save();
 
         return $clon;
