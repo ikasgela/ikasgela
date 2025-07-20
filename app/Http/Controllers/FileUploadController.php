@@ -141,10 +141,7 @@ class FileUploadController extends Controller
 
     public function duplicar(FileUpload $file_upload)
     {
-        $clon = $file_upload->duplicate();
-        $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
-        $clon->plantilla = $file_upload->plantilla;
-        $clon->save();
+        $file_upload->duplicar(null);
 
         return back();
     }
