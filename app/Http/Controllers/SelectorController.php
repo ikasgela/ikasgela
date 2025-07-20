@@ -124,6 +124,6 @@ class SelectorController extends Controller
         $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
         $clon->save();
 
-        return back();
+        return redirect(route('selectors.index'));
     }
 }

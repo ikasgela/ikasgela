@@ -173,6 +173,6 @@ class CuestionarioController extends Controller
         $clon->plantilla = $cuestionario->plantilla;
         $clon->save();
 
-        return back();
+        return redirect(route('cuestionarios.index'));
     }
 }

@@ -136,6 +136,6 @@ class YoutubeVideoController extends Controller
     {
         $youtube_video->duplicar(null);
 
-        return back();
+        return redirect(route('youtube_videos.index'));
     }
 }

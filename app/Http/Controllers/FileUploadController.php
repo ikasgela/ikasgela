@@ -143,6 +143,6 @@ class FileUploadController extends Controller
     {
         $file_upload->duplicar(null);
 
-        return back();
+        return redirect(route('file_uploads.index'));
     }
 }

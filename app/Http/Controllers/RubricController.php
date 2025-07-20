@@ -127,6 +127,6 @@ class RubricController extends Controller
         $clon->plantilla = $rubric->plantilla;
         $clon->save();
 
-        return back();
+        return redirect(route('rubrics.index'));
     }
 }

@@ -143,6 +143,6 @@ class FileResourceController extends Controller
     {
         $file_resource->duplicar(null);
 
-        return back();
+        return redirect(route('file_resources.index'));
     }
 }

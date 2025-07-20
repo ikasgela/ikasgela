@@ -131,7 +131,7 @@ class MarkdownTextController extends Controller
         $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
         $clon->save();
 
-        return back();
+        return redirect(route('markdown_texts.index'));
     }
 
     public function borrar_cache(MarkdownText $markdown_text)

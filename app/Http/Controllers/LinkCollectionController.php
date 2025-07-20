@@ -141,6 +141,6 @@ class LinkCollectionController extends Controller
         $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
         $clon->save();
 
-        return back();
+        return redirect(route('link_collections.index'));
     }
 }

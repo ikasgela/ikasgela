@@ -442,7 +442,7 @@ class IntellijProjectController extends Controller
         $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
         $clon->save();
 
-        return back();
+        return redirect(route('intellij_projects.index'));
     }
 
     public function descargar_repos_usuario()
