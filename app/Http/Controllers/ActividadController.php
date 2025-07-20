@@ -560,11 +560,7 @@ class ActividadController extends Controller
 
             if ($curso_destino->id != $curso_origen->id) {
                 $clon->duplicar_recursos($curso_destino);
-            } else {
-                $clon->duplicar_recursos(null);
             }
-        } else {
-            $clon->duplicar_recursos(null);
         }
 
         $clon->plantilla = $actividad->plantilla;
