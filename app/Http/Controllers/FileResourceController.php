@@ -141,7 +141,7 @@ class FileResourceController extends Controller
 
     public function duplicar(FileResource $file_resource)
     {
-        $file_resource->duplicar();
+        $file_resource->duplicar(null);
 
         return back();
     }
