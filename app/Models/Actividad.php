@@ -82,24 +82,12 @@ class Actividad extends Model
 
         foreach ($this->file_uploads as $file_upload) {
             $copia = $file_upload->duplicate();
-            $this->file_uploads()->detach($file_upload);
-            $this->file_uploads()->attach($copia, [
-                'orden' => $file_upload->pivot->orden,
-                'titulo_visible' => $file_upload->pivot->titulo_visible,
-                'descripcion_visible' => $file_upload->pivot->descripcion_visible,
-                'columnas' => $file_upload->pivot->columnas,
-            ]);
+            $this->reconectar($this->file_uploads(), $file_upload, $copia);
         }
 
         foreach ($this->rubrics as $rubric) {
             $copia = $rubric->duplicate();
-            $this->rubrics()->detach($rubric);
-            $this->rubrics()->attach($copia, [
-                'orden' => $rubric->pivot->orden,
-                'titulo_visible' => $rubric->pivot->titulo_visible,
-                'descripcion_visible' => $rubric->pivot->descripcion_visible,
-                'columnas' => $rubric->pivot->columnas,
-            ]);
+            $this->reconectar($this->rubrics(), $rubric, $copia);
         }
     }
 
@@ -107,14 +95,19 @@ class Actividad extends Model
     {
         foreach ($this->file_resources as $file_resource) {
             $copia = $file_resource->duplicar($curso_destino);
-            $this->file_resources()->detach($file_resource);
-            $this->file_resources()->attach($copia, [
-                'orden' => $file_resource->pivot->orden,
-                'titulo_visible' => $file_resource->pivot->titulo_visible,
-                'descripcion_visible' => $file_resource->pivot->descripcion_visible,
-                'columnas' => $file_resource->pivot->columnas,
-            ]);
+            $this->reconectar($this->file_resources(), $file_resource, $copia);
         }
+    }
+
+    private function reconectar($coleccion, $original, $copia)
+    {
+        $coleccion->detach($original);
+        $coleccion->attach($copia, [
+            'orden' => $original->pivot->orden,
+            'titulo_visible' => $original->pivot->titulo_visible,
+            'descripcion_visible' => $original->pivot->descripcion_visible,
+            'columnas' => $original->pivot->columnas,
+        ]);
     }
 
     public function unidad()
