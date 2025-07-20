@@ -66,7 +66,7 @@ class Actividad extends Model
         $this->cloneable_relations = $relations;
     }
 
-    public function onCloned($src)
+    public function duplicar_recursos()
     {
         if ($this->intellij_projects()->count() > 1) {
             $intellij_project_ids = $this->intellij_projects()->get()->pluck('id')->toArray();
@@ -76,13 +76,13 @@ class Actividad extends Model
             $this->intellij_projects()->sync([$intellij_project_ids[$random]]);
         }
 
-        foreach ($src->cuestionarios as $cuestionario) {
+        foreach ($this->cuestionarios as $cuestionario) {
             $copia = $cuestionario->duplicate();
             $this->cuestionarios()->detach($cuestionario);
             $this->cuestionarios()->attach($copia, ['orden' => $cuestionario->pivot->orden]);
         }
 
-        foreach ($src->file_uploads as $file_upload) {
+        foreach ($this->file_uploads as $file_upload) {
             $copia = $file_upload->duplicate();
             $this->file_uploads()->detach($file_upload);
             $this->file_uploads()->attach($copia, [
@@ -93,7 +93,7 @@ class Actividad extends Model
             ]);
         }
 
-        foreach ($src->rubrics as $rubric) {
+        foreach ($this->rubrics as $rubric) {
             $copia = $rubric->duplicate();
             $this->rubrics()->detach($rubric);
             $this->rubrics()->attach($copia, [

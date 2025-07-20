@@ -549,6 +549,7 @@ class ActividadController extends Controller
     private function crear_duplicado(Actividad $actividad, $unidad_id = null)
     {
         $clon = $actividad->duplicate();
+        $clon->duplicar_recursos();
         $clon->plantilla = $actividad->plantilla;
         $clon->siguiente = null;
         $clon->nombre = $clon->nombre . " (" . __("Copy") . ')';
@@ -828,6 +829,7 @@ class ActividadController extends Controller
     public function clonarActividad(Actividad $siguiente)
     {
         $clon = $siguiente->duplicate();
+        $clon->duplicar_recursos();
         $clon->plantilla_id = $siguiente->id;
         return $clon;
     }
