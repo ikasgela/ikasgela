@@ -565,8 +565,11 @@ class ActividadController extends Controller
 
         $clon->plantilla = $actividad->plantilla;
         $clon->siguiente = null;
-        $clon->nombre = $clon->nombre . " (" . __("Copy") . ')';
-        $clon->slug = Str::slug($clon->nombre);
+
+        if (is_null($unidad_id)) {
+            $clon->nombre = $clon->nombre . " (" . __("Copy") . ')';
+            $clon->slug = Str::slug($clon->nombre);
+        }
 
         $clon->save();
         $clon->orden = $clon->id;
