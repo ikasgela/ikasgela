@@ -549,7 +549,24 @@ class ActividadController extends Controller
     private function crear_duplicado(Actividad $actividad, $unidad_id = null)
     {
         $clon = $actividad->duplicate();
-        $clon->duplicar_recursos();
+
+        if (!is_null($unidad_id)) {
+            $unidad_destino = Unidad::findOrFail($unidad_id);
+            $clon->unidad_id = $unidad_destino->id;
+            $clon->save();
+
+            $curso_origen = $actividad->unidad->curso;
+            $curso_destino = $unidad_destino->curso;
+
+            if ($curso_destino->id != $curso_origen->id) {
+                $clon->duplicar_recursos($curso_destino);
+            } else {
+                $clon->duplicar_recursos(null);
+            }
+        } else {
+            $clon->duplicar_recursos(null);
+        }
+
         $clon->plantilla = $actividad->plantilla;
         $clon->siguiente = null;
         $clon->nombre = $clon->nombre . " (" . __("Copy") . ')';
@@ -557,9 +574,6 @@ class ActividadController extends Controller
 
         $clon->save();
         $clon->orden = $clon->id;
-
-        if (!is_null($unidad_id))
-            $clon->unidad_id = $unidad_id;
 
         $clon->save();
     }
@@ -829,7 +843,7 @@ class ActividadController extends Controller
     public function clonarActividad(Actividad $siguiente)
     {
         $clon = $siguiente->duplicate();
-        $clon->duplicar_recursos();
+        $clon->duplicar_recursos_consumibles();
         $clon->plantilla_id = $siguiente->id;
         return $clon;
     }

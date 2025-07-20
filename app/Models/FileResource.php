@@ -45,10 +45,14 @@ class FileResource extends Model
         return $actividad->file_resources()->find($this->id)->pivot;
     }
 
-    public function duplicar()
+    public function duplicar(?Curso $curso_destino)
     {
         $clon = $this->duplicate();
-        $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
+        if (is_null($curso_destino)) {
+            $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
+        } else {
+            $clon->curso_id = $curso_destino->id;
+        }
         $clon->save();
 
         // Recorrer y duplicar los ficheros en S3
@@ -62,5 +66,7 @@ class FileResource extends Model
             $file->path = $new_path;
             $file->save();
         }
+
+        return $clon;
     }
 }

@@ -66,13 +66,11 @@ class Actividad extends Model
         $this->cloneable_relations = $relations;
     }
 
-    public function duplicar_recursos()
+    public function duplicar_recursos_consumibles()
     {
         if ($this->intellij_projects()->count() > 1) {
             $intellij_project_ids = $this->intellij_projects()->get()->pluck('id')->toArray();
-
             $random = array_rand($intellij_project_ids);
-
             $this->intellij_projects()->sync([$intellij_project_ids[$random]]);
         }
 
@@ -103,8 +101,20 @@ class Actividad extends Model
                 'columnas' => $rubric->pivot->columnas,
             ]);
         }
+    }
 
-        $this->orden = $this->id;
+    public function duplicar_recursos(?Curso $curso_destino)
+    {
+        foreach ($this->file_resources as $file_resource) {
+            $copia = $file_resource->duplicar($curso_destino);
+            $this->file_resources()->detach($file_resource);
+            $this->file_resources()->attach($copia, [
+                'orden' => $file_resource->pivot->orden,
+                'titulo_visible' => $file_resource->pivot->titulo_visible,
+                'descripcion_visible' => $file_resource->pivot->descripcion_visible,
+                'columnas' => $file_resource->pivot->columnas,
+            ]);
+        }
     }
 
     public function unidad()
