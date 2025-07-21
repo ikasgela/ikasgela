@@ -55,18 +55,19 @@ class FileResource extends Model
         }
         $clon->save();
 
-        // Recorrer y duplicar los ficheros en S3
-        foreach ($clon->files as $file) {
-            $old_path = $file->path;
-            $filename = basename((string)$old_path);
-            $new_path = md5(time()) . '/' . $filename;
+        // Si copiamos a otro curso, recorrer y duplicar los ficheros en S3
+        if (!is_null($curso_destino)) {
+            foreach ($clon->files as $file) {
+                $old_path = $file->path;
+                $filename = basename((string)$old_path);
+                $new_path = md5(time()) . '/' . $filename;
 
-            Storage::disk('s3')->copy('documents/' . $old_path, 'documents/' . $new_path);
+                Storage::disk('s3')->copy('documents/' . $old_path, 'documents/' . $new_path);
 
-            $file->path = $new_path;
-            $file->save();
+                $file->path = $new_path;
+                $file->save();
+            }
         }
-
         return $clon;
     }
 }
