@@ -134,8 +134,7 @@ class MarkdownTextController extends Controller
 
     public function borrar_cache(MarkdownText $markdown_text)
     {
-        $key = $markdown_text->repositorio . '/' . $markdown_text->archivo;
-        Cache::forget($key);
+        Cache::forget($markdown_text->cacheKey());
 
         return back();
     }

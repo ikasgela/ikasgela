@@ -32,11 +32,14 @@ class MarkdownText extends Model
             ->withTimestamps();
     }
 
+    public function cacheKey(): string
+    {
+        return $this->repositorio . '/' . $this->archivo;
+    }
+
     public function markdown()
     {
-        $key = $this->repositorio . '/' . $this->archivo;
-
-        return Cache::remember($key, now()->addDays(config('ikasgela.markdown_cache_days')), function () {
+        return Cache::remember($this->cacheKey(), now()->addDays(config('ikasgela.markdown_cache_days')), function () {
 
             try {
                 $repositorio = $this->repositorio;

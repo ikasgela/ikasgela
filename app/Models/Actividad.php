@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -164,6 +165,8 @@ class Actividad extends Model
             $markdown_text->repositorio = $clonado['path_with_namespace'];
 
             $markdown_text->save();
+
+            Cache::forget($markdown_text->cacheKey());
         }
 
         foreach ($this->intellij_projects as $intellij_project) {
@@ -174,6 +177,8 @@ class Actividad extends Model
             $intellij_project->repositorio = $clonado['path_with_namespace'];
 
             $intellij_project->save();
+
+            Cache::forget($intellij_project->templateCacheKey());
         }
 
         foreach ($this->link_collections as $link_collection) {
