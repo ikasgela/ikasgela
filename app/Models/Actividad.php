@@ -117,6 +117,11 @@ class Actividad extends Model
             $copia = $intellij_project->duplicar($curso_destino);
             $this->reconectar($this->intellij_projects(), $intellij_project, $copia);
         }
+
+        foreach ($this->link_collections as $link_collection) {
+            $copia = $link_collection->duplicar($curso_destino);
+            $this->reconectar($this->link_collections(), $link_collection, $copia);
+        }
     }
 
     private function reconectar($coleccion, $original, $copia)
