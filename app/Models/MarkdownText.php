@@ -112,25 +112,28 @@ class MarkdownText extends Model
         }
         $clon->save();
 
-        // Si copiamos a otro curso, Duplicar el repositorio
+        // Si copiamos a otro curso, duplicar el repositorio
         if (!is_null($curso_destino)) {
-            $proyecto = GiteaClient::repo($this->repositorio);
-            $usuario = $curso_destino->gitea_organization;
-            $ruta = $proyecto['name'];
-            $nombre = $proyecto['description'];
-
-            // Verificar que sea plantilla, si no, convertirlo
-            if (!$proyecto['template']) {
-                GiteaClient::template($proyecto['owner'], $proyecto['name'], true);
-            }
-
-            $clonado = $this->clonar_repositorio($proyecto['path_with_namespace'], $usuario, $ruta, $nombre);
-
+            $clonado = $this->duplicar_repositorio($curso_destino);
             $clon->repositorio = $clonado['path_with_namespace'];
-
             $clon->save();
         }
 
         return $clon;
+    }
+
+    public function duplicar_repositorio(?Curso $curso_destino)
+    {
+        $proyecto = GiteaClient::repo($this->repositorio);
+        $usuario = $curso_destino->gitea_organization;
+        $ruta = $proyecto['name'];
+        $nombre = $proyecto['description'];
+
+        // Verificar que sea plantilla, si no, convertirlo
+        if (!$proyecto['template']) {
+            GiteaClient::template($proyecto['owner'], $proyecto['name'], true);
+        }
+
+        return $this->clonar_repositorio($proyecto['path_with_namespace'], $usuario, $ruta, $nombre);
     }
 }
