@@ -158,11 +158,21 @@ class Actividad extends Model
 
         foreach ($this->markdown_texts as $markdown_text) {
             $markdown_text->curso_id = $curso_destino->id;
+
+            // Al mover a otro curso, duplicar el repositorio
+            $clonado = $markdown_text->duplicar_repositorio($curso_destino);
+            $markdown_text->repositorio = $clonado['path_with_namespace'];
+
             $markdown_text->save();
         }
 
         foreach ($this->intellij_projects as $intellij_project) {
             $intellij_project->curso_id = $curso_destino->id;
+
+            // Al mover a otro curso, duplicar el repositorio
+            $clonado = $intellij_project->duplicar_repositorio($curso_destino);
+            $intellij_project->repositorio = $clonado['path_with_namespace'];
+
             $intellij_project->save();
         }
 
