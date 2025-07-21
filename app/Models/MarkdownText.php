@@ -115,7 +115,7 @@ class MarkdownText extends Model
         // Si copiamos a otro curso, Duplicar el repositorio
         if (!is_null($curso_destino)) {
             $proyecto = GiteaClient::repo($this->repositorio);
-            $usuario = $proyecto['owner'];
+            $usuario = $curso_destino->gitea_organization;
             $ruta = $proyecto['name'];
             $nombre = $proyecto['description'];
 
