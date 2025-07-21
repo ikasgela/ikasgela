@@ -168,10 +168,7 @@ class CuestionarioController extends Controller
 
     public function duplicar(Cuestionario $cuestionario)
     {
-        $clon = $cuestionario->duplicate();
-        $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
-        $clon->plantilla = $cuestionario->plantilla;
-        $clon->save();
+        $cuestionario->duplicar(null);
 
         return redirect(route('cuestionarios.index'));
     }

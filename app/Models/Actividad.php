@@ -122,6 +122,11 @@ class Actividad extends Model
             $copia = $link_collection->duplicar($curso_destino);
             $this->reconectar($this->link_collections(), $link_collection, $copia);
         }
+
+        foreach ($this->cuestionarios as $cuestionario) {
+            $copia = $cuestionario->duplicar($curso_destino);
+            $this->reconectar($this->cuestionarios(), $cuestionario, $copia);
+        }
     }
 
     private function reconectar($coleccion, $original, $copia)
