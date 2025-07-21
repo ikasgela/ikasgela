@@ -132,6 +132,11 @@ class Actividad extends Model
             $copia = $rubric->duplicar($curso_destino);
             $this->reconectar($this->rubrics(), $rubric, $copia);
         }
+
+        foreach ($this->selectors as $selector) {
+            $copia = $selector->duplicar($curso_destino);
+            $this->reconectar($this->selectors(), $selector, $copia);
+        }
     }
 
     private function reconectar($coleccion, $original, $copia)
