@@ -580,8 +580,17 @@ class ActividadController extends Controller
     private function mover(Actividad $actividad, $unidad_id = null)
     {
         if (!is_null($unidad_id)) {
-            $actividad->unidad_id = $unidad_id;
+            $unidad_destino = Unidad::findOrFail($unidad_id);
+
+            $curso_origen = $actividad->unidad->curso;
+            $curso_destino = $unidad_destino->curso;
+
+            $actividad->unidad_id = $unidad_destino->id;
             $actividad->save();
+
+            if ($curso_destino->id != $curso_origen->id) {
+                $actividad->trasladar_recursos($curso_destino);
+            }
         }
     }
 

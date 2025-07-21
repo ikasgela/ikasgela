@@ -139,6 +139,54 @@ class Actividad extends Model
         }
     }
 
+    public function trasladar_recursos(?Curso $curso_destino)
+    {
+        foreach ($this->file_resources as $file_resource) {
+            $file_resource->curso_id = $curso_destino->id;
+            $file_resource->save();
+        }
+
+        foreach ($this->file_uploads as $file_upload) {
+            $file_upload->curso_id = $curso_destino->id;
+            $file_upload->save();
+        }
+
+        foreach ($this->youtube_videos as $youtube_video) {
+            $youtube_video->curso_id = $curso_destino->id;
+            $youtube_video->save();
+        }
+
+        foreach ($this->markdown_texts as $markdown_text) {
+            $markdown_text->curso_id = $curso_destino->id;
+            $markdown_text->save();
+        }
+
+        foreach ($this->intellij_projects as $intellij_project) {
+            $intellij_project->curso_id = $curso_destino->id;
+            $intellij_project->save();
+        }
+
+        foreach ($this->link_collections as $link_collection) {
+            $link_collection->curso_id = $curso_destino->id;
+            $link_collection->save();
+        }
+
+        foreach ($this->cuestionarios as $cuestionario) {
+            $cuestionario->curso_id = $curso_destino->id;
+            $cuestionario->save();
+        }
+
+        foreach ($this->rubrics as $rubric) {
+            $rubric->curso_id = $curso_destino->id;
+            $rubric->save();
+        }
+
+        foreach ($this->selectors as $selector) {
+            $selector->curso_id = $curso_destino->id;
+            $selector->save();
+        }
+    }
+
     private function reconectar($coleccion, $original, $copia)
     {
         $coleccion->detach($original);
