@@ -127,9 +127,7 @@ class MarkdownTextController extends Controller
 
     public function duplicar(MarkdownText $markdown_text)
     {
-        $clon = $markdown_text->duplicate();
-        $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
-        $clon->save();
+        $markdown_text->duplicar(null);
 
         return redirect(route('markdown_texts.index'));
     }

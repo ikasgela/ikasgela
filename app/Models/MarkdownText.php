@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\ClonarRepoGitea;
 use Bkwld\Cloner\Cloneable;
 use Exception;
 use GrahamCampbell\Markdown\Facades\Markdown;
@@ -17,6 +18,7 @@ class MarkdownText extends Model
 {
     use HasFactory;
     use Cloneable;
+    use ClonarRepoGitea;
 
     protected $fillable = [
         'titulo', 'descripcion', 'repositorio', 'rama', 'archivo',
@@ -98,5 +100,37 @@ class MarkdownText extends Model
     public function pivote(Actividad $actividad)
     {
         return $actividad->markdown_texts()->find($this->id)->pivot;
+    }
+
+    public function duplicar(?Curso $curso_destino)
+    {
+        $clon = $this->duplicate();
+        if (is_null($curso_destino)) {
+            $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
+        } else {
+            $clon->curso_id = $curso_destino->id;
+        }
+        $clon->save();
+
+        // Si copiamos a otro curso, Duplicar el repositorio
+        if (!is_null($curso_destino)) {
+            $proyecto = GiteaClient::repo($this->repositorio);
+            $usuario = $proyecto['owner'];
+            $ruta = $proyecto['name'];
+            $nombre = $proyecto['description'];
+
+            // Verificar que sea plantilla, si no, convertirlo
+            if (!$proyecto['template']) {
+                GiteaClient::template($proyecto['owner'], $proyecto['name'], true);
+            }
+
+            $clonado = $this->clonar_repositorio($proyecto['path_with_namespace'], $usuario, $ruta, $nombre);
+
+            $clon->repositorio = $clonado['path_with_namespace'];
+
+            $clon->save();
+        }
+
+        return $clon;
     }
 }

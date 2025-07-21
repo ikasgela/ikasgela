@@ -107,6 +107,11 @@ class Actividad extends Model
             $copia = $youtube_video->duplicar($curso_destino);
             $this->reconectar($this->youtube_videos(), $youtube_video, $copia);
         }
+
+        foreach ($this->markdown_texts as $markdown_text) {
+            $copia = $markdown_text->duplicar($curso_destino);
+            $this->reconectar($this->markdown_texts(), $markdown_text, $copia);
+        }
     }
 
     private function reconectar($coleccion, $original, $copia)
