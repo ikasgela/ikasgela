@@ -24,6 +24,7 @@ class CursoFactory extends Factory
             'descripcion' => fake()->sentence(8),
             'slug' => Str::slug($name),
             'plazo_actividad' => 7,
+            'gitea_organization' => Str::slug($name),
         ];
     }
 }
