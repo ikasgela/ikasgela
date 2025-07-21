@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -66,45 +67,150 @@ class Actividad extends Model
         $this->cloneable_relations = $relations;
     }
 
-    public function onCloned($src)
+    public function duplicar_recursos_consumibles()
     {
         if ($this->intellij_projects()->count() > 1) {
             $intellij_project_ids = $this->intellij_projects()->get()->pluck('id')->toArray();
-
             $random = array_rand($intellij_project_ids);
-
             $this->intellij_projects()->sync([$intellij_project_ids[$random]]);
         }
 
-        foreach ($src->cuestionarios as $cuestionario) {
+        foreach ($this->cuestionarios as $cuestionario) {
             $copia = $cuestionario->duplicate();
             $this->cuestionarios()->detach($cuestionario);
             $this->cuestionarios()->attach($copia, ['orden' => $cuestionario->pivot->orden]);
         }
 
-        foreach ($src->file_uploads as $file_upload) {
+        foreach ($this->file_uploads as $file_upload) {
             $copia = $file_upload->duplicate();
-            $this->file_uploads()->detach($file_upload);
-            $this->file_uploads()->attach($copia, [
-                'orden' => $file_upload->pivot->orden,
-                'titulo_visible' => $file_upload->pivot->titulo_visible,
-                'descripcion_visible' => $file_upload->pivot->descripcion_visible,
-                'columnas' => $file_upload->pivot->columnas,
-            ]);
+            $this->reconectar($this->file_uploads(), $file_upload, $copia);
         }
 
-        foreach ($src->rubrics as $rubric) {
+        foreach ($this->rubrics as $rubric) {
             $copia = $rubric->duplicate();
-            $this->rubrics()->detach($rubric);
-            $this->rubrics()->attach($copia, [
-                'orden' => $rubric->pivot->orden,
-                'titulo_visible' => $rubric->pivot->titulo_visible,
-                'descripcion_visible' => $rubric->pivot->descripcion_visible,
-                'columnas' => $rubric->pivot->columnas,
-            ]);
+            $this->reconectar($this->rubrics(), $rubric, $copia);
+        }
+    }
+
+    public function duplicar_recursos(?Curso $curso_destino)
+    {
+        foreach ($this->file_resources as $file_resource) {
+            $copia = $file_resource->duplicar($curso_destino);
+            $this->reconectar($this->file_resources(), $file_resource, $copia);
         }
 
-        $this->orden = $this->id;
+        foreach ($this->file_uploads as $file_upload) {
+            $copia = $file_upload->duplicar($curso_destino);
+            $this->reconectar($this->file_uploads(), $file_upload, $copia);
+        }
+
+        foreach ($this->youtube_videos as $youtube_video) {
+            $copia = $youtube_video->duplicar($curso_destino);
+            $this->reconectar($this->youtube_videos(), $youtube_video, $copia);
+        }
+
+        foreach ($this->markdown_texts as $markdown_text) {
+            $copia = $markdown_text->duplicar($curso_destino);
+            $this->reconectar($this->markdown_texts(), $markdown_text, $copia);
+        }
+
+        foreach ($this->intellij_projects as $intellij_project) {
+            $copia = $intellij_project->duplicar($curso_destino);
+            $this->reconectar($this->intellij_projects(), $intellij_project, $copia);
+        }
+
+        foreach ($this->link_collections as $link_collection) {
+            $copia = $link_collection->duplicar($curso_destino);
+            $this->reconectar($this->link_collections(), $link_collection, $copia);
+        }
+
+        foreach ($this->cuestionarios as $cuestionario) {
+            $copia = $cuestionario->duplicar($curso_destino);
+            $this->reconectar($this->cuestionarios(), $cuestionario, $copia);
+        }
+
+        foreach ($this->rubrics as $rubric) {
+            $copia = $rubric->duplicar($curso_destino);
+            $this->reconectar($this->rubrics(), $rubric, $copia);
+        }
+
+        foreach ($this->selectors as $selector) {
+            $copia = $selector->duplicar($curso_destino);
+            $this->reconectar($this->selectors(), $selector, $copia);
+        }
+    }
+
+    public function trasladar_recursos(?Curso $curso_destino)
+    {
+        foreach ($this->file_resources as $file_resource) {
+            $file_resource->curso_id = $curso_destino->id;
+            $file_resource->save();
+        }
+
+        foreach ($this->file_uploads as $file_upload) {
+            $file_upload->curso_id = $curso_destino->id;
+            $file_upload->save();
+        }
+
+        foreach ($this->youtube_videos as $youtube_video) {
+            $youtube_video->curso_id = $curso_destino->id;
+            $youtube_video->save();
+        }
+
+        foreach ($this->markdown_texts as $markdown_text) {
+            $markdown_text->curso_id = $curso_destino->id;
+
+            // Al mover a otro curso, duplicar el repositorio
+            $clonado = $markdown_text->duplicar_repositorio($curso_destino);
+            $markdown_text->repositorio = $clonado['path_with_namespace'];
+
+            $markdown_text->save();
+
+            Cache::forget($markdown_text->cacheKey());
+        }
+
+        foreach ($this->intellij_projects as $intellij_project) {
+            $intellij_project->curso_id = $curso_destino->id;
+
+            // Al mover a otro curso, duplicar el repositorio
+            $clonado = $intellij_project->duplicar_repositorio($curso_destino);
+            $intellij_project->repositorio = $clonado['path_with_namespace'];
+
+            $intellij_project->save();
+
+            Cache::forget($intellij_project->templateCacheKey());
+        }
+
+        foreach ($this->link_collections as $link_collection) {
+            $link_collection->curso_id = $curso_destino->id;
+            $link_collection->save();
+        }
+
+        foreach ($this->cuestionarios as $cuestionario) {
+            $cuestionario->curso_id = $curso_destino->id;
+            $cuestionario->save();
+        }
+
+        foreach ($this->rubrics as $rubric) {
+            $rubric->curso_id = $curso_destino->id;
+            $rubric->save();
+        }
+
+        foreach ($this->selectors as $selector) {
+            $selector->curso_id = $curso_destino->id;
+            $selector->save();
+        }
+    }
+
+    private function reconectar($coleccion, $original, $copia)
+    {
+        $coleccion->detach($original);
+        $coleccion->attach($copia, [
+            'orden' => $original->pivot->orden,
+            'titulo_visible' => $original->pivot->titulo_visible,
+            'descripcion_visible' => $original->pivot->descripcion_visible,
+            'columnas' => $original->pivot->columnas,
+        ]);
     }
 
     public function unidad()

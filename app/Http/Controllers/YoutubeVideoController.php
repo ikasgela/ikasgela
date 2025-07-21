@@ -134,10 +134,8 @@ class YoutubeVideoController extends Controller
 
     public function duplicar(YoutubeVideo $youtube_video)
     {
-        $clon = $youtube_video->duplicate();
-        $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
-        $clon->save();
+        $youtube_video->duplicar(null);
 
-        return back();
+        return redirect(route('youtube_videos.index'));
     }
 }

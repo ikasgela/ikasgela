@@ -438,11 +438,9 @@ class IntellijProjectController extends Controller
 
     public function duplicar(IntellijProject $intellij_project)
     {
-        $clon = $intellij_project->duplicate();
-        $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
-        $clon->save();
+        $intellij_project->duplicar(null);
 
-        return back();
+        return redirect(route('intellij_projects.index'));
     }
 
     public function descargar_repos_usuario()

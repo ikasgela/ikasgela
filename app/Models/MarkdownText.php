@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\ClonarRepoGitea;
 use Bkwld\Cloner\Cloneable;
 use Exception;
 use GrahamCampbell\Markdown\Facades\Markdown;
@@ -17,6 +18,7 @@ class MarkdownText extends Model
 {
     use HasFactory;
     use Cloneable;
+    use ClonarRepoGitea;
 
     protected $fillable = [
         'titulo', 'descripcion', 'repositorio', 'rama', 'archivo',
@@ -30,11 +32,14 @@ class MarkdownText extends Model
             ->withTimestamps();
     }
 
+    public function cacheKey(): string
+    {
+        return $this->repositorio . '/' . $this->archivo;
+    }
+
     public function markdown()
     {
-        $key = $this->repositorio . '/' . $this->archivo;
-
-        return Cache::remember($key, now()->addDays(config('ikasgela.markdown_cache_days')), function () {
+        return Cache::remember($this->cacheKey(), now()->addDays(config('ikasgela.markdown_cache_days')), function () {
 
             try {
                 $repositorio = $this->repositorio;
@@ -98,5 +103,40 @@ class MarkdownText extends Model
     public function pivote(Actividad $actividad)
     {
         return $actividad->markdown_texts()->find($this->id)->pivot;
+    }
+
+    public function duplicar(?Curso $curso_destino)
+    {
+        $clon = $this->duplicate();
+        if (is_null($curso_destino)) {
+            $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
+        } else {
+            $clon->curso_id = $curso_destino->id;
+        }
+        $clon->save();
+
+        // Si copiamos a otro curso, duplicar el repositorio
+        if (!is_null($curso_destino)) {
+            $clonado = $this->duplicar_repositorio($curso_destino);
+            $clon->repositorio = $clonado['path_with_namespace'];
+            $clon->save();
+        }
+
+        return $clon;
+    }
+
+    public function duplicar_repositorio(?Curso $curso_destino)
+    {
+        $proyecto = GiteaClient::repo($this->repositorio);
+        $usuario = $curso_destino->gitea_organization;
+        $ruta = $proyecto['name'];
+        $nombre = $proyecto['description'];
+
+        // Verificar que sea plantilla, si no, convertirlo
+        if (!$proyecto['template']) {
+            GiteaClient::template($proyecto['owner'], $proyecto['name'], true);
+        }
+
+        return $this->clonar_repositorio($proyecto['path_with_namespace'], $usuario, $ruta, $nombre);
     }
 }

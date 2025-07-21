@@ -120,10 +120,8 @@ class SelectorController extends Controller
 
     public function duplicar(Selector $selector)
     {
-        $clon = $selector->duplicate();
-        $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
-        $clon->save();
+        $selector->duplicar(null);
 
-        return back();
+        return redirect(route('selectors.index'));
     }
 }

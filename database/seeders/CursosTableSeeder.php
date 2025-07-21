@@ -36,6 +36,7 @@ class CursosTableSeeder extends Seeder
             'minimo_examenes' => 50,
             'examenes_obligatorios' => false,
             'progreso_visible' => true,
+            'gitea_organization' => 'root',
         ]);
 
         /*        $category = Category::whereHas('period.organization', function ($query) {

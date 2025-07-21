@@ -63,4 +63,18 @@ class FileUpload extends Model
 
         $this->delete();
     }
+
+    public function duplicar(?Curso $curso_destino)
+    {
+        $clon = $this->duplicate();
+        if (is_null($curso_destino)) {
+            $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
+        } else {
+            $clon->curso_id = $curso_destino->id;
+        }
+        $clon->plantilla = $this->plantilla;
+        $clon->save();
+
+        return $clon;
+    }
 }

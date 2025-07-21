@@ -137,10 +137,8 @@ class LinkCollectionController extends Controller
 
     public function duplicar(LinkCollection $link_collection)
     {
-        $clon = $link_collection->duplicate();
-        $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
-        $clon->save();
+        $link_collection->duplicar(null);
 
-        return back();
+        return redirect(route('link_collections.index'));
     }
 }

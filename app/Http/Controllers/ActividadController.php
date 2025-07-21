@@ -549,16 +549,30 @@ class ActividadController extends Controller
     private function crear_duplicado(Actividad $actividad, $unidad_id = null)
     {
         $clon = $actividad->duplicate();
+
+        if (!is_null($unidad_id)) {
+            $unidad_destino = Unidad::findOrFail($unidad_id);
+            $clon->unidad_id = $unidad_destino->id;
+            $clon->save();
+
+            $curso_origen = $actividad->unidad->curso;
+            $curso_destino = $unidad_destino->curso;
+
+            if ($curso_destino->id != $curso_origen->id) {
+                $clon->duplicar_recursos($curso_destino);
+            }
+        }
+
         $clon->plantilla = $actividad->plantilla;
         $clon->siguiente = null;
-        $clon->nombre = $clon->nombre . " (" . __("Copy") . ')';
-        $clon->slug = Str::slug($clon->nombre);
+
+        if (is_null($unidad_id)) {
+            $clon->nombre = $clon->nombre . " (" . __("Copy") . ')';
+            $clon->slug = Str::slug($clon->nombre);
+        }
 
         $clon->save();
         $clon->orden = $clon->id;
-
-        if (!is_null($unidad_id))
-            $clon->unidad_id = $unidad_id;
 
         $clon->save();
     }
@@ -566,8 +580,17 @@ class ActividadController extends Controller
     private function mover(Actividad $actividad, $unidad_id = null)
     {
         if (!is_null($unidad_id)) {
-            $actividad->unidad_id = $unidad_id;
+            $unidad_destino = Unidad::findOrFail($unidad_id);
+
+            $curso_origen = $actividad->unidad->curso;
+            $curso_destino = $unidad_destino->curso;
+
+            $actividad->unidad_id = $unidad_destino->id;
             $actividad->save();
+
+            if ($curso_destino->id != $curso_origen->id) {
+                $actividad->trasladar_recursos($curso_destino);
+            }
         }
     }
 
@@ -828,6 +851,7 @@ class ActividadController extends Controller
     public function clonarActividad(Actividad $siguiente)
     {
         $clon = $siguiente->duplicate();
+        $clon->duplicar_recursos_consumibles();
         $clon->plantilla_id = $siguiente->id;
         return $clon;
     }

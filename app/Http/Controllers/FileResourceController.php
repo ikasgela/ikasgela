@@ -9,7 +9,6 @@ use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class FileResourceController extends Controller
@@ -142,22 +141,8 @@ class FileResourceController extends Controller
 
     public function duplicar(FileResource $file_resource)
     {
-        $clon = $file_resource->duplicate();
-        $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
-        $clon->save();
+        $file_resource->duplicar(null);
 
-        // Recorrer y duplicar los ficheros en S3
-        foreach ($clon->files as $file) {
-            $old_path = $file->path;
-            $filename = basename((string)$old_path);
-            $new_path = md5(time()) . '/' . $filename;
-
-            Storage::disk('s3')->copy('documents/' . $old_path, 'documents/' . $new_path);
-
-            $file->path = $new_path;
-            $file->save();
-        }
-
-        return back();
+        return redirect(route('file_resources.index'));
     }
 }

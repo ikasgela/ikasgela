@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\ClonarRepoGitea;
 use Bkwld\Cloner\Cloneable;
 use Exception;
 use Ikasgela\Gitea\GiteaClient;
@@ -20,6 +21,7 @@ class IntellijProject extends Model
 {
     use HasFactory;
     use Cloneable;
+    use ClonarRepoGitea;
 
     protected $fillable = [
         'repositorio', 'titulo', 'descripcion', 'host',
@@ -232,5 +234,40 @@ class IntellijProject extends Model
     public function isSafeExamOnMac(): bool
     {
         return Agent::platform() == 'OS X' && Str::contains(Agent::getUserAgent(), "SEB/ikasgela");
+    }
+
+    public function duplicar(?Curso $curso_destino)
+    {
+        $clon = $this->duplicate();
+        if (is_null($curso_destino)) {
+            $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
+        } else {
+            $clon->curso_id = $curso_destino->id;
+        }
+        $clon->save();
+
+        // Si copiamos a otro curso, duplicar el repositorio
+        if (!is_null($curso_destino)) {
+            $clonado = $this->duplicar_repositorio($curso_destino);
+            $clon->repositorio = $clonado['path_with_namespace'];
+            $clon->save();
+        }
+
+        return $clon;
+    }
+
+    public function duplicar_repositorio(?Curso $curso_destino)
+    {
+        $proyecto = GiteaClient::repo($this->repositorio);
+        $usuario = $curso_destino->gitea_organization;
+        $ruta = $proyecto['name'];
+        $nombre = $proyecto['description'];
+
+        // Verificar que sea plantilla, si no, convertirlo
+        if (!$proyecto['template']) {
+            GiteaClient::template($proyecto['owner'], $proyecto['name'], true);
+        }
+
+        return $this->clonar_repositorio($proyecto['path_with_namespace'], $usuario, $ruta, $nombre);
     }
 }

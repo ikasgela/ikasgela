@@ -46,4 +46,17 @@ class YoutubeVideo extends Model
     {
         return $actividad->youtube_videos()->find($this->id)->pivot;
     }
+
+    public function duplicar(?Curso $curso_destino)
+    {
+        $clon = $this->duplicate();
+        if (is_null($curso_destino)) {
+            $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
+        } else {
+            $clon->curso_id = $curso_destino->id;
+        }
+        $clon->save();
+
+        return $clon;
+    }
 }

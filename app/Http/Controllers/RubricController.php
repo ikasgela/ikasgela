@@ -122,11 +122,8 @@ class RubricController extends Controller
 
     public function duplicar(Rubric $rubric)
     {
-        $clon = $rubric->duplicate();
-        $clon->titulo = $clon->titulo . " (" . __("Copy") . ')';
-        $clon->plantilla = $rubric->plantilla;
-        $clon->save();
+        $rubric->duplicar(null);
 
-        return back();
+        return redirect(route('rubrics.index'));
     }
 }

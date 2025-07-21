@@ -364,6 +364,7 @@ class ProfesorController extends Controller
             // REF: https://github.com/BKWLD/cloner
 
             $clon = $actividad->duplicate();
+            $clon->duplicar_recursos_consumibles();
             $clon->plantilla_id = $actividad->id;
             $clon->orden = $clon->id;
 
@@ -408,6 +409,7 @@ class ProfesorController extends Controller
             // REF: https://github.com/BKWLD/cloner
 
             $clon = $actividad->duplicate();
+            $clon->duplicar_recursos_consumibles();
             $clon->plantilla_id = $actividad->id;
             $clon->orden = $clon->id;
 

@@ -31,6 +31,7 @@ class Curso extends Model
         'tarea_bienvenida_id',
         'normalizar_nota', 'ajuste_proporcional_nota',
         'mostrar_calificaciones',
+        'gitea_organization',
     ];
 
     public function getFullNameAttribute()
