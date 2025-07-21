@@ -112,6 +112,11 @@ class Actividad extends Model
             $copia = $markdown_text->duplicar($curso_destino);
             $this->reconectar($this->markdown_texts(), $markdown_text, $copia);
         }
+
+        foreach ($this->intellij_projects as $intellij_project) {
+            $copia = $intellij_project->duplicar($curso_destino);
+            $this->reconectar($this->intellij_projects(), $intellij_project, $copia);
+        }
     }
 
     private function reconectar($coleccion, $original, $copia)
