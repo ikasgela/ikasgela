@@ -139,6 +139,11 @@
                 'name' => 'mostrar_calificaciones',
             ])
 
+            @include('components.label-text', [
+                'label' => __('Gitea organization'),
+                'name' => 'gitea_organization',
+            ])
+
             @include('partials.guardar_cancelar')
             @include('layouts.errors')
             {{ html()->closeModelForm() }}

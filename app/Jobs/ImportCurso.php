@@ -88,7 +88,7 @@ class ImportCurso implements ShouldQueue
         // Curso
         $json = $this->cargarFichero($ruta, 'curso.json');
         $json['nombre'] .= '-' . bin2hex(openssl_random_pseudo_bytes(3));
-        $json['slug'] = $slug_curso = Str::slug($json['nombre']);
+        $json['gitea_organization'] = $json['slug'] = $slug_curso = Str::slug($json['nombre']);
 
         Log::debug('Iniciando importación de curso...', [
             'curso' => $slug_curso
