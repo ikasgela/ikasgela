@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use League\Flysystem\UnableToReadFile;
 use ZipArchive;
 
 class CursoController extends Controller
@@ -441,9 +442,15 @@ class CursoController extends Controller
 
         foreach ($curso->file_resources as $file_resource) {
             foreach ($file_resource->files as $file) {
-                $datos = Storage::disk('s3')->get('documents/' . $file->path);
-                if (isset($datos)) {
-                    Storage::disk('temp')->put($ruta . '/' . $file->path, $datos);
+                $origen = 'documents/' . $file->path;
+                $destino = $ruta . '/' . $file->path;
+                try {
+                    $datos = Storage::disk('s3')->get($origen);
+                    Storage::disk('temp')->put($destino, $datos);
+                } catch (UnableToReadFile) {
+                    Log::error("Error al exportar un fichero de S3", [
+                        'origen' => $origen,
+                    ]);
                 }
             }
         }
