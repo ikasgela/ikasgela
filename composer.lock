@@ -242,16 +242,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.351.4",
+            "version": "3.351.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "19dfd2db0f6ce35e1947e8bff4d956614b4aaaaf"
+                "reference": "2f00efa2544d158ea366c1e1174097ef330ec883"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/19dfd2db0f6ce35e1947e8bff4d956614b4aaaaf",
-                "reference": "19dfd2db0f6ce35e1947e8bff4d956614b4aaaaf",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/2f00efa2544d158ea366c1e1174097ef330ec883",
+                "reference": "2f00efa2544d158ea366c1e1174097ef330ec883",
                 "shasum": ""
             },
             "require": {
@@ -333,9 +333,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.351.4"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.351.5"
             },
-            "time": "2025-07-22T18:12:04+00:00"
+            "time": "2025-07-23T18:04:16+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -6235,16 +6235,16 @@
         },
         {
             "name": "phpoffice/phpspreadsheet",
-            "version": "1.29.11",
+            "version": "1.29.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-                "reference": "05b6c4378ddf3e81b460ea645c42b46432c0db25"
+                "reference": "7c06eed662cce7ecab88f6f9f7626b443f5285df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/05b6c4378ddf3e81b460ea645c42b46432c0db25",
-                "reference": "05b6c4378ddf3e81b460ea645c42b46432c0db25",
+                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/7c06eed662cce7ecab88f6f9f7626b443f5285df",
+                "reference": "7c06eed662cce7ecab88f6f9f7626b443f5285df",
                 "shasum": ""
             },
             "require": {
@@ -6335,9 +6335,9 @@
             ],
             "support": {
                 "issues": "https://github.com/PHPOffice/PhpSpreadsheet/issues",
-                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/1.29.11"
+                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/1.29.12"
             },
-            "time": "2025-06-23T01:22:06+00:00"
+            "time": "2025-07-23T04:40:30+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -8143,16 +8143,16 @@
         },
         {
             "name": "stechstudio/laravel-zipstream",
-            "version": "5.5",
+            "version": "5.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stechstudio/laravel-zipstream.git",
-                "reference": "a528db854ed8de6b9d9cad2c601dc84ef3ac59fa"
+                "reference": "e0c1242716d58f8bcaeaea14ba7c7ac2a1626ba8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stechstudio/laravel-zipstream/zipball/a528db854ed8de6b9d9cad2c601dc84ef3ac59fa",
-                "reference": "a528db854ed8de6b9d9cad2c601dc84ef3ac59fa",
+                "url": "https://api.github.com/repos/stechstudio/laravel-zipstream/zipball/e0c1242716d58f8bcaeaea14ba7c7ac2a1626ba8",
+                "reference": "e0c1242716d58f8bcaeaea14ba7c7ac2a1626ba8",
                 "shasum": ""
             },
             "require": {
@@ -8204,9 +8204,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stechstudio/laravel-zipstream/issues",
-                "source": "https://github.com/stechstudio/laravel-zipstream/tree/5.5"
+                "source": "https://github.com/stechstudio/laravel-zipstream/tree/5.7"
             },
-            "time": "2025-05-14T19:04:31+00:00"
+            "time": "2025-07-23T22:41:52+00:00"
         },
         {
             "name": "symfony/clock",
