@@ -56,13 +56,19 @@ class CursoController extends Controller
             'category_id' => 'required',
             'nombre' => 'required',
             'plazo_actividad' => 'required',
+            'gitea_organization' => 'max:40',
         ]);
 
         $curso = Curso::create([
             'category_id' => request('category_id'),
             'nombre' => request('nombre'),
             'descripcion' => request('descripcion'),
-            'slug' => Str::slug(request('nombre')),
+            'slug' => Str::length(request('slug')) > 0
+                ? Str::slug(request('slug'))
+                : Str::slug(request('nombre')),
+            'gitea_organization' => Str::length(request('gitea_organization')) > 0
+                ? Str::slug(request('gitea_organization'))
+                : Str::limit(Str::slug(request('nombre')), 40, ''),
             'tags' => request('tags'),
             'matricula_abierta' => $request->has('matricula_abierta'),
             'qualification_id' => request('qualification_id'),
@@ -81,7 +87,6 @@ class CursoController extends Controller
             'normalizar_nota' => $request->has('normalizar_nota'),
             'ajuste_proporcional_nota' => $request->input('ajuste_proporcional_nota'),
             'mostrar_calificaciones' => $request->has('mostrar_calificaciones'),
-            'gitea_organization' => Str::slug(request('nombre')),
         ]);
 
         GiteaClient::organization($curso->gitea_organization, 'root');
@@ -114,15 +119,19 @@ class CursoController extends Controller
             'category_id' => 'required',
             'nombre' => 'required',
             'plazo_actividad' => 'required',
+            'gitea_organization' => 'max:40',
         ]);
 
         $curso->update([
             'category_id' => request('category_id'),
             'nombre' => request('nombre'),
             'descripcion' => request('descripcion'),
-            'slug' => strlen((string)request('slug')) > 0
+            'slug' => Str::length(request('slug')) > 0
                 ? Str::slug(request('slug'))
                 : Str::slug(request('nombre')),
+            'gitea_organization' => Str::length(request('gitea_organization')) > 0
+                ? Str::slug(request('gitea_organization'))
+                : Str::limit(Str::slug(request('nombre')), 40, ''),
             'tags' => request('tags'),
             'matricula_abierta' => $request->has('matricula_abierta'),
             'qualification_id' => request('qualification_id'),
@@ -142,8 +151,9 @@ class CursoController extends Controller
             'normalizar_nota' => $request->has('normalizar_nota'),
             'ajuste_proporcional_nota' => $request->input('ajuste_proporcional_nota'),
             'mostrar_calificaciones' => $request->has('mostrar_calificaciones'),
-            'gitea_organization' => request('gitea_organization'),
         ]);
+
+        GiteaClient::organization($curso->gitea_organization, 'root');
 
         return retornar();
     }

@@ -33,6 +33,10 @@
                 'name' => 'slug',
             ])
             @include('components.label-text', [
+                'label' => __('Gitea organization'),
+                'name' => 'gitea_organization',
+            ])
+            @include('components.label-text', [
                 'label' => __('Tags'),
                 'name' => 'tags',
             ])

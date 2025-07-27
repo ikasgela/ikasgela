@@ -33,6 +33,10 @@
                 'name' => 'slug',
             ])
             @include('components.label-text', [
+                'label' => __('Gitea organization'),
+                'name' => 'gitea_organization',
+            ])
+            @include('components.label-text', [
                 'label' => __('Tags'),
                 'name' => 'tags',
             ])
@@ -137,11 +141,6 @@
             @include('components.label-check', [
                 'label' => __('Show califications'),
                 'name' => 'mostrar_calificaciones',
-            ])
-
-            @include('components.label-text', [
-                'label' => __('Gitea organization'),
-                'name' => 'gitea_organization',
             ])
 
             @include('partials.guardar_cancelar')
