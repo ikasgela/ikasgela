@@ -203,7 +203,7 @@ class ImportCurso implements ShouldQueue
             ]));
 
             if ($key === array_key_first($json)) {
-                GiteaClient::organization($slug_curso, 'root');
+                GiteaClient::organization($gitea_organization, $curso->nombre);
             }
 
             $nombre_exportacion = Str::replace('/', '@', $objeto['repositorio']);
@@ -244,7 +244,7 @@ class ImportCurso implements ShouldQueue
             ]));
 
             if ($key === array_key_first($json)) {
-                GiteaClient::organization($slug_curso, 'root');
+                GiteaClient::organization($gitea_organization, $curso->nombre);
             }
 
             $nombre_exportacion = Str::replace('/', '@', $objeto['repositorio']);

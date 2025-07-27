@@ -89,7 +89,7 @@ class CursoController extends Controller
             'mostrar_calificaciones' => $request->has('mostrar_calificaciones'),
         ]);
 
-        GiteaClient::organization($curso->gitea_organization, 'root');
+        GiteaClient::organization($curso->gitea_organization, $curso->nombre);
 
         return retornar();
     }
@@ -153,7 +153,7 @@ class CursoController extends Controller
             'mostrar_calificaciones' => $request->has('mostrar_calificaciones'),
         ]);
 
-        GiteaClient::organization($curso->gitea_organization, 'root');
+        GiteaClient::organization($curso->gitea_organization, $curso->nombre);
 
         return retornar();
     }
