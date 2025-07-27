@@ -87,8 +87,15 @@ class ImportCurso implements ShouldQueue
 
         // Curso
         $json = $this->cargarFichero($ruta, 'curso.json');
-        $json['nombre'] .= '-' . bin2hex(openssl_random_pseudo_bytes(3));
-        $json['gitea_organization'] = $json['slug'] = $slug_curso = Str::slug($json['nombre']);
+
+        $sufijo = '-' . bin2hex(openssl_random_pseudo_bytes(3));
+
+        $slug_curso = Str::slug($json['nombre'] . $sufijo);
+        $gitea_organization = Str::limit(Str::slug($json['nombre']), 33, '') . $sufijo;
+
+        $json['nombre'] .= $sufijo;
+        $json['slug'] = $slug_curso;
+        $json['gitea_organization'] = $gitea_organization;
 
         Log::debug('Iniciando importación de curso...', [
             'curso' => $slug_curso
@@ -199,7 +206,7 @@ class ImportCurso implements ShouldQueue
 
             IntellijProject::create(array_merge($objeto, [
                 'curso_id' => $curso->id,
-                'repositorio' => "$slug_curso/$nombre_repositorio",
+                'repositorio' => "$gitea_organization/$nombre_repositorio",
             ]));
 
             if ($key === array_key_first($json)) {
@@ -208,7 +215,7 @@ class ImportCurso implements ShouldQueue
 
             $nombre_exportacion = Str::replace('/', '@', $objeto['repositorio']);
 
-            $ok = $this->importarRepositorio($ruta . '/repositorios/', $nombre_exportacion, $nombre_repositorio, $slug_curso);
+            $ok = $this->importarRepositorio($ruta . '/repositorios/', $nombre_exportacion, $nombre_repositorio, $gitea_organization);
             if ($ok) {
                 $total += 1;
             }
@@ -240,7 +247,7 @@ class ImportCurso implements ShouldQueue
 
             MarkdownText::create(array_merge($objeto, [
                 'curso_id' => $curso->id,
-                'repositorio' => "$slug_curso/$nombre_repositorio",
+                'repositorio' => "$gitea_organization/$nombre_repositorio",
             ]));
 
             if ($key === array_key_first($json)) {
@@ -249,7 +256,7 @@ class ImportCurso implements ShouldQueue
 
             $nombre_exportacion = Str::replace('/', '@', $objeto['repositorio']);
 
-            $ok = $this->importarRepositorio($ruta . '/markdown/', $nombre_exportacion, $nombre_repositorio, $slug_curso);
+            $ok = $this->importarRepositorio($ruta . '/markdown/', $nombre_exportacion, $nombre_repositorio, $gitea_organization);
             if ($ok) {
                 $total += 1;
             }
