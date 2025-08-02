@@ -46,7 +46,7 @@
                                     {{ html()->file('file')->class("form-control") }}
                                 </div>
                                 <div class="col">
-                                    {{ html()->submit('<i class="fas fa-spinner fa-spin" style="display:none;"></i> ' . __('Import course'))
+                                    {{ html()->submit('<span class="spinner-border spinner-border-sm" style="display:none;"></span> ' . __('Import course'))
                                                 ->class('btn btn-primary single_click ms-3') }}
                                 </div>
                             </div>

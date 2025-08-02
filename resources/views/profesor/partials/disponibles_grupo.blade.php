@@ -10,7 +10,7 @@
         <div class="d-flex justify-content-between mb-3">
             <div style="flex-grow: 1">
                 <button type="submit" class="btn btn-primary single_click">
-                    <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Save assigment') }}
+                    <span class="spinner-border spinner-border-sm" style="display:none;"></span> {{ __('Save assigment') }}
                 </button>
             </div>
             <div class="d-flex justify-content-end align-items-center" style="flex-grow: 2">

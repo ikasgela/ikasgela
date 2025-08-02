@@ -67,7 +67,7 @@
             <div class="help-block text-danger mb-3">{{ $errors->first('url') }}</div>
 
             <button class="btn btn-primary single_click">
-                <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Add') }}
+                <span class="spinner-border spinner-border-sm" style="display:none;"></span> {{ __('Add') }}
             </button>
 
             {{ html()->form()->close() }}

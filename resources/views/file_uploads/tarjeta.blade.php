@@ -84,7 +84,7 @@
                     <span class="help-block text-danger">{{ $errors->first('file') }}</span>
                 </div>
                 <button class="btn btn-primary single_click">
-                    <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Upload') }}</button>
+                    <span class="spinner-border spinner-border-sm" style="display:none;"></span> {{ __('Upload') }}</button>
             </form>
         </div>
     @endif

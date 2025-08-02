@@ -72,7 +72,7 @@ $en_blanco = $total - $respondidas;
         <hr class="my-0">
         <div class="card-body">
             <button type="submit" class="btn btn-primary single_click">
-                <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Check answers') }}</button>
+                <span class="spinner-border spinner-border-sm" style="display:none;"></span> {{ __('Check answers') }}</button>
         </div>
     @endif
 

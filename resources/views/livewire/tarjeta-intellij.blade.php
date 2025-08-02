@@ -47,13 +47,13 @@
                             title="{{ __('Clone the project') }}"
                             type="submit"
                             class="btn btn-primary mb-3 single_click">
-                        <i class="fas fa-spinner fa-spin" style="display:none;"></i>
+                        <span class="spinner-border spinner-border-sm" style="display:none;"></span>
                         {{ __('Clone the project') }}
                     </button>
                 @elseif($fork_status == 1)
                     <div class="mb-3 d-flex align-items-center">
                         <a href="#" class="btn btn-primary disabled me-3">
-                            <i class="fas fa-spinner fa-spin"></i> {{ __('Clone the project') }}
+                            <span class="spinner-border spinner-border-sm"></span> {{ __('Clone the project') }}
                         </a>
                         <span>{{ __('Cloning, please wait...') }}</span>
                     </div>
