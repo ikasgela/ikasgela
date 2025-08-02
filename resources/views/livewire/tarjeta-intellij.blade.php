@@ -16,7 +16,7 @@
                         <i class="fas fa-table me-2"></i>{{ __('SQL project') }}
                         @break
                     @case('idea')
-                        <i class="fab fa-java me-2"></i>{{ __('Java project') }}
+                        <i class="bi bi-filetype-java me-2"></i>{{ __('Java project') }}
                         @break
                     @case('phpstorm')
                         <i class="fa-brands fa-php me-2"></i>{{ __('PHP project') }}

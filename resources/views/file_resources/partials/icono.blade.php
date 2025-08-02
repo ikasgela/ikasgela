@@ -18,5 +18,5 @@
         <i class="fas fa-file-zipper" style="color:#eaa947"></i>
         @break
     @default
-        <i class="fas fa-file" style="color:gray"></i>
+        <i class="bi bi-file-earmark" style="color:gray"></i>
 @endswitch

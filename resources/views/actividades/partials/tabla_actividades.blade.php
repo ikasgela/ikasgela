@@ -34,7 +34,7 @@
                 </td>
                 <td class="clickable">{{ $actividad->id }}</td>
                 @if(Route::currentRouteName() == 'actividades.index')
-                    <td>{!! $actividad->plantilla ? '<i class="fas fa-file"></i>' : '' !!}</td>
+                    <td>{!! $actividad->plantilla ? '<i class="bi bi-file-earmark"></i>' : '' !!}</td>
                 @endif
                 <td class="clickable">{{ $actividad->unidad->full_name }}</td>
                 @if(Str::startsWith(Route::currentRouteName(), 'actividades.plantillas'))
@@ -92,7 +92,7 @@
                     <div class='btn-group'>
                         <a title="{{ __('Preview') }}"
                            href="{{ route('actividades.preview', [$actividad->id]) }}"
-                           class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
+                           class='btn btn-light btn-sm'><i class="bi bi-eye"></i></a>
                         <a title="{{ __('Edit') }}"
                            href="{{ route('actividades.edit', [$actividad->id]) }}"
                            class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>

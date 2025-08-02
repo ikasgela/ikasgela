@@ -35,7 +35,7 @@
                                 <div class='btn-group'>
                                     <a title="{{ __('Show') }}"
                                        href="{{ route('selectors.show', [$selector->id]) }}"
-                                       class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
+                                       class='btn btn-light btn-sm'><i class="bi bi-eye"></i></a>
                                     <a title="{{ __('Edit') }}"
                                        href="{{ route('selectors.edit', [$selector->id]) }}"
                                        class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>

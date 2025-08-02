@@ -50,7 +50,7 @@
                         <div class='btn-group'>
                             <a title="{{ __('Preview') }}"
                                href="{{ route('teams.show', [$team->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
+                               class='btn btn-light btn-sm'><i class="bi bi-eye"></i></a>
 
                             @if(Auth::user()?->hasAnyRole(['profesor', 'admin']))
                                 {{ html()->form('POST', route('messages.create-with-subject-team'))->open() }}

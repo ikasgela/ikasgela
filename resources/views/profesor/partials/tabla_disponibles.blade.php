@@ -54,7 +54,7 @@
                     <div class='btn-group'>
                         <a title="{{ __('Preview') }}"
                            href="{{ route('actividades.preview', [$actividad->id]) }}"
-                           class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
+                           class='btn btn-light btn-sm'><i class="bi bi-eye"></i></a>
                     </div>
                 </td>
             </tr>

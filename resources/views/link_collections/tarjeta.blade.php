@@ -1,6 +1,6 @@
 <div class="card mb-3">
     <div class="card-header d-flex justify-content-between">
-        <div><i class="fas fa-link me-2"></i>{{ __('Links') }}</div>
+        <div><i class="bi bi-link me-2"></i>{{ __('Links') }}</div>
         <div>
             @include('partials.ver_recurso', ['recurso' => $link_collection, 'ruta' => 'link_collections'])
             @include('partials.modificar_recursos', ['ruta' => 'link_collections'])

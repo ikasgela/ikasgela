@@ -49,7 +49,7 @@
                                 <div class='btn-group'>
                                     <a title="{{ __('Show') }}"
                                        href="{{ route('link_collections.show', [$link_collection->id]) }}"
-                                       class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
+                                       class='btn btn-light btn-sm'><i class="bi bi-eye"></i></a>
                                     <a title="{{ __('Edit') }}"
                                        href="{{ route('link_collections.edit', [$link_collection->id]) }}"
                                        class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>

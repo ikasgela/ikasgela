@@ -16,7 +16,7 @@
                     @if($rubric_is_qualifying)
                         <a title="{{ __('Show') }}"
                            href="{{ route('rubrics.show', [$rubric->id]) }}"
-                           class='text-link-light'><i class="fas fa-eye"></i></a>
+                           class='text-link-light'><i class="bi bi-eye"></i></a>
                     @else
                         <a title="{{ __('Edit') }}"
                            href="#"

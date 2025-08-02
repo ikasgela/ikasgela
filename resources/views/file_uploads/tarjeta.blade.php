@@ -5,7 +5,7 @@
 
 <div class="card mb-3">
     <div class="card-header d-flex justify-content-between">
-        <div><i class="fas fa-file-upload me-2"></i>{{ __('Image upload') }}</div>
+        <div><i class="bi bi-upload me-2"></i>{{ __('Image upload') }}</div>
         <div>
             @include('partials.modificar_recursos', ['ruta' => 'file_uploads'])
             @include('partials.editar_recurso', ['recurso' => $file_upload, 'ruta' => 'file_uploads'])
