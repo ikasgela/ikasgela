@@ -12,7 +12,7 @@
 
     <a title="{{ __('Edit') }}"
        href="{{ route('users.edit', [$user->id]) }}"
-       class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+       class='btn btn-light btn-sm'><i class="bi bi-pencil-square"></i></a>
 
     <a title="{{ __('Change password') }}"
        href="{{ route('users.password', [$user->id]) }}"

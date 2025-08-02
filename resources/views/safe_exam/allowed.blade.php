@@ -33,7 +33,7 @@
                             <a href="{{ route('allowed_apps.edit', [$allowed_app->id]) }}"
                                title="{{ __('Edit allowed app') }}"
                                class="btn btn-sm btn-light me-2" role="button">
-                                <i class="fas fa-edit"></i>
+                                <i class="bi bi-pencil-square"></i>
                             </a>
                             <form action="{{ route('allowed_apps.duplicate', [$allowed_app->id]) }}" method="POST">
                                 @csrf
@@ -90,7 +90,7 @@
                             <a href="{{ route('allowed_urls.edit', [$allowed_url->id]) }}"
                                title="{{ __('Edit allowed URL') }}"
                                class="btn btn-sm btn-light me-2" role="button">
-                                <i class="fas fa-edit"></i>
+                                <i class="bi bi-pencil-square"></i>
                             </a>
                             <form action="{{ route('allowed_urls.duplicate', [$allowed_url->id]) }}" method="POST">
                                 @csrf

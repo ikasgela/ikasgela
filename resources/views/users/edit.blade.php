@@ -108,10 +108,10 @@
                 </div>
                 <div class="col-sm-1 d-flex flex-row justify-content-center align-items-center mt-3">
                     <button data-selector="organizations" type="button" class="btn btn-primary btn-sm add">
-                        <i class="fas fa-arrow-left"></i>
+                        <i class="bi bi-arrow-left"></i>
                     </button>
                     <button data-selector="organizations" type="button" class="btn btn-primary btn-sm ms-1 remove">
-                        <i class="fas fa-arrow-right"></i>
+                        <i class="bi bi-arrow-right"></i>
                     </button>
                 </div>
                 <div class="col">

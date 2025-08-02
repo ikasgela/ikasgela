@@ -31,7 +31,7 @@
                 @if(Auth::user()->hasAnyRole(['admin','profesor']) && Route::currentRouteName() == 'profesor.revisar')
                     <a title="{{ __('Edit') }}"
                        href="{{ route('intellij_projects.edit_fork', ['intellij_project' => $intellij_project->id, 'actividad' => $actividad->id]) }}"
-                       class='text-link-light'><i class="fas fa-edit"></i></a>
+                       class='text-link-light'><i class="bi bi-pencil-square"></i></a>
                 @endif
             </div>
         </div>

@@ -4,7 +4,7 @@
             type="submit"
             {{ !isset($ids[$loop->index-1]) ? 'disabled' : '' }}
             class="btn btn-light btn-sm">
-        <i class="fas fa-arrow-up"></i>
+        <i class="bi bi-arrow-up"></i>
     </button>
     {{ html()->form()->close() }}
 
@@ -13,7 +13,7 @@
             type="submit"
             {{ !isset($ids[$loop->index+1]) ? 'disabled' : '' }}
             class="btn btn-light btn-sm ms-1">
-        <i class="fas fa-arrow-down"></i>
+        <i class="bi bi-arrow-down"></i>
     </button>
     {{ html()->form()->close() }}
 </div>

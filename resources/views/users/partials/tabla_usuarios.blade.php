@@ -76,7 +76,7 @@
         <button title="{{ __('Enroll') }}"
                 type="submit"
                 name="action" value="enroll"
-                class="btn btn-light btn-sm"><i class="fas fa-plus"></i>
+                class="btn btn-light btn-sm"><i class="bi bi-plus-lg"></i>
         </button>
     </div>
     <div class="col-12">

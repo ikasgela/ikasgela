@@ -21,7 +21,7 @@
                         <a title="{{ __('Edit') }}"
                            href="#"
                            wire:click.prevent="toggle_edit"
-                           class='text-link-light'><i class="fas fa-edit"></i></a>
+                           class='text-link-light'><i class="bi bi-pencil-square"></i></a>
                     @endif
                 </div>
             @endif

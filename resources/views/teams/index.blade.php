@@ -64,7 +64,7 @@
                             @if(Auth::user()?->hasRole('admin'))
                                 <a title="{{ __('Edit') }}"
                                    href="{{ route('teams.edit', [$team->id]) }}"
-                                   class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                                   class='btn btn-light btn-sm'><i class="bi bi-pencil-square"></i></a>
 
                                 {{ html()->form('DELETE', route('teams.destroy', $team->id))->open() }}
                                 @include('partials.boton_borrar', ['last' => true])

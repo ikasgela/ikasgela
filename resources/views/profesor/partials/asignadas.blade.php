@@ -117,7 +117,7 @@
                                 @if(Auth::user()->hasRole('admin'))
                                     <a title="{{ __('Edit activity') }}"
                                        href="{{ route('actividades.edit', [$actividad->id]) }}"
-                                       class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                                       class='btn btn-light btn-sm'><i class="bi bi-pencil-square"></i></a>
                                     <a title="{{ __('Edit task') }}"
                                        href="{{ route('tareas.edit', [$actividad->tarea->id]) }}"
                                        class='btn btn-light btn-sm'><i class="bi bi-link"></i></a>

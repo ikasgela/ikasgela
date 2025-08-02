@@ -62,7 +62,7 @@
                                                         type="submit"
                                                         {{ !isset($ids[$index-1]) ? 'disabled' : '' }}
                                                         class="btn {{ !isset($ids[$index-1]) ? 'btn-light' : 'btn-primary' }} btn-sm">
-                                                    <i class="fas fa-arrow-up"></i>
+                                                    <i class="bi bi-arrow-up"></i>
                                                 </button>
                                                 <input type="hidden" name="a1" value="{{ $ids[$index] }}">
                                                 <input type="hidden" name="a2" value="{{ $ids[$index-1] ?? -1 }}">
@@ -73,7 +73,7 @@
                                                         type="submit"
                                                         {{ !isset($ids[$index+1]) ? 'btn-light disabled' : '' }}
                                                         class="btn {{ !isset($ids[$index+1]) ? 'btn-light' : 'btn-primary' }} btn-sm ms-1">
-                                                    <i class="fas fa-arrow-down"></i>
+                                                    <i class="bi bi-arrow-down"></i>
                                                 </button>
                                                 <input type="hidden" name="a1" value="{{ $ids[$index] }}">
                                                 <input type="hidden" name="a2" value="{{ $ids[$index+1] ?? -1 }}">
