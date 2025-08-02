@@ -19,9 +19,9 @@
                 <td>{{ $pregunta->id }}</td>
                 <td>{{ $pregunta->titulo }}</td>
                 <td>{{ $pregunta->texto }}</td>
-                <td>{!! $pregunta->multiple ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
-                <td>{!! $pregunta->respondida ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
-                <td>{!! $pregunta->correcta ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                <td>{!! $pregunta->multiple ? '<i class="bi bi-check-lg text-success"></i>' : '<i class="bi bi-x text-danger"></i>' !!}</td>
+                <td>{!! $pregunta->respondida ? '<i class="bi bi-check-lg text-success"></i>' : '<i class="bi bi-x text-danger"></i>' !!}</td>
+                <td>{!! $pregunta->correcta ? '<i class="bi bi-check-lg text-success"></i>' : '<i class="bi bi-x text-danger"></i>' !!}</td>
                 <td>{{ $pregunta->imagen }}</td>
                 <td>
                     @include('partials.botones_reordenar', ['ruta' => 'preguntas.reordenar'])

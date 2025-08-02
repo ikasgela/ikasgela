@@ -30,8 +30,8 @@
                     <td>{{ $cuestionario->id }}</td>
                     <td>{{ $cuestionario->titulo }}</td>
                     <td>{{ $cuestionario->descripcion }}</td>
-                    <td>{!! $cuestionario->plantilla ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
-                    <td>{!! $cuestionario->respondido ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                    <td>{!! $cuestionario->plantilla ? '<i class="bi bi-check-lg text-success"></i>' : '<i class="bi bi-x text-danger"></i>' !!}</td>
+                    <td>{!! $cuestionario->respondido ? '<i class="bi bi-check-lg text-success"></i>' : '<i class="bi bi-x text-danger"></i>' !!}</td>
                     <td class="text-nowrap">
                         <div class='btn-group'>
                             @include('partials.boton_mostrar', ['ruta' => 'cuestionarios', 'recurso' => $cuestionario])

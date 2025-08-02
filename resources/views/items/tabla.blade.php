@@ -16,8 +16,8 @@
             <tr>
                 <td>{{ $item->id }}</td>
                 <td>{{ $item->texto }}</td>
-                <td>{!! $item->correcto ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
-                <td>{!! $item->seleccionado ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                <td>{!! $item->correcto ? '<i class="bi bi-check-lg text-success"></i>' : '<i class="bi bi-x text-danger"></i>' !!}</td>
+                <td>{!! $item->seleccionado ? '<i class="bi bi-check-lg text-success"></i>' : '<i class="bi bi-x text-danger"></i>' !!}</td>
                 <td>{{ $item->feedback }}</td>
                 <td>
                     @include('partials.botones_reordenar', ['ruta' => 'items.reordenar'])

@@ -28,7 +28,7 @@
                         <td>{{ $rubric->id }}</td>
                         <td>{{ $rubric->titulo }}</td>
                         <td>{{ $rubric->descripcion }}</td>
-                        <td>{!! $rubric->plantilla ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                        <td>{!! $rubric->plantilla ? '<i class="bi bi-check-lg text-success"></i>' : '<i class="bi bi-x text-danger"></i>' !!}</td>
                         <td>
                             <form method="POST"
                                   action="{{ route('rubrics.desasociar', ['actividad' => $actividad->id, 'rubric' => $rubric->id]) }}">
@@ -82,7 +82,7 @@
                             <td>{{ $rubric->id }}</td>
                             <td>{{ $rubric->titulo }}</td>
                             <td>{{ $rubric->descripcion }}</td>
-                            <td>{!! $rubric->plantilla ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                            <td>{!! $rubric->plantilla ? '<i class="bi bi-check-lg text-success"></i>' : '<i class="bi bi-x text-danger"></i>' !!}</td>
                         </tr>
                     @endforeach
                     </tbody>

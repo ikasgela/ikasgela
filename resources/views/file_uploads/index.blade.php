@@ -31,7 +31,7 @@
                     <td>{{ $file_upload->titulo }}</td>
                     <td>{{ $file_upload->descripcion }}</td>
                     <td class="text-center">{{ $file_upload->max_files }}</td>
-                    <td class="text-center">{!! $file_upload->plantilla ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                    <td class="text-center">{!! $file_upload->plantilla ? '<i class="bi bi-check-lg text-success"></i>' : '<i class="bi bi-x text-danger"></i>' !!}</td>
                     <td class="text-nowrap">
                         <div class='btn-group'>
                             @include('partials.boton_mostrar', ['ruta' => 'file_uploads', 'recurso' => $file_upload])
