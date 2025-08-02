@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <div class="card mb-3">
                 <div class="card-header text-bg-warning">
-                    <span><i class="fas fa-exclamation-triangle"></i></span>
+                    <span><i class="bi bi-exclamation-triangle-fill"></i></span>
                     <span class="ms-2">{{ __("Safe Exam Browser required") }}</span></span>
                 </div>
                 <div class="card-body">
@@ -19,7 +19,7 @@
         <div class="col-md-12">
             <div class="card mb-3">
                 <div class="card-header text-bg-warning">
-                    <span><i class="fas fa-exclamation-triangle"></i></span>
+                    <span><i class="bi bi-exclamation-triangle-fill"></i></span>
                     <span class="ms-2">{{ __("Safe Exam Browser") }}</span></span>
                 </div>
                 <div class="card-body">
