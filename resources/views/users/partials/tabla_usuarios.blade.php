@@ -94,7 +94,7 @@
             <button title="{{ __('Manual verification') }}"
                     type="submit"
                     name="action" value="verify"
-                    class="btn btn-light btn-sm"><i class="bi bi-person-check"></i>
+                    class="btn btn-light btn-sm"><i class="bi bi-person-check-fill"></i>
             </button>
             <button title="{{ __('Block') }}"
                     type="submit"

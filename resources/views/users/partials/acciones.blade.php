@@ -3,7 +3,7 @@
 
     @if(!$user->hasVerifiedEmail())
         {{ html()->form('POST', route('users.manual_activation'))->open() }}
-        {{ html()->submit('<i class="bi bi-person-check"></i>')
+        {{ html()->submit('<i class="bi bi-person-check-fill"></i>')
                 ->class(['btn btn-light btn-sm', 'rounded-end-0'])
                 ->attribute('title', __('Manual verification')) }}
         {{ html()->hidden('user_id', $user->id) }}
