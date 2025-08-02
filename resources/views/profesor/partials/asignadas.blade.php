@@ -120,7 +120,7 @@
                                        class='btn btn-light btn-sm'><i class="bi bi-pencil-square"></i></a>
                                     <a title="{{ __('Edit task') }}"
                                        href="{{ route('tareas.edit', [$actividad->tarea->id]) }}"
-                                       class='btn btn-light btn-sm'><i class="bi bi-link"></i></a>
+                                       class='btn btn-light btn-sm'><i class="bi bi-link-45deg"></i></a>
                                 @endif
                                 @include('partials.boton_borrar')
                             </div>
