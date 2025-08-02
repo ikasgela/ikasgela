@@ -33,7 +33,7 @@
         </a>
         <a class="dropdown-item" href="{{ url('/password') }}">
             <span class="text-center ms-n2 me-1" style="width: 1.5rem;">
-                <i class="fas fa-key text-primary"></i>
+                <i class="bi bi-key text-primary"></i>
             </span> {{ __('Password') }}
         </a>
         <div class="dropdown-divider"></div>

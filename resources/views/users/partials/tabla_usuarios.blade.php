@@ -94,17 +94,17 @@
             <button title="{{ __('Manual verification') }}"
                     type="submit"
                     name="action" value="verify"
-                    class="btn btn-light btn-sm"><i class="fas fa-user-check"></i>
+                    class="btn btn-light btn-sm"><i class="bi bi-person-check"></i>
             </button>
             <button title="{{ __('Block') }}"
                     type="submit"
                     name="action" value="block"
-                    class="btn btn-light btn-sm"><i class="fas fa-lock"></i>
+                    class="btn btn-light btn-sm"><i class="bi bi-lock"></i>
             </button>
             <button title="{{ __('Unblock') }}"
                     type="submit"
                     name="action" value="unblock"
-                    class="btn btn-light btn-sm"><i class="fas fa-unlock"></i>
+                    class="btn btn-light btn-sm"><i class="bi bi-unlock2"></i>
             </button>
             <button title="{{ __('Delete') }}"
                     type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"

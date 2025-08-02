@@ -95,7 +95,7 @@
                             <button title="{{ __('Unlock') }}"
                                     type="submit"
                                     class="btn btn-light mb-3 ms-2">
-                                <i class="fas fa-lock"></i>
+                                <i class="bi bi-lock"></i>
                             </button>
                             {{ html()->form()->close() }}
                         @else
@@ -103,7 +103,7 @@
                             <button title="{{ __('Lock') }}"
                                     type="submit"
                                     class="btn btn-light mb-3 ms-2">
-                                <i class="fas fa-unlock"></i>
+                                <i class="bi bi-unlock2"></i>
                             </button>
                             {{ html()->form()->close() }}
                         @endif
