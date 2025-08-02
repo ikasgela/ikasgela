@@ -23,7 +23,7 @@
                     <p>{{ $actividad->descripcion }}</p>
                     @include('profesor.partials.botonera-calificacion')
                     <div class="mt-2">
-                        <i class="fas fa-bullhorn mt-3"></i>
+                        <i class="bi bi-megaphone mt-3"></i>
                         <label class="m-0" for="feedback">{{ __('Feedback') }}</label>
                     </div>
                     <div class="border rounded p-3 mb-1">

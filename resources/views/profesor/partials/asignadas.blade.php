@@ -113,7 +113,7 @@
                             <div class='btn-group'>
                                 <a title="{{ __('Review') }}"
                                    href="{{ route('profesor.revisar', ['user' => $user->id, 'tarea' => $actividad->tarea->id]) }}"
-                                   class="btn btn-light btn-sm"><i class="fas fa-bullhorn"></i></a>
+                                   class="btn btn-light btn-sm"><i class="bi bi-megaphone"></i></a>
                                 @if(Auth::user()->hasRole('admin'))
                                     <a title="{{ __('Edit activity') }}"
                                        href="{{ route('actividades.edit', [$actividad->id]) }}"
