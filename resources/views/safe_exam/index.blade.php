@@ -36,7 +36,7 @@
                             <button title="{{ __('Delete token') }}"
                                     name="delete_token"
                                     type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
-                                    class="btn btn-light btn-sm"><i class="fas fa-trash text-danger"></i>
+                                    class="btn btn-light btn-sm"><i class="bi bi-trash3 text-danger"></i>
                             </button>
                             {{ html()->form()->close() }}
                         </div>
@@ -57,7 +57,7 @@
                             <button title="{{ __('Delete quit password') }}"
                                     name="delete_quit_password"
                                     type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
-                                    class="btn btn-light btn-sm"><i class="fas fa-trash text-danger"></i>
+                                    class="btn btn-light btn-sm"><i class="bi bi-trash3 text-danger"></i>
                             </button>
                             {{ html()->form()->close() }}
                         </div>

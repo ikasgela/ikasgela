@@ -1,5 +1,5 @@
 {{ html()
-    ->submit('<i class="fas fa-trash text-danger"></i>')
+    ->submit('<i class="bi bi-trash3 text-danger"></i>')
     ->name('borrar')
     ->class(['btn btn-light btn-sm',
         'rounded-end-0' => $first ?? false,

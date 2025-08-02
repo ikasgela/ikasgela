@@ -109,7 +109,7 @@
             <button title="{{ __('Delete') }}"
                     type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
                     name="action" value="delete"
-                    class="btn btn-light btn-sm"><i class="fas fa-trash text-danger"></i>
+                    class="btn btn-light btn-sm"><i class="bi bi-trash3 text-danger"></i>
             </button>
         </div>
     </div>

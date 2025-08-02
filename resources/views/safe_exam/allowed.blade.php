@@ -51,7 +51,7 @@
                                         name="delete_classroom"
                                         type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
                                         class="btn btn-light btn-sm">
-                                    <i class="fas fa-trash text-danger"></i>
+                                    <i class="bi bi-trash3 text-danger"></i>
                                 </button>
                             </form>
                         </div>
@@ -108,7 +108,7 @@
                                         name="delete_classroom"
                                         type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
                                         class="btn btn-light btn-sm">
-                                    <i class="fas fa-trash text-danger"></i>
+                                    <i class="bi bi-trash3 text-danger"></i>
                                 </button>
                             </form>
                         </div>
