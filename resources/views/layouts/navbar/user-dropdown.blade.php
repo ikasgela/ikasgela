@@ -20,27 +20,27 @@
         @if(Auth::user()->hasAnyRole(['alumno','profesor']))
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ route('notifications.edit') }}">
-                <span class="text-center ms-n2 me-1" style="width: 1.5rem;">
-                    <i class="fas fa-bell text-primary"></i>
+                <span class="text-center me-1" style="width: 1.5rem;">
+                    <i class="bi bi-bell text-primary"></i>
                 </span> {{ __('Notification settings') }}
             </a>
         @endif
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" href="{{ url('/profile') }}">
-            <span class="text-center ms-n2 me-1" style="width: 1.5rem;">
-                <i class="fas fa-user text-primary"></i>
+            <span class="text-center me-1" style="width: 1.5rem;">
+                <i class="bi bi-person text-primary"></i>
             </span> {{ __('Profile') }}
         </a>
         <a class="dropdown-item" href="{{ url('/password') }}">
-            <span class="text-center ms-n2 me-1" style="width: 1.5rem;">
+            <span class="text-center me-1" style="width: 1.5rem;">
                 <i class="bi bi-key text-primary"></i>
             </span> {{ __('Password') }}
         </a>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" href="{{ route('logout') }}"
            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-            <span class="text-center ms-n2 me-1" style="width: 1.5rem;">
-                <i class="fas fa-sign-out-alt"></i>
+            <span class="text-center me-1" style="width: 1.5rem;">
+                <i class="bi bi-box-arrow-right"></i>
             </span> {{ __('Logout') }}
         </a>
         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
