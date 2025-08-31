@@ -9,7 +9,7 @@
                             <a title="{{ __('Edit resources') }}"
                                href="{{ route('rubrics.actividad', [$actividad->id]) }}"
                                class="text-link-light me-2">
-                                <i class="fas fa-list"></i>
+                                <i class="bi bi-puzzle"></i>
                             </a>
                         @endisset
                     @endif

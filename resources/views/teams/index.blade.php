@@ -54,7 +54,7 @@
 
                             @if(Auth::user()?->hasAnyRole(['profesor', 'admin']))
                                 {{ html()->form('POST', route('messages.create-with-subject-team'))->open() }}
-                                {{ html()->submit('<i class="fas fa-envelope"></i>')
+                                {{ html()->submit('<i class="bi bi-chat-text"></i>')
                                         ->class(['btn btn-light btn-sm', 'rounded-0'])
                                         ->attribute('title', __('Message')) }}
                                 {{ html()->hidden('team_id', $team->id) }}

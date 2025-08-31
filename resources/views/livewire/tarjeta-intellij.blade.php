@@ -13,16 +13,16 @@
             <div>
                 @switch($intellij_project->open_with)
                     @case('datagrip')
-                        <i class="fas fa-table me-2"></i>{{ __('SQL project') }}
+                        <i class="bi bi-filetype-sql me-2"></i>{{ __('SQL project') }}
                         @break
                     @case('idea')
                         <i class="bi bi-filetype-java me-2"></i>{{ __('Java project') }}
                         @break
                     @case('phpstorm')
-                        <i class="fa-brands fa-php me-2"></i>{{ __('PHP project') }}
+                        <i class="bi bi-filetype-php me-2"></i>{{ __('PHP project') }}
                         @break
                     @default
-                        <i class="fab fa-git-alt me-2"></i>{{ __('Git repository') }}
+                        <i class="bi bi-git me-2"></i>{{ __('Git repository') }}
                 @endswitch
             </div>
             <div>

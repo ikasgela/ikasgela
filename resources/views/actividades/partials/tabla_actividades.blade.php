@@ -34,7 +34,7 @@
                 </td>
                 <td class="clickable">{{ $actividad->id }}</td>
                 @if(Route::currentRouteName() == 'actividades.index')
-                    <td>{!! $actividad->plantilla ? '<i class="bi bi-file-earmark"></i>' : '' !!}</td>
+                    <td title="{{ __('Template') }}">{!! $actividad->plantilla ? '<i class="bi bi-file-text"></i>' : '' !!}</td>
                 @endif
                 <td class="clickable">{{ $actividad->unidad->full_name }}</td>
                 @if(Str::startsWith(Route::currentRouteName(), 'actividades.plantillas'))
@@ -119,7 +119,7 @@
         <button title="{{ __('Move') }}"
                 type="submit"
                 name="action" value="move"
-                class="btn btn-light btn-sm"><i class="fas fa-file-import"></i>
+                class="btn btn-light btn-sm"><i class="bi bi-box-arrow-in-right"></i>
         </button>
         <button title="{{ __('Duplicate') }}"
                 type="submit"
