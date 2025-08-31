@@ -75,7 +75,7 @@
                 @if(!isset($exportar))
                     <td class="text-center">
                         {{ html()->form('POST', route('users.limpiar_cache', [$user->id]))->open() }}
-                        {{ html()->submit('<i class="fas fa-broom"></i>')
+                        {{ html()->submit('<i class="bi bi-recycle"></i>')
                                 ->attribute('title', __('Reload results'))
                                 ->class(['btn btn-sm btn-light']) }}
                         {{ html()->form()->close() }}
@@ -114,10 +114,10 @@
                             <a title="{{ __('Manual calification') }}"
                                href="{{ route('profesor.nota_manual.edit', [$user->id, $curso?->id]) }}"
                                class="btn btn-sm {{ $calificaciones->hay_nota_manual ? 'btn-primary' : 'btn-light' }}">
-                                <i class="fas fa-pen"></i>
+                                <i class="bi bi-pencil"></i>
                             </a>
                         @elseif($calificaciones->hay_nota_manual)
-                            <i title="{{ __('Manual calification') }}" class="fas fa-pen btn-sm bg-light }}"></i>
+                            <i title="{{ __('Manual calification') }}" class="bi bi-pencil btn-sm bg-light }}"></i>
                         @endif
                     </td>
                 @endif
