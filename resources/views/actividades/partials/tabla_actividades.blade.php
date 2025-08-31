@@ -99,7 +99,7 @@
                         {{ html()->form('POST', route('actividades.duplicar', $actividad->id))->open() }}
                         <button title="{{ __('Duplicate') }}"
                                 type="submit"
-                                class="btn btn-light btn-sm rounded-0"><i class="fas fa-copy"></i>
+                                class="btn btn-light btn-sm rounded-0"><i class="bi bi-copy"></i>
                         </button>
                         {{ html()->form()->close() }}
                         {{ html()->form('DELETE', route('actividades.destroy', $actividad->id))->open() }}
@@ -124,7 +124,7 @@
         <button title="{{ __('Duplicate') }}"
                 type="submit"
                 name="action" value="duplicate"
-                class="btn btn-light btn-sm"><i class="fas fa-copy"></i>
+                class="btn btn-light btn-sm"><i class="bi bi-copy"></i>
         </button>
     </div>
     <div class="col-12">

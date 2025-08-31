@@ -41,7 +41,7 @@
                                         name="duplicate_allowed_app"
                                         type="submit"
                                         class="btn btn-sm btn-light me-2">
-                                    <i class="fas fa-copy"></i>
+                                    <i class="bi bi-copy"></i>
                                 </button>
                             </form>
                             <form action="{{ route('allowed_apps.destroy', [$allowed_app->id]) }}" method="POST">
@@ -98,7 +98,7 @@
                                         name="duplicate_allowed_url"
                                         type="submit"
                                         class="btn btn-sm btn-light me-2">
-                                    <i class="fas fa-copy"></i>
+                                    <i class="bi bi-copy"></i>
                                 </button>
                             </form>
                             <form action="{{ route('allowed_urls.destroy', [$allowed_url->id]) }}" method="POST">
