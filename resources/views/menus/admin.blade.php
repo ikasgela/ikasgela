@@ -68,7 +68,7 @@
             @include('layouts.sidebar.nav-item-desplegable', [
                 'route' => route('intellij_projects.index'),
                 'text' => __('IntelliJ projects'),
-                'icon' => 'bi-filetype-java',
+                'icon' => 'bi-code-slash',
             ])
             @include('layouts.sidebar.nav-item-desplegable', [
                 'route' => route('rubrics.index'),

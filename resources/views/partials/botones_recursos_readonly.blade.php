@@ -25,6 +25,6 @@
     </button>
     <button title="{{ __('IntelliJ project') }}"
             class="btn btn-sm {{ $actividad->intellij_projects()->count() > 0 ? 'btn-secondary' : 'bg-body-secondary' }}">
-        <i class="bi bi-filetype-java"></i>
+        <i class="bi bi-code-slash"></i>
     </button>
 </div>

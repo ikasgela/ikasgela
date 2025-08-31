@@ -34,7 +34,7 @@
             <a title="{{ __('IntelliJ project') }}"
                href="{{ route('intellij_projects.actividad', [$actividad->id]) }}"
                class="btn btn-sm {{ $actividad->intellij_projects()->count() > 0 ? 'btn-primary' : 'btn-light' }}">
-                <i class="bi bi-filetype-java"></i>
+                <i class="bi bi-code-slash"></i>
             </a>
         </div>
         <div class='btn-group ms-2'>
