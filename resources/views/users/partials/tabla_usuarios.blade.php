@@ -121,7 +121,7 @@
         <button title="{{ __('Add tags') }}"
                 type="submit"
                 name="action" value="tag"
-                class="btn btn-light btn-sm"><i class="fas fa-tag"></i>
+                class="btn btn-light btn-sm"><i class="bi bi-tag"></i>
         </button>
     </div>
 </div>
