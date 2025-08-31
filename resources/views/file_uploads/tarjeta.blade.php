@@ -46,13 +46,13 @@
                                         {{ html()->form('POST', route('files.rotate_left', $file->id))->open() }}
                                         <button title="{{ __('Rotate left') }}"
                                                 type="submit" class="btn btn-light btn-sm me-1">
-                                            <i class="fas fa-undo"></i>
+                                            <i class="bi bi-arrow-counterclockwise"></i>
                                         </button>
                                         {{ html()->form()->close() }}
                                         {{ html()->form('POST', route('files.rotate_right', $file->id))->open() }}
                                         <button title="{{ __('Rotate right') }}"
                                                 type="submit" class="btn btn-light btn-sm me-1">
-                                            <i class="fas fa-undo fa-flip-horizontal"></i>
+                                            <i class="bi bi-arrow-clockwise"></i>
                                         </button>
                                         {{ html()->form()->close() }}
                                         @if(!$file->archived || Auth::user()->hasAnyRole(['admin','profesor']))

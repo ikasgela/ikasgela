@@ -110,12 +110,12 @@
                                    class='btn btn-light btn-sm'><i class="bi bi-pencil-square"></i></a>
 
                                 {{ html()->form('POST', route('cursos.export', $curso->id))->open() }}
-                                {{ html()->submit('<i class="fas fa-download"></i>')->class(['btn btn-light btn-sm', 'rounded-0'])->attribute('title', __('Export course')) }}
+                                {{ html()->submit('<i class="bi bi-download"></i>')->class(['btn btn-light btn-sm', 'rounded-0'])->attribute('title', __('Export course')) }}
                                 {{ html()->form()->close() }}
 
                                 {{ html()->form('DELETE', route('cursos.reset', $curso->id))->open() }}
                                 {{ html()
-                                    ->reset('<i class="fas fa-power-off text-danger"></i>')
+                                    ->reset('<i class="bi bi-power text-danger"></i>')
                                     ->name('reset')
                                     ->class(['btn btn-light btn-sm', 'rounded-0'])
                                     ->attribute('title', __('Reset course'))
