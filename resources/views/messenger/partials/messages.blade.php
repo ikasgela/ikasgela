@@ -12,7 +12,7 @@
                         @if(Auth::user()->hasRole('profesor') && $message->user?->hasRole('alumno'))
                             <a title="{{ __('Control panel') }}" target="_blank"
                                href="{{ route('profesor.tareas', ['user' => $message->user->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-tasks"></i></a>
+                               class='btn btn-light btn-sm'><i class="bi bi-person-gear"></i></a>
                         @endif
                         @if(Auth::user()->hasRole('profesor'))
                             {{ html()->form('DELETE', route('messages.destroy_message', $message->id))->open() }}

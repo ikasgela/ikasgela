@@ -4,7 +4,7 @@
     <div class="card-header d-flex justify-content-between {{ $class }} {{ $thread->alert ? 'text-bg-warning' : '' }}">
         <span>
             @if(!$thread->alert)
-                <i class="fas fa-comment"></i>
+                <i class="bi bi-chat"></i>
             @else
                 <i class="bi bi-exclamation-triangle-fill"></i>
             @endif
