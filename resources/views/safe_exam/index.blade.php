@@ -29,14 +29,14 @@
                             <button title="{{ __('Reset token') }}"
                                     name="reset_token"
                                     type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
-                                    class="btn btn-light btn-sm me-2"><i class="fas fa-redo text-danger"></i>
+                                    class="btn btn-light btn-sm me-2"><i class="bi bi-arrow-clockwise text-danger"></i>
                             </button>
                             {{ html()->form()->close() }}
                             {{ html()->form('DELETE', route('safe_exam.delete_token', $curso->id))->open() }}
                             <button title="{{ __('Delete token') }}"
                                     name="delete_token"
                                     type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
-                                    class="btn btn-light btn-sm"><i class="fas fa-trash text-danger"></i>
+                                    class="btn btn-light btn-sm"><i class="bi bi-trash3 text-danger"></i>
                             </button>
                             {{ html()->form()->close() }}
                         </div>
@@ -50,14 +50,14 @@
                             <button title="{{ __('Reset quit password') }}"
                                     name="reset_quit_password"
                                     type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
-                                    class="btn btn-light btn-sm me-2"><i class="fas fa-redo text-danger"></i>
+                                    class="btn btn-light btn-sm me-2"><i class="bi bi-arrow-clockwise text-danger"></i>
                             </button>
                             {{ html()->form()->close() }}
                             {{ html()->form('DELETE', route('safe_exam.delete_quit_password', $curso->id))->open() }}
                             <button title="{{ __('Delete quit password') }}"
                                     name="delete_quit_password"
                                     type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
-                                    class="btn btn-light btn-sm"><i class="fas fa-trash text-danger"></i>
+                                    class="btn btn-light btn-sm"><i class="bi bi-trash3 text-danger"></i>
                             </button>
                             {{ html()->form()->close() }}
                         </div>
@@ -71,7 +71,7 @@
                         <a href="{{ route('safe_exam.allowed', [$curso->safe_exam?->id ?: App\Models\SafeExam::create(['curso_id' => $curso->id])->id]) }}"
                            title="{{ __('Allowed apps and URLs') }}"
                            class="btn btn-sm btn-light" role="button">
-                            <i class="fa-solid fa-clipboard-check"></i>
+                            <i class="bi bi-shield-check"></i>
                         </a>
                     </td>
                 </tr>

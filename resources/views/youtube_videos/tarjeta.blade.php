@@ -1,6 +1,6 @@
 <div class="card mb-3">
     <div class="card-header d-flex justify-content-between">
-        <div><i class="fab fa-youtube me-2"></i>{{ __('Video') }}</div>
+        <div><i class="bi bi-youtube me-2"></i>{{ __('Video') }}</div>
         <div>
             @include('partials.modificar_recursos', ['ruta' => 'youtube_videos'])
             @include('partials.editar_recurso', ['recurso' => $youtube_video, 'ruta' => 'youtube_videos'])

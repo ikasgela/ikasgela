@@ -1,5 +1,5 @@
 <div class="card mb-3">
-    <div class="card-header"><i class="fas fa-users me-2"></i>{{ __('Teamwork') }}</div>
+    <div class="card-header"><i class="bi bi-people me-2"></i>{{ __('Teamwork') }}</div>
     <div class="card-body">
         @forelse($teams as $team)
             <h5 class="card-title">{{ $team->name }}</h5>

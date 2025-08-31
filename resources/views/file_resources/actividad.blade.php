@@ -49,10 +49,10 @@
                                 <div class='btn-group'>
                                     <a title="{{ __('Show') }}"
                                        href="{{ route('file_resources.show', [$file_resource->id]) }}"
-                                       class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
+                                       class='btn btn-light btn-sm'><i class="bi bi-eye"></i></a>
                                     <a title="{{ __('Edit') }}"
                                        href="{{ route('file_resources.edit', [$file_resource->id]) }}"
-                                       class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                                       class='btn btn-light btn-sm'><i class="bi bi-pencil-square"></i></a>
                                     @include('partials.boton_borrar')
                                 </div>
                             </form>

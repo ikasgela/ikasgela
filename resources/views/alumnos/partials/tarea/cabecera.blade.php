@@ -7,9 +7,9 @@
             </div>
         @elseif(!$actividad->auto_avance)
             <span>
-                <i class="fas fa-exclamation-triangle text-warning"></i>
+                <i class="bi bi-exclamation-triangle-fill text-warning"></i>
                 {{ __('Task expired') }}
-                <i class="fas fa-exclamation-triangle text-warning"></i>
+                <i class="bi bi-exclamation-triangle-fill text-warning"></i>
             </span>
         @endif
     @endif

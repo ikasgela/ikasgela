@@ -10,7 +10,7 @@
                     {{-- Mostrar si no ha superado la fecha de entrega --}}
                     <button type="submit" name="nuevoestado" value="20"
                             class="btn btn-primary single_click">
-                        <i class="fas fa-spinner fa-spin" style="display:none;"></i>
+                        <span class="spinner-border spinner-border-sm" style="display:none;"></span>
                         {{ __('Accept activity') }}
                     </button>
                 @endif
@@ -27,13 +27,13 @@
                                 <button type="submit" name="nuevoestado" value="30"
                                         onclick="return confirm('{{ __('Are you sure?') }}\n\n{{ __('This will submit the activity for review and show the next one if available.') }}')"
                                         class="btn btn-primary me-2 single_click">
-                                    <i class="fas fa-spinner fa-spin"
-                                       style="display:none;"></i> {{ __('Submit for review') }}</button>
+                                    <span class="spinner-border spinner-border-sm"
+                                       style="display:none;"></span> {{ __('Submit for review') }}</button>
                             @else
                                 <button type="submit" name="nuevoestado" value="64"
                                         class="btn btn-primary single_click">
-                                    <i class="fas fa-spinner fa-spin"
-                                       style="display:none;"></i>
+                                    <span class="spinner-border spinner-border-sm"
+                                       style="display:none;"></span>
                                     @if(!is_null($actividad->siguiente))
                                         {{ __('Next activity') }}
                                     @else
@@ -51,7 +51,7 @@
                 @if($actividad->hasEtiqueta('extra') && !is_null($actividad->siguiente))
                     <button type="submit" name="nuevoestado" value="71"
                             class="btn btn-light single_click">
-                        <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Show next') }}
+                        <span class="spinner-border spinner-border-sm" style="display:none;"></span> {{ __('Show next') }}
                     </button>
                 @endif
                 @break
@@ -62,8 +62,8 @@
                         <p>{{ __('This is an automatically advancing activity, there is no teacher review.') }}</p>
                         <button type="submit" name="nuevoestado" value="42"
                                 class="btn btn-success single_click">
-                            <i class="fas fa-spinner fa-spin"
-                               style="display:none;"></i> {{ __('Next step') }}
+                            <span class="spinner-border spinner-border-sm"
+                               style="display:none;"></span> {{ __('Next step') }}
                         </button>
                     </div>
                 @elseif(!$actividad->is_finished)
@@ -72,8 +72,8 @@
                                 onclick="return confirm('{{ __('Are you sure?') }}\n\n{{ __('Reopening the activity cancels the submission and allows making corrections, but it has a 5 point penalty.') }}')"
                             @endif
                             class="btn btn-secondary single_click">
-                        <i class="fas fa-spinner fa-spin"
-                           style="display:none;"></i> {{ __('Reopen activity') }}</button>
+                        <span class="spinner-border spinner-border-sm"
+                           style="display:none;"></span> {{ __('Reopen activity') }}</button>
                 @endif
                 @if(config('app.debug'))
                     <button type="submit" name="nuevoestado" value="40"
@@ -90,21 +90,21 @@
                 {{-- Avance automático --}}
                 <button type="submit" name="nuevoestado" value="60"
                         class="btn btn-primary single_click">
-                    <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Archive') }}
+                    <span class="spinner-border spinner-border-sm" style="display:none;"></span> {{ __('Archive') }}
                 </button>
                 @break;
             @case(41)
                 {{-- Revisada: ERROR --}}
                 <button type="submit" name="nuevoestado" value="21"
                         class="btn btn-primary single_click">
-                    <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Feedback read') }}
+                    <span class="spinner-border spinner-border-sm" style="display:none;"></span> {{ __('Feedback read') }}
                 </button>
                 @break
             @case(50)
                 {{-- Terminada --}}
                 <button type="submit" name="nuevoestado" value="60"
                         class="btn btn-primary single_click">
-                    <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Archive') }}
+                    <span class="spinner-border spinner-border-sm" style="display:none;"></span> {{ __('Archive') }}
                 </button>
                 @break
             @case(60)

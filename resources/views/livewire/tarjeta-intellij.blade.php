@@ -13,16 +13,16 @@
             <div>
                 @switch($intellij_project->open_with)
                     @case('datagrip')
-                        <i class="fas fa-table me-2"></i>{{ __('SQL project') }}
+                        <i class="bi bi-filetype-sql me-2"></i>{{ __('SQL project') }}
                         @break
                     @case('idea')
-                        <i class="fab fa-java me-2"></i>{{ __('Java project') }}
+                        <i class="bi bi-filetype-java me-2"></i>{{ __('Java project') }}
                         @break
                     @case('phpstorm')
-                        <i class="fa-brands fa-php me-2"></i>{{ __('PHP project') }}
+                        <i class="bi bi-filetype-php me-2"></i>{{ __('PHP project') }}
                         @break
                     @default
-                        <i class="fab fa-git-alt me-2"></i>{{ __('Git repository') }}
+                        <i class="bi bi-git me-2"></i>{{ __('Git repository') }}
                 @endswitch
             </div>
             <div>
@@ -31,7 +31,7 @@
                 @if(Auth::user()->hasAnyRole(['admin','profesor']) && Route::currentRouteName() == 'profesor.revisar')
                     <a title="{{ __('Edit') }}"
                        href="{{ route('intellij_projects.edit_fork', ['intellij_project' => $intellij_project->id, 'actividad' => $actividad->id]) }}"
-                       class='text-link-light'><i class="fas fa-edit"></i></a>
+                       class='text-link-light'><i class="bi bi-pencil-square"></i></a>
                 @endif
             </div>
         </div>
@@ -47,13 +47,13 @@
                             title="{{ __('Clone the project') }}"
                             type="submit"
                             class="btn btn-primary mb-3 single_click">
-                        <i class="fas fa-spinner fa-spin" style="display:none;"></i>
+                        <span class="spinner-border spinner-border-sm" style="display:none;"></span>
                         {{ __('Clone the project') }}
                     </button>
                 @elseif($fork_status == 1)
                     <div class="mb-3 d-flex align-items-center">
                         <a href="#" class="btn btn-primary disabled me-3">
-                            <i class="fas fa-spinner fa-spin"></i> {{ __('Clone the project') }}
+                            <span class="spinner-border spinner-border-sm"></span> {{ __('Clone the project') }}
                         </a>
                         <span>{{ __('Cloning, please wait...') }}</span>
                     </div>
@@ -95,7 +95,7 @@
                             <button title="{{ __('Unlock') }}"
                                     type="submit"
                                     class="btn btn-light mb-3 ms-2">
-                                <i class="fas fa-lock"></i>
+                                <i class="bi bi-lock"></i>
                             </button>
                             {{ html()->form()->close() }}
                         @else
@@ -103,7 +103,7 @@
                             <button title="{{ __('Lock') }}"
                                     type="submit"
                                     class="btn btn-light mb-3 ms-2">
-                                <i class="fas fa-unlock"></i>
+                                <i class="bi bi-unlock2"></i>
                             </button>
                             {{ html()->form()->close() }}
                         @endif

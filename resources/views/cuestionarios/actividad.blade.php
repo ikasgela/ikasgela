@@ -28,7 +28,7 @@
                         <td>{{ $cuestionario->id }}</td>
                         <td>{{ $cuestionario->titulo }}</td>
                         <td>{{ $cuestionario->descripcion }}</td>
-                        <td>{!! $cuestionario->plantilla ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                        <td>{!! $cuestionario->plantilla ? '<i class="bi bi-check-lg text-success"></i>' : '<i class="bi bi-x text-danger"></i>' !!}</td>
                         <td>
                             <form method="POST"
                                   action="{{ route('cuestionarios.desasociar', ['actividad' => $actividad->id, 'cuestionario' => $cuestionario->id]) }}">
@@ -37,10 +37,10 @@
                                 <div class='btn-group'>
                                     <a title="{{ __('Show') }}"
                                        href="{{ route('cuestionarios.show', [$cuestionario->id]) }}"
-                                       class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
+                                       class='btn btn-light btn-sm'><i class="bi bi-eye"></i></a>
                                     <a title="{{ __('Edit') }}"
                                        href="{{ route('cuestionarios.edit', [$cuestionario->id]) }}"
-                                       class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                                       class='btn btn-light btn-sm'><i class="bi bi-pencil-square"></i></a>
                                     @include('partials.boton_borrar')
                                 </div>
                             </form>
@@ -82,7 +82,7 @@
                             <td>{{ $cuestionario->id }}</td>
                             <td>{{ $cuestionario->titulo }}</td>
                             <td>{{ $cuestionario->descripcion }}</td>
-                            <td>{!! $cuestionario->plantilla ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                            <td>{!! $cuestionario->plantilla ? '<i class="bi bi-check-lg text-success"></i>' : '<i class="bi bi-x text-danger"></i>' !!}</td>
                         </tr>
                     @endforeach
                     </tbody>

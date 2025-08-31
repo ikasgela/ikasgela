@@ -73,7 +73,7 @@
 
         <div class="mb-3">
             <a href="{{ route('notifications.test') }}" class="btn btn-success single_click">
-                <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Send') }}
+                <span class="spinner-border spinner-border-sm" style="display:none;"></span> {{ __('Send') }}
             </a>
         </div>
     @endif

@@ -2,8 +2,8 @@
 <td class="clickable">
     @if(!is_null($actividad))
         {!! !is_null($actividad->siguiente) ? $actividad->final
-        ? '<i class="fas fa-times text-danger"></i>'
-        : '<i class="fas fa-arrow-right text-success"></i>'
+        ? '<i class="bi bi-x text-danger"></i>'
+        : '<i class="bi bi-arrow-right text-success"></i>'
         : '' !!}
         &nbsp;
         @if(!is_null($actividad->siguiente))

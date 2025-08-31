@@ -33,7 +33,7 @@
                         <div class='btn-group'>
                             <a title="{{ __('Edit') }}"
                                href="{{ route('categories.edit', [$category->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                               class='btn btn-light btn-sm'><i class="bi bi-pencil-square"></i></a>
                             @include('partials.boton_borrar')
                         </div>
                         {{ html()->form()->close() }}
@@ -46,7 +46,7 @@
                                     {{ html()->file('file')->class("form-control") }}
                                 </div>
                                 <div class="col">
-                                    {{ html()->submit('<i class="fas fa-spinner fa-spin" style="display:none;"></i> ' . __('Import course'))
+                                    {{ html()->submit('<span class="spinner-border spinner-border-sm" style="display:none;"></span> ' . __('Import course'))
                                                 ->class('btn btn-primary single_click ms-3') }}
                                 </div>
                             </div>

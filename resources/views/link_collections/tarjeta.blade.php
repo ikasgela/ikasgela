@@ -1,6 +1,6 @@
 <div class="card mb-3">
     <div class="card-header d-flex justify-content-between">
-        <div><i class="fas fa-link me-2"></i>{{ __('Links') }}</div>
+        <div><i class="bi bi-link me-2"></i>{{ __('Links') }}</div>
         <div>
             @include('partials.ver_recurso', ['recurso' => $link_collection, 'ruta' => 'link_collections'])
             @include('partials.modificar_recursos', ['ruta' => 'link_collections'])
@@ -67,7 +67,7 @@
             <div class="help-block text-danger mb-3">{{ $errors->first('url') }}</div>
 
             <button class="btn btn-primary single_click">
-                <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Add') }}
+                <span class="spinner-border spinner-border-sm" style="display:none;"></span> {{ __('Add') }}
             </button>
 
             {{ html()->form()->close() }}

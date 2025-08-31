@@ -1,6 +1,6 @@
 <div class="card mb-3">
     <div class="card-header d-flex justify-content-between">
-        <div><i class="fas fa-file me-2"></i>{{ __('Files') }}</div>
+        <div><i class="bi bi-file-earmark me-2"></i>{{ __('Files') }}</div>
         <div>
             @include('partials.ver_recurso', ['recurso' => $file_resource, 'ruta' => 'file_resources'])
             @include('partials.modificar_recursos', ['ruta' => 'file_resources'])
@@ -79,7 +79,7 @@
                     <span class="help-block text-danger">{{ $errors->first('file') }}</span>
                 </div>
                 <button class="btn btn-primary single_click">
-                    <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Upload') }}
+                    <span class="spinner-border spinner-border-sm" style="display:none;"></span> {{ __('Upload') }}
                 </button>
             </form>
         </div>

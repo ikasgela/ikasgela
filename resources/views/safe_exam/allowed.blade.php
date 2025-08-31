@@ -33,7 +33,7 @@
                             <a href="{{ route('allowed_apps.edit', [$allowed_app->id]) }}"
                                title="{{ __('Edit allowed app') }}"
                                class="btn btn-sm btn-light me-2" role="button">
-                                <i class="fas fa-edit"></i>
+                                <i class="bi bi-pencil-square"></i>
                             </a>
                             <form action="{{ route('allowed_apps.duplicate', [$allowed_app->id]) }}" method="POST">
                                 @csrf
@@ -41,7 +41,7 @@
                                         name="duplicate_allowed_app"
                                         type="submit"
                                         class="btn btn-sm btn-light me-2">
-                                    <i class="fas fa-copy"></i>
+                                    <i class="bi bi-copy"></i>
                                 </button>
                             </form>
                             <form action="{{ route('allowed_apps.destroy', [$allowed_app->id]) }}" method="POST">
@@ -51,7 +51,7 @@
                                         name="delete_classroom"
                                         type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
                                         class="btn btn-light btn-sm">
-                                    <i class="fas fa-trash text-danger"></i>
+                                    <i class="bi bi-trash3 text-danger"></i>
                                 </button>
                             </form>
                         </div>
@@ -90,7 +90,7 @@
                             <a href="{{ route('allowed_urls.edit', [$allowed_url->id]) }}"
                                title="{{ __('Edit allowed URL') }}"
                                class="btn btn-sm btn-light me-2" role="button">
-                                <i class="fas fa-edit"></i>
+                                <i class="bi bi-pencil-square"></i>
                             </a>
                             <form action="{{ route('allowed_urls.duplicate', [$allowed_url->id]) }}" method="POST">
                                 @csrf
@@ -98,7 +98,7 @@
                                         name="duplicate_allowed_url"
                                         type="submit"
                                         class="btn btn-sm btn-light me-2">
-                                    <i class="fas fa-copy"></i>
+                                    <i class="bi bi-copy"></i>
                                 </button>
                             </form>
                             <form action="{{ route('allowed_urls.destroy', [$allowed_url->id]) }}" method="POST">
@@ -108,7 +108,7 @@
                                         name="delete_classroom"
                                         type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
                                         class="btn btn-light btn-sm">
-                                    <i class="fas fa-trash text-danger"></i>
+                                    <i class="bi bi-trash3 text-danger"></i>
                                 </button>
                             </form>
                         </div>

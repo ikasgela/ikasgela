@@ -50,11 +50,11 @@
                         <div class='btn-group'>
                             <a title="{{ __('Preview') }}"
                                href="{{ route('teams.show', [$team->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
+                               class='btn btn-light btn-sm'><i class="bi bi-eye"></i></a>
 
                             @if(Auth::user()?->hasAnyRole(['profesor', 'admin']))
                                 {{ html()->form('POST', route('messages.create-with-subject-team'))->open() }}
-                                {{ html()->submit('<i class="fas fa-envelope"></i>')
+                                {{ html()->submit('<i class="bi bi-chat-text"></i>')
                                         ->class(['btn btn-light btn-sm', 'rounded-0'])
                                         ->attribute('title', __('Message')) }}
                                 {{ html()->hidden('team_id', $team->id) }}
@@ -64,7 +64,7 @@
                             @if(Auth::user()?->hasRole('admin'))
                                 <a title="{{ __('Edit') }}"
                                    href="{{ route('teams.edit', [$team->id]) }}"
-                                   class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                                   class='btn btn-light btn-sm'><i class="bi bi-pencil-square"></i></a>
 
                                 {{ html()->form('DELETE', route('teams.destroy', $team->id))->open() }}
                                 @include('partials.boton_borrar', ['last' => true])

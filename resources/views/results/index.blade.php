@@ -11,11 +11,11 @@
                            style="color:#ed2224" {{-- https://www.schemecolor.com/adobe-inc-logo-colors.php --}}
                            title="{{ __('Export to PDF') }}"
                            target="_blank"
-                           href="{{ route('results.pdf') }}"><i class="fas fa-file-pdf"></i>
+                           href="{{ route('results.pdf') }}"><i class="bi bi-file-earmark-pdf-fill"></i>
                         </a>
                     @else
                         {{ html()->form('POST', route('results.pdf'))->class('d-inline-flex')->open() }}
-                        {{ html()->submit('<i class="fas fa-file-pdf"></i>')
+                        {{ html()->submit('<i class="bi bi-file-earmark-pdf-fill"></i>')
                                 ->class('btn btn-link py-0 ms-1 border-0')->style('color:#ed2224; font-size:inherit; line-height:inherit;') }}
                         {{ html()->hidden('user_id', request()->user_id) }}
                         {{ html()->form()->close() }}

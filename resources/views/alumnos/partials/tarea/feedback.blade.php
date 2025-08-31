@@ -10,7 +10,7 @@
                         <div class="card-header
                                 {{ $actividad->unidad->curso->disponible() && $actividad->tarea->estado == 40 ? !$actividad->hasEtiqueta('examen') ? 'text-bg-success' : 'text-bg-secondary' : '' }}
                                 {{ $actividad->unidad->curso->disponible() && $actividad->tarea->estado == 41 ? 'text-bg-warning' : '' }}">
-                            <i class="fas fa-bullhorn"></i> {{ __('Feedback') }}
+                            <i class="bi bi-megaphone"></i> {{ __('Feedback') }}
                         </div>
                         <div class="p-3">
                             <div class="media rounded line-numbers">

@@ -5,7 +5,7 @@
 
 <div class="card mb-3">
     <div class="card-header d-flex justify-content-between">
-        <div><i class="fas fa-file-upload me-2"></i>{{ __('Image upload') }}</div>
+        <div><i class="bi bi-upload me-2"></i>{{ __('Image upload') }}</div>
         <div>
             @include('partials.modificar_recursos', ['ruta' => 'file_uploads'])
             @include('partials.editar_recurso', ['recurso' => $file_upload, 'ruta' => 'file_uploads'])
@@ -46,13 +46,13 @@
                                         {{ html()->form('POST', route('files.rotate_left', $file->id))->open() }}
                                         <button title="{{ __('Rotate left') }}"
                                                 type="submit" class="btn btn-light btn-sm me-1">
-                                            <i class="fas fa-undo"></i>
+                                            <i class="bi bi-arrow-counterclockwise"></i>
                                         </button>
                                         {{ html()->form()->close() }}
                                         {{ html()->form('POST', route('files.rotate_right', $file->id))->open() }}
                                         <button title="{{ __('Rotate right') }}"
                                                 type="submit" class="btn btn-light btn-sm me-1">
-                                            <i class="fas fa-undo fa-flip-horizontal"></i>
+                                            <i class="bi bi-arrow-clockwise"></i>
                                         </button>
                                         {{ html()->form()->close() }}
                                         @if(!$file->archived || Auth::user()->hasAnyRole(['admin','profesor']))
@@ -84,7 +84,7 @@
                     <span class="help-block text-danger">{{ $errors->first('file') }}</span>
                 </div>
                 <button class="btn btn-primary single_click">
-                    <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Upload') }}</button>
+                    <span class="spinner-border spinner-border-sm" style="display:none;"></span> {{ __('Upload') }}</button>
             </form>
         </div>
     @endif

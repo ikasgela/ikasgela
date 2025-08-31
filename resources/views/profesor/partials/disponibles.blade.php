@@ -10,7 +10,7 @@
         <div class="d-flex justify-content-between mb-3">
             <div>
                 <button type="submit" class="btn btn-primary single_click">
-                    <i class="fas fa-spinner fa-spin" style="display:none;"></i> {{ __('Save assigment') }}
+                    <span class="spinner-border spinner-border-sm" style="display:none;"></span> {{ __('Save assigment') }}
                 </button>
                 <a href="{{ route('profesor.index') }}" class="btn btn-link text-secondary">{{ __('Cancel') }}</a>
             </div>

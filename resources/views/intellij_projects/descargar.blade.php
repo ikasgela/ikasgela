@@ -20,7 +20,7 @@
                 <td>
                     <div class='btn-group'>
                         {{ html()->form('POST', route('intellij_projects.descargar.plantillas.curso'))->open() }}
-                        {{ html()->submit('<i class="fas fa-download text-danger"></i>')->class(['btn btn-light btn-sm'])->attribute('title', __('Download template projects')) }}
+                        {{ html()->submit('<i class="bi bi-download text-danger"></i>')->class(['btn btn-light btn-sm'])->attribute('title', __('Download template projects')) }}
                         {{ html()->form()->close() }}
                     </div>
                 </td>
@@ -53,12 +53,12 @@
                     <td>
                         <div class='btn-group'>
                             {{ html()->form('POST', route('intellij_projects.descargar.repos'))->open() }}
-                            {{ html()->submit('<i class="fas fa-download"></i>')->class(['btn btn-light btn-sm', 'me-2'])->attribute('title', __('Download user projects')) }}
+                            {{ html()->submit('<i class="bi bi-download"></i>')->class(['btn btn-light btn-sm', 'me-2'])->attribute('title', __('Download user projects')) }}
                             {{ html()->hidden('unidad_id', $unidad->id) }}
                             {{ html()->form()->close() }}
 
                             {{ html()->form('POST', route('intellij_projects.descargar.plantillas'))->open() }}
-                            {{ html()->submit('<i class="fas fa-download text-danger"></i>')->class(['btn btn-light btn-sm'])->attribute('title', __('Download template projects')) }}
+                            {{ html()->submit('<i class="bi bi-download text-danger"></i>')->class(['btn btn-light btn-sm'])->attribute('title', __('Download template projects')) }}
                             {{ html()->hidden('unidad_id', $unidad->id) }}
                             {{ html()->form()->close() }}
                         </div>

@@ -24,7 +24,7 @@
                 </td>
                 <td class="clickable">{{ $actividad->unidad->slug.'/'.$actividad->slug }}</td>
                 <td class="clickable">{{ formato_decimales($actividad->puntuacion * ($actividad->multiplicador ?: 1)) }}</td>
-                <td class="text-center clickable">{!! $actividad->auto_avance ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                <td class="text-center clickable">{!! $actividad->auto_avance ? '<i class="bi bi-check-lg text-success"></i>' : '<i class="bi bi-x text-danger"></i>' !!}</td>
                 @include('profesor.partials.siguiente_actividad')
                 @if(Auth::user()->hasRole('admin'))
                     @include('partials.botones_recursos')
@@ -40,11 +40,11 @@
                         <div class='btn-group'>
                             <a title="{{ __('Review') }}"
                                href="{{ route('profesor.revisar', ['user' => $user->id, 'tarea' => $tarea->id]) }}"
-                               class="btn btn-light btn-sm"><i class="fas fa-bullhorn"></i></a>
+                               class="btn btn-light btn-sm"><i class="bi bi-megaphone"></i></a>
                             @if(Auth::user()->hasRole('admin'))
                                 <a title="{{ __('Edit activity') }}"
                                    href="{{ route('actividades.edit', [$actividad->id]) }}"
-                                   class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                                   class='btn btn-light btn-sm'><i class="bi bi-pencil-square"></i></a>
                             @endif
                             @include('partials.boton_borrar')
                         </div>

@@ -22,7 +22,7 @@
                                 type="submit"
                                 {{ $recurso->pivot->columnas > 1 ? '' : 'disabled' }}
                                 class="btn {{ $recurso->pivot->columnas > 1 ? 'btn-primary' : 'btn-light' }} btn-sm me-1">
-                            <i class="fas fa-minus"></i>
+                            <i class="bi bi-dash-lg"></i>
                         </button>
                         <input type="hidden" name="recurso" value="{{ $ids[$loop->index] }}">
                         <input type="hidden" name="accion" value="restar">
@@ -33,7 +33,7 @@
                                 type="submit"
                                 {{ $recurso->pivot->columnas < 12 ? '' : 'disabled' }}
                                 class="btn {{ $recurso->pivot->columnas < 12 ? 'btn-primary' : 'btn-light' }} btn-sm">
-                            <i class="fas fa-plus"></i>
+                            <i class="bi bi-plus-lg"></i>
                         </button>
                         <input type="hidden" name="recurso" value="{{ $ids[$loop->index] }}">
                         <input type="hidden" name="accion" value="sumar">
@@ -47,7 +47,7 @@
                                 type="submit"
                                 {{ !isset($ids[$loop->index-1]) ? 'disabled' : '' }}
                                 class="btn {{ !isset($ids[$loop->index-1]) ? 'btn-light' : 'btn-primary' }} btn-sm">
-                            <i class="fas fa-arrow-up"></i>
+                            <i class="bi bi-arrow-up"></i>
                         </button>
                         <input type="hidden" name="a1" value="{{ $ids[$loop->index] }}">
                         <input type="hidden" name="a2" value="{{ $ids[$loop->index-1] ?? -1 }}">
@@ -58,7 +58,7 @@
                                 type="submit"
                                 {{ !isset($ids[$loop->index+1]) ? 'btn-light disabled' : '' }}
                                 class="btn {{ !isset($ids[$loop->index+1]) ? 'btn-light' : 'btn-primary' }} btn-sm ms-1">
-                            <i class="fas fa-arrow-down"></i>
+                            <i class="bi bi-arrow-down"></i>
                         </button>
                         <input type="hidden" name="a1" value="{{ $ids[$loop->index] }}">
                         <input type="hidden" name="a2" value="{{ $ids[$loop->index+1] ?? -1 }}">

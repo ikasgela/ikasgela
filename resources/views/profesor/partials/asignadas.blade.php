@@ -57,36 +57,36 @@
                     <td class="clickable">
                         @include('actividades.partials.nombre_con_etiquetas', ['ruta' => explode('.', Route::currentRouteName())[0] . '.tareas.filtro', 'slug' => true])
                     </td>
-                    <td class="text-center clickable">{!! $actividad->tarea->estado == 11 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-secondary"></i>' !!}</td>
-                    <td class="text-center clickable">{!! $actividad->tarea->estado >= 20 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                    <td class="text-center clickable">{!! $actividad->tarea->estado == 11 ? '<i class="bi bi-check-lg"></i>' : '<i class="bi bi-x text-secondary"></i>' !!}</td>
+                    <td class="text-center clickable">{!! $actividad->tarea->estado >= 20 ? '<i class="bi bi-check-lg"></i>' : '<i class="bi bi-x text-danger"></i>' !!}</td>
                     <td class="text-center clickable {!! $actividad->tarea->estado == 30 && !$actividad->auto_avance ? 'bg-danger text-white' : '' !!}">
-                        {!! $actividad->tarea->estado >= 30 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-danger"></i>' !!}
+                        {!! $actividad->tarea->estado >= 30 ? '<i class="bi bi-check-lg"></i>' : '<i class="bi bi-x text-danger"></i>' !!}
                     </td>
                     <td class="text-center clickable">
                         @switch($actividad->tarea->estado)
                             @case(40)
-                                {!! '<i class="fas fa-check text-success"></i>' !!}
+                                {!! '<i class="bi bi-check-lg text-success"></i>' !!}
                                 @break
                             @case(41)
-                                {!! '<i class="fas fa-check text-warning"></i>' !!}
+                                {!! '<i class="bi bi-check-lg text-warning"></i>' !!}
                                 @break
                             @case(50)
                             @case(60)
-                                {!! '<i class="fas fa-check"></i>' !!}
+                                {!! '<i class="bi bi-check-lg"></i>' !!}
                                 @break;
                             @default
                                 @if(!$actividad->auto_avance)
-                                    {!! '<i class="fas fa-times text-danger"></i>' !!}
+                                    {!! '<i class="bi bi-x text-danger"></i>' !!}
                                 @else
-                                    {!! '<i class="fas fa-times text-secondary"></i>' !!}
+                                    {!! '<i class="bi bi-x text-secondary"></i>' !!}
                                 @endif
                         @endswitch
                     </td>
                     <td class="text-center clickable">{{ $actividad->tarea->puntuacion }}</td>
-                    <td class="text-center clickable">{!! $actividad->tarea->estado >= 50 ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times text-danger"></i>' !!}</td>
+                    <td class="text-center clickable">{!! $actividad->tarea->estado >= 50 ? '<i class="bi bi-check-lg"></i>' : '<i class="bi bi-x text-danger"></i>' !!}</td>
                     <td class="text-center clickable">
                         <div class="d-flex justify-content-center align-items-center">
-                            {!! $actividad->is_expired ? (!$actividad->tarea->is_completada ? '' : ($actividad->tarea->is_completada_archivada ? '<i class="fas fa-exclamation-triangle text-secondary"></i>' : '<i class="fas fa-times text-secondary"></i>')) : '<i class="fas fa-times text-secondary"></i>' !!}
+                            {!! $actividad->is_expired ? (!$actividad->tarea->is_completada ? '' : ($actividad->tarea->is_completada_archivada ? '<i class="bi bi-exclamation-triangle-fill text-secondary"></i>' : '<i class="bi bi-x text-secondary"></i>')) : '<i class="bi bi-x text-secondary"></i>' !!}
                             @if($actividad->is_expired && !$actividad->tarea->is_completada)
                                 {{ html()->form('PUT', route('actividades.estado', $actividad->tarea->id))->open() }}
                                 <div class='btn-group'>
@@ -113,14 +113,14 @@
                             <div class='btn-group'>
                                 <a title="{{ __('Review') }}"
                                    href="{{ route('profesor.revisar', ['user' => $user->id, 'tarea' => $actividad->tarea->id]) }}"
-                                   class="btn btn-light btn-sm"><i class="fas fa-bullhorn"></i></a>
+                                   class="btn btn-light btn-sm"><i class="bi bi-megaphone"></i></a>
                                 @if(Auth::user()->hasRole('admin'))
                                     <a title="{{ __('Edit activity') }}"
                                        href="{{ route('actividades.edit', [$actividad->id]) }}"
-                                       class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                                       class='btn btn-light btn-sm'><i class="bi bi-pencil-square"></i></a>
                                     <a title="{{ __('Edit task') }}"
                                        href="{{ route('tareas.edit', [$actividad->tarea->id]) }}"
-                                       class='btn btn-light btn-sm'><i class="fas fa-link"></i></a>
+                                       class='btn btn-light btn-sm'><i class="bi bi-link-45deg"></i></a>
                                 @endif
                                 @include('partials.boton_borrar')
                             </div>

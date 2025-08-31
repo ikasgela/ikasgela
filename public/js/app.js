@@ -49935,7 +49935,7 @@ $(document).ready(function ($) {
     });
   });
   $('.single_click').on('click', function (e) {
-    $(this).children('i').show();
+    $(this).children('span').show();
     if ($(this).hasClass("disabled")) {
       e.preventDefault();
     }

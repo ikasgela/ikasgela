@@ -100,22 +100,22 @@
                             <div class='btn-group me-2'>
                                 @if(!$usuario->isMatriculado($curso))
                                     {{ html()->form('POST', route('cursos.matricular', [$curso->id, $usuario->id]))->open() }}
-                                    {{ html()->submit('<i class="fas fa-plus"></i>')->class('btn btn-light btn-sm')->attribute('title', __('Enroll')) }}
+                                    {{ html()->submit('<i class="bi bi-plus-lg"></i>')->class('btn btn-light btn-sm')->attribute('title', __('Enroll')) }}
                                     {{ html()->form()->close() }}
                                 @endif
                             </div>
                             <div class='btn-group'>
                                 <a title="{{ __('Edit') }}"
                                    href="{{ route('cursos.edit', [$curso->id]) }}"
-                                   class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                                   class='btn btn-light btn-sm'><i class="bi bi-pencil-square"></i></a>
 
                                 {{ html()->form('POST', route('cursos.export', $curso->id))->open() }}
-                                {{ html()->submit('<i class="fas fa-download"></i>')->class(['btn btn-light btn-sm', 'rounded-0'])->attribute('title', __('Export course')) }}
+                                {{ html()->submit('<i class="bi bi-download"></i>')->class(['btn btn-light btn-sm', 'rounded-0'])->attribute('title', __('Export course')) }}
                                 {{ html()->form()->close() }}
 
                                 {{ html()->form('DELETE', route('cursos.reset', $curso->id))->open() }}
                                 {{ html()
-                                    ->reset('<i class="fas fa-power-off text-danger"></i>')
+                                    ->reset('<i class="bi bi-power text-danger"></i>')
                                     ->name('reset')
                                     ->class(['btn btn-light btn-sm', 'rounded-0'])
                                     ->attribute('title', __('Reset course'))

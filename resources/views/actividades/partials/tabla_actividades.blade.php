@@ -34,7 +34,7 @@
                 </td>
                 <td class="clickable">{{ $actividad->id }}</td>
                 @if(Route::currentRouteName() == 'actividades.index')
-                    <td>{!! $actividad->plantilla ? '<i class="fas fa-file"></i>' : '' !!}</td>
+                    <td title="{{ __('Template') }}">{!! $actividad->plantilla ? '<i class="bi bi-file-text"></i>' : '' !!}</td>
                 @endif
                 <td class="clickable">{{ $actividad->unidad->full_name }}</td>
                 @if(Str::startsWith(Route::currentRouteName(), 'actividades.plantillas'))
@@ -45,14 +45,14 @@
                                     type="submit"
                                     name="action" value="mm_{{ $actividad->id }}"
                                     class="btn btn-light btn-sm me-3 rounded">
-                                <i class="fas fa-arrow-right"></i>
+                                <i class="bi bi-arrow-right"></i>
                             </button>
                             {{ html()->form('POST', route('actividades.reordenar', [$ids[$loop->index], $ids[$loop->index-1] ?? -1]))->open() }}
                             <button title="{{ __('Up') }}"
                                     type="submit"
                                     {{ !isset($ids[$loop->index-1]) ? 'disabled' : '' }}
                                     class="btn btn-light btn-sm">
-                                <i class="fas fa-arrow-up"></i>
+                                <i class="bi bi-arrow-up"></i>
                             </button>
                             {{ html()->form()->close() }}
                             {{ html()->form('POST', route('actividades.reordenar', [$ids[$loop->index], $ids[$loop->index+1] ?? -1]))->open() }}
@@ -60,7 +60,7 @@
                                     type="submit"
                                     {{ !isset($ids[$loop->index+1]) ? 'disabled' : '' }}
                                     class="btn btn-light btn-sm ms-1">
-                                <i class="fas fa-arrow-down"></i>
+                                <i class="bi bi-arrow-down"></i>
                             </button>
                             {{ html()->form()->close() }}
                         </div>
@@ -85,21 +85,21 @@
                     <div class='btn-group'>
                         <a title="{{ __('Sort resources') }}"
                            href="{{ route('actividades.show', [$actividad->id]) }}"
-                           class='btn btn-light btn-sm'><i class="fas fa-sort"></i></a>
+                           class='btn btn-light btn-sm'><i class="bi bi-arrow-down-up"></i></a>
                     </div>
                 </td>
                 <td>
                     <div class='btn-group'>
                         <a title="{{ __('Preview') }}"
                            href="{{ route('actividades.preview', [$actividad->id]) }}"
-                           class='btn btn-light btn-sm'><i class="fas fa-eye"></i></a>
+                           class='btn btn-light btn-sm'><i class="bi bi-eye"></i></a>
                         <a title="{{ __('Edit') }}"
                            href="{{ route('actividades.edit', [$actividad->id]) }}"
-                           class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                           class='btn btn-light btn-sm'><i class="bi bi-pencil-square"></i></a>
                         {{ html()->form('POST', route('actividades.duplicar', $actividad->id))->open() }}
                         <button title="{{ __('Duplicate') }}"
                                 type="submit"
-                                class="btn btn-light btn-sm rounded-0"><i class="fas fa-copy"></i>
+                                class="btn btn-light btn-sm rounded-0"><i class="bi bi-copy"></i>
                         </button>
                         {{ html()->form()->close() }}
                         {{ html()->form('DELETE', route('actividades.destroy', $actividad->id))->open() }}
@@ -119,12 +119,12 @@
         <button title="{{ __('Move') }}"
                 type="submit"
                 name="action" value="move"
-                class="btn btn-light btn-sm"><i class="fas fa-file-import"></i>
+                class="btn btn-light btn-sm"><i class="bi bi-box-arrow-in-right"></i>
         </button>
         <button title="{{ __('Duplicate') }}"
                 type="submit"
                 name="action" value="duplicate"
-                class="btn btn-light btn-sm"><i class="fas fa-copy"></i>
+                class="btn btn-light btn-sm"><i class="bi bi-copy"></i>
         </button>
     </div>
     <div class="col-12">

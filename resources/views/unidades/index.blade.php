@@ -50,7 +50,7 @@
                         <div class='btn-group'>
                             <a title="{{ __('Edit') }}"
                                href="{{ route('unidades.edit', [$unidad->id]) }}"
-                               class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                               class='btn btn-light btn-sm'><i class="bi bi-pencil-square"></i></a>
 
                             {{ html()->form('DELETE', route('unidades.destroy', $unidad->id))->open() }}
                             @include('partials.boton_borrar', ['last' => true])

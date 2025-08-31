@@ -27,7 +27,7 @@
                         <div>
                             <a title="{{ __('Edit') }}"
                                href="{{ route('actividades.edit', [$actividad->id]) }}"
-                               class='text-white'><i class="fas fa-edit"></i></a>
+                               class='text-white'><i class="bi bi-pencil-square"></i></a>
                         </div>
                     @endif
                 </div>
@@ -43,7 +43,7 @@
                                 <div class='btn-group ms-3'>
                                     <a title="{{ __('Sort resources') }}"
                                        href="{{ route('actividades.show', [$actividad->id]) }}"
-                                       class='btn btn-light btn-sm'><i class="fas fa-sort"></i></a>
+                                       class='btn btn-light btn-sm'><i class="bi bi-arrow-down-up"></i></a>
                                 </div>
                             </div>
                         @endif
@@ -83,7 +83,7 @@
                                 <div class='btn-group'>
                                     <a title="{{ __('Edit') }}"
                                        href="{{ route('feedbacks.edit', [$feedback->id]) }}"
-                                       class='btn btn-light btn-sm'><i class="fas fa-edit"></i></a>
+                                       class='btn btn-light btn-sm'><i class="bi bi-pencil-square"></i></a>
                                     @include('partials.boton_borrar')
                                 </div>
                                 {{ html()->form()->close() }}

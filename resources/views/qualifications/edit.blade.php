@@ -62,7 +62,7 @@
                                                         type="submit"
                                                         {{ !isset($ids[$index-1]) ? 'disabled' : '' }}
                                                         class="btn {{ !isset($ids[$index-1]) ? 'btn-light' : 'btn-primary' }} btn-sm">
-                                                    <i class="fas fa-arrow-up"></i>
+                                                    <i class="bi bi-arrow-up"></i>
                                                 </button>
                                                 <input type="hidden" name="a1" value="{{ $ids[$index] }}">
                                                 <input type="hidden" name="a2" value="{{ $ids[$index-1] ?? -1 }}">
@@ -73,7 +73,7 @@
                                                         type="submit"
                                                         {{ !isset($ids[$index+1]) ? 'btn-light disabled' : '' }}
                                                         class="btn {{ !isset($ids[$index+1]) ? 'btn-light' : 'btn-primary' }} btn-sm ms-1">
-                                                    <i class="fas fa-arrow-down"></i>
+                                                    <i class="bi bi-arrow-down"></i>
                                                 </button>
                                                 <input type="hidden" name="a1" value="{{ $ids[$index] }}">
                                                 <input type="hidden" name="a2" value="{{ $ids[$index+1] ?? -1 }}">
@@ -132,8 +132,8 @@
 
             <div class="form-group">
                 <button type="submit" class="btn btn-primary single_click" form="principal">
-                    <i class="fas fa-spinner fa-spin"
-                       style="display:none;"></i> {{ isset($texto)? $texto : __('Save') }}</button>
+                    <span class="spinner-border spinner-border-sm"
+                       style="display:none;"></span> {{ isset($texto)? $texto : __('Save') }}</button>
                 <a href="{!! anterior() !!}" class="btn btn-link text-secondary">{{ __('Cancel') }}</a>
             </div>
 

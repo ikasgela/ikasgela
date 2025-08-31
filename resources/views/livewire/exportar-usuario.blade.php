@@ -10,7 +10,7 @@
                     <button wire:click="export"
                             title="{{ __('Request an export') }}"
                             class="btn single_click {{ !$already_exported && !$exporting ? 'btn-primary' : 'btn-secondary disabled' }}">
-                        <i class="fas fa-spinner fa-spin" style="display:none;"></i>
+                        <span class="spinner-border spinner-border-sm" style="display:none;"></span>
                         {{ __('Request an export') }}
                     </button>
                     @if($already_exported)

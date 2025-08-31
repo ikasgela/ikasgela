@@ -76,7 +76,7 @@
         <button title="{{ __('Enroll') }}"
                 type="submit"
                 name="action" value="enroll"
-                class="btn btn-light btn-sm"><i class="fas fa-plus"></i>
+                class="btn btn-light btn-sm"><i class="bi bi-plus-lg"></i>
         </button>
     </div>
     <div class="col-12">
@@ -94,22 +94,22 @@
             <button title="{{ __('Manual verification') }}"
                     type="submit"
                     name="action" value="verify"
-                    class="btn btn-light btn-sm"><i class="fas fa-user-check"></i>
+                    class="btn btn-light btn-sm"><i class="bi bi-person-check-fill"></i>
             </button>
             <button title="{{ __('Block') }}"
                     type="submit"
                     name="action" value="block"
-                    class="btn btn-light btn-sm"><i class="fas fa-lock"></i>
+                    class="btn btn-light btn-sm"><i class="bi bi-lock"></i>
             </button>
             <button title="{{ __('Unblock') }}"
                     type="submit"
                     name="action" value="unblock"
-                    class="btn btn-light btn-sm"><i class="fas fa-unlock"></i>
+                    class="btn btn-light btn-sm"><i class="bi bi-unlock2"></i>
             </button>
             <button title="{{ __('Delete') }}"
                     type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
                     name="action" value="delete"
-                    class="btn btn-light btn-sm"><i class="fas fa-trash text-danger"></i>
+                    class="btn btn-light btn-sm"><i class="bi bi-trash3 text-danger"></i>
             </button>
         </div>
     </div>
@@ -121,7 +121,7 @@
         <button title="{{ __('Add tags') }}"
                 type="submit"
                 name="action" value="tag"
-                class="btn btn-light btn-sm"><i class="fas fa-tag"></i>
+                class="btn btn-light btn-sm"><i class="bi bi-tag"></i>
         </button>
     </div>
 </div>
