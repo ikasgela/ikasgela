@@ -68,7 +68,7 @@
                         <br>
                         {{ $curso?->fecha_fin ? $curso->fecha_fin->isoFormat('L LT') : __('Undefined') }}
                     </td>
-                    <td class="text-center {{ $curso->matricula_abierta ? 'bg-warning' : '' }}">
+                    <td class="text-center {{ $curso->matricula_abierta ? 'text-bg-warning' : '' }}">
                         {{ $curso->matricula_abierta ? __('Yes') : __('No') }}
                     </td>
                     <td class="text-center">{{ $curso->max_simultaneas ?? __('Undefined') }}</td>
@@ -79,7 +79,7 @@
                     <td class="text-center">{{ $curso->minimo_examenes_finales ?? __('Undefined') }}</td>
                     <td class="text-center">{{ $curso->examenes_obligatorios ? __('Yes') : __('No') }}</td>
                     <td class="text-center">{{ $curso->maximo_recuperable_examenes_finales ?? __('Undefined') }}</td>
-                    <td class="text-center {{ $curso->silence_notifications ? 'bg-warning' : '' }}">
+                    <td class="text-center {{ $curso->silence_notifications ? 'text-bg-warning' : '' }}">
                         {{ $curso->silence_notifications ? __('Yes') : __('No') }}
                     </td>
                     <td class="text-center">@include('partials.check_yes_no', ['checked' => $curso->normalizar_nota])</td>
