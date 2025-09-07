@@ -135,4 +135,11 @@ class QualificationController extends Controller
 
         return back();
     }
+
+    public function duplicar(Qualification $qualification)
+    {
+        $qualification->duplicar(null);
+
+        return redirect(route('qualifications.index'));
+    }
 }

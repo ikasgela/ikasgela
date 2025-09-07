@@ -72,4 +72,25 @@ class Qualification extends Model
     {
         return $query->where('template', true);
     }
+
+    public function duplicar(?Curso $curso_destino)
+    {
+        $clon = $this->duplicate();
+        if (is_null($curso_destino)) {
+            $clon->name = $clon->name . " (" . __("Copy") . ')';
+        } else {
+            $clon->curso_id = $curso_destino->id;
+        }
+        $clon->template = $this->template;
+        $clon->save();
+
+        // Si copiamos a otro curso, recorrer y cambiar el curso de las skills asociadas
+        if (!is_null($curso_destino)) {
+            foreach ($clon->skills as $skill) {
+                $skill->curso_id = $clon->curso_id;
+                $skill->save();
+            }
+        }
+        return $clon;
+    }
 }

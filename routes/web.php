@@ -497,6 +497,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::resource('qualifications', QualificationController::class);
             Route::post('/qualifications/filtro', [QualificationController::class, 'index'])
                 ->name('qualifications.index.filtro');
+            Route::post('/qualifications/{qualification}/duplicar', [QualificationController::class, 'duplicar'])
+                ->name('qualifications.duplicar');
 
             // CRUD - Competencias
             Route::resource('skills', SkillController::class);

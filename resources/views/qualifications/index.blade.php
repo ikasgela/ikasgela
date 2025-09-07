@@ -33,6 +33,7 @@
                     <td class="text-nowrap">
                         <div class='btn-group'>
                             @include('partials.boton_editar', ['ruta' => 'qualifications', 'recurso' => $qualification])
+                            @include('partials.boton_duplicar', ['ruta' => 'qualifications.duplicar', 'id' => $qualification->id, 'middle' => true])
                             {{ html()->form('DELETE', route('qualifications.destroy', $qualification->id))->open() }}
                             @include('partials.boton_borrar', ['last' => true])
                             {{ html()->form()->close() }}
