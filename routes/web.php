@@ -426,6 +426,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('rubrics.desasociar');
             Route::post('/rubrics/{rubric}/duplicar', [RubricController::class, 'duplicar'])
                 ->name('rubrics.duplicar');
+
+            // Activar/desactivar la matrícula en los cursos
+            Route::post('/cursos/{curso}/toggle_matricula_abierta', [CursoController::class, 'toggle_matricula_abierta'])
+                ->name('cursos.toggle.matricula_abierta');
         });
 
         // Administrador

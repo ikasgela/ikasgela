@@ -31,7 +31,7 @@
             </div>
             <p class="card-text" style="height: 6em;">{{ $curso->descripcion }}</p>
         </div>
-        <div class="card-footer d-flex align-items-center" style="height: 4.5em">
+        <div class="card-footer d-flex align-items-center justify-content-between" style="height: 4.5em">
             @if(setting_usuario('curso_actual') != $curso->id)
                 @if(!in_array($curso->id, $matricula) && ($curso->matricula_abierta && $curso->disponible() || Auth::user()->hasRole('profesor')))
                     {{ html()->form('POST', route('cursos.matricular', [$curso->id, Auth::user()->id]))->open() }}
@@ -46,6 +46,21 @@
                 @endif
             @else
                 <span>{{ __('This is the current course') }}.</span>
+            @endif
+            @if(Auth::user()->hasRole('admin'))
+                @if($curso->matricula_abierta)
+                    {{ html()->form('POST', route('cursos.toggle.matricula_abierta', [$curso->id]))->open() }}
+                    {{ html()->submit('<i class="bi bi-unlock2"></i>')
+                            ->attribute('title', __('Enrollment open'))
+                            ->class('btn btn-warning') }}
+                    {{ html()->form()->close() }}
+                @else
+                    {{ html()->form('POST', route('cursos.toggle.matricula_abierta', [$curso->id]))->open() }}
+                    {{ html()->submit('<i class="bi bi-lock"></i>')
+                            ->attribute('title', __('Enrollment closed'))
+                            ->class('btn btn-secondary') }}
+                    {{ html()->form()->close() }}
+                @endif
             @endif
         </div>
     </div>

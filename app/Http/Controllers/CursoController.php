@@ -505,4 +505,12 @@ class CursoController extends Controller
             return "Failed to create the zip file.";
         }
     }
+
+    public function toggle_matricula_abierta(Curso $curso)
+    {
+        $curso->matricula_abierta = !$curso->matricula_abierta;
+        $curso->save();
+
+        return back();
+    }
 }

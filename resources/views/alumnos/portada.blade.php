@@ -30,7 +30,7 @@
                 @if($loop->first)
                     <div class="row">
                 @endif
-                @if(!in_array($curso->id, $matricula) && $curso->matricula_abierta || in_array($curso->id, $matricula))
+                @if(!in_array($curso->id, $matricula) && $curso->matricula_abierta || in_array($curso->id, $matricula) || Auth::user()->hasRole('admin'))
                     @if(session('users_filtro_cursos_no_disponibles') == 'S' && !$curso->disponible())
                         @include('alumnos.partials.tarjeta_curso')
                         @php($total += 1)
