@@ -430,6 +430,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             // Activar/desactivar la matrícula en los cursos
             Route::post('/cursos/{curso}/toggle_matricula_abierta', [CursoController::class, 'toggle_matricula_abierta'])
                 ->name('cursos.toggle.matricula_abierta');
+
+            // Activar/desactivar el registro en las organizaciones
+            Route::post('/organizations/{organization}/toggle_registration_open', [OrganizationController::class, 'toggle_registration_open'])
+                ->name('organizations.toggle.registration_open');
         });
 
         // Administrador

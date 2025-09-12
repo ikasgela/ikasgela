@@ -79,4 +79,12 @@ class OrganizationController extends Controller
 
         return back();
     }
+
+    public function toggle_registration_open(Organization $organization)
+    {
+        $organization->registration_open = !$organization->registration_open;
+        $organization->save();
+
+        return back();
+    }
 }

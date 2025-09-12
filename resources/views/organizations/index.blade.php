@@ -15,7 +15,7 @@
                 <th>#</th>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Slug') }}</th>
-                <th class="text-center">{{ __('Registration open') }}</th>
+                <th class="text-center">{{ __('Registration') }}</th>
                 <th class="text-center">{{ __('Available seats') }}</th>
                 <th class="text-center">{{ __('Current period') }}</th>
                 <th>{{ __('Actions') }}</th>
@@ -27,8 +27,20 @@
                     <td>{{ $organization->id }}</td>
                     <td>{{ $organization->name }}</td>
                     <td>{{ $organization->slug }}</td>
-                    <td class="text-center {{ $organization->registration_open ? 'text-bg-warning' : '' }}">
-                        {{ $organization->registration_open ? __('Yes') : __('No') }}
+                    <td class="text-center">
+                        @if($organization->registration_open)
+                            {{ html()->form('POST', route('organizations.toggle.registration_open', [$organization->id]))->open() }}
+                            {{ html()->submit('<i class="bi bi-unlock2"></i>')
+                                    ->attribute('title', __('Registration open'))
+                                    ->class('btn btn-sm btn-warning') }}
+                            {{ html()->form()->close() }}
+                        @else
+                            {{ html()->form('POST', route('organizations.toggle.registration_open', [$organization->id]))->open() }}
+                            {{ html()->submit('<i class="bi bi-lock"></i>')
+                                    ->attribute('title', __('Registration closed'))
+                                    ->class('btn btn-sm btn-secondary') }}
+                            {{ html()->form()->close() }}
+                        @endif
                     </td>
                     <td class="text-center">{{ $organization->seats }}</td>
                     <td class="text-center">{{ $organization->current_period()->name ?? '' }}</td>
