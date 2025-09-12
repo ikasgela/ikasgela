@@ -16,7 +16,7 @@
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Tags') }}</th>
                 <th class="text-center">{{ __('Start/End dates') }}</th>
-                <th class="text-center">{{ __('Open enrollment') }}</th>
+                <th class="text-center">{{ __('Enrollment') }}</th>
                 <th class="text-center">
                     @include('profesor.partials.titulo-columna', ['titulo' => __('Simultaneous activities')])
                 </th>
@@ -68,8 +68,20 @@
                         <br>
                         {{ $curso?->fecha_fin ? $curso->fecha_fin->isoFormat('L LT') : __('Undefined') }}
                     </td>
-                    <td class="text-center {{ $curso->matricula_abierta ? 'text-bg-warning' : '' }}">
-                        {{ $curso->matricula_abierta ? __('Yes') : __('No') }}
+                    <td class="text-center">
+                        @if($curso->matricula_abierta)
+                            {{ html()->form('POST', route('cursos.toggle.matricula_abierta', [$curso->id]))->open() }}
+                            {{ html()->submit('<i class="bi bi-unlock2"></i>')
+                                    ->attribute('title', __('Enrollment open'))
+                                    ->class('btn btn-sm btn-warning') }}
+                            {{ html()->form()->close() }}
+                        @else
+                            {{ html()->form('POST', route('cursos.toggle.matricula_abierta', [$curso->id]))->open() }}
+                            {{ html()->submit('<i class="bi bi-lock"></i>')
+                                    ->attribute('title', __('Enrollment closed'))
+                                    ->class('btn btn-sm btn-secondary') }}
+                            {{ html()->form()->close() }}
+                        @endif
                     </td>
                     <td class="text-center">{{ $curso->max_simultaneas ?? __('Undefined') }}</td>
                     <td class="text-center">{{ $curso->plazo_actividad ?? __('Undefined') }}</td>
