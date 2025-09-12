@@ -66,6 +66,12 @@
                         <i class="bi bi-trash"></i>
                     </button>
                 </div>
+                <div class="btn-group-sm btn-group-vertical ms-2">
+                    <button class="btn btn-secondary"
+                            wire:click="$parent.duplicate_criteria_group({{ $criteria_group->id }})">
+                        <i class="bi bi-copy"></i>
+                    </button>
+                </div>
             </div>
         </div>
     @endif

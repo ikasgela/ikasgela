@@ -75,6 +75,15 @@ class RubricComponent extends Component
         }
     }
 
+    public function duplicate_criteria_group($criteria_group_id)
+    {
+        $criteria_group = CriteriaGroup::findOrFail($criteria_group_id);
+
+        $clon = $criteria_group->duplicate();
+        $clon->orden = Str::orderedUuid();
+        $clon->save();
+    }
+
     public function toggle_edit()
     {
         $this->rubric_is_editing = !$this->rubric_is_editing;
