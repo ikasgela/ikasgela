@@ -18,10 +18,17 @@
                            href="{{ route('rubrics.show', [$rubric->id]) }}"
                            class='text-link-light'><i class="bi bi-eye"></i></a>
                     @else
-                        <a title="{{ __('Edit') }}"
-                           href="#"
-                           wire:click.prevent="toggle_edit"
-                           class='text-link-light'><i class="bi bi-pencil-square"></i></a>
+                        @if($rubric_is_editing)
+                            <a title="{{ __('Save') }}"
+                               href="#"
+                               wire:click.prevent="toggle_edit"
+                               class='text-warning'><i class="bi bi-floppy-fill"></i></a>
+                        @else
+                            <a title="{{ __('Edit') }}"
+                               href="#"
+                               wire:click.prevent="toggle_edit"
+                               class='text-link-light'><i class="bi bi-pencil-square"></i></a>
+                        @endif
                     @endif
                 </div>
             @endif
