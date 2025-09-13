@@ -87,7 +87,7 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|email:rfc,dns|unique:users',
             'password' => 'required',
             'roles_seleccionados' => 'required',
         ]);
@@ -157,7 +157,7 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|email:rfc,dns',
             'roles_seleccionados' => 'required',
         ]);
 

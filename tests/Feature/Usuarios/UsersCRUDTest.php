@@ -165,6 +165,7 @@ class UsersCRUDTest extends TestCase
 
         // When
         $response = $this->post(route('users.store'), array_merge($empty->toArray(), [
+                'email' => fake()->unique()->userName . '@ikasgela.com',
                 'password' => 'dummy',
             ]
         ));
@@ -325,7 +326,10 @@ class UsersCRUDTest extends TestCase
         }
 
         // When
-        $response = $this->put(route('users.update', $user), $empty->toArray());
+        $response = $this->put(route('users.update', $user), array_merge($empty->toArray(), [
+                'email' => fake()->unique()->userName . '@ikasgela.com',
+            ]
+        ));
 
         // Then
         $response->assertSessionHasNoErrors();
