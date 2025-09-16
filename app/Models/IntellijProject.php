@@ -37,6 +37,9 @@ class IntellijProject extends Model
                 'fork',
                 'archivado',
                 'fork_status',
+                'orden',
+                'titulo_visible', 'descripcion_visible', 'columnas',
+                'incluir_siempre',
             ]);
     }
 

@@ -70,9 +70,16 @@ class Actividad extends Model
     public function duplicar_recursos_consumibles()
     {
         if ($this->intellij_projects()->count() > 1) {
-            $intellij_project_ids = $this->intellij_projects()->get()->pluck('id')->toArray();
-            $random = array_rand($intellij_project_ids);
-            $this->intellij_projects()->sync([$intellij_project_ids[$random]]);
+            $incluir_siempre = $this->intellij_projects()
+                ->where('incluir_siempre', '=', true)
+                ->get()->pluck('id')->toArray();
+
+            $aleatorios = $this->intellij_projects()
+                ->where('incluir_siempre', '=', false)
+                ->get()->pluck('id')->toArray();
+            $random = array_rand($aleatorios);
+
+            $this->intellij_projects()->sync(array_merge($incluir_siempre, [$aleatorios[$random]]));
         }
 
         foreach ($this->cuestionarios as $cuestionario) {
@@ -254,6 +261,7 @@ class Actividad extends Model
                 'fork_status',
                 'orden',
                 'titulo_visible', 'descripcion_visible', 'columnas',
+                'incluir_siempre',
             ]);
     }
 
