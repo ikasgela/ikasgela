@@ -20,6 +20,7 @@
                     <th class="text-center">{{ __('Show title') }}</th>
                     <th>{{ __('Description') }}</th>
                     <th class="text-center">{{ __('Show description') }}</th>
+                    <th class="text-center">{{ __('Always include') }}</th>
                     <th>{{ __('Gitea') }}</th>
                     <th>{{ __('Actions') }}</th>
                 </tr>
@@ -40,6 +41,12 @@
                             @include('partials.toggler', [
                                 'resource' => 'intellij_project',
                                 'field' => 'descripcion_visible',
+                            ])
+                        </td>
+                        <td class="text-center">
+                            @include('partials.toggler', [
+                                'resource' => 'intellij_project',
+                                'field' => 'incluir_siempre',
                             ])
                         </td>
                         <td>@include('partials.link_gitea', ['proyecto' => $intellij_project->repository() ])</td>

@@ -436,6 +436,16 @@ class IntellijProjectController extends Controller
         return back();
     }
 
+    public function toggle_incluir_siempre(Actividad $actividad, IntellijProject $intellij_project)
+    {
+        $pivote = $intellij_project->pivote($actividad);
+
+        $pivote->incluir_siempre = !$pivote->incluir_siempre;
+        $pivote->save();
+
+        return back();
+    }
+
     public function duplicar(IntellijProject $intellij_project)
     {
         $intellij_project->duplicar(null);

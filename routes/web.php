@@ -281,6 +281,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('intellij_projects.toggle.descripcion_visible');
             Route::post('/intellij_projects/{intellij_project}/duplicar', [IntellijProjectController::class, 'duplicar'])
                 ->name('intellij_projects.duplicar');
+            Route::post('/intellij_projects/{actividad}/toggle_incluir_siempre/{intellij_project}', [IntellijProjectController::class, 'toggle_incluir_siempre'])
+                ->name('intellij_projects.toggle.incluir_siempre');
 
             // Bloquear y desbloquear repositorios
             Route::post('/intellij_projects/{intellij_project}/{actividad}/lock', [IntellijProjectController::class, 'lock'])
