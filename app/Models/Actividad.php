@@ -69,17 +69,19 @@ class Actividad extends Model
 
     public function duplicar_recursos_consumibles()
     {
-        if ($this->intellij_projects()->count() > 1) {
-            $incluir_siempre = $this->intellij_projects()
-                ->where('incluir_siempre', '=', true)
-                ->get()->pluck('id')->toArray();
+        $incluir_siempre = $this->intellij_projects()
+            ->where('incluir_siempre', '=', true)
+            ->get()->pluck('id')->toArray();
 
-            $aleatorios = $this->intellij_projects()
-                ->where('incluir_siempre', '=', false)
-                ->get()->pluck('id')->toArray();
+        $aleatorios = $this->intellij_projects()
+            ->where('incluir_siempre', '=', false)
+            ->get()->pluck('id')->toArray();
+
+        if (count($aleatorios) > 0) {
             $random = array_rand($aleatorios);
-
             $this->intellij_projects()->sync(array_merge($incluir_siempre, [$aleatorios[$random]]));
+        } else {
+            $this->intellij_projects()->sync($incluir_siempre);
         }
 
         foreach ($this->cuestionarios as $cuestionario) {
