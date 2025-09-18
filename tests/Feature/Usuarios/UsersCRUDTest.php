@@ -114,7 +114,7 @@ class UsersCRUDTest extends TestCase
         // When
         $this->post(route('users.store'), array_merge($user->toArray(), [
                 'roles_seleccionados' => [$rol_alumno->id],
-                'password' => 'dummy',
+                'password' => '12345678',
             ]
         ));
 
@@ -166,7 +166,7 @@ class UsersCRUDTest extends TestCase
         // When
         $response = $this->post(route('users.store'), array_merge($empty->toArray(), [
                 'email' => fake()->unique()->userName . '@ikasgela.com',
-                'password' => 'dummy',
+                'password' => '12345678',
             ]
         ));
 

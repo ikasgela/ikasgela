@@ -88,7 +88,7 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email:rfc,dns|unique:users',
-            'password' => 'required',
+            'password' => 'required|string|min:8',
             'roles_seleccionados' => 'required',
         ]);
 
@@ -376,8 +376,8 @@ class UserController extends Controller
     public function updatePassword(Request $request, User $user)
     {
         $this->validate($request, [
-            'password' => 'required|confirmed',
-            'password_confirmation' => 'required'
+            'password' => 'required|string|min:8|confirmed',
+            'password_confirmation' => 'required|string|min:8'
         ]);
 
         $user->password = Hash::make($request->password);

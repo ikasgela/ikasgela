@@ -72,8 +72,8 @@ class ProfileController extends Controller
     {
         $this->validate($request, [
             'current' => 'required',
-            'password' => 'required|confirmed',
-            'password_confirmation' => 'required'
+            'password' => 'required|string|min:8|confirmed',
+            'password_confirmation' => 'required|string|min:8'
         ]);
 
         $user = User::find(Auth::id());
