@@ -11,7 +11,7 @@
     },
     "devDependencies": {
         "bootstrap": "^5.3.3",
-        "cross-env": "^7.0.3",
+        "cross-env": "^10.0.0",
         "jquery": "^3.6.0",
         "laravel-echo": "^2.1.5",
         "laravel-mix": "^6.0.28",
