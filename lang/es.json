@@ -724,6 +724,7 @@
     "There are no resources in this activity.": "No hay recursos en esta actividad.",
     "There are no sent activities.": "No hay actividades enviadas.",
     "There is a new registered user": "Hay un nuevo usuario registrado",
+    "There is more than one repository. Only one will be chosen randomly if not marked as \"always include\".": "Hay más de un repositorio. Solo se elegirá uno al azar si no se marca como \"incluir siempre\".",
     "There is not any archived activity.": "No hay ninguna actividad archivada.",
     "There was an error cloning the repository, contact your administrator.": "Se ha producido un error al clonar el repositorio, contacta con tu administrador.",
     "There's no data to show.": "No hay datos para mostrar.",

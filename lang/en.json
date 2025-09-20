@@ -723,6 +723,7 @@
     "There are no resources in this activity.": "There are no resources in this activity.",
     "There are no sent activities.": "There are no sent activities.",
     "There is a new registered user": "There is a new registered user",
+    "There is more than one repository. Only one will be chosen randomly if not marked as \"always include\".": "There is more than one repository. Only one will be chosen randomly if not marked as \"always include\".",
     "There is not any archived activity.": "There is not any archived activity.",
     "There was an error cloning the repository, contact your administrator.": "There was an error cloning the repository, contact your administrator.",
     "There's no data to show.": "There's no data to show.",

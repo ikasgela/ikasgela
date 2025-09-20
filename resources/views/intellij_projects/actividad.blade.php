@@ -65,6 +65,11 @@
                 </tbody>
             </table>
         </div>
+        @if(count($intellij_projects) >= 2 )
+            <div class="alert alert-warning">
+                {{ __('There is more than one repository. Only one will be chosen randomly if not marked as "always include".') }}
+            </div>
+        @endif
     @else
         <div class="row">
             <div class="col-md">

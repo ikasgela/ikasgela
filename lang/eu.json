@@ -724,6 +724,7 @@
     "There are no resources in this activity.": "Aktibitate honetan ez dago baliabiderik.",
     "There are no sent activities.": "Ez daude bidalitako aktibitaterik.",
     "There is a new registered user": "Erregistratutako erabiltzaile berri bat dago",
+    "There is more than one repository. Only one will be chosen randomly if not marked as \"always include\".": "Errepositorio bat baino gehiago dago. Bakarrik bat aukeratuko da \"beti sartu\" aukeratu ez ezik.",
     "There is not any archived activity.": "Ez dago artxibatutako aktibitaterik.",
     "There was an error cloning the repository, contact your administrator.": "Errore bat gertatu da biltegia klonatzean, jarri harremanetan zure administratzailearekin.",
     "There's no data to show.": "Ez dago erakusteko daturik.",
