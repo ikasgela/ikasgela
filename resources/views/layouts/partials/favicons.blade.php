@@ -6,6 +6,4 @@
 <link rel="shortcut icon" href="{{ asset('/icons/favicon.ico') }}">
 <meta name="msapplication-TileColor" content="#3490dc">
 <meta name="msapplication-config" content="{{ asset('/icons/browserconfig.xml') }}">
-<meta name="theme-color" content="#ffffff">
-
 <meta property="og:logo" content="{{ asset('/icons/opengraph.png') }}">

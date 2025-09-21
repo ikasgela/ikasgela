@@ -4,6 +4,5 @@
 <link rel="manifest" href="{{ asset('/icons_debug/site.webmanifest.json') }}">
 <link rel="mask-icon" href="{{ asset('/icons_debug/safari-pinned-tab.svg') }}" color="#ffc107">
 <link rel="shortcut icon" href="{{ asset('/icons_debug/favicon.ico') }}">
-<meta name="msapplication-TileColor" content="#2b5797">
+<meta name="msapplication-TileColor" content="#ffc107">
 <meta name="msapplication-config" content="{{ asset('/icons_debug/browserconfig.xml') }}">
-<meta name="theme-color" content="#ffffff">
