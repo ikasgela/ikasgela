@@ -69,9 +69,9 @@
                 @elseif(!$actividad->is_finished)
                     <button type="submit" name="nuevoestado" value="32"
                             @if(!$actividad->hasEtiqueta('examen'))
-                                onclick="return confirm('{{ __('Are you sure?') }}\n\n{{ __('Reopening the activity cancels the submission and allows making corrections, but it has a 5 point penalty.') }}')"
+                                onclick="single_click_confirmar(event, this, '{{ __('Are you sure?') }}', '{{ __('Reopening the activity cancels the submission and allows making corrections, but it has a 5 point penalty.') }}');"
                             @endif
-                            class="btn btn-secondary single_click">
+                            class="btn btn-secondary">
                         <span class="spinner-border spinner-border-sm"
                            style="display:none;"></span> {{ __('Reopen activity') }}</button>
                 @endif
