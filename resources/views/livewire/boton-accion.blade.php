@@ -25,8 +25,8 @@
                             {{-- Mostrar el botón si no ha superado el límite --}}
                             @if(!$actividad->auto_avance)
                                 <button type="submit" name="nuevoestado" value="30"
-                                        onclick="return confirm('{{ __('Are you sure?') }}\n\n{{ __('This will submit the activity for review and show the next one if available.') }}')"
-                                        class="btn btn-primary me-2 single_click">
+                                        onclick="single_click(event, this, '{{ __('Are you sure?') }}', '{{ __('This will submit the activity for review and show the next one if available.') }}');"
+                                        class="btn btn-primary me-2">
                                     <span class="spinner-border spinner-border-sm"
                                        style="display:none;"></span> {{ __('Submit for review') }}</button>
                             @else
