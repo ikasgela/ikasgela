@@ -2,6 +2,7 @@
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
     "/prismjs/prism.js": "/prismjs/prism.js",
+    "/js/single_click.js": "/js/single_click.js",
     "/prismjs/prism-coy.min.css": "/prismjs/prism-coy.min.css",
     "/prismjs/prism-tomorrow.min.css": "/prismjs/prism-tomorrow.min.css",
     "/prismjs/prism-line-numbers.min.css": "/prismjs/prism-line-numbers.min.css",
