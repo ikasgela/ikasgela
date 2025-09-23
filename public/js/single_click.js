@@ -1,4 +1,4 @@
-function single_click(event, boton, titulo, subtitulo) {
+function single_click_confirmar(event, boton, titulo, subtitulo) {
 
     let enviar = true;
     if (typeof titulo !== 'undefined') {
