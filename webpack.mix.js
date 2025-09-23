@@ -37,6 +37,7 @@ mix.js('resources/js/app.js', 'public/js')
     ], 'public/prismjs/prism.js')
     .sourceMaps(false, 'source-map');
 
+mix.js('resources/js/single_click.js', 'public/js/');
 mix.copy('node_modules/prismjs/themes/prism-coy.min.css', 'public/prismjs/');
 mix.copy('node_modules/prismjs/themes/prism-tomorrow.min.css', 'public/prismjs/');
 mix.copy('node_modules/prismjs/plugins/line-numbers/prism-line-numbers.min.css', 'public/prismjs/');

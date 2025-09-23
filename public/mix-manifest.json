@@ -1,5 +1,6 @@
 {
     "/js/app.js": "/js/app.js",
+    "/js/single_click.js": "/js/single_click.js",
     "/css/app.css": "/css/app.css",
     "/prismjs/prism.js": "/prismjs/prism.js",
     "/prismjs/prism-coy.min.css": "/prismjs/prism-coy.min.css",

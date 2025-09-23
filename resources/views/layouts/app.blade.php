@@ -19,6 +19,7 @@
     <livewire:modals/>
     <livewire:scripts/>
     <script src="{{ asset('/js/app.js') }}"></script>
+    <script src="{{ asset('/js/single_click.js') }}"></script>
     @yield('fancybox')
     @yield('prismjs-css')
 </head>
