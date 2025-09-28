@@ -24403,12 +24403,15 @@ return jQuery;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Channel: () => (/* binding */ l),
+/* harmony export */   Channel: () => (/* binding */ u),
 /* harmony export */   Connector: () => (/* binding */ i),
 /* harmony export */   EventFormatter: () => (/* binding */ d),
 /* harmony export */   "default": () => (/* binding */ E)
 /* harmony export */ });
-class l {
+class u {
+  constructor() {
+    this.notificationCreatedEvent = ".Illuminate\\Notifications\\Events\\BroadcastNotificationCreated";
+  }
   /**
    * Listen for a whisper event on the channel instance.
    */
@@ -24419,10 +24422,13 @@ class l {
    * Listen for an event on the channel instance.
    */
   notification(e) {
-    return this.listen(
-      ".Illuminate\\Notifications\\Events\\BroadcastNotificationCreated",
-      e
-    );
+    return this.listen(this.notificationCreatedEvent, e);
+  }
+  /**
+   * Stop listening for notification events on the channel instance.
+   */
+  stopListeningForNotification(e) {
+    return this.stopListening(this.notificationCreatedEvent, e);
   }
   /**
    * Stop listening for a whisper event on the channel instance.
@@ -24460,7 +24466,7 @@ function w(n) {
   }
   return !0;
 }
-class u extends l {
+class l extends u {
   /**
    * Create a new class instance.
    */
@@ -24537,7 +24543,7 @@ class u extends l {
     return this.subscription.bind(e, t), this;
   }
 }
-class f extends u {
+class f extends l {
   /**
    * Send a whisper event to other clients in the channel.
    */
@@ -24548,7 +24554,7 @@ class f extends u {
     ), this;
   }
 }
-class g extends u {
+class g extends l {
   /**
    * Send a whisper event to other clients in the channel.
    */
@@ -24594,7 +24600,7 @@ class y extends f {
     }), this;
   }
 }
-class b extends l {
+class b extends u {
   /**
    * Create a new class instance.
    */
@@ -24720,7 +24726,7 @@ class m extends v {
     ), this;
   }
 }
-class h extends l {
+class h extends u {
   /**
    * Subscribe to a channel.
    */
@@ -24776,7 +24782,7 @@ class k extends h {
     return this;
   }
 }
-class _ extends h {
+class C extends h {
   /**
    * Send a whisper event to other clients in the channel.
    */
@@ -24784,7 +24790,7 @@ class _ extends h {
     return this;
   }
 }
-class C extends k {
+class _ extends k {
   /**
    * Register a callback to be called anytime the member list changes.
    */
@@ -24891,7 +24897,7 @@ class o extends i {
    * Get a channel instance by name.
    */
   channel(e) {
-    return this.channels[e] || (this.channels[e] = new u(
+    return this.channels[e] || (this.channels[e] = new l(
       this.pusher,
       e,
       this.options
@@ -25083,13 +25089,13 @@ class p extends i {
    * Get a private encrypted channel instance by name.
    */
   encryptedPrivateChannel(e) {
-    return new _();
+    return new C();
   }
   /**
    * Get a presence channel instance by name.
    */
   presenceChannel(e) {
-    return new C();
+    return new _();
   }
   /**
    * Leave the given channel, as well as its private and presence variants.
