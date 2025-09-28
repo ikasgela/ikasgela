@@ -16,7 +16,7 @@ class UserFactory extends Factory
 
     public function definition()
     {
-        $email = fake()->unique()->userName . '@ikasgela.com';
+        $email = fake()->unique()->userName . '.' . fake()->randomNumber(4) . '@ikasgela.com';
 
         return [
             'name' => fake()->name,
