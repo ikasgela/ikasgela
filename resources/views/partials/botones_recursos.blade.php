@@ -31,6 +31,11 @@
                class="btn btn-sm {{ $actividad->file_uploads()->count() > 0 ? 'btn-primary' : 'btn-light' }}">
                 <i class="bi bi-upload"></i>
             </a>
+            <a title="{{ __('Flashcards') }}"
+               href="{{ route('flash_decks.actividad', [$actividad->id]) }}"
+               class="btn btn-sm {{ $actividad->flash_decks()->count() > 0 ? 'btn-primary' : 'btn-light' }}">
+                <i class="bi bi-card-text"></i>
+            </a>
             <a title="{{ __('IntelliJ project') }}"
                href="{{ route('intellij_projects.actividad', [$actividad->id]) }}"
                class="btn btn-sm {{ $actividad->intellij_projects()->count() > 0 ? 'btn-primary' : 'btn-light' }}">
