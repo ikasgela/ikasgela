@@ -9,7 +9,7 @@
             </a>
         @elseif($titulo)
             <a wire:click.prevent="toggle_edit">
-                <h5 class="card-title">{{ $criteria_group->titulo }}</h5>
+                <h5 class="card-title">{{ $flash_card->titulo }}</h5>
             </a>
         @endif
         @if($rubric_is_editing && $is_editing)
@@ -21,13 +21,14 @@
             </a>
         @elseif($descripcion)
             <a wire:click.prevent="toggle_edit">
-                <span class="small">{{ $criteria_group->descripcion }}</span>
+                <span class="small">{{ $flash_card->descripcion }}</span>
             </a>
         @endif
     </div>
     <div class="col overflow-x-auto">
         <div class="row h-100 flex-nowrap">
-            @foreach($criteria_group->criterias as $criteria)
+{{--
+            @foreach($flash_card->criterias as $criteria)
                 <livewire:criteria-component
                     :$criteria
                     :key="'criteria-'.$criteria->id"
@@ -35,10 +36,11 @@
                     :$rubric_is_qualifying
                 />
             @endforeach
+--}}
             @if($rubric_is_editing)
                 <div class="col-auto align-content-center mb-3">
                     <button class="btn btn-sm btn-success h-100"
-                            wire:click="add_criteria({{ $criteria_group->id }})">
+                            wire:click="add_criteria({{ $flash_card->id }})">
                         <i class="bi bi-plus-lg"></i>
                     </button>
                 </div>
@@ -50,32 +52,33 @@
             <div class="btn-toolbar">
                 <div class="btn-group-sm btn-group-vertical">
                     <button
-                        class="btn {{ !$this->is_first_criteria_group($criteria_group->id) ? 'btn-primary' : 'btn-light disabled' }}"
-                        wire:click="$parent.up_criteria_group({{ $criteria_group->id }})">
+                        class="btn {{ !$this->is_first_flash_card($flash_card->id) ? 'btn-primary' : 'btn-light disabled' }}"
+                        wire:click="$parent.up_flash_card({{ $flash_card->id }})">
                         <i class="bi bi-arrow-up"></i>
                     </button>
                     <button
-                        class="btn {{ !$this->is_last_criteria_group($criteria_group->id) ? 'btn-primary' : 'btn-light disabled' }}"
-                        wire:click="$parent.down_criteria_group({{ $criteria_group->id }})">
+                        class="btn {{ !$this->is_last_flash_card($flash_card->id) ? 'btn-primary' : 'btn-light disabled' }}"
+                        wire:click="$parent.down_flash_card({{ $flash_card->id }})">
                         <i class="bi bi-arrow-down"></i>
                     </button>
                 </div>
                 <div class="btn-group-sm btn-group-vertical ms-2">
                     <button class="btn btn-danger"
-                            wire:click="$parent.delete_criteria_group({{ $criteria_group->id }})">
+                            wire:click="$parent.delete_flash_card({{ $flash_card->id }})">
                         <i class="bi bi-trash"></i>
                     </button>
                 </div>
                 <div class="btn-group-sm btn-group-vertical ms-2">
                     <button class="btn btn-secondary"
-                            wire:click="$parent.duplicate_criteria_group({{ $criteria_group->id }})">
+                            wire:click="$parent.duplicate_flash_card({{ $flash_card->id }})">
                         <i class="bi bi-copy"></i>
                     </button>
                 </div>
             </div>
         </div>
     @endif
-    @if($criteria_group->criterias->count() > 0)
+{{--
+    @if($flash_card->criterias->count() > 0)
         <div class="col-auto mb-3">
             @if($rubric_is_editing || !$this->is_rubric_completed)
                 <button
@@ -92,4 +95,5 @@
             @endif
         </div>
     @endif
+--}}
 </div>
