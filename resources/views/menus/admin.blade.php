@@ -76,6 +76,11 @@
                 'icon' => 'bi-ui-checks-grid',
             ])
             @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('flash_decks.index'),
+                'text' => __('Flashcards'),
+                'icon' => 'bi-card-text',
+            ])
+            @include('layouts.sidebar.nav-item-desplegable', [
                 'route' => route('selectors.index'),
                 'text' => __('Selectors'),
                 'icon' => 'bi-shuffle',
