@@ -12,6 +12,7 @@ use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FileResourceController;
 use App\Http\Controllers\FileUploadController;
+use App\Http\Controllers\FlashDeckController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IntellijProjectController;
@@ -436,6 +437,17 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             // Activar/desactivar el registro en las organizaciones
             Route::post('/organizations/{organization}/toggle_registration_open', [OrganizationController::class, 'toggle_registration_open'])
                 ->name('organizations.toggle.registration_open');
+
+            // Rúbricas
+            Route::resource('flash_decks', FlashDeckController::class);
+            Route::get('/flash_decks/{actividad}/actividad', [FlashDeckController::class, 'actividad'])
+                ->name('flash_decks.actividad');
+            Route::post('/flash_decks/{actividad}/asociar', [FlashDeckController::class, 'asociar'])
+                ->name('flash_decks.asociar');
+            Route::delete('/flash_decks/{actividad}/desasociar/{flash_deck}', [FlashDeckController::class, 'desasociar'])
+                ->name('flash_decks.desasociar');
+            Route::post('/flash_decks/{flash_deck}/duplicar', [FlashDeckController::class, 'duplicar'])
+                ->name('flash_decks.duplicar');
         });
 
         // Administrador
@@ -538,6 +550,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('selectors.index.filtro');
             Route::post('/rubrics/filtro', [RubricController::class, 'index'])
                 ->name('rubrics.index.filtro');
+            Route::post('/flash_decks/filtro', [FlashDeckController::class, 'index'])
+                ->name('flash_decks.index.filtro');
 
             // CRUD - Feedbacks
             Route::resource('feedbacks', FeedbackController::class);

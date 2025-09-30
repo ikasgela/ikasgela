@@ -36,6 +36,7 @@ class Actividad extends Model
         'link_collections',
         'selectors',
         'rubrics',
+        'flash_decks',
     ];
 
     protected $clone_exempt_attributes = ['plantilla', 'siguiente_overriden'];
@@ -371,6 +372,17 @@ class Actividad extends Model
     {
         return $this
             ->belongsToMany(Rubric::class)
+            ->withPivot([
+                'orden',
+                'titulo_visible', 'descripcion_visible', 'columnas',
+            ])
+            ->withTimestamps();
+    }
+
+    public function flash_decks()
+    {
+        return $this
+            ->belongsToMany(FlashDeck::class)
             ->withPivot([
                 'orden',
                 'titulo_visible', 'descripcion_visible', 'columnas',

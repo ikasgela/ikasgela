@@ -19,6 +19,8 @@ return new class extends Migration {
             $table->boolean('completado')->nullable()->default(false);
             $table->integer('posicion')->default(0)->nullable();
 
+            $table->foreignId('curso_id')->nullable()->constrained()->cascadeOnDelete();
+
             $table->timestamps();
         });
     }

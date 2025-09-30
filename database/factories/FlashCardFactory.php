@@ -2,10 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\FlashCard;
+use App\Models\FlashDeck;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\FlashCard>
+ * @extends Factory<FlashCard>
  */
 class FlashCardFactory extends Factory
 {
@@ -17,7 +20,14 @@ class FlashCardFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'titulo' => null,
+            'descripcion' => null,
+            'anverso' => fake()->sentence(8),
+            'anverso_visible' => true,
+            'reverso' => fake()->sentence(8),
+            'reverso_visible' => false,
+            'orden' => Str::orderedUuid(),
+            'flash_deck_id' => FlashDeck::factory(),
         ];
     }
 }

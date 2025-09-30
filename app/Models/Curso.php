@@ -179,6 +179,16 @@ class Curso extends Model
         return $this->hasManyDeep(Criteria::class, [Rubric::class, CriteriaGroup::class]);
     }
 
+    public function flash_decks()
+    {
+        return $this->hasMany(FlashDeck::class);
+    }
+
+    public function flash_cards()
+    {
+        return $this->hasManyThrough(FlashCard::class, FlashDeck::class);
+    }
+
     public function file_uploads()
     {
         return $this->hasMany(FileUpload::class);
