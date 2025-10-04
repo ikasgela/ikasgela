@@ -6,6 +6,7 @@ use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use YMigVal\LaravelModelCache\HasCachedQueries;
 
 /**
  * @mixin IdeHelperFileUpload
@@ -14,6 +15,7 @@ class FileUpload extends Model
 {
     use HasFactory;
     use Cloneable;
+    use HasCachedQueries;
 
     protected $clone_exempt_attributes = ['plantilla'];
 

@@ -6,6 +6,7 @@ use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use YMigVal\LaravelModelCache\HasCachedQueries;
 
 /**
  * @mixin IdeHelperFileResource
@@ -14,6 +15,7 @@ class FileResource extends Model
 {
     use HasFactory;
     use Cloneable;
+    use HasCachedQueries;
 
     protected $cloneable_relations = ['files'];
 

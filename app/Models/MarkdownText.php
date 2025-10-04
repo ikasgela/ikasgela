@@ -10,6 +10,7 @@ use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
+use YMigVal\LaravelModelCache\HasCachedQueries;
 
 /**
  * @mixin IdeHelperMarkdownText
@@ -19,6 +20,7 @@ class MarkdownText extends Model
     use HasFactory;
     use Cloneable;
     use ClonarRepoGitea;
+    use HasCachedQueries;
 
     protected $fillable = [
         'titulo', 'descripcion', 'repositorio', 'rama', 'archivo',

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use YMigVal\LaravelModelCache\HasCachedQueries;
 
 /**
  * @mixin IdeHelperSelector
@@ -15,6 +16,7 @@ class Selector extends Model
 {
     use HasFactory;
     use Cloneable;
+    use HasCachedQueries;
 
     protected $cloneable_relations = ['rule_groups'];
 
