@@ -6,6 +6,7 @@ use App\Traits\Etiquetas;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Jenssegers\Agent\Facades\Agent;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
@@ -297,18 +298,24 @@ class Curso extends Model
 
     public function recuento_enviadas()
     {
-        return Tarea::whereHas('actividad.unidad.curso', function ($query) {
-            $query->where('cursos.id', $this->id);
-        })->usuarioNoBloqueado()->noAutoAvance()->whereIn('estado', [30])->count();
+        return Cache::tags('curso_' . $this->id)
+            ->remember('recuento_enviadas', config('ikasgela.eloquent_cache_time'), function () {
+                return Tarea::whereHas('actividad.unidad.curso', function ($query) {
+                    $query->where('cursos.id', $this->id);
+                })->usuarioNoBloqueado()->noAutoAvance()->whereIn('estado', [30])->count();
+            });
     }
 
     public function recuento_caducadas()
     {
-        return Tarea::whereHas('actividad.unidad.curso', function ($query) {
-            $query->where('cursos.id', $this->id);
-        })->whereHas('actividad', function ($query) {
-            $query->where('fecha_limite', '<', now());
-        })->usuarioNoBloqueado()->noAutoAvance()->whereNotIn('estado', [30, 40, 60, 62, 64])->count();
+        return Cache::tags('curso_' . $this->id)
+            ->remember('recuento_caducadas', config('ikasgela.eloquent_cache_time'), function () {
+                return Tarea::whereHas('actividad.unidad.curso', function ($query) {
+                    $query->where('cursos.id', $this->id);
+                })->whereHas('actividad', function ($query) {
+                    $query->where('fecha_limite', '<', now());
+                })->usuarioNoBloqueado()->noAutoAvance()->whereNotIn('estado', [30, 40, 60, 62, 64])->count();
+            });
     }
 
     protected function casts(): array
