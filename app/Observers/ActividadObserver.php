@@ -8,8 +8,6 @@ use Illuminate\Support\Facades\Cache;
 
 class ActividadObserver
 {
-    use SharedKeys;
-
     public function saved(Actividad $actividad)
     {
         $this->clearCache($actividad);
@@ -43,9 +41,7 @@ class ActividadObserver
         $tareas = Tarea::where('actividad_id', $actividad->id)->get();
 
         foreach ($tareas as $tarea) {
-            foreach ($this->keys as $key) {
-                Cache::forget($key . $tarea->user_id);
-            }
+            Cache::tags('user_' . $tarea->user_id)->flush();
         }
     }
 }
