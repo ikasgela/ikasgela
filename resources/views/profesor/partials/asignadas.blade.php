@@ -133,9 +133,13 @@
             <tr>
                 <th colspan="6"></th>
                 @if(session('profesor_filtro_actividades_examen') == 'E')
-                    <th class="text-center">{{ $user->num_actividades_enviadas_noautoavance() > 0 ? $user->num_actividades_enviadas_noautoavance() : '0' }}</th>
+                    <th class="text-center">
+                        {{ $user->num_actividades_enviadas_noautoavance(Auth::user()->curso_actual()) > 0 ? $user->num_actividades_enviadas_noautoavance(Auth::user()->curso_actual()) : '0' }}
+                    </th>
                 @else
-                    <th class="text-center">{{ $user->num_actividades_enviadas_noautoavance_noexamen() > 0 ? $user->num_actividades_enviadas_noautoavance_noexamen() : '0' }}</th>
+                    <th class="text-center">
+                        {{ $user->num_actividades_enviadas_noautoavance_noexamen(Auth::user()->curso_actual()) > 0 ? $user->num_actividades_enviadas_noautoavance_noexamen(Auth::user()->curso_actual()) : '0' }}
+                    </th>
                 @endif
                 <th colspan="7"></th>
             </tr>
