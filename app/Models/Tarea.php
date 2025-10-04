@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use YMigVal\LaravelModelCache\HasCachedQueries;
 
 /**
  * @mixin IdeHelperTarea
@@ -18,6 +19,7 @@ class Tarea extends Pivot
     use HasFactory;
     use LogsActivity;
     use SoftDeletes;
+    use HasCachedQueries;
 
     protected $table = 'tareas';
 
@@ -93,7 +95,7 @@ class Tarea extends Pivot
 
     public function puntos()
     {
-        return $this->puntuacion * ($this->actividad->multiplicador ?: 1);
+        return $this->puntuacion * ($this->actividad?->multiplicador ?: 1);
     }
 
     public function archiveFiles()

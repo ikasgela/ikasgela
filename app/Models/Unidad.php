@@ -6,6 +6,7 @@ use App\Traits\Etiquetas;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use YMigVal\LaravelModelCache\HasCachedQueries;
 
 /**
  * @mixin IdeHelperUnidad
@@ -14,6 +15,7 @@ class Unidad extends Model
 {
     use HasFactory;
     use Etiquetas;
+    use HasCachedQueries;
 
     protected $table = 'unidades';
 

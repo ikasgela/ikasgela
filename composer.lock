@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5bbb80505cbdaff73e3c7093e05b4681",
+    "content-hash": "6ee6eebf53519a006248855f5fecf567",
     "packages": [
         {
             "name": "akaunting/laravel-setting",
@@ -11289,6 +11289,80 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
+        },
+        {
+            "name": "ymigval/laravel-model-cache",
+            "version": "v1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ymigval/laravel-model-cache.git",
+                "reference": "c9b7bd081abedbde72df04da800eabe096089524"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ymigval/laravel-model-cache/zipball/c9b7bd081abedbde72df04da800eabe096089524",
+                "reference": "c9b7bd081abedbde72df04da800eabe096089524",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/cache": "^8.0|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/database": "^8.0|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/support": "^8.0|^9.0|^10.0|^11.0|^12.0",
+                "php": "^7.4|^8.0|^8.1|^8.2|^8.3"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^9.0|^10.0|^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "YMigVal\\LaravelModelCache\\ModelCacheServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "YMigVal\\LaravelModelCache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Yordan",
+                    "email": "banatube@gmail.com"
+                }
+            ],
+            "description": "Laravel package for caching Eloquent model queries",
+            "homepage": "https://github.com/ymigval/laravel-model-cache",
+            "keywords": [
+                "cache",
+                "caching",
+                "database-caching",
+                "eloquent",
+                "laravel",
+                "laravel-eloquent",
+                "laravel-package",
+                "memcached",
+                "model",
+                "model-cache",
+                "orm",
+                "performance",
+                "php",
+                "query-cacher",
+                "redis"
+            ],
+            "support": {
+                "issues": "https://github.com/ymigval/laravel-model-cache/issues",
+                "source": "https://github.com/ymigval/laravel-model-cache/tree/v1.1.2"
+            },
+            "time": "2025-05-21T15:04:27+00:00"
         }
     ],
     "packages-dev": [
