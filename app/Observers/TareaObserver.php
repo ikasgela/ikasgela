@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\Cache;
 
 class TareaObserver
 {
-    use SharedKeys;
-
     public function saved(Tarea $tarea)
     {
         $this->clearCache($tarea);
@@ -21,8 +19,6 @@ class TareaObserver
 
     private function clearCache(Tarea $tarea): void
     {
-        foreach ($this->keys as $key) {
-            Cache::forget($key . $tarea->user_id);
-        }
+        Cache::tags('user_' . $tarea->user_id)->flush();
     }
 }

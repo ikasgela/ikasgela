@@ -21,7 +21,7 @@ class QualificationObserver
     {
         foreach ($qualification->cursos()->with('users')->get() as $curso) {
             foreach ($curso->users as $user) {
-                Cache::forget('calificaciones_' . $user->id);
+                Cache::tags('user_' . $user->id)->flush();
             }
         }
     }
