@@ -22,7 +22,7 @@ class SkillObserver
         foreach ($skill->qualifications()->with('cursos.users')->get() as $qualification) {
             foreach ($qualification->cursos as $curso) {
                 foreach ($curso->users as $user) {
-                    Cache::forget('calificaciones_' . $user->id);
+                    Cache::tags('user_' . $user->id)->flush();
                 }
             }
         }

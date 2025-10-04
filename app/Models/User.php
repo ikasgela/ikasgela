@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Observers\SharedKeys;
 use App\Traits\Etiquetas;
 use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -29,7 +28,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     use Messagable;
     use Etiquetas;
     use Impersonate;
-    use SharedKeys;
 
     /**
      * The attributes that are mass assignable.
@@ -152,11 +150,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             ->wherePivot('estado', 10);
     }
 
-    public function num_actividades_nuevas()
+    public function num_actividades_nuevas(?Curso $curso = null)
     {
-        $key = 'num_actividades_nuevas_' . $this->id;
+        $curso_id = $curso?->id ?? $this->curso_actual()->id ?? 0;
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_nuevas()->count());
+        $key = 'num_actividades_nuevas_' . $curso_id;
+
+        return Cache::tags('user_' . $this->id)
+            ->remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_nuevas()->count());
     }
 
     public function actividades_ocultas()
@@ -165,11 +166,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             ->wherePivot('estado', 11);
     }
 
-    public function num_actividades_ocultas()
+    public function num_actividades_ocultas(?Curso $curso = null)
     {
-        $key = 'num_actividades_ocultas_' . $this->id;
+        $curso_id = $curso?->id ?? $this->curso_actual()->id ?? 0;
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_ocultas()->count());
+        $key = 'num_actividades_ocultas_' . $curso_id;
+
+        return Cache::tags('user_' . $this->id)
+            ->remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_ocultas()->count());
     }
 
     public function actividades_aceptadas()
@@ -178,11 +182,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             ->wherePivotIn('estado', [20, 21]);
     }
 
-    public function num_actividades_aceptadas()
+    public function num_actividades_aceptadas(?Curso $curso = null)
     {
-        $key = 'num_actividades_aceptadas_' . $this->id;
+        $curso_id = $curso?->id ?? $this->curso_actual()->id ?? 0;
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_aceptadas()->count());
+        $key = 'num_actividades_aceptadas_' . $curso_id;
+
+        return Cache::tags('user_' . $this->id)
+            ->remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_aceptadas()->count());
     }
 
     public function actividades_caducadas()
@@ -193,11 +200,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             ->wherePivotNotIn('estado', [30, 40, 60, 61, 64]);
     }
 
-    public function num_actividades_caducadas()
+    public function num_actividades_caducadas(?Curso $curso = null)
     {
-        $key = 'num_actividades_caducadas_' . $this->id;
+        $curso_id = $curso?->id ?? $this->curso_actual()->id ?? 0;
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_caducadas()->count());
+        $key = 'num_actividades_caducadas_' . $curso_id;
+
+        return Cache::tags('user_' . $this->id)
+            ->remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_caducadas()->count());
     }
 
     public function actividades_en_curso()
@@ -209,11 +219,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             });
     }
 
-    public function num_actividades_en_curso()
+    public function num_actividades_en_curso(?Curso $curso = null)
     {
-        $key = 'num_actividades_en_curso_' . $this->id;
+        $curso_id = $curso?->id ?? $this->curso_actual()->id ?? 0;
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_en_curso()->count());
+        $key = 'num_actividades_en_curso_' . $curso_id;
+
+        return Cache::tags('user_' . $this->id)
+            ->remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_en_curso()->count());
     }
 
     public function actividades_en_curso_autoavance()
@@ -226,11 +239,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             });
     }
 
-    public function num_actividades_en_curso_autoavance()
+    public function num_actividades_en_curso_autoavance(?Curso $curso = null)
     {
-        $key = 'num_actividades_en_curso_autoavance_' . $this->id;
+        $curso_id = $curso?->id ?? $this->curso_actual()->id ?? 0;
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_en_curso_autoavance()->count());
+        $key = 'num_actividades_en_curso_autoavance_' . $curso_id;
+
+        return Cache::tags('user_' . $this->id)
+            ->remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_en_curso_autoavance()->count());
     }
 
     public function actividades_enviadas()
@@ -246,11 +262,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             ->where('auto_avance', false);
     }
 
-    public function num_actividades_enviadas_noautoavance()
+    public function num_actividades_enviadas_noautoavance(?Curso $curso = null)
     {
-        $key = 'num_actividades_enviadas_noautoavance_' . $this->id;
+        $curso_id = $curso?->id ?? $this->curso_actual()->id ?? 0;
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_enviadas_noautoavance()->count());
+        $key = 'num_actividades_enviadas_noautoavance_' . $curso_id;
+
+        return Cache::tags('user_' . $this->id)
+            ->remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_enviadas_noautoavance()->count());
     }
 
     public function actividades_enviadas_noautoavance_noexamen()
@@ -261,11 +280,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             ->tag('examen', false);
     }
 
-    public function num_actividades_enviadas_noautoavance_noexamen()
+    public function num_actividades_enviadas_noautoavance_noexamen(?Curso $curso = null)
     {
-        $key = 'num_actividades_enviadas_noautoavance_noexamen_' . $this->id;
+        $curso_id = $curso?->id ?? $this->curso_actual()->id ?? 0;
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_enviadas_noautoavance_noexamen()->count());
+        $key = 'num_actividades_enviadas_noautoavance_noexamen_' . $curso_id;
+
+        return Cache::tags('user_' . $this->id)
+            ->remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_enviadas_noautoavance_noexamen()->count());
     }
 
     public function actividades_revisadas()
@@ -275,11 +297,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             ->wherePivotIn('estado', [40, 41]);
     }
 
-    public function num_actividades_revisadas()
+    public function num_actividades_revisadas(?Curso $curso = null)
     {
-        $key = 'num_actividades_revisadas_' . $this->id;
+        $curso_id = $curso?->id ?? $this->curso_actual()->id ?? 0;
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_revisadas()->count());
+        $key = 'num_actividades_revisadas_' . $curso_id;
+
+        return Cache::tags('user_' . $this->id)
+            ->remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_revisadas()->count());
     }
 
     public function actividades_archivadas()
@@ -288,11 +313,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             ->wherePivotIn('estado', [60, 64]);
     }
 
-    public function num_actividades_archivadas()
+    public function num_actividades_archivadas(?Curso $curso = null)
     {
-        $key = 'num_actividades_archivadas_' . $this->id;
+        $curso_id = $curso?->id ?? $this->curso_actual()->id ?? 0;
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_archivadas()->count());
+        $key = 'num_actividades_archivadas_' . $curso_id;
+
+        return Cache::tags('user_' . $this->id)
+            ->remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_archivadas()->count());
     }
 
     public function actividades_completadas(?Milestone $milestone = null)
@@ -303,11 +331,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         return $milestone == null ? $completadas : $completadas->whereBetween('actividades.fecha_finalizacion', [$milestone?->curso->fecha_inicio, $milestone?->date]);
     }
 
-    public function num_actividades_completadas(?Milestone $milestone = null)
+    public function num_actividades_completadas(?Curso $curso = null, ?Milestone $milestone = null)
     {
-        $key = 'num_actividades_completadas_' . $this->id . $milestone->cache_key;
+        $curso_id = $curso?->id ?? $this->curso_actual()->id ?? 0;
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_completadas($milestone)->count());
+        $key = 'num_actividades_completadas_' . $curso_id . $milestone->cache_key;
+
+        return Cache::tags('user_' . $this->id)
+            ->remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_completadas($milestone)->count());
     }
 
     public function actividades_sin_completar()
@@ -317,11 +348,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             ->tag('base');
     }
 
-    public function num_actividades_sin_completar()
+    public function num_actividades_sin_completar(?Curso $curso = null)
     {
-        $key = 'num_actividades_sin_completar_' . $this->id;
+        $curso_id = $curso?->id ?? $this->curso_actual()->id ?? 0;
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_sin_completar()->count());
+        $key = 'num_actividades_sin_completar_' . $curso_id;
+
+        return Cache::tags('user_' . $this->id)
+            ->remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_sin_completar()->count());
     }
 
     public function actividades_asignadas()
@@ -492,18 +526,24 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             return Hilo::forUserWithNewMessages($this->id)->where('curso_id', $curso->id)->count();
     }
 
-    public function num_actividades_asignadas_total()
+    public function num_actividades_asignadas_total(?Curso $curso = null)
     {
-        $key = 'num_actividades_asignadas_total_' . $this->id;
+        $curso_id = $curso?->id ?? $this->curso_actual()->id ?? 0;
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_en_curso_autoavance()->enPlazoOrCorregida()->tag('extra', false)->count() ?: 0);
+        $key = 'num_actividades_asignadas_total_' . $curso_id;
+
+        return Cache::tags('user_' . $this->id)
+            ->remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_en_curso_autoavance()->enPlazoOrCorregida()->tag('extra', false)->count() ?: 0);
     }
 
-    public function siguiente_actividad()
+    public function siguiente_actividad(?Curso $curso = null)
     {
-        $key = 'siguiente_actividad_' . $this->id;
+        $curso_id = $curso?->id ?? $this->curso_actual()->id ?? 0;
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_asignadas()->orderBy('id', 'desc')->first());
+        $key = 'siguiente_actividad_' . $curso_id;
+
+        return Cache::tags('user_' . $this->id)
+            ->remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_asignadas()->orderBy('id', 'desc')->first());
     }
 
     public function actividades_en_curso_examen()
@@ -511,11 +551,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         return $this->actividades_en_curso_autoavance()->enPlazoOrCorregida()->tag('examen');
     }
 
-    public function num_actividades_en_curso_examen()
+    public function num_actividades_en_curso_examen(?Curso $curso = null)
     {
-        $key = 'num_actividades_en_curso_examen_' . $this->id;
+        $curso_id = $curso?->id ?? $this->curso_actual()->id ?? 0;
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_en_curso_examen()->count());
+        $key = 'num_actividades_en_curso_examen_' . $curso_id;
+
+        return Cache::tags('user_' . $this->id)
+            ->remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_en_curso_examen()->count());
     }
 
     public function actividades_en_curso_seb()
@@ -523,11 +566,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         return $this->actividades_en_curso_autoavance()->enPlazoOrCorregida()->tag('seb');
     }
 
-    public function num_actividades_en_curso_seb()
+    public function num_actividades_en_curso_seb(?Curso $curso = null)
     {
-        $key = 'num_actividades_en_curso_seb_' . $this->id;
+        $curso_id = $curso?->id ?? $this->curso_actual()->id ?? 0;
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_en_curso_seb()->count());
+        $key = 'num_actividades_en_curso_seb_' . $curso_id;
+
+        return Cache::tags('user_' . $this->id)
+            ->remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_en_curso_seb()->count());
     }
 
     public function actividades_enviadas_seb()
@@ -535,11 +581,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         return $this->actividades_enviadas()->enPlazoOrCorregida()->tag('seb');
     }
 
-    public function num_actividades_enviadas_seb()
+    public function num_actividades_enviadas_seb(?Curso $curso = null)
     {
-        $key = 'num_actividades_enviadas_seb_' . $this->id;
+        $curso_id = $curso?->id ?? $this->curso_actual()->id ?? 0;
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_enviadas_seb()->count());
+        $key = 'num_actividades_enviadas_seb_' . $curso_id;
+
+        return Cache::tags('user_' . $this->id)
+            ->remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_enviadas_seb()->count());
     }
 
     public function actividades_en_curso_no_extra_examen()
@@ -547,11 +596,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         return $this->actividades_en_curso_autoavance()->tag('extra', false)->tag('examen', false);
     }
 
-    public function num_actividades_en_curso_no_extra_examen()
+    public function num_actividades_en_curso_no_extra_examen(?Curso $curso = null)
     {
-        $key = 'num_actividades_en_curso_no_extra_examen_' . $this->id;
+        $curso_id = $curso?->id ?? $this->curso_actual()->id ?? 0;
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_en_curso_no_extra_examen()->count());
+        $key = 'num_actividades_en_curso_no_extra_examen_' . $curso_id;
+
+        return Cache::tags('user_' . $this->id)
+            ->remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_en_curso_no_extra_examen()->count());
     }
 
     public function actividades_en_curso_extra()
@@ -559,11 +611,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         return $this->actividades_en_curso_autoavance()->tag('extra');
     }
 
-    public function num_actividades_en_curso_extra()
+    public function num_actividades_en_curso_extra(?Curso $curso = null)
     {
-        $key = 'num_actividades_en_curso_extra_' . $this->id;
+        $curso_id = $curso?->id ?? $this->curso_actual()->id ?? 0;
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_en_curso_extra()->count());
+        $key = 'num_actividades_en_curso_extra_' . $curso_id;
+
+        return Cache::tags('user_' . $this->id)
+            ->remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_en_curso_extra()->count());
     }
 
     public function actividades_en_curso_enviadas()
@@ -571,18 +626,23 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         return $this->actividades_enviadas_noautoavance();
     }
 
-    public function num_actividades_en_curso_enviadas()
+    public function num_actividades_en_curso_enviadas(?Curso $curso = null)
     {
-        $key = 'num_actividades_en_curso_enviadas_' . $this->id;
+        $curso_id = $curso?->id ?? $this->curso_actual()->id ?? 0;
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_en_curso_enviadas()->count());
+        $key = 'num_actividades_en_curso_enviadas_' . $curso_id;
+
+        return Cache::tags('user_' . $this->id)
+            ->remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_en_curso_enviadas()->count());
     }
 
-    public function calcular_calificaciones($media_actividades_grupo, ?Milestone $milestone = null): ResultadoCalificaciones
+    public function calcular_calificaciones($media_actividades_grupo, ?Curso $curso = null, ?Milestone $milestone = null): ResultadoCalificaciones
     {
-        $key = 'calificaciones_' . $this->id . $milestone?->cache_key;
+        $curso_id = $curso?->id ?? $this->curso_actual()->id ?? 0;
 
-        return Cache::remember($key, config('ikasgela.eloquent_cache_time'), function () use ($media_actividades_grupo, $milestone) {
+        $key = 'calificaciones_' . $curso_id . $milestone?->cache_key;
+
+        return Cache::tags('user_' . $this->id)->remember($key, config('ikasgela.eloquent_cache_time'), function () use ($media_actividades_grupo, $milestone) {
 
             $user = $this;
 
@@ -817,21 +877,10 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
     public function clearCache(): void
     {
-        $user = $this;
-
-        foreach ($this->keys as $key) {
-            Cache::forget($key . $user->id);
-        }
-
-        foreach ($user->cursos as $curso) {
-            foreach ($curso->milestones as $milestone) {
-                Cache::forget('calificaciones_' . $user->id . $milestone->cache_key);
-            }
-        }
-
-        Cache::forget("user.{$user->id}");
-        Cache::forget("user.{$user->id}.{$user->getRememberToken()}");
-        Cache::forget("roles_{$user->id}");
+        Cache::tags('user_' . $this->id)->flush();
+        Cache::forget("user.{$this->id}");
+        Cache::forget("user.{$this->id}.{$this->getRememberToken()}");
+        Cache::forget("roles_{$this->id}");
     }
 
     public function clearSession(): void

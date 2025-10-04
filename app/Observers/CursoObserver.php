@@ -20,7 +20,7 @@ class CursoObserver
     private function clearCache(Curso $curso): void
     {
         foreach ($curso->users()->get() as $user) {
-            Cache::forget('calificaciones_' . $user->id);
+            Cache::tags('user_' . $user->id)->flush();
         }
     }
 }
