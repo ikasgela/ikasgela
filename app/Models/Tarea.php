@@ -93,7 +93,7 @@ class Tarea extends Pivot
 
     public function puntos()
     {
-        return $this->puntuacion * ($this->actividad->multiplicador ?: 1);
+        return $this->puntuacion * ($this->actividad?->multiplicador ?: 1);
     }
 
     public function archiveFiles()
