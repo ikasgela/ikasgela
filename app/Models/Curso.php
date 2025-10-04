@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Jenssegers\Agent\Facades\Agent;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
+use YMigVal\LaravelModelCache\HasCachedQueries;
 
 /**
  * @mixin IdeHelperCurso
@@ -18,6 +19,7 @@ class Curso extends Model
     use HasFactory;
     use Etiquetas;
     use HasRelationships;
+    use HasCachedQueries;
 
     protected $fillable = [
         'category_id', 'nombre', 'descripcion', 'slug', 'qualification_id', 'max_simultaneas',

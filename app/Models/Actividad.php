@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use YMigVal\LaravelModelCache\HasCachedQueries;
 
 /**
  * @mixin IdeHelperActividad
@@ -24,6 +25,7 @@ class Actividad extends Model
     use LogsActivity;
     use SoftDeletes;
     use Etiquetas;
+    use HasCachedQueries;
 
     protected $cloneable_relations = [
         'intellij_projects',
