@@ -533,6 +533,20 @@ class ActividadController extends Controller
         if ($usuario_actual->hasRole('alumno')) {
             return redirect(route('users.home'));
         } else if ($usuario_actual->hasRole('profesor')) {
+
+            if (session('profesor_filtro_actividades_examen') == 'E') {
+                $siguiente_para_corregir = $usuario->actividades_enviadas_noautoavance()->first();
+            } else {
+                $siguiente_para_corregir = $usuario->actividades_enviadas_noautoavance_noexamen()->first();
+            }
+
+            if ($siguiente_para_corregir != null) {
+                return redirect(route('profesor.revisar', [
+                    'user' => $usuario->id,
+                    'tarea' => $siguiente_para_corregir->tarea->id
+                ]));
+            }
+
             return redirect(route('profesor.tareas', ['user' => $tarea->user->id]));
         } else {
             return redirect(route('home'));
