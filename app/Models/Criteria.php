@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use YMigVal\LaravelModelCache\HasCachedQueries;
 
 /**
  * @mixin IdeHelperCriteria
@@ -16,6 +17,7 @@ class Criteria extends Model
     use HasFactory;
     use Cloneable;
     use SoftDeletes;
+    use HasCachedQueries;
 
     protected $clone_exempt_attributes = ['seleccionado'];
 

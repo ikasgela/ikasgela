@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use YMigVal\LaravelModelCache\HasCachedQueries;
 
 /**
  * @mixin IdeHelperMilestone
@@ -13,6 +14,7 @@ use Illuminate\Support\Str;
 class Milestone extends Model
 {
     use HasFactory;
+    use HasCachedQueries;
 
     protected $fillable = [
         'name', 'date', 'published', 'curso_id',

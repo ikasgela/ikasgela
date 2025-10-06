@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use YMigVal\LaravelModelCache\HasCachedQueries;
+use YMigVal\LaravelModelCache\ModelRelationships;
 
 /**
  * @mixin IdeHelperSkill
@@ -11,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 class Skill extends Model
 {
     use HasFactory;
+    use HasCachedQueries, ModelRelationships;
 
     protected $fillable = [
         'name', 'description', 'curso_id', 'peso_examen', 'minimo_competencias',
