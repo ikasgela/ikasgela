@@ -68,25 +68,17 @@
                 },
                 'default' => __('--- None ---'),
             ])
-            @include('components.label-text', [
+            @include('components.label-datetime', [
                 'label' => __('Availability date'),
                 'name' => 'fecha_disponibilidad',
             ])
-            @include('components.label-text', [
+            @include('components.label-datetime', [
                 'label' => __('Due date'),
                 'name' => 'fecha_entrega',
             ])
-            @include('components.label-text', [
+            @include('components.label-datetime', [
                 'label' => __('Deadline'),
                 'name' => 'fecha_limite',
-            ])
-            @include('components.label-text', [
-                'label' => __('Start date'),
-                'name' => 'fecha_comienzo',
-            ])
-            @include('components.label-text', [
-                'label' => __('Completion date'),
-                'name' => 'fecha_finalizacion',
             ])
             @include('components.label-check', [
                 'label' => __('Highlighted'),

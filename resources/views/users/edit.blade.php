@@ -42,7 +42,7 @@
                 'label' => __('Username'),
                 'name' => 'username',
             ])
-            @include('components.label-text', [
+            @include('components.label-datetime-readonly', [
                 'label' => __('Last active'),
                 'name' => 'last_active',
             ])

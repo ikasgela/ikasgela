@@ -94,11 +94,11 @@
                 'value' => 100,
             ])
 
-            @include('components.label-text', [
+            @include('components.label-datetime', [
                 'label' => __('Start date'),
                 'name' => 'fecha_inicio',
             ])
-            @include('components.label-text', [
+            @include('components.label-datetime', [
                 'label' => __('End date'),
                 'name' => 'fecha_fin',
             ])
