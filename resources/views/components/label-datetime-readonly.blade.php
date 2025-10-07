@@ -4,7 +4,7 @@
     </div>
     <div class="col-sm-10">
         @if(!is_null(html()->value($name)))
-            {{ html()->datetime($name)->isReadonly()->class('form-control-plaintext') }}
+            {{ html()->datetime($name)->isReadonly()->class('form-control-plaintext pb-0') }}
         @else
             <span class="form-control-plaintext">{{ __('Undefined') }}</span>
         @endif
