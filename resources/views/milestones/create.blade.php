@@ -15,7 +15,7 @@
                 'label' => __('Name'),
                 'name' => 'name',
             ])
-            @include('components.label-text', [
+            @include('components.label-datetime', [
                 'label' => __('Date'),
                 'name' => 'date',
             ])

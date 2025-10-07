@@ -20,14 +20,14 @@ class MilestoneSeeder extends Seeder
         Milestone::factory()->create([
             'curso_id' => $curso,
             'name' => 'Primera evaluación',
-            'date' => now(),
+            'date' => now()->second(0),
             'published' => true,
         ]);
 
         Milestone::factory()->create([
             'curso_id' => $curso,
             'name' => 'Segunda evaluación',
-            'date' => now()->addDays(7),
+            'date' => now()->addDays(7)->second(0),
             'published' => true,
         ]);
     }
