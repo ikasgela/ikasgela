@@ -17,7 +17,7 @@
                 <input class="form-check-input me-2 my-0" type="checkbox"
                        id="fecha_override_enable" name="fecha_override_enable"/>
                 <label class="form-check-label" for="fecha_override_enable">{{ __('Override completion date') }}</label>
-                <input class="form-control ms-2 me-3" style="flex-basis: 16em" type="text"
+                <input class="form-control ms-2 me-3" style="flex-basis: 16em" type="datetime-local"
                        id="fecha_override" name="fecha_override"/>
                 <input class="form-check-input me-2 my-0" type="checkbox" id="notificar" name="notificar"
                        checked="checked"/>
