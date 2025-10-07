@@ -561,6 +561,22 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             ->remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_en_curso_examen()->count());
     }
 
+    public function puntuacion_actividades_en_curso_examen(?Curso $curso = null)
+    {
+        $curso_id = $curso?->id ?? $this->curso_actual()->id ?? 0;
+
+        $key = 'puntuacion_actividades_en_curso_examen' . $curso_id;
+
+        return Cache::tags('user_' . $this->id)
+            ->remember($key, config('ikasgela.eloquent_cache_time'), function () {
+                $total = 0;
+                foreach ($this->actividades()->enPlazoOrCorregida()->tag('examen')->get() as $actividad) {
+                    $total += $actividad->puntos();
+                }
+                return $total;
+            });
+    }
+
     public function actividades_en_curso_seb()
     {
         return $this->actividades_en_curso_autoavance()->enPlazoOrCorregida()->tag('seb');
