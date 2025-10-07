@@ -60,9 +60,13 @@
             @else
                 <hr class="my-0">
                 <div class="card-body pb-0">
-                    <div class="alert alert-danger" role="alert">
-                        <span>{{ __('This task is only available using Safe Exam Browser.') }}</span>
-                    </div>
+                    @if(!$actividad->is_expired)
+                        <div class="alert alert-danger" role="alert">
+                            <span>{{ __('This task is only available using Safe Exam Browser.') }}</span>
+                        </div>
+                    @else
+                        <div class="mb-3"></div>
+                    @endif
                 </div>
             @endif
         </div>
