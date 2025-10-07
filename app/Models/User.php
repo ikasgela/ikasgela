@@ -636,7 +636,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             ->remember($key, config('ikasgela.eloquent_cache_time'), fn() => $this->actividades_en_curso_enviadas()->count());
     }
 
-    public function calcular_calificaciones($media_actividades_grupo, ?Curso $curso = null, ?Milestone $milestone = null): ResultadoCalificaciones
+    public function calcular_calificaciones($media_actividades_grupo, ?Milestone $milestone = null, ?Curso $curso = null): ResultadoCalificaciones
     {
         $curso_id = $curso?->id ?? $this->curso_actual()->id ?? 0;
 
