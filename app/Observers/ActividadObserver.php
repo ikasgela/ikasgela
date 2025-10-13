@@ -42,6 +42,7 @@ class ActividadObserver
 
         foreach ($tareas as $tarea) {
             Cache::tags('user_' . $tarea->user_id)->flush();
+            Cache::tags('curso_' . $tarea->actividad->unidad->curso->id)->forget('recuento_caducadas');
         }
     }
 }
