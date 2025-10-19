@@ -79,9 +79,14 @@
             <form action="{{ route('files.upload.image') }}" enctype="multipart/form-data" method="post">
                 @csrf
                 <div class="form-group mb-3">
-                    <input class="form-control" type="file" name="file" id="file">
+                    <input
+                        type="file"
+                        name="files[]"
+                        id="file"
+                        multiple
+                        class="form-control">
                     <input type="hidden" name="file_upload_id" value="{{ $file_upload->id }}">
-                    <span class="help-block text-danger">{{ $errors->first('file') }}</span>
+                    <span class="help-block text-danger">{{ $errors->first('files') }}</span>
                 </div>
                 <button class="btn btn-primary single_click">
                     <span class="spinner-border spinner-border-sm" style="display:none;"></span> {{ __('Upload') }}</button>

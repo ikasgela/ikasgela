@@ -24,7 +24,7 @@ class T2_AmazonS3Test extends DuskTestCase
             $browser->assertSee(__('Image upload'));
 
             // Subir el archivo
-            $browser->attach('file', base_path("public/icons_debug/test.png"));
+            $browser->attach('files[]', base_path("public/icons_debug/test.png"));
             $browser->press(__('Upload'));
             $browser->assertSee(formato_decimales(10.49, 2) . ' KB');
 
@@ -40,7 +40,7 @@ class T2_AmazonS3Test extends DuskTestCase
             $browser->assertSee(__('Image upload'));
 
             // Subir el archivo
-            $browser->attach('file', base_path("public/icons_debug/test.jpg"));
+            $browser->attach('files[]', base_path("public/icons_debug/test.jpg"));
             $browser->press(__('Upload'));
             $browser->assertSee(formato_decimales(10.55, 2) . ' KB');
 

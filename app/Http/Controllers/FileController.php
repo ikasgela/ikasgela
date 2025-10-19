@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreFile;
-use App\Http\Requests\StoreImage;
 use App\Models\File;
 use App\Models\FileResource;
 use App\Models\FileUpload;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Encoders\WebpEncoder;
@@ -19,34 +19,48 @@ class FileController extends Controller
         return view('pruebas.ficheros')->with('files', auth()->user()->files);
     }
 
-    public function imageUpload(StoreImage $request)
+    public function imageUpload(Request $request)
     {
-        $fichero = $request->file;
-
-        $filename = md5(time()) . '/' . $fichero->getClientOriginalName();
-
-        $imagen = Image::read($fichero)
-            ->scaleDown(2000, 2000)
-            ->encode(new WebpEncoder(quality: 80));
-
-        $thumbnail = Image::read($fichero)
-            ->coverDown(128, 128)
-            ->encode(new WebpEncoder(quality: 80));
-
-        Storage::disk('s3')->put('images/' . $filename, $imagen);
-        Storage::disk('s3')->put('thumbnails/' . $filename, $thumbnail);
-
         $file_upload = FileUpload::find(request('file_upload_id'));
 
-        $file_upload->files()->create([
-            'path' => $filename,
-            'title' => $request->file->getClientOriginalName(),
-            'size' => Storage::disk('s3')->size('images/' . $filename),
-            'user_id' => Auth::user()->id,
-            'file_upload_id' => request('file_upload_id')
+        $restantes = $file_upload->max_files - count($file_upload->not_archived_files);
+
+        $this->validate($request, [
+            'files' => 'required|array|max:' . $restantes,
+            'files.*' => 'required|image|max:8192' // 8MB
         ]);
 
-        return back()->with('success', 'File Successfully Saved');
+        $subida_corracta = false;
+
+        foreach ($request->file('files') as $fichero) {
+            $filename = md5(time()) . '/' . $fichero->getClientOriginalName();
+
+            $imagen = Image::read($fichero)
+                ->scaleDown(2000, 2000)
+                ->encode(new WebpEncoder(quality: 80));
+
+            $thumbnail = Image::read($fichero)
+                ->coverDown(128, 128)
+                ->encode(new WebpEncoder(quality: 80));
+
+            Storage::disk('s3')->put('images/' . $filename, $imagen);
+            Storage::disk('s3')->put('thumbnails/' . $filename, $thumbnail);
+
+            $file_upload->files()->create([
+                'path' => $filename,
+                'title' => $fichero->getClientOriginalName(),
+                'size' => Storage::disk('s3')->size('images/' . $filename),
+                'user_id' => Auth::user()->id,
+                'file_upload_id' => request('file_upload_id')
+            ]);
+
+            $subida_corracta = true;
+        }
+
+        if ($subida_corracta)
+            return back()->with('success', 'File Successfully Saved');
+        else
+            return back()->with('error', 'Error uploading files');
     }
 
     public function documentUpload(StoreFile $request)
