@@ -13,6 +13,16 @@
         <h2 class="text-muted font-xl">{{ Auth::user()->curso_actual()?->pretty_name }}</h2>
     </div>
 
+    <div class="d-flex justify-content-end">
+        <div class="btn-toolbar" role="toolbar">
+            {{ html()->form('POST', route('actividades.plantillas.filtro'))->open() }}
+            {{ html()->submit(__('Clear filters'))
+                    ->class(['btn btn-sm mx-1 mb-3', (session('profesor_filtro_etiquetas') == 'S' || session('profesor_filtro_actividades_etiquetas') == 'S') ? 'btn-primary' : 'btn-outline-secondary']) }}
+            {{ html()->hidden('filtro_etiquetas', 'N') }}
+            {{ html()->form()->close() }}
+        </div>
+    </div>
+
     @include('actividades.selector_unidad')
 
     <div class="mb-3">

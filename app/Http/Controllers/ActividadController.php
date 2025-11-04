@@ -84,6 +84,18 @@ class ActividadController extends Controller
             session(['profesor_unidad_id_disponibles' => $request->input('unidad_id_disponibles')]);
         }
 
+        if ($request->has('filtro_etiquetas')) {
+            if (request('filtro_etiquetas') == 'N') {
+                session(['profesor_filtro_actividades_etiquetas' => '']);
+                session(['tags_actividades' => []]);
+            }
+        }
+
+        if ($request->has('tag_actividad')) {
+            session(['profesor_filtro_actividades_etiquetas' => 'S']);
+            session()->push('tags_actividades', request('tag_actividad'));
+        }
+
         $actividades = $this->obtenerPlantillas();
 
         $ids = $actividades->pluck('id')->toArray();
@@ -826,6 +838,10 @@ class ActividadController extends Controller
             $actividades = Actividad::cursoActual()->plantilla()->where('unidad_id', session('profesor_unidad_id_disponibles'))->orderBy('orden')->orderBy('id');
         } else {
             $actividades = Actividad::cursoActual()->plantilla()->orderBy('orden')->orderBy('id');
+        }
+
+        if (session('profesor_filtro_actividades_etiquetas')) {
+            $actividades = $actividades->tags(session('tags_actividades'));
         }
 
         $actividades = $this->paginate_ultima($actividades, 250);

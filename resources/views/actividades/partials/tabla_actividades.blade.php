@@ -69,7 +69,7 @@
                 <td class="clickable">
                     <div>
                         <div class="d-flex align-items-center">
-                            @include('actividades.partials.nombre_con_etiquetas')
+                            @include('actividades.partials.nombre_con_etiquetas', ['ruta' => 'actividades.'. explode('.', Route::currentRouteName())[1] . '.filtro'])
                             @include('actividades.partials.caducada')
                         </div>
                         <span class="small text-secondary">{{ $actividad->slug }}</span>
