@@ -50575,4 +50575,3 @@ Livewire.on('hideModal', function () {
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=app.js.map

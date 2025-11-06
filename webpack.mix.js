@@ -34,8 +34,7 @@ mix.js('resources/js/app.js', 'public/js')
 
         'node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js',
         'node_modules/prismjs/plugins/autoloader/prism-autoloader.js',
-    ], 'public/prismjs/prism.js')
-    .sourceMaps(false, 'source-map');
+    ], 'public/prismjs/prism.js');
 
 mix.copy('resources/js/single_click.js', 'public/js/');
 mix.copy('node_modules/prismjs/themes/prism-coy.min.css', 'public/prismjs/');
@@ -51,7 +50,6 @@ mix.copy('node_modules/tinymce/tinymce.min.js', 'public/tinymce/tinymce.min.js')
 mix.copyDirectory('node_modules/tinymce-i18n/langs7', 'public/tinymce/langs');
 
 mix.copy('node_modules/chart.js/dist/chart.umd.js', 'public/js/chart.umd.js');
-mix.copy('node_modules/chart.js/dist/chart.umd.js.map', 'public/js/chart.umd.js.map');
 
 mix.copy('node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.css', 'public/js/jquery.fancybox.min.css');
 mix.copy('node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.js', 'public/js/jquery.fancybox.min.js');
