@@ -3020,7 +3020,7 @@ function withinMaxClamp(min, value, max) {
 "use strict";
 /* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
 /* provided dependency */ var Buffer = __webpack_require__(/*! buffer */ "./node_modules/buffer/index.js")["Buffer"];
-/*! Axios v1.13.1 Copyright (c) 2025 Matt Zabriskie and contributors */
+/*! Axios v1.13.2 Copyright (c) 2025 Matt Zabriskie and contributors */
 
 
 /**
@@ -6287,7 +6287,7 @@ function dispatchRequest(config) {
   });
 }
 
-const VERSION = "1.13.1";
+const VERSION = "1.13.2";
 
 const validators$1 = {};
 
