@@ -75,11 +75,13 @@
                 'text' => __('Rubrics'),
                 'icon' => 'bi-ui-checks-grid',
             ])
-            @include('layouts.sidebar.nav-item-desplegable', [
-                'route' => route('flash_decks.index'),
-                'text' => __('Flashcards'),
-                'icon' => 'bi-card-text',
-            ])
+            @if(config('app.env') != 'production')
+                @include('layouts.sidebar.nav-item-desplegable', [
+                    'route' => route('flash_decks.index'),
+                    'text' => __('Flashcards'),
+                    'icon' => 'bi-card-text',
+                ])
+            @endif
             @include('layouts.sidebar.nav-item-desplegable', [
                 'route' => route('selectors.index'),
                 'text' => __('Selectors'),

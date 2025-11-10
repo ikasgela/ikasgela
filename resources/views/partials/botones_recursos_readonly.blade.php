@@ -23,10 +23,12 @@
             class="btn btn-sm {{ $actividad->file_uploads()->count() > 0 ? 'btn-secondary' : 'bg-body-secondary' }}">
         <i class="bi bi-upload"></i>
     </button>
-    <button title="{{ __('Flashcards') }}"
-            class="btn btn-sm {{ $actividad->flash_decks()->count() > 0 ? 'btn-secondary' : 'bg-body-secondary' }}">
-        <i class="bi bi-card-text"></i>
-    </button>
+    @if(config('app.env') != 'production')
+        <button title="{{ __('Flashcards') }}"
+                class="btn btn-sm {{ $actividad->flash_decks()->count() > 0 ? 'btn-secondary' : 'bg-body-secondary' }}">
+            <i class="bi bi-card-text"></i>
+        </button>
+    @endif
     <button title="{{ __('IntelliJ project') }}"
             class="btn btn-sm {{ $actividad->intellij_projects()->count() > 0 ? 'btn-secondary' : 'bg-body-secondary' }}">
         <i class="bi bi-code-slash"></i>
