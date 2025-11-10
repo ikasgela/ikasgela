@@ -125,6 +125,26 @@ class T5_AdministradorTest extends DuskTestCase
         });
     }
 
+    public function testRecursosRubricas()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('rubrics.index'));
+            $browser->assertRouteIs('rubrics.index');
+            $browser->assertDontSee('Ignition');
+            $browser->assertSee(__('Rubrics'));
+        });
+    }
+
+    public function testRecursosTestsResults()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('test_results.index'));
+            $browser->assertRouteIs('test_results.index');
+            $browser->assertDontSee('Ignition');
+            $browser->assertSee(__('Test results'));
+        });
+    }
+
     public function testRecursosSelectores()
     {
         $this->browse(function (Browser $browser) {

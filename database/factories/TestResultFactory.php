@@ -20,6 +20,9 @@ class TestResultFactory extends Factory
         return [
             'titulo' => fake()->words(3, true),
             'descripcion' => fake()->sentence(8),
+            'num_preguntas' => fake()->randomNumber(2),
+            'valor_correcta' => 1.0,
+            'valor_incorrecta' => fake()->randomFloat(2, -1, 0),
             'curso_id' => Curso::factory(),
         ];
     }

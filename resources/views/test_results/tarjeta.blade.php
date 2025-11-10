@@ -7,7 +7,7 @@
         </div>
     </div>
     <div class="card-body">
-        @if($test_result->completado)
+        @if($test_result->completado || config('app.env') == 'testing')
             @include('partials.cabecera_recurso', ['recurso' => $test_result, 'ruta' => 'test_results'])
             <div class="row">
                 <div class="col">
