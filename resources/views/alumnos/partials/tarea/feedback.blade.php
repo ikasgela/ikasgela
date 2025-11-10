@@ -19,7 +19,7 @@
                                 </div>
                             </div>
                             <hr class="m-0">
-                            <p class="text-muted small">
+                            <p class="text-muted small mt-1">
                                 {{ __('Score') }}: @include('actividades.partials.puntuacion')
                             </p>
                         </div>
