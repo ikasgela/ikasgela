@@ -276,6 +276,13 @@ class CursoController extends Controller
         // Actividad "*" -- "*" Rubric
         $this->exportarRelacionJSON($ruta, $curso, 'rubric');
 
+        // TestResult
+        $test_results = $curso->test_results()->plantilla()->get();
+        $this->exportarFicheroJSON($ruta, 'test_results.json', $test_results);
+
+        // Actividad "*" -- "*" TestResult
+        $this->exportarRelacionJSON($ruta, $curso, 'test_result');
+
         $datos = new Collection();
         foreach ($curso->actividades()->plantilla()->get() as $actividad) {
             foreach ($actividad->feedbacks()->orderBy('orden')->get() as $feedback) {
