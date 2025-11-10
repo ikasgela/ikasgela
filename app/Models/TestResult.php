@@ -24,6 +24,17 @@ class TestResult extends Model
         '__import_id',
     ];
 
+    public function resultado()
+    {
+        if ($this->num_preguntas > 0) {
+            $total = $this->num_correctas * $this->valor_correcta + $this->num_incorrectas * $this->valor_incorrecta;
+            $nota = $total / $this->num_preguntas * 100;
+            return formato_decimales($nota, 0);
+        } else {
+            return "?";
+        }
+    }
+
     public function actividades()
     {
         return $this
