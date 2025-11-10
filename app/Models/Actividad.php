@@ -40,6 +40,7 @@ class Actividad extends Model
         'selectors',
         'rubrics',
         'flash_decks',
+        'test_results',
     ];
 
     protected $clone_exempt_attributes = ['plantilla', 'siguiente_overriden'];
@@ -103,6 +104,11 @@ class Actividad extends Model
             $copia = $rubric->duplicate();
             $this->reconectar($this->rubrics(), $rubric, $copia);
         }
+
+        foreach ($this->test_results as $test_result) {
+            $copia = $test_result->duplicate();
+            $this->reconectar($this->test_results(), $test_result, $copia);
+        }
     }
 
     public function duplicar_recursos(?Curso $curso_destino)
@@ -145,6 +151,11 @@ class Actividad extends Model
         foreach ($this->rubrics as $rubric) {
             $copia = $rubric->duplicar($curso_destino);
             $this->reconectar($this->rubrics(), $rubric, $copia);
+        }
+
+        foreach ($this->test_results as $test_result) {
+            $copia = $test_result->duplicar($curso_destino);
+            $this->reconectar($this->test_results(), $test_result, $copia);
         }
 
         foreach ($this->selectors as $selector) {
@@ -207,6 +218,11 @@ class Actividad extends Model
         foreach ($this->rubrics as $rubric) {
             $rubric->curso_id = $curso_destino->id;
             $rubric->save();
+        }
+
+        foreach ($this->test_results as $test_result) {
+            $test_result->curso_id = $curso_destino->id;
+            $test_result->save();
         }
 
         foreach ($this->selectors as $selector) {
@@ -393,6 +409,17 @@ class Actividad extends Model
             ->withTimestamps();
     }
 
+    public function test_results()
+    {
+        return $this
+            ->belongsToMany(TestResult::class)
+            ->withPivot([
+                'orden',
+                'titulo_visible', 'descripcion_visible', 'columnas',
+            ])
+            ->withTimestamps();
+    }
+
     public function envioPermitido()
     {
         $enviar = true;
@@ -533,6 +560,10 @@ class Actividad extends Model
         }
 
         foreach ($this->rubrics()->get() as $recurso) {
+            $recursos->add($recurso);
+        }
+
+        foreach ($this->test_results()->get() as $recurso) {
             $recursos->add($recurso);
         }
 

@@ -47,5 +47,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(RubricSeeder::class);
         $this->call(FlashDeckSeeder::class);
+
+        $this->call(TestResultSeeder::class);
     }
 }

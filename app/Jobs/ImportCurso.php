@@ -27,6 +27,7 @@ use App\Models\RuleGroup;
 use App\Models\SafeExam;
 use App\Models\Selector;
 use App\Models\Skill;
+use App\Models\TestResult;
 use App\Models\Unidad;
 use App\Models\YoutubeVideo;
 use Exception;
@@ -75,6 +76,7 @@ class ImportCurso implements ShouldQueue
             'safe_exams', 'allowed_apps', 'allowed_urls',
             'selectors', 'rule_groups', 'rules',
             'rubrics', 'criteria_groups', 'criterias',
+            'test_results'
         ];
 
         // Añadir la columa __import_id a las tablas
@@ -583,6 +585,27 @@ class ImportCurso implements ShouldQueue
             $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
             $rubric = !is_null($objeto['rubric_id']) ? Rubric::where('__import_id', $objeto['rubric_id'])->first() : null;
             $actividad?->rubrics()->attach($rubric, [
+                'orden' => $objeto['orden'],
+                'titulo_visible' => $objeto['titulo_visible'],
+                'descripcion_visible' => $objeto['descripcion_visible'],
+                'columnas' => $objeto['columnas'],
+            ]);
+        }
+
+        // Curso -- "*" TestResult
+        $json = $this->cargarFichero($ruta, 'test_results.json');
+        foreach ($json as $objeto) {
+            TestResult::create(array_merge($objeto, [
+                'curso_id' => $curso->id,
+            ]));
+        }
+
+        // Actividad "*" - "*" TestResult
+        $json = $this->cargarFichero($ruta, 'actividad_test_result.json');
+        foreach ($json as $objeto) {
+            $actividad = !is_null($objeto['actividad_id']) ? Actividad::where('__import_id', $objeto['actividad_id'])->first() : null;
+            $test_result = !is_null($objeto['test_result_id']) ? Testresult::where('__import_id', $objeto['test_result_id'])->first() : null;
+            $actividad?->test_results()->attach($test_result, [
                 'orden' => $objeto['orden'],
                 'titulo_visible' => $objeto['titulo_visible'],
                 'descripcion_visible' => $objeto['descripcion_visible'],

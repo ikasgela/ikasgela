@@ -264,6 +264,11 @@ class Curso extends Model
         return $this->users()->rolAlumno()->noBloqueado()->orderBy('name')->get();
     }
 
+    public function test_results()
+    {
+        return $this->hasMany(TestResult::class);
+    }
+
     public function media(?Milestone $milestone = null)
     {
         $users = $this->alumnos_activos();

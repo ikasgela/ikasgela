@@ -50,6 +50,11 @@
                class="btn btn-sm {{ $actividad->rubrics()->count() > 0 ? 'btn-primary' : 'btn-light' }}">
                 <i class="bi bi-ui-checks-grid"></i>
             </a>
+            <a title="{{ __('Test results') }}"
+               href="{{ route('test_results.actividad', [$actividad->id]) }}"
+               class="btn btn-sm {{ $actividad->test_results()->count() > 0 ? 'btn-primary' : 'btn-light' }}">
+                <i class="bi bi-plus-slash-minus"></i>
+            </a>
             <a title="{{ __('Selector') }}"
                href="{{ route('selectors.actividad', [$actividad->id]) }}"
                class="btn btn-sm {{ $actividad->selectors()->count() > 0 ? 'btn-primary' : 'btn-light' }}">
