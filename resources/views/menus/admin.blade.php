@@ -65,6 +65,13 @@
                 'text' => __('Image uploads'),
                 'icon' => 'bi-upload',
             ])
+            @if(config('app.env') != 'production')
+                @include('layouts.sidebar.nav-item-desplegable', [
+                    'route' => route('flash_decks.index'),
+                    'text' => __('Flashcards'),
+                    'icon' => 'bi-card-text',
+                ])
+            @endif
             @include('layouts.sidebar.nav-item-desplegable', [
                 'route' => route('intellij_projects.index'),
                 'text' => __('IntelliJ projects'),
@@ -75,13 +82,11 @@
                 'text' => __('Rubrics'),
                 'icon' => 'bi-ui-checks-grid',
             ])
-            @if(config('app.env') != 'production')
-                @include('layouts.sidebar.nav-item-desplegable', [
-                    'route' => route('flash_decks.index'),
-                    'text' => __('Flashcards'),
-                    'icon' => 'bi-card-text',
-                ])
-            @endif
+            @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('test_results.index'),
+                'text' => __('Test results'),
+                'icon' => 'bi-plus-slash-minus',
+            ])
             @include('layouts.sidebar.nav-item-desplegable', [
                 'route' => route('selectors.index'),
                 'text' => __('Selectors'),
