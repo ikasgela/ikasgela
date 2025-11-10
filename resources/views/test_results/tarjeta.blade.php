@@ -11,7 +11,7 @@
             @include('partials.cabecera_recurso', ['recurso' => $test_result, 'ruta' => 'test_results'])
             <div class="row">
                 <div class="col">
-                    <div class="card">
+                    <div class="card text-bg-light">
                         <div class="card-header">{{ __('Questions') }}</div>
                         <div class="card-body text-center">
                             <p class="card-text" style="font-size:150%;">{{ $test_result->num_preguntas }}</p>
@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="card">
+                    <div class="card text-bg-success">
                         <div class="card-header">{{ __('Right answers') }}</div>
                         <div class="card-body text-center">
                             <p class="card-text" style="font-size:150%;">{{ $test_result->num_correctas }}</p>
@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="card">
+                    <div class="card text-bg-warning">
                         <div class="card-header">{{ __('Wrong answers') }}</div>
                         <div class="card-body text-center">
                             <p class="card-text" style="font-size:150%;">{{ $test_result->num_incorrectas }}</p>
@@ -35,10 +35,11 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="card">
+                    @php($resultado = $test_result->resultado())
+                    <div class="card {{ $resultado >= 50 ? 'text-bg-success' : 'text-bg-warning' }}">
                         <div class="card-header">{{ __('Result') }}</div>
                         <div class="card-body text-center">
-                            <p class="card-text" style="font-size:150%;">{{ $test_result->resultado() }}/100</p>
+                            <p class="card-text" style="font-size:150%;">{{ $resultado }}/100</p>
                         </div>
                     </div>
                 </div>
