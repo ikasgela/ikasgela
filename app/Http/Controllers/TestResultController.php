@@ -160,4 +160,19 @@ class TestResultController extends Controller
 
         return back();
     }
+
+    public function rellenar(Request $request, TestResult $test_result)
+    {
+        $this->validate($request, [
+            'num_correctas' => 'required',
+        ]);
+
+        $test_result->update([
+            'completado' => true,
+            'num_correctas' => $request->input('num_correctas') + 0,
+            'num_incorrectas' => $request->input('num_incorrectas') + 0,
+        ]);
+
+        return back();
+    }
 }

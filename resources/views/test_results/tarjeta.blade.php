@@ -43,16 +43,21 @@
             </div>
         </div>
     </div>
-    @use('Illuminate\Support\Str')
     @if(Auth::user()->hasRole('profesor'))
         <hr class="my-0">
         <div class="card-body">
-            <form action="{{ route('files.upload.image') }}" enctype="multipart/form-data" method="post">
-                @csrf
-                <button class="btn btn-primary single_click">
-                    <span class="spinner-border spinner-border-sm" style="display:none;"></span> {{ __('Upload') }}
-                </button>
-            </form>
+            {{ html()->modelForm($test_result, 'PUT', route('test_results.rellenar', $test_result->id))->open() }}
+            @include('components.label-text', [
+                'label' => __('Number of right answers'),
+                'name' => 'num_correctas',
+            ])
+            @include('components.label-text', [
+                'label' => __('Number of wrong answers'),
+                'name' => 'num_incorrectas',
+            ])
+            @include('partials.guardar')
+            @include('layouts.errors')
+            {{ html()->closeModelForm() }}
         </div>
     @endif
 </div>
