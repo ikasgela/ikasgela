@@ -140,4 +140,24 @@ class TestResultController extends Controller
 
         return redirect(route('test_results.index'));
     }
+
+    public function toggle_titulo_visible(Actividad $actividad, TestResult $test_result)
+    {
+        $pivote = $test_result->pivote($actividad);
+
+        $pivote->titulo_visible = !$pivote->titulo_visible;
+        $pivote->save();
+
+        return back();
+    }
+
+    public function toggle_descripcion_visible(Actividad $actividad, TestResult $test_result)
+    {
+        $pivote = $test_result->pivote($actividad);
+
+        $pivote->descripcion_visible = !$pivote->descripcion_visible;
+        $pivote->save();
+
+        return back();
+    }
 }
