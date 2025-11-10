@@ -43,6 +43,19 @@
                     </div>
                 </div>
             </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <h5 class="card-title">{{ __('Applied qualification criteria') }}</h5>
+                    <ul class="card-text">
+                        <li>
+                            {{ __('Right answer value') }}: {{ formato_decimales($test_result->valor_correcta, 2) }}
+                        </li>
+                        <li>
+                            {{ __('Wrong answer value') }}: {{ formato_decimales($test_result->valor_incorrecta, 2) }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
         @else
             <div class="col">
                 <p class="mb-0">{{ __('There are no results yet.') }}</p>
