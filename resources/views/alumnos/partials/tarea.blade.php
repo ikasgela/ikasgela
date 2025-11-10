@@ -44,6 +44,10 @@
                                 @include('partials.tarjetas_actividad')
                             @endif
                             @break
+                        @case(40)
+                            {{-- Revisada OK --}}
+                            @include('partials.tarjetas_resultados')
+                            @break
                         @case(60)
                         @case(64)
                             {{-- Archivada --}}
