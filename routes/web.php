@@ -460,6 +460,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('test_results.desasociar');
             Route::post('/test_results/{test_result}/duplicar', [TestResultController::class, 'duplicar'])
                 ->name('test_results.duplicar');
+            Route::post('/test_results/{actividad}/toggle_titulo_visible/{test_result}', [TestResultController::class, 'toggle_titulo_visible'])
+                ->name('test_results.toggle.titulo_visible');
+            Route::post('/test_results/{actividad}/toggle_descripcion_visible/{test_result}', [TestResultController::class, 'toggle_descripcion_visible'])
+                ->name('test_results.toggle.descripcion_visible');
         });
 
         // Administrador

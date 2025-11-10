@@ -36,6 +36,9 @@
                         'rubric_is_qualifying' => Route::currentRouteName() == 'profesor.revisar',
                     ])
                     @break
+                @case('App\Models\TestResult')
+                    @include('test_results.tarjeta', ['test_result' => $recurso])
+                    @break
                 @case('App\Models\Selector')
                     @if(Auth::user()->hasAnyRole(['profesor', 'admin', 'tutor']))
                         @include('selectors.tarjeta', ['selector' => $recurso])
