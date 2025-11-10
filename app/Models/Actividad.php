@@ -393,6 +393,17 @@ class Actividad extends Model
             ->withTimestamps();
     }
 
+    public function test_results()
+    {
+        return $this
+            ->belongsToMany(TestResult::class)
+            ->withPivot([
+                'orden',
+                'titulo_visible', 'descripcion_visible', 'columnas',
+            ])
+            ->withTimestamps();
+    }
+
     public function envioPermitido()
     {
         $enviar = true;
