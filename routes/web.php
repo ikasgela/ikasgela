@@ -40,6 +40,7 @@ use App\Http\Controllers\SelectorController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\TestResultController;
 use App\Http\Controllers\TinymceUploadController;
 use App\Http\Controllers\TutorController;
 use App\Http\Controllers\UnidadController;
@@ -448,6 +449,17 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('flash_decks.desasociar');
             Route::post('/flash_decks/{flash_deck}/duplicar', [FlashDeckController::class, 'duplicar'])
                 ->name('flash_decks.duplicar');
+
+            // Resultados de test
+            Route::resource('test_results', TestResultController::class);
+            Route::get('/test_results/{actividad}/actividad', [TestResultController::class, 'actividad'])
+                ->name('test_results.actividad');
+            Route::post('/test_results/{actividad}/asociar', [TestResultController::class, 'asociar'])
+                ->name('test_results.asociar');
+            Route::delete('/test_results/{actividad}/desasociar/{test_result}', [TestResultController::class, 'desasociar'])
+                ->name('test_results.desasociar');
+            Route::post('/test_results/{test_result}/duplicar', [TestResultController::class, 'duplicar'])
+                ->name('test_results.duplicar');
         });
 
         // Administrador
@@ -552,6 +564,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('rubrics.index.filtro');
             Route::post('/flash_decks/filtro', [FlashDeckController::class, 'index'])
                 ->name('flash_decks.index.filtro');
+            Route::post('/test_results/filtro', [TestResultController::class, 'index'])
+                ->name('test_results.index.filtro');
 
             // CRUD - Feedbacks
             Route::resource('feedbacks', FeedbackController::class);
