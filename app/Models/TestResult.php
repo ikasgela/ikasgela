@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use YMigVal\LaravelModelCache\HasCachedQueries;
 
+/**
+ * @mixin IdeHelperTestResult
+ */
 class TestResult extends Model
 {
     use HasFactory;
