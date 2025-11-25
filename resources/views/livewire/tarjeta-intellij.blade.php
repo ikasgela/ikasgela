@@ -88,6 +88,13 @@
                 @endswitch
                 <a href="{{ $repositorio['web_url']  }}" target="_blank"
                    class="btn btn-secondary mb-3">{{ __('Open in Gitea') }}</a>
+                <button name="copy_link"
+                        type="button"
+                        title="{{ __('Copy URL to the repository') }}"
+                        onclick="copyToClipboard('{{ $repositorio['http_url_to_repo'] }}')"
+                        class="btn btn-light mb-3">
+                    <i class="bi bi-copy"></i>
+                </button>
                 <div class='btn-group'>
                     @if(isset($actividad) && Auth::user()->hasRole('profesor'))
                         @if($intellij_project->isArchivado())
