@@ -318,7 +318,7 @@ class Curso extends Model
                 return Tarea::whereHas('actividad.unidad.curso', function ($query) {
                     $query->where('cursos.id', $this->id);
                 })->whereHas('actividad', function ($query) {
-                    $query->where('fecha_limite', '<', now());
+                    $query->whereNull('deleted_at')->where('fecha_limite', '<', now());
                 })->usuarioNoBloqueado()->noAutoAvance()->whereNotIn('estado', [30, 40, 60, 62, 64])->count();
             });
     }
