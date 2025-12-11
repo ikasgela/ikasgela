@@ -71,9 +71,23 @@ class TeamController extends Controller
         return retornar();
     }
 
-    public function show(Team $team)
+    public function show(Team $team, Request $request)
     {
-        return view('teams.show', compact('team'));
+        $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('orden')->get();
+
+        if ($request->has('unidad_id_disponibles')) {
+            session(['profesor_unidad_id_disponibles' => $request->input('unidad_id_disponibles')]);
+        }
+
+        if ($request->has('unidad_id_asignadas')) {
+            session(['profesor_unidad_id_asignadas' => $request->input('unidad_id_asignadas')]);
+        }
+
+        $disponibles = $this->actividadesDisponibles();
+
+        $asignadas = $this->actividadesAsignadas($team);
+
+        return view('teams.show', compact(['team', 'unidades', 'disponibles', 'asignadas']));
     }
 
     public function edit(Team $team)
@@ -130,5 +144,18 @@ class TeamController extends Controller
         }
 
         return $this->paginate_ultima($disponibles, config('ikasgela.pagination_available_activities'), 'disponibles');
+    }
+
+    private function actividadesAsignadas(Team $team)
+    {
+        $actividades_equipo = $team->actividades()->cursoActual();
+
+        if (session('profesor_unidad_id_asignadas')) {
+            $asignadas = $actividades_equipo->where('unidad_id', session('profesor_unidad_id_asignadas'));
+        } else {
+            $asignadas = $actividades_equipo;
+        }
+
+        return $this->paginate_ultima($asignadas, config('ikasgela.pagination_assigned_activities'), 'asignadas');
     }
 }

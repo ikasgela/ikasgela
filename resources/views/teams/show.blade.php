@@ -13,7 +13,9 @@
         @endforeach
     </ul>
 
-    @include('teams.partials.asignadas', ['disponibles' => $team->actividades()->cursoActual()->paginate(config('ikasgela.pagination_assigned_activities'))])
+    @include('teams.partials.asignadas')
+
+    @include('teams.partials.disponibles')
 
     @include('partials.backbutton')
 

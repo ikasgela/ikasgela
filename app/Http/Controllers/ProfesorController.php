@@ -286,6 +286,17 @@ class ProfesorController extends Controller
         return redirect(route('teams.index'));
     }
 
+    public function asignarTareaEquipo(Team $team, Request $request)
+    {
+        $this->validate($request, [
+            'seleccionadas' => 'required',
+        ]);
+
+        $this->asignarTareasUsuarioEquipo($team);
+
+        return redirect(route('teams.show', ['team' => $team->id]));
+    }
+
     public function revisar(User $user, Tarea $tarea)
     {
         $actividad = $tarea->actividad;

@@ -396,8 +396,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             // Asignar tareas a equipos
             Route::post('/teams/filtro', [TeamController::class, 'index'])
                 ->name('teams.index.filtro');
+            Route::post('/teams/{team}/show', [TeamController::class, 'show'])
+                ->name('teams.show.filtro');
             Route::post('/profesor/asignar_tareas_equipo', [ProfesorController::class, 'asignarTareasEquipo'])
                 ->name('profesor.asignar_tareas_equipo');
+            Route::post('/profesor/{team}/asignar_tarea_equipo', [ProfesorController::class, 'asignarTareaEquipo'])
+                ->name('profesor.asignar_tarea_equipo');
 
             // Selector
             Route::resource('selectors', SelectorController::class);
