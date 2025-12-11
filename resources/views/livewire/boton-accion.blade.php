@@ -73,7 +73,12 @@
                             @endif
                             class="btn btn-secondary">
                         <span class="spinner-border spinner-border-sm"
-                           style="display:none;"></span> {{ __('Reopen activity') }}</button>
+                              style="display:none;"></span> {{ __('Reopen activity') }}
+                    </button>
+                @elseif($actividad->is_expired)
+                    <div class="alert alert-warning" role="alert">
+                        <span>{{ __('The activity has expired and can no longer be reopened.') }}</span>
+                    </div>
                 @endif
                 @if(config('app.debug'))
                     <button type="submit" name="nuevoestado" value="40"
