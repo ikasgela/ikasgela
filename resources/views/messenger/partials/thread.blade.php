@@ -20,7 +20,7 @@
             <div class="ps-3 pt-3">
                 @include('users.partials.avatar', ['user' => $thread->creator(), 'width' => 64])
             </div>
-            @endif()
+            @endif
 
             <div class="card-body">
                 <div class="d-flex justify-content-between mb-3">
