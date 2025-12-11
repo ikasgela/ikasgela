@@ -127,7 +127,7 @@
 
                                 {{ html()->form('DELETE', route('cursos.reset', $curso->id))->open() }}
                                 {{ html()
-                                    ->reset('<i class="bi bi-power text-danger"></i>')
+                                    ->submit('<i class="bi bi-power text-danger"></i>')
                                     ->name('reset')
                                     ->class(['btn btn-light btn-sm', 'rounded-0'])
                                     ->attribute('title', __('Reset course'))

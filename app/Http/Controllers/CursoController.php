@@ -420,6 +420,13 @@ class CursoController extends Controller
 
         $curso->hilos()->delete();
 
+        foreach ($curso->actividades()->get() as $actividad) {
+            $actividad->fecha_disponibilidad = null;
+            $actividad->fecha_entrega = null;
+            $actividad->fecha_limite = null;
+            $actividad->save();
+        }
+
         return back();
     }
 
