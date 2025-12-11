@@ -48,7 +48,7 @@
             <span class="spinner-border spinner-border-sm" style="display:none;"></span> {{ __('Show next') }}
         </button>
     </div>
-@endif()
+@endif
 @if($actividad->is_expired)
     <div class="d-flex justify-content-end align-items-center mb-3">
         <button type="submit" name="nuevoestado" value="62"
