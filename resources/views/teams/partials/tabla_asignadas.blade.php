@@ -15,7 +15,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($disponibles as $actividad)
+        @foreach($asignadas as $actividad)
             <tr class="table-cell-click" data-href="{{ route('actividades.preview', [$actividad->id]) }}">
                 <td class="clickable">{{ $actividad->id }}</td>
                 <td class="clickable">
