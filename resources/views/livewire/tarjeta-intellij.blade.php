@@ -1,9 +1,11 @@
 <div>
     <script>
         function copyToClipboard(text) {
+            const toastCopiar = document.getElementById('toastCopiar')
+            const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastCopiar)
             navigator.clipboard.writeText(text).then(
                 function () {
-                    alert("{{ __('Link copied') }}.");
+                    toastBootstrap.show()
                 });
         }
     </script>
@@ -95,6 +97,19 @@
                         class="btn btn-light mb-3">
                     <i class="bi bi-copy"></i>
                 </button>
+
+                <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                    <div id="toastCopiar" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header">
+                            <strong class="me-auto">ikasgela</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                            {{ __('Link copied') }}.
+                        </div>
+                    </div>
+                </div>
+
                 <div class='btn-group'>
                     @if(isset($actividad) && Auth::user()->hasRole('profesor'))
                         @if($intellij_project->isArchivado())
