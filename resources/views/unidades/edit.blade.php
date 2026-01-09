@@ -58,15 +58,15 @@
                 'name' => 'tags',
             ])
 
-            @include('components.label-datetime', [
+            @include('components.label-datetime-clear', [
                 'label' => __('Availability date'),
                 'name' => 'fecha_disponibilidad',
             ])
-            @include('components.label-datetime', [
+            @include('components.label-datetime-clear', [
                 'label' => __('Due date'),
                 'name' => 'fecha_entrega',
             ])
-            @include('components.label-datetime', [
+            @include('components.label-datetime-clear', [
                 'label' => __('Deadline'),
                 'name' => 'fecha_limite',
             ])

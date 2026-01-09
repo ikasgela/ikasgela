@@ -91,11 +91,11 @@
                 'name' => 'maximo_recuperable_examenes_finales',
             ])
 
-            @include('components.label-datetime', [
+            @include('components.label-datetime-clear', [
                 'label' => __('Start date'),
                 'name' => 'fecha_inicio',
             ])
-            @include('components.label-datetime', [
+            @include('components.label-datetime-clear', [
                 'label' => __('End date'),
                 'name' => 'fecha_fin',
             ])
