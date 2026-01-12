@@ -242,16 +242,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.369.9",
+            "version": "3.369.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "cb7c0a255a34d44f13f9276d720827d56a3b381b"
+                "reference": "e179090bf2d658be7be37afc146111966ba6f41b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/cb7c0a255a34d44f13f9276d720827d56a3b381b",
-                "reference": "cb7c0a255a34d44f13f9276d720827d56a3b381b",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e179090bf2d658be7be37afc146111966ba6f41b",
+                "reference": "e179090bf2d658be7be37afc146111966ba6f41b",
                 "shasum": ""
             },
             "require": {
@@ -333,9 +333,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.369.9"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.369.10"
             },
-            "time": "2026-01-07T19:06:56+00:00"
+            "time": "2026-01-09T19:08:12+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -11563,12 +11563,12 @@
             "version": "v3.16.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/barryvdh/laravel-debugbar.git",
+                "url": "https://github.com/fruitcake/laravel-debugbar.git",
                 "reference": "c91e57ea113edd6526f5b8cd6b1c6ee02c67b28e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/c91e57ea113edd6526f5b8cd6b1c6ee02c67b28e",
+                "url": "https://api.github.com/repos/fruitcake/laravel-debugbar/zipball/c91e57ea113edd6526f5b8cd6b1c6ee02c67b28e",
                 "reference": "c91e57ea113edd6526f5b8cd6b1c6ee02c67b28e",
                 "shasum": ""
             },
@@ -11628,8 +11628,8 @@
                 "webprofiler"
             ],
             "support": {
-                "issues": "https://github.com/barryvdh/laravel-debugbar/issues",
-                "source": "https://github.com/barryvdh/laravel-debugbar/tree/v3.16.3"
+                "issues": "https://github.com/fruitcake/laravel-debugbar/issues",
+                "source": "https://github.com/fruitcake/laravel-debugbar/tree/v3.16.3"
             },
             "funding": [
                 {
@@ -12725,16 +12725,16 @@
         },
         {
             "name": "laravel-lang/lang",
-            "version": "15.26.4",
+            "version": "15.26.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/lang.git",
-                "reference": "089696104d9d11f9fc45ef5f0167a5b841d3e4db"
+                "reference": "7bb1eead5ccf7e50f313003775f6046fd8967ef5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/089696104d9d11f9fc45ef5f0167a5b841d3e4db",
-                "reference": "089696104d9d11f9fc45ef5f0167a5b841d3e4db",
+                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/7bb1eead5ccf7e50f313003775f6046fd8967ef5",
+                "reference": "7bb1eead5ccf7e50f313003775f6046fd8967ef5",
                 "shasum": ""
             },
             "require": {
@@ -12785,7 +12785,7 @@
                 "issues": "https://github.com/Laravel-Lang/lang/issues",
                 "source": "https://github.com/Laravel-Lang/lang"
             },
-            "time": "2026-01-01T03:40:26+00:00"
+            "time": "2026-01-10T18:54:31+00:00"
         },
         {
             "name": "laravel-lang/models",
