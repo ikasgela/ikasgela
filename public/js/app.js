@@ -24473,9 +24473,9 @@ return jQuery;
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   Channel: () => (/* binding */ u),
-/* harmony export */   Connector: () => (/* binding */ i),
+/* harmony export */   Connector: () => (/* binding */ r),
 /* harmony export */   EventFormatter: () => (/* binding */ d),
-/* harmony export */   "default": () => (/* binding */ E)
+/* harmony export */   "default": () => (/* binding */ S)
 /* harmony export */ });
 class u {
   constructor() {
@@ -24526,9 +24526,9 @@ class d {
     this.namespace = e;
   }
 }
-function w(n) {
+function g(s) {
   try {
-    new n();
+    new s();
   } catch (e) {
     if (e instanceof Error && e.message.includes("is not a constructor"))
       return !1;
@@ -24539,8 +24539,8 @@ class l extends u {
   /**
    * Create a new class instance.
    */
-  constructor(e, t, s) {
-    super(), this.name = t, this.pusher = e, this.options = s, this.eventFormatter = new d(this.options.namespace), this.subscribe();
+  constructor(e, t, n) {
+    super(), this.name = t, this.pusher = e, this.options = n, this.eventFormatter = new d(this.options.namespace), this.subscribe();
   }
   /**
    * Subscribe to a Pusher channel.
@@ -24564,14 +24564,14 @@ class l extends u {
    * Listen for all events on the channel instance.
    */
   listenToAll(e) {
-    return this.subscription.bind_global((t, s) => {
+    return this.subscription.bind_global((t, n) => {
       if (t.startsWith("pusher:"))
         return;
-      let r = String(this.options.namespace ?? "").replace(
+      let i = String(this.options.namespace ?? "").replace(
         /\./g,
         "\\"
-      ), a = t.startsWith(r) ? t.substring(r.length + 1) : "." + t;
-      e(a, s);
+      ), a = t.startsWith(i) ? t.substring(i.length + 1) : "." + t;
+      e(a, n);
     }), this;
   }
   /**
@@ -24623,7 +24623,7 @@ class f extends l {
     ), this;
   }
 }
-class g extends l {
+class w extends l {
   /**
    * Send a whisper event to other clients in the channel.
    */
@@ -24634,13 +24634,13 @@ class g extends l {
     ), this;
   }
 }
-class y extends f {
+class _ extends f {
   /**
    * Register a callback to be called anytime the member list changes.
    */
   here(e) {
     return this.on("pusher:subscription_succeeded", (t) => {
-      e(Object.keys(t.members).map((s) => t.members[s]));
+      e(Object.keys(t.members).map((n) => t.members[n]));
     }), this;
   }
   /**
@@ -24673,8 +24673,8 @@ class b extends u {
   /**
    * Create a new class instance.
    */
-  constructor(e, t, s) {
-    super(), this.events = {}, this.listeners = {}, this.name = t, this.socket = e, this.options = s, this.eventFormatter = new d(this.options.namespace), this.subscribe();
+  constructor(e, t, n) {
+    super(), this.events = {}, this.listeners = {}, this.name = t, this.socket = e, this.options = n, this.eventFormatter = new d(this.options.namespace), this.subscribe();
   }
   /**
    * Subscribe to a Socket.io channel.
@@ -24724,8 +24724,8 @@ class b extends u {
    * Bind the channel's socket to an event and store the callback.
    */
   on(e, t) {
-    return this.listeners[e] = this.listeners[e] || [], this.events[e] || (this.events[e] = (s, r) => {
-      this.name === s && this.listeners[e] && this.listeners[e].forEach((a) => a(r));
+    return this.listeners[e] = this.listeners[e] || [], this.events[e] || (this.events[e] = (n, i) => {
+      this.name === n && this.listeners[e] && this.listeners[e].forEach((a) => a(i));
     }, this.socket.on(e, this.events[e])), this.listeners[e].push(t), this;
   }
   /**
@@ -24741,7 +24741,7 @@ class b extends u {
    */
   unbindEvent(e, t) {
     this.listeners[e] = this.listeners[e] || [], t && (this.listeners[e] = this.listeners[e].filter(
-      (s) => s !== t
+      (n) => n !== t
     )), (!t || this.listeners[e].length === 0) && (this.events[e] && (this.socket.removeListener(e, this.events[e]), delete this.events[e]), delete this.listeners[e]);
   }
 }
@@ -24757,13 +24757,13 @@ class v extends b {
     }), this;
   }
 }
-class m extends v {
+class C extends v {
   /**
    * Register a callback to be called anytime the member list changes.
    */
   here(e) {
     return this.on("presence:subscribed", (t) => {
-      e(t.map((s) => s.user_info));
+      e(t.map((n) => n.user_info));
     }), this;
   }
   /**
@@ -24795,7 +24795,7 @@ class m extends v {
     ), this;
   }
 }
-class h extends u {
+class c extends u {
   /**
    * Subscribe to a channel.
    */
@@ -24843,7 +24843,7 @@ class h extends u {
     return this;
   }
 }
-class k extends h {
+class k extends c {
   /**
    * Send a whisper event to other clients in the channel.
    */
@@ -24851,7 +24851,7 @@ class k extends h {
     return this;
   }
 }
-class C extends h {
+class y extends c {
   /**
    * Send a whisper event to other clients in the channel.
    */
@@ -24859,7 +24859,7 @@ class C extends h {
     return this;
   }
 }
-class _ extends k {
+class m extends k {
   /**
    * Register a callback to be called anytime the member list changes.
    */
@@ -24885,7 +24885,7 @@ class _ extends k {
     return this;
   }
 }
-const c = class c {
+const h = class h {
   /**
    * Create a new class instance.
    */
@@ -24897,7 +24897,7 @@ const c = class c {
    */
   setOptions(e) {
     this.options = {
-      ...c._defaultOptions,
+      ...h._defaultOptions,
       ...e,
       broadcaster: e.broadcaster
     };
@@ -24912,7 +24912,7 @@ const c = class c {
     return typeof window < "u" && ((e = window.Laravel) != null && e.csrfToken) ? window.Laravel.csrfToken : this.options.csrfToken ? this.options.csrfToken : typeof document < "u" && typeof document.querySelector == "function" ? ((t = document.querySelector('meta[name="csrf-token"]')) == null ? void 0 : t.getAttribute("content")) ?? null : null;
   }
 };
-c._defaultOptions = {
+h._defaultOptions = {
   auth: {
     headers: {}
   },
@@ -24927,8 +24927,8 @@ c._defaultOptions = {
   key: null,
   namespace: "App.Events"
 };
-let i = c;
-class o extends i {
+let r = h;
+class o extends r {
   constructor() {
     super(...arguments), this.channels = {};
   }
@@ -24959,8 +24959,8 @@ class o extends i {
   /**
    * Listen for an event on a channel instance.
    */
-  listen(e, t, s) {
-    return this.channel(e).listen(t, s);
+  listen(e, t, n) {
+    return this.channel(e).listen(t, n);
   }
   /**
    * Get a channel instance by name.
@@ -24986,7 +24986,7 @@ class o extends i {
    * Get a private encrypted channel instance by name.
    */
   encryptedPrivateChannel(e) {
-    return this.channels["private-encrypted-" + e] || (this.channels["private-encrypted-" + e] = new g(
+    return this.channels["private-encrypted-" + e] || (this.channels["private-encrypted-" + e] = new w(
       this.pusher,
       "private-encrypted-" + e,
       this.options
@@ -24996,7 +24996,7 @@ class o extends i {
    * Get a presence channel instance by name.
    */
   presenceChannel(e) {
-    return this.channels["presence-" + e] || (this.channels["presence-" + e] = new y(
+    return this.channels["presence-" + e] || (this.channels["presence-" + e] = new _(
       this.pusher,
       "presence-" + e,
       this.options
@@ -25011,8 +25011,8 @@ class o extends i {
       "private-" + e,
       "private-encrypted-" + e,
       "presence-" + e
-    ].forEach((s) => {
-      this.leaveChannel(s);
+    ].forEach((n) => {
+      this.leaveChannel(n);
     });
   }
   /**
@@ -25028,13 +25028,44 @@ class o extends i {
     return this.pusher.connection.socket_id;
   }
   /**
+   * Get the current connection status.
+   */
+  connectionStatus() {
+    const e = this.pusher.connection.state;
+    switch (e) {
+      case "connected":
+      case "connecting":
+        return e;
+      case "failed":
+      case "unavailable":
+        return "failed";
+      default:
+        return "disconnected";
+    }
+  }
+  /**
+   * Subscribe to connection status changes.
+   */
+  onConnectionChange(e) {
+    const t = () => {
+      e(this.connectionStatus());
+    }, n = ["state_change", "connected", "disconnected"];
+    return n.forEach((i) => {
+      this.pusher.connection.bind(i, t);
+    }), () => {
+      n.forEach((i) => {
+        this.pusher.connection.unbind(i, t);
+      });
+    };
+  }
+  /**
    * Disconnect Pusher connection.
    */
   disconnect() {
     this.pusher.disconnect();
   }
 }
-class I extends i {
+class E extends r {
   constructor() {
     super(...arguments), this.channels = {};
   }
@@ -25067,8 +25098,8 @@ class I extends i {
   /**
    * Listen for an event on a channel instance.
    */
-  listen(e, t, s) {
-    return this.channel(e).listen(t, s);
+  listen(e, t, n) {
+    return this.channel(e).listen(t, n);
   }
   /**
    * Get a channel instance by name.
@@ -25094,7 +25125,7 @@ class I extends i {
    * Get a presence channel instance by name.
    */
   presenceChannel(e) {
-    return this.channels["presence-" + e] || (this.channels["presence-" + e] = new m(
+    return this.channels["presence-" + e] || (this.channels["presence-" + e] = new C(
       this.socket,
       "presence-" + e,
       this.options
@@ -25104,8 +25135,8 @@ class I extends i {
    * Leave the given channel, as well as its private and presence variants.
    */
   leave(e) {
-    [e, "private-" + e, "presence-" + e].forEach((s) => {
-      this.leaveChannel(s);
+    [e, "private-" + e, "presence-" + e].forEach((n) => {
+      this.leaveChannel(n);
     });
   }
   /**
@@ -25121,13 +25152,42 @@ class I extends i {
     return this.socket.id;
   }
   /**
+   * Get the current connection status.
+   */
+  connectionStatus() {
+    return this.socket.connected ? "connected" : this.socket.io._reconnecting ? "reconnecting" : this.socket.id !== void 0 ? "disconnected" : "connecting";
+  }
+  /**
+   * Subscribe to connection status changes.
+   */
+  onConnectionChange(e) {
+    const t = () => {
+      e(this.connectionStatus());
+    }, n = [
+      "connect",
+      "disconnect",
+      "connect_error",
+      "reconnect_attempt",
+      "reconnect",
+      "reconnect_error",
+      "reconnect_failed"
+    ];
+    return n.forEach((i) => {
+      this.socket.on(i, t);
+    }), () => {
+      n.forEach((i) => {
+        this.socket.off(i, t);
+      });
+    };
+  }
+  /**
    * Disconnect Socketio connection.
    */
   disconnect() {
     this.socket.disconnect();
   }
 }
-class p extends i {
+class p extends r {
   constructor() {
     super(...arguments), this.channels = {};
   }
@@ -25139,14 +25199,14 @@ class p extends i {
   /**
    * Listen for an event on a channel instance.
    */
-  listen(e, t, s) {
-    return new h();
+  listen(e, t, n) {
+    return new c();
   }
   /**
    * Get a channel instance by name.
    */
   channel(e) {
-    return new h();
+    return new c();
   }
   /**
    * Get a private channel instance by name.
@@ -25158,13 +25218,13 @@ class p extends i {
    * Get a private encrypted channel instance by name.
    */
   encryptedPrivateChannel(e) {
-    return new C();
+    return new y();
   }
   /**
    * Get a presence channel instance by name.
    */
   presenceChannel(e) {
-    return new _();
+    return new m();
   }
   /**
    * Leave the given channel, as well as its private and presence variants.
@@ -25183,12 +25243,25 @@ class p extends i {
     return "fake-socket-id";
   }
   /**
+   * Get the current connection status.
+   */
+  connectionStatus() {
+    return "connected";
+  }
+  /**
+   * Subscribe to connection status changes.
+   */
+  onConnectionChange(e) {
+    return () => {
+    };
+  }
+  /**
    * Disconnect the connection.
    */
   disconnect() {
   }
 }
-class E {
+class S {
   /**
    * Create a new class instance.
    */
@@ -25219,10 +25292,10 @@ class E {
         broadcaster: "pusher"
       });
     else if (this.options.broadcaster === "socket.io")
-      this.connector = new I(this.options);
+      this.connector = new E(this.options);
     else if (this.options.broadcaster === "null")
       this.connector = new p(this.options);
-    else if (typeof this.options.broadcaster == "function" && w(this.options.broadcaster))
+    else if (typeof this.options.broadcaster == "function" && g(this.options.broadcaster))
       this.connector = new this.options.broadcaster(this.options);
     else
       throw new Error(
@@ -25263,8 +25336,8 @@ class E {
   /**
    * Listen for an event on a channel instance.
    */
-  listen(e, t, s) {
-    return this.connector.listen(e, t, s);
+  listen(e, t, n) {
+    return this.connector.listen(e, t, n);
   }
   /**
    * Get a private channel instance by name.
@@ -25292,6 +25365,12 @@ class E {
    */
   socketId() {
     return this.connector.socketId();
+  }
+  /**
+   * Get the current connection status.
+   */
+  connectionStatus() {
+    return this.connector.connectionStatus();
   }
   /**
    * Register 3rd party request interceptors. These are used to automatically
@@ -25323,8 +25402,8 @@ class E {
    */
   registerjQueryAjaxSetup() {
     typeof jQuery.ajax < "u" && jQuery.ajaxPrefilter(
-      (e, t, s) => {
-        this.socketId() && s.setRequestHeader("X-Socket-Id", this.socketId());
+      (e, t, n) => {
+        this.socketId() && n.setRequestHeader("X-Socket-Id", this.socketId());
       }
     );
   }
