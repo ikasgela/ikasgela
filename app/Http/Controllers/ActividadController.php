@@ -242,6 +242,8 @@ class ActividadController extends Controller
             'multiplicador' => request('multiplicador'),
 
             'siguiente_overriden' => $actividad->siguiente_id != request('siguiente_id'),
+
+            'fecha_revision' => request('fecha_revision'),
         ]);
 
         return retornar();

@@ -52,6 +52,7 @@ class Actividad extends Model
         'fecha_disponibilidad', 'fecha_entrega', 'fecha_limite',
         'fecha_comienzo', 'fecha_finalizacion',
         'destacada', 'tags', 'multiplicador', 'siguiente_overriden',
+        'fecha_revision',
         '__import_id',
     ];
 
