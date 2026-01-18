@@ -616,6 +616,7 @@ class Actividad extends Model
             'fecha_limite' => 'datetime:Y-m-d H:i:s',
             'fecha_comienzo' => 'datetime:Y-m-d H:i:s',
             'fecha_finalizacion' => 'datetime:Y-m-d H:i:s',
+            'fecha_revision' => 'datetime:Y-m-d H:i:s',
         ];
     }
 }
