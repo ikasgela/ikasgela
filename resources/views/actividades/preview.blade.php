@@ -40,15 +40,14 @@
                         @if(Auth::user()->hasAnyRole(['admin','profesor']) && Route::currentRouteName() == 'actividades.preview')
                             <div class="d-flex">
                                 <div class='btn-group me-3'>
-                                    @if($actividad->fecha_revision)
-                                        <a title="{{ __('Published') }}"
-                                           href="{{ route('actividades.show', [$actividad->id]) }}"
-                                           class='btn btn-light btn-sm'><i class="bi bi-clipboard-check"></i></a>
-                                    @else
-                                        <a title="{{ __('Draft') }}"
-                                           href="{{ route('actividades.show', [$actividad->id]) }}"
-                                           class='btn btn-warning btn-sm'><i class="bi bi-clipboard-x"></i></a>
-                                    @endif
+                                    {{ html()->form('POST', route('actividades.revisar', $actividad->id))->open() }}
+                                    {{ html()
+                                        ->submit('<i class="bi '. ($actividad->fecha_revision ? 'bi-clipboard-check' : 'bi-clipboard-x') . '"></i>')
+                                        ->name('revisar')
+                                        ->class(['btn btn-sm', $actividad->fecha_revision ? 'btn-light' : 'btn-warning' ])
+                                        ->attribute('title',  $actividad->fecha_revision ? __('Reviewed') . ': '. $actividad->fecha_revision->isoFormat('L - LTS') : __('Not reviewed'))
+                                    }}
+                                    {{ html()->form()->close() }}
                                 </div>
                                 @include('partials.botones_recursos')
                                 <div class='btn-group ms-3'>
