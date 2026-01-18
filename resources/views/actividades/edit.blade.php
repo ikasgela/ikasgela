@@ -108,6 +108,10 @@
                 'label' => __('Multiplier'),
                 'name' => 'multiplicador',
             ])
+            @include('components.label-datetime-clear', [
+                'label' => __('Review date'),
+                'name' => 'fecha_revision',
+            ])
 
             @include('partials.guardar_cancelar')
             @include('layouts.errors')

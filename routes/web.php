@@ -470,6 +470,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('test_results.toggle.descripcion_visible');
             Route::put('/test_results/{test_result}/rellenar', [TestResultController::class, 'rellenar'])
                 ->name('test_results.rellenar');
+
+            // Marcar una actividad como revisada o limpiar el estado de revisión
+            Route::post('/actividades/{actividad}/revisar', [ActividadController::class, 'revisar'])
+                ->name('actividades.revisar');
         });
 
         // Administrador

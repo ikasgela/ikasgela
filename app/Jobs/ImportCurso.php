@@ -174,6 +174,7 @@ class ImportCurso implements ShouldQueue
             $actividad = Actividad::create(array_merge($objeto, [
                 'unidad_id' => $unidad->id,
                 'qualification_id' => $qualification?->id,
+                'fecha_revision' => null,
             ]));
             $actividad->orden = $actividad->id;
             $actividad->save();

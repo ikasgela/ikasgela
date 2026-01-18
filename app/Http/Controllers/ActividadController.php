@@ -242,6 +242,8 @@ class ActividadController extends Controller
             'multiplicador' => request('multiplicador'),
 
             'siguiente_overriden' => $actividad->siguiente_id != request('siguiente_id'),
+
+            'fecha_revision' => request('fecha_revision'),
         ]);
 
         return retornar();
@@ -900,6 +902,19 @@ class ActividadController extends Controller
                 }
             }
         }
+
+        return back();
+    }
+
+    public function revisar(Actividad $actividad)
+    {
+        if (is_null($actividad->fecha_revision)) {
+            $actividad->fecha_revision = now();
+        } else {
+            $actividad->fecha_revision = null;
+        }
+
+        $actividad->save();
 
         return back();
     }
