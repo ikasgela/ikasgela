@@ -25,7 +25,7 @@
                             {{-- Mostrar el botón si no ha superado el límite --}}
                             @if(!$actividad->auto_avance)
                                 <button type="submit" name="nuevoestado" value="30"
-                                        onclick="single_click_confirmar(event, this, '{{ __('Are you sure?') }}', '{{ __('This will submit the activity for review and show the next one if available.') }}');"
+                                        onclick="single_click_confirmar(event, this, '{{ __('Are you sure?') }}', '{{ __('This will submit the activity for review and show the next one if available.') }}', '{{ __('Confirm') }}', '{{ __('Cancel') }}');"
                                         class="btn btn-primary me-2">
                                     <span class="spinner-border spinner-border-sm"
                                        style="display:none;"></span> {{ __('Submit for review') }}</button>
@@ -69,7 +69,7 @@
                 @elseif(!$actividad->is_finished)
                     <button type="submit" name="nuevoestado" value="32"
                             @if(!$actividad->hasEtiqueta('examen'))
-                                onclick="single_click_confirmar(event, this, '{{ __('Are you sure?') }}', '{{ __('Reopening the activity cancels the submission and allows making corrections, but it has a 5 point penalty.') }}');"
+                                onclick="single_click_confirmar(event, this, '{{ __('Are you sure?') }}', '{{ __('Reopening the activity cancels the submission and allows making corrections, but it has a 5 point penalty.') }}', '{{ __('Confirm') }}', '{{ __('Cancel') }}');"
                             @endif
                             class="btn btn-secondary">
                         <span class="spinner-border spinner-border-sm"

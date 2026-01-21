@@ -26,18 +26,22 @@
                     <td>
                         <div class='btn-group'>
                             {{ html()->form('POST', route('safe_exam.reset_token', $curso->id))->open() }}
-                            <button title="{{ __('Reset token') }}"
-                                    name="reset_token"
-                                    type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
-                                    class="btn btn-light btn-sm me-2"><i class="bi bi-arrow-clockwise text-danger"></i>
-                            </button>
+                            {{ html()
+                                ->submit('<i class="bi bi-arrow-clockwise text-danger"></i>')
+                                ->name('reset_token')
+                                ->class(['btn btn-light btn-sm me-2'])
+                                ->attribute('title', __('Reset token'))
+                                ->attribute('onclick', "single_click_confirmar(event, this, '" . __('Confirmation needed') ."', '". __('Are you sure?') ."', '". __('Confirm'). "', '". __('Cancel') ."');")
+                            }}
                             {{ html()->form()->close() }}
                             {{ html()->form('DELETE', route('safe_exam.delete_token', $curso->id))->open() }}
-                            <button title="{{ __('Delete token') }}"
-                                    name="delete_token"
-                                    type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
-                                    class="btn btn-light btn-sm"><i class="bi bi-trash3 text-danger"></i>
-                            </button>
+                            {{ html()
+                                ->submit('<i class="bi bi-trash3 text-danger"></i>')
+                                ->name('delete_token')
+                                ->class(['btn btn-light btn-sm'])
+                                ->attribute('title', __('Delete token'))
+                                ->attribute('onclick', "single_click_confirmar(event, this, '" . __('Confirmation needed') ."', '". __('Are you sure?') ."', '". __('Confirm'). "', '". __('Cancel') ."');")
+                            }}
                             {{ html()->form()->close() }}
                         </div>
                     </td>
@@ -47,18 +51,22 @@
                     <td>
                         <div class='btn-group'>
                             {{ html()->form('POST', route('safe_exam.reset_quit_password', $curso->id))->open() }}
-                            <button title="{{ __('Reset quit password') }}"
-                                    name="reset_quit_password"
-                                    type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
-                                    class="btn btn-light btn-sm me-2"><i class="bi bi-arrow-clockwise text-danger"></i>
-                            </button>
+                            {{ html()
+                                ->submit('<i class="bi bi-arrow-clockwise text-danger"></i>')
+                                ->name('reset_quit_password')
+                                ->class(['btn btn-light btn-sm me-2'])
+                                ->attribute('title', __('Reset quit password'))
+                                ->attribute('onclick', "single_click_confirmar(event, this, '" . __('Confirmation needed') ."', '". __('Are you sure?') ."', '". __('Confirm'). "', '". __('Cancel') ."');")
+                            }}
                             {{ html()->form()->close() }}
                             {{ html()->form('DELETE', route('safe_exam.delete_quit_password', $curso->id))->open() }}
-                            <button title="{{ __('Delete quit password') }}"
-                                    name="delete_quit_password"
-                                    type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
-                                    class="btn btn-light btn-sm"><i class="bi bi-trash3 text-danger"></i>
-                            </button>
+                            {{ html()
+                                ->submit('<i class="bi bi-trash3 text-danger"></i>')
+                                ->name('delete_quit_password')
+                                ->class(['btn btn-light btn-sm'])
+                                ->attribute('title', __('Delete quit password'))
+                                ->attribute('onclick', "single_click_confirmar(event, this, '" . __('Confirmation needed') ."', '". __('Are you sure?') ."', '". __('Confirm'). "', '". __('Cancel') ."');")
+                            }}
                             {{ html()->form()->close() }}
                         </div>
                     </td>
