@@ -11,7 +11,7 @@ function single_click_confirmar(event, boton, titulo, subtitulo, texto_confirmar
             modalElement.className = 'modal fade';
             modalElement.setAttribute('tabindex', '-1');
             modalElement.innerHTML = `
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title"></h5>
