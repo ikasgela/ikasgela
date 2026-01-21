@@ -49,8 +49,12 @@ function single_click_confirmar(event, boton, titulo, subtitulo) {
         const newConfirmBtn = confirmBtn.cloneNode(true);
         confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
 
-        newConfirmBtn.addEventListener('click', function() {
-            const modal = bootstrap.Modal.getInstance(modalElement);
+        let modal = bootstrap.Modal.getInstance(modalElement);
+        if (!modal) {
+            modal = new bootstrap.Modal(modalElement);
+        }
+
+        newConfirmBtn.addEventListener('click', function () {
             modal.hide();
 
             activar_spinner(boton);
@@ -69,7 +73,6 @@ function single_click_confirmar(event, boton, titulo, subtitulo) {
             }
         });
 
-        const modal = new bootstrap.Modal(modalElement);
         modal.show();
 
     } else {
