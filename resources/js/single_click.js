@@ -1,18 +1,90 @@
 function single_click_confirmar(event, boton, titulo, subtitulo) {
 
-    let enviar = true;
     if (typeof titulo !== 'undefined') {
-        enviar = confirm(titulo + '\n\n' + subtitulo);
-    }
-
-    const spinner = boton.childNodes[1];
-
-    if (enviar) {
-        spinner.style.display = "inline-block";
-        boton.classList.add('disabled');
-    } else {
         event.preventDefault();
-        spinner.style.display = "none";
-        boton.classList.remove('disabled');
+
+        // Obtener o crear modal
+        let modalElement = document.getElementById('single-click-confirm-modal');
+        if (!modalElement) {
+            modalElement = document.createElement('div');
+            modalElement.id = 'single-click-confirm-modal';
+            modalElement.className = 'modal fade';
+            modalElement.setAttribute('tabindex', '-1');
+            modalElement.innerHTML = `
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body"></div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"></button>
+                            <button type="button" class="btn btn-primary"></button>
+                        </div>
+                    </div>
+                </div>`;
+            document.body.appendChild(modalElement);
+        }
+
+        // Textos i18n
+        const lang = document.documentElement.lang.split('-')[0];
+        const texts = {
+            'es': { cancel: 'Cancelar', confirm: 'Confirmar' },
+            'eu': { cancel: 'Utzi', confirm: 'Baieztatu' },
+            'en': { cancel: 'Cancel', confirm: 'Confirm' }
+        };
+        const t = texts[lang] || texts['en'];
+
+        // Actualizar contenido
+        modalElement.querySelector('.modal-title').textContent = titulo;
+        modalElement.querySelector('.modal-body').textContent = subtitulo;
+        const cancelBtn = modalElement.querySelector('.btn-secondary');
+        const confirmBtn = modalElement.querySelector('.btn-primary');
+        cancelBtn.textContent = t.cancel;
+        confirmBtn.textContent = t.confirm;
+
+        // Manejar confirmación
+        // Clonamos el botón para eliminar listeners anteriores
+        const newConfirmBtn = confirmBtn.cloneNode(true);
+        confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+
+        newConfirmBtn.addEventListener('click', function() {
+            const modal = bootstrap.Modal.getInstance(modalElement);
+            modal.hide();
+
+            activar_spinner(boton);
+
+            if (boton.tagName === 'A') {
+                window.location.href = boton.href;
+            } else if (boton.type === 'submit' && boton.form) {
+                if (boton.name && boton.value) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = boton.name;
+                    input.value = boton.value;
+                    boton.form.appendChild(input);
+                }
+                boton.form.submit();
+            }
+        });
+
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+
+    } else {
+        activar_spinner(boton);
     }
+}
+
+function activar_spinner(boton) {
+    let spinner = boton.querySelector('.spinner-border');
+    if (!spinner && boton.childNodes.length > 1) {
+        spinner = boton.childNodes[1];
+    }
+
+    if (spinner) {
+        spinner.style.display = "inline-block";
+    }
+    boton.classList.add('disabled');
 }
