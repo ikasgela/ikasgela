@@ -1,4 +1,4 @@
-function single_click_confirmar(event, boton, titulo, subtitulo) {
+function single_click_confirmar(event, boton, titulo, subtitulo, texto_confirmar, texto_cancelar) {
 
     if (typeof titulo !== 'undefined') {
         event.preventDefault();
@@ -27,22 +27,14 @@ function single_click_confirmar(event, boton, titulo, subtitulo) {
             document.body.appendChild(modalElement);
         }
 
-        // Textos i18n
-        const lang = document.documentElement.lang.split('-')[0];
-        const texts = {
-            'es': { cancel: 'Cancelar', confirm: 'Confirmar' },
-            'eu': { cancel: 'Utzi', confirm: 'Baieztatu' },
-            'en': { cancel: 'Cancel', confirm: 'Confirm' }
-        };
-        const t = texts[lang] || texts['en'];
-
         // Actualizar contenido
         modalElement.querySelector('.modal-title').textContent = titulo;
         modalElement.querySelector('.modal-body').textContent = subtitulo;
         const cancelBtn = modalElement.querySelector('.btn-secondary');
         const confirmBtn = modalElement.querySelector('.btn-primary');
-        cancelBtn.textContent = t.cancel;
-        confirmBtn.textContent = t.confirm;
+
+        cancelBtn.textContent = texto_cancelar || 'Cancel';
+        confirmBtn.textContent = texto_confirmar || 'Confirm';
 
         // Manejar confirmación
         // Clonamos el botón para eliminar listeners anteriores
