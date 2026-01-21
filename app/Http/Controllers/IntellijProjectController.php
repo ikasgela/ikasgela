@@ -320,13 +320,6 @@ class IntellijProjectController extends Controller
 
                 $datos .= "\n";
 
-                foreach ($actividades_revisar as $actividad) {
-                    $datos .= "cd $actividad\n";
-                    $datos .= "jplag\n";
-                    $datos .= "cd \$RUTA\n";
-                    $datos .= "\n";
-                }
-
                 $datos .= "cd ..";
                 $datos .= "\n";
 
