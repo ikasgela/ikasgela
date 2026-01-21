@@ -44,16 +44,9 @@
                                     <i class="bi bi-copy"></i>
                                 </button>
                             </form>
-                            <form action="{{ route('allowed_apps.destroy', [$allowed_app->id]) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button title="{{ __('Delete allowed app') }}"
-                                        name="delete_classroom"
-                                        type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
-                                        class="btn btn-light btn-sm">
-                                    <i class="bi bi-trash3 text-danger"></i>
-                                </button>
-                            </form>
+                            {{ html()->form('DELETE', route('allowed_apps.destroy', $allowed_app->id))->open() }}
+                            @include('partials.boton_borrar', ['title' => __('Delete allowed app')])
+                            {{ html()->form()->close() }}
                         </div>
                     </td>
                 </tr>
@@ -101,16 +94,9 @@
                                     <i class="bi bi-copy"></i>
                                 </button>
                             </form>
-                            <form action="{{ route('allowed_urls.destroy', [$allowed_url->id]) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button title="{{ __('Delete allowed URL') }}"
-                                        name="delete_classroom"
-                                        type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
-                                        class="btn btn-light btn-sm">
-                                    <i class="bi bi-trash3 text-danger"></i>
-                                </button>
-                            </form>
+                            {{ html()->form('DELETE', route('allowed_urls.destroy', $allowed_url->id))->open() }}
+                            @include('partials.boton_borrar', ['title' => __('Delete allowed URL')])
+                            {{ html()->form()->close() }}
                         </div>
                     </td>
                 </tr>
