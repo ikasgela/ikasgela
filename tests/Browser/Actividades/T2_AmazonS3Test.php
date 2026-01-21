@@ -30,7 +30,9 @@ class T2_AmazonS3Test extends DuskTestCase
 
             // Borrar el fichero
             $browser->press('borrar');
-            $browser->acceptDialog();
+            $browser->pause(1000);
+            $browser->assertSee(__('Confirm'));
+            $browser->press(__('Confirm'));
 
             // Se vuelve a mostrar el botón de subir fichero
             $browser->assertDontSee(formato_decimales(10.49, 2) . ' KB');
@@ -46,7 +48,9 @@ class T2_AmazonS3Test extends DuskTestCase
 
             // Borrar el fichero
             $browser->press('borrar');
-            $browser->acceptDialog();
+            $browser->pause(1000);
+            $browser->assertSee(__('Confirm'));
+            $browser->press(__('Confirm'));
 
             // Se vuelve a mostrar el botón de subir fichero
             $browser->assertDontSee(formato_decimales(10.55, 2) . ' KB');

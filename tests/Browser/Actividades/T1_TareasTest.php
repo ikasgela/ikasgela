@@ -101,7 +101,10 @@ class T1_TareasTest extends DuskTestCase
 
             // Enviar para revisión
             $browser->press(__('Submit for review'));
-            $browser->acceptDialog();
+            $browser->pause(1000);
+            $browser->assertSee(__('Confirm'));
+            $browser->press(__('Confirm'));
+
             $browser->assertRouteIs('users.home');
 
             // Aparece la siguiente actividad
