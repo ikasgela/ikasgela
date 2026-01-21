@@ -7,5 +7,5 @@
         'rounded-0' => $middle ?? false,
         ])
     ->attribute('title', __('Delete'))
-    ->attribute('onclick', "return confirm('" . __('Are you sure?') . "')")
+    ->attribute('onclick', "single_click_confirmar(event, this, '" . __('Confirmation needed') ."', '". __('Are you sure?') ."', '". __('Confirm'). "', '". __('Cancel') ."');")
 }}
