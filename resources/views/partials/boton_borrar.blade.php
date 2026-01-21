@@ -1,6 +1,7 @@
 {{ html()
     ->submit('<i class="bi bi-trash3 text-danger"></i>')
-    ->name('borrar')
+    ->name($name ?? 'borrar')
+    ->value($value ?? 'delete')
     ->class(['btn btn-light btn-sm',
         'rounded-end-0' => $first ?? false,
         'rounded-start-0' => $last ?? false,

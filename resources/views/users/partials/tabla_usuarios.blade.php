@@ -106,11 +106,7 @@
                     name="action" value="unblock"
                     class="btn btn-light btn-sm"><i class="bi bi-unlock2"></i>
             </button>
-            <button title="{{ __('Delete') }}"
-                    type="submit" onclick="return confirm('{{ __('Are you sure?') }}')"
-                    name="action" value="delete"
-                    class="btn btn-light btn-sm"><i class="bi bi-trash3 text-danger"></i>
-            </button>
+            @include('partials.boton_borrar')
         </div>
     </div>
     <div class="col-12">

@@ -131,7 +131,7 @@
                                     ->name('reset')
                                     ->class(['btn btn-light btn-sm', 'rounded-0'])
                                     ->attribute('title', __('Reset course'))
-                                    ->attribute('onclick', "return confirm('" . __('Are you sure?') . "')")
+                                    ->attribute('onclick', "single_click_confirmar(event, this, '" . __('Confirmation needed') ."', '". __('Are you sure?') ."', '". __('Confirm'). "', '". __('Cancel') ."');")
                                 }}
                                 {{ html()->form()->close() }}
 
