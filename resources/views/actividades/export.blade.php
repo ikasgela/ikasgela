@@ -18,14 +18,15 @@
         @php($recurso_anterior = null)
         @foreach($actividades as $actividad)
             @foreach($actividad->recursos as $recurso)
+                @php($fondo = $actividad->destacada || $actividad->divisor ? 'background-color: #ffc107' : ($alterna ? 'background-color: #cccccc' : ''))
                 <tr>
-                    <td style="{{ $actividad->destacada ? 'background-color: #ffc107' : ($alterna ? 'background-color: #cccccc' : '') }}">
+                    <td style="{{ $fondo }}">
                         {{ $actividad->unidad->id != $actividad_anterior?->unidad->id ? $actividad->unidad->nombre : '' }}
                     </td>
-                    <td style="{{ $actividad->destacada ? 'background-color: #ffc107' : ($alterna ? 'background-color: #cccccc' : '') }}">
+                    <td style="{{ $fondo }}">
                         {{ $recurso->pivot->actividad_id != $recurso_anterior?->pivot->actividad_id ? $actividad->nombre : '' }}
                     </td>
-                    <td style="{{ $actividad->destacada ? 'background-color: #ffc107' : ($alterna ? 'background-color: #cccccc' : '') }}">
+                    <td style="{{ $fondo }}">
                         @switch($recurso::class)
                             @case('App\Models\IntellijProject')
                             IJ
@@ -48,10 +49,10 @@
                         @endswitch
                         &nbsp;&nbsp;
                     </td>
-                    <td style="{{ $actividad->destacada ? 'background-color: #ffc107' : ($alterna ? 'background-color: #cccccc' : '') }}">
+                    <td style="{{ $fondo }}">
                         {{ $recurso->titulo }}
                     </td>
-                    <td style="{{ $actividad->destacada ? 'background-color: #ffc107' : ($alterna ? 'background-color: #cccccc' : '') }}">
+                    <td style="{{ $fondo }}">
                         {{ $recurso->pivot->actividad_id != $recurso_anterior?->pivot->actividad_id ? $actividad->tags : '' }}
                     </td>
                 </tr>
