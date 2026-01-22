@@ -51,7 +51,7 @@ class Actividad extends Model
         'unidad_id', 'nombre', 'descripcion', 'puntuacion', 'plantilla', 'slug', 'final', 'siguiente_id', 'auto_avance', 'qualification_id', 'orden',
         'fecha_disponibilidad', 'fecha_entrega', 'fecha_limite',
         'fecha_comienzo', 'fecha_finalizacion',
-        'destacada', 'tags', 'multiplicador', 'siguiente_overriden',
+        'destacada', 'divisor', 'tags', 'multiplicador', 'siguiente_overriden',
         'fecha_revision',
         '__import_id',
     ];
