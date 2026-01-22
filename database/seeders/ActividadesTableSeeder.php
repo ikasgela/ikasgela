@@ -86,6 +86,7 @@ class ActividadesTableSeeder extends Seeder
                 'plantilla' => true,
                 'tags' => 'base',
                 'unidad_id' => $unidad->id,
+                'divisor' => true,
             ]
         );
 
@@ -138,6 +139,7 @@ class ActividadesTableSeeder extends Seeder
                 'plantilla' => true,
                 'tags' => 'trabajo en equipo',
                 'unidad_id' => $unidad->id,
+                'destacada' => true,
             ]
         );
 
