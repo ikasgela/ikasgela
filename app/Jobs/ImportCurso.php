@@ -673,7 +673,7 @@ class ImportCurso implements ShouldQueue
         }
     }
 
-    private function cargarFichero(string $ruta, $fichero): array|null
+    private function cargarFichero(string $ruta, $fichero): array
     {
         try {
             $path = $ruta . '/' . $fichero;
@@ -683,7 +683,7 @@ class ImportCurso implements ShouldQueue
             $this->removeKey($json, 'updated_at');
             $this->removeKey($json, 'deleted_at');
         } catch (Exception) {
-            $json = null;
+            $json = [];
         }
         return $json;
     }
