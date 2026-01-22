@@ -473,6 +473,8 @@ class CursoController extends Controller
                     Storage::disk('temp')->put($destino, $datos);
                 } catch (UnableToReadFile) {
                     Log::error("Error al exportar un fichero de S3", [
+                        'curso' => $curso->slug,
+                        'file_resource' => $file_resource->id,
                         'origen' => $origen,
                     ]);
                 }
