@@ -100,6 +100,10 @@
                 'label' => __('Highlighted'),
                 'name' => 'destacada',
             ])
+            @include('components.label-check', [
+                'label' => __('Divider'),
+                'name' => 'divisor',
+            ])
             @include('components.label-text', [
                 'label' => __('Tags'),
                 'name' => 'tags',

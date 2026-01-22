@@ -237,6 +237,7 @@ class ActividadController extends Controller
             'fecha_finalizacion' => request('fecha_finalizacion'),
 
             'destacada' => $request->has('destacada'),
+            'divisor' => $request->has('divisor'),
             'tags' => request('tags'),
 
             'multiplicador' => request('multiplicador'),
