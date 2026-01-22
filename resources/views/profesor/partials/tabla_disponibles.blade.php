@@ -20,6 +20,7 @@
         </thead>
         <tbody>
         @foreach($disponibles as $actividad)
+            @include('actividades.partials.divisor')
             <tr class="table-cell-click" data-href="{{ route('actividades.preview', [$actividad->id]) }}">
                 <td class="p-0 ps-1 {{ $actividad->destacada ? 'bg-warning' : '' }}">&nbsp;</td>
                 <td>
