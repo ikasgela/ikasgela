@@ -593,6 +593,7 @@ class ActividadController extends Controller
 
         $clon->plantilla = $actividad->plantilla;
         $clon->siguiente = null;
+        $clon->fecha_revision = null;
 
         if (is_null($unidad_id)) {
             $clon->nombre = $clon->nombre . " (" . __("Copy") . ')';
