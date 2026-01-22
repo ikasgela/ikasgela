@@ -772,6 +772,7 @@ class ImportCurso implements ShouldQueue
         try {
             $path = $ruta . '/' . $fichero;
             $json = json_decode(file_get_contents($path), true);
+            $this->removeKey($json, '__import_id');
             $json = $this->replaceKeys('id', '__import_id', $json);
             $this->removeKey($json, 'created_at');
             $this->removeKey($json, 'updated_at');
