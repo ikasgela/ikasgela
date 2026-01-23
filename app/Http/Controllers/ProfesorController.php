@@ -67,6 +67,14 @@ class ProfesorController extends Controller
             }
         }
 
+        if ($request->has('user_id')) {
+            if (session('filtrar_user_actual') == $request->input('user_id')) {
+                session()->forget('filtrar_user_actual');
+            } else {
+                session(['filtrar_user_actual' => $request->input('user_id')]);
+            }
+        }
+
         $curso_actual = Curso::find(setting_usuario('curso_actual'));
 
         if ($curso_actual != null) {
