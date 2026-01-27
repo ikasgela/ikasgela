@@ -101,6 +101,10 @@ class ProfesorController extends Controller
                     $alumnos = $alumnos->whereHas('actividades', function ($query) {
                         $query->where('auto_avance', false)->tag('examen', false)->where('estado', 30);
                     });
+                } else if (session('profesor_filtro_alumnos') == 'ACT') {
+                    $alumnos = $alumnos->whereHas('actividades', function ($query) {
+                        $query->where('auto_avance', false)->tag('examen', false)->whereIn('estado', [10, 11, 20, 21]);
+                    });
                 }
             }
 
@@ -108,7 +112,7 @@ class ProfesorController extends Controller
                 $alumnos = $alumnos->tags(session('tags_usuario'));
 
             $usuarios = match (session('profesor_filtro_alumnos')) {
-                'R' => $alumnos->orderBy('last_active')->get(),
+                'R', 'ACT' => $alumnos->orderBy('last_active')->get(),
                 'P' => $alumnos->orderBy('name')->get()->sortBy('num_completadas_base'),
                 default => $alumnos->orderBy('name')->get(),
             };

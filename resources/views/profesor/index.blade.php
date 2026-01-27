@@ -25,6 +25,12 @@
             {{ html()->form()->close() }}
 
             {{ html()->form('POST', route('profesor.index.filtro'))->open() }}
+            {{ html()->submit(__('Only active tasks'))
+                    ->class(['btn btn-sm mx-1 mb-3', session('profesor_filtro_alumnos') == 'ACT' ? 'btn-secondary' : 'btn-outline-secondary']) }}
+            {{ html()->hidden('filtro_alumnos', 'ACT') }}
+            {{ html()->form()->close() }}
+
+            {{ html()->form('POST', route('profesor.index.filtro'))->open() }}
             {{ html()->submit(__('Progress'))
                     ->class(['btn btn-sm mx-1 mb-3', session('profesor_filtro_alumnos') == 'P' ? 'btn-secondary' : 'btn-outline-secondary']) }}
             {{ html()->hidden('filtro_alumnos', 'P') }}
@@ -63,7 +69,10 @@
         </div>
     </div>
 
-    @include('profesor.partials.tabla_usuarios')
-
-    @include('profesor.partials.disponibles_grupo')
+    @if(session('profesor_filtro_alumnos') == 'ACT')
+        @include('profesor.partials.tabla_activas')
+    @else
+        @include('profesor.partials.tabla_usuarios')
+        @include('profesor.partials.disponibles_grupo')
+    @endif
 @endsection
