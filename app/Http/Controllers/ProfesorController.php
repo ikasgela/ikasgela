@@ -273,15 +273,15 @@ class ProfesorController extends Controller
         $actividad_anterior = null;
         if (isset($ids_actividades[$pos - 1])) {
             $id_actividad = $ids_actividades[$pos - 1];
-            $tarea = Tarea::where('user_id', $user->id)->where('actividad_id', $id_actividad)->first();
-            $actividad_anterior = $tarea->id;
+            $tarea_anterior = Tarea::where('user_id', $user->id)->where('actividad_id', $id_actividad)->first();
+            $actividad_anterior = $tarea_anterior->id;
         }
 
         $actividad_siguiente = null;
         if (isset($ids_actividades[$pos + 1])) {
             $id_actividad = $ids_actividades[$pos + 1];
-            $tarea = Tarea::where('user_id', $user->id)->where('actividad_id', $id_actividad)->first();
-            $actividad_siguiente = $tarea->id;
+            $tarea_siguiente = Tarea::where('user_id', $user->id)->where('actividad_id', $id_actividad)->first();
+            $actividad_siguiente = $tarea_siguiente->id;
         }
 
         return view('profesor.revisar', compact([
