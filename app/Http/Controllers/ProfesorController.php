@@ -176,55 +176,7 @@ class ProfesorController extends Controller
 
     public function tareas(User $user, Request $request)
     {
-        if ($request->has('filtro_alumnos')) {
-            session(['profesor_filtro_alumnos' => $request->input('filtro_alumnos')]);
-        }
-
-        if ($request->has('unidad_id_disponibles')) {
-            session(['profesor_unidad_id_disponibles' => $request->input('unidad_id_disponibles')]);
-        }
-
-        if ($request->has('unidad_id_asignadas')) {
-            session(['profesor_unidad_id_asignadas' => $request->input('unidad_id_asignadas')]);
-        }
-
-        if ($request->has('filtro_actividades_examen')) {
-            if (session('profesor_filtro_actividades_examen') == 'E') {
-                session(['profesor_filtro_actividades_examen' => '']);
-            } else {
-                session(['profesor_filtro_actividades_examen' => 'E']);
-            }
-        }
-
-        $actividades = match (session('profesor_filtro_alumnos')) {
-            'R' => $user->actividades_enviadas_noautoavance(),
-            'C' => $user->actividades_caducadas(),
-            default => $user->actividades(),
-        };
-
-        if (!session('profesor_filtro_actividades_examen') == 'E') {
-            $actividades = $actividades->tag('examen', false);
-        }
-
-        if (session('profesor_unidad_id_asignadas')) {
-            $actividades = $actividades->where('unidad_id', session('profesor_unidad_id_asignadas'));
-        }
-
-        if ($request->has('filtro_etiquetas')) {
-            if (request('filtro_etiquetas') == 'N') {
-                session(['profesor_filtro_actividades_etiquetas' => '']);
-                session(['tags_actividades' => []]);
-            }
-        }
-
-        if ($request->has('tag_actividad')) {
-            session(['profesor_filtro_actividades_etiquetas' => 'S']);
-            session()->push('tags_actividades', request('tag_actividad'));
-        }
-
-        if (session('profesor_filtro_actividades_etiquetas')) {
-            $actividades = $actividades->tags(session('tags_actividades'));
-        }
+        $actividades = $this->getActividadesFiltradas($request, $user);
 
         $actividades = $this->paginate_ultima($actividades, config('ikasgela.pagination_assigned_activities'), 'asignadas');
 
@@ -305,15 +257,37 @@ class ProfesorController extends Controller
         return redirect(route('teams.show', ['team' => $team->id]));
     }
 
-    public function revisar(User $user, Tarea $tarea)
+    public function revisar(User $user, Tarea $tarea, Request $request)
     {
+        $actividades = $this->getActividadesFiltradas($request, $user);
+
         $actividad = $tarea->actividad;
         $feedbacks_curso = $actividad->unidad->curso->feedbacks()->orderBy('orden')->get();
         $feedbacks_actividad = isset($actividad->original) ? $actividad->original->feedbacks()->orderBy('orden')->get() : [];
 
         $jplags = JPlag::where('tarea_id', $tarea->id)->orderBy('percent', 'desc')->get();
 
-        return view('profesor.revisar', compact(['user', 'tarea', 'actividad', 'feedbacks_curso', 'feedbacks_actividad', 'jplags']));
+        $ids_actividades = $actividades->get()->pluck('id')->toArray();
+        $pos = array_search($actividad->id, $ids_actividades);
+
+        $actividad_anterior = null;
+        if (isset($ids_actividades[$pos - 1])) {
+            $id_actividad = $ids_actividades[$pos - 1];
+            $tarea = Tarea::where('user_id', $user->id)->where('actividad_id', $id_actividad)->first();
+            $actividad_anterior = $tarea->id;
+        }
+
+        $actividad_siguiente = null;
+        if (isset($ids_actividades[$pos + 1])) {
+            $id_actividad = $ids_actividades[$pos + 1];
+            $tarea = Tarea::where('user_id', $user->id)->where('actividad_id', $id_actividad)->first();
+            $actividad_siguiente = $tarea->id;
+        }
+
+        return view('profesor.revisar', compact([
+            'user', 'tarea', 'actividad', 'feedbacks_curso', 'feedbacks_actividad', 'jplags',
+            'actividad_anterior', 'actividad_siguiente',
+        ]));
     }
 
     public function jplag(Tarea $tarea)
@@ -507,5 +481,59 @@ class ProfesorController extends Controller
         $user->save();  // Provocar que el observer limpie la caché
 
         return retornar();
+    }
+
+    public function getActividadesFiltradas(Request $request, User $user)
+    {
+        if ($request->has('filtro_alumnos')) {
+            session(['profesor_filtro_alumnos' => $request->input('filtro_alumnos')]);
+        }
+
+        if ($request->has('unidad_id_disponibles')) {
+            session(['profesor_unidad_id_disponibles' => $request->input('unidad_id_disponibles')]);
+        }
+
+        if ($request->has('unidad_id_asignadas')) {
+            session(['profesor_unidad_id_asignadas' => $request->input('unidad_id_asignadas')]);
+        }
+
+        if ($request->has('filtro_actividades_examen')) {
+            if (session('profesor_filtro_actividades_examen') == 'E') {
+                session(['profesor_filtro_actividades_examen' => '']);
+            } else {
+                session(['profesor_filtro_actividades_examen' => 'E']);
+            }
+        }
+
+        $actividades = match (session('profesor_filtro_alumnos')) {
+            'R' => $user->actividades_enviadas_noautoavance(),
+            'C' => $user->actividades_caducadas(),
+            default => $user->actividades(),
+        };
+
+        if (!session('profesor_filtro_actividades_examen') == 'E') {
+            $actividades = $actividades->tag('examen', false);
+        }
+
+        if (session('profesor_unidad_id_asignadas')) {
+            $actividades = $actividades->where('unidad_id', session('profesor_unidad_id_asignadas'));
+        }
+
+        if ($request->has('filtro_etiquetas')) {
+            if (request('filtro_etiquetas') == 'N') {
+                session(['profesor_filtro_actividades_etiquetas' => '']);
+                session(['tags_actividades' => []]);
+            }
+        }
+
+        if ($request->has('tag_actividad')) {
+            session(['profesor_filtro_actividades_etiquetas' => 'S']);
+            session()->push('tags_actividades', request('tag_actividad'));
+        }
+
+        if (session('profesor_filtro_actividades_etiquetas')) {
+            $actividades = $actividades->tags(session('tags_actividades'));
+        }
+        return $actividades;
     }
 }
