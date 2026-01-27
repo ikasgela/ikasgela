@@ -20,26 +20,6 @@
 
                 <div class="card-body">
                     @include('actividades.partials.encabezado_con_etiquetas')
-                    @if(isset($actividad_anterior))
-                        <a class="btn btn-primary"
-                           href="{{ route('profesor.revisar', ['user' => $user->id, 'tarea' => $actividad_anterior]) }}">
-                            <i class="bi bi-arrow-left"></i>
-                        </a>
-                    @else
-                        <a class="btn btn-light disabled" href="#">
-                            <i class="bi bi-arrow-left"></i>
-                        </a>
-                    @endif
-                    @if(isset($actividad_siguiente))
-                        <a class="btn btn-primary"
-                           href="{{ route('profesor.revisar', ['user' => $user->id, 'tarea' => $actividad_siguiente]) }}">
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    @else
-                        <a class="btn btn-light disabled" href="#">
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    @endif
                     <p>{{ $actividad->descripcion }}</p>
                     @include('profesor.partials.botonera-calificacion')
                     <div class="mt-2">
