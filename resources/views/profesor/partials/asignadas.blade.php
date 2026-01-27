@@ -49,8 +49,11 @@
                         &nbsp;
                     </td>
                     <td>
-                        <input form="multiple"
+                        <input id="input_actividad_{{ $actividad->id }}" form="multiple"
                                data-chkbox-shiftsel="grupo3"
+                               onclick="document.getElementById('input2_actividad_{{ $actividad->id }}').checked = this.checked"
+                               type="checkbox" name="asignadas[]" value="{{ $actividad->tarea->id }}">
+                        <input id="input2_actividad_{{ $actividad->id }}" form="multiple2" class="d-none"
                                type="checkbox" name="asignadas[]" value="{{ $actividad->tarea->id }}">
                     </td>
                     <td class="clickable">{{ $actividad->tarea->id }}</td>
@@ -153,7 +156,7 @@
                 {{ html()->form()->close() }}
             </div>
             <div>
-                {{ html()->form('POST', route('tareas.update', $user->id))->id('multiple')->open() }}
+                {{ html()->form('POST', route('tareas.fecha_finalizacion_multiple', $user->id))->id('multiple2')->open() }}
                 <div class="input-group input-group-sm">
                     {{ html()->input("datetime-local")
                          ->id('fecha_override')->name('fecha_override')
