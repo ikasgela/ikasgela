@@ -49,8 +49,11 @@
                         &nbsp;
                     </td>
                     <td>
-                        <input form="multiple"
+                        <input id="input_actividad_{{ $actividad->id }}" form="multiple"
                                data-chkbox-shiftsel="grupo3"
+                               onclick="document.getElementById('input2_actividad_{{ $actividad->id }}').checked = this.checked"
+                               type="checkbox" name="asignadas[]" value="{{ $actividad->tarea->id }}">
+                        <input id="input2_actividad_{{ $actividad->id }}" form="multiple2" class="d-none"
                                type="checkbox" name="asignadas[]" value="{{ $actividad->tarea->id }}">
                     </td>
                     <td class="clickable">{{ $actividad->tarea->id }}</td>
@@ -143,18 +146,28 @@
                 @endif
                 <th colspan="7"></th>
             </tr>
-            <tr>
-                <td colspan="6">
-                    <div class="form-inline">
-                        {{ html()->form('DELETE', route('tareas.borrar_multiple', $user->id))->id('multiple')->open() }}
-                        <span>{{ __('With the selected') }}: </span>
-                        @include('partials.boton_borrar')
-                        {{ html()->form()->close() }}
-                    </div>
-                </td>
-            </tr>
             </tfoot>
         </table>
+        <div class="d-flex justify-content-end mb-3">
+            <div class="me-3">
+                {{ html()->form('DELETE', route('tareas.borrar_multiple', $user->id))->id('multiple')->open() }}
+                <span class="me-2">{{ __('With the selected') }}: </span>
+                @include('partials.boton_borrar')
+                {{ html()->form()->close() }}
+            </div>
+            <div>
+                {{ html()->form('POST', route('tareas.fecha_finalizacion_multiple', $user->id))->id('multiple2')->open() }}
+                <div class="input-group input-group-sm">
+                    {{ html()->input("datetime-local")
+                         ->id('fecha_override')->name('fecha_override')
+                         ->class(['form-control']) }}
+                    {{ html()->submit('<i class="bi bi-stopwatch"></i>')
+                        ->class(['btn btn-light btn-sm'])
+                        ->attribute('title', __('Override completion date')) }}
+                </div>
+                {{ html()->form()->close() }}
+            </div>
+        </div>
     </div>
 
     <div class="d-flex justify-content-center">

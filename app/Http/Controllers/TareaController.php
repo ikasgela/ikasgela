@@ -55,6 +55,24 @@ class TareaController extends Controller
         return redirect(route('profesor.tareas', ['user' => $user->id]));
     }
 
+    public function fechaFinalizacionMultiple(User $user, Request $request)
+    {
+        Log::debug(request('asignadas'));
+
+        $this->validate($request, [
+            'asignadas' => 'required',
+        ]);
+
+        foreach (request('asignadas') as $tarea_id) {
+            $actividad = Tarea::find($tarea_id)->actividad;
+            $actividad->fecha_entrega = request('fecha_override');
+            $actividad->fecha_limite = $actividad->fecha_entrega->addMinutes(10);
+            $actividad->save();
+        }
+
+        return redirect(route('profesor.tareas', ['user' => $user->id]));
+    }
+
     /**
      * @param Tarea $tarea
      */
