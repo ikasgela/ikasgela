@@ -101,7 +101,7 @@ class T1_TareasTest extends DuskTestCase
 
             // Enviar para revisión
             $browser->press(__('Submit for review'));
-            $browser->pause(1000);
+            $browser->waitFor('div#single-click-confirm-modal');
             $browser->assertSee(__('Confirm'));
             $browser->press(__('Confirm'));
 

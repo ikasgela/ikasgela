@@ -30,7 +30,7 @@ class T2_AmazonS3Test extends DuskTestCase
 
             // Borrar el fichero
             $browser->press('borrar');
-            $browser->pause(1000);
+            $browser->waitFor('div#single-click-confirm-modal');
             $browser->assertSee(__('Confirm'));
             $browser->press(__('Confirm'));
 
@@ -48,7 +48,7 @@ class T2_AmazonS3Test extends DuskTestCase
 
             // Borrar el fichero
             $browser->press('borrar');
-            $browser->pause(1000);
+            $browser->waitFor('div#single-click-confirm-modal');
             $browser->assertSee(__('Confirm'));
             $browser->press(__('Confirm'));
 

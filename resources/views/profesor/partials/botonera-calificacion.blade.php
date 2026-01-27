@@ -1,4 +1,5 @@
 <div class="d-flex align-items-center border rounded p-3 mb-3">
+    @include('profesor.partials.selector_tarea')
     @if($tarea->estado == 11)
         <button type="submit" name="nuevoestado" value="10"
                 class="btn btn-secondary single_click">
@@ -54,12 +55,12 @@
         <button type="submit" name="nuevoestado" value="62"
                 class="btn btn-light single_click">
             <span class="spinner-border spinner-border-sm"
-               style="display:none;"></span> {{ __('Archive expired') }}
+                  style="display:none;"></span> {{ __('Archive expired') }}
         </button>
         <button type="submit" name="nuevoestado" value="63"
                 class="btn btn-light ms-3 single_click">
             <span class="spinner-border spinner-border-sm"
-               style="display:none;"></span> {{ __('Extend deadline') }}
+                  style="display:none;"></span> {{ __('Extend deadline') }}
         </button>
         <label class="mx-2">{{ __('by') }}</label>
         <input class="me-2 form-control"
