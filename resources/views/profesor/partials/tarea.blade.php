@@ -20,7 +20,7 @@
 
                 <div class="card-body">
                     @include('actividades.partials.encabezado_con_etiquetas')
-                    <p>{{ $actividad->descripcion }}</p>
+                    <p>{{ $actividad->descripcion }}&nbsp;</p>
                     @include('profesor.partials.botonera-calificacion')
                     <div class="mt-2">
                         <i class="bi bi-megaphone mt-3"></i>
