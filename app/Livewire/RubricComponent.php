@@ -21,11 +21,16 @@ class RubricComponent extends Component
     public $titulo;
     public $descripcion;
 
+    public $titulo_visible;
+    public $descripcion_visible;
+
     public function mount(Rubric $rubric)
     {
         $this->rubric = $rubric;
         $this->titulo = $rubric->titulo;
+        $this->titulo_visible = $rubric->titulo_visible;
         $this->descripcion = $rubric->descripcion;
+        $this->descripcion_visible = $rubric->descripcion_visible;
     }
 
     public function add_criteria_group()
