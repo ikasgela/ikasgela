@@ -65,14 +65,14 @@
                 </div>
             </div>
             <hr class="my-0">
-        @elseif($titulo || $descripcion)
+        @elseif($titulo && $titulo_visible || $descripcion && $descripcion_visible)
             <div class="card-body">
-                @if($titulo)
+                @if($titulo && $titulo_visible)
                     <a wire:click.prevent="toggle_edit_cabecera">
                         <h5 class="card-title">{{ $titulo }}</h5>
                     </a>
                 @endif
-                @if($descripcion)
+                @if($descripcion && $descripcion_visible)
                     <a wire:click.prevent="toggle_edit_cabecera">
                         <p class="card-text">{{ $descripcion }}</p>
                     </a>
