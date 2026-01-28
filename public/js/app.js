@@ -3020,7 +3020,7 @@ function withinMaxClamp(min, value, max) {
 "use strict";
 /* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
 /* provided dependency */ var Buffer = __webpack_require__(/*! buffer */ "./node_modules/buffer/index.js")["Buffer"];
-/*! Axios v1.13.3 Copyright (c) 2026 Matt Zabriskie and contributors */
+/*! Axios v1.13.4 Copyright (c) 2026 Matt Zabriskie and contributors */
 
 
 /**
@@ -6266,7 +6266,7 @@ function dispatchRequest(config) {
   });
 }
 
-const VERSION = "1.13.3";
+const VERSION = "1.13.4";
 
 const validators$1 = {};
 
@@ -6511,13 +6511,8 @@ class Axios {
 
       promise = Promise.resolve(config);
 
-      let prevResult = config;
       while (i < len) {
-        promise = promise
-            .then(chain[i++])
-            .then(result => { prevResult = result !== undefined ? result : prevResult; })
-            .catch(chain[i++])
-            .then(() => prevResult);
+        promise = promise.then(chain[i++], chain[i++]);
       }
 
       return promise;
@@ -6548,7 +6543,7 @@ class Axios {
     len = responseInterceptorChain.length;
 
     while (i < len) {
-      promise = promise.then(responseInterceptorChain[i++]).catch(responseInterceptorChain[i++]);
+      promise = promise.then(responseInterceptorChain[i++], responseInterceptorChain[i++]);
     }
 
     return promise;
