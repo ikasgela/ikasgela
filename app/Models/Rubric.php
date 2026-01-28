@@ -23,6 +23,7 @@ class Rubric extends Model
     protected $fillable = [
         'titulo', 'descripcion', 'plantilla', 'completada',
         'curso_id',
+        'titulo_visible', 'descripcion_visible',
         '__import_id',
     ];
 

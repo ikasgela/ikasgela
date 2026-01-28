@@ -13,9 +13,19 @@
                 'label' => __('Title'),
                 'name' => 'titulo',
             ])
+            @include('components.label-check', [
+                'label' => __('Show title'),
+                'name' => 'titulo_visible',
+                'checked' => true
+            ])
             @include('components.label-text', [
                 'label' => __('Description'),
                 'name' => 'descripcion',
+            ])
+            @include('components.label-check', [
+                'label' => __('Show description'),
+                'name' => 'descripcion_visible',
+                'checked' => true
             ])
             @include('components.label-check', [
                 'label' => __('Template'),

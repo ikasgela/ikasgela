@@ -19,8 +19,8 @@
                 <th>#</th>
                 <th>{{ __('Title') }}</th>
                 <th>{{ __('Description') }}</th>
-                <th>{{ __('Template') }}</th>
-                <th>{{ trans_choice("tasks.completed", 1) }}</th>
+                <th>{{ __('Show title') }}</th>
+                <th>{{ __('Show description') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -30,11 +30,12 @@
                     <td>{{ $rubric->id }}</td>
                     <td>{{ $rubric->titulo }}</td>
                     <td>{{ $rubric->descripcion }}</td>
-                    <td>{!! $rubric->plantilla ? '<i class="bi bi-check-lg text-success"></i>' : '<i class="bi bi-x text-danger"></i>' !!}</td>
-                    <td>{!! $rubric->completada ? '<i class="bi bi-check-lg text-success"></i>' : '<i class="bi bi-x text-danger"></i>' !!}</td>
+                    <td>{!! $rubric->titulo_visible ? '<i class="bi bi-check-lg text-success"></i>' : '<i class="bi bi-x text-danger"></i>' !!}</td>
+                    <td>{!! $rubric->descripcion_visible ? '<i class="bi bi-check-lg text-success"></i>' : '<i class="bi bi-x text-danger"></i>' !!}</td>
                     <td class="text-nowrap">
                         <div class='btn-group'>
                             @include('partials.boton_mostrar', ['ruta' => 'rubrics', 'recurso' => $rubric])
+                            @include('partials.boton_editar', ['ruta' => 'rubrics', 'recurso' => $rubric])
                             @include('partials.boton_duplicar', ['ruta' => 'rubrics.duplicar', 'id' => $rubric->id, 'middle' => true])
                             {{ html()->form('DELETE', route('rubrics.destroy', $rubric->id))->open() }}
                             @include('partials.boton_borrar', ['last' => true])
