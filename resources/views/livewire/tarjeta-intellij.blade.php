@@ -109,7 +109,7 @@
             @elseif(isset($repositorio['web_url']))
                 @switch($intellij_project->open_with)
                     @case('datagrip')
-                        <a href="{{ $intellij_project->datagrip_deep_link() }}"
+                        <a href="{{ $intellij_project->datagrip_deep_link() }}" target="_top"
                            class="btn btn-primary mb-3">{{ __('Open in DataGrip') }}</a>
                         @break
                     @case('idea')
@@ -121,12 +121,12 @@
                                 {{ __('Copy link for IntelliJ IDEA') }}
                             </button>
                         @else
-                            <a href="{{ $intellij_project->intellij_idea_deep_link() }}"
+                            <a href="{{ $intellij_project->intellij_idea_deep_link() }}" target="_top"
                                class="btn btn-primary mb-3">{{ __('Open in IntelliJ IDEA') }}</a>
                         @endif
                         @break
                     @case('phpstorm')
-                        <a href="{{ $intellij_project->phpstorm_deep_link() }}"
+                        <a href="{{ $intellij_project->phpstorm_deep_link() }}" target="_top"
                            class="btn btn-primary mb-3">{{ __('Open in PhpStorm') }}</a>
                         @break
                 @endswitch
