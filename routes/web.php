@@ -115,10 +115,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         // Subir ficheros a TinyMCE
         Route::post('/tinymce_upload', [TinymceUploadController::class, 'uploadImage'])->name('tinymce.upload.image');
 
-        // Descargar los repositorios propios
-        Route::post('/intellij_projects/descargar', [IntellijProjectController::class, 'descargar_repos_usuario'])
-            ->name('archivo.descargar');
-
         // Safe exam browser
         Route::get('/safe_exam/exit_seb/{quit_password_hash}', [SafeExamController::class, 'exit_seb'])
             ->withoutMiddleware('localeCookieRedirect')
@@ -478,6 +474,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             // Marcar una actividad como revisada o limpiar el estado de revisión
             Route::post('/actividades/{actividad}/revisar', [ActividadController::class, 'revisar'])
                 ->name('actividades.revisar');
+
+            // Descargar los repositorios de un usuario
+            Route::post('/intellij_projects/descargar', [IntellijProjectController::class, 'descargar_repos_usuario'])
+                ->name('archivo.descargar');
         });
 
         // Administrador

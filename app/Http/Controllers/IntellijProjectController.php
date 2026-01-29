@@ -7,6 +7,7 @@ use App\Models\Curso;
 use App\Models\IntellijProject;
 use App\Models\MarkdownText;
 use App\Models\Unidad;
+use App\Models\User;
 use App\Traits\ClonarRepoGitea;
 use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
@@ -16,7 +17,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Process;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use ZipArchive;
 
 class IntellijProjectController extends Controller
 {
@@ -27,7 +31,7 @@ class IntellijProjectController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:profesor|admin', ['except' => ['download', 'descargar_repos_usuario']]);
+        $this->middleware('role:profesor|admin', ['except' => ['download']]);
     }
 
     public function index(Request $request)
@@ -448,29 +452,43 @@ class IntellijProjectController extends Controller
 
     public function descargar_repos_usuario()
     {
-        $user = Auth::user();
+        $user = User::findOrFail(request('user_id'));
+        $actividades = $user->actividades();
 
-        $fecha = now()->format('Ymd-His');
-        $fichero = $fecha . "-" . Str::slug($user->full_name) . ".sh";
-        $datos = "#!/bin/sh\n\n";
+        // Crear el directorio temporal
+        $directorio = '/' . Str::uuid() . '/';
+        Storage::disk('temp')->makeDirectory($directorio);
+        $ruta = Storage::disk('temp')->path($directorio);
 
-        $actividades = $user->actividades_archivadas();
-
-        // Actividades de usuario
+        // Repositorios de usuario
+        $total = 0;
         foreach ($actividades->get() as $actividad) {
-            foreach ($actividad->intellij_projects()->get() as $project) {
-                if (Str::length($project->pivot->fork) > 0) {
-                    $datos .= "git clone ";
-                    $repositorio = GiteaClient::repo($project->pivot->fork);
-                    $datos .= "'" . $repositorio['http_url_to_repo'] . "'";
-                    $datos .= "\n";
+            foreach ($actividad->intellij_projects as $intellij_project) {
+                if (!$intellij_project->isForked()) {
+                    $repositorio = GiteaClient::repo($intellij_project->repositorio);
+                } else {
+                    $repositorio = GiteaClient::repo($intellij_project->pivot->fork);
                 }
+                $this->clonarRepositorio($ruta, $repositorio);
+                $total++;
             }
         }
 
-        return response()->streamDownload(function () use ($datos) {
-            echo $datos;
-        }, $fichero);
+        // Crear el zip
+        $fecha = now()->format('Ymd-His');
+        $nombre = Str::slug($user->full_name);
+
+        dispatch(function () use ($directorio) {
+            Log::debug('Borrando...', [
+                'directorio' => $directorio,
+            ]);
+            Storage::disk('temp')->deleteDirectory($directorio);
+        })->afterResponse();
+
+        if ($total > 0)
+            return $this->zipDirectoryWithSubdirs("ikasgela-{$nombre}-{$fecha}.zip", $directorio);
+        else
+            return back();
     }
 
     public function edit_fork(IntellijProject $intellij_project, Actividad $actividad)
@@ -490,5 +508,45 @@ class IntellijProjectController extends Controller
         Cache::forget($repositorio->cacheKey());
 
         return retornar();
+    }
+
+    private function clonarRepositorio(string $path, array $repositorio): void
+    {
+        $response = Process::path($path)
+            ->run('git clone http://root:' . config('gitea.token') . '@gitea:3000/'
+                . $repositorio['path_with_namespace'] . '.git '
+                . $repositorio['owner'] . '@' . $repositorio['name']);
+
+        if (!$response->successful()) {
+            Log::error('Error al descargar repositorios mediante Git.', [
+                'output' => $response->errorOutput()
+            ]);
+        } else {
+            Process::path($path . '/' . $repositorio['owner'] . '@' . $repositorio['name'])
+                ->run('git remote remove origin');
+        }
+    }
+
+    public function zipDirectoryWithSubdirs(string $zip, string $directory)
+    {
+        $zip_path = Storage::disk('temp')->path($zip);
+
+        $zip = new ZipArchive();
+
+        if ($zip->open($zip_path, ZipArchive::CREATE) === TRUE) {
+
+            $files = Storage::disk('temp')->allFiles($directory);
+            foreach ($files as $file) {
+                $filePath = Storage::disk('temp')->path($file);
+                $relative_file = Str::replaceStart($directory, '', '/' . $file);
+                $zip->addFile($filePath, $relative_file);
+            }
+
+            $zip->close();
+
+            return response()->download($zip_path)->deleteFileAfterSend(true);
+        } else {
+            return "Failed to create the zip file.";
+        }
     }
 }

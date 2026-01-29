@@ -10,6 +10,11 @@
            href="{{ route('profesor.tareas', ['user' => $user->id]) }}"
            class='btn btn-light btn-sm'><i class="bi bi-person-gear"></i></a>
 
+        {{ html()->form('POST', route('archivo.descargar'))->open() }}
+        {{ html()->submit('<i class="bi bi-download"></i>')->class(['btn btn-light btn-sm', 'rounded-0'])->attribute('title', __('Download user projects')) }}
+        {{ html()->hidden('user_id', $user->id) }}
+        {{ html()->form()->close() }}
+
         {{ html()->form('POST', route('results.alumno'))->open() }}
         {{ html()->submit('<i class="bi bi-mortarboard"></i>')->class(['btn btn-light btn-sm', 'rounded-0'])->attribute('title', __('Results')) }}
         {{ html()->hidden('user_id', $user->id) }}
