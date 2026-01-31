@@ -9,7 +9,7 @@
         "@popperjs/core": "^2.11.8",
         "axios": "^1.6.1",
         "bootstrap": "^5.3.3",
-        "jquery": "^3.7.1",
+        "jquery": "^4.0.0",
         "laravel-echo": "^2.1.5",
         "laravel-vite-plugin": "^2.0.0",
         "lodash": "^4.17.21",
@@ -19,7 +19,7 @@
         "vite-plugin-static-copy": "^3.0.0"
     },
     "dependencies": {
-        "@fancyapps/fancybox": "^3.5.7",
+        "@fancyapps/ui": "^6.0.0",
         "bootstrap-icons": "^1.11.3",
         "chart.js": "^4.4.3",
         "jquery-countdown": "^2.2.0",

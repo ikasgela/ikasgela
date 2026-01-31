@@ -61,14 +61,14 @@ export default defineConfig({
                     src: 'node_modules/chart.js/dist/chart.umd.js',
                     dest: 'js'
                 },
-                // Fancybox
+                // Fancybox 5
                 {
-                    src: 'node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.css',
-                    dest: 'js'
+                    src: 'node_modules/@fancyapps/ui/dist/fancybox/fancybox.css',
+                    dest: 'fancybox'
                 },
                 {
-                    src: 'node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.js',
-                    dest: 'js'
+                    src: 'node_modules/@fancyapps/ui/dist/fancybox/fancybox.umd.js',
+                    dest: 'fancybox'
                 },
                 // Single click script
                 {

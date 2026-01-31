@@ -129,7 +129,7 @@ $(document).ready(function ($) {
         tinyMCE.activeEditor.plugins.autosave.removeDraft();
     });
 
-    $('.c-header-toggler').bind('click', function (e) {
+    $('.c-header-toggler').on('click', function (e) {
         var is_sidebar_open = $('#sidebar').hasClass("c-sidebar-lg-show");
         axios.post('/settings/api', {
             sidebar_open: is_sidebar_open,

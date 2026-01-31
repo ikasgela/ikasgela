@@ -3,8 +3,7 @@
 @include('partials.prismjs')
 
 @section('fancybox')
-    <link rel="stylesheet" href="{{ asset('build/js/jquery.fancybox.min.css') }}"/>
-    <script src="{{ asset('build/js/jquery.fancybox.min.js') }}" defer></script>
+    @include('partials.fancybox')
 @endsection
 
 @php($count = Auth::user()->newThreadsCount())
