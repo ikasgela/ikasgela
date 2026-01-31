@@ -19,9 +19,22 @@
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
     }
 
+    // Obtener el tema efectivo (resolviendo 'auto' a 'light' o 'dark')
+    const getEffectiveTheme = (theme) => {
+        if (theme === 'auto') {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        }
+        return theme
+    }
+
+    // Aplicar el tema INMEDIATAMENTE para evitar fogonazos blancos
+    // Esto se ejecuta antes de que el DOM esté completamente cargado
+    const preferredTheme = getPreferredTheme()
+    document.documentElement.setAttribute('data-bs-theme', getEffectiveTheme(preferredTheme))
 
     function setPrismjsTheme(theme) {
-        let id = theme === 'light' ? 'prism-coy' : 'prism-tomorrow';
+        const effectiveTheme = getEffectiveTheme(theme)
+        let id = effectiveTheme === 'light' ? 'prism-coy' : 'prism-tomorrow';
         let theme_url = `https://${location.hostname}/build/prismjs/${id}.min.css`;
 
         const prismjs = document.querySelector('#prismjs-theme');
@@ -30,18 +43,24 @@
         }
     }
 
-    const setTheme = theme => {
-        if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.documentElement.setAttribute('data-bs-theme', 'dark')
-        } else {
-            document.documentElement.setAttribute('data-bs-theme', theme)
-        }
+    const setTheme = (theme, updateDependencies = true) => {
+        document.documentElement.setAttribute('data-bs-theme', getEffectiveTheme(theme))
 
-        tinymce_reload()
-        setPrismjsTheme(theme)
+        // Solo actualizar dependencias si el DOM está listo
+        if (updateDependencies) {
+            tinymce_reload()
+            setPrismjsTheme(theme)
+        }
     }
 
-    setTheme(getPreferredTheme())
+    // Actualizar dependencias cuando el DOM esté listo
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            setPrismjsTheme(preferredTheme)
+        }, { once: true })
+    } else {
+        setPrismjsTheme(preferredTheme)
+    }
 
     const showActiveTheme = (theme, focus = false) => {
         const themeSwitcher = document.querySelector('#bd-theme')
