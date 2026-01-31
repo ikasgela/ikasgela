@@ -1,4 +1,7 @@
-<script src="{{ asset('/tinymce/tinymce.min.js') }}"></script>
+<script src="{{ asset('build/tinymce/tinymce.min.js') }}"></script>
+<script>
+    window.tinymce_base_url = '{{ asset('build/tinymce') }}';
+</script>
 
 <iframe id="frameUpload" name="frameUpload" style="display:none"></iframe>
 <form id="formUpload" target="frameUpload" method="post"

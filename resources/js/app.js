@@ -1,10 +1,10 @@
-require('./bootstrap');
+import './bootstrap';
 
 import '../../vendor/aliqasemzadeh/livewire-bootstrap-modal/resources/js/modals.js';
 
-require('./darkmode');
+import './darkmode';
 
-require('jquery-countdown');
+import 'jquery-countdown';
 
 // https://stackoverflow.com/a/17147973
 // https://codepen.io/NaokiIshimura/pen/aEvQPY

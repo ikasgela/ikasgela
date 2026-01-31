@@ -15,11 +15,10 @@
         @include('layouts.partials.favicons_debug')
     @endif
     <link href="{{ asset('/css/nunito.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('/css/app.css') }}" rel="stylesheet" type="text/css">
-    <livewire:modals/>
+    @include('layouts.partials.theme-helper')
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <livewire:scripts/>
-    <script src="{{ asset('/js/app.js') }}"></script>
-    <script src="{{ asset('/js/single_click.js') }}"></script>
+    <script src="{{ asset('build/js/single_click.js') }}"></script>
     @yield('fancybox')
     @yield('prismjs-css')
 </head>
@@ -59,5 +58,6 @@
 @yield('tinymce')
 @yield('prismjs-scripts')
 @yield('reload_position')
+<livewire:modals/>
 </body>
 </html>

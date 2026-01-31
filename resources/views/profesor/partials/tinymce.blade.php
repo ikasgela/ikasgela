@@ -7,6 +7,7 @@
         selector: 'textarea#feedback',
         license_key: 'gpl',
         promotion: false,
+        base_url: window.tinymce_base_url,
         language: '{{ LaravelLocalization::getCurrentLocale() }}',
         plugins: "link image autolink emoticons lists hr codesample",
         default_link_target: "_blank",
@@ -16,10 +17,10 @@
         codesample_languages: [
             @include('partials.tinymce.codesample_languages')
         ],
-        skin: document.documentElement.getAttribute('data-bs-theme') === 'dark'
+        skin: (typeof getEffectiveTheme === 'function' ? getEffectiveTheme() : 'light') === 'dark'
             ? "oxide-dark"
             : "oxide",
-        content_css: document.documentElement.getAttribute('data-bs-theme') === 'dark'
+        content_css: (typeof getEffectiveTheme === 'function' ? getEffectiveTheme() : 'light') === 'dark'
             ? "dark"
             : "default",
         relative_urls: false,
