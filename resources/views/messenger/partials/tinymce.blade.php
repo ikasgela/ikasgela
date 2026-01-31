@@ -34,4 +34,24 @@
     };
 
     tinymce.init(tinymce_config);
+
+    // Limpiar el autosave de TinyMCE al enviar el formulario
+    document.addEventListener('DOMContentLoaded', function() {
+        const forms = document.querySelectorAll('form');
+        forms.forEach(function(form) {
+            form.addEventListener('submit', function() {
+                if (tinymce.activeEditor && tinymce.activeEditor.plugins.autosave) {
+                    tinymce.activeEditor.plugins.autosave.removeDraft();
+                }
+                // Limpiar también el localStorage directamente por si acaso
+                const editorId = tinymce_config.selector.replace('textarea#', '');
+                const keys = Object.keys(localStorage);
+                keys.forEach(function(key) {
+                    if (key.includes('tinymce-autosave') && key.includes(editorId)) {
+                        localStorage.removeItem(key);
+                    }
+                });
+            });
+        });
+    });
 </script>
