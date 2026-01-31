@@ -3,6 +3,6 @@
         {!! $chart->container() !!}
     </div>
 
-    <script src="{{ asset('/js/chart.umd.js') }}" charset="utf-8"></script>
+    <script src="{{ asset('build/js/chart.umd.js') }}" charset="utf-8"></script>
     {!! $chart->script() !!}
 @endif

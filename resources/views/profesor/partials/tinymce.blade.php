@@ -7,6 +7,7 @@
         selector: 'textarea#feedback',
         license_key: 'gpl',
         promotion: false,
+        base_url: window.tinymce_base_url,
         language: '{{ LaravelLocalization::getCurrentLocale() }}',
         plugins: "link image autolink emoticons lists hr codesample",
         default_link_target: "_blank",

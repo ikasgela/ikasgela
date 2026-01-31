@@ -21,7 +21,7 @@
 
     function setPrismjsTheme(theme) {
         let id = theme === 'light' ? 'prism-coy' : 'prism-tomorrow';
-        let theme_url = `https://${location.hostname}/prismjs/${id}.min.css`;
+        let theme_url = `https://${location.hostname}/build/prismjs/${id}.min.css`;
 
         const prismjs = document.querySelector('#prismjs-theme');
         if (prismjs !== null) {
