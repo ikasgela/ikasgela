@@ -6,6 +6,7 @@ use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use YMigVal\LaravelModelCache\HasCachedQueries;
 
 /**
@@ -62,7 +63,7 @@ class FileResource extends Model
             foreach ($clon->files as $file) {
                 $old_path = $file->path;
                 $filename = basename((string)$old_path);
-                $new_path = md5(time()) . '/' . $filename;
+                $new_path = Str::uuid() . '/' . $filename;
 
                 Storage::disk('s3')->copy('documents/' . $old_path, 'documents/' . $new_path);
 

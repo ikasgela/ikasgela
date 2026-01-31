@@ -15,7 +15,7 @@ class TinymceUploadController extends Controller
     {
         $fichero = $request->file('image');
 
-        $filename = md5(time()) . '/' . $fichero->getClientOriginalName();
+        $filename = Str::uuid() . '/' . $fichero->getClientOriginalName();
 
         $imagen = Image::read($fichero)
             ->scaleDown(2000, 2000)

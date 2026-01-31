@@ -9,6 +9,7 @@ use App\Models\FileUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Intervention\Image\Encoders\WebpEncoder;
 use Intervention\Image\Laravel\Facades\Image;
 
@@ -33,7 +34,7 @@ class FileController extends Controller
         $subida_corracta = false;
 
         foreach ($request->file('files') as $fichero) {
-            $filename = md5(time()) . '/' . $fichero->getClientOriginalName();
+            $filename = Str::uuid() . '/' . $fichero->getClientOriginalName();
 
             $imagen = Image::read($fichero)
                 ->scaleDown(2000, 2000)
@@ -67,7 +68,7 @@ class FileController extends Controller
     {
         $fichero = $request->file;
 
-        $filename = md5(time()) . '/' . $fichero->getClientOriginalName();
+        $filename = Str::uuid() . '/' . $fichero->getClientOriginalName();
 
         Storage::disk('s3')->put('documents/' . $filename, file_get_contents($fichero));
 

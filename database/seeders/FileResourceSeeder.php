@@ -6,6 +6,7 @@ use App\Models\File;
 use App\Models\FileResource;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class FileResourceSeeder extends Seeder
 {
@@ -25,7 +26,7 @@ class FileResourceSeeder extends Seeder
             'curso_id' => 1,
         ]);
 
-        $filename = md5(time()) . '/test.pdf';
+        $filename = Str::uuid() . '/test.pdf';
 
         Storage::disk('s3')->copy('test/test.pdf', 'documents/' . $filename);
 

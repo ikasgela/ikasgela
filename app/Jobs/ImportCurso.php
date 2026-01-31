@@ -369,7 +369,7 @@ class ImportCurso implements ShouldQueue
                     subject: $objeto['path'],
                 );
 
-                $filename = md5(time()) . '/' . $fichero;
+                $filename = Str::uuid() . '/' . $fichero;
 
                 try {
                     Storage::disk('s3')->put('documents/' . $filename, file_get_contents($ruta . '/file_resources/' . $objeto['path']));
