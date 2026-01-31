@@ -4,8 +4,6 @@ import '../../vendor/aliqasemzadeh/livewire-bootstrap-modal/resources/js/modals.
 
 import './darkmode';
 
-import 'jquery-countdown';
-
 // https://stackoverflow.com/a/17147973
 // https://codepen.io/NaokiIshimura/pen/aEvQPY
 document.addEventListener('DOMContentLoaded', function () {
@@ -162,35 +160,46 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Countdown - still needs jQuery for the plugin
-    $('[data-countdown]').each(function () {
-        var $this = $(this);
-        var finalDate = $(this).data('countdown');
-        var locale = document.documentElement.lang;
-        $this.countdown(finalDate, function (event) {
-            var dias = event.strftime('%-D');
-            if (dias > 0) {
-                if (locale === 'es') {
-                    $(this).html(event.strftime('%-D día%!D:s;, %H:%M:%S'));
-                } else if (locale === 'eu') {
-                    if (dias > 1) {
-                        $(this).html(event.strftime('%-D egun, %H:%M:%S'));
-                    } else {
-                        $(this).html(event.strftime('egun bat, %H:%M:%S'));
-                    }
-                } else {
-                    $(this).html(event.strftime('%-D day%!D:s;, %H:%M:%S'));
-                }
-            } else {
-                $(this).html(event.strftime('%H:%M:%S'));
-            }
+    // Countdown - vanilla JS implementation
+    document.querySelectorAll('[data-countdown]').forEach(function (element) {
+        const finalDate = new Date(element.dataset.countdown).getTime();
+        const locale = document.documentElement.lang;
 
-            if (event.elapsed) {
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = finalDate - now;
+
+            if (distance < 0) {
+                // Countdown finished
                 setTimeout(function () {
                     location.reload();
                 }, 1050);
+                return;
             }
-        });
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            const pad = (num) => String(num).padStart(2, '0');
+            const timeStr = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+
+            if (days > 0) {
+                if (locale === 'es') {
+                    element.textContent = `${days} día${days !== 1 ? 's' : ''}, ${timeStr}`;
+                } else if (locale === 'eu') {
+                    element.textContent = days > 1 ? `${days} egun, ${timeStr}` : `egun bat, ${timeStr}`;
+                } else {
+                    element.textContent = `${days} day${days !== 1 ? 's' : ''}, ${timeStr}`;
+                }
+            } else {
+                element.textContent = timeStr;
+            }
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
     });
 
     // Single click disable button

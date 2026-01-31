@@ -33,7 +33,7 @@
         },
         file_picker_callback: function (callback, value, meta) {
             if (meta.filetype === 'image') {
-                $('#formUpload input').click();
+                document.querySelector('#formUpload input').click();
             }
         }
     };

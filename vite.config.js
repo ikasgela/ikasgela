@@ -78,12 +78,6 @@ export default defineConfig({
             ]
         }),
     ],
-    resolve: {
-        alias: {
-            '$': 'jquery',
-            'jQuery': 'jquery',
-        },
-    },
     build: {
         rollupOptions: {
             output: {
