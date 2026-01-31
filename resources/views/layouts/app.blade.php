@@ -17,7 +17,6 @@
     <link href="{{ asset('/css/nunito.css') }}" rel="stylesheet" type="text/css">
     @include('layouts.partials.theme-helper')
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-    <livewire:modals/>
     <livewire:scripts/>
     <script src="{{ asset('build/js/single_click.js') }}"></script>
     @yield('fancybox')
@@ -59,5 +58,6 @@
 @yield('tinymce')
 @yield('prismjs-scripts')
 @yield('reload_position')
+<livewire:modals/>
 </body>
 </html>
