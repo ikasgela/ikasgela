@@ -16,8 +16,17 @@
         data.append('image', document.getElementById('formUpload').image.files[0]);
 
         axios.post('{{ route('tinymce.upload.image') }}', data).then(function (response) {
-            top.$('.tox-browse-url').parent().find('.tox-textfield').val(response.data);
-            top.$("button[title|='Save']").click();
+            const browseUrl = top.document.querySelector('.tox-browse-url');
+            if (browseUrl) {
+                const textfield = browseUrl.parentElement.querySelector('.tox-textfield');
+                if (textfield) {
+                    textfield.value = response.data;
+                }
+            }
+            const saveBtn = top.document.querySelector("button[title='Save']");
+            if (saveBtn) {
+                saveBtn.click();
+            }
         });
     }
 </script>
