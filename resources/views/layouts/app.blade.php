@@ -15,6 +15,7 @@
         @include('layouts.partials.favicons_debug')
     @endif
     <link href="{{ asset('/css/nunito.css') }}" rel="stylesheet" type="text/css">
+    @include('layouts.partials.theme-helper')
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <livewire:modals/>
     <livewire:scripts/>

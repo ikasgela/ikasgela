@@ -15,10 +15,10 @@
         codesample_languages: [
             @include('partials.tinymce.codesample_languages')
         ],
-        skin: document.documentElement.getAttribute('data-bs-theme') === 'dark'
+        skin: (typeof getEffectiveTheme === 'function' ? getEffectiveTheme() : 'light') === 'dark'
             ? "oxide-dark"
             : "oxide",
-        content_css: document.documentElement.getAttribute('data-bs-theme') === 'dark'
+        content_css: (typeof getEffectiveTheme === 'function' ? getEffectiveTheme() : 'light') === 'dark'
             ? "dark"
             : "default",
         autosave_ask_before_unload: false,

@@ -19,6 +19,7 @@
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
     }
 
+
     function setPrismjsTheme(theme) {
         let id = theme === 'light' ? 'prism-coy' : 'prism-tomorrow';
         let theme_url = `https://${location.hostname}/build/prismjs/${id}.min.css`;
@@ -95,19 +96,25 @@
     })
 
     function tinymce_reload() {
-        if (typeof tinymce_config !== 'undefined') {
-            let content = tinymce.activeEditor.getContent();
-            tinymce.activeEditor.destroy();
-
-            tinymce_config.skin = document.documentElement.getAttribute('data-bs-theme') === 'dark'
-                ? "oxide-dark"
-                : "oxide";
-            tinymce_config.content_css = document.documentElement.getAttribute('data-bs-theme') === 'dark'
-                ? "dark"
-                : "default";
-
-            tinymce.init(tinymce_config);
-            tinymce.activeEditor.setContent(content);
+        if (typeof tinymce === 'undefined' || typeof tinymce_config === 'undefined') {
+            return;
         }
+
+        if (!tinymce.activeEditor) {
+            return;
+        }
+
+        let content = tinymce.activeEditor.getContent();
+        tinymce.activeEditor.destroy();
+
+        tinymce_config.skin = document.documentElement.getAttribute('data-bs-theme') === 'dark'
+            ? "oxide-dark"
+            : "oxide";
+        tinymce_config.content_css = document.documentElement.getAttribute('data-bs-theme') === 'dark'
+            ? "dark"
+            : "default";
+
+        tinymce.init(tinymce_config);
+        tinymce.activeEditor.setContent(content);
     }
 })()
