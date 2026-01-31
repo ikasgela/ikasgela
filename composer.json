@@ -26,7 +26,6 @@
         "ext-redis": "*",
         "ext-zip": "*",
         "akaunting/laravel-setting": "^1.0",
-        "aliqasemzadeh/livewire-bootstrap-modal": "^2.3",
         "barryvdh/laravel-dompdf": "^3.0.0",
         "bkwld/cloner": "^3.4",
         "browner12/helpers": "^3.0",
