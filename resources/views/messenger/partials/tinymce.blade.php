@@ -35,23 +35,39 @@
 
     tinymce.init(tinymce_config);
 
-    // Limpiar el autosave de TinyMCE al enviar el formulario
+    // Función para limpiar el autosave de TinyMCE
+    function clearTinymceAutosave() {
+        if (tinymce.activeEditor && tinymce.activeEditor.plugins.autosave) {
+            tinymce.activeEditor.plugins.autosave.removeDraft();
+        }
+        // Limpiar también el localStorage directamente por si acaso
+        const editorId = tinymce_config.selector.replace('textarea#', '');
+        const keys = Object.keys(localStorage);
+        keys.forEach(function(key) {
+            if (key.includes('tinymce-autosave') && key.includes(editorId)) {
+                localStorage.removeItem(key);
+            }
+        });
+    }
+
+    // Limpiar el autosave de TinyMCE al enviar el formulario o cancelar
     document.addEventListener('DOMContentLoaded', function() {
+        // Al enviar formularios
         const forms = document.querySelectorAll('form');
         forms.forEach(function(form) {
             form.addEventListener('submit', function() {
-                if (tinymce.activeEditor && tinymce.activeEditor.plugins.autosave) {
-                    tinymce.activeEditor.plugins.autosave.removeDraft();
-                }
-                // Limpiar también el localStorage directamente por si acaso
-                const editorId = tinymce_config.selector.replace('textarea#', '');
-                const keys = Object.keys(localStorage);
-                keys.forEach(function(key) {
-                    if (key.includes('tinymce-autosave') && key.includes(editorId)) {
-                        localStorage.removeItem(key);
-                    }
-                });
+                clearTinymceAutosave();
             });
+        });
+
+        // Al hacer clic en el botón cancelar
+        const cancelButtons = document.querySelectorAll('a.btn-link');
+        cancelButtons.forEach(function(button) {
+            if (button.textContent.trim() === '{{ __('Cancel') }}') {
+                button.addEventListener('click', function() {
+                    clearTinymceAutosave();
+                });
+            }
         });
     });
 </script>
