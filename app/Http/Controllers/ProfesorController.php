@@ -554,6 +554,12 @@ class ProfesorController extends Controller
                 $alumnos = $alumnos->whereHas('actividades', function ($query) {
                     $query->where('auto_avance', false)->where('estado', 30);
                 });
+            } else if (session('profesor_filtro_alumnos') == 'C') {
+                $alumnos = $alumnos->whereHas('actividades', function ($query) {
+                    $query->where('auto_avance', false)
+                        ->where('fecha_limite', '<', now())
+                        ->whereNotIn('estado', [30, 40, 60, 61, 64]);
+                });
             }
         } else {
             if (session('profesor_filtro_alumnos') == 'R') {
@@ -563,6 +569,13 @@ class ProfesorController extends Controller
             } else if (session('profesor_filtro_alumnos') == 'ACT') {
                 $alumnos = $alumnos->whereHas('actividades', function ($query) {
                     $query->where('auto_avance', false)->tag('examen', false)->whereIn('estado', [10, 11, 20, 21]);
+                });
+            } else if (session('profesor_filtro_alumnos') == 'C') {
+                $alumnos = $alumnos->whereHas('actividades', function ($query) {
+                    $query->where('auto_avance', false)
+                        ->tag('examen', false)
+                        ->where('fecha_limite', '<', now())
+                        ->whereNotIn('estado', [30, 40, 60, 61, 64]);
                 });
             }
         }
