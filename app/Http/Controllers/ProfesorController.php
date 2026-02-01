@@ -188,7 +188,7 @@ class ProfesorController extends Controller
 
         // Obtener el id del anterior y el siguiente
 
-        $usuarios = User::cursoActual()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name')->pluck('id')->toArray();
+        $usuarios = $this->getUsuariosFiltrados();
 
         $pos = array_search($user->id, $usuarios);
 
@@ -539,5 +539,50 @@ class ProfesorController extends Controller
             $actividades = $actividades->tags(session('tags_actividades'));
         }
         return $actividades;
+    }
+
+    public function getUsuariosFiltrados()
+    {
+        $alumnos = User::cursoActual()->rolAlumno()->orderBy('surname')->orderBy('name');
+
+        if (!session('profesor_filtro_alumnos_bloqueados') == 'B') {
+            $alumnos = $alumnos->noBloqueado();
+        }
+
+        if (session('profesor_filtro_actividades_examen') == 'E') {
+            if (session('profesor_filtro_alumnos') == 'R') {
+                $alumnos = $alumnos->whereHas('actividades', function ($query) {
+                    $query->where('auto_avance', false)->where('estado', 30);
+                });
+            } else if (session('profesor_filtro_alumnos') == 'C') {
+                $alumnos = $alumnos->whereHas('actividades', function ($query) {
+                    $query->where('auto_avance', false)
+                        ->where('fecha_limite', '<', now())
+                        ->whereNotIn('estado', [30, 40, 60, 61, 64]);
+                });
+            }
+        } else {
+            if (session('profesor_filtro_alumnos') == 'R') {
+                $alumnos = $alumnos->whereHas('actividades', function ($query) {
+                    $query->where('auto_avance', false)->tag('examen', false)->where('estado', 30);
+                });
+            } else if (session('profesor_filtro_alumnos') == 'ACT') {
+                $alumnos = $alumnos->whereHas('actividades', function ($query) {
+                    $query->where('auto_avance', false)->tag('examen', false)->whereIn('estado', [10, 11, 20, 21]);
+                });
+            } else if (session('profesor_filtro_alumnos') == 'C') {
+                $alumnos = $alumnos->whereHas('actividades', function ($query) {
+                    $query->where('auto_avance', false)
+                        ->tag('examen', false)
+                        ->where('fecha_limite', '<', now())
+                        ->whereNotIn('estado', [30, 40, 60, 61, 64]);
+                });
+            }
+        }
+
+        if (!is_null(session('tags_usuario')))
+            $alumnos = $alumnos->tags(session('tags_usuario'));
+
+        return $alumnos->pluck('id')->toArray();
     }
 }
