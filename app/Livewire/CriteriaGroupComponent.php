@@ -24,11 +24,13 @@ class CriteriaGroupComponent extends Component
 
     public $titulo;
     public $descripcion;
+    public $cabecera_horizontal;
 
     public function mount()
     {
         $this->titulo = $this->criteria_group->titulo;
         $this->descripcion = $this->criteria_group->descripcion;
+        $this->cabecera_horizontal = $this->criteria_group->cabecera_horizontal;
     }
 
     public function render()
@@ -125,6 +127,13 @@ class CriteriaGroupComponent extends Component
     public function toggle_edit()
     {
         $this->is_editing = !$this->is_editing;
+    }
+
+    public function toggle_cabecera_horizontal()
+    {
+        $this->cabecera_horizontal = !$this->cabecera_horizontal;
+        $this->criteria_group->cabecera_horizontal = $this->cabecera_horizontal;
+        $this->criteria_group->save();
     }
 
     public function save()

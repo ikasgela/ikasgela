@@ -24,6 +24,7 @@ class CriteriaGroup extends Model
     protected $fillable = [
         'titulo', 'descripcion', 'orden',
         'rubric_id',
+        'cabecera_horizontal',
         '__import_id',
     ];
 

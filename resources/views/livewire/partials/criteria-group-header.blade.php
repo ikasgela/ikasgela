@@ -22,6 +22,6 @@
         <span class="small">{{ $criteria_group->descripcion }}</span>
     </a>
 @endif
-@if(!$cabecera_izquierda && ($titulo || $descripcion))
+@if($cabecera_horizontal && ($titulo || $descripcion))
     <div class="mb-3"></div>
 @endif

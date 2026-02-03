@@ -2,6 +2,12 @@
     <div class="col-auto">
         <div class="btn-toolbar">
             <div class="btn-group-sm btn-group-vertical">
+                <button class="btn btn-secondary"
+                        wire:click="toggle_cabecera_horizontal">
+                    <i class="bi {{ $cabecera_horizontal ? 'bi-arrow-bar-right' : 'bi-arrow-bar-down' }}"></i>
+                </button>
+            </div>
+            <div class="btn-group-sm btn-group-vertical ms-2">
                 <button
                     class="btn {{ !$this->is_first_criteria_group($criteria_group->id) ? 'btn-primary' : 'btn-light disabled' }}"
                     wire:click="$parent.up_criteria_group({{ $criteria_group->id }})">
