@@ -104,6 +104,20 @@ class RubricComponent extends Component
         $this->is_editing_cabecera = !$this->is_editing_cabecera;
     }
 
+    public function toggle_titulo_visible()
+    {
+        $this->titulo_visible = !$this->titulo_visible;
+        $this->rubric->titulo_visible = $this->titulo_visible;
+        $this->rubric->save();
+    }
+
+    public function toggle_descripcion_visible()
+    {
+        $this->descripcion_visible = !$this->descripcion_visible;
+        $this->rubric->descripcion_visible = $this->descripcion_visible;
+        $this->rubric->save();
+    }
+
     public function save()
     {
         $this->is_editing_cabecera = false;
