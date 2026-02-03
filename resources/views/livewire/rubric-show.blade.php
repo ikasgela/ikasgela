@@ -35,33 +35,52 @@
         </div>
         @if($rubric_is_editing)
             <div class="card-body pb-0">
-                <div class="mb-2">
-                    @if($is_editing_cabecera)
-                        <input type="text" class="form-control" wire:model="titulo" wire:keydown.enter="save"
-                               placeholder="{{ __('Title') }}"/>
-                    @elseif(!$titulo)
-                        <a wire:click.prevent="toggle_edit_cabecera">
-                            <h5 class="card-title border border-1 text-muted px-2">{{ __('Title') }}</h5>
-                        </a>
-                    @else
-                        <a wire:click.prevent="toggle_edit_cabecera">
-                            <h5 class="card-title">{{ $titulo }}</h5>
-                        </a>
-                    @endif
-                </div>
-                <div class="mb-3">
-                    @if($is_editing_cabecera)
-                        <input type="text" class="form-control" wire:model="descripcion" wire:keydown.enter="save"
-                               placeholder="{{ __('Description') }}"/>
-                    @elseif(!$descripcion)
-                        <a wire:click.prevent="toggle_edit_cabecera">
-                            <p class="card-text border border-1 text-muted px-2">{{ __('Description') }}</p>
-                        </a>
-                    @else
-                        <a wire:click.prevent="toggle_edit_cabecera">
-                            <p class="card-text">{{ $descripcion }}</p>
-                        </a>
-                    @endif
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-2">
+                            @if($is_editing_cabecera)
+                                <input type="text" class="form-control" wire:model="titulo" wire:keydown.enter="save"
+                                       placeholder="{{ __('Title') }}"/>
+                            @elseif(!$titulo)
+                                <a wire:click.prevent="toggle_edit_cabecera">
+                                    <h5 class="card-title border border-1 text-muted px-2">{{ __('Title') }}</h5>
+                                </a>
+                            @else
+                                <a wire:click.prevent="toggle_edit_cabecera">
+                                    <h5 class="card-title">{{ $titulo }}</h5>
+                                </a>
+                            @endif
+                        </div>
+                        <div class="mb-3">
+                            @if($is_editing_cabecera)
+                                <input type="text" class="form-control" wire:model="descripcion"
+                                       wire:keydown.enter="save"
+                                       placeholder="{{ __('Description') }}"/>
+                            @elseif(!$descripcion)
+                                <a wire:click.prevent="toggle_edit_cabecera">
+                                    <p class="card-text border border-1 text-muted px-2">{{ __('Description') }}</p>
+                                </a>
+                            @else
+                                <a wire:click.prevent="toggle_edit_cabecera">
+                                    <p class="card-text">{{ $descripcion }}</p>
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-auto mb-3">
+                        <div class="btn-toolbar">
+                            <div class="btn-group-sm btn-group-vertical">
+                                <button class="btn {{ $titulo_visible ? 'btn-primary' : 'btn-secondary' }}"
+                                        wire:click="toggle_titulo_visible">
+                                    <i class="bi {{ $titulo_visible ? 'bi-eye' : 'bi-eye-slash' }}"></i>
+                                </button>
+                                <button class="btn {{ $descripcion_visible ? 'btn-primary' : 'btn-secondary' }}"
+                                        wire:click="toggle_descripcion_visible">
+                                    <i class="bi {{ $descripcion_visible ? 'bi-eye' : 'bi-eye-slash' }}"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <hr class="my-0">
