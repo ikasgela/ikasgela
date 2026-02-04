@@ -153,7 +153,10 @@ class RubricComponent extends Component
             if (!$this->rubric->excluir_no_seleccionadas) {
                 $total += $criteria_group->criterias()->max('puntuacion');
             } else {
-                $total += $criteria_group->criterias()->where('seleccionado', true)->max('puntuacion');
+                $hay_seleccionados = $criteria_group->criterias()->where('seleccionado', true)->count() > 0;
+                if ($hay_seleccionados) {
+                    $total += $criteria_group->criterias()->max('puntuacion');
+                }
             }
         }
         return $total;
