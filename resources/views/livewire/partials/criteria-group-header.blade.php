@@ -21,7 +21,9 @@
     </a>
 @elseif($descripcion)
     <a wire:click.prevent="toggle_edit">
-        <div class="small contenedor_descripcion">{!! Markdown::convert($criteria_group->descripcion) !!}</div>
+        <div class="{{ !$cabecera_horizontal ? 'small' : '' }} contenedor_descripcion">
+            {!! Markdown::convert($criteria_group->descripcion) !!}
+        </div>
     </a>
 @endif
 @if($cabecera_horizontal && ($titulo || $descripcion))
