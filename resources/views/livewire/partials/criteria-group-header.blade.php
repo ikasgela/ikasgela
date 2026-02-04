@@ -12,9 +12,7 @@
     </a>
 @endif
 @if($rubric_is_editing && $is_editing)
-    <textarea class="form-control" wire:model="descripcion"
-              @keydown.enter="!$event.shiftKey && ($event.preventDefault(), $wire.save())"
-              placeholder="{{ __('Description') }}"></textarea>
+    @include('livewire.partials.descripcion-textarea')
 @elseif($rubric_is_editing && !$descripcion)
     <a wire:click.prevent="toggle_edit">
         <p class="small border border-1 text-muted px-2">{{ __('Description') }}</p>

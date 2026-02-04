@@ -68,9 +68,7 @@
                     <div class="col">
                         <div class="mb-3">
                             @if($is_editing_cabecera)
-                                <textarea class="form-control" wire:model="descripcion"
-                                          @keydown.enter="!$event.shiftKey && ($event.preventDefault(), $wire.save())"
-                                          placeholder="{{ __('Description') }}"></textarea>
+                                @include('livewire.partials.descripcion-textarea')
                             @elseif(!$descripcion)
                                 <a wire:click.prevent="toggle_edit_cabecera">
                                     <p class="card-text border border-1 text-muted px-2">{{ __('Description') }}</p>
