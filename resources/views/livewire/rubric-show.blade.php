@@ -138,6 +138,20 @@
                 <div class="col-2">
                     <h5 class="card-title">{{ __('Total') }}</h5>
                 </div>
+                @if($rubric_is_editing)
+                    <div class="col mb-3">
+                        <div class="btn-toolbar">
+                            <div class="btn-group-sm btn-group-vertical">
+                                <button
+                                    title="{{ __('Exclude unrated criteria groups when calculating totals') }}"
+                                    class="btn {{ $excluir_no_seleccionadas ? 'btn-primary' : 'btn-secondary' }}"
+                                    wire:click="toggle_excluir_no_seleccionadas">
+                                    <i class="bi bi-ui-checks-grid"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                @endif
                 <div class="col text-end">
                     @if($rubric->completada)
                         <button
