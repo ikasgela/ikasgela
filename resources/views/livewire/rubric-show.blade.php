@@ -1,3 +1,4 @@
+@use(GrahamCampbell\Markdown\Facades\Markdown)
 <div>
     <div class="card mb-3">
         <div class="card-header d-flex justify-content-between">
@@ -51,18 +52,34 @@
                                 </a>
                             @endif
                         </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="btn-toolbar">
+                            <div class="btn-group-sm btn-group-vertical">
+                                <button class="btn {{ $titulo_visible ? 'btn-primary' : 'btn-secondary' }}"
+                                        wire:click="toggle_titulo_visible">
+                                    <i class="bi {{ $titulo_visible ? 'bi-eye' : 'bi-eye-slash' }}"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
                         <div class="mb-3">
                             @if($is_editing_cabecera)
-                                <input type="text" class="form-control" wire:model="descripcion"
-                                       wire:keydown.enter="save"
-                                       placeholder="{{ __('Description') }}"/>
+                                <textarea class="form-control" wire:model="descripcion"
+                                          @keydown.enter="!$event.shiftKey && ($event.preventDefault(), $wire.save())"
+                                          placeholder="{{ __('Description') }}"></textarea>
                             @elseif(!$descripcion)
                                 <a wire:click.prevent="toggle_edit_cabecera">
                                     <p class="card-text border border-1 text-muted px-2">{{ __('Description') }}</p>
                                 </a>
                             @else
                                 <a wire:click.prevent="toggle_edit_cabecera">
-                                    <p class="card-text">{{ $descripcion }}</p>
+                                    <div class="contenedor_descripcion">
+                                        {!! Markdown::convert($descripcion) !!}
+                                    </div>
                                 </a>
                             @endif
                         </div>
@@ -70,10 +87,6 @@
                     <div class="col-auto mb-3">
                         <div class="btn-toolbar">
                             <div class="btn-group-sm btn-group-vertical">
-                                <button class="btn {{ $titulo_visible ? 'btn-primary' : 'btn-secondary' }}"
-                                        wire:click="toggle_titulo_visible">
-                                    <i class="bi {{ $titulo_visible ? 'bi-eye' : 'bi-eye-slash' }}"></i>
-                                </button>
                                 <button class="btn {{ $descripcion_visible ? 'btn-primary' : 'btn-secondary' }}"
                                         wire:click="toggle_descripcion_visible">
                                     <i class="bi {{ $descripcion_visible ? 'bi-eye' : 'bi-eye-slash' }}"></i>
@@ -93,7 +106,9 @@
                 @endif
                 @if($descripcion && $descripcion_visible)
                     <a wire:click.prevent="toggle_edit_cabecera">
-                        <p class="card-text">{{ $descripcion }}</p>
+                        <div class="contenedor_descripcion">
+                            {!! Markdown::convert($descripcion) !!}
+                        </div>
                     </a>
                 @endif
             </div>
