@@ -23,6 +23,7 @@ class RubricComponent extends Component
 
     public $titulo_visible;
     public $descripcion_visible;
+    public $excluir_no_seleccionadas;
 
     public function mount(Rubric $rubric)
     {
@@ -31,6 +32,7 @@ class RubricComponent extends Component
         $this->titulo_visible = $rubric->titulo_visible;
         $this->descripcion = $rubric->descripcion;
         $this->descripcion_visible = $rubric->descripcion_visible;
+        $this->excluir_no_seleccionadas = $rubric->excluir_no_seleccionadas;
     }
 
     public function add_criteria_group()
@@ -118,6 +120,13 @@ class RubricComponent extends Component
         $this->rubric->save();
     }
 
+    public function toggle_excluir_no_seleccionadas()
+    {
+        $this->excluir_no_seleccionadas = !$this->excluir_no_seleccionadas;
+        $this->rubric->excluir_no_seleccionadas = $this->excluir_no_seleccionadas;
+        $this->rubric->save();
+    }
+
     public function save()
     {
         $this->is_editing_cabecera = false;
@@ -141,7 +150,14 @@ class RubricComponent extends Component
     {
         $total = 0;
         foreach ($this->rubric->criteria_groups as $criteria_group) {
-            $total += $criteria_group->criterias()->max('puntuacion');
+            if (!$this->rubric->excluir_no_seleccionadas) {
+                $total += $criteria_group->criterias()->max('puntuacion');
+            } else {
+                $hay_seleccionados = $criteria_group->criterias()->where('seleccionado', true)->count() > 0;
+                if ($hay_seleccionados) {
+                    $total += $criteria_group->criterias()->max('puntuacion');
+                }
+            }
         }
         return $total;
     }
