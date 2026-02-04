@@ -57,6 +57,7 @@
                         <div class="btn-toolbar">
                             <div class="btn-group-sm btn-group-vertical">
                                 <button class="btn {{ $titulo_visible ? 'btn-primary' : 'btn-secondary' }}"
+                                        title="{{ $titulo_visible ? __('Visible') : __('Hidden') }}"
                                         wire:click="toggle_titulo_visible">
                                     <i class="bi {{ $titulo_visible ? 'bi-eye' : 'bi-eye-slash' }}"></i>
                                 </button>
@@ -86,6 +87,7 @@
                         <div class="btn-toolbar">
                             <div class="btn-group-sm btn-group-vertical">
                                 <button class="btn {{ $descripcion_visible ? 'btn-primary' : 'btn-secondary' }}"
+                                        title="{{ $descripcion_visible ? __('Visible') : trans_choice('tasks.hidden', 1) }}"
                                         wire:click="toggle_descripcion_visible">
                                     <i class="bi {{ $descripcion_visible ? 'bi-eye' : 'bi-eye-slash' }}"></i>
                                 </button>
@@ -127,6 +129,7 @@
             <hr class="my-0">
             <div class="p-3 text-center">
                 <button class="btn btn-sm btn-success w-100"
+                        title="{{ __('Add criteria group') }}"
                         wire:click="add_criteria_group">
                     <i class="bi bi-plus-lg"></i>
                 </button>

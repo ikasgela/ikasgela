@@ -9,6 +9,7 @@
 @if($rubric_is_editing)
     <div class="col-auto align-content-center mb-3">
         <button class="btn btn-sm btn-success h-100"
+                title="{{ __('Add criteria') }}"
                 wire:click="add_criteria({{ $criteria_group->id }})">
             <i class="bi bi-plus-lg"></i>
         </button>

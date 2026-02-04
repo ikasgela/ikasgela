@@ -35,16 +35,19 @@
             <div class="btn-toolbar justify-content-center">
                 <div class="btn-group btn-group-sm">
                     <button class="btn {{ !$this->is_first_in_group ? 'btn-primary' : 'btn-light disabled' }}"
+                            title="{{ __('Left') }}"
                             wire:click="$parent.left_criteria({{ $criteria->id }})">
                         <i class="bi bi-arrow-left"></i>
                     </button>
                     <button class="btn {{ !$this->is_last_in_group ? 'btn-primary' : 'btn-light disabled' }}"
+                            title="{{ __('Right') }}"
                             wire:click="$parent.right_criteria({{ $criteria->id }})">
                         <i class="bi bi-arrow-right"></i>
                     </button>
                 </div>
                 <div class="btn-group btn-group-sm ms-2">
                     <button class="btn btn-danger"
+                            title="{{ __('Delete') }}"
                             wire:click="$parent.delete_criteria({{ $criteria->id }})">
                         <i class="bi bi-trash"></i>
                     </button>
