@@ -84,7 +84,7 @@
                         </div>
                     </div>
                     <div class="col-auto mb-3">
-                        <div class="btn-toolbar">
+                        <div class="btn-toolbar mt-1">
                             <div class="btn-group-sm btn-group-vertical">
                                 <button class="btn {{ $descripcion_visible ? 'btn-primary' : 'btn-secondary' }}"
                                         title="{{ $descripcion_visible ? __('Visible') : trans_choice('tasks.hidden', 1) }}"
@@ -101,7 +101,7 @@
             <div class="card-body">
                 @if($titulo && $titulo_visible)
                     <a wire:click.prevent="toggle_edit_cabecera">
-                        <h5 class="card-title">{{ $titulo }}</h5>
+                        <h5 class="card-title {{ !$descripcion_visible ? 'mb-0' : '' }}">{{ $titulo }}</h5>
                     </a>
                 @endif
                 @if($descripcion && $descripcion_visible)
