@@ -1,5 +1,7 @@
+@import 'bootstrap/scss/bootstrap';
+
 .contenedor_descripcion p {
-    margin-bottom: .25rem; // mb-1
+    margin-bottom: $spacer * .25; // mb-1
 }
 
 .contenedor_descripcion p:last-of-type {
