@@ -190,16 +190,21 @@ class ProfesorController extends Controller
 
         $usuarios = $this->getUsuariosFiltrados();
 
+        $user_anterior = null;
+        $user_siguiente = null;
+
         $pos = array_search($user->id, $usuarios);
 
-        $user_anterior = null;
-        if (isset($usuarios[$pos - 1])) {
-            $user_anterior = $usuarios[$pos - 1];
-        }
+        if ($pos !== false) {
+            if (isset($usuarios[$pos - 1])) {
+                $user_anterior = $usuarios[$pos - 1];
+            }
 
-        $user_siguiente = null;
-        if (isset($usuarios[$pos + 1])) {
-            $user_siguiente = $usuarios[$pos + 1];
+            if (isset($usuarios[$pos + 1])) {
+                $user_siguiente = $usuarios[$pos + 1];
+            }
+        } else if (count($usuarios) > 0) {
+            $user_siguiente = $usuarios[0];
         }
 
         $disponibles = $this->actividadesDisponibles();
