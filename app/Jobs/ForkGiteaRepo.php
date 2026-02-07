@@ -81,7 +81,10 @@ class ForkGiteaRepo implements ShouldQueue, ShouldBeUnique
                         . '-' . $this->actividad->unidad->slug
                         . '-' . $this->actividad->slug;
 
-                    $ruta .= '-' . bin2hex(openssl_random_pseudo_bytes(3));
+                    $ruta = Str::slug($ruta);
+                    $sufijo = '-' . bin2hex(openssl_random_pseudo_bytes(3));
+                    $ruta = Str::limit($ruta, 100 - Str::length($sufijo), '');
+                    $ruta .= $sufijo;
 
                     $proyecto = GiteaClient::repo($this->intellij_project->repositorio);
 
@@ -95,7 +98,7 @@ class ForkGiteaRepo implements ShouldQueue, ShouldBeUnique
                         GiteaClient::template($proyecto['owner'], $proyecto['name'], true);
                     }
 
-                    $fork = $this->clonar_repositorio($this->intellij_project->repositorio, $username, Str::slug($ruta), $descripcion);
+                    $fork = $this->clonar_repositorio($this->intellij_project->repositorio, $username, $ruta, $descripcion);
                 }
 
                 if (!is_null($fork) && isset($fork['id'])) {
