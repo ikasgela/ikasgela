@@ -21,12 +21,12 @@
                 <div class="btn-group mb-3">
                     <button
                         style="min-width: 6em; max-width: 24em; font-size: 80%;"
-                        wire:click="$dispatch('showModal', {data: {'alias' : 'edit-criteria','params' :{'criteria_id': {{ $criteria->id }} }}})"
+                        wire:click='$dispatch("showModal", {"data": {"alias": "edit-criteria", "params": {"criteria_id": {{ $criteria->id }}}}})'
                         class="btn btn-primary p-3">
                         {{ $criteria->texto }}
                     </button>
                     <button
-                        wire:click="$dispatch('showModal', {data: {'alias' : 'edit-criteria','params' :{'criteria_id': {{ $criteria->id }} }}})"
+                        wire:click='$dispatch("showModal", {"data": {"alias": "edit-criteria", "params": {"criteria_id": {{ $criteria->id }}}}})'
                         class="btn btn-secondary p-3">
                         {{ $criteria->puntuacion }}
                     </button>
