@@ -69,13 +69,11 @@
                     </td>
                 @endif
                 <td class="clickable">
-                    <div>
-                        <div class="d-flex align-items-center">
-                            @include('actividades.partials.nombre_con_etiquetas', ['ruta' => 'actividades.'. explode('.', Route::currentRouteName())[1] . '.filtro'])
-                            @include('actividades.partials.caducada')
-                        </div>
-                        <span class="small text-secondary">{{ $actividad->slug }}</span>
+                    <div class="d-flex align-items-center">
+                        @include('actividades.partials.nombre_con_etiquetas', ['ruta' => 'actividades.'. explode('.', Route::currentRouteName())[1] . '.filtro'])
+                        @include('actividades.partials.caducada')
                     </div>
+                    <span class="small text-secondary">{{ $actividad->slug }}</span>
                 </td>
                 @include('actividades.partials.estado_revision')
                 <td class="text-center clickable">{{ formato_decimales($actividad->puntuacion * ($actividad->multiplicador ?: 1)) }}</td>

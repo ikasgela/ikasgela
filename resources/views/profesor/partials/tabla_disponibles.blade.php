@@ -8,7 +8,6 @@
             </th>
             <th>#</th>
             <th>{{ __('Name') }}</th>
-            <th>{{ __('Slug') }}</th>
             <th class="p-0"></th>
             <th class="text-center">{{ __('Score') }}</th>
             <th class="text-center">{{ __('Auto') }}</th>
@@ -31,21 +30,23 @@
                 </td>
                 <td class="clickable">{{ $actividad->id }}</td>
                 <td class="clickable">
-                    @switch(Route::currentRouteName())
-                        @case('profesor.index')
-                        @case('profesor.index.filtro')
-                            @include('actividades.partials.nombre_con_etiquetas', ['ruta' => 'profesor.index.filtro'])
-                            @break
-                        @case('profesor.tareas')
-                        @case('profesor.tareas.filtro')
-                            @include('actividades.partials.nombre_con_etiquetas', ['ruta' => 'profesor.tareas.filtro'])
-                            @break
-                        @default
-                            @include('actividades.partials.nombre_con_etiquetas')
-                    @endswitch
-                    @include('actividades.partials.caducada')
+                    <div class="d-flex align-items-center">
+                        @switch(Route::currentRouteName())
+                            @case('profesor.index')
+                            @case('profesor.index.filtro')
+                                @include('actividades.partials.nombre_con_etiquetas', ['ruta' => 'profesor.index.filtro'])
+                                @break
+                            @case('profesor.tareas')
+                            @case('profesor.tareas.filtro')
+                                @include('actividades.partials.nombre_con_etiquetas', ['ruta' => 'profesor.tareas.filtro'])
+                                @break
+                            @default
+                                @include('actividades.partials.nombre_con_etiquetas')
+                        @endswitch
+                        @include('actividades.partials.caducada')
+                    </div>
+                    <span class="small text-secondary">{{ $actividad->unidad->slug.'/'.$actividad->slug }}</span>
                 </td>
-                <td class="clickable">{{ $actividad->unidad->slug.'/'.$actividad->slug }}</td>
                 @include('actividades.partials.estado_revision')
                 <td class="text-center clickable">{{ formato_decimales($actividad->puntuacion * ($actividad->multiplicador ?: 1)) }}</td>
                 <td class="text-center clickable">{!! $actividad->auto_avance ? '<i class="bi bi-check-lg text-success"></i>' : '<i class="bi bi-x text-danger"></i>' !!}</td>
