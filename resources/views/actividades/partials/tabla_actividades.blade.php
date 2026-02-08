@@ -77,7 +77,7 @@
                         <span class="small text-secondary">{{ $actividad->slug }}</span>
                     </div>
                 </td>
-                <td class="p-0 ps-1 {{ !$actividad->fecha_revision ? 'bg-warning' : '' }}">&nbsp;</td>
+                @include('actividades.partials.estado_revision')
                 <td class="text-center clickable">{{ formato_decimales($actividad->puntuacion * ($actividad->multiplicador ?: 1)) }}</td>
                 <td class="text-center clickable">@include('partials.check_yes_no', ['checked' => $actividad->auto_avance])</td>
                 <td class="clickable">

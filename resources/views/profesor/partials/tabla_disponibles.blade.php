@@ -46,9 +46,7 @@
                     @include('actividades.partials.caducada')
                 </td>
                 <td class="clickable">{{ $actividad->unidad->slug.'/'.$actividad->slug }}</td>
-                <td class="p-0 ps-1 {{ !$actividad->fecha_revision ? 'bg-warning' : '' }}"
-                    title="{{ !$actividad->fecha_revision ? __('Not reviewed') : '' }}">&nbsp;
-                </td>
+                @include('actividades.partials.estado_revision')
                 <td class="text-center clickable">{{ formato_decimales($actividad->puntuacion * ($actividad->multiplicador ?: 1)) }}</td>
                 <td class="text-center clickable">{!! $actividad->auto_avance ? '<i class="bi bi-check-lg text-success"></i>' : '<i class="bi bi-x text-danger"></i>' !!}</td>
                 @include('profesor.partials.siguiente_actividad')
