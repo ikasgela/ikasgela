@@ -3,7 +3,7 @@
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
-            <th class="p-0"></th>
+            @include('actividades.partials.indicador_tabla_cabecera')
             <th>
                 <input type="checkbox" id="seleccionar_usuarios">
             </th>
@@ -58,15 +58,22 @@
                 @php($media = true)
             @endif
             <tr class="table-cell-click" data-href="{{ route('profesor.tareas', [$user->id]) }}">
-                <td class="p-0 ps-1
-                    @if($user->num_actividades_sin_completar() == 0)
-                    bg-success
-                    @elseif($user->num_actividades_enviadas_noautoavance() > 0)
-                    bg-danger
-                    @endif
-                    ">
-                    &nbsp;
-                </td>
+                @if($user->num_actividades_sin_completar() == 0)
+                    @include('actividades.partials.indicador_tabla', [
+                        'fondo' => 'bg-success',
+                        'condicion' => true
+                    ])
+                @elseif($user->num_actividades_enviadas_noautoavance() > 0)
+                    @include('actividades.partials.indicador_tabla', [
+                        'fondo' => 'bg-danger',
+                        'condicion' => true
+                    ])
+                @else
+                    @include('actividades.partials.indicador_tabla', [
+                        'fondo' => '',
+                        'condicion' => false
+                    ])
+                @endif
                 <td>
                     <input form="asignar" type="checkbox"
                            data-chkbox-shiftsel="grupo1"

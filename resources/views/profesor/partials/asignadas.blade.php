@@ -7,7 +7,7 @@
         <table class="table table-hover">
             <thead class="thead-dark">
             <tr>
-                <th class="p-0"></th>
+                @include('actividades.partials.indicador_tabla_cabecera')
                 <th>
                     <input type="checkbox" id="seleccionar_asignadas">
                 </th>
@@ -45,9 +45,10 @@
             @foreach($actividades as $actividad)
                 <tr class="table-cell-click"
                     data-href="{{ route('profesor.revisar', ['user' => $user->id, 'tarea' => $actividad->tarea->id]) }}">
-                    <td class="p-0 ps-1 {{ $actividad->tarea->estado == 30 && !$actividad->auto_avance ? 'bg-danger' : '' }}">
-                        &nbsp;
-                    </td>
+                    @include('actividades.partials.indicador_tabla', [
+                        'fondo' => 'bg-danger',
+                        'condicion' => $actividad->tarea->estado == 30 && !$actividad->auto_avance,
+                    ])
                     <td>
                         <input id="input_actividad_{{ $actividad->id }}" form="multiple"
                                data-chkbox-shiftsel="grupo3"
