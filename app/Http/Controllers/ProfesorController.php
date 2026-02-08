@@ -471,6 +471,9 @@ class ProfesorController extends Controller
             $disponibles = $disponibles->tags(session('tags_actividades'));
         }
 
+        // No mostrar las etiquetadas como trabajo en equipo en la vista de usuarios
+        $disponibles = $disponibles->tags('trabajo en equipo', false);
+
         return $this->paginate_ultima($disponibles, config('ikasgela.pagination_available_activities'), 'disponibles');
     }
 
