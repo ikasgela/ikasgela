@@ -3,7 +3,7 @@
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
-            <th class="p-0"></th>
+            @include('actividades.partials.indicador_tabla_cabecera')
             <th>
                 <input type="checkbox" id="seleccionar_actividades">
             </th>
@@ -16,7 +16,7 @@
                 <th>{{ __('Order') }}</th>
             @endif
             <th>{{ __('Name') }}</th>
-            <th class="p-0"></th>
+            @include('actividades.partials.indicador_tabla_cabecera')
             <th class="text-center">{{ __('Score') }}</th>
             <th class="text-center">{{ __('Auto') }}</th>
             <th>{{ __('Next') }}</th>
@@ -28,7 +28,11 @@
         @foreach($actividades as $actividad)
             @include('actividades.partials.divisor')
             <tr class="table-cell-click" data-href="{{ route('actividades.preview', [$actividad->id]) }}">
-                <td class="p-0 ps-1 {{ $actividad->destacada ? 'bg-warning' : '' }}">&nbsp;</td>
+                @include('actividades.partials.indicador_tabla', [
+                    'fondo' => 'bg-warning',
+                    'condicion' => $actividad->destacada,
+                    'titulo' => __('Highlighted')
+                ])
                 <td>
                     <input form="multiple"
                            data-chkbox-shiftsel="grupo1"
@@ -75,7 +79,11 @@
                     </div>
                     <span class="small text-secondary">{{ $actividad->slug }}</span>
                 </td>
-                @include('actividades.partials.estado_revision')
+                @include('actividades.partials.indicador_tabla', [
+                    'fondo' => 'bg-warning',
+                    'condicion' => !$actividad->fecha_revision,
+                    'titulo' => __('Not reviewed')
+                ])
                 <td class="text-center clickable">{{ formato_decimales($actividad->puntuacion * ($actividad->multiplicador ?: 1)) }}</td>
                 <td class="text-center clickable">@include('partials.check_yes_no', ['checked' => $actividad->auto_avance])</td>
                 <td class="clickable">

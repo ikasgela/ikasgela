@@ -2,13 +2,13 @@
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
-            <th class="p-0"></th>
+            @include('actividades.partials.indicador_tabla_cabecera')
             <th>
                 <input type="checkbox" id="seleccionar_actividades">
             </th>
             <th>#</th>
             <th>{{ __('Name') }}</th>
-            <th class="p-0"></th>
+            @include('actividades.partials.indicador_tabla_cabecera')
             <th class="text-center">{{ __('Score') }}</th>
             <th class="text-center">{{ __('Auto') }}</th>
             <th>{{ __('Next') }}</th>
@@ -22,7 +22,11 @@
         @foreach($disponibles as $actividad)
             @include('actividades.partials.divisor')
             <tr class="table-cell-click" data-href="{{ route('actividades.preview', [$actividad->id]) }}">
-                <td class="p-0 ps-1 {{ $actividad->destacada ? 'bg-warning' : '' }}">&nbsp;</td>
+                @include('actividades.partials.indicador_tabla', [
+                    'fondo' => 'bg-warning',
+                    'condicion' => $actividad->destacada,
+                    'titulo' => __('Highlighted')
+                ])
                 <td>
                     <input type="checkbox"
                            data-chkbox-shiftsel="grupo2"
@@ -47,7 +51,11 @@
                     </div>
                     <span class="small text-secondary">{{ $actividad->unidad->slug.'/'.$actividad->slug }}</span>
                 </td>
-                @include('actividades.partials.estado_revision')
+                @include('actividades.partials.indicador_tabla', [
+                    'fondo' => 'bg-warning',
+                    'condicion' => !$actividad->fecha_revision,
+                    'titulo' => __('Not reviewed')
+                ])
                 <td class="text-center clickable">{{ formato_decimales($actividad->puntuacion * ($actividad->multiplicador ?: 1)) }}</td>
                 <td class="text-center clickable">{!! $actividad->auto_avance ? '<i class="bi bi-check-lg text-success"></i>' : '<i class="bi bi-x text-danger"></i>' !!}</td>
                 @include('profesor.partials.siguiente_actividad')
