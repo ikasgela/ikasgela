@@ -24,7 +24,7 @@
                         <pre class="m-0">{{ $curso->safe_exam?->token ?: '-' }}</pre>
                     </td>
                     <td>
-                        <div class='btn-group'>
+                        <div class='btn-toolbar'>
                             {{ html()->form('POST', route('safe_exam.reset_token', $curso->id))->open() }}
                             {{ html()
                                 ->submit('<i class="bi bi-arrow-clockwise text-danger"></i>')
@@ -49,7 +49,7 @@
                         <pre class="m-0">{{ $curso->safe_exam?->quit_password ?: '-' }}</pre>
                     </td>
                     <td>
-                        <div class='btn-group'>
+                        <div class='btn-toolbar'>
                             {{ html()->form('POST', route('safe_exam.reset_quit_password', $curso->id))->open() }}
                             {{ html()
                                 ->submit('<i class="bi bi-arrow-clockwise text-danger"></i>')
@@ -71,16 +71,23 @@
                         </div>
                     </td>
                     <td>
-                        <a href="{{ route('safe_exam.config_seb', [$curso->safe_exam?->id ?: App\Models\SafeExam::create(['curso_id' => $curso->id])->id]) }}"
-                           title="{{ __('Download SEB configuration file') }}"
-                           class="btn btn-sm btn-light me-2" role="button">
-                            <i class="bi bi-download"></i>
-                        </a>
-                        <a href="{{ route('safe_exam.allowed', [$curso->safe_exam?->id ?: App\Models\SafeExam::create(['curso_id' => $curso->id])->id]) }}"
-                           title="{{ __('Allowed apps and URLs') }}"
-                           class="btn btn-sm btn-light" role="button">
-                            <i class="bi bi-shield-check"></i>
-                        </a>
+                        <div class='btn-toolbar'>
+                            <a href="{{ route('safe_exam.config_seb', [$curso->safe_exam?->id ?: App\Models\SafeExam::create(['curso_id' => $curso->id])->id]) }}"
+                               title="{{ __('Download SEB configuration file') }}"
+                               class="btn btn-sm btn-light me-2" role="button">
+                                <i class="bi bi-download"></i>
+                            </a>
+                            <a href="{{ route('safe_exam.allowed', [$curso->safe_exam?->id ?: App\Models\SafeExam::create(['curso_id' => $curso->id])->id]) }}"
+                               title="{{ __('Allowed apps and URLs') }}"
+                               class="btn btn-sm btn-light me-2" role="button">
+                                <i class="bi bi-shield-check"></i>
+                            </a>
+                            <a title="{{ __('Configure options') }}"
+                               href="{{ route('safe_exam.configure', [$curso->safe_exam?->id ?: App\Models\SafeExam::create(['curso_id' => $curso->id])->id]) }}"
+                               class='btn btn-light btn-sm'>
+                                <i class="bi bi-sliders"></i>
+                            </a>
+                        </div>
                     </td>
                 </tr>
             @endforeach

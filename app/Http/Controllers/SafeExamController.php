@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Curso;
 use App\Models\SafeExam;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -83,6 +84,18 @@ class SafeExamController extends Controller
 
         $xml = Str::replace("SAFE_EXAM_HOST_REGEX", preg_quote((string)$this->get_domain(request()->getHost())), $xml);
         $xml = Str::replace("SAFE_EXAM_HOST", $this->get_domain(request()->getHost()), $xml);
+
+        if ($safe_exam->full_screen) {
+            $xml = Str::replace("IKASGELA_FULLSCREEN", '1', $xml);
+        } else {
+            $xml = Str::replace("IKASGELA_FULLSCREEN", '0', $xml);
+        }
+
+        if ($safe_exam->show_toolbar) {
+            $xml = Str::replace("IKASGELA_TOOLBAR", 'true', $xml);
+        } else {
+            $xml = Str::replace("IKASGELA_TOOLBAR", 'false', $xml);
+        }
 
         $xml_allowed_apps = '';
         foreach ($safe_exam->allowed_apps()->get() as $app) {
@@ -165,5 +178,20 @@ class SafeExamController extends Controller
         $ruta = Storage::disk('seb')->path("/");
         $publicSuffixList = Rules::fromPath($ruta . '/public_suffix_list.dat.txt');
         return $publicSuffixList->resolve($host)->registrableDomain()->toString();
+    }
+
+    public function edit(SafeExam $safe_exam)
+    {
+        return view('safe_exam.configure', compact('safe_exam'));
+    }
+
+    public function update(Request $request, SafeExam $safe_exam)
+    {
+        $safe_exam->update([
+            'full_screen' => $request->has('full_screen'),
+            'show_toolbar' => $request->has('show_toolbar'),
+        ]);
+
+        return redirect()->route('safe_exam.index');
     }
 }

@@ -14,6 +14,7 @@ class SafeExam extends Model
 
     protected $fillable = [
         'token', 'quit_password', 'curso_id',
+        'full_screen', 'show_toolbar',
         '__import_id',
     ];
 
