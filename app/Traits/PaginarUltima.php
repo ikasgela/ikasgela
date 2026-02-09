@@ -6,13 +6,14 @@ trait PaginarUltima
 {
     public function paginate_ultima($coleccion, int $items_per_page = 25, string $key = 'pagina')
     {
-        // Paginar
-        $temp = $coleccion->paginate($items_per_page, ['*'], $key);
+        // Si no hay parámetro de página, calcular directamente la última página
+        if (!request()->has($key)) {
+            $total = $coleccion->count();
+            $last_page = max(1, (int)ceil($total / $items_per_page));
 
-        // Situar el paginador en la última página si pagina no está definida
-        if (!request()->has($key))
-            return $coleccion->paginate($items_per_page, ['*'], $key, $temp->lastPage());
-        else
-            return $temp;
+            return $coleccion->paginate($items_per_page, ['*'], $key, $last_page);
+        }
+
+        return $coleccion->paginate($items_per_page, ['*'], $key);
     }
 }
