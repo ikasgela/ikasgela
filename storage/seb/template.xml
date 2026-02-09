@@ -109,7 +109,7 @@
             Mobile/15E216 Safari/605.1.15
         </string>
         <key>browserViewMode</key>
-        <integer>1</integer>
+        <integer>IKASGELA_FULLSCREEN</integer>
         <key>browserWindowAllowAddressBar</key>
         <false/>
         <key>browserWindowAllowReload</key>
@@ -145,7 +145,7 @@
         <key>enableAppSwitcherCheck</key>
         <true/>
         <key>enableBrowserWindowToolbar</key>
-        <true/>
+        <IKASGELA_TOOLBAR/>
         <key>enableChromeNotifications</key>
         <false/>
         <key>enableCtrlEsc</key>

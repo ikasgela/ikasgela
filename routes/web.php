@@ -678,6 +678,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('allowed_urls.destroy');
             Route::post('/allowed_urls/{allowed_url}/duplicate', [AllowedUrlController::class, 'duplicate'])
                 ->name('allowed_urls.duplicate');
+
+            Route::get('/safe_exam/{safe_exam}/configure', [SafeExamController::class, 'edit'])
+                ->name('safe_exam.configure');
+            Route::put('/safe_exam/{safe_exam}', [SafeExamController::class, 'update'])
+                ->name('safe_exam.update');
         });
 
         // Alumnos y profesores
