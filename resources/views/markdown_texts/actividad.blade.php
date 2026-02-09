@@ -81,7 +81,8 @@
                     <tbody>
                     @foreach($disponibles as $markdown_text)
                         <tr>
-                            <td><input type="checkbox" name="seleccionadas[]" value="{{ $markdown_text->id }}"></td>
+                            <td><input class="form-check-input" type="checkbox" name="seleccionadas[]"
+                                       value="{{ $markdown_text->id }}"></td>
                             <td>{{ $markdown_text->id }}</td>
                             <td>{{ $markdown_text->titulo }}</td>
                             <td>{{ $markdown_text->descripcion }}</td>

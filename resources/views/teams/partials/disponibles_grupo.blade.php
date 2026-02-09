@@ -12,7 +12,7 @@
                 <span class="spinner-border spinner-border-sm" style="display:none;"></span> {{ __('Save assigment') }}
             </button>
             <div>
-                <input type="checkbox" id="notificar" name="notificar" checked="checked"/>
+                <input class="form-check-input" type="checkbox" id="notificar" name="notificar" checked="checked"/>
                 <label class="ms-1" for="notificar">{{ __('Send notification email') }}</label>
             </div>
         </div>

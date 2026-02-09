@@ -5,7 +5,7 @@
         <tr>
             @include('actividades.partials.indicador_tabla_cabecera')
             <th>
-                <input type="checkbox" id="seleccionar_usuarios">
+                <input class="form-check-input" type="checkbox" id="seleccionar_usuarios">
             </th>
             @if(config('ikasgela.avatar_enabled'))
                 <th></th>
@@ -75,7 +75,8 @@
                     ])
                 @endif
                 <td>
-                    <input form="asignar" type="checkbox"
+                    <input class="form-check-input"
+                           form="asignar" type="checkbox"
                            data-chkbox-shiftsel="grupo1"
                            name="usuarios_seleccionados[{{ $user->id }}]" value="{{ $user->id }}">
                 </td>

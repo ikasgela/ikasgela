@@ -92,7 +92,8 @@
                     <tbody>
                     @foreach($disponibles as $file_upload)
                         <tr>
-                            <td><input type="checkbox" name="seleccionadas[]" value="{{ $file_upload->id }}"></td>
+                            <td><input class="form-check-input" type="checkbox" name="seleccionadas[]"
+                                       value="{{ $file_upload->id }}"></td>
                             <td>{{ $file_upload->id }}</td>
                             <td>{{ $file_upload->titulo }}</td>
                             <td>{{ $file_upload->descripcion }}</td>

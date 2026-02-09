@@ -98,7 +98,8 @@
                     <tbody>
                     @foreach($disponibles as $intellij_project)
                         <tr>
-                            <td><input type="checkbox" name="seleccionadas[]" value="{{ $intellij_project->id }}"></td>
+                            <td><input class="form-check-input" type="checkbox" name="seleccionadas[]"
+                                       value="{{ $intellij_project->id }}"></td>
                             <td>{{ $intellij_project->id }}</td>
                             <td>{{ $intellij_project->titulo }}</td>
                             <td>{{ $intellij_project->descripcion }}</td>

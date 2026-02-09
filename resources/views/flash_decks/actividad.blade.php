@@ -78,7 +78,8 @@
                     <tbody>
                     @foreach($disponibles as $flash_deck)
                         <tr>
-                            <td><input type="checkbox" name="seleccionadas[]" value="{{ $flash_deck->id }}"></td>
+                            <td><input class="form-check-input" type="checkbox" name="seleccionadas[]"
+                                       value="{{ $flash_deck->id }}"></td>
                             <td>{{ $flash_deck->id }}</td>
                             <td>{{ $flash_deck->titulo }}</td>
                             <td>{{ $flash_deck->descripcion }}</td>

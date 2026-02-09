@@ -4,7 +4,7 @@
         <tr>
             @include('actividades.partials.indicador_tabla_cabecera')
             <th>
-                <input type="checkbox" id="seleccionar_actividades">
+                <input class="form-check-input" type="checkbox" id="seleccionar_actividades">
             </th>
             <th>#</th>
             <th>{{ __('Name') }}</th>
@@ -28,7 +28,8 @@
                     'titulo' => __('Highlighted')
                 ])
                 <td>
-                    <input type="checkbox"
+                    <input class="form-check-input"
+                           type="checkbox"
                            data-chkbox-shiftsel="grupo2"
                            name="seleccionadas[{{ $actividad->id }}]" value="{{ $actividad->id }}">
                 </td>

@@ -89,7 +89,8 @@
                     <tbody>
                     @foreach($disponibles as $link_collection)
                         <tr>
-                            <td><input type="checkbox" name="seleccionadas[]" value="{{ $link_collection->id }}"></td>
+                            <td><input class="form-check-input" type="checkbox" name="seleccionadas[]"
+                                       value="{{ $link_collection->id }}"></td>
                             <td>{{ $link_collection->id }}</td>
                             <td>{{ $link_collection->titulo }}</td>
                             <td>{{ $link_collection->descripcion }}</td>

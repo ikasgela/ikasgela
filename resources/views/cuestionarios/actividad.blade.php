@@ -78,7 +78,8 @@
                     <tbody>
                     @foreach($disponibles as $cuestionario)
                         <tr>
-                            <td><input type="checkbox" name="seleccionadas[]" value="{{ $cuestionario->id }}"></td>
+                            <td><input class="form-check-input" type="checkbox" name="seleccionadas[]"
+                                       value="{{ $cuestionario->id }}"></td>
                             <td>{{ $cuestionario->id }}</td>
                             <td>{{ $cuestionario->titulo }}</td>
                             <td>{{ $cuestionario->descripcion }}</td>

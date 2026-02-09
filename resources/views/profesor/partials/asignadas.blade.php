@@ -9,7 +9,7 @@
             <tr>
                 @include('actividades.partials.indicador_tabla_cabecera')
                 <th>
-                    <input type="checkbox" id="seleccionar_asignadas">
+                    <input class="form-check-input" type="checkbox" id="seleccionar_asignadas">
                 </th>
                 <th>#</th>
                 <th>{{ __('Activity') }}</th>
@@ -50,7 +50,8 @@
                         'condicion' => $actividad->tarea->estado == 30 && !$actividad->auto_avance,
                     ])
                     <td>
-                        <input id="input_actividad_{{ $actividad->id }}" form="multiple"
+                        <input class="form-check-input"
+                               id="input_actividad_{{ $actividad->id }}" form="multiple"
                                data-chkbox-shiftsel="grupo3"
                                onclick="document.getElementById('input2_actividad_{{ $actividad->id }}').checked = this.checked"
                                type="checkbox" name="asignadas[]" value="{{ $actividad->tarea->id }}">

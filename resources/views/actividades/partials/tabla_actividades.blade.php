@@ -5,7 +5,7 @@
         <tr>
             @include('actividades.partials.indicador_tabla_cabecera')
             <th>
-                <input type="checkbox" id="seleccionar_actividades">
+                <input class="form-check-input" type="checkbox" id="seleccionar_actividades">
             </th>
             <th>#</th>
             @if(Route::currentRouteName() == 'actividades.index')
@@ -34,7 +34,8 @@
                     'titulo' => __('Highlighted')
                 ])
                 <td>
-                    <input form="multiple"
+                    <input class="form-check-input"
+                           form="multiple"
                            data-chkbox-shiftsel="grupo1"
                            type="checkbox" name="seleccionadas[]" value="{{ $actividad->id }}">
                 </td>

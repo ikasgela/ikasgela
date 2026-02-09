@@ -75,7 +75,8 @@
                     <tbody>
                     @foreach($disponibles as $selector)
                         <tr>
-                            <td><input type="checkbox" name="seleccionadas[]" value="{{ $selector->id }}"></td>
+                            <td><input class="form-check-input" type="checkbox" name="seleccionadas[]"
+                                       value="{{ $selector->id }}"></td>
                             <td>{{ $selector->id }}</td>
                             <td>{{ $selector->titulo }}</td>
                             <td>{{ $selector->descripcion }}</td>

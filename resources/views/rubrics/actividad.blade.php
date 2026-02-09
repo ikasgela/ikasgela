@@ -78,7 +78,8 @@
                     <tbody>
                     @foreach($disponibles as $rubric)
                         <tr>
-                            <td><input type="checkbox" name="seleccionadas[]" value="{{ $rubric->id }}"></td>
+                            <td><input class="form-check-input" type="checkbox" name="seleccionadas[]"
+                                       value="{{ $rubric->id }}"></td>
                             <td>{{ $rubric->id }}</td>
                             <td>{{ $rubric->titulo }}</td>
                             <td>{{ $rubric->descripcion }}</td>

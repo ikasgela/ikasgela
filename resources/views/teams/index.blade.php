@@ -16,7 +16,7 @@
             <tr>
                 <th class="p-0"></th>
                 <th>
-                    <input type="checkbox" id="seleccionar_equipos">
+                    <input class="form-check-input" type="checkbox" id="seleccionar_equipos">
                 </th>
                 <th>{{ __('Group') }}</th>
                 <th>{{ __('Name') }}</th>
@@ -31,7 +31,8 @@
                 <tr class="table-cell-click" data-href="{{ route('teams.show', [$team->id]) }}">
                     <td class="p-0 ps-1"></td>
                     <td>
-                        <input form="asignar" type="checkbox"
+                        <input class="form-check-input"
+                               form="asignar" type="checkbox"
                                data-chkbox-shiftsel="grupo4"
                                name="equipos_seleccionados[{{ $team->id }}]" value="{{ $team->id }}">
                     </td>

@@ -89,7 +89,8 @@
                     <tbody>
                     @foreach($disponibles as $youtube_video)
                         <tr>
-                            <td><input type="checkbox" name="seleccionadas[]" value="{{ $youtube_video->id }}"></td>
+                            <td><input class="form-check-input" type="checkbox" name="seleccionadas[]"
+                                       value="{{ $youtube_video->id }}"></td>
                             <td>{{ $youtube_video->id }}</td>
                             <td>{{ $youtube_video->titulo }}</td>
                             <td>{{ $youtube_video->descripcion }}</td>
