@@ -12,7 +12,10 @@
 
     {{ html()->form('POST', route('profesor.index.filtro'))->open() }}
     {{ html()->submit('<i class="bi bi-filter"></i>')
-            ->class(['btn btn-sm rounded-0', session('filtrar_user_actual') == $user->id ? 'btn-primary' : 'btn-light'])
+            ->class(['btn btn-sm',
+                     session('filtrar_user_actual') == $user->id ? 'btn-primary' : 'btn-light',
+                     $user->canBeImpersonated() || !$user->hasVerifiedEmail() ? 'rounded-0' : 'rounded-end-0'
+            ])
             ->attribute('title', __('Filter')) }}
     {{ html()->hidden('user_id', $user->id) }}
     {{ html()->form()->close() }}
