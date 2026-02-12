@@ -4,8 +4,12 @@ namespace App\Traits;
 
 trait PaginarUltima
 {
-    public function paginate_ultima($coleccion, int $items_per_page = 25, string $key = 'pagina')
+    public function paginate_ultima($coleccion, int $items_per_page = -1, string $key = 'pagina')
     {
+        if ($items_per_page == -1) {
+            $items_per_page = config('ikasgela.pagination_medium');
+        }
+
         // Si no hay parámetro de página, calcular directamente la última página
         if (!request()->has($key)) {
             $total = $coleccion->count();

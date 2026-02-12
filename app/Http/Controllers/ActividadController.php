@@ -56,7 +56,7 @@ class ActividadController extends Controller
             $results = Actividad::whereHas('unidad', fn($query) => $query->where('curso_id', session('filtrar_curso_actual')));
         }
 
-        $actividades = $this->paginate_ultima($results, 250);
+        $actividades = $this->paginate_ultima($results, config('ikasgela.pagination_medium'));
 
         session(['ubicacion' => 'actividades.index']);
 
@@ -848,7 +848,7 @@ class ActividadController extends Controller
             $actividades = $actividades->tags(session('tags_actividades'));
         }
 
-        $actividades = $this->paginate_ultima($actividades, 250);
+        $actividades = $this->paginate_ultima($actividades, config('ikasgela.pagination_medium'));
 
         return $actividades;
     }

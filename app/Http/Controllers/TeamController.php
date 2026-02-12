@@ -143,7 +143,7 @@ class TeamController extends Controller
             $disponibles = $actividades_curso;
         }
 
-        return $this->paginate_ultima($disponibles, config('ikasgela.pagination_available_activities'), 'disponibles');
+        return $this->paginate_ultima($disponibles, config('ikasgela.pagination_short'), 'disponibles');
     }
 
     private function actividadesAsignadas(Team $team)
@@ -156,6 +156,6 @@ class TeamController extends Controller
             $asignadas = $actividades_equipo;
         }
 
-        return $this->paginate_ultima($asignadas, config('ikasgela.pagination_assigned_activities'), 'asignadas');
+        return $this->paginate_ultima($asignadas, config('ikasgela.pagination_short'), 'asignadas');
     }
 }

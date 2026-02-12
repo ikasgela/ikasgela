@@ -39,9 +39,9 @@ class RegistroController extends Controller
         }
 
         if (!is_null($user)) {
-            $registros = $this->paginate_ultima(Registro::where('curso_id', $curso?->id)->where('user_id', $user->id), 100);
+            $registros = $this->paginate_ultima(Registro::where('curso_id', $curso?->id)->where('user_id', $user->id), config('ikasgela.pagination_long'));
         } else {
-            $registros = $this->paginate_ultima(Registro::where('curso_id', $curso?->id), 100);
+            $registros = $this->paginate_ultima(Registro::where('curso_id', $curso?->id), config('ikasgela.pagination_long'));
         }
 
         return view('registros.index', compact(['registros', 'users']));

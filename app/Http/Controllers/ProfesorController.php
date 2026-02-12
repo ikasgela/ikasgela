@@ -182,7 +182,7 @@ class ProfesorController extends Controller
     {
         $actividades = $this->getActividadesFiltradas($request, $user);
 
-        $actividades = $this->paginate_ultima($actividades, config('ikasgela.pagination_assigned_activities'), 'asignadas');
+        $actividades = $this->paginate_ultima($actividades, config('ikasgela.pagination_short'), 'asignadas');
 
         $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('orden')->get();
 
@@ -474,7 +474,7 @@ class ProfesorController extends Controller
         // No mostrar las etiquetadas como trabajo en equipo en la vista de usuarios
         $disponibles = $disponibles->tags('trabajo en equipo', false);
 
-        return $this->paginate_ultima($disponibles, config('ikasgela.pagination_available_activities'), 'disponibles');
+        return $this->paginate_ultima($disponibles, config('ikasgela.pagination_short'), 'disponibles');
     }
 
     public function editNotaManual(User $user, Curso $curso)

@@ -24,7 +24,7 @@ class ArchivoController extends Controller
 
         $user = $this->filtrar_por_usuario($request, $user);
 
-        $actividades = $this->paginate_ultima($user->actividades_archivadas());
+        $actividades = $this->paginate_ultima($user->actividades_archivadas(), config('ikasgela.pagination_medium'));
 
         $users = $this->usuarios_curso_actual($user);
 
@@ -80,7 +80,7 @@ class ArchivoController extends Controller
 
         $user = $this->filtrar_por_usuario($request, $user);
 
-        $actividades = $this->paginate_ultima($user->actividades(), 100);
+        $actividades = $this->paginate_ultima($user->actividades(), config('ikasgela.pagination_medium'));
 
         $users = $this->usuarios_curso_actual($user);
 

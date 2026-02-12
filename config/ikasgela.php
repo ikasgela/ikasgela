@@ -16,8 +16,9 @@ return [
 
     'message_preview_max_length' => intval(env('MESSAGE_PREVIEW_MAX_LENGTH', 300)),
 
-    'pagination_assigned_activities' => intval(env('PAGINATION_ASSIGNED_ACTIVITIES', 20)),
-    'pagination_available_activities' => intval(env('PAGINATION_AVAILABLE_ACTIVITIES', 10)),
+    'pagination_short' => intval(env('PAGINATION_SHORT', 10)),
+    'pagination_medium' => intval(env('PAGINATION_MEDIUM', 25)),
+    'pagination_long' => intval(env('PAGINATION_LONG', 100)),
 
     'pdf_report_enabled' => env('PDF_REPORT_ENABLED', false),
     'excel_report_enabled' => env('EXCEL_REPORT_ENABLED', false),
