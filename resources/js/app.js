@@ -224,17 +224,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Sidebar toggler
-    document.querySelectorAll('.c-header-toggler').forEach(function (toggler) {
-        toggler.addEventListener('click', function () {
-            const sidebar = document.getElementById('sidebar');
-            const isSidebarOpen = sidebar && sidebar.classList.contains('c-sidebar-lg-show');
-            axios.post('/settings/api', {
-                sidebar_open: isSidebarOpen,
-            });
-        });
-    });
-
     // Checkbox shift-select functionality
     // https://github.com/iTeeLion/jquery.checkbox-shift-selector.js
     const chkboxShiftLastChecked = {};
