@@ -464,13 +464,20 @@ class IntellijProjectController extends Controller
         $total = 0;
         foreach ($actividades->get() as $actividad) {
             foreach ($actividad->intellij_projects as $intellij_project) {
-                if (!$intellij_project->isForked()) {
-                    $repositorio = GiteaClient::repo($intellij_project->repositorio);
-                } else {
-                    $repositorio = GiteaClient::repo($intellij_project->pivot->fork);
+                try {
+                    if (!$intellij_project->isForked()) {
+                        $repositorio = GiteaClient::repo($intellij_project->repositorio);
+                    } else {
+                        $repositorio = GiteaClient::repo($intellij_project->pivot->fork);
+                    }
+                    $this->clonarRepositorio($ruta, $repositorio);
+                    $total++;
+                } catch (Exception $e) {
+                    Log::error('Error de descargar repositorios de usuario', [
+                        'mensaje' => $e->getMessage(),
+                        'proyecto' => $intellij_project,
+                    ]);
                 }
-                $this->clonarRepositorio($ruta, $repositorio);
-                $total++;
             }
         }
 
