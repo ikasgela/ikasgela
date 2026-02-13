@@ -8,6 +8,7 @@
             @endif
             <th>{{ __('Student') }}</th>
             <th>{{ __('Activity') }}</th>
+            <th></th>
             <th>{{ __('Next') }}</th>
             @if(Auth::user()->hasRole('admin'))
                 <th>{{ __('Resources') }}</th>
@@ -41,6 +42,7 @@
                     <td class="clickable">
                         @include('actividades.partials.nombre_con_etiquetas', ['ruta' => explode('.', Route::currentRouteName())[0] . '.tareas.filtro', 'slug' => true])
                     </td>
+                    @include('profesor.partials.tarea_caducada')
                     @include('profesor.partials.siguiente_actividad')
                     @if(Auth::user()->hasRole('admin'))
                         @include('partials.botones_recursos')

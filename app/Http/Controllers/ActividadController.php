@@ -562,7 +562,11 @@ class ActividadController extends Controller
                 ]));
             }
 
-            return redirect(route('profesor.tareas', ['user' => $tarea->user->id]));
+            if (session('profesor_filtro_alumnos') == 'ACT') {
+                return redirect(route('profesor.index'));
+            } else {
+                return redirect(route('profesor.tareas', ['user' => $tarea->user->id]));
+            }
         } else {
             return redirect(route('home'));
         }
