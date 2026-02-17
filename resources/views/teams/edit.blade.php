@@ -34,9 +34,9 @@
                     {{ html()->label(__('Users'), 'users_seleccionados')->class('form-label') }}
                 </div>
                 <div class="col">
-                    <label>{{ __('Selected') }}</label>
-                    <select name="users_seleccionados[]" multiple class="form-control multi-select"
-                            id="users-select1">
+                    <label class="mb-1">{{ __('Selected') }}</label>
+                    <select id="users-select1" name="users_seleccionados[]"
+                            class="form-select" multiple @style(['height:10em'])>
                         @foreach($users_seleccionados as $user)
                             <option value="{{ $user->id }}">{{ $user->full_name }}</option>
                         @endforeach
@@ -51,8 +51,9 @@
                     </button>
                 </div>
                 <div class="col">
-                    <label>{{ __('Available') }}</label>
-                    <select multiple class="form-control multi-select" id="users-select2">
+                    <label class="mb-1">{{ __('Available') }}</label>
+                    <select id="users-select2"
+                            class="form-select" multiple @style(['height:10em'])>
                         @foreach($users_disponibles as $user)
                             <option value="{{ $user->id }}">{{ $user->full_name }}</option>
                         @endforeach
