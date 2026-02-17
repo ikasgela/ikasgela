@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Str;
+
 if (!function_exists('links_galeria')) {
 
     function links_galeria($texto_enlace, $id_galeria = '')
@@ -15,6 +17,15 @@ if (!function_exists('links_galeria')) {
             $clone->setAttribute('loading', 'lazy');
 
             $src = $clone->getAttribute('src');
+
+            $style = "";
+            $width = $clone->getAttribute('width');
+            if (Str::length($width) > 0)
+                $style .= 'width:' . $width . 'px;';
+            $height = $clone->getAttribute('height');
+            if (Str::length($height) > 0)
+                $style .= 'height:' . $height . 'px;';
+            $clone->setAttribute('style', $style);
 
             $link = $dom->createElement('a');
             $link->setAttribute('data-fancybox', 'gallery_' . $id_galeria);
