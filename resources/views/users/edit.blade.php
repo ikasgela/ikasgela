@@ -93,36 +93,13 @@
 
             @include('users.partials.selector_cursos')
 
-            <div class="row mb-3">
-                <div class="col-2">
-                    {{ html()->label(__('Organizations'), 'organizations_seleccionados')->class('form-label') }}
-                </div>
-                <div class="col">
-                    <label>{{ __('Selected') }}</label>
-                    <select name="organizations_seleccionados[]" multiple class="form-control multi-select"
-                            id="organizations-select1">
-                        @foreach($organizations_seleccionados as $organization)
-                            <option value="{{ $organization->id }}">{{ $organization->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-sm-1 d-flex flex-row justify-content-center align-items-center mt-3">
-                    <button data-selector="organizations" type="button" class="btn btn-primary btn-sm add">
-                        <i class="bi bi-arrow-left"></i>
-                    </button>
-                    <button data-selector="organizations" type="button" class="btn btn-primary btn-sm ms-1 remove">
-                        <i class="bi bi-arrow-right"></i>
-                    </button>
-                </div>
-                <div class="col">
-                    <label>{{ __('Available') }}</label>
-                    <select multiple class="form-control multi-select" id="organizations-select2">
-                        @foreach($organizations_disponibles as $organization)
-                            <option value="{{ $organization->id }}">{{ $organization->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
+            @include('components.dual-selector', [
+                'label' => 'Organizations',
+                'name' => 'organizations_seleccionados',
+                'selected' => $organizations_seleccionados,
+                'available' => $organizations_disponibles,
+                'optionText' => 'name',
+            ])
 
             @include('partials.guardar_cancelar')
             @include('layouts.errors')
