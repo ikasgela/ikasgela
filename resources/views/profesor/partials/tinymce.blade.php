@@ -9,7 +9,7 @@
         promotion: false,
         base_url: window.tinymce_base_url,
         language: '{{ LaravelLocalization::getCurrentLocale() }}',
-        plugins: "link image autolink emoticons lists hr codesample",
+        plugins: "link image autolink emoticons lists codesample",
         default_link_target: "_blank",
         toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | codesample | image link emoticons hr',
         link_assume_external_targets: true,
