@@ -5,6 +5,9 @@
             <div><i class="bi bi-ui-checks-grid me-2"></i>{{ __('Rubric') }}</div>
             @if(Auth::user()->hasAnyRole(['admin','profesor']))
                 <div>
+                    <a title="{{ __('Show') }}"
+                       href="{{ route('rubrics.show', [$rubric->id]) }}"
+                       class='text-link-light me-2'><i class="bi bi-eye"></i></a>
                     @if(!$rubric_is_qualifying)
                         @isset($actividad)
                             <a title="{{ __('Edit resources') }}"
@@ -14,22 +17,16 @@
                             </a>
                         @endisset
                     @endif
-                    @if($rubric_is_qualifying)
-                        <a title="{{ __('Show') }}"
-                           href="{{ route('rubrics.show', [$rubric->id]) }}"
-                           class='text-link-light'><i class="bi bi-eye"></i></a>
+                    @if($rubric_is_editing)
+                        <a title="{{ __('Save') }}"
+                           href="#"
+                           wire:click.prevent="toggle_edit"
+                           class='text-warning'><i class="bi bi-floppy-fill"></i></a>
                     @else
-                        @if($rubric_is_editing)
-                            <a title="{{ __('Save') }}"
-                               href="#"
-                               wire:click.prevent="toggle_edit"
-                               class='text-warning'><i class="bi bi-floppy-fill"></i></a>
-                        @else
-                            <a title="{{ __('Edit') }}"
-                               href="#"
-                               wire:click.prevent="toggle_edit"
-                               class='text-link-light'><i class="bi bi-pencil-square"></i></a>
-                        @endif
+                        <a title="{{ __('Edit') }}"
+                           href="#"
+                           wire:click.prevent="toggle_edit"
+                           class='text-link-light'><i class="bi bi-pencil-square"></i></a>
                     @endif
                 </div>
             @endif
