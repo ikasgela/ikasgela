@@ -17,7 +17,7 @@
 
 @php
     $nameId = str_replace(['[', ']'], '', $name);
-    $selectClass = $selectClass ?? 'form-select';
+    $selectClass = $selectClass ?? 'form-select multi-select';
     $height = $height ?? '10em';
     $labelFor = $labelFor ?? $name . '_seleccionados';
     $optionValue = $optionValue ?? 'id';
