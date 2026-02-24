@@ -64,7 +64,7 @@
                     </td>
                     <td class="text-center clickable">{!! $actividad->tarea->estado == 11 ? '<i class="bi bi-check-lg"></i>' : '<i class="bi bi-x text-secondary"></i>' !!}</td>
                     <td class="text-center clickable">{!! $actividad->tarea->estado >= 20 ? '<i class="bi bi-check-lg"></i>' : '<i class="bi bi-x text-danger"></i>' !!}</td>
-                    <td class="text-center clickable {!! $actividad->tarea->estado == 30 && !$actividad->auto_avance ? 'bg-danger text-white' : '' !!}">
+                    <td class="text-center clickable {!! $actividad->tarea->estado == 30 && !$actividad->auto_avance ? ($actividad->hasEtiqueta('examen') ? 'bg-info text-white' : 'bg-danger text-white') : '' !!}">
                         {!! $actividad->tarea->estado >= 30 ? '<i class="bi bi-check-lg"></i>' : '<i class="bi bi-x text-danger"></i>' !!}
                     </td>
                     <td class="text-center clickable">
