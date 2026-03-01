@@ -7,19 +7,25 @@ use Livewire\Component;
 
 class Modals extends Component
 {
-    public $alias;
-    public $size = "modal-lg";
-    public $params = [];
-    public $activeModal;
+    public ?string $alias = null;
+    public string $size = "modal-lg";
+    public array $params = [];
+    public ?string $activeModal = null;
 
     #[On('showModal')]
     public function showModal($data)
     {
+        if (!is_array($data) || empty($data['alias']) || !is_string($data['alias'])) {
+            return;
+        }
+
         $this->alias = $data['alias'];
-        if (isset($data['size'])) {
+
+        if (isset($data['size']) && is_string($data['size'])) {
             $this->size = $data['size'];
         }
-        $this->params = $data['params'] ?? [];
+
+        $this->params = is_array($data['params'] ?? null) ? $data['params'] : [];
         $this->activeModal = "modal-id-" . rand();
         $this->dispatch('showBootstrapModal');
     }

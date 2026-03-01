@@ -2,7 +2,7 @@
      aria-hidden="true" style="z-index: 9999;" wire:ignore.self>
     <div class="modal-dialog {{$size ?? "modal-lg"}}">
         <div class="modal-content">
-            @if ($alias)
+            @if ($alias && is_string($alias))
                 @livewire($alias, $params, key($activeModal))
             @endif
         </div>
