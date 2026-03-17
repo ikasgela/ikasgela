@@ -73,7 +73,7 @@ class IntellijProjectsAsociarActividadTest extends TestCase
         ]);
 
         // When
-        $this->post(route('intellij_projects.asociar', $actividad), ['seleccionadas' => [$intellij_project1, $intellij_project2]]);
+        $this->post(route('intellij_projects.asociar', $actividad), ['seleccionadas' => [$intellij_project1->id, $intellij_project2->id]]);
 
         // Then
         $this->assertCount(2, $actividad->intellij_projects()->get());

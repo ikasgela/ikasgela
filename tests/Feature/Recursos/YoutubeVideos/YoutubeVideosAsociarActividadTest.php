@@ -73,7 +73,7 @@ class YoutubeVideosAsociarActividadTest extends TestCase
         ]);
 
         // When
-        $this->post(route('youtube_videos.asociar', $actividad), ['seleccionadas' => [$youtube_video1, $youtube_video2]]);
+        $this->post(route('youtube_videos.asociar', $actividad), ['seleccionadas' => [$youtube_video1->id, $youtube_video2->id]]);
 
         // Then
         $this->assertCount(2, $actividad->youtube_videos()->get());

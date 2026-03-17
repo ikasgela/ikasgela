@@ -73,7 +73,7 @@ class FileResourcesAsociarActividadTest extends TestCase
         ]);
 
         // When
-        $this->post(route('file_resources.asociar', $actividad), ['seleccionadas' => [$file_resource1, $file_resource2]]);
+        $this->post(route('file_resources.asociar', $actividad), ['seleccionadas' => [$file_resource1->id, $file_resource2->id]]);
 
         // Then
         $this->assertCount(2, $actividad->file_resources()->get());

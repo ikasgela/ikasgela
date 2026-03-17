@@ -74,7 +74,7 @@ class RubricsAsociarActividadTest extends TestCase
         ]);
 
         // When
-        $this->post(route('rubrics.asociar', $actividad), ['seleccionadas' => [$rubric1, $rubric2]]);
+        $this->post(route('rubrics.asociar', $actividad), ['seleccionadas' => [$rubric1->id, $rubric2->id]]);
 
         // Then
         $this->assertCount(2, $actividad->rubrics()->get());

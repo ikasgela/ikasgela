@@ -73,7 +73,7 @@ class TestResultsAsociarActividadTest extends TestCase
         ]);
 
         // When
-        $this->post(route('test_results.asociar', $actividad), ['seleccionadas' => [$test_result1, $test_result2]]);
+        $this->post(route('test_results.asociar', $actividad), ['seleccionadas' => [$test_result1->id, $test_result2->id]]);
 
         // Then
         $this->assertCount(2, $actividad->test_results()->get());

@@ -73,7 +73,7 @@ class MarkdownTextsAsociarActividadTest extends TestCase
         ]);
 
         // When
-        $this->post(route('markdown_texts.asociar', $actividad), ['seleccionadas' => [$markdown_text1, $markdown_text2]]);
+        $this->post(route('markdown_texts.asociar', $actividad), ['seleccionadas' => [$markdown_text1->id, $markdown_text2->id]]);
 
         // Then
         $this->assertCount(2, $actividad->markdown_texts()->get());

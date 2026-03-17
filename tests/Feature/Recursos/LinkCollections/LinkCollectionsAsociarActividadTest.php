@@ -73,7 +73,7 @@ class LinkCollectionsAsociarActividadTest extends TestCase
         ]);
 
         // When
-        $this->post(route('link_collections.asociar', $actividad), ['seleccionadas' => [$link_collection1, $link_collection2]]);
+        $this->post(route('link_collections.asociar', $actividad), ['seleccionadas' => [$link_collection1->id, $link_collection2->id]]);
 
         // Then
         $this->assertCount(2, $actividad->link_collections()->get());

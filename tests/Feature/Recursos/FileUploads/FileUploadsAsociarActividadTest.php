@@ -73,7 +73,7 @@ class FileUploadsAsociarActividadTest extends TestCase
         ]);
 
         // When
-        $this->post(route('file_uploads.asociar', $actividad), ['seleccionadas' => [$file_upload1, $file_upload2]]);
+        $this->post(route('file_uploads.asociar', $actividad), ['seleccionadas' => [$file_upload1->id, $file_upload2->id]]);
 
         // Then
         $this->assertCount(2, $actividad->file_uploads()->get());

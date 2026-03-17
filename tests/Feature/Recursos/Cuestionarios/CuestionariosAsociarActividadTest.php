@@ -73,7 +73,7 @@ class CuestionariosAsociarActividadTest extends TestCase
         ]);
 
         // When
-        $this->post(route('cuestionarios.asociar', $actividad), ['seleccionadas' => [$cuestionario1, $cuestionario2]]);
+        $this->post(route('cuestionarios.asociar', $actividad), ['seleccionadas' => [$cuestionario1->id, $cuestionario2->id]]);
 
         // Then
         $this->assertCount(2, $actividad->cuestionarios()->get());
