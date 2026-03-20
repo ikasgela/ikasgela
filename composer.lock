@@ -182,16 +182,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.373.5",
+            "version": "3.373.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "978964f417f3617a6ced691110af6fc5d496fb4e"
+                "reference": "adad2a5f7785e71928b4a9eb1eaadf5d0ede5edc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/978964f417f3617a6ced691110af6fc5d496fb4e",
-                "reference": "978964f417f3617a6ced691110af6fc5d496fb4e",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/adad2a5f7785e71928b4a9eb1eaadf5d0ede5edc",
+                "reference": "adad2a5f7785e71928b4a9eb1eaadf5d0ede5edc",
                 "shasum": ""
             },
             "require": {
@@ -273,9 +273,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.373.5"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.373.6"
             },
-            "time": "2026-03-18T18:22:37+00:00"
+            "time": "2026-03-19T19:38:25+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -1586,16 +1586,16 @@
         },
         {
             "name": "dragon-code/support",
-            "version": "6.16.0",
+            "version": "6.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TheDragonCode/support.git",
-                "reference": "ab9b657a307e75f6ba5b2b39e1e45207dc1a065a"
+                "reference": "b1e076dc23bed84562af97ee03f8bd840a077706"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TheDragonCode/support/zipball/ab9b657a307e75f6ba5b2b39e1e45207dc1a065a",
-                "reference": "ab9b657a307e75f6ba5b2b39e1e45207dc1a065a",
+                "url": "https://api.github.com/repos/TheDragonCode/support/zipball/b1e076dc23bed84562af97ee03f8bd840a077706",
+                "reference": "b1e076dc23bed84562af97ee03f8bd840a077706",
                 "shasum": ""
             },
             "require": {
@@ -1614,7 +1614,7 @@
                 "andrey-helldar/support": "*"
             },
             "require-dev": {
-                "illuminate/contracts": "^9.0 || ^10.0 || ^11.0 || ^12.0",
+                "illuminate/contracts": "^9.0 || ^10.0 || ^11.0 || ^12.0 || ^13.0",
                 "phpunit/phpunit": "^9.6 || ^11.0 || ^12.0",
                 "symfony/var-dumper": "^6.0 || ^7.0"
             },
@@ -1677,7 +1677,7 @@
                     "type": "yoomoney"
                 }
             ],
-            "time": "2025-02-24T14:01:52+00:00"
+            "time": "2026-03-18T20:39:32+00:00"
         },
         {
             "name": "dragonmantank/cron-expression",
@@ -2061,31 +2061,31 @@
         },
         {
             "name": "graham-campbell/markdown",
-            "version": "v16.0.0",
+            "version": "v16.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Laravel-Markdown.git",
-                "reference": "040221ff01f167fbe53a047b0e9ac15cbb3b6d79"
+                "reference": "2f951f7cba4f2ab6af75b4b2821e93a81f6a70c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Markdown/zipball/040221ff01f167fbe53a047b0e9ac15cbb3b6d79",
-                "reference": "040221ff01f167fbe53a047b0e9ac15cbb3b6d79",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Markdown/zipball/2f951f7cba4f2ab6af75b4b2821e93a81f6a70c0",
+                "reference": "2f951f7cba4f2ab6af75b4b2821e93a81f6a70c0",
                 "shasum": ""
             },
             "require": {
-                "illuminate/contracts": "^10.44 || ^11.0 || ^12.0",
-                "illuminate/filesystem": "^10.44 || ^11.0 || ^12.0",
-                "illuminate/support": "^10.44 || ^11.0 || ^12.0",
-                "illuminate/view": "^10.44 || ^11.0 || ^12.0",
-                "league/commonmark": "^2.6.1",
+                "illuminate/contracts": "^10.44 || ^11.0 || ^12.0 || ^13.0",
+                "illuminate/filesystem": "^10.44 || ^11.0 || ^12.0 || ^13.0",
+                "illuminate/support": "^10.44 || ^11.0 || ^12.0 || ^13.0",
+                "illuminate/view": "^10.44 || ^11.0 || ^12.0 || ^13.0",
+                "league/commonmark": "^2.8.2",
                 "php": "^8.1"
             },
             "require-dev": {
-                "graham-campbell/analyzer": "^5.0",
+                "graham-campbell/analyzer": "^5.1",
                 "graham-campbell/testbench": "^6.2",
-                "mockery/mockery": "^1.6.6",
-                "phpunit/phpunit": "^10.5.45 || ^11.5.10"
+                "mockery/mockery": "^1.6.12",
+                "phpunit/phpunit": "^10.5.63 || ^11.5.55 || ^12.5.14"
             },
             "type": "library",
             "extra": {
@@ -2125,7 +2125,7 @@
             ],
             "support": {
                 "issues": "https://github.com/GrahamCampbell/Laravel-Markdown/issues",
-                "source": "https://github.com/GrahamCampbell/Laravel-Markdown/tree/v16.0.0"
+                "source": "https://github.com/GrahamCampbell/Laravel-Markdown/tree/v16.1.0"
             },
             "funding": [
                 {
@@ -2137,7 +2137,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-03-02T23:41:30+00:00"
+            "time": "2026-03-19T20:52:58+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -4334,16 +4334,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "2.8.1",
+            "version": "2.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "84b1ca48347efdbe775426f108622a42735a6579"
+                "reference": "59fb075d2101740c337c7216e3f32b36c204218b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/84b1ca48347efdbe775426f108622a42735a6579",
-                "reference": "84b1ca48347efdbe775426f108622a42735a6579",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/59fb075d2101740c337c7216e3f32b36c204218b",
+                "reference": "59fb075d2101740c337c7216e3f32b36c204218b",
                 "shasum": ""
             },
             "require": {
@@ -4437,7 +4437,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-03-05T21:37:03+00:00"
+            "time": "2026-03-19T13:16:38+00:00"
         },
         {
             "name": "league/config",
@@ -12095,22 +12095,22 @@
         },
         {
             "name": "driftingly/rector-laravel",
-            "version": "2.1.12",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/driftingly/rector-laravel.git",
-                "reference": "2a2175eefabca6d15c247d55de17c75dc2f787a9"
+                "reference": "807840ceb09de6764cbfcce0719108d044a459a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/driftingly/rector-laravel/zipball/2a2175eefabca6d15c247d55de17c75dc2f787a9",
-                "reference": "2a2175eefabca6d15c247d55de17c75dc2f787a9",
+                "url": "https://api.github.com/repos/driftingly/rector-laravel/zipball/807840ceb09de6764cbfcce0719108d044a459a9",
+                "reference": "807840ceb09de6764cbfcce0719108d044a459a9",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.4 || ^8.0",
                 "rector/rector": "^2.2.7",
-                "webmozart/assert": "^1.11"
+                "webmozart/assert": "^1.11 || ^2.0"
             },
             "type": "rector-extension",
             "autoload": {
@@ -12125,9 +12125,9 @@
             "description": "Rector upgrades rules for Laravel Framework",
             "support": {
                 "issues": "https://github.com/driftingly/rector-laravel/issues",
-                "source": "https://github.com/driftingly/rector-laravel/tree/2.1.12"
+                "source": "https://github.com/driftingly/rector-laravel/tree/2.2.0"
             },
-            "time": "2026-03-06T19:59:21+00:00"
+            "time": "2026-03-19T17:24:38+00:00"
         },
         {
             "name": "fakerphp/faker",
@@ -12778,16 +12778,16 @@
         },
         {
             "name": "laravel-lang/lang",
-            "version": "15.29.0",
+            "version": "15.29.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/lang.git",
-                "reference": "0ef94b493a0ff9db38761d1a0d9ede0ce993e6b0"
+                "reference": "afb2b23deff665e6858bb847bbec136c764eeace"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/0ef94b493a0ff9db38761d1a0d9ede0ce993e6b0",
-                "reference": "0ef94b493a0ff9db38761d1a0d9ede0ce993e6b0",
+                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/afb2b23deff665e6858bb847bbec136c764eeace",
+                "reference": "afb2b23deff665e6858bb847bbec136c764eeace",
                 "shasum": ""
             },
             "require": {
@@ -12848,7 +12848,7 @@
                     "type": "yoomoney"
                 }
             ],
-            "time": "2026-03-17T23:12:45+00:00"
+            "time": "2026-03-19T21:14:21+00:00"
         },
         {
             "name": "laravel-lang/models",
@@ -13220,16 +13220,16 @@
         },
         {
             "name": "laravel-lang/starter-kits",
-            "version": "1.9.0",
+            "version": "1.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/starter-kits.git",
-                "reference": "c1f3b36949bb7084013b361e5ab0f3734663d84d"
+                "reference": "a99d03b85e59e66e8b5e2da8996eefb80a794446"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/starter-kits/zipball/c1f3b36949bb7084013b361e5ab0f3734663d84d",
-                "reference": "c1f3b36949bb7084013b361e5ab0f3734663d84d",
+                "url": "https://api.github.com/repos/Laravel-Lang/starter-kits/zipball/a99d03b85e59e66e8b5e2da8996eefb80a794446",
+                "reference": "a99d03b85e59e66e8b5e2da8996eefb80a794446",
                 "shasum": ""
             },
             "require": {
@@ -13281,7 +13281,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Laravel-Lang/starter-kits/issues",
-                "source": "https://github.com/Laravel-Lang/starter-kits/tree/1.9.0"
+                "source": "https://github.com/Laravel-Lang/starter-kits/tree/1.10.1"
             },
             "funding": [
                 {
@@ -13293,7 +13293,7 @@
                     "type": "yoomoney"
                 }
             ],
-            "time": "2026-02-28T00:57:54+00:00"
+            "time": "2026-03-20T08:43:52+00:00"
         },
         {
             "name": "laravel/dusk",
@@ -15937,23 +15937,23 @@
         },
         {
             "name": "webmozart/assert",
-            "version": "1.12.1",
+            "version": "2.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozarts/assert.git",
-                "reference": "9be6926d8b485f55b9229203f962b51ed377ba68"
+                "reference": "ff31ad6efc62e66e518fbab1cde3453d389bcdc8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozarts/assert/zipball/9be6926d8b485f55b9229203f962b51ed377ba68",
-                "reference": "9be6926d8b485f55b9229203f962b51ed377ba68",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/ff31ad6efc62e66e518fbab1cde3453d389bcdc8",
+                "reference": "ff31ad6efc62e66e518fbab1cde3453d389bcdc8",
                 "shasum": ""
             },
             "require": {
                 "ext-ctype": "*",
                 "ext-date": "*",
                 "ext-filter": "*",
-                "php": "^7.2 || ^8.0"
+                "php": "^8.2"
             },
             "suggest": {
                 "ext-intl": "",
@@ -15963,7 +15963,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.10-dev"
+                    "dev-feature/2-0": "2.0-dev"
                 }
             },
             "autoload": {
@@ -15979,6 +15979,10 @@
                 {
                     "name": "Bernhard Schussek",
                     "email": "bschussek@gmail.com"
+                },
+                {
+                    "name": "Woody Gilk",
+                    "email": "woody.gilk@gmail.com"
                 }
             ],
             "description": "Assertions to validate method input/output with nice error messages.",
@@ -15989,9 +15993,9 @@
             ],
             "support": {
                 "issues": "https://github.com/webmozarts/assert/issues",
-                "source": "https://github.com/webmozarts/assert/tree/1.12.1"
+                "source": "https://github.com/webmozarts/assert/tree/2.1.6"
             },
-            "time": "2025-10-29T15:56:20+00:00"
+            "time": "2026-02-27T10:28:38+00:00"
         }
     ],
     "aliases": [],
