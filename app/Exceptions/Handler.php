@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Livewire\Features\SupportLockedProperties\CannotUpdateLockedPropertyException;
 use Override;
 use Throwable;
 
@@ -16,7 +17,7 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
+        CannotUpdateLockedPropertyException::class,
     ];
 
     /**
@@ -51,6 +52,10 @@ class Handler extends ExceptionHandler
     #[Override]
     public function render($request, Throwable $exception)
     {
+        if ($exception instanceof CannotUpdateLockedPropertyException && $request->hasHeader('X-Livewire')) {
+            return response()->json(['message' => 'Invalid request.'], 422);
+        }
+
         return parent::render($request, $exception);
     }
 }

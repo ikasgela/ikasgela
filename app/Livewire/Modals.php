@@ -2,30 +2,38 @@
 
 namespace App\Livewire;
 
+use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Modals extends Component
 {
+    #[Locked]
     public ?string $alias = null;
+
+    #[Locked]
     public string $size = "modal-lg";
+
+    #[Locked]
     public array $params = [];
+
+    #[Locked]
     public ?string $activeModal = null;
 
     #[On('showModal')]
-    public function showModal($data)
+    public function showModal($alias = null, $params = [], $size = null)
     {
-        if (!is_array($data) || empty($data['alias']) || !is_string($data['alias'])) {
+        if (empty($alias) || !is_string($alias)) {
             return;
         }
 
-        $this->alias = $data['alias'];
+        $this->alias = $alias;
 
-        if (isset($data['size']) && is_string($data['size'])) {
-            $this->size = $data['size'];
+        if ($size !== null && is_string($size)) {
+            $this->size = $size;
         }
 
-        $this->params = is_array($data['params'] ?? null) ? $data['params'] : [];
+        $this->params = is_array($params) ? $params : [];
         $this->activeModal = "modal-id-" . rand();
         $this->dispatch('showBootstrapModal');
     }
