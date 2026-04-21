@@ -97,7 +97,7 @@ class CriteriaGroupComponent extends Component
     {
         $c1 = Criteria::findOrFail($criteria_id);
         $orden = $c1->criteria_group->criterias()->where('orden', '<', $c1->orden)->max('orden');
-        $c2 = Criteria::where('orden', $orden)->first();
+        $c2 = $c1->criteria_group->criterias()->where('orden', $orden)->first();
 
         if ($c2 != null) {
             $temp = $c1->orden;

@@ -55,7 +55,7 @@ class RubricComponent extends Component
     {
         $c1 = CriteriaGroup::findOrFail($criteria_group_id);
         $orden = $this->rubric->criteria_groups()->where('orden', '<', $c1->orden)->max('orden');
-        $c2 = CriteriaGroup::where('orden', $orden)->first();
+        $c2 = $this->rubric->criteria_groups()->where('orden', $orden)->first();
 
         if ($c2 != null) {
             $temp = $c1->orden;
@@ -89,6 +89,11 @@ class RubricComponent extends Component
         $clon = $criteria_group->duplicate();
         $clon->orden = Str::orderedUuid();
         $clon->save();
+
+        foreach ($clon->criterias()->orderBy('orden')->get() as $criteria) {
+            $criteria->orden = Str::orderedUuid();
+            $criteria->save();
+        }
     }
 
     public function toggle_edit()

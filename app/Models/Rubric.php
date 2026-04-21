@@ -6,6 +6,7 @@ use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use YMigVal\LaravelModelCache\HasCachedQueries;
 
 /**
@@ -66,6 +67,15 @@ class Rubric extends Model
         }
         $clon->plantilla = $this->plantilla;
         $clon->save();
+
+        foreach ($clon->criteria_groups()->orderBy('orden')->get() as $cg) {
+            $cg->orden = Str::orderedUuid();
+            $cg->save();
+            foreach ($cg->criterias()->orderBy('orden')->get() as $criteria) {
+                $criteria->orden = Str::orderedUuid();
+                $criteria->save();
+            }
+        }
 
         return $clon;
     }
