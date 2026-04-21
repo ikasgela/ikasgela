@@ -91,8 +91,7 @@ class T1_RubricEditorTest extends DuskTestCase
                 ->assertMissing('button[title="' . __('Move down') . '"]')
                 // Activar modo edición
                 ->click('a[title="' . __('Edit') . '"]')
-                ->pause(500)
-                ->assertSee(__('Add criteria group'))
+                ->waitFor('button[title="' . __('Add criteria group') . '"]')
                 ->assertPresent('button[title="' . __('Move down') . '"]');
         });
     }
@@ -105,9 +104,7 @@ class T1_RubricEditorTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $rubric = Rubric::findOrFail(static::$rubricId);
-            $browser->visit(route('rubrics.show', $rubric))
-                ->click('a[title="' . __('Edit') . '"]')
-                ->pause(500);
+            $this->activarEditor($browser, $rubric);
 
             // Orden inicial: Grupo A → Grupo B → Grupo C
             $this->assertOrdenTexto($browser, 'Grupo A', 'Grupo B');
@@ -115,7 +112,9 @@ class T1_RubricEditorTest extends DuskTestCase
 
             // Mover Grupo A hacia abajo (primer botón "Move down")
             $browser->elements('button[title="' . __('Move down') . '"]')[0]->click();
-            $browser->pause(600);
+            $browser->waitUntil(
+                "document.body.innerText.indexOf('Grupo B') > -1 && document.body.innerText.indexOf('Grupo A') > -1 && document.body.innerText.indexOf('Grupo B') < document.body.innerText.indexOf('Grupo A')"
+            );
 
             // Nuevo orden: Grupo B → Grupo A → Grupo C
             $this->assertOrdenTexto($browser, 'Grupo B', 'Grupo A');
@@ -127,14 +126,15 @@ class T1_RubricEditorTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $rubric = Rubric::findOrFail(static::$rubricId);
-            $browser->visit(route('rubrics.show', $rubric))
-                ->click('a[title="' . __('Edit') . '"]')
-                ->pause(500);
+            $this->activarEditor($browser, $rubric);
 
             // Estado previo: Grupo B → Grupo A → Grupo C
             // Mover Grupo A hacia arriba (es el segundo grupo, usar el segundo botón "Move up")
+            $browser->waitFor('button[title="' . __('Move up') . '"]');
             $browser->elements('button[title="' . __('Move up') . '"]')[1]->click();
-            $browser->pause(600);
+            $browser->waitUntil(
+                "document.body.innerText.indexOf('Grupo A') > -1 && document.body.innerText.indexOf('Grupo B') > -1 && document.body.innerText.indexOf('Grupo A') < document.body.innerText.indexOf('Grupo B')"
+            );
 
             // Orden restaurado: Grupo A → Grupo B → Grupo C
             $this->assertOrdenTexto($browser, 'Grupo A', 'Grupo B');
@@ -150,16 +150,16 @@ class T1_RubricEditorTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $rubric = Rubric::findOrFail(static::$rubricId);
-            $browser->visit(route('rubrics.show', $rubric))
-                ->click('a[title="' . __('Edit') . '"]')
-                ->pause(500);
+            $this->activarEditor($browser, $rubric);
 
             // Grupo A: Criterio 1 → Criterio 2 (orden inicial)
             $this->assertOrdenTexto($browser, 'Criterio 1 de Grupo A', 'Criterio 2 de Grupo A');
 
             // Mover Criterio 1 a la derecha (primer botón "Move right")
             $browser->elements('button[title="' . __('Move right') . '"]')[0]->click();
-            $browser->pause(600);
+            $browser->waitUntil(
+                "document.body.innerText.indexOf('Criterio 2 de Grupo A') > -1 && document.body.innerText.indexOf('Criterio 1 de Grupo A') > -1 && document.body.innerText.indexOf('Criterio 2 de Grupo A') < document.body.innerText.indexOf('Criterio 1 de Grupo A')"
+            );
 
             // Nuevo orden: Criterio 2 → Criterio 1
             $this->assertOrdenTexto($browser, 'Criterio 2 de Grupo A', 'Criterio 1 de Grupo A');
@@ -170,14 +170,14 @@ class T1_RubricEditorTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $rubric = Rubric::findOrFail(static::$rubricId);
-            $browser->visit(route('rubrics.show', $rubric))
-                ->click('a[title="' . __('Edit') . '"]')
-                ->pause(500);
+            $this->activarEditor($browser, $rubric);
 
             // Estado previo: Criterio 2 → Criterio 1 en Grupo A
             // Criterio 1 está en segunda posición → segundo botón "Move left"
             $browser->elements('button[title="' . __('Move left') . '"]')[1]->click();
-            $browser->pause(600);
+            $browser->waitUntil(
+                "document.body.innerText.indexOf('Criterio 1 de Grupo A') > -1 && document.body.innerText.indexOf('Criterio 2 de Grupo A') > -1 && document.body.innerText.indexOf('Criterio 1 de Grupo A') < document.body.innerText.indexOf('Criterio 2 de Grupo A')"
+            );
 
             // Orden restaurado: Criterio 1 → Criterio 2
             $this->assertOrdenTexto($browser, 'Criterio 1 de Grupo A', 'Criterio 2 de Grupo A');
@@ -192,9 +192,7 @@ class T1_RubricEditorTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $rubric = Rubric::findOrFail(static::$rubricId);
-            $browser->visit(route('rubrics.show', $rubric))
-                ->click('a[title="' . __('Edit') . '"]')
-                ->pause(500);
+            $this->activarEditor($browser, $rubric);
 
             // Abrir modal haciendo clic en el botón de texto del primer criterio del Grupo A
             $browser->elements('button.btn-primary.p-3')[0]->click();
@@ -203,16 +201,18 @@ class T1_RubricEditorTest extends DuskTestCase
             $browser->waitFor('#livewire-bootstrap-modal.show')
                 ->assertSee(__('Edit criteria'));
 
-            // Limpiar y escribir nuevo texto y puntuación
-            $browser->script("document.querySelector('#livewire-bootstrap-modal textarea').value = ''");
-            $browser->type('#livewire-bootstrap-modal textarea', 'Criterio editado Dusk');
+            // Escribir nuevo texto — Tab tras escribir dispara el evento blur y sincroniza wire:model
+            $browser->type('#livewire-bootstrap-modal textarea', 'Criterio editado Dusk')
+                ->keys('#livewire-bootstrap-modal textarea', ['{tab}'])
+                ->pause(300);
 
-            $browser->script("document.querySelector('#livewire-bootstrap-modal input[type=text]').value = ''");
-            $browser->type('#livewire-bootstrap-modal input[type=text]', '10');
+            $browser->type('#livewire-bootstrap-modal input[type=text]', '10')
+                ->keys('#livewire-bootstrap-modal input[type=text]', ['{tab}'])
+                ->pause(300);
 
             // Guardar y cerrar
             $browser->press(__('Save & Close'))
-                ->pause(600)
+                ->pause(800)
                 ->assertSee('Criterio editado Dusk');
         });
     }
@@ -225,17 +225,14 @@ class T1_RubricEditorTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $rubric = Rubric::findOrFail(static::$rubricId);
-            $browser->visit(route('rubrics.show', $rubric))
-                ->click('a[title="' . __('Edit') . '"]')
-                ->pause(500);
+            $this->activarEditor($browser, $rubric);
 
             // Clicar sobre el título del Grupo B para activar la edición inline
             $browser->clickLink('Grupo B')
-                ->pause(300)
-                ->assertPresent('input.form-control[wire\\:model="titulo"]');
+                ->waitFor('input.form-control.mb-2');
 
             // Reemplazar el título y confirmar con Enter
-            $grupoInputs = $browser->elements('input.form-control[wire\\:model="titulo"]');
+            $grupoInputs = $browser->elements('input.form-control.mb-2');
             $grupoInputs[0]->clear();
             $grupoInputs[0]->sendKeys('Grupo B Editado');
             $grupoInputs[0]->sendKeys(\Facebook\WebDriver\WebDriverKeys::ENTER);
@@ -255,13 +252,11 @@ class T1_RubricEditorTest extends DuskTestCase
             $rubric = Rubric::findOrFail(static::$rubricId);
             $conteoInicial = $rubric->criteria_groups()->count();
 
-            $browser->visit(route('rubrics.show', $rubric))
-                ->click('a[title="' . __('Edit') . '"]')
-                ->pause(500)
-                ->click('button[title="' . __('Add criteria group') . '"]')
+            $this->activarEditor($browser, $rubric);
+            $browser->click('button[title="' . __('Add criteria group') . '"]')
                 ->pause(600);
 
-            $this->assertDatabaseCount('criteria_groups', $conteoInicial + 1);
+            $this->assertSame($conteoInicial + 1, $rubric->refresh()->criteria_groups()->count());
         });
     }
 
@@ -276,11 +271,9 @@ class T1_RubricEditorTest extends DuskTestCase
             $rubric = Rubric::findOrFail(static::$rubricId);
             $conteoInicial = $rubric->criteria_groups()->count();
 
-            $browser->visit(route('rubrics.show', $rubric))
-                ->click('a[title="' . __('Edit') . '"]')
-                ->pause(500)
-                // Duplicar el primer grupo (Grupo A)
-                ->elements('button[title="' . __('Duplicate') . '"]')[0]->click();
+            $this->activarEditor($browser, $rubric);
+            $browser->waitFor('button[title="' . __('Duplicate') . '"]');
+            $browser->elements('button[title="' . __('Duplicate') . '"]')[0]->click();
             $browser->pause(600);
 
             $rubric->refresh();
@@ -304,15 +297,13 @@ class T1_RubricEditorTest extends DuskTestCase
             $rubric = Rubric::findOrFail(static::$rubricId);
             $conteoInicial = $rubric->criteria_groups()->count();
 
-            $browser->visit(route('rubrics.show', $rubric))
-                ->click('a[title="' . __('Edit') . '"]')
-                ->pause(500)
-                // Eliminar el último grupo usando el último botón "Delete"
-                ->tap(function (Browser $b) {
-                    $deleteButtons = $b->elements('button[title="' . __('Delete') . '"]');
-                    $deleteButtons[count($deleteButtons) - 1]->click();
-                })
-                ->pause(600);
+            $this->activarEditor($browser, $rubric);
+            // Usar wire:click para seleccionar sólo los botones de eliminar GRUPO
+            // (los de criterias tienen wire:click="$parent.delete_criteria(...)
+            $browser->waitFor('button[title="' . __('Delete') . '"]');
+            $deleteGroupButtons = $browser->elements('button[wire\:click*="delete_criteria_group"]');
+            $deleteGroupButtons[0]->click();
+            $browser->pause(600);
 
             $rubric->refresh();
             $this->assertSame($conteoInicial - 1, $rubric->criteria_groups()->count());
@@ -342,6 +333,17 @@ class T1_RubricEditorTest extends DuskTestCase
     // -------------------------------------------------------------------------
     // Helpers
     // -------------------------------------------------------------------------
+
+    /**
+     * Navega a la página de la rúbrica y activa el modo edición,
+     * esperando a que los controles del editor aparezcan en el DOM.
+     */
+    private function activarEditor(Browser $browser, Rubric $rubric): void
+    {
+        $browser->visit(route('rubrics.show', $rubric))
+            ->click('a[title="' . __('Edit') . '"]')
+            ->waitFor('button[title="' . __('Add criteria group') . '"]');
+    }
 
     /**
      * Verifica que $textoAntes aparece antes que $textoDespues en el HTML de la página.
