@@ -506,19 +506,24 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
     public function num_completadas($etiqueta, $unidad = null, ?Milestone $milestone = null)
     {
-        $total = 0;
+        $curso_id = $this->curso_actual()?->id ?? 0;
+        $key = 'num_completadas_' . $etiqueta . '_' . ($unidad ?? 'null') . '_' . ($milestone?->cache_key ?? 'null') . '_' . $curso_id;
 
-        $query = $this->actividades_completadas($milestone);
+        return Cache::tags('user_' . $this->id)->remember($key, config('ikasgela.eloquent_cache_time'), function () use ($etiqueta, $unidad, $milestone) {
+            $total = 0;
 
-        if (!is_null($unidad))
-            $query = $query->where('unidad_id', $unidad);
+            $query = $this->actividades_completadas($milestone);
 
-        foreach ($query->get() as $actividad) {
-            if ($actividad->hasEtiqueta($etiqueta))
-                $total += 1;
-        }
+            if (!is_null($unidad))
+                $query = $query->where('unidad_id', $unidad);
 
-        return $total;
+            foreach ($query->get() as $actividad) {
+                if ($actividad->hasEtiqueta($etiqueta))
+                    $total += 1;
+            }
+
+            return $total;
+        });
     }
 
     public function getNumCompletadasBaseAttribute()

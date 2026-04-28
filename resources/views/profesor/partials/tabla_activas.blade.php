@@ -18,7 +18,7 @@
         </thead>
         <tbody>
         @foreach($usuarios as $user)
-            @foreach($user->actividades()->where('auto_avance', false)->tag('examen', false)->whereIn('estado', [10, 11, 20, 21])->get() as $actividad)
+            @foreach($user->actividades as $actividad)
                 <tr class="table-cell-click"
                     data-href="{{ route('profesor.revisar', ['user' => $user->id, 'tarea' => $actividad->tarea->id]) }}">
                     @if($loop->first)

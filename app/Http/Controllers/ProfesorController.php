@@ -116,6 +116,15 @@ class ProfesorController extends Controller
                 'P' => $alumnos->orderBy('name')->get()->sortBy('num_completadas_base'),
                 default => $alumnos->orderBy('name')->get(),
             };
+
+            // Eager-load actividades activas para evitar N+1 en tabla_activas
+            if (session('profesor_filtro_alumnos') == 'ACT') {
+                $usuarios->load(['actividades' => function ($query) {
+                    $query->where('auto_avance', false)
+                        ->tag('examen', false)
+                        ->wherePivotIn('estado', [10, 11, 20, 21]);
+                }]);
+            }
         } else {
             $usuarios = User::cursoActual()->rolAlumno()->orderBy('name')->get();
         }

@@ -50,7 +50,11 @@
         @php($total_enviadas = 0)
         @php($total_enviadas_examen = 0)
         @php($media = false)
+        @php($curso_del_profesor = Auth::user()->curso_actual())
         @foreach($usuarios as $user)
+            @php($num_env = $user->num_actividades_enviadas_noautoavance_noexamen($curso_del_profesor))
+            @php($num_env_examen = $user->num_actividades_enviadas_noautoavance_examen($curso_del_profesor))
+            @php($siguiente = $user->siguiente_actividad())
             @if( !$media && session('profesor_filtro_alumnos') == 'P'
                     && $user->num_completadas('base') > $media_grupo )
                 <tr class="text-bg-light small fw-light">
@@ -100,15 +104,15 @@
                 <td class="clickable text-center">{{ $user->num_actividades_ocultas() }}</td>
                 <td class="clickable text-center">{{ $user->num_actividades_nuevas() }}</td>
                 <td class="clickable text-center">{{ $user->num_actividades_aceptadas() }}</td>
-                <td class="clickable text-center {{ $user->num_actividades_enviadas_noautoavance_noexamen(Auth::user()->curso_actual()) > 0 ? 'bg-danger text-white' : '' }}">
-                    {{ $user->num_actividades_enviadas_noautoavance_noexamen(Auth::user()->curso_actual()) }}
+                <td class="clickable text-center {{ $num_env > 0 ? 'bg-danger text-white' : '' }}">
+                    {{ $num_env }}
                 </td>
-                @php($total_enviadas += $user->num_actividades_enviadas_noautoavance_noexamen(Auth::user()->curso_actual()))
+                @php($total_enviadas += $num_env)
                 @if(session('profesor_filtro_actividades_examen') == 'E')
-                    <td class="clickable text-center {{ $user->num_actividades_enviadas_noautoavance(Auth::user()->curso_actual()) > 0 ? 'bg-info text-white' : '' }}">
-                        {{ $user->num_actividades_enviadas_noautoavance_examen(Auth::user()->curso_actual()) }}
+                    <td class="clickable text-center {{ $user->num_actividades_enviadas_noautoavance($curso_del_profesor) > 0 ? 'bg-info text-white' : '' }}">
+                        {{ $num_env_examen }}
                     </td>
-                    @php($total_enviadas_examen += $user->num_actividades_enviadas_noautoavance_examen(Auth::user()->curso_actual()))
+                    @php($total_enviadas_examen += $num_env_examen)
                 @endif
                 <td class="clickable text-center">{{ $user->num_actividades_revisadas() }}</td>
                 <td class="clickable text-center">{{ $user->num_actividades_archivadas() }}</td>
@@ -116,11 +120,11 @@
                 <td class="clickable text-center">{{ $user->max_simultaneas }}</td>
                 <td class="clickable text-lowercase">{{ $user->last_active_time }}</td>
                 <td class="clickable">
-                    <span title="{{ $user->siguiente_actividad()->slug ?? '' }}">
-                        {{ Str::limit($user->siguiente_actividad()->slug ?? '', 20) }}
+                    <span title="{{ $siguiente->slug ?? '' }}">
+                        {{ Str::limit($siguiente->slug ?? '', 20) }}
                     </span>
                 </td>
-                @include('profesor.partials.siguiente_actividad', ['actividad' => $user->siguiente_actividad()])
+                @include('profesor.partials.siguiente_actividad', ['actividad' => $siguiente])
                 @if(Auth::user()->hasRole('admin'))
                     <td>
                         @include('users.partials.acciones')
