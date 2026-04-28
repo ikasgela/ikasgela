@@ -127,10 +127,11 @@ class IntellijProject extends Model
                     GiteaClient::block_repo($repository['owner'], $repository['name'], $archived);
                 }
 
+                Cache::forget($this->cacheKey());
+
                 $this->pivot->archivado = $archived;
                 $this->pivot->save();
 
-                Cache::forget($this->cacheKey());
                 break;
             default:
                 Log::error('Tipo de host de repositorios desconocido.', [

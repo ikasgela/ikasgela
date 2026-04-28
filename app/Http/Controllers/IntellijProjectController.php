@@ -102,6 +102,9 @@ class IntellijProjectController extends Controller
 
     public function destroy(IntellijProject $intellij_project)
     {
+        Cache::forget($intellij_project->cacheKey());
+        Cache::forget($intellij_project->templateCacheKey());
+
         $intellij_project->delete();
 
         return back();

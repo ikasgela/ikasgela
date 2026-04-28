@@ -33,6 +33,9 @@ class BorrarCurso implements ShouldQueue
             'curso' => $curso->slug
         ]);
 
+        // Recoger IDs de usuarios matriculados ANTES de borrar el pivot
+        $userIds = $curso->users()->pluck('users.id')->toArray();
+
         foreach ($curso->actividades()->get() as $actividad) {
             DB::table('tareas')
                 ->where('actividad_id', '=', $actividad->id)
@@ -109,8 +112,13 @@ class BorrarCurso implements ShouldQueue
         $curso->delete();
         Schema::enableForeignKeyConstraints();
 
-        // Borrar la caché
-        Cache::flush();
+        // Borrar la caché de forma selectiva
+        Cache::tags('curso_' . $curso->id)->flush();
+        foreach ($userIds as $userId) {
+            Cache::tags('user_' . $userId)->flush();
+            Cache::forget("user.{$userId}");
+            Cache::forget("roles_{$userId}");
+        }
 
         Log::debug('Curso borrado.', [
             'curso' => $curso->slug

@@ -84,6 +84,8 @@ class MarkdownTextController extends Controller
 
         $markdown_text->update($request->all());
 
+        Cache::forget($markdown_text->cacheKey());
+
         return retornar();
     }
 

@@ -38,7 +38,6 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Schema;
@@ -84,8 +83,8 @@ class ImportCurso implements ShouldQueue
             $this->addImportId($import_id);
         }
 
-        // Borrar la caché antes de importar
-        Cache::flush();
+        // HasCachedQueries invalida automáticamente el model-cache en cada create/insert.
+        // No es necesario un flush global de caché.
 
         // Curso
         $json = $this->cargarFichero($ruta, 'curso.json');
