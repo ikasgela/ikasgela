@@ -18,13 +18,23 @@ if (!function_exists('setting_usuario')) {
         setting()->setExtraColumns(['user_id' => $usuario]);
 
         if (is_array($key)) {
-            if (!is_null(array_values($key)[0])) {
+            $settingKey = array_key_first($key);
+            $settingValue = array_values($key)[0];
+
+            if (!is_null($settingValue)) {
                 setting($key);
             } else {
-                setting()->forget(array_key_first($key));
+                setting()->forget($settingKey);
             }
             setting()->save();
+
+            // Flush all cached settings for this user and immediately re-populate
+            // the changed key so concurrent reads don't re-cache a stale value.
             Cache::tags('user_' . $usuario)->flush();
+            if (!is_null($settingValue)) {
+                Cache::tags('user_' . $usuario)
+                    ->put($settingKey, $settingValue, config('ikasgela.eloquent_cache_time'));
+            }
         } else {
             if (!is_null($usuario)) {
                 return Cache::tags('user_' . $usuario)
