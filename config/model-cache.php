@@ -6,10 +6,14 @@ return [
     | Cache Duration
     |--------------------------------------------------------------------------
     |
-    | This value determines the default number of minutes to cache query results.
+    | This value determines the default number of MINUTES to cache query results.
+    | Use MODEL_CACHE_DURATION to set this independently of ELOQUENT_CACHE_TIME,
+    | which is used in seconds by other parts of the application (e.g. setting_usuario).
+    | Default: 1440 minutes (24 hours). HasCachedQueries auto-invalidates on save/delete,
+    | so correctness is not affected by TTL — only Redis memory pressure is.
     |
     */
-    'cache_duration' => intval(env('ELOQUENT_CACHE_TIME', 7200)),
+    'cache_duration' => intval(env('MODEL_CACHE_DURATION', 1440)),
 
     /*
     |--------------------------------------------------------------------------

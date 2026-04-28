@@ -8,6 +8,7 @@ use Faker\Factory;
 use Faker\Generator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -32,7 +33,9 @@ class AppServiceProvider extends ServiceProvider
         }
 
         if (!App::runningInConsole()) {
-            $organization = Organization::where('slug', subdominio())->first();
+            $subdomain = subdominio();
+            $organization = Cache::tags('organization_' . $subdomain)
+                ->remember('organization', config('ikasgela.eloquent_cache_time'), fn() => Organization::where('slug', $subdomain)->first());
             View::share('current_organization', $organization);
         }
 

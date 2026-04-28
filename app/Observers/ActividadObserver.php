@@ -38,11 +38,12 @@ class ActividadObserver
 
     private function clearCache(Actividad $actividad): void
     {
+        $cursoId = $actividad->unidad->curso->id;
         $tareas = Tarea::where('actividad_id', $actividad->id)->get();
 
         foreach ($tareas as $tarea) {
             Cache::tags('user_' . $tarea->user_id)->flush();
-            Cache::tags('curso_' . $tarea->actividad->unidad->curso->id)->forget('recuento_caducadas');
+            Cache::tags('curso_' . $cursoId)->forget('recuento_caducadas');
         }
     }
 }
