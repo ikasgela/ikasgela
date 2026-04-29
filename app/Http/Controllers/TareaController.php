@@ -31,6 +31,7 @@ class TareaController extends Controller
         ]);
 
         $tarea->update($request->input());
+        $tarea->user->clearCache();
 
         return redirect(route('profesor.tareas', ['user' => $tarea->user->id]));
     }
