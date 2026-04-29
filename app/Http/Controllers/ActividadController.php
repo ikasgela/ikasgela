@@ -766,6 +766,7 @@ class ActividadController extends Controller
                 if (!$actividad->final) {
                     // Pendiente de aceptar
                     $usuario->actividades()->attach($clon, ['estado' => 10]);
+                    $usuario->clearCache();
 
                     // Notificar
                     if (!$actividad->unidad->curso->silence_notifications && setting_usuario('notificacion_actividad_asignada', $usuario)) {
@@ -775,6 +776,7 @@ class ActividadController extends Controller
                 } else {
                     // Oculta
                     $usuario->actividades()->attach($clon, ['estado' => 11]);
+                    $usuario->clearCache();
                 }
 
                 // Registrar la nueva tarea

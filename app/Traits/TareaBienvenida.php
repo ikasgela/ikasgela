@@ -26,6 +26,7 @@ trait TareaBienvenida
                 $clon->plantilla_id = $actividad->id;
                 $clon->save();
                 $user->actividades()->attach($clon, ['puntuacion' => $actividad->puntuacion]);
+                $user->clearCache();
             }
         }
     }

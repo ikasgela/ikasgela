@@ -393,6 +393,7 @@ class ProfesorController extends Controller
 
             $asignadas .= "- " . $clon->unidad->nombre . " - " . $clon->nombre . ".\n";
             $user->actividades()->attach($clon);
+            $user->clearCache();
             $tarea = Tarea::where('user_id', $user->id)->where('actividad_id', $clon->id)->first();
 
             Registro::create([
@@ -447,6 +448,7 @@ class ProfesorController extends Controller
                 CacheClear::create(['fecha' => $clon->fecha_limite, 'user_id' => $user->id]);
 
                 $user->actividades()->attach($clon);
+                $user->clearCache();
                 $tarea = Tarea::where('user_id', $user->id)->where('actividad_id', $clon->id)->first();
 
                 Registro::create([
