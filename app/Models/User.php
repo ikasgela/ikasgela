@@ -96,7 +96,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
                 'feedback',
                 'puntuacion',
                 'intentos'
-            ]);
+            ])
+            ->wherePivotNull('deleted_at');
     }
 
     public function roles()
