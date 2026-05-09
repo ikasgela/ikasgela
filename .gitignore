@@ -114,3 +114,5 @@ odc-reports/
 .phpunit.cache/
 
 _ide_helper
+
+coverage-xml/
