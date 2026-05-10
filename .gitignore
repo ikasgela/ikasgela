@@ -116,3 +116,5 @@ odc-reports/
 _ide_helper
 
 coverage-xml/
+
+phpunit.dusk.xml
