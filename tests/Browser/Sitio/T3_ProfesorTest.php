@@ -3,21 +3,17 @@
 namespace Tests\Browser\Sitio;
 
 use Laravel\Dusk\Browser;
+use Tests\Browser\Concerns\BrowserUiHelpers;
 use Tests\DuskTestCase;
 
 class T3_ProfesorTest extends DuskTestCase
 {
+    use BrowserUiHelpers;
+
     public function testLogin()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(route('login'));
-            $browser->type('email', 'profesor@ikasgela.com');
-            $browser->type('password', '12345Abcde');
-            $browser->check('remember');
-            $browser->press(__('Login'));
-            $browser->assertRouteIs('profesor.index');
-            $browser->assertDontSee('Ignition');
-            $browser->assertDontSee('403');
+            $this->loginAs($browser, 'profesor@ikasgela.com', '12345Abcde', 'profesor.index');
         });
     }
 
@@ -26,15 +22,9 @@ class T3_ProfesorTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('profesor.index'));
             $browser->assertRouteIs('profesor.index');
-            $browser->assertDontSee('Ignition');
-
-            if (config('ikasgela.avatar_enabled')) {
-                $browser->assertSeeIn('main > div > div > table > tbody > tr:nth-child(1) > td:nth-child(4)', 'Noa');
-                $browser->assertSeeIn('main > div > div > table > tbody > tr:nth-child(2) > td:nth-child(4)', 'Marc');
-            } else {
-                $browser->assertSeeIn('main > div > div > table > tbody > tr:nth-child(1) > td:nth-child(3)', 'Noa');
-                $browser->assertSeeIn('main > div > div > table > tbody > tr:nth-child(2) > td:nth-child(3)', 'Marc');
-            }
+            $this->assertNoAppErrors($browser);
+            $browser->assertSee('Noa');
+            $browser->assertSee('Marc');
         });
     }
 
@@ -43,7 +33,7 @@ class T3_ProfesorTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('messages'));
             $browser->assertRouteIs('messages');
-            $browser->assertDontSee('Ignition');
+            $this->assertNoAppErrors($browser);
             $browser->assertSee(__('Tutorship'));
         });
     }
@@ -53,7 +43,7 @@ class T3_ProfesorTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('teams.index'));
             $browser->assertRouteIs('teams.index');
-            $browser->assertDontSee('Ignition');
+            $this->assertNoAppErrors($browser);
             $browser->assertSee(__('Teams'));
         });
     }
@@ -63,7 +53,7 @@ class T3_ProfesorTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('users.portada'));
             $browser->assertRouteIs('users.portada');
-            $browser->assertDontSee('Ignition');
+            $this->assertNoAppErrors($browser);
             $browser->assertSee(__('Courses'));
         });
     }
@@ -71,10 +61,7 @@ class T3_ProfesorTest extends DuskTestCase
     public function testLogout()
     {
         $this->browse(function (Browser $browser) {
-            $browser->logout();
-            $browser->visit(route('portada'));
-            $browser->assertRouteIs('portada');
-            $browser->assertDontSee('Ignition');
+            $this->logoutToPortada($browser);
         });
     }
 }

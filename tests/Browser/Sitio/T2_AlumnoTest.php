@@ -3,21 +3,17 @@
 namespace Tests\Browser\Sitio;
 
 use Laravel\Dusk\Browser;
+use Tests\Browser\Concerns\BrowserUiHelpers;
 use Tests\DuskTestCase;
 
 class T2_AlumnoTest extends DuskTestCase
 {
+    use BrowserUiHelpers;
+
     public function testLogin()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(route('login'));
-            $browser->type('email', 'marc@ikasgela.com');
-            $browser->type('password', '12345Abcde');
-            $browser->check('remember');
-            $browser->press(__('Login'));
-            $browser->assertRouteIs('users.home');
-            $browser->assertDontSee('Ignition');
-            $browser->assertDontSee('403');
+            $this->loginAs($browser, 'marc@ikasgela.com', '12345Abcde', 'users.home');
         });
     }
 
@@ -26,7 +22,7 @@ class T2_AlumnoTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('users.home'));
             $browser->assertRouteIs('users.home');
-            $browser->assertDontSee('Ignition');
+            $this->assertNoAppErrors($browser);
             $browser->assertSee(__('Desktop'));
         });
     }
@@ -36,7 +32,7 @@ class T2_AlumnoTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('messages'));
             $browser->assertRouteIs('messages');
-            $browser->assertDontSee('Ignition');
+            $this->assertNoAppErrors($browser);
             $browser->assertSee(__('Tutorship'));
         });
     }
@@ -46,7 +42,7 @@ class T2_AlumnoTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('results.index'));
             $browser->assertRouteIs('results.index');
-            $browser->assertDontSee('Ignition');
+            $this->assertNoAppErrors($browser);
             $browser->assertSee(__('Results'));
         });
     }
@@ -56,7 +52,7 @@ class T2_AlumnoTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('archivo.index'));
             $browser->assertRouteIs('archivo.index');
-            $browser->assertDontSee('Ignition');
+            $this->assertNoAppErrors($browser);
             $browser->assertSee(__('Archived'));
         });
     }
@@ -66,7 +62,7 @@ class T2_AlumnoTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('archivo.outline'));
             $browser->assertRouteIs('archivo.outline');
-            $browser->assertDontSee('Ignition');
+            $this->assertNoAppErrors($browser);
             $browser->assertSee(__('Course progress'));
         });
     }
@@ -76,7 +72,7 @@ class T2_AlumnoTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('users.portada'));
             $browser->assertRouteIs('users.portada');
-            $browser->assertDontSee('Ignition');
+            $this->assertNoAppErrors($browser);
             $browser->assertSee(__('Courses'));
         });
     }
@@ -84,10 +80,7 @@ class T2_AlumnoTest extends DuskTestCase
     public function testLogout()
     {
         $this->browse(function (Browser $browser) {
-            $browser->logout();
-            $browser->visit(route('portada'));
-            $browser->assertRouteIs('portada');
-            $browser->assertDontSee('Ignition');
+            $this->logoutToPortada($browser);
         });
     }
 }

@@ -3,21 +3,17 @@
 namespace Tests\Browser\Sitio;
 
 use Laravel\Dusk\Browser;
+use Tests\Browser\Concerns\BrowserUiHelpers;
 use Tests\DuskTestCase;
 
 class T4_TutorTest extends DuskTestCase
 {
+    use BrowserUiHelpers;
+
     public function testLogin()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(route('login'));
-            $browser->type('email', 'tutor@ikasgela.com');
-            $browser->type('password', '12345Abcde');
-            $browser->check('remember');
-            $browser->press(__('Login'));
-            $browser->assertRouteIs('tutor.index');
-            $browser->assertDontSee('Ignition');
-            $browser->assertDontSee('403');
+            $this->loginAs($browser, 'tutor@ikasgela.com', '12345Abcde', 'tutor.index');
         });
     }
 
@@ -26,7 +22,7 @@ class T4_TutorTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('tutor.index'));
             $browser->assertRouteIs('tutor.index');
-            $browser->assertDontSee('Ignition');
+            $this->assertNoAppErrors($browser);
             $browser->assertSee(__('Group report'));
         });
     }
@@ -36,7 +32,7 @@ class T4_TutorTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('tutor.tareas_enviadas'));
             $browser->assertRouteIs('tutor.tareas_enviadas');
-            $browser->assertDontSee('Ignition');
+            $this->assertNoAppErrors($browser);
             $browser->assertSee(__('Activities per day'));
         });
     }
@@ -46,7 +42,7 @@ class T4_TutorTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('results.index'));
             $browser->assertRouteIs('results.index');
-            $browser->assertDontSee('Ignition');
+            $this->assertNoAppErrors($browser);
             $browser->assertSee(__('Evaluation and calification'));
         });
     }
@@ -56,7 +52,7 @@ class T4_TutorTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('archivo.outline'));
             $browser->assertRouteIs('archivo.outline');
-            $browser->assertDontSee('Ignition');
+            $this->assertNoAppErrors($browser);
             $browser->assertSee(__('Course progress'));
         });
     }
@@ -66,7 +62,7 @@ class T4_TutorTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('archivo.index'));
             $browser->assertRouteIs('archivo.index');
-            $browser->assertDontSee('Ignition');
+            $this->assertNoAppErrors($browser);
             $browser->assertSee(__('Archived'));
         });
     }
@@ -76,7 +72,7 @@ class T4_TutorTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('archivo.diario'));
             $browser->assertRouteIs('archivo.diario');
-            $browser->assertDontSee('Ignition');
+            $this->assertNoAppErrors($browser);
             $browser->assertSee(__('Activity journal'));
         });
     }
@@ -86,7 +82,7 @@ class T4_TutorTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(route('users.portada'));
             $browser->assertRouteIs('users.portada');
-            $browser->assertDontSee('Ignition');
+            $this->assertNoAppErrors($browser);
             $browser->assertSee(__('Courses'));
         });
     }
@@ -94,10 +90,7 @@ class T4_TutorTest extends DuskTestCase
     public function testLogout()
     {
         $this->browse(function (Browser $browser) {
-            $browser->logout();
-            $browser->visit(route('portada'));
-            $browser->assertRouteIs('portada');
-            $browser->assertDontSee('Ignition');
+            $this->logoutToPortada($browser);
         });
     }
 }

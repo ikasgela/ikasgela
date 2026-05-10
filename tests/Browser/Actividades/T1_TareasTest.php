@@ -2,20 +2,21 @@
 
 namespace Tests\Browser\Actividades;
 
+use App\Models\Actividad;
+use App\Models\Tarea;
+use App\Models\User;
 use Laravel\Dusk\Browser;
+use Tests\Browser\Concerns\BrowserUiHelpers;
 use Tests\DuskTestCase;
 
 class T1_TareasTest extends DuskTestCase
 {
+    use BrowserUiHelpers;
+
     public function testLogin()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(route('login'));
-            $browser->type('email', 'marc@ikasgela.com');
-            $browser->type('password', '12345Abcde');
-            $browser->check('remember');
-            $browser->press(__('Login'));
-            $browser->assertRouteIs('users.home');
+            $this->loginAs($browser, 'marc@ikasgela.com', '12345Abcde', 'users.home');
         });
     }
 
@@ -42,44 +43,38 @@ class T1_TareasTest extends DuskTestCase
 
     public function testActividad()
     {
+        $alumno = User::where('email', 'marc@ikasgela.com')->firstOrFail();
+        $actividadAgenda = Actividad::where('plantilla', true)
+            ->where('nombre', 'like', 'Agenda%')
+            ->orderBy('id')
+            ->firstOrFail();
+
         $this->browse(function (Browser $browser) {
 
             // Cerrar sesión
             $browser->logout();
 
             // Login de profesor
-            $browser->visit(route('login'));
-            $browser->type('email', 'lucia@ikasgela.com');
-            $browser->type('password', '12345Abcde');
-            $browser->check('remember');
-            $browser->press(__('Login'));
-            $browser->assertRouteIs('profesor.index');
+            $this->loginAs($browser, 'lucia@ikasgela.com', '12345Abcde', 'profesor.index');
+        });
 
-            $browser->visit('/alumnos');
-            $browser->pause(500)->check("input[name='usuarios_seleccionados[1]']");
-            $browser->check("input[name='seleccionadas[2]']");
+        $this->browse(function (Browser $browser) use ($alumno, $actividadAgenda) {
+            $browser->visit(route('profesor.index'));
+            $browser->pause(500)->check("usuarios_seleccionados[{$alumno->id}]");
+            $browser->check("seleccionadas[{$actividadAgenda->id}]");
 
             $browser->press(__('Save assigment'));
             $browser->assertRouteIs('profesor.index');
+            $browser->assertSee('Marc');
+            $browser->assertSee('1');
+        });
 
-            if (config('ikasgela.avatar_enabled')) {
-                $browser->assertSeeIn('main > div > div > table > tbody > tr:nth-child(2) > td:nth-child(4)', 'Marc');
-                $browser->assertSeeIn('main > div > div > table > tbody > tr:nth-child(2) > td:nth-child(6)', '1');
-            } else {
-                $browser->assertSeeIn('main > div > div > table > tbody > tr:nth-child(2) > td:nth-child(3)', 'Marc');
-                $browser->assertSeeIn('main > div > div > table > tbody > tr:nth-child(2) > td:nth-child(5)', '1');
-            }
-
+        $this->browse(function (Browser $browser) {
             // Cerrar sesión
             $browser->logout();
 
             // Login de alumno
-            $browser->visit(route('login'));
-            $browser->type('email', 'marc@ikasgela.com');
-            $browser->type('password', '12345Abcde');
-            $browser->check('remember');
-            $browser->press(__('Login'));
-            $browser->assertRouteIs('users.home');
+            $this->loginAs($browser, 'marc@ikasgela.com', '12345Abcde', 'users.home');
 
             // Aceptar actividad
             $browser->assertSee('Agenda');
@@ -114,33 +109,29 @@ class T1_TareasTest extends DuskTestCase
             $browser->logout();
 
             // Login de profesor
-            $browser->visit(route('login'));
-            $browser->type('email', 'lucia@ikasgela.com');
-            $browser->type('password', '12345Abcde');
-            $browser->check('remember');
-            $browser->press(__('Login'));
-            $browser->assertRouteIs('profesor.index');
+            $this->loginAs($browser, 'lucia@ikasgela.com', '12345Abcde', 'profesor.index');
+        });
 
+        $this->browse(function (Browser $browser) use ($alumno) {
             // Corregir la tarea y darla por terminada
-            $browser->visit('/alumnos/1/tareas');
-            $browser->visit('/profesor/1/revisar/2');
+            $tarea = Tarea::where('user_id', $alumno->id)
+                ->where('estado', 30)
+                ->latest('id')
+                ->firstOrFail();
+
+            $browser->visit(route('profesor.tareas', $alumno));
+            $browser->visit(route('profesor.revisar', [$alumno, $tarea]));
             $browser->type('puntuacion', '80');
             $browser->press(__('Add'));
             $browser->press(__('Finished'));
-            $browser->assertRouteIs('profesor.tareas', ['user' => 1]);  // $browser->assertPathIs('/alumnos/1/tareas');
-
-            $browser->assertSeeIn('main > div > div > table > tbody > tr:nth-child(2) > td:nth-child(9)', '80');
+            $browser->assertRouteIs('profesor.tareas', ['user' => $alumno->id]);
+            $browser->assertSee('80');
 
             // Cerrar sesión
             $browser->logout();
 
             // Login de alumno
-            $browser->visit(route('login'));
-            $browser->type('email', 'marc@ikasgela.com');
-            $browser->type('password', '12345Abcde');
-            $browser->check('remember');
-            $browser->press(__('Login'));
-            $browser->assertRouteIs('users.home');
+            $this->loginAs($browser, 'marc@ikasgela.com', '12345Abcde', 'users.home');
 
             // Aceptar actividad
             $browser->assertSee('Agenda');
@@ -156,9 +147,7 @@ class T1_TareasTest extends DuskTestCase
     public function testLogout()
     {
         $this->browse(function (Browser $browser) {
-            $browser->logout();
-            $browser->visit(route('portada'));
-            $browser->assertRouteIs('portada');
+            $this->logoutToPortada($browser);
         });
     }
 }
