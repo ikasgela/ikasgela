@@ -1,13 +1,14 @@
 <?php
 
-namespace Tests\Feature\Recursos\Rubrics;
+namespace Tests\Feature\Recursos\Selectors;
 
-use App\Models\Rubric;
+use App\Models\Curso;
+use App\Models\Selector;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Override;
 use Tests\TestCase;
 
-class RubricsCRUDTest extends TestCase
+class SelectorsCRUDTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -28,31 +29,14 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $rubric = Rubric::factory()->create([
-            'plantilla' => true,
-        ]);
-        session(['filtrar_curso_actual' => $rubric->curso_id]);
+        $selector = Selector::factory()->create();
+        session(['filtrar_curso_actual' => $selector->curso_id]);
 
         // When
-        $response = $this->get(route('rubrics.index'));
+        $response = $this->get(route('selectors.index'));
 
         // Then
-        $response->assertSuccessful()->assertSee($rubric->titulo);
-    }
-
-    public function testNotPlantillaNotIndex()
-    {
-        // Auth
-        $this->actingAs($this->profesor);
-
-        // Given
-        $rubric = Rubric::factory()->create();
-
-        // When
-        $response = $this->get(route('rubrics.index'));
-
-        // Then
-        $response->assertDontSee($rubric->titulo);
+        $response->assertSuccessful()->assertSee($selector->titulo);
     }
 
     public function testIndexAdminFiltro()
@@ -61,15 +45,13 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $rubric = Rubric::factory()->create([
-            'plantilla' => true,
-        ]);
+        $selector = Selector::factory()->create();
 
         // When
-        $response = $this->post(route('rubrics.index.filtro', ['curso_id' => $rubric->curso_id]));
+        $response = $this->post(route('selectors.index.filtro', ['curso_id' => $selector->curso_id]));
 
         // Then
-        $response->assertSuccessful()->assertSee($rubric->titulo);
+        $response->assertSuccessful()->assertSee($selector->titulo);
     }
 
     public function testNotAdminProfesorNotIndex()
@@ -79,7 +61,7 @@ class RubricsCRUDTest extends TestCase
 
         // Given
         // When
-        $response = $this->get(route('rubrics.index'));
+        $response = $this->get(route('selectors.index'));
 
         // Then
         $response->assertForbidden();
@@ -90,7 +72,7 @@ class RubricsCRUDTest extends TestCase
         // Auth
         // Given
         // When
-        $response = $this->get(route('rubrics.index'));
+        $response = $this->get(route('selectors.index'));
 
         // Then
         $response->assertRedirect(route('login'));
@@ -103,10 +85,10 @@ class RubricsCRUDTest extends TestCase
 
         // Given
         // When
-        $response = $this->get(route('rubrics.create'));
+        $response = $this->get(route('selectors.create'));
 
         // Then
-        $response->assertSuccessful()->assertSeeInOrder([__('New rubric'), __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([__('New selector'), __('Save')]);
     }
 
     public function testNotAdminProfesorNotCreate()
@@ -116,7 +98,7 @@ class RubricsCRUDTest extends TestCase
 
         // Given
         // When
-        $response = $this->get(route('rubrics.create'));
+        $response = $this->get(route('selectors.create'));
 
         // Then
         $response->assertForbidden();
@@ -127,7 +109,7 @@ class RubricsCRUDTest extends TestCase
         // Auth
         // Given
         // When
-        $response = $this->get(route('rubrics.create'));
+        $response = $this->get(route('selectors.create'));
 
         // Then
         $response->assertRedirect(route('login'));
@@ -139,14 +121,14 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $rubric = Rubric::factory()->make();
-        $total = Rubric::all()->count();
+        $selector = Selector::factory()->make();
+        $total = Selector::all()->count();
 
         // When
-        $this->post(route('rubrics.store'), $rubric->toArray());
+        $this->post(route('selectors.store'), $selector->toArray());
 
         // Then
-        $this->assertEquals($total + 1, Rubric::all()->count());
+        $this->assertEquals($total + 1, Selector::all()->count());
     }
 
     public function testNotAdminProfesorNotStore()
@@ -155,10 +137,10 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->not_admin_profesor);
 
         // Given
-        $rubric = Rubric::factory()->make();
+        $selector = Selector::factory()->make();
 
         // When
-        $response = $this->post(route('rubrics.store'), $rubric->toArray());
+        $response = $this->post(route('selectors.store'), $selector->toArray());
 
         // Then
         $response->assertForbidden();
@@ -168,10 +150,10 @@ class RubricsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $rubric = Rubric::factory()->make();
+        $selector = Selector::factory()->make();
 
         // When
-        $response = $this->post(route('rubrics.store'), $rubric->toArray());
+        $response = $this->post(route('selectors.store'), $selector->toArray());
 
         // Then
         $response->assertRedirect(route('login'));
@@ -183,18 +165,19 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $total = Rubric::all()->count();
-
-        $empty = new Rubric();
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+        $total = Selector::all()->count();
+        $empty = new Selector();
         foreach ($this->required as $field) {
             $empty->$field = '0';
         }
 
         // When
-        $this->post(route('rubrics.store'), $empty->toArray());
+        $this->post(route('selectors.store'), $empty->toArray());
 
         // Then
-        $this->assertCount($total + 1, Rubric::all());
+        $this->assertCount($total + 1, Selector::all());
     }
 
     private function storeRequires(string $field)
@@ -203,10 +186,10 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $rubric = Rubric::factory()->make([$field => null]);
+        $selector = Selector::factory()->make([$field => null]);
 
         // When
-        $response = $this->post(route('rubrics.store'), $rubric->toArray());
+        $response = $this->post(route('selectors.store'), $selector->toArray());
 
         // Then
         $response->assertSessionHasErrors($field);
@@ -225,13 +208,13 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $rubric = Rubric::factory()->create();
+        $selector = Selector::factory()->create();
 
         // When
-        $response = $this->get(route('rubrics.show', $rubric));
+        $response = $this->get(route('selectors.show', $selector));
 
         // Then
-        $response->assertSuccessful()->assertSeeInOrder([__('Rubric'), $rubric->titulo]);
+        $response->assertSuccessful()->assertSee($selector->titulo);
     }
 
     public function testNotAdminProfesorNotShow()
@@ -240,10 +223,10 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->not_admin_profesor);
 
         // Given
-        $rubric = Rubric::factory()->create();
+        $selector = Selector::factory()->create();
 
         // When
-        $response = $this->get(route('rubrics.show', $rubric));
+        $response = $this->get(route('selectors.show', $selector));
 
         // Then
         $response->assertForbidden();
@@ -252,10 +235,10 @@ class RubricsCRUDTest extends TestCase
     public function testNotAuthNotShow()
     {
         // Given
-        $rubric = Rubric::factory()->create();
+        $selector = Selector::factory()->create();
 
         // When
-        $response = $this->get(route('rubrics.show', $rubric));
+        $response = $this->get(route('selectors.show', $selector));
 
         // Then
         $response->assertRedirect(route('login'));
@@ -267,13 +250,13 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $rubric = Rubric::factory()->create();
+        $selector = Selector::factory()->create();
 
         // When
-        $response = $this->get(route('rubrics.edit', $rubric), $rubric->toArray());
+        $response = $this->get(route('selectors.edit', $selector));
 
         // Then
-        $response->assertSuccessful()->assertSeeInOrder([$rubric->titulo, __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([$selector->titulo, __('Save')]);
     }
 
     public function testNotAdminProfesorNotEdit()
@@ -282,10 +265,10 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->not_admin_profesor);
 
         // Given
-        $rubric = Rubric::factory()->create();
+        $selector = Selector::factory()->create();
 
         // When
-        $response = $this->get(route('rubrics.edit', $rubric), $rubric->toArray());
+        $response = $this->get(route('selectors.edit', $selector));
 
         // Then
         $response->assertForbidden();
@@ -295,10 +278,10 @@ class RubricsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $rubric = Rubric::factory()->create();
+        $selector = Selector::factory()->create();
 
         // When
-        $response = $this->get(route('rubrics.edit', $rubric), $rubric->toArray());
+        $response = $this->get(route('selectors.edit', $selector));
 
         // Then
         $response->assertRedirect(route('login'));
@@ -310,14 +293,14 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $rubric = Rubric::factory()->create();
-        $rubric->titulo = "Updated";
+        $selector = Selector::factory()->create();
+        $selector->titulo = 'Updated';
 
         // When
-        $this->put(route('rubrics.update', $rubric), $rubric->toArray());
+        $this->put(route('selectors.update', $selector), $selector->toArray());
 
         // Then
-        $this->assertDatabaseHas('rubrics', ['id' => $rubric->id, 'titulo' => $rubric->titulo]);
+        $this->assertDatabaseHas('selectors', ['id' => $selector->id, 'titulo' => 'Updated']);
     }
 
     public function testNotAdminProfesorNotUpdate()
@@ -326,11 +309,11 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->not_admin_profesor);
 
         // Given
-        $rubric = Rubric::factory()->create();
-        $rubric->titulo = "Updated";
+        $selector = Selector::factory()->create();
+        $selector->titulo = 'Updated';
 
         // When
-        $response = $this->put(route('rubrics.update', $rubric), $rubric->toArray());
+        $response = $this->put(route('selectors.update', $selector), $selector->toArray());
 
         // Then
         $response->assertForbidden();
@@ -340,11 +323,11 @@ class RubricsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $rubric = Rubric::factory()->create();
-        $rubric->titulo = "Updated";
+        $selector = Selector::factory()->create();
+        $selector->titulo = 'Updated';
 
         // When
-        $response = $this->put(route('rubrics.update', $rubric), $rubric->toArray());
+        $response = $this->put(route('selectors.update', $selector), $selector->toArray());
 
         // Then
         $response->assertRedirect(route('login'));
@@ -356,14 +339,14 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $rubric = Rubric::factory()->create();
-        $empty = new Rubric();
+        $selector = Selector::factory()->create();
+        $empty = new Selector();
         foreach ($this->required as $field) {
             $empty->$field = '0';
         }
 
         // When
-        $response = $this->put(route('rubrics.update', $rubric), $empty->toArray());
+        $response = $this->put(route('selectors.update', $selector), $empty->toArray());
 
         // Then
         $response->assertSessionDoesntHaveErrors();
@@ -375,11 +358,11 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $rubric = Rubric::factory()->create();
-        $rubric->$field = null;
+        $selector = Selector::factory()->create();
+        $selector->$field = null;
 
         // When
-        $response = $this->put(route('rubrics.update', $rubric), $rubric->toArray());
+        $response = $this->put(route('selectors.update', $selector), $selector->toArray());
 
         // Then
         $response->assertSessionHasErrors($field);
@@ -398,13 +381,13 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $rubric = Rubric::factory()->create();
+        $selector = Selector::factory()->create();
 
         // When
-        $this->delete(route('rubrics.destroy', $rubric));
+        $this->delete(route('selectors.destroy', $selector));
 
         // Then
-        $this->assertDatabaseMissing('rubrics', $rubric->toArray());
+        $this->assertDatabaseMissing('selectors', ['id' => $selector->id]);
     }
 
     public function testNotAdminProfesorNotDelete()
@@ -413,10 +396,10 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->not_admin_profesor);
 
         // Given
-        $rubric = Rubric::factory()->create();
+        $selector = Selector::factory()->create();
 
         // When
-        $response = $this->delete(route('rubrics.destroy', $rubric));
+        $response = $this->delete(route('selectors.destroy', $selector));
 
         // Then
         $response->assertForbidden();
@@ -426,44 +409,12 @@ class RubricsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $rubric = Rubric::factory()->create();
+        $selector = Selector::factory()->create();
 
         // When
-        $response = $this->delete(route('rubrics.destroy', $rubric));
+        $response = $this->delete(route('selectors.destroy', $selector));
 
         // Then
         $response->assertRedirect(route('login'));
-    }
-
-    public function testDuplicar()
-    {
-        // Auth
-        $this->actingAs($this->profesor);
-
-        // Given
-        $rubric = Rubric::factory()->create();
-        $count = Rubric::count();
-
-        // When
-        $response = $this->post(route('rubrics.duplicar', $rubric));
-
-        // Then
-        $response->assertRedirect(route('rubrics.index'));
-        $this->assertSame($count + 1, Rubric::count());
-    }
-
-    public function testNotAuthNotDuplicar()
-    {
-        // Auth
-        $this->actingAs($this->not_admin_profesor);
-
-        // Given
-        $rubric = Rubric::factory()->create();
-
-        // When
-        $response = $this->post(route('rubrics.duplicar', $rubric));
-
-        // Then
-        $response->assertForbidden();
     }
 }

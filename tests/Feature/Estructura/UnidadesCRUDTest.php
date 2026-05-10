@@ -401,4 +401,53 @@ class UnidadesCRUDTest extends TestCase
         // Then
         $response->assertRedirect(route('login'));
     }
+
+    public function testReordenar()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $a1 = Unidad::factory()->create();
+        $a2 = Unidad::factory()->create();
+        $orden1 = $a1->orden;
+        $orden2 = $a2->orden;
+
+        // When
+        $this->post(route('unidades.reordenar', [$a1, $a2]));
+
+        // Then
+        $this->assertDatabaseHas('unidades', ['id' => $a1->id, 'orden' => $orden2]);
+        $this->assertDatabaseHas('unidades', ['id' => $a2->id, 'orden' => $orden1]);
+    }
+
+    public function testNotAdminProfesorNotReordenar()
+    {
+        // Auth
+        $this->actingAs($this->not_admin_profesor);
+
+        // Given
+        $a1 = Unidad::factory()->create(['orden' => 1]);
+        $a2 = Unidad::factory()->create(['orden' => 2]);
+
+        // When
+        $response = $this->post(route('unidades.reordenar', [$a1, $a2]));
+
+        // Then
+        $response->assertForbidden();
+    }
+
+    public function testNotAuthNotReordenar()
+    {
+        // Auth
+        // Given
+        $a1 = Unidad::factory()->create(['orden' => 1]);
+        $a2 = Unidad::factory()->create(['orden' => 2]);
+
+        // When
+        $response = $this->post(route('unidades.reordenar', [$a1, $a2]));
+
+        // Then
+        $response->assertRedirect(route('login'));
+    }
 }

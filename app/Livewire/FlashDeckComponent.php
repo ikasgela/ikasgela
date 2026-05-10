@@ -33,6 +33,8 @@ class FlashDeckComponent extends Component
         FlashCard::create([
             'titulo' => '',
             'descripcion' => '',
+            'anverso' => '',
+            'reverso' => '',
             'orden' => Str::orderedUuid(),
             'flash_deck_id' => $this->flash_deck->id,
         ]);

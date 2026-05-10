@@ -453,4 +453,73 @@ class QualificationsCRUDTest extends TestCase
         // Then
         $response->assertRedirect(route('login'));
     }
+
+    public function testDuplicar()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $qualification = Qualification::factory()->create();
+        $count = Qualification::count();
+
+        // When
+        $response = $this->post(route('qualifications.duplicar', $qualification));
+
+        // Then
+        $response->assertRedirect(route('qualifications.index'));
+        $this->assertSame($count + 1, Qualification::count());
+    }
+
+    public function testNotAuthNotDuplicar()
+    {
+        // Auth
+        $this->actingAs($this->not_admin);
+
+        // Given
+        $qualification = Qualification::factory()->create();
+
+        // When
+        $response = $this->post(route('qualifications.duplicar', $qualification));
+
+        // Then
+        $response->assertForbidden();
+    }
+
+    public function testReordenarSkills()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $qualification = Qualification::factory()->create();
+        $skill1 = Skill::factory()->create();
+        $skill2 = Skill::factory()->create();
+        $qualification->skills()->attach($skill1, ['orden' => 'a1']);
+        $qualification->skills()->attach($skill2, ['orden' => 'a2']);
+
+        // When
+        $response = $this->post(route('qualifications.reordenar_skills', $qualification), [
+            'a1' => 'a1',
+            'a2' => 'a2',
+        ]);
+
+        // Then
+        $response->assertRedirect();
+    }
+
+    public function testNotAuthNotReordenarSkills()
+    {
+        // Auth
+        $this->actingAs($this->not_admin);
+
+        // Given
+        $qualification = Qualification::factory()->create();
+
+        // When
+        $response = $this->post(route('qualifications.reordenar_skills', $qualification), []);
+
+        // Then
+        $response->assertForbidden();
+    }
 }

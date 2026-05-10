@@ -51,4 +51,42 @@ class FileTest extends TestCase
         // Then
         $this->assertEquals($file->uploadable->id, $user->id);
     }
+
+    #[Test]
+    public function file_get_url_attribute_returns_temporary_url()
+    {
+        $user = User::factory()->create();
+        $file = File::factory()->create([
+            'user_id' => $user->id,
+            'uploadable_id' => $user->id,
+            'uploadable_type' => User::class,
+            'path' => 'test-uuid/test.jpg',
+        ]);
+
+        \Illuminate\Support\Facades\Storage::fake('s3-urls');
+        \Illuminate\Support\Facades\Storage::disk('s3-urls')->put('test-uuid/test.jpg', 'content');
+
+        $url = $file->url;
+        $this->assertNotNull($url);
+        $this->assertIsString($url);
+    }
+
+    #[Test]
+    public function file_image_url_returns_temporary_url()
+    {
+        $user = User::factory()->create();
+        $file = File::factory()->create([
+            'user_id' => $user->id,
+            'uploadable_id' => $user->id,
+            'uploadable_type' => User::class,
+            'path' => 'test-uuid/test.jpg',
+        ]);
+
+        \Illuminate\Support\Facades\Storage::fake('s3-urls');
+        \Illuminate\Support\Facades\Storage::disk('s3-urls')->put('images/test-uuid/test.jpg', 'content');
+
+        $url = $file->imageUrl('images');
+        $this->assertNotNull($url);
+        $this->assertIsString($url);
+    }
 }

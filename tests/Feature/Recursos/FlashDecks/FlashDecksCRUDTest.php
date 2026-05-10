@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Feature\Recursos\Rubrics;
+namespace Tests\Feature\Recursos\FlashDecks;
 
-use App\Models\Rubric;
+use App\Models\FlashDeck;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Override;
 use Tests\TestCase;
 
-class RubricsCRUDTest extends TestCase
+class FlashDecksCRUDTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -28,31 +28,14 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $rubric = Rubric::factory()->create([
-            'plantilla' => true,
-        ]);
-        session(['filtrar_curso_actual' => $rubric->curso_id]);
+        $flash_deck = FlashDeck::factory()->create(['plantilla' => true]);
+        session(['filtrar_curso_actual' => $flash_deck->curso_id]);
 
         // When
-        $response = $this->get(route('rubrics.index'));
+        $response = $this->get(route('flash_decks.index'));
 
         // Then
-        $response->assertSuccessful()->assertSee($rubric->titulo);
-    }
-
-    public function testNotPlantillaNotIndex()
-    {
-        // Auth
-        $this->actingAs($this->profesor);
-
-        // Given
-        $rubric = Rubric::factory()->create();
-
-        // When
-        $response = $this->get(route('rubrics.index'));
-
-        // Then
-        $response->assertDontSee($rubric->titulo);
+        $response->assertSuccessful()->assertSee($flash_deck->titulo);
     }
 
     public function testIndexAdminFiltro()
@@ -61,15 +44,13 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->admin);
 
         // Given
-        $rubric = Rubric::factory()->create([
-            'plantilla' => true,
-        ]);
+        $flash_deck = FlashDeck::factory()->create(['plantilla' => true]);
 
         // When
-        $response = $this->post(route('rubrics.index.filtro', ['curso_id' => $rubric->curso_id]));
+        $response = $this->post(route('flash_decks.index.filtro', ['curso_id' => $flash_deck->curso_id]));
 
         // Then
-        $response->assertSuccessful()->assertSee($rubric->titulo);
+        $response->assertSuccessful()->assertSee($flash_deck->titulo);
     }
 
     public function testNotAdminProfesorNotIndex()
@@ -79,7 +60,7 @@ class RubricsCRUDTest extends TestCase
 
         // Given
         // When
-        $response = $this->get(route('rubrics.index'));
+        $response = $this->get(route('flash_decks.index'));
 
         // Then
         $response->assertForbidden();
@@ -90,7 +71,7 @@ class RubricsCRUDTest extends TestCase
         // Auth
         // Given
         // When
-        $response = $this->get(route('rubrics.index'));
+        $response = $this->get(route('flash_decks.index'));
 
         // Then
         $response->assertRedirect(route('login'));
@@ -103,10 +84,10 @@ class RubricsCRUDTest extends TestCase
 
         // Given
         // When
-        $response = $this->get(route('rubrics.create'));
+        $response = $this->get(route('flash_decks.create'));
 
         // Then
-        $response->assertSuccessful()->assertSeeInOrder([__('New rubric'), __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([__('New deck'), __('Save')]);
     }
 
     public function testNotAdminProfesorNotCreate()
@@ -116,7 +97,7 @@ class RubricsCRUDTest extends TestCase
 
         // Given
         // When
-        $response = $this->get(route('rubrics.create'));
+        $response = $this->get(route('flash_decks.create'));
 
         // Then
         $response->assertForbidden();
@@ -127,7 +108,7 @@ class RubricsCRUDTest extends TestCase
         // Auth
         // Given
         // When
-        $response = $this->get(route('rubrics.create'));
+        $response = $this->get(route('flash_decks.create'));
 
         // Then
         $response->assertRedirect(route('login'));
@@ -139,14 +120,14 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $rubric = Rubric::factory()->make();
-        $total = Rubric::all()->count();
+        $flash_deck = FlashDeck::factory()->make();
+        $total = FlashDeck::all()->count();
 
         // When
-        $this->post(route('rubrics.store'), $rubric->toArray());
+        $this->post(route('flash_decks.store'), $flash_deck->toArray());
 
         // Then
-        $this->assertEquals($total + 1, Rubric::all()->count());
+        $this->assertEquals($total + 1, FlashDeck::all()->count());
     }
 
     public function testNotAdminProfesorNotStore()
@@ -155,10 +136,10 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->not_admin_profesor);
 
         // Given
-        $rubric = Rubric::factory()->make();
+        $flash_deck = FlashDeck::factory()->make();
 
         // When
-        $response = $this->post(route('rubrics.store'), $rubric->toArray());
+        $response = $this->post(route('flash_decks.store'), $flash_deck->toArray());
 
         // Then
         $response->assertForbidden();
@@ -168,10 +149,10 @@ class RubricsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $rubric = Rubric::factory()->make();
+        $flash_deck = FlashDeck::factory()->make();
 
         // When
-        $response = $this->post(route('rubrics.store'), $rubric->toArray());
+        $response = $this->post(route('flash_decks.store'), $flash_deck->toArray());
 
         // Then
         $response->assertRedirect(route('login'));
@@ -183,18 +164,17 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $total = Rubric::all()->count();
-
-        $empty = new Rubric();
+        $total = FlashDeck::all()->count();
+        $empty = new FlashDeck();
         foreach ($this->required as $field) {
             $empty->$field = '0';
         }
 
         // When
-        $this->post(route('rubrics.store'), $empty->toArray());
+        $this->post(route('flash_decks.store'), $empty->toArray());
 
         // Then
-        $this->assertCount($total + 1, Rubric::all());
+        $this->assertCount($total + 1, FlashDeck::all());
     }
 
     private function storeRequires(string $field)
@@ -203,10 +183,10 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $rubric = Rubric::factory()->make([$field => null]);
+        $flash_deck = FlashDeck::factory()->make([$field => null]);
 
         // When
-        $response = $this->post(route('rubrics.store'), $rubric->toArray());
+        $response = $this->post(route('flash_decks.store'), $flash_deck->toArray());
 
         // Then
         $response->assertSessionHasErrors($field);
@@ -225,13 +205,13 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $rubric = Rubric::factory()->create();
+        $flash_deck = FlashDeck::factory()->create();
 
         // When
-        $response = $this->get(route('rubrics.show', $rubric));
+        $response = $this->get(route('flash_decks.show', $flash_deck));
 
         // Then
-        $response->assertSuccessful()->assertSeeInOrder([__('Rubric'), $rubric->titulo]);
+        $response->assertSuccessful()->assertSee($flash_deck->titulo);
     }
 
     public function testNotAdminProfesorNotShow()
@@ -240,10 +220,10 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->not_admin_profesor);
 
         // Given
-        $rubric = Rubric::factory()->create();
+        $flash_deck = FlashDeck::factory()->create();
 
         // When
-        $response = $this->get(route('rubrics.show', $rubric));
+        $response = $this->get(route('flash_decks.show', $flash_deck));
 
         // Then
         $response->assertForbidden();
@@ -252,10 +232,10 @@ class RubricsCRUDTest extends TestCase
     public function testNotAuthNotShow()
     {
         // Given
-        $rubric = Rubric::factory()->create();
+        $flash_deck = FlashDeck::factory()->create();
 
         // When
-        $response = $this->get(route('rubrics.show', $rubric));
+        $response = $this->get(route('flash_decks.show', $flash_deck));
 
         // Then
         $response->assertRedirect(route('login'));
@@ -267,13 +247,13 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $rubric = Rubric::factory()->create();
+        $flash_deck = FlashDeck::factory()->create();
 
         // When
-        $response = $this->get(route('rubrics.edit', $rubric), $rubric->toArray());
+        $response = $this->get(route('flash_decks.edit', $flash_deck));
 
         // Then
-        $response->assertSuccessful()->assertSeeInOrder([$rubric->titulo, __('Save')]);
+        $response->assertSuccessful()->assertSeeInOrder([$flash_deck->titulo, __('Save')]);
     }
 
     public function testNotAdminProfesorNotEdit()
@@ -282,10 +262,10 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->not_admin_profesor);
 
         // Given
-        $rubric = Rubric::factory()->create();
+        $flash_deck = FlashDeck::factory()->create();
 
         // When
-        $response = $this->get(route('rubrics.edit', $rubric), $rubric->toArray());
+        $response = $this->get(route('flash_decks.edit', $flash_deck));
 
         // Then
         $response->assertForbidden();
@@ -295,10 +275,10 @@ class RubricsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $rubric = Rubric::factory()->create();
+        $flash_deck = FlashDeck::factory()->create();
 
         // When
-        $response = $this->get(route('rubrics.edit', $rubric), $rubric->toArray());
+        $response = $this->get(route('flash_decks.edit', $flash_deck));
 
         // Then
         $response->assertRedirect(route('login'));
@@ -310,14 +290,14 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $rubric = Rubric::factory()->create();
-        $rubric->titulo = "Updated";
+        $flash_deck = FlashDeck::factory()->create();
+        $flash_deck->titulo = 'Updated';
 
         // When
-        $this->put(route('rubrics.update', $rubric), $rubric->toArray());
+        $this->put(route('flash_decks.update', $flash_deck), $flash_deck->toArray());
 
         // Then
-        $this->assertDatabaseHas('rubrics', ['id' => $rubric->id, 'titulo' => $rubric->titulo]);
+        $this->assertDatabaseHas('flash_decks', ['id' => $flash_deck->id, 'titulo' => 'Updated']);
     }
 
     public function testNotAdminProfesorNotUpdate()
@@ -326,11 +306,11 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->not_admin_profesor);
 
         // Given
-        $rubric = Rubric::factory()->create();
-        $rubric->titulo = "Updated";
+        $flash_deck = FlashDeck::factory()->create();
+        $flash_deck->titulo = 'Updated';
 
         // When
-        $response = $this->put(route('rubrics.update', $rubric), $rubric->toArray());
+        $response = $this->put(route('flash_decks.update', $flash_deck), $flash_deck->toArray());
 
         // Then
         $response->assertForbidden();
@@ -340,11 +320,11 @@ class RubricsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $rubric = Rubric::factory()->create();
-        $rubric->titulo = "Updated";
+        $flash_deck = FlashDeck::factory()->create();
+        $flash_deck->titulo = 'Updated';
 
         // When
-        $response = $this->put(route('rubrics.update', $rubric), $rubric->toArray());
+        $response = $this->put(route('flash_decks.update', $flash_deck), $flash_deck->toArray());
 
         // Then
         $response->assertRedirect(route('login'));
@@ -356,14 +336,14 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $rubric = Rubric::factory()->create();
-        $empty = new Rubric();
+        $flash_deck = FlashDeck::factory()->create();
+        $empty = new FlashDeck();
         foreach ($this->required as $field) {
             $empty->$field = '0';
         }
 
         // When
-        $response = $this->put(route('rubrics.update', $rubric), $empty->toArray());
+        $response = $this->put(route('flash_decks.update', $flash_deck), $empty->toArray());
 
         // Then
         $response->assertSessionDoesntHaveErrors();
@@ -375,11 +355,11 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $rubric = Rubric::factory()->create();
-        $rubric->$field = null;
+        $flash_deck = FlashDeck::factory()->create();
+        $flash_deck->$field = null;
 
         // When
-        $response = $this->put(route('rubrics.update', $rubric), $rubric->toArray());
+        $response = $this->put(route('flash_decks.update', $flash_deck), $flash_deck->toArray());
 
         // Then
         $response->assertSessionHasErrors($field);
@@ -398,13 +378,13 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->profesor);
 
         // Given
-        $rubric = Rubric::factory()->create();
+        $flash_deck = FlashDeck::factory()->create();
 
         // When
-        $this->delete(route('rubrics.destroy', $rubric));
+        $this->delete(route('flash_decks.destroy', $flash_deck));
 
         // Then
-        $this->assertDatabaseMissing('rubrics', $rubric->toArray());
+        $this->assertDatabaseMissing('flash_decks', ['id' => $flash_deck->id]);
     }
 
     public function testNotAdminProfesorNotDelete()
@@ -413,10 +393,10 @@ class RubricsCRUDTest extends TestCase
         $this->actingAs($this->not_admin_profesor);
 
         // Given
-        $rubric = Rubric::factory()->create();
+        $flash_deck = FlashDeck::factory()->create();
 
         // When
-        $response = $this->delete(route('rubrics.destroy', $rubric));
+        $response = $this->delete(route('flash_decks.destroy', $flash_deck));
 
         // Then
         $response->assertForbidden();
@@ -426,44 +406,12 @@ class RubricsCRUDTest extends TestCase
     {
         // Auth
         // Given
-        $rubric = Rubric::factory()->create();
+        $flash_deck = FlashDeck::factory()->create();
 
         // When
-        $response = $this->delete(route('rubrics.destroy', $rubric));
+        $response = $this->delete(route('flash_decks.destroy', $flash_deck));
 
         // Then
         $response->assertRedirect(route('login'));
-    }
-
-    public function testDuplicar()
-    {
-        // Auth
-        $this->actingAs($this->profesor);
-
-        // Given
-        $rubric = Rubric::factory()->create();
-        $count = Rubric::count();
-
-        // When
-        $response = $this->post(route('rubrics.duplicar', $rubric));
-
-        // Then
-        $response->assertRedirect(route('rubrics.index'));
-        $this->assertSame($count + 1, Rubric::count());
-    }
-
-    public function testNotAuthNotDuplicar()
-    {
-        // Auth
-        $this->actingAs($this->not_admin_profesor);
-
-        // Given
-        $rubric = Rubric::factory()->create();
-
-        // When
-        $response = $this->post(route('rubrics.duplicar', $rubric));
-
-        // Then
-        $response->assertForbidden();
     }
 }

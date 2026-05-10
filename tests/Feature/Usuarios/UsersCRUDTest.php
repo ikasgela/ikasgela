@@ -2,9 +2,11 @@
 
 namespace Tests\Feature\Usuarios;
 
+use App\Jobs\BorrarUsuario;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Queue;
 use Override;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Tests\TestCase;
@@ -384,5 +386,22 @@ class UsersCRUDTest extends TestCase
 
         // Then
         $response->assertRedirect(route('login'));
+    }
+
+    public function testDelete()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+        Queue::fake();
+
+        // Given
+        $user = User::factory()->create();
+
+        // When
+        $response = $this->delete(route('users.destroy', $user));
+
+        // Then
+        $response->assertRedirect();
+        Queue::assertPushed(BorrarUsuario::class);
     }
 }

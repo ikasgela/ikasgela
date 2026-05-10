@@ -253,4 +253,36 @@ class AllowedUrlControllerTest extends TestCase
         // Then
         $response->assertRedirect(route('login'));
     }
+
+    public function testDuplicate()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $allowed_url = AllowedUrl::factory()->create();
+        $count = AllowedUrl::count();
+
+        // When
+        $response = $this->post(route('allowed_urls.duplicate', $allowed_url));
+
+        // Then
+        $response->assertRedirect();
+        $this->assertSame($count + 1, AllowedUrl::count());
+    }
+
+    public function testNotAuthNotDuplicate()
+    {
+        // Auth
+        $this->actingAs($this->not_admin);
+
+        // Given
+        $allowed_url = AllowedUrl::factory()->create();
+
+        // When
+        $response = $this->post(route('allowed_urls.duplicate', $allowed_url));
+
+        // Then
+        $response->assertForbidden();
+    }
 }

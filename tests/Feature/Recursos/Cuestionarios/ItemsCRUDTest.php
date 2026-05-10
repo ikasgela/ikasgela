@@ -399,4 +399,97 @@ class ItemsCRUDTest extends TestCase
         // Then
         $response->assertRedirect(route('login'));
     }
+
+    public function testDuplicar()
+    {
+        // Auth
+        $this->actingAs($this->profesor);
+
+        // Given
+        $item = Item::factory()->create();
+        $count = Item::count();
+
+        // When
+        $this->post(route('items.duplicar', $item));
+
+        // Then
+        $this->assertSame($count + 1, Item::count());
+    }
+
+    public function testNotProfesorNotDuplicar()
+    {
+        // Auth
+        $this->actingAs($this->not_profesor);
+
+        // Given
+        $item = Item::factory()->create();
+
+        // When
+        $response = $this->post(route('items.duplicar', $item));
+
+        // Then
+        $response->assertForbidden();
+    }
+
+    public function testNotAuthNotDuplicar()
+    {
+        // Auth
+        // Given
+        $item = Item::factory()->create();
+
+        // When
+        $response = $this->post(route('items.duplicar', $item));
+
+        // Then
+        $response->assertRedirect(route('login'));
+    }
+
+    public function testReordenar()
+    {
+        // Auth
+        $this->actingAs($this->profesor);
+
+        // Given
+        $a1 = Item::factory()->create();
+        $a2 = Item::factory()->create();
+        $orden1 = $a1->orden;
+        $orden2 = $a2->orden;
+
+        // When
+        $this->post(route('items.reordenar', [$a1, $a2]));
+
+        // Then
+        $this->assertDatabaseHas('items', ['id' => $a1->id, 'orden' => $orden2]);
+        $this->assertDatabaseHas('items', ['id' => $a2->id, 'orden' => $orden1]);
+    }
+
+    public function testNotProfesorNotReordenar()
+    {
+        // Auth
+        $this->actingAs($this->not_profesor);
+
+        // Given
+        $a1 = Item::factory()->create();
+        $a2 = Item::factory()->create();
+
+        // When
+        $response = $this->post(route('items.reordenar', [$a1, $a2]));
+
+        // Then
+        $response->assertForbidden();
+    }
+
+    public function testNotAuthNotReordenar()
+    {
+        // Auth
+        // Given
+        $a1 = Item::factory()->create();
+        $a2 = Item::factory()->create();
+
+        // When
+        $response = $this->post(route('items.reordenar', [$a1, $a2]));
+
+        // Then
+        $response->assertRedirect(route('login'));
+    }
 }

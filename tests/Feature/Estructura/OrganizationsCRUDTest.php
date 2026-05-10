@@ -399,4 +399,47 @@ class OrganizationsCRUDTest extends TestCase
         // Then
         $response->assertRedirect(route('login'));
     }
+
+    public function testToggleRegistrationOpen()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $organization = Organization::factory()->create(['registration_open' => false]);
+
+        // When
+        $this->post(route('organizations.toggle.registration_open', $organization));
+
+        // Then
+        $this->assertDatabaseHas('organizations', ['id' => $organization->id, 'registration_open' => true]);
+    }
+
+    public function testNotAdminNotToggleRegistrationOpen()
+    {
+        // Auth
+        $this->actingAs($this->not_admin);
+
+        // Given
+        $organization = Organization::factory()->create();
+
+        // When
+        $response = $this->post(route('organizations.toggle.registration_open', $organization));
+
+        // Then
+        $response->assertForbidden();
+    }
+
+    public function testNotAuthNotToggleRegistrationOpen()
+    {
+        // Auth
+        // Given
+        $organization = Organization::factory()->create();
+
+        // When
+        $response = $this->post(route('organizations.toggle.registration_open', $organization));
+
+        // Then
+        $response->assertRedirect(route('login'));
+    }
 }

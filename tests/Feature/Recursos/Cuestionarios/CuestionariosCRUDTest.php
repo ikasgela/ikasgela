@@ -433,4 +433,36 @@ class CuestionariosCRUDTest extends TestCase
         // Then
         $response->assertRedirect(route('login'));
     }
+
+    public function testDuplicar()
+    {
+        // Auth
+        $this->actingAs($this->profesor);
+
+        // Given
+        $cuestionario = Cuestionario::factory()->create();
+        $count = Cuestionario::count();
+
+        // When
+        $response = $this->post(route('cuestionarios.duplicar', $cuestionario));
+
+        // Then
+        $response->assertRedirect(route('cuestionarios.index'));
+        $this->assertSame($count + 1, Cuestionario::count());
+    }
+
+    public function testNotAuthNotDuplicar()
+    {
+        // Auth
+        $this->actingAs($this->not_admin_profesor);
+
+        // Given
+        $cuestionario = Cuestionario::factory()->create();
+
+        // When
+        $response = $this->post(route('cuestionarios.duplicar', $cuestionario));
+
+        // Then
+        $response->assertForbidden();
+    }
 }

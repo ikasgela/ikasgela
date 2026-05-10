@@ -253,4 +253,36 @@ class AllowedAppControllerTest extends TestCase
         // Then
         $response->assertRedirect(route('login'));
     }
+
+    public function testDuplicate()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $allowed_app = AllowedApp::factory()->create();
+        $count = AllowedApp::count();
+
+        // When
+        $response = $this->post(route('allowed_apps.duplicate', $allowed_app));
+
+        // Then
+        $response->assertRedirect();
+        $this->assertSame($count + 1, AllowedApp::count());
+    }
+
+    public function testNotAuthNotDuplicate()
+    {
+        // Auth
+        $this->actingAs($this->not_admin);
+
+        // Given
+        $allowed_app = AllowedApp::factory()->create();
+
+        // When
+        $response = $this->post(route('allowed_apps.duplicate', $allowed_app));
+
+        // Then
+        $response->assertForbidden();
+    }
 }

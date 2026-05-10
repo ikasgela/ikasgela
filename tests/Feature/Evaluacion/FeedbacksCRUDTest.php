@@ -400,4 +400,155 @@ class FeedbacksCRUDTest extends TestCase
         // Then
         $response->assertRedirect(route('login'));
     }
+
+    public function testReordenar()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $a1 = Feedback::factory()->create();
+        $a2 = Feedback::factory()->create();
+        $orden1 = $a1->orden;
+        $orden2 = $a2->orden;
+
+        // When
+        $this->post(route('feedbacks.reordenar', [$a1, $a2]));
+
+        // Then
+        $this->assertDatabaseHas('feedback', ['id' => $a1->id, 'orden' => $orden2]);
+        $this->assertDatabaseHas('feedback', ['id' => $a2->id, 'orden' => $orden1]);
+    }
+
+    public function testNotAdminNotReordenar()
+    {
+        // Auth
+        $this->actingAs($this->not_admin);
+
+        // Given
+        $a1 = Feedback::factory()->create(['orden' => 1]);
+        $a2 = Feedback::factory()->create(['orden' => 2]);
+
+        // When
+        $response = $this->post(route('feedbacks.reordenar', [$a1, $a2]));
+
+        // Then
+        $response->assertForbidden();
+    }
+
+    public function testNotAuthNotReordenar()
+    {
+        // Auth
+        // Given
+        $a1 = Feedback::factory()->create(['orden' => 1]);
+        $a2 = Feedback::factory()->create(['orden' => 2]);
+
+        // When
+        $response = $this->post(route('feedbacks.reordenar', [$a1, $a2]));
+
+        // Then
+        $response->assertRedirect(route('login'));
+    }
+
+    public function testSave()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $feedback = Feedback::factory()->make();
+        $count = Feedback::count();
+
+        // When
+        $this->post(route('feedbacks.save'), [
+            'tipo' => 'curso',
+            'curso_id' => $feedback->comentable_id,
+            'titulo' => $feedback->titulo,
+            'mensaje' => $feedback->mensaje,
+        ]);
+
+        // Then
+        $this->assertSame($count + 1, Feedback::count());
+    }
+
+    public function testNotAdminNotSave()
+    {
+        // Auth
+        $this->actingAs($this->not_admin);
+
+        // Given
+        $feedback = Feedback::factory()->make();
+
+        // When
+        $response = $this->post(route('feedbacks.save'), [
+            'tipo' => 'curso',
+            'curso_id' => $feedback->comentable_id,
+            'titulo' => $feedback->titulo,
+            'mensaje' => $feedback->mensaje,
+        ]);
+
+        // Then
+        $response->assertForbidden();
+    }
+
+    public function testNotAuthNotSave()
+    {
+        // Auth
+        // Given
+        $feedback = Feedback::factory()->make();
+
+        // When
+        $response = $this->post(route('feedbacks.save'), [
+            'tipo' => 'curso',
+            'curso_id' => $feedback->comentable_id,
+            'titulo' => $feedback->titulo,
+            'mensaje' => $feedback->mensaje,
+        ]);
+
+        // Then
+        $response->assertRedirect(route('login'));
+    }
+
+    public function testCreateActividad()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $actividad = \App\Models\Actividad::factory()->create();
+
+        // When
+        $response = $this->get(route('feedbacks.create_actividad', $actividad));
+
+        // Then
+        $response->assertSuccessful()->assertSeeInOrder([__('New activity feedback message'), __('Save')]);
+    }
+
+    public function testNotAdminNotCreateActividad()
+    {
+        // Auth
+        $this->actingAs($this->not_admin);
+
+        // Given
+        $actividad = \App\Models\Actividad::factory()->create();
+
+        // When
+        $response = $this->get(route('feedbacks.create_actividad', $actividad));
+
+        // Then
+        $response->assertForbidden();
+    }
+
+    public function testNotAuthNotCreateActividad()
+    {
+        // Auth
+        // Given
+        $actividad = \App\Models\Actividad::factory()->create();
+
+        // When
+        $response = $this->get(route('feedbacks.create_actividad', $actividad));
+
+        // Then
+        $response->assertRedirect(route('login'));
+    }
 }

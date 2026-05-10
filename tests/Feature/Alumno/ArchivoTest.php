@@ -220,4 +220,70 @@ class ArchivoTest extends TestCase
         // Then
         $response->assertNotFound();
     }
+
+    public function testDiario()
+    {
+        // Auth
+        $this->actingAs($this->profesor);
+
+        // When
+        $response = $this->get(route('archivo.diario'));
+
+        // Then
+        $response->assertSuccessful()->assertSee(__('Activity journal'));
+    }
+
+    public function testNotProfesorTutorNotDiario()
+    {
+        // Auth - alumno has no profesor/tutor role
+        $this->actingAs($this->alumno);
+
+        // When
+        $response = $this->get(route('archivo.diario'));
+
+        // Then
+        $response->assertForbidden();
+    }
+
+    public function testNotAuthNotDiario()
+    {
+        // When
+        $response = $this->get(route('archivo.diario'));
+
+        // Then
+        $response->assertRedirect(route('login'));
+    }
+
+    public function testOutline()
+    {
+        // Auth
+        $this->actingAs($this->alumno);
+
+        // When - no curso_actual set, so aborts 404
+        $response = $this->get(route('archivo.outline'));
+
+        // Then
+        $response->assertNotFound();
+    }
+
+    public function testNotAlumnoProfesorTutorNotOutline()
+    {
+        // Auth - admin has no alumno/profesor/tutor role
+        $this->actingAs($this->admin);
+
+        // When
+        $response = $this->get(route('archivo.outline'));
+
+        // Then
+        $response->assertForbidden();
+    }
+
+    public function testNotAuthNotOutline()
+    {
+        // When
+        $response = $this->get(route('archivo.outline'));
+
+        // Then
+        $response->assertRedirect(route('login'));
+    }
 }
