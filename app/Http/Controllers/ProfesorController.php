@@ -281,7 +281,7 @@ class ProfesorController extends Controller
 
         $actividad = $tarea->actividad;
         $feedbacks_curso = $actividad->unidad->curso->feedbacks()->orderBy('orden')->get();
-        $feedbacks_actividad = isset($actividad->original) ? $actividad->original->feedbacks()->orderBy('orden')->get() : [];
+        $feedbacks_actividad = isset($actividad->original) ? $actividad->original->feedbacks()->orderBy('orden')->get() : collect([]);
 
         $jplags = JPlag::where('tarea_id', $tarea->id)->orderBy('percent', 'desc')->get();
 
