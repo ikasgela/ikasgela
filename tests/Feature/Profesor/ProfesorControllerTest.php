@@ -364,4 +364,100 @@ class ProfesorControllerTest extends TestCase
 
         $response->assertRedirect();
     }
+
+    public function testIndexWithFiltros()
+    {
+        $this->actingAs($this->profesor);
+
+        // Given
+        $curso = Curso::factory()->create();
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        setting_usuario(['curso_actual' => $curso->id]);
+
+        // When - test with multiple filter combinations
+        $response = $this->get(route('profesor.index', [
+            'filtro_alumnos' => 'R',
+            'filtro_alumnos_bloqueados' => 'B',
+            'filtro_actividades_examen' => 'E',
+        ]));
+
+        // Then
+        $response->assertSuccessful();
+        $this->assertEquals('R', session('profesor_filtro_alumnos'));
+        $this->assertEquals('B', session('profesor_filtro_alumnos_bloqueados'));
+        $this->assertEquals('E', session('profesor_filtro_actividades_examen'));
+    }
+
+    public function testIndexToggleFiltros()
+    {
+        $this->actingAs($this->profesor);
+
+        // Given
+        $curso = Curso::factory()->create();
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        setting_usuario(['curso_actual' => $curso->id]);
+
+        // When - test toggling filters (turning them off)
+        $response = $this->get(route('profesor.index', [
+            'filtro_alumnos_bloqueados' => 'B',
+        ]));
+        $response = $this->get(route('profesor.index', [
+            'filtro_alumnos_bloqueados' => 'B', // toggle off
+        ]));
+
+        // Then
+        $response->assertSuccessful();
+        $this->assertEquals('', session('profesor_filtro_alumnos_bloqueados'));
+    }
+
+    public function testIndexWithUserIdFilter()
+    {
+        $this->actingAs($this->profesor);
+
+        // Given
+        $curso = Curso::factory()->create();
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        $alumno = User::factory()->create();
+        $alumno->cursos()->syncWithoutDetaching($curso);
+        setting_usuario(['curso_actual' => $curso->id]);
+
+        // When
+        $response = $this->get(route('profesor.index', ['user_id' => $alumno->id]));
+
+        // Then
+        $response->assertSuccessful();
+        $this->assertEquals($alumno->id, session('filtrar_user_actual'));
+    }
+
+    public function testIndexWithEtiquetas()
+    {
+        $this->actingAs($this->profesor);
+
+        // Given
+        $curso = Curso::factory()->create();
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        setting_usuario(['curso_actual' => $curso->id]);
+
+        // When - test clearing tags
+        $response = $this->get(route('profesor.index', ['filtro_etiquetas' => 'N']));
+
+        // Then
+        $response->assertSuccessful();
+        $this->assertEquals('', session('profesor_filtro_etiquetas'));
+        $this->assertEquals([], session('tags_usuario'));
+    }
+
+    public function testJplagDownload()
+    {
+        $this->actingAs($this->profesor);
+
+        // Given
+        $tarea = Tarea::factory()->create(['estado' => 30]);
+
+        // When
+        $response = $this->get(route('profesor.jplag_download', $tarea));
+
+        // Then - should redirect with message
+        $response->assertRedirect();
+    }
 }
