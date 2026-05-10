@@ -24,7 +24,7 @@ class ListenersTest extends TestCase
 
         session(['_delete_me' => 'my-export-dir']);
 
-        $event = $this->createMock(ZipStreamed::class);
+        $event = $this->createStub(ZipStreamed::class);
 
         $listener = new ZipStreamedListener();
         $listener->handle($event);

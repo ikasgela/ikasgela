@@ -118,4 +118,14 @@ class IntellijProjectsExtraTest extends TestCase
 
         $response->assertRedirect();
     }
+
+    public function testDuplicar()
+    {
+        $count = IntellijProject::count();
+
+        $response = $this->post(route('intellij_projects.duplicar', $this->project));
+
+        $response->assertRedirect(route('intellij_projects.index'));
+        $this->assertEquals($count + 1, IntellijProject::count());
+    }
 }
