@@ -100,4 +100,73 @@ class AlumnoControllerTest extends TestCase
         // Then
         $response->assertRedirect(route('login'));
     }
+
+    public function testPortadaUnauthenticated()
+    {
+        // When
+        $response = $this->get(route('users.portada'));
+
+        // Then
+        $response->assertRedirect(route('login'));
+    }
+
+    public function testPortadaAsProfesor()
+    {
+        // Auth
+        $this->actingAs($this->profesor);
+
+        // Given
+        $organization = Organization::factory()->create(['slug' => 'ikasgela']);
+        Period::factory()->create(['organization_id' => $organization->id]);
+
+        // When - portada doesn't have authorization, allows any auth user
+        $response = $this->get(route('users.portada'));
+
+        // Then
+        $response->assertSuccessful();
+    }
+
+    public function testPortadaFiltroUnauthenticated()
+    {
+        // When
+        $response = $this->post(route('users.portada.filtro'), [
+            'filtro_cursos_no_disponibles' => 'S',
+        ]);
+
+        // Then
+        $response->assertRedirect(route('login'));
+    }
+
+    public function testPortadaFiltroAsProfesor()
+    {
+        $this->actingAs($this->profesor);
+
+        $organization = Organization::factory()->create(['slug' => 'ikasgela']);
+        Period::factory()->create(['organization_id' => $organization->id]);
+
+        $response = $this->post(route('users.portada.filtro'), [
+            'filtro_cursos_no_disponibles' => 'S',
+        ]);
+
+        // portada.filtro doesn't have authorization, allows any auth user
+        $response->assertSuccessful();
+    }
+
+    public function testTareasAsProfesor()
+    {
+        $this->actingAs($this->profesor);
+
+        $response = $this->get(route('users.home'));
+
+        $response->assertForbidden();
+    }
+
+    public function testTareasAsTutor()
+    {
+        $this->actingAs($this->tutor);
+
+        $response = $this->get(route('users.home'));
+
+        $response->assertForbidden();
+    }
 }

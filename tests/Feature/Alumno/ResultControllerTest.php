@@ -103,4 +103,72 @@ class ResultControllerTest extends TestCase
         // Then
         $response->assertRedirect(route('login'));
     }
+
+    public function testIndexAsProfesor()
+    {
+        $this->actingAs($this->profesor);
+
+        $response = $this->get(route('results.index'));
+
+        $response->assertSuccessful();
+    }
+
+    public function testIndexAsTutor()
+    {
+        $this->actingAs($this->tutor);
+
+        $response = $this->get(route('results.index'));
+
+        $response->assertSuccessful();
+    }
+
+    public function testPdfAsProfesor()
+    {
+        $this->actingAs($this->profesor);
+
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+
+        $response = $this->get(route('results.pdf'));
+
+        $response->assertSuccessful();
+    }
+
+    public function testPdfAsTutor()
+    {
+        $this->actingAs($this->tutor);
+
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+
+        $response = $this->get(route('results.pdf'));
+
+        $response->assertSuccessful();
+    }
+
+    public function testPdfNoCurso()
+    {
+        $this->actingAs($this->alumno);
+
+        // When - no curso_actual set, pdf() will abort 404
+        $response = $this->get(route('results.pdf'));
+
+        // Then - 404 because no curso_actual
+        $response->assertNotFound();
+    }
+
+    public function testPdfWithBajaAnsiedad()
+    {
+        $this->actingAs($this->alumno);
+
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+
+        // Set baja_ansiedad flag
+        $this->alumno->update(['baja_ansiedad' => true]);
+
+        $response = $this->get(route('results.pdf'));
+
+        $response->assertNotFound();
+    }
 }

@@ -64,4 +64,13 @@ class HomeControllerTest extends TestCase
         // Then
         $response->assertRedirect(route('users.home'));
     }
+
+    public function testPortadaAsAdminRedirectsToAdmin()
+    {
+        $this->actingAs($this->admin);
+
+        $response = $this->get(route('portada'));
+
+        $response->assertRedirect(route('admin.index'));
+    }
 }
