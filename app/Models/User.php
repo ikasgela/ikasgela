@@ -695,7 +695,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
             // Eager-load todas las relaciones necesarias en una sola query
             $actividades_completadas = $this->actividades_completadas($milestone)
-                ->with(['tarea', 'qualification.skills', 'unidad.qualification.skills'])
+                ->with(['qualification.skills', 'unidad.qualification.skills'])
                 ->get();
 
             $unidades = $curso?->unidades()
