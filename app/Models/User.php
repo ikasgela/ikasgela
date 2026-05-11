@@ -695,13 +695,13 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
             // Eager-load todas las relaciones necesarias en una sola query
             $actividades_completadas = $this->actividades_completadas($milestone)
-                ->with(['tarea', 'etiquetas', 'qualification.skills', 'unidad.qualification.skills'])
+                ->with(['tarea', 'qualification.skills', 'unidad.qualification.skills'])
                 ->get();
 
             $unidades = $curso?->unidades()
                 ->whereVisible(true)
                 ->orderBy('orden')
-                ->with(['actividades' => fn($q) => $q->where('plantilla', true)->with('etiquetas')])
+                ->with(['actividades' => fn($q) => $q->where('plantilla', true)])
                 ->get() ?? new Collection();
 
             // Pre-calcular número de actividades plantilla base por unidad en memoria
