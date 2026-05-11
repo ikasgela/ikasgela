@@ -691,7 +691,16 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
                 ->with(['tarea', 'etiquetas', 'qualification.skills', 'unidad.qualification.skills'])
                 ->get();
 
-            $unidades = $curso?->unidades()->whereVisible(true)->orderBy('orden')->get() ?? new Collection();
+            $unidades = $curso?->unidades()
+                ->whereVisible(true)
+                ->orderBy('orden')
+                ->with(['actividades' => fn($q) => $q->where('plantilla', true)->with('etiquetas')])
+                ->get() ?? new Collection();
+
+            // Pre-calcular número de actividades plantilla base por unidad en memoria
+            $num_actividades_base_por_unidad = $unidades->mapWithKeys(
+                fn($u) => [$u->id => $u->actividades->filter(fn($a) => $a->hasEtiqueta('base'))->count()]
+            );
 
             // Pre-indexar actividades completadas por unidad para evitar N bucles
             $actividades_por_unidad = $actividades_completadas->groupBy('unidad_id');
@@ -707,12 +716,15 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
                 ->groupBy('unidad_id')
                 ->map(fn($g) => $g->count());
 
+            // Total de actividades base completadas (para el ajuste proporcional)
+            $total_completadas_base = $completadas_base_por_unidad->sum();
+
             $r = new ResultadoCalificaciones();
 
             $this->calcularCompetencias($r, $curso, $actividades_completadas);
             $this->verificarMinimoCompetencias($r, $curso);
-            $this->calcularActividadesObligatorias($r, $curso, $unidades, $completadas_base_por_unidad, $milestone);
-            $nota = $this->calcularNotaPonderada($r, $curso, $milestone, $media_actividades_grupo);
+            $this->calcularActividadesObligatorias($r, $curso, $unidades, $completadas_base_por_unidad, $num_actividades_base_por_unidad);
+            $nota = $this->calcularNotaPonderada($r, $curso, $milestone, $media_actividades_grupo, $total_completadas_base);
             $this->calcularResultadosUnidades($r, $unidades, $actividades_por_unidad);
             $this->calcularPruebasEvaluacion($r, $unidades, $completadas_examen_por_unidad, $curso);
 
@@ -811,14 +823,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
     /**
      * Comprueba si el alumno ha completado el mínimo de actividades obligatorias por unidad.
-     * Usa $completadas_base_por_unidad precalculado en memoria para evitar N queries.
+     * Usa colecciones precalculadas en memoria para evitar queries adicionales.
      */
     private function calcularActividadesObligatorias(
         ResultadoCalificaciones $r,
         ?Curso $curso,
         Collection $unidades,
         Collection $completadas_base_por_unidad,
-        ?Milestone $milestone
+        Collection $num_actividades_base_por_unidad
     ): void {
         $minimo_entregadas = $curso?->minimo_entregadas;
 
@@ -826,7 +838,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         $r->num_actividades_obligatorias = 0;
 
         foreach ($unidades as $unidad) {
-            $num_base = $unidad->num_actividades('base');
+            $num_base = $num_actividades_base_por_unidad->get($unidad->id, 0);
 
             if ($num_base > 0) {
                 $r->num_actividades_obligatorias += $num_base;
@@ -848,7 +860,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         ResultadoCalificaciones $r,
         ?Curso $curso,
         ?Milestone $milestone,
-        $media_actividades_grupo
+        $media_actividades_grupo,
+        int $total_completadas_base
     ): float {
         $nota = 0;
         $porcentaje_total = 0;
@@ -872,7 +885,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
         // Ajuste proporcional: 100% completadas = 100% de nota
         // En evaluación parcial, ajustar según la media del grupo
-        $r->numero_actividades_completadas = $this->num_completadas('base', null, $milestone);
+        $r->numero_actividades_completadas = $total_completadas_base;
 
         if ($r->num_actividades_obligatorias > 0) {
             $ajuste = $milestone?->ajuste_proporcional_nota ?: $curso?->ajuste_proporcional_nota;
