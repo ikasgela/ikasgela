@@ -392,6 +392,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('profesor.nota_manual.edit');
             Route::post('/profesor/{user}/{curso}/nota_manual', [ProfesorController::class, 'updateNotaManual'])
                 ->name('profesor.nota_manual.update');
+            Route::get('/profesor/{user}/{curso}/{milestone}/nota_manual', [ProfesorController::class, 'editNotaManual'])
+                ->name('profesor.nota_manual.milestone.edit');
+            Route::post('/profesor/{user}/{curso}/{milestone}/nota_manual', [ProfesorController::class, 'updateNotaManual'])
+                ->name('profesor.nota_manual.milestone.update');
 
             // Asignar tareas a equipos
             Route::post('/teams/filtro', [TeamController::class, 'index'])

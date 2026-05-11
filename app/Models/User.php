@@ -405,6 +405,13 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             ->withTimestamps();
     }
 
+    public function milestones()
+    {
+        return $this
+            ->belongsToMany(Milestone::class)
+            ->withPivot('nota');
+    }
+
     public function registros()
     {
         return $this->hasMany(Registro::class);
@@ -733,7 +740,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
                 && $r->competencias_50_porciento && $nota >= 5;
 
             $this->calcularExamenesFinales($r, $unidades, $completadas_examen_por_unidad, $curso, $nota);
-            $this->aplicarNotaManual($r, $curso, $nota);
+            $this->aplicarNotaManual($r, $curso, $milestone, $nota);
 
             $r->nota_numerica = $nota;
 
@@ -1008,11 +1015,23 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     }
 
     /**
-     * Aplica la nota manual del pivot curso-usuario si existe.
-     * Modifica $nota por referencia.
+     * Aplica la nota manual: si hay milestone, busca primero en milestone_user;
+     * si no, aplica la nota del pivot curso_user. Modifica $nota por referencia.
      */
-    private function aplicarNotaManual(ResultadoCalificaciones $r, ?Curso $curso, float &$nota): void
+    private function aplicarNotaManual(ResultadoCalificaciones $r, ?Curso $curso, ?Milestone $milestone, float &$nota): void
     {
+        if ($milestone !== null) {
+            $temp = $this->milestones()->wherePivot('milestone_id', $milestone->id)->first();
+            if ($temp !== null && isset($temp->pivot->nota)) {
+                $r->hay_nota_manual = true;
+                $nota = $temp->pivot->nota;
+                if ($nota >= 5) {
+                    $r->nota_manual_superada = true;
+                }
+                return;
+            }
+        }
+
         $temp = $this->cursos()->wherePivot('curso_id', $curso?->id)->first();
 
         if ($temp !== null && isset($temp->pivot->nota)) {

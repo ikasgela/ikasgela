@@ -112,7 +112,7 @@
                     <td>
                         @if(Auth::user()->hasAnyRole(['profesor','admin']))
                             <a title="{{ __('Manual calification') }}"
-                               href="{{ route('profesor.nota_manual.edit', [$user->id, $curso?->id]) }}"
+                               href="{{ isset($milestone) ? route('profesor.nota_manual.milestone.edit', [$user->id, $curso?->id, $milestone->id]) : route('profesor.nota_manual.edit', [$user->id, $curso?->id]) }}"
                                class="btn btn-sm {{ $calificaciones->hay_nota_manual ? 'btn-primary' : 'btn-light' }}">
                                 <i class="bi bi-pencil"></i>
                             </a>

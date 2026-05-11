@@ -8,6 +8,7 @@ use App\Models\Actividad;
 use App\Models\CacheClear;
 use App\Models\Curso;
 use App\Models\JPlag;
+use App\Models\Milestone;
 use App\Models\Organization;
 use App\Models\Registro;
 use App\Models\Tarea;
@@ -488,19 +489,27 @@ class ProfesorController extends Controller
         return $this->paginate_ultima($disponibles, config('ikasgela.pagination_short'), 'disponibles');
     }
 
-    public function editNotaManual(User $user, Curso $curso)
+    public function editNotaManual(User $user, Curso $curso, ?Milestone $milestone = null)
     {
-        $nota = $user->cursos()->wherePivot('curso_id', $curso->id)->first()->pivot->nota;
+        if ($milestone !== null) {
+            $nota = $user->milestones()->wherePivot('milestone_id', $milestone->id)->first()?->pivot?->nota;
+        } else {
+            $nota = $user->cursos()->wherePivot('curso_id', $curso->id)->first()->pivot->nota;
+        }
 
-        return view('profesor.nota_manual', compact(['curso', 'user', 'nota']));
+        return view('profesor.nota_manual', compact(['curso', 'user', 'nota', 'milestone']));
     }
 
-    public function updateNotaManual(User $user, Curso $curso, Request $request)
+    public function updateNotaManual(User $user, Curso $curso, Request $request, ?Milestone $milestone = null)
     {
         if (!Auth::user()->hasAnyRole(['admin', 'profesor']))
             abort('403');
 
-        $user->cursos()->sync([$curso->id => ['nota' => request('nota')]], false);
+        if ($milestone !== null) {
+            $user->milestones()->sync([$milestone->id => ['nota' => request('nota')]], false);
+        } else {
+            $user->cursos()->sync([$curso->id => ['nota' => request('nota')]], false);
+        }
         $user->save();  // Provocar que el observer limpie la caché
 
         return retornar();
