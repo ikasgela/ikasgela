@@ -73,4 +73,14 @@ class HomeControllerTest extends TestCase
 
         $response->assertRedirect(route('admin.index'));
     }
+
+    public function testIndexGuestShowsWelcomeView()
+    {
+        // No auth (guest) — share current_organization as the view expects it
+        \Illuminate\Support\Facades\View::share('current_organization', null);
+
+        $response = $this->get(route('portada'));
+
+        $response->assertSuccessful();
+    }
 }

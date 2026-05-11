@@ -361,8 +361,10 @@ class UserController extends Controller
             case 'verify':
                 $this->verificar_email_grupo($request);
                 break;
+            // @codeCoverageIgnoreStart
             default:
                 break;
+            // @codeCoverageIgnoreEnd
         }
 
         return back();

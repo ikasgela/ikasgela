@@ -404,4 +404,25 @@ class UsersCRUDTest extends TestCase
         $response->assertRedirect();
         Queue::assertPushed(BorrarUsuario::class);
     }
+
+    public function testUpdateWithoutCursoActual()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $user = User::factory()->create();
+        $rol_alumno = Role::create(['name' => 'alumno', 'description' => 'Alumno']);
+
+        // When: update without providing curso_id → triggers setting()->forget('curso_actual')
+        $response = $this->put(route('users.update', $user), [
+            'name' => 'Test User',
+            'email' => $user->email,
+            'roles_seleccionados' => [$rol_alumno->id],
+        ]);
+
+        // Then
+        $response->assertRedirect();
+        $this->assertDatabaseHas('users', ['id' => $user->id, 'name' => 'Test User']);
+    }
 }

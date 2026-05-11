@@ -404,4 +404,27 @@ class TeamsCRUDTest extends TestCase
         // Then
         $response->assertRedirect(route('login'));
     }
+
+    public function testStoreDuplicateNameFails()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given: create a group (using standard factory without curso_id)
+        $group = \App\Models\Group::factory()->create();
+        $existing = Team::factory()->create([
+            'group_id' => $group->id,
+            'name' => 'Mi Equipo',
+            'slug' => 'mi-equipo',
+        ]);
+
+        // When: try to store another team with the same name (same slug) in the same group
+        $response = $this->post(route('teams.store'), [
+            'group_id' => $group->id,
+            'name' => 'Mi Equipo',
+        ]);
+
+        // Then: validation fails with unique name error
+        $response->assertSessionHasErrors(['name']);
+    }
 }

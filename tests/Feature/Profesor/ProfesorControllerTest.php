@@ -460,4 +460,120 @@ class ProfesorControllerTest extends TestCase
         // Then - should redirect with message
         $response->assertRedirect();
     }
+
+    public function testAsignarTareaConFechaOverride()
+    {
+        $this->actingAs($this->profesor);
+        Mail::fake();
+
+        $curso = Curso::factory()->create(['silence_notifications' => true]);
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        setting_usuario(['curso_actual' => $curso->id]);
+
+        $actividad = Actividad::factory()->create([
+            'plantilla' => true,
+            'unidad_id' => \App\Models\Unidad::factory()->create(['curso_id' => $curso->id])->id,
+        ]);
+
+        $alumno = User::factory()->create();
+        $alumno->cursos()->syncWithoutDetaching($curso);
+
+        // Provide fecha_override_enable to trigger the override branch (line 383)
+        $response = $this->post(route('profesor.asignar_tarea', $alumno), [
+            'seleccionadas' => [$actividad->id],
+            'fecha_override_enable' => true,
+            'fecha_override' => now()->addDays(7)->format('Y-m-d'),
+        ]);
+
+        $response->assertRedirect();
+    }
+
+    public function testAsignarTareaConNotificacion()
+    {
+        $this->actingAs($this->profesor);
+        Mail::fake();
+
+        // silence_notifications = false so that the Mail::queue path is reachable
+        $curso = Curso::factory()->create(['silence_notifications' => false]);
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        setting_usuario(['curso_actual' => $curso->id]);
+
+        $actividad = Actividad::factory()->create([
+            'plantilla' => true,
+            'unidad_id' => \App\Models\Unidad::factory()->create(['curso_id' => $curso->id])->id,
+        ]);
+
+        $alumno = User::factory()->create();
+        $alumno->cursos()->syncWithoutDetaching($curso);
+        // Enable the user notification setting
+        setting_usuario(['notificacion_actividad_asignada' => true], $alumno);
+
+        // Pass notificar=1 to trigger Mail::queue (line 409)
+        $response = $this->post(route('profesor.asignar_tarea', $alumno), [
+            'seleccionadas' => [$actividad->id],
+            'notificar' => true,
+        ]);
+
+        $response->assertRedirect();
+        Mail::assertQueued(\App\Mail\ActividadAsignada::class);
+    }
+
+    public function testAsignarTareasEquipoConFechaOverride()
+    {
+        $this->actingAs($this->profesor);
+        Mail::fake();
+
+        $curso = Curso::factory()->create(['silence_notifications' => true]);
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        setting_usuario(['curso_actual' => $curso->id]);
+
+        $actividad = Actividad::factory()->create([
+            'plantilla' => true,
+            'unidad_id' => \App\Models\Unidad::factory()->create(['curso_id' => $curso->id])->id,
+        ]);
+
+        $group = \App\Models\Group::factory()->create();
+        $team = \App\Models\Team::factory()->create(['group_id' => $group->id]);
+        $alumno = User::factory()->create();
+        $alumno->cursos()->syncWithoutDetaching($curso);
+        $team->users()->attach($alumno);
+
+        $response = $this->post(route('profesor.asignar_tarea_equipo', $team), [
+            'seleccionadas' => [$actividad->id],
+            'fecha_override_enable' => true,
+            'fecha_override' => now()->addDays(7)->format('Y-m-d'),
+        ]);
+
+        $response->assertRedirect();
+    }
+
+    public function testAsignarTareasEquipoConNotificacion()
+    {
+        $this->actingAs($this->profesor);
+        Mail::fake();
+
+        $curso = Curso::factory()->create(['silence_notifications' => false]);
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        setting_usuario(['curso_actual' => $curso->id]);
+
+        $actividad = Actividad::factory()->create([
+            'plantilla' => true,
+            'unidad_id' => \App\Models\Unidad::factory()->create(['curso_id' => $curso->id])->id,
+        ]);
+
+        $group = \App\Models\Group::factory()->create();
+        $team = \App\Models\Team::factory()->create(['group_id' => $group->id]);
+        $alumno = User::factory()->create();
+        $alumno->cursos()->syncWithoutDetaching($curso);
+        $team->users()->attach($alumno);
+        setting_usuario(['notificacion_actividad_asignada' => true], $alumno);
+
+        $response = $this->post(route('profesor.asignar_tarea_equipo', $team), [
+            'seleccionadas' => [$actividad->id],
+            'notificar' => true,
+        ]);
+
+        $response->assertRedirect();
+        Mail::assertQueued(\App\Mail\ActividadAsignada::class);
+    }
 }

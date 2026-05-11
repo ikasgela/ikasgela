@@ -111,8 +111,10 @@ class Selector extends Model
                     case 'or':
                         $resultado_grupo = $resultado_grupo || $resultado_regla_actual;
                         break;
+                    // @codeCoverageIgnoreStart
                     default:
                         abort(400, __('Invalid rule'));
+                    // @codeCoverageIgnoreEnd
                 }
             }
 

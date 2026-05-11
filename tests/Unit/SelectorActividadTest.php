@@ -146,6 +146,82 @@ class SelectorActividadTest extends TestCase
         $this->assertTrue(true);
     }
 
+    // ===== Selector::calcularResultado defensive abort paths =====
+
+    public function testSelectorCalcularResultadoInvalidRuleGroupOperador()
+    {
+        $actividad = Actividad::factory()->create(['plantilla' => true]);
+        $selector = Selector::factory()->create();
+        RuleGroup::factory()->create([
+            'selector_id' => $selector->id,
+            'operador' => 'INVALID',
+            'resultado' => $actividad->id,
+        ]);
+        $tarea = Tarea::factory()->create(['actividad_id' => $actividad->id, 'estado' => 10]);
+
+        $this->expectException(\Symfony\Component\HttpKernel\Exception\HttpException::class);
+        $selector->calcularResultado($actividad, $tarea);
+    }
+
+    public function testSelectorCalcularResultadoInvalidRulePropiedad()
+    {
+        $actividad = Actividad::factory()->create(['plantilla' => true]);
+        $selector = Selector::factory()->create();
+        $ruleGroup = RuleGroup::factory()->create([
+            'selector_id' => $selector->id,
+            'operador' => 'AND',
+            'resultado' => $actividad->id,
+        ]);
+        Rule::factory()->create([
+            'rule_group_id' => $ruleGroup->id,
+            'propiedad' => 'INVALID_PROP',
+            'operador' => '>',
+            'valor' => 5,
+        ]);
+        $tarea = Tarea::factory()->create(['actividad_id' => $actividad->id, 'puntuacion' => 10, 'estado' => 10]);
+
+        $this->expectException(\Symfony\Component\HttpKernel\Exception\HttpException::class);
+        $selector->calcularResultado($actividad, $tarea);
+    }
+
+    public function testSelectorCalcularResultadoInvalidRuleOperador()
+    {
+        $actividad = Actividad::factory()->create(['plantilla' => true]);
+        $selector = Selector::factory()->create();
+        $ruleGroup = RuleGroup::factory()->create([
+            'selector_id' => $selector->id,
+            'operador' => 'AND',
+            'resultado' => $actividad->id,
+        ]);
+        Rule::factory()->create([
+            'rule_group_id' => $ruleGroup->id,
+            'propiedad' => 'puntuacion',
+            'operador' => '??',
+            'valor' => 5,
+        ]);
+        $tarea = Tarea::factory()->create(['actividad_id' => $actividad->id, 'puntuacion' => 10, 'estado' => 10]);
+
+        $this->expectException(\Symfony\Component\HttpKernel\Exception\HttpException::class);
+        $selector->calcularResultado($actividad, $tarea);
+    }
+
+    // ===== Actividad::establecerFechaEntrega with fecha_override =====
+
+    public function testActividadEstablecerFechaEntregaConFechaOverride()
+    {
+        $actividad = Actividad::factory()->create(['plantilla' => true]);
+        // Ensure fecha_entrega is not set
+        $actividad->fecha_entrega = null;
+        $actividad->fecha_limite = null;
+        $actividad->save();
+
+        $fechaOverride = now()->addDays(14);
+        $actividad->establecerFechaEntrega($fechaOverride);
+
+        $actividad->refresh();
+        $this->assertNotNull($actividad->fecha_entrega);
+    }
+
     // ===== Actividad::trasladar_recursos =====
     public function testActividadTrasladarRecursos()
     {

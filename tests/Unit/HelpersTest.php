@@ -68,4 +68,22 @@ class HelpersTest extends TestCase
         // en_US locale with 2 decimals, truncated
         $this->assertStringContainsString('2', $result);
     }
+
+    // --- HerramientasIP::ip_in_range ---
+
+    public function testIpInRangeWithCidr()
+    {
+        $controller = new \App\Http\Controllers\ProfileController();
+        // Returns int via bitwise OR — cast to bool for comparison
+        $this->assertTrue((bool)$controller->ip_in_range('192.168.1.100', ['192.168.1.0/24']));
+        $this->assertFalse((bool)$controller->ip_in_range('10.0.0.1', ['192.168.1.0/24']));
+    }
+
+    public function testIpInRangeWithoutCidr()
+    {
+        // When no CIDR notation, /32 should be appended (covers line 33 of HerramientasIP)
+        $controller = new \App\Http\Controllers\ProfileController();
+        $this->assertTrue((bool)$controller->ip_in_range('192.168.1.1', ['192.168.1.1']));
+        $this->assertFalse((bool)$controller->ip_in_range('192.168.1.2', ['192.168.1.1']));
+    }
 }

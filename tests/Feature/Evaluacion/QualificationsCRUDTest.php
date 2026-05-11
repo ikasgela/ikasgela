@@ -522,4 +522,21 @@ class QualificationsCRUDTest extends TestCase
         // Then
         $response->assertForbidden();
     }
+
+    public function testIndexFiltroMostrarTodos()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $qualification = Qualification::factory()->create();
+
+        // When: POST with curso_id=-1 triggers the "show all" branch in FiltroCurso::filtrar_por_curso
+        $response = $this->post(route('qualifications.index.filtro'), [
+            'curso_id' => -1,
+        ]);
+
+        // Then
+        $response->assertSuccessful();
+    }
 }

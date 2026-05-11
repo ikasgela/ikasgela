@@ -523,4 +523,29 @@ class ActividadesExtraTest extends TestCase
 
         $response->assertRedirect();
     }
+
+    public function testDuplicarGrupoMoverMultipleConUnidadFiltro()
+    {
+        $this->actingAs($this->admin);
+
+        $a1 = Actividad::factory()->create(['plantilla' => true, 'orden' => 1]);
+        $a2 = Actividad::factory()->create([
+            'plantilla' => true,
+            'orden' => 2,
+            'unidad_id' => $a1->unidad_id,
+        ]);
+
+        setting_usuario(['curso_actual' => $a1->unidad->curso_id]);
+
+        // Set session to filter by unidad_id — covers line 636 in mover_multiple
+        $this->withSession(['profesor_unidad_id_disponibles' => $a1->unidad_id]);
+
+        $response = $this->post(route('actividades.duplicar_grupo'), [
+            'seleccionadas' => [$a1->id],
+            'action' => 'mm_' . $a2->id,
+        ]);
+
+        $response->assertRedirect();
+    }
 }
+

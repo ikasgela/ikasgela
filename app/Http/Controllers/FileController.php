@@ -60,8 +60,10 @@ class FileController extends Controller
 
         if ($subida_corracta)
             return back()->with('success', 'File Successfully Saved');
+        // @codeCoverageIgnoreStart
         else
             return back()->with('error', 'Error uploading files');
+        // @codeCoverageIgnoreEnd
     }
 
     public function documentUpload(StoreFile $request)

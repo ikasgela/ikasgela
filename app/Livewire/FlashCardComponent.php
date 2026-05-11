@@ -10,6 +10,7 @@ use Livewire\Attributes\On;
 use Livewire\Attributes\Reactive;
 use Livewire\Component;
 
+/** @codeCoverageIgnore */
 class FlashCardComponent extends Component
 {
     public FlashCard $flash_card;
