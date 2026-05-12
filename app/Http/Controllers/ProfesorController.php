@@ -486,7 +486,7 @@ class ProfesorController extends Controller
         // No mostrar las etiquetadas como trabajo en equipo en la vista de usuarios
         $disponibles = $disponibles->tags('trabajo en equipo', false);
 
-        return $this->paginate_ultima($disponibles, config('ikasgela.pagination_short'), 'disponibles');
+        return $this->paginate_ultima($disponibles, config('ikasgela.pagination_short'), 'disponibles', 'profesor.disponibles');
     }
 
     public function editNotaManual(User $user, Curso $curso, ?Milestone $milestone = null)

@@ -4,14 +4,14 @@ namespace App\Traits;
 
 trait PaginarUltima
 {
-    public function paginate_ultima($coleccion, int $items_per_page = -1, string $key = 'pagina')
+    public function paginate_ultima($coleccion, int $items_per_page = -1, string $key = 'pagina', ?string $session_scope = null)
     {
         if ($items_per_page == -1) {
             $items_per_page = config('ikasgela.pagination_medium');
         }
 
-        $route_name = request()->route()?->getName() ?? request()->path();
-        $session_key = 'paginador_' . $route_name . '_' . $key;
+        $scope = $session_scope ?? (request()->route()?->getName() ?? request()->path());
+        $session_key = 'paginador_' . $scope . '_' . $key;
 
         if (request()->has($key)) {
             session([$session_key => (int) request()->input($key)]);
