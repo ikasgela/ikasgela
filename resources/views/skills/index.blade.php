@@ -47,4 +47,6 @@
             </tbody>
         </table>
     </div>
+
+    @include('partials.paginador', ['coleccion' => $skills])
 @endsection

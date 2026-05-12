@@ -39,4 +39,6 @@
             </tbody>
         </table>
     </div>
+
+    @include('partials.paginador', ['coleccion' => $roles])
 @endsection

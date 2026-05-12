@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Curso;
 use App\Models\Group;
 use App\Models\Period;
+use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class GroupController extends Controller
 {
+    use PaginarUltima;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -18,7 +21,7 @@ class GroupController extends Controller
 
     public function index()
     {
-        $groups = Group::all();
+        $groups = $this->paginate_ultima(Group::query(), config('ikasgela.pagination_medium'));
 
         return view('groups.index', compact('groups'));
     }

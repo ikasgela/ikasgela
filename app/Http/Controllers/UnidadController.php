@@ -6,12 +6,14 @@ use App\Models\Curso;
 use App\Models\Qualification;
 use App\Models\Unidad;
 use App\Traits\FiltroCurso;
+use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class UnidadController extends Controller
 {
     use FiltroCurso;
+    use PaginarUltima;
 
     public function __construct()
     {
@@ -23,9 +25,9 @@ class UnidadController extends Controller
     {
         $cursos = Curso::orderBy('nombre')->get();
 
-        $unidades = $this->filtrar_por_curso($request, Unidad::class, 'orden')->get();
+        $unidades = $this->paginate_ultima($this->filtrar_por_curso($request, Unidad::class, 'orden'), config('ikasgela.pagination_medium'));
 
-        $ids = $unidades->pluck('id')->toArray();
+        $ids = $unidades->getCollection()->pluck('id')->toArray();
 
         return view('unidades.index', compact(['unidades', 'cursos', 'ids']));
     }

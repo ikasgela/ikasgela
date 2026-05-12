@@ -26,7 +26,7 @@ class FileUploadController extends Controller
     {
         $cursos = Curso::orderBy('nombre')->get();
 
-        $file_uploads = $this->filtrar_por_curso($request, FileUpload::class)->plantilla()->get();
+        $file_uploads = $this->paginate_ultima($this->filtrar_por_curso($request, FileUpload::class)->plantilla(), config('ikasgela.pagination_medium'));
 
         return view('file_uploads.index', compact(['file_uploads', 'cursos']));
     }

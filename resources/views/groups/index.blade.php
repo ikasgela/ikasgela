@@ -41,4 +41,6 @@
             </tbody>
         </table>
     </div>
+
+    @include('partials.paginador', ['coleccion' => $groups])
 @endsection

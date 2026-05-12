@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Curso;
 use App\Models\Qualification;
 use App\Traits\FiltroCurso;
+use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class QualificationController extends Controller
 {
     use FiltroCurso;
+    use PaginarUltima;
 
     public function __construct()
     {
@@ -22,7 +24,7 @@ class QualificationController extends Controller
     {
         $cursos = Curso::orderBy('nombre')->get();
 
-        $qualifications = $this->filtrar_por_curso($request, Qualification::class)->get();
+        $qualifications = $this->paginate_ultima($this->filtrar_por_curso($request, Qualification::class), config('ikasgela.pagination_medium'));
 
         return view('qualifications.index', compact(['qualifications', 'cursos']));
     }

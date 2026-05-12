@@ -26,7 +26,7 @@ class YoutubeVideoController extends Controller
     {
         $cursos = Curso::orderBy('nombre')->get();
 
-        $youtube_videos = $this->filtrar_por_curso($request, YoutubeVideo::class)->get();
+        $youtube_videos = $this->paginate_ultima($this->filtrar_por_curso($request, YoutubeVideo::class), config('ikasgela.pagination_medium'));
 
         return view('youtube_videos.index', compact(['youtube_videos', 'cursos']));
     }

@@ -54,4 +54,6 @@
             </tbody>
         </table>
     </div>
+
+    @include('partials.paginador', ['coleccion' => $markdown_texts])
 @endsection

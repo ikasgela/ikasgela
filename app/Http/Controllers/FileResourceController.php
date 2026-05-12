@@ -26,7 +26,7 @@ class FileResourceController extends Controller
     {
         $cursos = Curso::orderBy('nombre')->get();
 
-        $file_resources = $this->filtrar_por_curso($request, FileResource::class)->get();
+        $file_resources = $this->paginate_ultima($this->filtrar_por_curso($request, FileResource::class), config('ikasgela.pagination_medium'));
 
         return view('file_resources.index', compact(['file_resources', 'cursos']));
     }

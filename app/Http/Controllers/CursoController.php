@@ -8,6 +8,7 @@ use App\Jobs\ImportCurso;
 use App\Models\Category;
 use App\Models\Curso;
 use App\Models\User;
+use App\Traits\PaginarUltima;
 use App\Traits\TareaBienvenida;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Http\Request;
@@ -26,6 +27,7 @@ use ZipArchive;
 
 class CursoController extends Controller
 {
+    use PaginarUltima;
     use TareaBienvenida;
 
     public function __construct()
@@ -36,7 +38,7 @@ class CursoController extends Controller
 
     public function index()
     {
-        $cursos = Curso::all();
+        $cursos = $this->paginate_ultima(Curso::query(), config('ikasgela.pagination_medium'));
 
         $usuario = Auth::user();
 

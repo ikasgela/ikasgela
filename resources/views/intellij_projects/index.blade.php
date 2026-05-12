@@ -49,4 +49,6 @@
             </tbody>
         </table>
     </div>
+
+    @include('partials.paginador', ['coleccion' => $intellij_projects])
 @endsection

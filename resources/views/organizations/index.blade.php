@@ -59,4 +59,6 @@
             </tbody>
         </table>
     </div>
+
+    @include('partials.paginador', ['coleccion' => $organizations])
 @endsection

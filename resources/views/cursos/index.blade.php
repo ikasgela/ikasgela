@@ -146,4 +146,6 @@
             </tbody>
         </table>
     </div>
+
+    @include('partials.paginador', ['coleccion' => $cursos])
 @endsection

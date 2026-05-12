@@ -62,4 +62,6 @@
             </tbody>
         </table>
     </div>
+
+    @include('partials.paginador', ['coleccion' => $unidades])
 @endsection

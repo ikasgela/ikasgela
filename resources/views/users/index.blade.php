@@ -27,6 +27,7 @@
     </div>
 
     @include('users.partials.tabla_usuarios')
+    @include('partials.paginador', ['coleccion' => $users])
     @include('layouts.errors')
 
 @endsection

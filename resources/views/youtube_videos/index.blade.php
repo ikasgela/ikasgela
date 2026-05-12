@@ -49,4 +49,6 @@
             </tbody>
         </table>
     </div>
+
+    @include('partials.paginador', ['coleccion' => $youtube_videos])
 @endsection

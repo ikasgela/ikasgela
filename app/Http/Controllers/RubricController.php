@@ -26,7 +26,7 @@ class RubricController extends Controller
     {
         $cursos = Curso::orderBy('nombre')->get();
 
-        $rubrics = $this->filtrar_por_curso($request, Rubric::class)->plantilla()->get();
+        $rubrics = $this->paginate_ultima($this->filtrar_por_curso($request, Rubric::class)->plantilla(), config('ikasgela.pagination_medium'));
 
         return view('rubrics.index', compact(['rubrics', 'cursos']));
     }

@@ -7,6 +7,7 @@ use App\Models\Curso;
 use App\Models\Organization;
 use App\Models\Role;
 use App\Models\User;
+use App\Traits\PaginarUltima;
 use App\Traits\TareaBienvenida;
 use Carbon\Carbon;
 use Exception;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
+    use PaginarUltima;
     use TareaBienvenida;
 
     public function __construct()
@@ -62,9 +64,9 @@ class UserController extends Controller
             $users = $users->tags(session('tags_usuario'));
         }
 
-        $users = $users->get();
+        $users = $this->paginate_ultima($users, config('ikasgela.pagination_medium'));
 
-        $ids = $users->pluck('id')->toArray();
+        $ids = $users->getCollection()->pluck('id')->toArray();
 
         $etiquetas = [];
         foreach ($users as $usuario) {

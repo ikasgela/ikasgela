@@ -26,7 +26,7 @@ class LinkCollectionController extends Controller
     {
         $cursos = Curso::orderBy('nombre')->get();
 
-        $link_collections = $this->filtrar_por_curso($request, LinkCollection::class)->get();
+        $link_collections = $this->paginate_ultima($this->filtrar_por_curso($request, LinkCollection::class), config('ikasgela.pagination_medium'));
 
         return view('link_collections.index', compact(['link_collections', 'cursos']));
     }

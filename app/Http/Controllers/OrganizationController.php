@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Organization;
+use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class OrganizationController extends Controller
 {
+    use PaginarUltima;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -16,7 +19,7 @@ class OrganizationController extends Controller
 
     public function index()
     {
-        $organizations = Organization::all();
+        $organizations = $this->paginate_ultima(Organization::query(), config('ikasgela.pagination_medium'));
 
         return view('organizations.index', compact('organizations'));
     }

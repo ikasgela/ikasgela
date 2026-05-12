@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Curso;
 use App\Models\Skill;
 use App\Traits\FiltroCurso;
+use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
 
 class SkillController extends Controller
 {
     use FiltroCurso;
+    use PaginarUltima;
 
     public function __construct()
     {
@@ -21,7 +23,7 @@ class SkillController extends Controller
     {
         $cursos = Curso::orderBy('nombre')->get();
 
-        $skills = $this->filtrar_por_curso($request, Skill::class)->get();
+        $skills = $this->paginate_ultima($this->filtrar_por_curso($request, Skill::class), config('ikasgela.pagination_medium'));
 
         return view('skills.index', compact(['skills', 'cursos']));
     }

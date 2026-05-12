@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
+    use PaginarUltima;
+
     public function index()
     {
-        $roles = Role::all();
+        $roles = $this->paginate_ultima(Role::query(), config('ikasgela.pagination_medium'));
 
         return view('roles.index', compact('roles'));
     }

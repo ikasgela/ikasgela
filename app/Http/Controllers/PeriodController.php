@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Organization;
 use App\Models\Period;
+use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class PeriodController extends Controller
 {
+    use PaginarUltima;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -17,7 +20,7 @@ class PeriodController extends Controller
 
     public function index()
     {
-        $periods = Period::all();
+        $periods = $this->paginate_ultima(Period::query(), config('ikasgela.pagination_medium'));
 
         return view('periods.index', compact('periods'));
     }

@@ -26,7 +26,7 @@ class TestResultController extends Controller
     {
         $cursos = Curso::orderBy('nombre')->get();
 
-        $test_results = $this->filtrar_por_curso($request, TestResult::class)->plantilla()->get();
+        $test_results = $this->paginate_ultima($this->filtrar_por_curso($request, TestResult::class)->plantilla(), config('ikasgela.pagination_medium'));
 
         return view('test_results.index', compact(['test_results', 'cursos']));
     }

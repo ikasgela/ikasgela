@@ -26,7 +26,7 @@ class SelectorController extends Controller
     {
         $cursos = Curso::orderBy('nombre')->get();
 
-        $selectors = $this->filtrar_por_curso($request, Selector::class)->get();
+        $selectors = $this->paginate_ultima($this->filtrar_por_curso($request, Selector::class), config('ikasgela.pagination_medium'));
 
         return view('selectors.index', compact(['selectors', 'cursos']));
     }

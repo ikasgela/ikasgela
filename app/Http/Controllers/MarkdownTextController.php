@@ -29,7 +29,7 @@ class MarkdownTextController extends Controller
     {
         $cursos = Curso::orderBy('nombre')->get();
 
-        $markdown_texts = $this->filtrar_por_curso($request, MarkdownText::class)->get();
+        $markdown_texts = $this->paginate_ultima($this->filtrar_por_curso($request, MarkdownText::class), config('ikasgela.pagination_medium'));
 
         return view('markdown_texts.index', compact(['markdown_texts', 'cursos']));
     }

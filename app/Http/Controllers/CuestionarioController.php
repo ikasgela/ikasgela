@@ -27,7 +27,7 @@ class CuestionarioController extends Controller
     {
         $cursos = Curso::orderBy('nombre')->get();
 
-        $cuestionarios = $this->filtrar_por_curso($request, Cuestionario::class)->plantilla()->get();
+        $cuestionarios = $this->paginate_ultima($this->filtrar_por_curso($request, Cuestionario::class)->plantilla(), config('ikasgela.pagination_medium'));
 
         return view('cuestionarios.index', compact(['cuestionarios', 'cursos']));
     }
