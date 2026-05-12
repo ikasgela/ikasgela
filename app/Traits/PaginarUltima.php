@@ -10,14 +10,20 @@ trait PaginarUltima
             $items_per_page = config('ikasgela.pagination_medium');
         }
 
-        // Si no hay parámetro de página, calcular directamente la última página
-        if (!request()->has($key)) {
-            $total = $coleccion->count();
-            $last_page = max(1, (int)ceil($total / $items_per_page));
+        $route_name = request()->route()?->getName() ?? request()->path();
+        $session_key = 'paginador_' . $route_name . '_' . $key;
 
-            return $coleccion->paginate($items_per_page, ['*'], $key, $last_page);
+        if (request()->has($key)) {
+            session([$session_key => (int) request()->input($key)]);
+            return $coleccion->paginate($items_per_page, ['*'], $key);
         }
 
-        return $coleccion->paginate($items_per_page, ['*'], $key);
+        $total = $coleccion->count();
+        $last_page = max(1, (int)ceil($total / $items_per_page));
+
+        $page = session($session_key);
+        $page = $page !== null ? min((int)$page, $last_page) : $last_page;
+
+        return $coleccion->paginate($items_per_page, ['*'], $key, $page);
     }
 }
