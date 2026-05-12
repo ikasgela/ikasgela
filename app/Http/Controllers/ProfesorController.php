@@ -123,7 +123,8 @@ class ProfesorController extends Controller
                 $usuarios->load(['actividades' => function ($query) {
                     $query->where('auto_avance', false)
                         ->tag('examen', false)
-                        ->wherePivotIn('estado', [10, 11, 20, 21]);
+                        ->wherePivotIn('estado', [10, 11, 20, 21])
+                        ->with(['unidad.curso']);
                 }]);
             }
         } else {
@@ -192,6 +193,8 @@ class ProfesorController extends Controller
     {
         $actividades = $this->getActividadesFiltradas($request, $user);
 
+        $actividades = $actividades->with(['unidad.curso']);
+
         $actividades = $this->paginate_ultima($actividades, config('ikasgela.pagination_short'), 'asignadas');
 
         $unidades = Unidad::organizacionActual()->cursoActual()->orderBy('orden')->get();
@@ -240,11 +243,15 @@ class ProfesorController extends Controller
             'seleccionadas' => 'required',
         ]);
 
+        $users = User::whereIn('id', request('usuarios_seleccionados'))->get()->keyBy('id');
+
         foreach (request('usuarios_seleccionados') as $user_id) {
 
-            $user = User::find($user_id);
+            $user = $users->get($user_id);
 
-            $this->asignarTareasUsuario($user);
+            if ($user) {
+                $this->asignarTareasUsuario($user);
+            }
         }
 
         return redirect(route('profesor.index'));
@@ -257,9 +264,13 @@ class ProfesorController extends Controller
             'seleccionadas' => 'required',
         ]);
 
+        $teams = Team::whereIn('id', request('equipos_seleccionados'))->get()->keyBy('id');
+
         foreach (request('equipos_seleccionados') as $team_id) {
-            $team = Team::findOrFail($team_id);
-            $this->asignarTareasUsuarioEquipo($team);
+            $team = $teams->get($team_id);
+            if ($team) {
+                $this->asignarTareasUsuarioEquipo($team);
+            }
         }
 
         return redirect(route('teams.index'));
@@ -280,6 +291,7 @@ class ProfesorController extends Controller
     {
         $actividades = $this->getActividadesFiltradas($request, $user);
 
+        $tarea->load('actividad.unidad.curso');
         $actividad = $tarea->actividad;
         $feedbacks_curso = $actividad->unidad->curso->feedbacks()->orderBy('orden')->get();
         $feedbacks_actividad = isset($actividad->original) ? $actividad->original->feedbacks()->orderBy('orden')->get() : collect([]);

@@ -187,16 +187,17 @@ class ActividadController extends Controller
 
     public function edit(Actividad $actividad)
     {
-        $unidades = $actividad->unidad->curso->unidades()->orderBy('orden')->get();
+        $curso = $actividad->load('unidad.curso')->unidad->curso;
+        $unidades = $curso->unidades()->orderBy('orden')->get();
         $siguiente = $actividad->siguiente;
-        $actividades = $actividad->unidad->curso->actividades()
+        $actividades = $curso->actividades()
             ->where('actividades.id', '!=', $actividad->id)
             ->orderBy('slug')->orderBy('id')->get();
-        $plantillas = $actividad->unidad->curso->actividades()
+        $plantillas = $curso->actividades()
             ->plantilla()
             ->where('actividades.id', '!=', $actividad->id)
             ->orderBy('slug')->orderBy('id')->get();
-        $qualifications = $actividad->unidad->curso->qualifications()->orderBy('name')->get();
+        $qualifications = $curso->qualifications()->orderBy('name')->get();
 
         return view('actividades.edit', compact(['actividad', 'unidades', 'actividades', 'plantillas', 'qualifications']));
     }

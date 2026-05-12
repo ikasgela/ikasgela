@@ -49,8 +49,12 @@ class TareaController extends Controller
             'asignadas' => 'required',
         ]);
 
-        foreach (request('asignadas') as $tarea_id) {
-            $this->borrarTarea(Tarea::find($tarea_id));
+        $tareas = Tarea::whereIn('id', request('asignadas'))
+            ->with(['user', 'actividad.cuestionarios', 'actividad.file_uploads', 'actividad.intellij_projects'])
+            ->get();
+
+        foreach ($tareas as $tarea) {
+            $this->borrarTarea($tarea);
         }
 
         return redirect(route('profesor.tareas', ['user' => $user->id]));
@@ -80,8 +84,12 @@ class TareaController extends Controller
             'asignadas' => 'required',
         ]);
 
-        foreach (request('asignadas') as $tarea_id) {
-            $this->borrarTarea(Tarea::find($tarea_id));
+        $tareas = Tarea::whereIn('id', request('asignadas'))
+            ->with(['user', 'actividad.cuestionarios', 'actividad.file_uploads', 'actividad.intellij_projects'])
+            ->get();
+
+        foreach ($tareas as $tarea) {
+            $this->borrarTarea($tarea);
         }
 
         return redirect(route('profesor.index'));
@@ -108,6 +116,8 @@ class TareaController extends Controller
      */
     private function borrarTarea(Tarea $tarea): void
     {
+        $tarea->loadMissing(['user', 'actividad.cuestionarios', 'actividad.file_uploads', 'actividad.intellij_projects']);
+
         $registro = new Registro();
         $registro->user_id = $tarea->user->id;
         $registro->tarea_id = $tarea->id;
