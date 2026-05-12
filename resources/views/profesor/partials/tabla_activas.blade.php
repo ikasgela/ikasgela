@@ -3,6 +3,9 @@
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
+            <th>
+                <input class="form-check-input" type="checkbox" id="seleccionar_activas">
+            </th>
             @if(config('ikasgela.avatar_enabled'))
                 <th></th>
             @endif
@@ -21,6 +24,15 @@
             @foreach($user->actividades as $actividad)
                 <tr class="table-cell-click"
                     data-href="{{ route('profesor.revisar', ['user' => $user->id, 'tarea' => $actividad->tarea->id]) }}">
+                    <td>
+                        <input class="form-check-input"
+                               id="input_actividad_{{ $actividad->tarea->id }}" form="multiple_activas"
+                               data-chkbox-shiftsel="grupo_activas"
+                               onclick="document.getElementById('input2_actividad_{{ $actividad->tarea->id }}').checked = this.checked"
+                               type="checkbox" name="asignadas[]" value="{{ $actividad->tarea->id }}">
+                        <input id="input2_actividad_{{ $actividad->tarea->id }}" form="multiple2_activas" class="d-none"
+                               type="checkbox" name="asignadas[]" value="{{ $actividad->tarea->id }}">
+                    </td>
                     @if($loop->first)
                         @if(config('ikasgela.avatar_enabled'))
                             <td class="clickable">@include('users.partials.avatar', ['user' => $user, 'width' => 35])</td>
@@ -80,4 +92,24 @@
         </tr>
         </tfoot>
     </table>
+</div>
+<div class="d-flex justify-content-end mb-3">
+    <div class="me-3">
+        {{ html()->form('DELETE', route('tareas.borrar_multiple_activas'))->id('multiple_activas')->open() }}
+        <span class="me-2">{{ __('With the selected') }}: </span>
+        @include('partials.boton_borrar')
+        {{ html()->form()->close() }}
+    </div>
+    <div>
+        {{ html()->form('POST', route('tareas.fecha_finalizacion_multiple_activas'))->id('multiple2_activas')->open() }}
+        <div class="input-group input-group-sm">
+            {{ html()->input("datetime-local")
+                 ->id('fecha_override_activas')->name('fecha_override')
+                 ->class(['form-control']) }}
+            {{ html()->submit('<i class="bi bi-stopwatch"></i>')
+                ->class(['btn btn-light btn-sm'])
+                ->attribute('title', __('Override completion date')) }}
+        </div>
+        {{ html()->form()->close() }}
+    </div>
 </div>

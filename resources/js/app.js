@@ -60,6 +60,17 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    const seleccionarActivas = document.getElementById('seleccionar_activas');
+    if (seleccionarActivas) {
+        seleccionarActivas.addEventListener('change', function () {
+            document.querySelectorAll("input[name^='asignadas']").forEach(function (checkbox) {
+                if (checkbox !== seleccionarActivas) {
+                    checkbox.checked = seleccionarActivas.checked;
+                }
+            });
+        });
+    }
+
     const seleccionarTodos = document.getElementById('seleccionar_todos');
     if (seleccionarTodos) {
         seleccionarTodos.addEventListener('change', function () {

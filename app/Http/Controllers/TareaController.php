@@ -74,6 +74,35 @@ class TareaController extends Controller
         return redirect(route('profesor.tareas', ['user' => $user->id]));
     }
 
+    public function borrarMultipleActivas(Request $request)
+    {
+        $this->validate($request, [
+            'asignadas' => 'required',
+        ]);
+
+        foreach (request('asignadas') as $tarea_id) {
+            $this->borrarTarea(Tarea::find($tarea_id));
+        }
+
+        return redirect(route('profesor.index'));
+    }
+
+    public function fechaFinalizacionMultipleActivas(Request $request)
+    {
+        $this->validate($request, [
+            'asignadas' => 'required',
+        ]);
+
+        foreach (request('asignadas') as $tarea_id) {
+            $actividad = Tarea::find($tarea_id)->actividad;
+            $actividad->fecha_entrega = request('fecha_override');
+            $actividad->fecha_limite = $actividad->fecha_entrega->addMinutes(10);
+            $actividad->save();
+        }
+
+        return redirect(route('profesor.index'));
+    }
+
     /**
      * @param Tarea $tarea
      */

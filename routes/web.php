@@ -188,9 +188,17 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::delete('/tareas/{user}/borrar_multiple', [TareaController::class, 'borrarMultiple'])
                 ->name('tareas.borrar_multiple');
 
+            // Borrar múltiples tareas (vista activas, sin usuario específico)
+            Route::delete('/tareas/borrar_multiple_activas', [TareaController::class, 'borrarMultipleActivas'])
+                ->name('tareas.borrar_multiple_activas');
+
             // Redefinir la fecha de finalización de múltiples tareas
             Route::post('/tareas/{user}/fecha_finalizacion_multiple', [TareaController::class, 'fechaFinalizacionMultiple'])
                 ->name('tareas.fecha_finalizacion_multiple');
+
+            // Redefinir fecha de finalización (vista activas, sin usuario específico)
+            Route::post('/tareas/fecha_finalizacion_multiple_activas', [TareaController::class, 'fechaFinalizacionMultipleActivas'])
+                ->name('tareas.fecha_finalizacion_multiple_activas');
 
             // Editar una tarea
             Route::get('/tareas/{tarea}/edit', [TareaController::class, 'edit'])
