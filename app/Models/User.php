@@ -1028,8 +1028,9 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
                 if ($nota >= 5) {
                     $r->nota_manual_superada = true;
                 }
-                return;
             }
+            // Con milestone activo, nunca aplicar la nota manual del curso
+            return;
         }
 
         $temp = $this->cursos()->wherePivot('curso_id', $curso?->id)->first();

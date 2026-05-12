@@ -22,6 +22,7 @@
             @include('components.label-text', [
                 'label' => __('Calification'),
                 'name' => 'nota',
+                'value' => $nota,
             ])
 
             @include('partials.guardar_cancelar')
