@@ -48,6 +48,6 @@ class ForgotPasswordController extends Controller
                 break;
         }
 
-        $request->validate(['email' => "required|string|email:rfc,dns|$validator:$dominios|max:255"]);
+        $request->validate(['email' => "required|string|" . email_rule() . "|$validator:$dominios|max:255"]);
     }
 }

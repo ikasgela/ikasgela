@@ -89,7 +89,7 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|email:rfc,dns|unique:users',
+            'email' => 'required|' . email_rule() . '|unique:users',
             'password' => 'required|string|min:8',
             'roles_seleccionados' => 'required',
         ]);
@@ -159,7 +159,7 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|email:rfc,dns',
+            'email' => 'required|' . email_rule(),
             'roles_seleccionados' => 'required',
         ]);
 
