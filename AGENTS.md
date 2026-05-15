@@ -53,12 +53,25 @@ Todos son clonables junto con la actividad vía `bkwld/cloner`.
 
 ## Comandos clave
 
+> ⚠️ **Los tests se ejecutan siempre dentro del contenedor Docker** (`ikasgela-laravel-1`).
+> Lo más cómodo es usar el `Makefile` de `despliegue/dev/` desde fuera del contenedor,
+> o ejecutar directamente en el contenedor con `docker compose exec laravel <cmd>`.
+
 ```bash
+# --- Desde despliegue/dev/ (recomendado) ---
+
+make test           # migrate:fresh --env=testing + paratest (suite completa, ~20 s)
+make coverage       # igual que test pero genera informe HTML en ikasgela/coverage/
+make dusk           # migrate:fresh --seed + tests Dusk (browser)
+make assets         # compilar JS para entorno DEV (ver sección Vite más abajo)
+
+# --- Dentro del contenedor ---
+
 # Instalar dependencias PHP
 composer install
 
-# Instalar dependencias JS y compilar assets
-npm install && npm run build
+# Compilar assets (NO usar npm run build directamente en dev — ver Vite)
+# Usar make assets desde despliegue/dev/
 
 # Ejecutar migraciones y seeders
 php artisan migrate --seed
@@ -66,18 +79,15 @@ php artisan migrate --seed
 # Limpiar caché de aplicación
 php artisan cache:clear && php artisan config:clear && php artisan view:clear
 
-# Ejecutar todos los tests
-php artisan test
+# Ejecutar tests con paratest (paralelo, ~20 s para la suite completa)
+php vendor/bin/paratest --colors --stop-on-failure
 
-# Ejecutar tests en paralelo
-php artisan test --parallel
-
-# Ejecutar una suite concreta
-php artisan test --testsuite=Feature
-php artisan test --testsuite=Unit
+# Ejecutar tests con cobertura XML
+php vendor/bin/paratest --colors --stop-on-failure \
+  --coverage-xml coverage-xml --coverage-filter app
 
 # Ejecutar tests de un directorio concreto
-php artisan test tests/Feature/Estructura/
+php vendor/bin/phpunit tests/Feature/Estructura/
 
 # Actualizar helpers de IDE (tras cambios en modelos)
 php artisan ide-helper:models --nowrite --write-mixin --write-eloquent-helper
@@ -88,6 +98,11 @@ vendor/bin/rector process --dry-run
 # Ejecutar Rector (aplicar cambios)
 vendor/bin/rector process
 ```
+
+### ⚠️ `php artisan test` no existe en este proyecto
+
+El comando `php artisan test` no está disponible. Usar siempre `php vendor/bin/paratest`
+o `php vendor/bin/phpunit`.
 
 ---
 
@@ -133,13 +148,20 @@ vendor/bin/rector process
 tests/
 ├── Feature/
 │   ├── Alumno/          # Tests desde el punto de vista del alumno
+│   ├── Coverage/        # Tests auxiliares para cobertura de métodos difíciles de alcanzar
 │   ├── Estructura/      # CRUD de entidades estructurales (Curso, Unidad, Actividad...)
 │   ├── Evaluacion/      # CRUD de evaluación (Rubric, Skill, Milestone...)
 │   ├── Profesor/        # Tests desde el punto de vista del profesor
 │   ├── Recursos/        # CRUD de recursos de actividades
 │   ├── SafeExam/        # Tests de Safe Exam Browser
 │   └── Usuarios/        # CRUD de usuarios, grupos, equipos, roles
-└── Unit/                # Tests unitarios de modelos y helpers
+├── Unit/                # Tests unitarios de modelos y helpers
+└── Browser/             # Tests Dusk (browser end-to-end)
+    ├── Actividades/     # Flujos de actividades (T1_TareasTest, ...)
+    ├── Concerns/        # Traits compartidos (BrowserUiHelpers)
+    ├── Rubrics/         # Flujos de rúbricas
+    ├── Sitio/           # Tests de sitio (login, CRUD admin, roles...)
+    └── screenshots/     # Capturas automáticas en fallos Dusk
 ```
 
 ### Patrones de test
@@ -155,12 +177,73 @@ tests/
 - El nombre de los tests sigue `camelCase` con prefijo `test`.
 - `setUp()` siempre llama a `parent::setUp()` y `parent::crearUsuarios()`.
 - PHPUnit está configurado con `stopOnFailure="true"`: corregir el primer fallo antes de continuar.
+- **PHPUnit 12**: usar `createStub()` en lugar de `createMock()` cuando no se necesitan expectativas. `createMock()` sin configurar expectativas genera un PHPUnit Notice.
+
+### Tests Dusk (browser)
+
+- Ejecutar con `make dusk` desde `despliegue/dev/` (hace `migrate:fresh --seed` antes).
+- Los tests Dusk usan la DB con datos del seeder (IDs secuenciales). No usar IDs hardcodeados; buscar por campos únicos:
+  ```php
+  User::where('email', 'alumno@ikasgela.test')->value('id')
+  Actividad::where('nombre', 'like', '%nombre%')->first()
+  Tarea::where('estado', 30)->latest()->first()
+  ```
+- El trait `Tests\Browser\Concerns\BrowserUiHelpers` provee `loginAs()`, `logoutToPortada()` y `assertNoAppErrors()`. Todos los tests Dusk deben usar `use BrowserUiHelpers`.
+- Las capturas de pantalla en fallos se guardan en `tests/Browser/screenshots/`.
 
 ### Fixtures y factories
 
 - Usar `Model::factory()->create()` para crear datos de prueba.
 - Los factories residen en `database/factories/`.
 - Para tests que necesiten contexto de curso, usar `session(['filtrar_curso_actual' => $id])`.
+
+---
+
+## Conocimiento técnico acumulado
+
+### Trampas conocidas (NO hacer)
+
+- **`$actividad->tarea` es un alias de pivot, NO una relación**: `User::actividades()` usa `.as('tarea')->withPivot([...])`. Añadirlo a `->with()` lanza `Call to a member function addEagerConstraints() on array`.
+- **`Etiquetas::etiquetas()` devuelve un array PHP, no una relación Eloquent**: `array_map('trim', explode(',', $this->tags))`. Añadirlo a `->with()` lanza `addEagerConstraints() on array`.
+- **`load()` vs `loadMissing()`**: usar `loadMissing()` cuando la relación puede estar ya cargada (evita re-query). Usar `load()` solo cuando se necesita forzar la recarga.
+- **`email:rfc,dns` falla en tests**: los dominios ficticios (ej. `test.com`) no resuelven MX desde el contenedor. Usar siempre el helper `email_rule()` (`app/Helpers/ValidacionEmail.php`) que devuelve `email:rfc` en testing y `email:rfc,dns` en producción.
+- **`->pluck()` en paginadores**: si la query devuelve `LengthAwarePaginator`, usar `->getCollection()->pluck('id')->toArray()` en vez de `->pluck('id')->toArray()`.
+
+### Paginación con persistencia (`PaginarUltima`)
+
+El trait `app/Traits/PaginarUltima.php` recuerda la página entre recargas:
+```php
+paginate_ultima($coleccion, int $items_per_page = -1, string $key = 'pagina', ?string $session_scope = null)
+```
+- **Clave de sesión**: `'paginador_{scope}_{key}'` donde `scope` es `request()->route()->getName()` por defecto.
+- El parámetro `$session_scope` permite compartir clave entre rutas distintas (ej. `profesor.index` y `profesor.tareas` comparten `'profesor.disponibles'`).
+
+### Selección múltiple y acciones en bloque (TareaController)
+
+- `borrarMultiple(User $user, Request $request)` → redirige a `profesor.tareas`
+- `borrarMultipleActivas(Request $request)` → redirige a `profesor.index`
+- `fechaFinalizacionMultipleActivas(Request $request)` → redirige a `profesor.index`
+
+### Helper `email_rule()`
+
+`app/Helpers/ValidacionEmail.php` — cargado automáticamente por `browner12/helpers`:
+```php
+email_rule() // → 'email:rfc' en testing, 'email:rfc,dns' en producción
+```
+Usar en todas las validaciones de email en controladores.
+
+### N+1 queries — lecciones aprendidas
+
+- Añadir `->with(['unidad.curso'])` al eager-load del filtro ACT en `ProfesorController::index()`.
+- En `tareas()` paginator de `ProfesorController`: `$actividades->with(['unidad.curso'])` antes de paginar.
+- En `asignarTareasGrupo/Equipo`: usar `whereIn` batch + `keyBy` en lugar de N llamadas a `User::find()`/`Team::findOrFail()`.
+- En `TareaController::borrarTarea()`: `$tarea->loadMissing([...])` al inicio para evitar 3 queries separadas.
+- En `ActividadController::edit()`: cachear `$curso = $actividad->load('unidad.curso')->unidad->curso` en variable local.
+
+### Informe del tutor — nota manual
+
+- `aplicarNotaManual()` en `User`: si hay milestone activo y NO tiene nota manual propia, mostrar el **cálculo** del milestone (no caer en la nota manual del curso).
+- La nota manual del curso solo se aplica si no hay ningún milestone seleccionado.
 
 ---
 
@@ -197,6 +280,11 @@ tests/
 - Llamar a `crearUsuarios()` en `setUp()`.
 - Seguir el patrón `// Auth → // Given → // When → // Then` en cada test.
 - Cubrir al menos: acceso autorizado, acceso denegado por rol, acceso sin autenticar.
+- **No usar `createMock()` sin expectativas** — usar `createStub()` (PHPUnit 12).
+- **No usar `email:rfc,dns`** directamente en validaciones — usar el helper `email_rule()`.
+- Para tests de índices con scope `plantilla: true`: pasar también `session(['filtrar_curso_actual' => $id])`.
+- Para tests con procesos externos (git, etc.): usar `Process::fake(['*' => Process::result(output:'ok', exitCode:0)])`.
+- Para tests con ficheros temporales: usar `Storage::fake('temp')` y crear ficheros manualmente.
 
 ### Al modificar modelos
 
@@ -213,11 +301,14 @@ tests/
 ### Commits
 
 - Crear un commit al terminar cada característica o corrección relevante.
-- Usar mensajes de commit descriptivos en español o inglés, en imperativo y en una sola línea.
+- Usar mensajes de commit en **español**, en imperativo, formato Conventional Commits.
 - Incluir siempre el trailer `Co-authored-by`:
 
   ```
-  git commit -m "Descripción del cambio
+  git commit -m "tipo(scope): descripción del cambio
 
   Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>"
   ```
+
+- El repositorio de la app es el directorio `ikasgela/` — **no hacer commits en el repositorio raíz**.
+- La rama principal de desarrollo es `develop`.
