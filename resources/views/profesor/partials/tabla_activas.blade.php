@@ -3,7 +3,7 @@
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
-            <th>
+            <th class="seleccionar_filas">
                 <input class="form-check-input" type="checkbox" id="seleccionar_activas">
             </th>
             @if(config('ikasgela.avatar_enabled'))
@@ -24,7 +24,7 @@
             @foreach($user->actividades as $actividad)
                 <tr class="table-cell-click"
                     data-href="{{ route('profesor.revisar', ['user' => $user->id, 'tarea' => $actividad->tarea->id]) }}">
-                    <td>
+                    <td class="seleccionar_filas">
                         <input class="form-check-input"
                                id="input_actividad_{{ $actividad->tarea->id }}" form="multiple_activas"
                                data-chkbox-shiftsel="grupo_activas"

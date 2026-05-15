@@ -2,10 +2,10 @@
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
-            @include('actividades.partials.indicador_tabla_cabecera')
-            <th>
+            <th class="seleccionar_filas">
                 <input class="form-check-input" type="checkbox" id="seleccionar_actividades">
             </th>
+            @include('actividades.partials.indicador_tabla_cabecera')
             <th>#</th>
             <th>{{ __('Name') }}</th>
             @include('actividades.partials.indicador_tabla_cabecera')
@@ -22,17 +22,17 @@
         @foreach($disponibles as $actividad)
             @include('actividades.partials.divisor')
             <tr class="table-cell-click" data-href="{{ route('actividades.preview', [$actividad->id]) }}">
-                @include('actividades.partials.indicador_tabla', [
-                    'fondo' => 'bg-warning',
-                    'condicion' => $actividad->destacada,
-                    'titulo' => __('Highlighted')
-                ])
-                <td>
+                <td class="seleccionar_filas">
                     <input class="form-check-input"
                            type="checkbox"
                            data-chkbox-shiftsel="grupo2"
                            name="seleccionadas[{{ $actividad->id }}]" value="{{ $actividad->id }}">
                 </td>
+                @include('actividades.partials.indicador_tabla', [
+                    'fondo' => 'bg-warning',
+                    'condicion' => $actividad->destacada,
+                    'titulo' => __('Highlighted')
+                ])
                 <td class="clickable">{{ $actividad->id }}</td>
                 <td class="clickable">
                     <div class="d-flex align-items-center">

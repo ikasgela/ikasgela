@@ -3,10 +3,10 @@
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
-            @include('actividades.partials.indicador_tabla_cabecera')
-            <th>
+            <th class="seleccionar_filas">
                 <input class="form-check-input" type="checkbox" id="seleccionar_usuarios">
             </th>
+            @include('actividades.partials.indicador_tabla_cabecera')
             @if(config('ikasgela.avatar_enabled'))
                 <th></th>
             @endif
@@ -68,6 +68,12 @@
                 @php($media = true)
             @endif
             <tr class="table-cell-click" data-href="{{ route('profesor.tareas', [$user->id]) }}">
+                <td class="seleccionar_filas">
+                    <input class="form-check-input"
+                           form="asignar" type="checkbox"
+                           data-chkbox-shiftsel="grupo1"
+                           name="usuarios_seleccionados[{{ $user->id }}]" value="{{ $user->id }}">
+                </td>
                 @if($user->num_actividades_sin_completar() == 0)
                     @include('actividades.partials.indicador_tabla', [
                         'fondo' => 'bg-success',
@@ -84,14 +90,8 @@
                         'condicion' => false
                     ])
                 @endif
-                <td>
-                    <input class="form-check-input"
-                           form="asignar" type="checkbox"
-                           data-chkbox-shiftsel="grupo1"
-                           name="usuarios_seleccionados[{{ $user->id }}]" value="{{ $user->id }}">
-                </td>
                 @if(config('ikasgela.avatar_enabled'))
-                    <td class="clickable">@include('users.partials.avatar', ['user' => $user, 'width' => 35])</td>
+                    <td class="clickable ps-3">@include('users.partials.avatar', ['user' => $user, 'width' => 35])</td>
                 @endif
                 <td class="clickable">
                     <div class="d-flex align-items-center p-0">

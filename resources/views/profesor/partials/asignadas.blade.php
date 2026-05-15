@@ -7,10 +7,10 @@
         <table class="table table-hover">
             <thead class="thead-dark">
             <tr>
-                @include('actividades.partials.indicador_tabla_cabecera')
-                <th>
+                <th class="seleccionar_filas">
                     <input class="form-check-input" type="checkbox" id="seleccionar_asignadas">
                 </th>
+                @include('actividades.partials.indicador_tabla_cabecera')
                 <th>#</th>
                 <th>{{ __('Activity') }}</th>
                 <th class="text-center">
@@ -45,11 +45,7 @@
             @foreach($actividades as $actividad)
                 <tr class="table-cell-click"
                     data-href="{{ route('profesor.revisar', ['user' => $user->id, 'tarea' => $actividad->tarea->id]) }}">
-                    @include('actividades.partials.indicador_tabla', [
-                        'fondo' => 'bg-danger',
-                        'condicion' => $actividad->tarea->estado == 30 && !$actividad->auto_avance,
-                    ])
-                    <td>
+                    <td class="seleccionar_filas">
                         <input class="form-check-input"
                                id="input_actividad_{{ $actividad->id }}" form="multiple"
                                data-chkbox-shiftsel="grupo3"
@@ -58,6 +54,10 @@
                         <input id="input2_actividad_{{ $actividad->id }}" form="multiple2" class="d-none"
                                type="checkbox" name="asignadas[]" value="{{ $actividad->tarea->id }}">
                     </td>
+                    @include('actividades.partials.indicador_tabla', [
+                        'fondo' => 'bg-danger',
+                        'condicion' => $actividad->tarea->estado == 30 && !$actividad->auto_avance,
+                    ])
                     <td class="clickable">{{ $actividad->tarea->id }}</td>
                     <td class="clickable">
                         @include('actividades.partials.nombre_con_etiquetas', ['ruta' => explode('.', Route::currentRouteName())[0] . '.tareas.filtro', 'slug' => true])
