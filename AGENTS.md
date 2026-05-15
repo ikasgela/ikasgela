@@ -302,12 +302,12 @@ Usar en todas las validaciones de email en controladores.
 
 - Crear un commit al terminar cada característica o corrección relevante.
 - Usar mensajes de commit en **español**, en imperativo, formato Conventional Commits.
-- Incluir siempre el trailer `Co-authored-by`:
+- Incluir siempre un trailer `Co-authored-by` con la información del agente que realiza el commit. Ejemplo:
 
   ```
   git commit -m "tipo(scope): descripción del cambio
 
-  Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>"
+  Co-authored-by: TuAgente <tu@email.com>"
   ```
 
 - El repositorio de la app es el directorio `ikasgela/` — **no hacer commits en el repositorio raíz**.
