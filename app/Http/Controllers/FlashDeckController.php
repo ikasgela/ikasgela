@@ -105,9 +105,9 @@ class FlashDeckController extends Controller
             'seleccionadas' => 'required',
         ]);
 
+                $recursos = FlashDeck::whereIn('id', request('seleccionadas'))->get()->keyBy('id');
         foreach (request('seleccionadas') as $recurso_id) {
-            $recurso = FlashDeck::find($recurso_id);
-            $actividad->flash_decks()->attach($recurso, [
+            $actividad->flash_decks()->attach($recursos[$recurso_id], [
                 'orden' => Str::orderedUuid(),
                 'columnas' => 12,
             ]);

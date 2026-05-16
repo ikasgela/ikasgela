@@ -101,9 +101,9 @@ class LinkCollectionController extends Controller
             'seleccionadas' => 'required',
         ]);
 
+        $recursos = LinkCollection::whereIn('id', request('seleccionadas'))->get()->keyBy('id');
         foreach (request('seleccionadas') as $recurso_id) {
-            $recurso = LinkCollection::find($recurso_id);
-            $actividad->link_collections()->attach($recurso, ['orden' => Str::orderedUuid()]);
+            $actividad->link_collections()->attach($recursos[$recurso_id], ['orden' => Str::orderedUuid()]);
         }
 
         return redirect(route('link_collections.actividad', ['actividad' => $actividad->id]));

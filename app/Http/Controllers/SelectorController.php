@@ -104,9 +104,9 @@ class SelectorController extends Controller
             'seleccionadas' => 'required',
         ]);
 
+        $recursos = Selector::whereIn('id', request('seleccionadas'))->get()->keyBy('id');
         foreach (request('seleccionadas') as $recurso_id) {
-            $recurso = Selector::find($recurso_id);
-            $actividad->selectors()->attach($recurso, ['orden' => Str::orderedUuid()]);
+            $actividad->selectors()->attach($recursos[$recurso_id], ['orden' => Str::orderedUuid()]);
         }
 
         return redirect(route('selectors.actividad', ['actividad' => $actividad->id]));

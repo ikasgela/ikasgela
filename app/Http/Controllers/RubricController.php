@@ -107,9 +107,9 @@ class RubricController extends Controller
             'seleccionadas' => 'required',
         ]);
 
+        $recursos = Rubric::whereIn('id', request('seleccionadas'))->get()->keyBy('id');
         foreach (request('seleccionadas') as $recurso_id) {
-            $recurso = Rubric::find($recurso_id);
-            $actividad->rubrics()->attach($recurso, [
+            $actividad->rubrics()->attach($recursos[$recurso_id], [
                 'orden' => Str::orderedUuid(),
                 'columnas' => 12,
             ]);

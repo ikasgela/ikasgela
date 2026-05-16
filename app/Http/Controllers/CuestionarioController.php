@@ -109,9 +109,9 @@ class CuestionarioController extends Controller
             'seleccionadas' => 'required',
         ]);
 
+        $recursos = Cuestionario::whereIn('id', request('seleccionadas'))->get()->keyBy('id');
         foreach (request('seleccionadas') as $recurso_id) {
-            $recurso = Cuestionario::find($recurso_id);
-            $actividad->cuestionarios()->attach($recurso, ['orden' => Str::orderedUuid()]);
+            $actividad->cuestionarios()->attach($recursos[$recurso_id], ['orden' => Str::orderedUuid()]);
         }
 
         return redirect(route('cuestionarios.actividad', ['actividad' => $actividad->id]));
@@ -129,12 +129,17 @@ class CuestionarioController extends Controller
             'respuestas' => 'required',
         ]);
 
+        $preguntas = Pregunta::whereIn('id', array_keys($request->input('respuestas')))
+            ->with('items')
+            ->get()
+            ->keyBy('id');
+
         foreach ($request->input('respuestas') as $pregunta_id => $values) {
 
             $correcta = true;
             $num_correctas = 0;
 
-            $pregunta = Pregunta::find($pregunta_id);
+            $pregunta = $preguntas[$pregunta_id];
 
             foreach ($pregunta->items as $item) {
 

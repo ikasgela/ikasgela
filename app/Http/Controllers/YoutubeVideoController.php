@@ -98,9 +98,9 @@ class YoutubeVideoController extends Controller
             'seleccionadas' => 'required',
         ]);
 
+        $recursos = YoutubeVideo::whereIn('id', request('seleccionadas'))->get()->keyBy('id');
         foreach (request('seleccionadas') as $recurso_id) {
-            $recurso = YoutubeVideo::find($recurso_id);
-            $actividad->youtube_videos()->attach($recurso, ['orden' => Str::orderedUuid()]);
+            $actividad->youtube_videos()->attach($recursos[$recurso_id], ['orden' => Str::orderedUuid()]);
         }
 
         return redirect(route('youtube_videos.actividad', ['actividad' => $actividad->id]));

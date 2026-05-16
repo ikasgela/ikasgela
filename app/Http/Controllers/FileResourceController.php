@@ -105,9 +105,9 @@ class FileResourceController extends Controller
             'seleccionadas' => 'required',
         ]);
 
+        $recursos = FileResource::whereIn('id', request('seleccionadas'))->get()->keyBy('id');
         foreach (request('seleccionadas') as $recurso_id) {
-            $recurso = FileResource::find($recurso_id);
-            $actividad->file_resources()->attach($recurso, ['orden' => Str::orderedUuid()]);
+            $actividad->file_resources()->attach($recursos[$recurso_id], ['orden' => Str::orderedUuid()]);
         }
 
         return redirect(route('file_resources.actividad', ['actividad' => $actividad->id]));
