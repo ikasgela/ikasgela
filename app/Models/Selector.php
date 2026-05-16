@@ -51,7 +51,7 @@ class Selector extends Model
     {
         $resultado = null;
 
-        foreach ($this->rule_groups()->get() as $rule_group) {
+        foreach ($this->rule_groups()->with('rules')->get() as $rule_group) {
 
             switch (Str::lower($rule_group->operador)) {
                 case 'and':
@@ -66,7 +66,7 @@ class Selector extends Model
 
             Log::debug('Selector', ['operador' => $rule_group->operador]);
 
-            foreach ($rule_group->rules()->get() as $rule) {
+            foreach ($rule_group->rules as $rule) {
 
                 switch (Str::lower($rule->propiedad)) {
                     case 'puntuacion':
