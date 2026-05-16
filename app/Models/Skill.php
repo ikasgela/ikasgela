@@ -22,8 +22,11 @@ class Skill extends Model
 
     public function getFullNameAttribute()
     {
-        return $this->curso->full_name . ' - '
-            . $this->name;
+        if (!$this->relationLoaded('curso') || is_null($this->curso)) {
+            return $this->name;
+        }
+
+        return $this->curso->full_name . ' - ' . $this->name;
     }
 
     public function qualifications()

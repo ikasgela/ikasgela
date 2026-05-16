@@ -39,13 +39,19 @@ class Team extends Model
 
     public function getFullNameAttribute()
     {
-        return $this->group->full_name . ' - '
-            . $this->name;
+        if (!$this->relationLoaded('group') || is_null($this->group)) {
+            return $this->name;
+        }
+
+        return $this->group->full_name . ' - ' . $this->name;
     }
 
     public function getPrettyNameAttribute()
     {
-        return $this->group->pretty_name . ' » '
-            . $this->name;
+        if (!$this->relationLoaded('group') || is_null($this->group)) {
+            return $this->name;
+        }
+
+        return $this->group->pretty_name . ' » ' . $this->name;
     }
 }
