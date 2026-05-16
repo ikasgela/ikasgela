@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Override;
+use YMigVal\LaravelModelCache\HasCachedQueries;
 
 /**
  * @mixin IdeHelperFile
@@ -15,6 +16,7 @@ class File extends Model
 {
     use HasFactory;
     use Cloneable;
+    use HasCachedQueries;
 
     protected $fillable = [
         'path', 'title', 'size', 'uploadable_id', 'user_id', 'uploadable_type', 'description', 'archived', 'extension',
@@ -22,7 +24,7 @@ class File extends Model
         'visible',
     ];
 
-    public $appends = ['url', 'uploaded_time', 'size_in_kb'];
+    public $appends = ['uploaded_time', 'size_in_kb'];
 
     public function getUrlAttribute()
     {
