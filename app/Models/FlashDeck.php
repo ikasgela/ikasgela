@@ -52,7 +52,7 @@ class FlashDeck extends Model
 
     public function pivote(Actividad $actividad)
     {
-        return $actividad->rubrics()->find($this->id)->pivot;
+        return $actividad->flash_decks()->find($this->id)->pivot;
     }
 
     public function duplicar(?Curso $curso_destino)
