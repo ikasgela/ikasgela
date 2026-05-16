@@ -68,8 +68,9 @@ class TareaController extends Controller
             'asignadas' => 'required',
         ]);
 
-        foreach (request('asignadas') as $tarea_id) {
-            $actividad = Tarea::find($tarea_id)->actividad;
+        $tareas = Tarea::whereIn('id', request('asignadas'))->with('actividad')->get();
+        foreach ($tareas as $tarea) {
+            $actividad = $tarea->actividad;
             $actividad->fecha_entrega = request('fecha_override');
             $actividad->fecha_limite = $actividad->fecha_entrega->addMinutes(10);
             $actividad->save();
@@ -101,8 +102,9 @@ class TareaController extends Controller
             'asignadas' => 'required',
         ]);
 
-        foreach (request('asignadas') as $tarea_id) {
-            $actividad = Tarea::find($tarea_id)->actividad;
+        $tareas = Tarea::whereIn('id', request('asignadas'))->with('actividad')->get();
+        foreach ($tareas as $tarea) {
+            $actividad = $tarea->actividad;
             $actividad->fecha_entrega = request('fecha_override');
             $actividad->fecha_limite = $actividad->fecha_entrega->addMinutes(10);
             $actividad->save();
