@@ -199,7 +199,7 @@ class ExportarUsuarioJob implements ShouldQueue
                             }
                             $descarga = GiteaClient::download($repositorio['owner'], $repositorio['name'], 'HEAD.zip');
                             $nombre_fichero = Str::slug($repositorio['name']) . '.zip';
-                            Storage::disk('temp')->put($ruta . '/' . $nombre_fichero, $descarga ?: '');
+                            Storage::disk('temp')->put($ruta . '/' . $nombre_fichero, $descarga ? $descarga->getContents() : '');
 
                             $total_recursos += 1;
 

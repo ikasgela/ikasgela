@@ -269,7 +269,10 @@ class IntellijProjectController extends Controller
         $repositorio = $intellij_project->repository();
 
         return response()->streamDownload(function () use ($repositorio) {
-            echo GiteaClient::download($repositorio['owner'], $repositorio['name'], 'master.zip');
+            $stream = GiteaClient::download($repositorio['owner'], $repositorio['name'], 'master.zip');
+            while (!$stream->eof()) {
+                echo $stream->read(8192);
+            }
         }, $repositorio['name'] . '.zip');
     }
 
