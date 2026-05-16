@@ -129,7 +129,7 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'tutorial' => true,
             'last_active' => Carbon::now(),
-            'tags' => $organization->current_period()->slug,
+            'tags' => $organization->current_period?->slug,
         ]);
 
         $laravel

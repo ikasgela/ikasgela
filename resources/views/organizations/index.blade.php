@@ -43,7 +43,7 @@
                         @endif
                     </td>
                     <td class="text-center">{{ $organization->seats }}</td>
-                    <td class="text-center">{{ $organization->current_period()->name ?? '' }}</td>
+                    <td class="text-center">{{ $organization->current_period?->name ?? '' }}</td>
                     <td>
                         {{ html()->form('DELETE', route('organizations.destroy', $organization->id))->open() }}
                         <div class='btn-group'>

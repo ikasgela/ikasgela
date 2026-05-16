@@ -37,7 +37,7 @@ class Organization extends Model
 
     public function current_period()
     {
-        return Period::find($this->current_period_id);
+        return $this->belongsTo(Period::class, 'current_period_id');
     }
 
     public function isRegistrationOpen()
