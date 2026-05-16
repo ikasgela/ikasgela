@@ -49,7 +49,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         'password', 'remember_token',
     ];
 
-    public $appends = ['last_active_time', 'num_completadas_base'];
+    public $appends = ['last_active_time'];
 
     public function getFullNameAttribute()
     {
