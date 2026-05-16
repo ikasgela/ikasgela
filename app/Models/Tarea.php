@@ -100,11 +100,14 @@ class Tarea extends Pivot
 
     public function archiveFiles()
     {
-        foreach ($this->actividad->file_uploads()->get() as $file_upload) {
-            foreach ($file_upload->files()->get() as $file) {
-                $file->archived = true;
-                $file->save();
-            }
+        $this->actividad->load('file_uploads.files');
+
+        $fileIds = $this->actividad->file_uploads
+            ->flatMap(fn($fu) => $fu->files->pluck('id'))
+            ->all();
+
+        if (!empty($fileIds)) {
+            File::whereIn('id', $fileIds)->update(['archived' => true]);
         }
     }
 
