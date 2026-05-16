@@ -492,12 +492,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
     public function curso_actual()
     {
-        return Curso::find(setting_usuario('curso_actual'));
+        return once(fn() => Curso::find(setting_usuario('curso_actual')));
     }
 
     public function organizacion_actual()
     {
-        return Organization::find(setting_usuario('_organization_id'));
+        return once(fn() => Organization::find(setting_usuario('_organization_id')));
     }
 
     public function num_archivadas($etiqueta, $unidad)
