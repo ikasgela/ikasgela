@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\LogOptions;
@@ -288,9 +287,9 @@ class Actividad extends Model
             ]);
     }
 
-    public function getSiguienteAttribute()
+    public function siguiente()
     {
-        return Actividad::find($this->siguiente_id);
+        return $this->belongsTo(Actividad::class, 'siguiente_id');
     }
 
     public function setSiguienteAttribute($value)
@@ -423,26 +422,26 @@ class Actividad extends Model
 
     public function envioPermitido()
     {
-        $enviar = true;
+        $this->loadMissing(['intellij_projects', 'cuestionarios', 'file_uploads.files']);
 
-        if ($this->intellij_projects()->count() > 0) {
-            if ($this->intellij_projects()->wherePivot('fork', null)->count() > 0)
-                $enviar = false;
+        if ($this->intellij_projects->isNotEmpty()) {
+            if ($this->intellij_projects->contains(fn($p) => is_null($p->pivot->fork)))
+                return false;
         }
 
-        if ($this->cuestionarios()->count() > 0) {
-            if (!($this->cuestionarios()->where('respondido', true)->count() == $this->cuestionarios()->count()))
-                $enviar = false;
+        if ($this->cuestionarios->isNotEmpty()) {
+            if ($this->cuestionarios->where('respondido', true)->count() !== $this->cuestionarios->count())
+                return false;
         }
 
-        if ($this->file_uploads()->count() > 0) {
-            foreach ($this->file_uploads()->get() as $file_upload) {
-                if (!($file_upload->files()->count() > 0))
-                    $enviar = false;
+        if ($this->file_uploads->isNotEmpty()) {
+            foreach ($this->file_uploads as $file_upload) {
+                if ($file_upload->files->isEmpty())
+                    return false;
             }
         }
 
-        return $enviar;
+        return true;
     }
 
     public function puntos()
@@ -526,49 +525,24 @@ class Actividad extends Model
 
     public function getRecursosAttribute()
     {
-        $recursos = new Collection();
+        $this->loadMissing([
+            'youtube_videos', 'intellij_projects', 'markdown_texts',
+            'file_resources', 'file_uploads', 'link_collections',
+            'cuestionarios', 'selectors', 'rubrics', 'test_results',
+        ]);
 
-        foreach ($this->youtube_videos()->get() as $recurso) {
-            $recursos->add($recurso);
-        }
-
-        foreach ($this->intellij_projects()->get() as $recurso) {
-            $recursos->add($recurso);
-        }
-
-        foreach ($this->markdown_texts()->get() as $recurso) {
-            $recursos->add($recurso);
-        }
-
-        foreach ($this->file_resources()->get() as $recurso) {
-            $recursos->add($recurso);
-        }
-
-        foreach ($this->file_uploads()->get() as $recurso) {
-            $recursos->add($recurso);
-        }
-
-        foreach ($this->link_collections()->get() as $recurso) {
-            $recursos->add($recurso);
-        }
-
-        foreach ($this->cuestionarios()->get() as $recurso) {
-            $recursos->add($recurso);
-        }
-
-        foreach ($this->selectors()->get() as $recurso) {
-            $recursos->add($recurso);
-        }
-
-        foreach ($this->rubrics()->get() as $recurso) {
-            $recursos->add($recurso);
-        }
-
-        foreach ($this->test_results()->get() as $recurso) {
-            $recursos->add($recurso);
-        }
-
-        return $recursos->sortBy('pivot.orden');
+        return collect()
+            ->merge($this->youtube_videos)
+            ->merge($this->intellij_projects)
+            ->merge($this->markdown_texts)
+            ->merge($this->file_resources)
+            ->merge($this->file_uploads)
+            ->merge($this->link_collections)
+            ->merge($this->cuestionarios)
+            ->merge($this->selectors)
+            ->merge($this->rubrics)
+            ->merge($this->test_results)
+            ->sortBy('pivot.orden');
     }
 
     public function establecerFechaEntrega($fecha_override = null): void
