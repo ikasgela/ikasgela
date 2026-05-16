@@ -113,9 +113,9 @@ class MarkdownTextController extends Controller
             'seleccionadas' => 'required',
         ]);
 
+        $recursos = MarkdownText::whereIn('id', request('seleccionadas'))->get()->keyBy('id');
         foreach (request('seleccionadas') as $recurso_id) {
-            $recurso = MarkdownText::find($recurso_id);
-            $actividad->markdown_texts()->attach($recurso, ['orden' => Str::orderedUuid()]);
+            $actividad->markdown_texts()->attach($recursos[$recurso_id], ['orden' => Str::orderedUuid()]);
         }
 
         return redirect(route('markdown_texts.actividad', ['actividad' => $actividad->id]));

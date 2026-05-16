@@ -127,9 +127,9 @@ class IntellijProjectController extends Controller
             'seleccionadas' => 'required',
         ]);
 
+        $recursos = IntellijProject::whereIn('id', request('seleccionadas'))->get()->keyBy('id');
         foreach (request('seleccionadas') as $recurso_id) {
-            $recurso = IntellijProject::find($recurso_id);
-            $actividad->intellij_projects()->attach($recurso, ['orden' => Str::orderedUuid()]);
+            $actividad->intellij_projects()->attach($recursos[$recurso_id], ['orden' => Str::orderedUuid()]);
         }
 
         return redirect(route('intellij_projects.actividad', ['actividad' => $actividad->id]));
@@ -303,14 +303,14 @@ class IntellijProjectController extends Controller
 
                 foreach ($alumnos as $alumno) {
 
-                    $actividades = $alumno->actividades()->where('unidad_id', $unidad->id)->get();
+                    $actividades = $alumno->actividades()->where('unidad_id', $unidad->id)->with('intellij_projects')->get();
 
                     foreach ($actividades as $actividad) {
 
                         $datos .= "mkdir -p '" . $actividad->slug . "'\n";
                         $datos .= "cd '" . $actividad->slug . "'\n";
 
-                        foreach ($actividad->intellij_projects()->get() as $project) {
+                        foreach ($actividad->intellij_projects as $project) {
                             if (Str::length($project->pivot->fork) > 0) {
                                 $datos .= "git clone ";
                                 $repositorio = GiteaClient::repo($project->pivot->fork);
@@ -356,11 +356,11 @@ class IntellijProjectController extends Controller
 
             if ($curso_actual != null) {
 
-                $actividades = $unidad->actividades()->plantilla()->get();
+                $actividades = $unidad->actividades()->plantilla()->with('intellij_projects')->get();
 
                 foreach ($actividades as $actividad) {
 
-                    foreach ($actividad->intellij_projects()->get() as $project) {
+                    foreach ($actividad->intellij_projects as $project) {
                         $datos .= "git clone ";
                         $repositorio = GiteaClient::repo($project->repositorio);
                         $datos .= "'" . $repositorio['http_url_to_repo'] . "'";
@@ -388,18 +388,20 @@ class IntellijProjectController extends Controller
             $fichero = $fecha . "-" . $curso_actual->slug . ".sh";
             $datos = "#!/bin/sh\n\n";
 
-            $datos .= "# IntelliJProject (" . $curso_actual->intellij_projects()->count() . ")\n";
+            $intellij_projects = $curso_actual->intellij_projects()->get();
+            $datos .= "# IntelliJProject (" . $intellij_projects->count() . ")\n";
 
-            foreach ($curso_actual->intellij_projects()->get() as $project) {
+            foreach ($intellij_projects as $project) {
                 $datos .= "git clone ";
                 $repositorio = GiteaClient::repo($project->repositorio);
                 $datos .= "'" . $repositorio['http_url_to_repo'] . "'";
                 $datos .= "\n";
             }
 
-            $datos .= "\n# MarkdownText (" . $curso_actual->markdown_texts()->count() . ")\n";
+            $markdown_texts = $curso_actual->markdown_texts()->get();
+            $datos .= "\n# MarkdownText (" . $markdown_texts->count() . ")\n";
 
-            foreach ($curso_actual->markdown_texts()->get() as $project) {
+            foreach ($markdown_texts as $project) {
                 $datos .= "git clone ";
                 $repositorio = GiteaClient::repo($project->repositorio);
                 $datos .= "'" . $repositorio['http_url_to_repo'] . "'";
@@ -465,7 +467,7 @@ class IntellijProjectController extends Controller
 
         // Repositorios de usuario
         $total = 0;
-        foreach ($actividades->get() as $actividad) {
+        foreach ($actividades->with('intellij_projects')->get() as $actividad) {
             foreach ($actividad->intellij_projects as $intellij_project) {
                 try {
                     if (!$intellij_project->isForked()) {
