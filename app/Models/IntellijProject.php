@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Jenssegers\Agent\Facades\Agent;
+use YMigVal\LaravelModelCache\HasCachedQueries;
 
 /**
  * @mixin IdeHelperIntellijProject
@@ -22,6 +23,7 @@ class IntellijProject extends Model
     use HasFactory;
     use Cloneable;
     use ClonarRepoGitea;
+    use HasCachedQueries;
 
     protected $fillable = [
         'repositorio', 'titulo', 'descripcion', 'host',
@@ -50,12 +52,32 @@ class IntellijProject extends Model
 
     public function repository($no_cache = false)
     {
-        switch ($this->host) {
-            case 'gitea':
-                try {
-                    if ($no_cache)
+        if ($no_cache) {
+            switch ($this->host) {
+                case 'gitea':
+                    try {
                         return GiteaClient::repo($this->repositorio);
-                    else {
+                    } catch (Exception $e) {
+                        Log::error('Error al recuperar un repositorio.', [
+                            'host' => $this->host,
+                            'repository' => $this->repositorio,
+                            'exception' => $e->getMessage(),
+                        ]);
+                    }
+                    break;
+                default:
+                    Log::error('Tipo de host de repositorios desconocido.', [
+                        'host' => $this->host,
+                        'repository' => $this->repositorio,
+                    ]);
+            }
+            return $this->fakeRepository();
+        }
+
+        return once(function () {
+            switch ($this->host) {
+                case 'gitea':
+                    try {
                         if (!$this->isForked()) {
                             return Cache::remember($this->templateCacheKey(), now()->addDays(config('ikasgela.repo_cache_days')), function () {
                                 Log::debug("IntellijProject - repository() - Repositorio plantilla en caché: ", ['key' => $this->templateCacheKey(), 'repo' => $this->repositorio]);
@@ -67,22 +89,22 @@ class IntellijProject extends Model
                                 return GiteaClient::repo($this->pivot->fork);
                             });
                         }
+                    } catch (Exception $e) {
+                        Log::error('Error al recuperar un repositorio.', [
+                            'host' => $this->host,
+                            'repository' => $this->repositorio,
+                            'exception' => $e->getMessage(),
+                        ]);
                     }
-                } catch (Exception $e) {
-                    Log::error('Error al recuperar un repositorio.', [
+                    break;
+                default:
+                    Log::error('Tipo de host de repositorios desconocido.', [
                         'host' => $this->host,
                         'repository' => $this->repositorio,
-                        'exception' => $e->getMessage(),
                     ]);
-                }
-                break;
-            default:
-                Log::error('Tipo de host de repositorios desconocido.', [
-                    'host' => $this->host,
-                    'repository' => $this->repositorio,
-                ]);
-        }
-        return $this->fakeRepository();
+            }
+            return $this->fakeRepository();
+        });
     }
 
     public function fakeRepository()
