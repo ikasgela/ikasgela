@@ -56,7 +56,10 @@ class IntellijProject extends Model
             switch ($this->host) {
                 case 'gitea':
                     try {
-                        return GiteaClient::repo($this->repositorio);
+                        $repo = GiteaClient::repo($this->repositorio);
+                        if (!is_null($repo)) {
+                            return $repo;
+                        }
                     } catch (Exception $e) {
                         Log::error('Error al recuperar un repositorio.', [
                             'host' => $this->host,
@@ -78,16 +81,20 @@ class IntellijProject extends Model
             switch ($this->host) {
                 case 'gitea':
                     try {
+                        $repo = null;
                         if (!$this->isForked()) {
-                            return Cache::remember($this->templateCacheKey(), now()->addDays(config('ikasgela.repo_cache_days')), function () {
+                            $repo = Cache::remember($this->templateCacheKey(), now()->addDays(config('ikasgela.repo_cache_days')), function () {
                                 Log::debug("IntellijProject - repository() - Repositorio plantilla en caché: ", ['key' => $this->templateCacheKey(), 'repo' => $this->repositorio]);
                                 return GiteaClient::repo($this->repositorio);
                             });
                         } else {
-                            return Cache::remember($this->cacheKey(), now()->addDays(config('ikasgela.repo_cache_days')), function () {
+                            $repo = Cache::remember($this->cacheKey(), now()->addDays(config('ikasgela.repo_cache_days')), function () {
                                 Log::debug("IntellijProject - repository() - Repositorio fork en caché: ", ['key' => $this->cacheKey(), 'repo' => $this->pivot->fork]);
                                 return GiteaClient::repo($this->pivot->fork);
                             });
+                        }
+                        if (!is_null($repo)) {
+                            return $repo;
                         }
                     } catch (Exception $e) {
                         Log::error('Error al recuperar un repositorio.', [
