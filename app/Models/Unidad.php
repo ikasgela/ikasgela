@@ -68,25 +68,18 @@ class Unidad extends Model
 
     public function num_actividades($etiqueta, $plantilla = true)
     {
-        $total = 0;
-
-        foreach ($this->actividades()->where('plantilla', $plantilla)->get() as $actividad) {
-            if ($actividad->hasEtiqueta($etiqueta))
-                $total += 1;
-        }
-
-        return $total;
+        return $this->actividades()
+            ->where('plantilla', $plantilla)
+            ->tag($etiqueta)
+            ->count();
     }
 
     public function puntos()
     {
-        $total = 0;
-
-        foreach ($this->actividades()->where('plantilla', true)->get() as $actividad) {
-            $total += $actividad->puntos();
-        }
-
-        return $total;
+        return (float) $this->actividades()
+            ->where('plantilla', true)
+            ->selectRaw('COALESCE(SUM(puntuacion * COALESCE(multiplicador, 1)), 0) as total')
+            ->value('total');
     }
 
     protected function casts(): array
