@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use YMigVal\LaravelModelCache\HasCachedQueries;
 
 /**
  * @mixin IdeHelperRegistro
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class Registro extends Model
 {
     use HasFactory;
+    use HasCachedQueries;
 
     protected $fillable = [
         'user_id', 'tarea_id', 'estado', 'timestamp', 'detalles', 'curso_id'
