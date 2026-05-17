@@ -3,6 +3,8 @@
 namespace Tests\Feature\Alumno;
 
 use App\Models\Curso;
+use App\Models\Milestone;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Override;
 use Tests\TestCase;
@@ -170,5 +172,122 @@ class ResultControllerTest extends TestCase
         $response = $this->get(route('results.pdf'));
 
         $response->assertNotFound();
+    }
+
+    public function testIndexConFiltroUserId()
+    {
+        $this->actingAs($this->profesor);
+
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+        $alumno = User::factory()->create();
+
+        $response = $this->get(route('results.index', ['user_id' => $alumno->id]));
+
+        $response->assertSuccessful();
+    }
+
+    public function testIndexConFiltroUserIdNegativo()
+    {
+        $this->actingAs($this->profesor);
+
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+        // Primero establecer un filtro en sesión
+        session(['filtrar_user_actual' => $this->alumno->id]);
+
+        $response = $this->get(route('results.index', ['user_id' => -1]));
+
+        $response->assertSuccessful();
+    }
+
+    public function testIndexConSesionFiltrarUser()
+    {
+        $this->actingAs($this->profesor);
+
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+        session(['filtrar_user_actual' => $this->alumno->id]);
+
+        $response = $this->get(route('results.index'));
+
+        $response->assertSuccessful();
+    }
+
+    public function testIndexConFiltroMilestoneId()
+    {
+        $this->actingAs($this->profesor);
+
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+        $milestone = Milestone::factory()->create(['curso_id' => $curso->id]);
+
+        $response = $this->get(route('results.index', ['milestone_id' => $milestone->id]));
+
+        $response->assertSuccessful();
+    }
+
+    public function testIndexConFiltroMilestoneIdNegativo()
+    {
+        $this->actingAs($this->profesor);
+
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+        $milestone = Milestone::factory()->create(['curso_id' => $curso->id]);
+        session(['filtrar_milestone_actual' => $milestone->id]);
+
+        $response = $this->get(route('results.index', ['milestone_id' => -1]));
+
+        $response->assertSuccessful();
+    }
+
+    public function testIndexConSesionFiltrarMilestone()
+    {
+        $this->actingAs($this->profesor);
+
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+        $milestone = Milestone::factory()->create(['curso_id' => $curso->id]);
+        session(['filtrar_milestone_actual' => $milestone->id]);
+
+        $response = $this->get(route('results.index'));
+
+        $response->assertSuccessful();
+    }
+
+    public function testIndexConAjusteMedia()
+    {
+        $this->actingAs($this->alumno);
+
+        $curso = Curso::factory()->create(['ajuste_proporcional_nota' => 'media']);
+        setting_usuario(['curso_actual' => $curso->id]);
+
+        $response = $this->get(route('results.index'));
+
+        $response->assertSuccessful();
+    }
+
+    public function testIndexConAjusteMediana()
+    {
+        $this->actingAs($this->alumno);
+
+        $curso = Curso::factory()->create(['ajuste_proporcional_nota' => 'mediana']);
+        setting_usuario(['curso_actual' => $curso->id]);
+
+        $response = $this->get(route('results.index'));
+
+        $response->assertSuccessful();
+    }
+
+    public function testIndexConNormalizarNota()
+    {
+        $this->actingAs($this->alumno);
+
+        $curso = Curso::factory()->create(['normalizar_nota' => true]);
+        setting_usuario(['curso_actual' => $curso->id]);
+
+        $response = $this->get(route('results.index'));
+
+        $response->assertSuccessful();
     }
 }
