@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\Registro;
+use App\Models\Curso;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\App;
@@ -249,5 +251,45 @@ class RegistrosCRUDTest extends TestCase
 
         // Then
         $response->assertRedirect(route('login'));
+    }
+
+    public function testIndexConFiltroUserId()
+    {
+        $this->actingAs($this->admin);
+
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+        $user = User::factory()->create();
+
+        $response = $this->get(route('registros.index', ['user_id' => $user->id]));
+
+        $response->assertSuccessful();
+    }
+
+    public function testIndexConFiltroUserIdNegativo()
+    {
+        $this->actingAs($this->admin);
+
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+        session(['filtrar_user_actual' => $this->alumno->id]);
+
+        $response = $this->get(route('registros.index', ['user_id' => -1]));
+
+        $response->assertSuccessful();
+    }
+
+    public function testIndexConSesionFiltrarUser()
+    {
+        $this->actingAs($this->admin);
+
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+        $user = User::factory()->create();
+        session(['filtrar_user_actual' => $user->id]);
+
+        $response = $this->get(route('registros.index'));
+
+        $response->assertSuccessful();
     }
 }
