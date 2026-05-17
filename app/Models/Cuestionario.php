@@ -61,7 +61,7 @@ class Cuestionario extends Model
         } else {
             $clon->curso_id = $curso_destino->id;
         }
-        $clon->plantilla = $this->plantilla;
+        $clon->plantilla = $this->getRawOriginal('plantilla');
         $clon->save();
 
         return $clon;
