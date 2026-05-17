@@ -40,6 +40,7 @@ use App\Models\Unidad;
 use App\Models\User;
 use App\Models\UserExport;
 use App\Models\YoutubeVideo;
+use App\Models\Registro;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
@@ -235,6 +236,38 @@ class ModelTest extends TestCase
         // archiveFiles iterates file_uploads - with none it should just complete
         $tarea->archiveFiles();
         $this->assertTrue(true);
+    }
+
+    public function testTareaTiempoDedicadoConSoloAceptada()
+    {
+        $tarea = Tarea::factory()->create();
+        Registro::factory()->create(['tarea_id' => $tarea->id, 'estado' => 20]);
+
+        $result = $tarea->tiempoDedicado();
+        $this->assertIsString($result);
+    }
+
+    public function testTareaTiempoDedicadoConAceptadaYEnviada()
+    {
+        $tarea = Tarea::factory()->create();
+        Registro::factory()->create(['tarea_id' => $tarea->id, 'estado' => 20, 'timestamp' => Carbon::now()->subMinutes(10)]);
+        Registro::factory()->create(['tarea_id' => $tarea->id, 'estado' => 30, 'timestamp' => Carbon::now()]);
+
+        $result = $tarea->tiempoDedicado();
+        $this->assertIsString($result);
+    }
+
+    public function testTareaArchiveFilesConFicheros()
+    {
+        $actividad = Actividad::factory()->create();
+        $tarea = Tarea::factory()->create(['actividad_id' => $actividad->id]);
+        $file_upload = FileUpload::factory()->create();
+        $actividad->file_uploads()->attach($file_upload, ['orden' => 0, 'titulo_visible' => true, 'descripcion_visible' => true, 'columnas' => 1]);
+        File::factory()->create(['uploadable_id' => $file_upload->id, 'uploadable_type' => FileUpload::class]);
+
+        $tarea->archiveFiles();
+
+        $this->assertTrue(File::where('uploadable_id', $file_upload->id)->where('archived', true)->exists());
     }
 
     // ===== Category model =====
