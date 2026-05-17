@@ -5,8 +5,10 @@ namespace Tests\Feature\Recursos\FileUploads;
 use Override;
 use App\Models\Actividad;
 use App\Models\Curso;
+use App\Models\File;
 use App\Models\FileUpload;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class FileUploadsExtraTest extends TestCase
@@ -120,5 +122,33 @@ class FileUploadsExtraTest extends TestCase
 
         // Then
         $response->assertForbidden();
+    }
+
+    public function testDuplicarConCursoDestino()
+    {
+        $curso_destino = Curso::factory()->create();
+        $file_upload = FileUpload::factory()->create();
+
+        $clon = $file_upload->duplicar($curso_destino);
+
+        $this->assertEquals($curso_destino->id, $clon->curso_id);
+    }
+
+    public function testDeleteWithFilesElimina()
+    {
+        Storage::fake('s3');
+
+        $file_upload = FileUpload::factory()->create();
+        File::factory()->create([
+            'uploadable_id' => $file_upload->id,
+            'uploadable_type' => FileUpload::class,
+            'path' => 'test.pdf',
+        ]);
+
+        $fileUploadId = $file_upload->id;
+
+        $file_upload->delete_with_files();
+
+        $this->assertNull(FileUpload::find($fileUploadId));
     }
 }

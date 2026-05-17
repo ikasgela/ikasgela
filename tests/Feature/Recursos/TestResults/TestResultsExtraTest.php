@@ -145,4 +145,21 @@ class TestResultsExtraTest extends TestCase
         // Then
         $response->assertForbidden();
     }
+
+    public function testResultadoCuandoSinPreguntas()
+    {
+        $test_result = TestResult::factory()->create(['num_preguntas' => 0]);
+
+        $this->assertEquals('?', $test_result->resultado());
+    }
+
+    public function testDuplicarConCursoDestino()
+    {
+        $curso_destino = Curso::factory()->create();
+        $test_result = TestResult::factory()->create();
+
+        $clon = $test_result->duplicar($curso_destino);
+
+        $this->assertEquals($curso_destino->id, $clon->curso_id);
+    }
 }
