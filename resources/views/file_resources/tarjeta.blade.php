@@ -34,6 +34,11 @@
                                         @include('file_resources.partials.destino', ['extension' => $file->extension])>
                                         {{ $file->description ?: $file->title }}
                                     </a>
+                                    @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() == 'file_resources.show')
+                                        <a title="{{ __('Edit') }}"
+                                           href="{{ route('files.edit', [$file->id]) }}"
+                                           class='ms-1 text-link-light'><i class="bi bi-pencil-square"></i></a>
+                                    @endif
                                 </td>
                                 <td>{{ $file->size_in_kb }} KB</td>
                                 @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() == 'file_resources.show')

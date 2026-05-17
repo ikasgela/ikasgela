@@ -376,6 +376,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::post('/files/{file}/toggle_visible', [FileController::class, 'toggle_visible'])
                 ->name('files.toggle.visible');
 
+            // Files
+            Route::get('/files/{file}/edit', [FileController::class, 'edit'])
+                ->name('files.edit');
+            Route::put('/files/{file}/update', [FileController::class, 'update'])
+                ->name('files.update');
+
             // LinkCollection
             Route::resource('link_collections', LinkCollectionController::class);
             Route::get('/link_collections/{actividad}/actividad', [LinkCollectionController::class, 'actividad'])

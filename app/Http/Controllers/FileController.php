@@ -158,4 +158,18 @@ class FileController extends Controller
 
         return back();
     }
+
+    public function edit(File $file)
+    {
+        return view('files.edit', compact(['file']));
+    }
+
+    public function update(Request $request, File $file)
+    {
+        $file->update([
+            'description' => request('description'),
+        ]);
+
+        return retornar();
+    }
 }
