@@ -4,6 +4,7 @@ namespace Tests\Feature\Alumno;
 
 use App\Models\Organization;
 use App\Models\Period;
+use App\Models\Curso;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Override;
 use Tests\TestCase;
@@ -168,5 +169,35 @@ class AlumnoControllerTest extends TestCase
         $response = $this->get(route('users.home'));
 
         $response->assertForbidden();
+    }
+
+    public function testTareasConCursoActual()
+    {
+        $this->actingAs($this->alumno);
+
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+
+        $response = $this->get(route('users.home'));
+
+        $response->assertSuccessful();
+    }
+
+    public function testPortadaFiltroToggleOff()
+    {
+        $this->actingAs($this->alumno);
+
+        $organization = Organization::factory()->create(['slug' => 'ikasgela']);
+        Period::factory()->create(['organization_id' => $organization->id]);
+
+        // Filtro ya activado en sesión
+        session(['users_filtro_cursos_no_disponibles' => 'S']);
+
+        // Al volver a enviar, hace toggle-off
+        $response = $this->post(route('users.portada.filtro'), [
+            'filtro_cursos_no_disponibles' => 'S',
+        ]);
+
+        $response->assertSuccessful();
     }
 }
