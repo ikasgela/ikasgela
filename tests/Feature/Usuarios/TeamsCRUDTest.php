@@ -427,4 +427,22 @@ class TeamsCRUDTest extends TestCase
         // Then: validation fails with unique name error
         $response->assertSessionHasErrors(['name']);
     }
+
+    public function testGetFullNameSinGroup()
+    {
+        $team = Team::factory()->create(['name' => 'Equipo A']);
+
+        $t = Team::find($team->id);
+
+        $this->assertEquals('Equipo A', $t->full_name);
+    }
+
+    public function testGetPrettyNameSinGroup()
+    {
+        $team = Team::factory()->create(['name' => 'Equipo B']);
+
+        $t = Team::find($team->id);
+
+        $this->assertEquals('Equipo B', $t->pretty_name);
+    }
 }
