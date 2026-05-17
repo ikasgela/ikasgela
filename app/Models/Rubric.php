@@ -65,7 +65,7 @@ class Rubric extends Model
         } else {
             $clon->curso_id = $curso_destino->id;
         }
-        $clon->plantilla = $this->plantilla;
+        $clon->plantilla = $this->getRawOriginal('plantilla');
         $clon->save();
 
         foreach ($clon->criteria_groups()->orderBy('orden')->get() as $cg) {

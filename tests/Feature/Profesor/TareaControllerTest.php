@@ -298,4 +298,133 @@ class TareaControllerTest extends TestCase
         // Then
         $response->assertRedirect(route('login'));
     }
+
+    public function testBorrarMultipleActivas()
+    {
+        // Auth
+        $this->actingAs($this->profesor);
+
+        // Given
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+        $tarea1 = Tarea::factory()->create(['user_id' => $this->alumno->id]);
+        $tarea2 = Tarea::factory()->create(['user_id' => $this->alumno->id]);
+
+        // When
+        $response = $this->delete(route('tareas.borrar_multiple_activas'), ['asignadas' => [$tarea1->id, $tarea2->id]]);
+
+        // Then
+        $this->assertSoftDeleted('tareas', ['id' => $tarea1->id]);
+        $this->assertSoftDeleted('tareas', ['id' => $tarea2->id]);
+        $response->assertRedirect(route('profesor.index'));
+    }
+
+    public function testBorrarMultipleActivasRequiresAsignadas()
+    {
+        // Auth
+        $this->actingAs($this->profesor);
+
+        // When
+        $response = $this->delete(route('tareas.borrar_multiple_activas'), ['asignadas' => null]);
+
+        // Then
+        $response->assertSessionHasErrors('asignadas');
+    }
+
+    public function testNotAdminProfesorNotBorrarMultipleActivas()
+    {
+        // Auth
+        $this->actingAs($this->not_admin_profesor);
+
+        // Given
+        $tarea = Tarea::factory()->create();
+
+        // When
+        $response = $this->delete(route('tareas.borrar_multiple_activas'), ['asignadas' => [$tarea->id]]);
+
+        // Then
+        $response->assertForbidden();
+    }
+
+    public function testNotAuthNotBorrarMultipleActivas()
+    {
+        // Auth
+        // Given
+        $tarea = Tarea::factory()->create();
+
+        // When
+        $response = $this->delete(route('tareas.borrar_multiple_activas'), ['asignadas' => [$tarea->id]]);
+
+        // Then
+        $response->assertRedirect(route('login'));
+    }
+
+    public function testFechaFinalizacionMultipleActivas()
+    {
+        // Auth
+        $this->actingAs($this->profesor);
+
+        // Given
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+        $tarea = Tarea::factory()->create(['user_id' => $this->alumno->id]);
+
+        // When
+        $response = $this->post(route('tareas.fecha_finalizacion_multiple_activas'), [
+            'asignadas' => [$tarea->id],
+            'fecha_override' => now()->addDays(5)->format('Y-m-d H:i:s'),
+        ]);
+
+        // Then
+        $response->assertRedirect(route('profesor.index'));
+    }
+
+    public function testFechaFinalizacionMultipleActivasRequiresAsignadas()
+    {
+        // Auth
+        $this->actingAs($this->profesor);
+
+        // When
+        $response = $this->post(route('tareas.fecha_finalizacion_multiple_activas'), [
+            'asignadas' => null,
+            'fecha_override' => now()->addDays(5)->format('Y-m-d H:i:s'),
+        ]);
+
+        // Then
+        $response->assertSessionHasErrors('asignadas');
+    }
+
+    public function testNotAdminProfesorNotFechaFinalizacionMultipleActivas()
+    {
+        // Auth
+        $this->actingAs($this->not_admin_profesor);
+
+        // Given
+        $tarea = Tarea::factory()->create(['user_id' => $this->alumno->id]);
+
+        // When
+        $response = $this->post(route('tareas.fecha_finalizacion_multiple_activas'), [
+            'asignadas' => [$tarea->id],
+            'fecha_override' => now()->addDays(5)->format('Y-m-d H:i:s'),
+        ]);
+
+        // Then
+        $response->assertForbidden();
+    }
+
+    public function testNotAuthNotFechaFinalizacionMultipleActivas()
+    {
+        // Auth
+        // Given
+        $tarea = Tarea::factory()->create(['user_id' => $this->alumno->id]);
+
+        // When
+        $response = $this->post(route('tareas.fecha_finalizacion_multiple_activas'), [
+            'asignadas' => [$tarea->id],
+            'fecha_override' => now()->addDays(5)->format('Y-m-d H:i:s'),
+        ]);
+
+        // Then
+        $response->assertRedirect(route('login'));
+    }
 }
