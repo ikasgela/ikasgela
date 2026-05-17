@@ -5,6 +5,15 @@ namespace Tests\Feature\Estructura;
 use Override;
 use App\Models\Actividad;
 use App\Models\Curso;
+use App\Models\Cuestionario;
+use App\Models\FileResource;
+use App\Models\FileUpload;
+use App\Models\IntellijProject;
+use App\Models\LinkCollection;
+use App\Models\MarkdownText;
+use App\Models\Rubric;
+use App\Models\Selector;
+use App\Models\TestResult;
 use App\Models\YoutubeVideo;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -546,6 +555,166 @@ class ActividadesExtraTest extends TestCase
         ]);
 
         $response->assertRedirect();
+    }
+
+    // --- Actividad model method tests ---
+
+    public function testIsExpiredConAutoAvance()
+    {
+        $actividad = Actividad::factory()->create(['auto_avance' => true]);
+
+        $this->assertFalse($actividad->is_expired);
+    }
+
+    public function testEnvioPermitidoConIntellijProjectSinFork()
+    {
+        $actividad = Actividad::factory()->create();
+        $project = IntellijProject::factory()->create();
+        $actividad->intellij_projects()->attach($project, [
+            'fork' => null,
+            'orden' => 0,
+            'titulo_visible' => true,
+            'descripcion_visible' => true,
+            'columnas' => 1,
+        ]);
+
+        $this->assertFalse($actividad->envioPermitido());
+    }
+
+    public function testEnvioPermitidoConCuestionarioSinResponder()
+    {
+        $actividad = Actividad::factory()->create();
+        $cuestionario = Cuestionario::factory()->create(['respondido' => false]);
+        $actividad->cuestionarios()->attach($cuestionario, [
+            'orden' => 0,
+            'titulo_visible' => true,
+            'descripcion_visible' => true,
+            'columnas' => 1,
+        ]);
+
+        $this->assertFalse($actividad->envioPermitido());
+    }
+
+    public function testEnvioPermitidoConFileUploadSinArchivos()
+    {
+        $actividad = Actividad::factory()->create();
+        $file_upload = FileUpload::factory()->create();
+        $actividad->file_uploads()->attach($file_upload, [
+            'orden' => 0,
+            'titulo_visible' => true,
+            'descripcion_visible' => true,
+            'columnas' => 1,
+        ]);
+
+        $this->assertFalse($actividad->envioPermitido());
+    }
+
+    private function pivotData(array $extra = []): array
+    {
+        return array_merge(['orden' => 0, 'titulo_visible' => true, 'descripcion_visible' => true, 'columnas' => 1], $extra);
+    }
+
+    public function testDuplicarRecursosConsumiblesConAleatorios()
+    {
+        $actividad = Actividad::factory()->create();
+        $project = IntellijProject::factory()->create();
+        $actividad->intellij_projects()->attach($project, $this->pivotData(['incluir_siempre' => false]));
+
+        $actividad->duplicar_recursos_consumibles();
+
+        // Synced to one random aleatorio project
+        $this->assertCount(1, $actividad->fresh()->intellij_projects);
+    }
+
+    public function testDuplicarRecursosConsumiblesConCuestionario()
+    {
+        $actividad = Actividad::factory()->create();
+        $cuestionario = Cuestionario::factory()->create();
+        $actividad->cuestionarios()->attach($cuestionario, ['orden' => 0]);
+
+        $actividad->duplicar_recursos_consumibles();
+
+        // Original detached, copy attached
+        $this->assertCount(1, $actividad->fresh()->cuestionarios);
+        $this->assertNotEquals($cuestionario->id, $actividad->fresh()->cuestionarios->first()->id);
+    }
+
+    public function testDuplicarRecursosConsumiblesConFileUpload()
+    {
+        $actividad = Actividad::factory()->create();
+        $file_upload = FileUpload::factory()->create();
+        $actividad->file_uploads()->attach($file_upload, $this->pivotData());
+
+        $actividad->duplicar_recursos_consumibles();
+
+        $this->assertCount(1, $actividad->fresh()->file_uploads);
+        $this->assertNotEquals($file_upload->id, $actividad->fresh()->file_uploads->first()->id);
+    }
+
+    public function testDuplicarRecursosConsumiblesConRubric()
+    {
+        $actividad = Actividad::factory()->create();
+        $rubric = Rubric::factory()->create();
+        $actividad->rubrics()->attach($rubric, $this->pivotData());
+
+        $actividad->duplicar_recursos_consumibles();
+
+        $this->assertCount(1, $actividad->fresh()->rubrics);
+        $this->assertNotEquals($rubric->id, $actividad->fresh()->rubrics->first()->id);
+    }
+
+    public function testDuplicarRecursosConsumiblesConTestResult()
+    {
+        $actividad = Actividad::factory()->create();
+        $test_result = TestResult::factory()->create();
+        $actividad->test_results()->attach($test_result, $this->pivotData());
+
+        $actividad->duplicar_recursos_consumibles();
+
+        $this->assertCount(1, $actividad->fresh()->test_results);
+        $this->assertNotEquals($test_result->id, $actividad->fresh()->test_results->first()->id);
+    }
+
+    public function testDuplicarRecursosConCursoNull()
+    {
+        $actividad = Actividad::factory()->create();
+        $pivot = $this->pivotData();
+
+        $file_resource = FileResource::factory()->create();
+        $file_upload = FileUpload::factory()->create();
+        $youtube_video = YoutubeVideo::factory()->create();
+        $markdown_text = MarkdownText::factory()->create();
+        $intellij_project = IntellijProject::factory()->create();
+        $link_collection = LinkCollection::factory()->create();
+        $cuestionario = Cuestionario::factory()->create();
+        $rubric = Rubric::factory()->create();
+        $test_result = TestResult::factory()->create();
+        $selector = Selector::factory()->create();
+
+        $actividad->file_resources()->attach($file_resource, $pivot);
+        $actividad->file_uploads()->attach($file_upload, $pivot);
+        $actividad->youtube_videos()->attach($youtube_video, $pivot);
+        $actividad->markdown_texts()->attach($markdown_text, $pivot);
+        $actividad->intellij_projects()->attach($intellij_project, $this->pivotData(['incluir_siempre' => false]));
+        $actividad->link_collections()->attach($link_collection, $pivot);
+        $actividad->cuestionarios()->attach($cuestionario, $pivot);
+        $actividad->rubrics()->attach($rubric, $pivot);
+        $actividad->test_results()->attach($test_result, $pivot);
+        $actividad->selectors()->attach($selector, $pivot);
+
+        $actividad->duplicar_recursos(null);
+
+        $fresh = $actividad->fresh();
+        $this->assertCount(1, $fresh->file_resources);
+        $this->assertCount(1, $fresh->file_uploads);
+        $this->assertCount(1, $fresh->youtube_videos);
+        $this->assertCount(1, $fresh->markdown_texts);
+        $this->assertCount(1, $fresh->intellij_projects);
+        $this->assertCount(1, $fresh->link_collections);
+        $this->assertCount(1, $fresh->cuestionarios);
+        $this->assertCount(1, $fresh->rubrics);
+        $this->assertCount(1, $fresh->test_results);
+        $this->assertCount(1, $fresh->selectors);
     }
 }
 
