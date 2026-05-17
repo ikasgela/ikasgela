@@ -28,6 +28,11 @@
                                 <a href="{{ $link->url }}" target="_blank">
                                     {{ $link->descripcion ?: $link->url }}
                                 </a>
+                                @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() == 'link_collections.show')
+                                    <a title="{{ __('Edit') }}"
+                                       href="{{ route('links.edit', [$link->id]) }}"
+                                       class='ms-1 text-link-light'><i class="bi bi-pencil-square"></i></a>
+                                @endif
                             </td>
                             @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() == 'link_collections.show')
                                 <td>

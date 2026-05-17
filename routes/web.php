@@ -401,6 +401,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::post('/link_collections/{link_collection}/duplicar', [LinkCollectionController::class, 'duplicar'])
                 ->name('link_collections.duplicar');
 
+            // Links
+            Route::get('/links/{link}/edit', [LinkController::class, 'edit'])
+                ->name('links.edit');
+            Route::put('/links/{link}/update', [LinkController::class, 'update'])
+                ->name('links.update');
+
             // Modificar la nota manualmente
             Route::get('/profesor/{user}/{curso}/nota_manual', [ProfesorController::class, 'editNotaManual'])
                 ->name('profesor.nota_manual.edit');

@@ -28,6 +28,25 @@ class LinkController extends Controller
         return back()->with('success', 'Link Successfully Saved');
     }
 
+    public function edit(Link $link)
+    {
+        return view('links.edit', compact(['link']));
+    }
+
+    public function update(Request $request, Link $link)
+    {
+        $this->validate($request, [
+            'url' => 'required|url',
+        ]);
+
+        $link->update([
+            'url' => request('url'),
+            'descripcion' => request('descripcion'),
+        ]);
+
+        return retornar();
+    }
+
     public function destroy(Link $link)
     {
         $link->delete();
