@@ -5,6 +5,7 @@ namespace Tests\Feature\Usuarios;
 use Override;
 use App\Jobs\BorrarUsuario;
 use App\Models\Curso;
+use App\Models\Milestone;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Queue;
@@ -350,5 +351,49 @@ class UsersExtraTest extends TestCase
         // Then
         $response->assertRedirect();
         Queue::assertPushed(BorrarUsuario::class);
+    }
+
+    // ---------------------------------------------------------------------------
+    // User model — quick coverage wins
+    // ---------------------------------------------------------------------------
+
+    public function testAvatarUrlConGravatarEmail(): void
+    {
+        $user = User::factory()->create([
+            'gravatar_email' => 'gravatar@example.com',
+        ]);
+
+        $url = $user->avatar_url();
+
+        $hash = md5('gravatar@example.com');
+        $this->assertStringContainsString($hash, $url);
+    }
+
+    public function testHasAnyRoleConString(): void
+    {
+        // Calling hasAnyRole with a plain string (non-array) hits the else branch
+        $result = $this->alumno->hasAnyRole('alumno');
+
+        $this->assertTrue($result);
+    }
+
+    public function testMilestonesRelationship(): void
+    {
+        $curso = Curso::factory()->create();
+        $milestone = Milestone::factory()->create(['curso_id' => $curso->id]);
+
+        $this->alumno->milestones()->attach($milestone, ['nota' => 8.5]);
+
+        $this->assertTrue($this->alumno->milestones->contains($milestone));
+    }
+
+    public function testNewThreadsCountConCurso(): void
+    {
+        $curso = Curso::factory()->create();
+
+        // Just assert it returns an int (no threads = 0)
+        $count = $this->alumno->newThreadsCount($curso);
+
+        $this->assertIsInt($count);
     }
 }
