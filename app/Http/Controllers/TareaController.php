@@ -72,7 +72,7 @@ class TareaController extends Controller
         foreach ($tareas as $tarea) {
             $actividad = $tarea->actividad;
             $actividad->fecha_entrega = request('fecha_override');
-            $actividad->fecha_limite = $actividad->fecha_entrega->addMinutes(10);
+            $actividad->fecha_limite = $actividad->fecha_entrega?->addMinutes(10);
             $actividad->save();
         }
 
@@ -106,7 +106,7 @@ class TareaController extends Controller
         foreach ($tareas as $tarea) {
             $actividad = $tarea->actividad;
             $actividad->fecha_entrega = request('fecha_override');
-            $actividad->fecha_limite = $actividad->fecha_entrega->addMinutes(10);
+            $actividad->fecha_limite = $actividad->fecha_entrega?->addMinutes(10);
             $actividad->save();
         }
 
