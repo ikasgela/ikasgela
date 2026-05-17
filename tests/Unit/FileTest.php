@@ -89,4 +89,24 @@ class FileTest extends TestCase
         $this->assertNotNull($url);
         $this->assertIsString($url);
     }
+
+    #[Test]
+    public function file_delete_elimina_directorio_en_s3_cuando_path_tiene_carpeta()
+    {
+        \Illuminate\Support\Facades\Storage::fake('s3');
+
+        $user = User::factory()->create();
+        $file = File::factory()->create([
+            'user_id' => $user->id,
+            'uploadable_id' => $user->id,
+            'uploadable_type' => User::class,
+            'path' => 'uuid-folder/document.pdf',
+        ]);
+
+        $fileId = $file->id;
+
+        $file->delete();
+
+        $this->assertNull(File::find($fileId));
+    }
 }
