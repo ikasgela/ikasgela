@@ -5,6 +5,7 @@ namespace Tests\Feature\Recursos\IntellijProjects;
 use App\Models\Actividad;
 use App\Models\Curso;
 use App\Models\IntellijProject;
+use App\Models\MarkdownText;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Http;
 use Override;
@@ -229,5 +230,260 @@ class IntellijProjectsGiteaTest extends TestCase
 
         $response->assertOk();
         $response->assertHeader('Content-Disposition');
+    }
+
+    public function testDownloadCuandoStreamEsNullRetornaRespuestaOk(): void
+    {
+        $project = IntellijProject::factory()->create([
+            'curso_id' => $this->curso->id,
+            'repositorio' => 'root/test-repo',
+            'host' => 'gitea',
+        ]);
+
+        Http::fake([
+            '*/api/v1/repos/root/test-repo' => Http::response($this->fakeRepoData(), 200),
+            // 404 hace que GiteaClient::download() devuelva null
+            '*/api/v1/repos/root/test-repo/archive/master.zip' => Http::response('', 404),
+        ]);
+
+        $this->actingAs($this->alumno);
+
+        $response = $this->get(route('intellij_projects.download', $project));
+
+        // La respuesta es StreamedResponse; ejecutamos la callback para cubrir el branch
+        ob_start();
+        $response->sendContent();
+        ob_end_clean();
+
+        $response->assertOk();
+    }
+
+    // ---------------------------------------------------------------------------
+    // clonar() — variantes de recurso_type adicionales
+    // ---------------------------------------------------------------------------
+
+    public function testClonarCreaProyectoPhpStorm(): void
+    {
+        $clonedData = $this->fakeRepoData([
+            'id' => 44,
+            'name' => 'phpstorm-repo',
+            'full_name' => 'root/phpstorm-repo',
+            'description' => 'PhpStorm Project',
+        ]);
+
+        Http::fake([
+            '*/api/v1/repos/root/test-repo' => Http::response($this->fakeRepoData(), 200),
+            '*/api/v1/repos/root/test-repo/generate' => Http::response($clonedData, 201),
+            '*/api/v1/repos/root/phpstorm-repo' => Http::response($clonedData, 200),
+        ]);
+
+        $actividad = Actividad::factory()->create();
+        $countBefore = IntellijProject::count();
+
+        $response = $this->post(route('intellij_projects.clonar'), [
+            'origen' => 'root/test-repo',
+            'destino' => 'root/phpstorm-repo',
+            'nombre' => 'PhpStorm Project',
+            'recurso_type' => 'intellij_project_phpstorm',
+            'actividad_id' => $actividad->id,
+        ]);
+
+        $response->assertRedirect();
+        $this->assertEquals($countBefore + 1, IntellijProject::count());
+
+        $nuevo = IntellijProject::latest()->first();
+        $this->assertEquals('phpstorm', $nuevo->open_with);
+    }
+
+    public function testClonarCreaProyectoDataGrip(): void
+    {
+        $clonedData = $this->fakeRepoData([
+            'id' => 45,
+            'name' => 'datagrip-repo',
+            'full_name' => 'root/datagrip-repo',
+            'description' => 'DataGrip Project',
+        ]);
+
+        Http::fake([
+            '*/api/v1/repos/root/test-repo' => Http::response($this->fakeRepoData(), 200),
+            '*/api/v1/repos/root/test-repo/generate' => Http::response($clonedData, 201),
+            '*/api/v1/repos/root/datagrip-repo' => Http::response($clonedData, 200),
+        ]);
+
+        $actividad = Actividad::factory()->create();
+        $countBefore = IntellijProject::count();
+
+        $response = $this->post(route('intellij_projects.clonar'), [
+            'origen' => 'root/test-repo',
+            'destino' => 'root/datagrip-repo',
+            'nombre' => 'DataGrip Project',
+            'recurso_type' => 'intellij_project_datagrip',
+            'actividad_id' => $actividad->id,
+        ]);
+
+        $response->assertRedirect();
+        $this->assertEquals($countBefore + 1, IntellijProject::count());
+
+        $nuevo = IntellijProject::latest()->first();
+        $this->assertEquals('datagrip', $nuevo->open_with);
+    }
+
+    public function testClonarCreaProyectoGenericoIntellijProject(): void
+    {
+        $clonedData = $this->fakeRepoData([
+            'id' => 46,
+            'name' => 'generic-repo',
+            'full_name' => 'root/generic-repo',
+            'description' => 'Generic Project',
+        ]);
+
+        Http::fake([
+            '*/api/v1/repos/root/test-repo' => Http::response($this->fakeRepoData(), 200),
+            '*/api/v1/repos/root/test-repo/generate' => Http::response($clonedData, 201),
+            '*/api/v1/repos/root/generic-repo' => Http::response($clonedData, 200),
+        ]);
+
+        $actividad = Actividad::factory()->create();
+        $countBefore = IntellijProject::count();
+
+        $response = $this->post(route('intellij_projects.clonar'), [
+            'origen' => 'root/test-repo',
+            'destino' => 'root/generic-repo',
+            'nombre' => 'Generic Project',
+            'recurso_type' => 'intellij_project',
+            'actividad_id' => $actividad->id,
+        ]);
+
+        $response->assertRedirect();
+        $this->assertEquals($countBefore + 1, IntellijProject::count());
+
+        $nuevo = IntellijProject::latest()->first();
+        $this->assertEquals('', $nuevo->open_with);
+    }
+
+    public function testClonarCreaMarkdownText(): void
+    {
+        $clonedData = $this->fakeRepoData([
+            'id' => 47,
+            'name' => 'md-repo',
+            'full_name' => 'root/md-repo',
+            'description' => 'Markdown Project',
+        ]);
+
+        Http::fake([
+            '*/api/v1/repos/root/test-repo' => Http::response($this->fakeRepoData(), 200),
+            '*/api/v1/repos/root/test-repo/generate' => Http::response($clonedData, 201),
+            '*/api/v1/repos/root/md-repo' => Http::response($clonedData, 200),
+        ]);
+
+        $actividad = Actividad::factory()->create();
+        $countBefore = MarkdownText::count();
+
+        $response = $this->post(route('intellij_projects.clonar'), [
+            'origen' => 'root/test-repo',
+            'destino' => 'root/md-repo',
+            'nombre' => 'Markdown Project',
+            'recurso_type' => 'markdown_text',
+            'actividad_id' => $actividad->id,
+        ]);
+
+        $response->assertRedirect();
+        $this->assertEquals($countBefore + 1, MarkdownText::count());
+
+        $nuevo = MarkdownText::latest()->first();
+        $this->assertEquals('root/md-repo', $nuevo->repositorio);
+    }
+
+    public function testClonarConTipoDesconocidoNoCreaRecurso(): void
+    {
+        $clonedData = $this->fakeRepoData([
+            'id' => 48,
+            'name' => 'unknown-repo',
+            'full_name' => 'root/unknown-repo',
+            'description' => 'Unknown Project',
+        ]);
+
+        Http::fake([
+            '*/api/v1/repos/root/test-repo' => Http::response($this->fakeRepoData(), 200),
+            '*/api/v1/repos/root/test-repo/generate' => Http::response($clonedData, 201),
+            '*/api/v1/repos/root/unknown-repo' => Http::response($clonedData, 200),
+        ]);
+
+        $actividad = Actividad::factory()->create();
+        $ipCount = IntellijProject::count();
+        $mdCount = MarkdownText::count();
+
+        $response = $this->post(route('intellij_projects.clonar'), [
+            'origen' => 'root/test-repo',
+            'destino' => 'root/unknown-repo',
+            'nombre' => 'Unknown Project',
+            'recurso_type' => 'tipo_desconocido',
+            'actividad_id' => $actividad->id,
+        ]);
+
+        $response->assertRedirect();
+        $this->assertEquals($ipCount, IntellijProject::count());
+        $this->assertEquals($mdCount, MarkdownText::count());
+    }
+
+    public function testClonarConDestinoVacioUsaDatosDelOrigen(): void
+    {
+        $clonedData = $this->fakeRepoData([
+            'id' => 49,
+            'name' => 'test-repo',
+            'full_name' => 'root/test-repo',
+        ]);
+
+        Http::fake([
+            '*/api/v1/repos/root/test-repo' => Http::response($this->fakeRepoData(), 200),
+            '*/api/v1/repos/root/test-repo/generate' => Http::response($clonedData, 201),
+        ]);
+
+        $actividad = Actividad::factory()->create();
+
+        // Sin destino → $usuario y $ruta se extraen del proyecto origen
+        $response = $this->post(route('intellij_projects.clonar'), [
+            'origen' => 'root/test-repo',
+            'destino' => '',
+            'nombre' => '',
+            'recurso_type' => 'intellij_project_idea',
+            'actividad_id' => $actividad->id,
+        ]);
+
+        $response->assertRedirect();
+    }
+
+    public function testClonarConvierteOrigenAPlantillaSiNoEsTemplate(): void
+    {
+        $noTemplate = $this->fakeRepoData(['template' => false]);
+        $clonedData = $this->fakeRepoData([
+            'id' => 50,
+            'name' => 'forced-template',
+            'full_name' => 'root/forced-template',
+        ]);
+
+        Http::fake([
+            '*/api/v1/repos/root/test-repo' => Http::response($noTemplate, 200),
+            '*/api/v1/repos/root/test-repo/generate' => Http::response($clonedData, 201),
+            '*/api/v1/repos/root/forced-template' => Http::response($clonedData, 200),
+        ]);
+
+        $actividad = Actividad::factory()->create();
+
+        $response = $this->post(route('intellij_projects.clonar'), [
+            'origen' => 'root/test-repo',
+            'destino' => 'root/forced-template',
+            'nombre' => 'Forced Template',
+            'recurso_type' => 'intellij_project_idea',
+            'actividad_id' => $actividad->id,
+        ]);
+
+        $response->assertRedirect();
+
+        // Debe haberse enviado la llamada PATCH para convertir a plantilla
+        Http::assertSent(function ($request) {
+            return $request->method() === 'PATCH'
+                && str_contains($request->url(), 'repos/root/test-repo');
+        });
     }
 }
