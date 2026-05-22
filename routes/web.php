@@ -320,6 +320,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
                 ->name('markdown_texts.borrar_cache');
 
             // Cuestionario
+            Route::get('/cuestionarios/importar', [CuestionarioController::class, 'importarForm'])
+                ->name('cuestionarios.importar.form');
+            Route::post('/cuestionarios/importar', [CuestionarioController::class, 'importar'])
+                ->name('cuestionarios.importar');
             Route::resource('cuestionarios', CuestionarioController::class);
             Route::get('/cuestionarios/{actividad}/actividad', [CuestionarioController::class, 'actividad'])
                 ->name('cuestionarios.actividad');
@@ -337,6 +341,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 
             Route::post('/cuestionarios/{cuestionario}/duplicar', [CuestionarioController::class, 'duplicar'])
                 ->name('cuestionarios.duplicar');
+            Route::get('/cuestionarios/{cuestionario}/exportar', [CuestionarioController::class, 'exportar'])
+                ->name('cuestionarios.exportar');
             Route::post('/preguntas/{pregunta}/duplicar', [PreguntaController::class, 'duplicar'])
                 ->name('preguntas.duplicar');
             Route::post('/items/{item}/duplicar', [ItemController::class, 'duplicar'])

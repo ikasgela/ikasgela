@@ -8,8 +8,11 @@
         @include('partials.recursos.filtro_curso', ['ruta' => 'cuestionarios.index.filtro'])
     @endif
 
-    <div class="mb-3">
+    <div class="mb-3 d-flex gap-2">
         <a class="btn btn-primary" href="{{ route('cuestionarios.create') }}">{{ __('New questionnaire') }}</a>
+        <a class="btn btn-outline-secondary" href="{{ route('cuestionarios.importar.form') }}">
+            <i class="bi bi-upload"></i> {{ __('Import') }}
+        </a>
     </div>
 
     <div class="table-responsive">
@@ -37,6 +40,11 @@
                             @include('partials.boton_mostrar', ['ruta' => 'cuestionarios', 'recurso' => $cuestionario])
                             @include('partials.boton_editar', ['ruta' => 'cuestionarios', 'recurso' => $cuestionario])
                             @include('partials.boton_duplicar', ['ruta' => 'cuestionarios.duplicar', 'id' => $cuestionario->id, 'middle' => true])
+                            <a class="btn btn-light btn-sm rounded-0"
+                               href="{{ route('cuestionarios.exportar', $cuestionario->id) }}"
+                               title="{{ __('Download') }}">
+                                <i class="bi bi-download"></i>
+                            </a>
                             {{ html()->form('DELETE', route('cuestionarios.destroy', $cuestionario->id))->open() }}
                             @include('partials.boton_borrar', ['last' => true])
                             {{ html()->form()->close() }}

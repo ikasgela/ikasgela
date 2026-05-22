@@ -177,4 +177,89 @@ class CuestionarioController extends Controller
 
         return redirect(route('cuestionarios.index'));
     }
+
+    public function exportar(Cuestionario $cuestionario)
+    {
+        $data = [
+            'titulo'      => $cuestionario->titulo,
+            'descripcion' => $cuestionario->descripcion,
+            'plantilla'   => $cuestionario->plantilla,
+            'preguntas'   => $cuestionario->preguntas()->orderBy('orden')->get()->map(function ($pregunta) {
+                return [
+                    'titulo'   => $pregunta->titulo,
+                    'texto'    => $pregunta->texto,
+                    'multiple' => $pregunta->multiple,
+                    'imagen'   => $pregunta->imagen,
+                    'orden'    => $pregunta->orden,
+                    'items'    => $pregunta->items->map(function ($item) {
+                        return [
+                            'texto'      => $item->texto,
+                            'correcto'   => $item->correcto,
+                            'feedback'   => $item->feedback,
+                            'orden'      => $item->orden,
+                        ];
+                    })->values()->all(),
+                ];
+            })->values()->all(),
+        ];
+
+        $json     = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $filename = Str::slug($cuestionario->titulo) . '.json';
+
+        return response($json, 200, [
+            'Content-Type'        => 'application/json',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ]);
+    }
+
+    public function importarForm()
+    {
+        return view('cuestionarios.importar');
+    }
+
+    public function importar(Request $request)
+    {
+        $this->validate($request, [
+            'fichero' => 'required|file|mimes:json|max:2048',
+        ]);
+
+        $contenido = file_get_contents($request->file('fichero')->getRealPath());
+        $data      = json_decode($contenido, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE || !isset($data['titulo'])) {
+            return back()->withErrors(['fichero' => __('The file is not a valid questionnaire JSON.')]);
+        }
+
+        $cuestionario = Cuestionario::create([
+            'titulo'      => $data['titulo'],
+            'descripcion' => $data['descripcion'] ?? null,
+            'plantilla'   => $data['plantilla'] ?? true,
+            'respondido'  => false,
+            'curso_id'    => Auth::user()->curso_actual()?->id,
+        ]);
+
+        foreach ($data['preguntas'] ?? [] as $orden_pregunta => $preguntaData) {
+            $pregunta = $cuestionario->preguntas()->create([
+                'titulo'   => $preguntaData['titulo'] ?? null,
+                'texto'    => $preguntaData['texto'] ?? null,
+                'multiple' => $preguntaData['multiple'] ?? false,
+                'imagen'   => $preguntaData['imagen'] ?? null,
+                'orden'    => $preguntaData['orden'] ?? $orden_pregunta,
+            ]);
+
+            foreach ($preguntaData['items'] ?? [] as $orden_item => $itemData) {
+                $pregunta->items()->create([
+                    'texto'    => $itemData['texto'] ?? null,
+                    'correcto' => $itemData['correcto'] ?? false,
+                    'feedback' => $itemData['feedback'] ?? null,
+                    'orden'    => $itemData['orden'] ?? $orden_item,
+                ]);
+            }
+        }
+
+        olvidar();
+
+        return redirect(route('cuestionarios.edit', ['cuestionario' => $cuestionario]))
+            ->with('success', __('Questionnaire imported successfully.'));
+    }
 }
