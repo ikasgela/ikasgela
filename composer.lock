@@ -182,16 +182,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.381.5",
+            "version": "3.381.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "409208d62af0ddafbcb0af1a0bf514f5ffcaba92"
+                "reference": "9be3422631494111ec76bec677f1ae2dec650573"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/409208d62af0ddafbcb0af1a0bf514f5ffcaba92",
-                "reference": "409208d62af0ddafbcb0af1a0bf514f5ffcaba92",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/9be3422631494111ec76bec677f1ae2dec650573",
+                "reference": "9be3422631494111ec76bec677f1ae2dec650573",
                 "shasum": ""
             },
             "require": {
@@ -273,9 +273,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.381.5"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.381.6"
             },
-            "time": "2026-05-20T18:16:01+00:00"
+            "time": "2026-05-21T20:14:47+00:00"
         },
         {
             "name": "balping/json-raw-encoder",
@@ -5099,12 +5099,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/SpartnerNL/Laravel-Excel.git",
-                "reference": "9173150877bec0f1fabb6dfe2b26be1fad8a4ac4"
+                "reference": "f06a267246a1ac2df870ce21361e81f0143c44e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SpartnerNL/Laravel-Excel/zipball/9173150877bec0f1fabb6dfe2b26be1fad8a4ac4",
-                "reference": "9173150877bec0f1fabb6dfe2b26be1fad8a4ac4",
+                "url": "https://api.github.com/repos/SpartnerNL/Laravel-Excel/zipball/f06a267246a1ac2df870ce21361e81f0143c44e7",
+                "reference": "f06a267246a1ac2df870ce21361e81f0143c44e7",
                 "shasum": ""
             },
             "require": {
@@ -5117,9 +5117,11 @@
             },
             "require-dev": {
                 "driftingly/rector-laravel": "^2.3",
+                "larastan/larastan": "^3.0",
                 "laravel/pint": "^1.0",
                 "laravel/scout": "^10.0||^11.0",
                 "orchestra/testbench": "^10.0||^11.0",
+                "phpstan/extension-installer": "^1.4",
                 "phpstan/phpstan": "^2.1",
                 "phpunit/phpunit": "^12.0.1||^13.0.0",
                 "predis/predis": "^1.1",
@@ -5177,7 +5179,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-05-21T15:24:50+00:00"
+            "time": "2026-05-22T11:25:05+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
