@@ -183,20 +183,17 @@ class CuestionarioController extends Controller
         $data = [
             'titulo'      => $cuestionario->titulo,
             'descripcion' => $cuestionario->descripcion,
-            'plantilla'   => $cuestionario->plantilla,
             'preguntas'   => $cuestionario->preguntas()->orderBy('orden')->get()->map(function ($pregunta) {
                 return [
                     'titulo'   => $pregunta->titulo,
                     'texto'    => $pregunta->texto,
-                    'multiple' => $pregunta->multiple,
+                    'multiple' => $pregunta->multiple ? true : false,
                     'imagen'   => $pregunta->imagen,
-                    'orden'    => $pregunta->orden,
                     'items'    => $pregunta->items->map(function ($item) {
                         return [
                             'texto'      => $item->texto,
-                            'correcto'   => $item->correcto,
+                            'correcto'   => $item->correcto ? true : false,
                             'feedback'   => $item->feedback,
-                            'orden'      => $item->orden,
                         ];
                     })->values()->all(),
                 ];
