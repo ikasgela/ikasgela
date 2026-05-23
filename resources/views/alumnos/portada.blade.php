@@ -58,4 +58,16 @@
             </div>
         </div>
     @endforelse
+
+    <script>
+    document.addEventListener('submit', function (e) {
+        if (e.target.dataset.limpiarSidebar) {
+            Object.keys(localStorage).forEach(function (key) {
+                if (key.indexOf('sidebar:') === 0) {
+                    localStorage.removeItem(key);
+                }
+            });
+        }
+    });
+    </script>
 @endsection

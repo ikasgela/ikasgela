@@ -38,7 +38,7 @@
                     {{ html()->submit(__('Enroll in this course'))->class('btn btn-primary me-3') }}
                     {{ html()->form()->close() }}
                 @elseif(in_array($curso->id, $matricula))
-                    {{ html()->form('POST', route('cursos.curso_actual', [$curso->id, Auth::user()->id]))->open() }}
+                    {{ html()->form('POST', route('cursos.curso_actual', [$curso->id, Auth::user()->id]))->attribute('data-limpiar-sidebar', 'true')->open() }}
                     {{ html()->submit(__('Set as current course'))->class('btn btn-secondary me-3') }}
                     {{ html()->form()->close() }}
                 @else
