@@ -285,8 +285,18 @@ class ActividadController extends Controller
 
         $override_allowed = $usuario_actual->hasAnyRole(['admin', 'profesor']);
 
-        if ($tarea->user_id != $usuario_actual->id && !$override_allowed && !$tarea->actividad->hasEtiqueta('trabajo en equipo'))
-            abort('403');
+        if ($tarea->user_id != $usuario_actual->id && !$override_allowed) {
+            if ($tarea->actividad->hasEtiqueta('trabajo en equipo')) {
+                // Solo un compañero de equipo real puede operar sobre la tarea de otro miembro
+                $esDelEquipo = Tarea::where('actividad_id', $tarea->actividad_id)
+                    ->where('user_id', $usuario_actual->id)
+                    ->whereNull('deleted_at')
+                    ->exists();
+                if (!$esDelEquipo) abort(403);
+            } else {
+                abort(403);
+            }
+        }
 
         $nuevoestado = $request->input('nuevoestado');
 
