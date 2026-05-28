@@ -77,7 +77,11 @@ class ArchivoTest extends TestCase
         $actividad3->unidad->curso_id = $actividad1->unidad->curso->id;
         $actividad3->unidad->save();
 
-        setting_usuario(['curso_actual' => $actividad1->unidad->curso->id]);
+        $curso = $actividad1->unidad->curso;
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        $user->cursos()->syncWithoutDetaching($curso);
+
+        setting_usuario(['curso_actual' => $curso->id]);
 
         $user->actividades()->attach($actividad1, ['estado' => 60]);
         $user->actividades()->attach($actividad2);
@@ -111,7 +115,11 @@ class ArchivoTest extends TestCase
         $actividad3->unidad->curso_id = $actividad1->unidad->curso->id;
         $actividad3->unidad->save();
 
-        setting_usuario(['curso_actual' => $actividad1->unidad->curso->id]);
+        $curso = $actividad1->unidad->curso;
+        $this->tutor->cursos()->syncWithoutDetaching($curso);
+        $user->cursos()->syncWithoutDetaching($curso);
+
+        setting_usuario(['curso_actual' => $curso->id]);
 
         $user->actividades()->attach($actividad1, ['estado' => 60]);
         $user->actividades()->attach($actividad2);
