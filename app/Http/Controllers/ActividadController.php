@@ -557,10 +557,22 @@ class ActividadController extends Controller
                 $compartida->puntuacion = $tarea->puntuacion;
                 $compartida->intentos = $tarea->intentos;
                 $compartida->save();
-            }
 
-            $compartida->user->last_active = now();
-            $compartida->user->save();
+                $compartida->user->last_active = now();
+                $compartida->user->save();
+                $compartida->user->clearCache();
+
+                // Crear Registro para los demás miembros del equipo (el principal ya lo tiene)
+                if ($compartida->user_id !== $tarea->user_id) {
+                    Registro::create([
+                        'user_id' => $compartida->user_id,
+                        'tarea_id' => $compartida->id,
+                        'timestamp' => now(),
+                        'estado' => $tarea->estado,
+                        'curso_id' => $usuario_actual->curso_actual()->id,
+                    ]);
+                }
+            }
         }
 
         $tarea->save();

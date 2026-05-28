@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Actividad;
+use App\Models\CacheClear;
 use App\Models\Curso;
+use App\Models\Registro;
+use App\Models\Tarea;
 use App\Models\Team;
 use App\Models\Unidad;
+use App\Models\User;
 use App\Traits\PaginarUltima;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -121,7 +126,69 @@ class TeamController extends Controller
                 : Str::slug(request('name'))
         ]);
 
-        $team->users()->sync($request->input('users_seleccionados'));
+        $result = $team->users()->sync($request->input('users_seleccionados') ?? []);
+
+        $curso_id = Auth::user()->curso_actual()?->id;
+        $actividades_equipo = $team->actividades()->get();
+
+        // Asignar las actividades del equipo a los nuevos miembros
+        foreach ($result['attached'] as $user_id) {
+            $user = User::find($user_id);
+            if (!$user) continue;
+
+            foreach ($actividades_equipo as $actividad) {
+                $ya_asignada = Tarea::where('user_id', $user->id)
+                    ->where('actividad_id', $actividad->id)
+                    ->exists();
+
+                if (!$ya_asignada) {
+                    CacheClear::create(['fecha' => $actividad->fecha_disponibilidad, 'user_id' => $user->id]);
+                    CacheClear::create(['fecha' => $actividad->fecha_entrega, 'user_id' => $user->id]);
+                    CacheClear::create(['fecha' => $actividad->fecha_limite, 'user_id' => $user->id]);
+
+                    $user->actividades()->attach($actividad);
+                    $user->clearCache();
+
+                    $tarea = Tarea::where('user_id', $user->id)->where('actividad_id', $actividad->id)->first();
+                    if ($tarea && $curso_id) {
+                        Registro::create([
+                            'user_id' => $user->id,
+                            'tarea_id' => $tarea->id,
+                            'estado' => 10,
+                            'timestamp' => Carbon::now(),
+                            'curso_id' => $curso_id,
+                        ]);
+                    }
+                }
+            }
+        }
+
+        // Borrar las tareas de los miembros eliminados sin borrar la actividad compartida
+        foreach ($result['detached'] as $user_id) {
+            $user = User::find($user_id);
+            if (!$user) continue;
+
+            foreach ($actividades_equipo as $actividad) {
+                $tarea = Tarea::where('user_id', $user->id)
+                    ->where('actividad_id', $actividad->id)
+                    ->whereNull('deleted_at')
+                    ->first();
+
+                if ($tarea) {
+                    if ($curso_id) {
+                        Registro::create([
+                            'user_id' => $user->id,
+                            'tarea_id' => $tarea->id,
+                            'estado' => 61,
+                            'timestamp' => Carbon::now(),
+                            'curso_id' => $curso_id,
+                        ]);
+                    }
+                    $tarea->delete();
+                    $user->clearCache();
+                }
+            }
+        }
 
         return retornar();
     }

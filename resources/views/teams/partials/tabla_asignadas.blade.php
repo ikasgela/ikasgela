@@ -31,15 +31,18 @@
                 @endif
                 <td>
                     @php
-                        $tarea = $user->actividades()->find($actividad->id)->tarea;
+                        $tarea = \App\Models\Tarea::where('actividad_id', $actividad->id)
+                            ->whereNull('deleted_at')
+                            ->first();
                     @endphp
+                    @if($tarea)
                     <form method="POST"
-                          action="{{ route('tareas.destroy', ['user' => $user->id, 'tarea' => $tarea->id]) }}">
+                          action="{{ route('tareas.destroy', ['user' => $tarea->user_id, 'tarea' => $tarea->id]) }}">
                         @csrf
                         @method('DELETE')
                         <div class='btn-group'>
                             <a title="{{ __('Review') }}"
-                               href="{{ route('profesor.revisar', ['user' => $user->id, 'tarea' => $tarea->id]) }}"
+                               href="{{ route('profesor.revisar', ['user' => $tarea->user_id, 'tarea' => $tarea->id]) }}"
                                class="btn btn-light btn-sm"><i class="bi bi-megaphone"></i></a>
                             @if(Auth::user()->hasRole('admin'))
                                 <a title="{{ __('Edit activity') }}"
@@ -49,6 +52,7 @@
                             @include('partials.boton_borrar')
                         </div>
                     </form>
+                    @endif
                 </td>
             </tr>
         @endforeach
