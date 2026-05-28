@@ -307,6 +307,8 @@ class Curso extends Model
             ->remember('recuento_enviadas', config('ikasgela.eloquent_cache_time'), function () {
                 return Tarea::whereHas('actividad.unidad.curso', function ($query) {
                     $query->where('cursos.id', $this->id);
+                })->whereHas('actividad', function ($query) {
+                    $query->whereNull('deleted_at');
                 })->usuarioNoBloqueado()->noAutoAvance()->whereIn('estado', [30])->count();
             });
     }
