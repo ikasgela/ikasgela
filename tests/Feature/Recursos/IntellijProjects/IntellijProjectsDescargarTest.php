@@ -35,6 +35,9 @@ class IntellijProjectsDescargarTest extends TestCase
 
         $this->actingAs($this->profesor);
         setting_usuario(['curso_actual' => $this->curso->id]);
+
+        // Enrollar al alumno en el curso para pasar la comprobación de acceso de seguridad
+        $this->alumno->cursos()->syncWithoutDetaching($this->curso);
     }
 
     // ---------------------------------------------------------------------------
