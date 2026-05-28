@@ -385,6 +385,10 @@ class CursoController extends Controller
 
     public function matricular(Curso $curso, User $user)
     {
+        if (Auth::id() !== $user->id && !Auth::user()->hasAnyRole(['admin', 'profesor'])) {
+            abort(403);
+        }
+
         $curso->users()->attach($user);
 
         $user->addEtiqueta($curso->tags);
@@ -401,6 +405,10 @@ class CursoController extends Controller
 
     public function curso_actual(Curso $curso, User $user)
     {
+        if (Auth::id() !== $user->id && !Auth::user()->hasAnyRole(['admin', 'profesor'])) {
+            abort(403);
+        }
+
         setting_usuario(['curso_actual' => $curso->id]);
         $user->clearCache();
         $user->clearSession();
