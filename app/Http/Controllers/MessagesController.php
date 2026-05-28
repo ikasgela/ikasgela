@@ -230,7 +230,13 @@ class MessagesController extends Controller
 
     public function destroy($id)
     {
-        $thread = Hilo::findOrFail($id);
+        // Solo admin/profesor pueden borrar hilos completos; para el resto,
+        // se requiere al menos ser participante del hilo.
+        if (Auth::user()->hasAnyRole(['admin', 'profesor'])) {
+            $thread = Hilo::findOrFail($id);
+        } else {
+            $thread = Hilo::forUser(Auth::id())->findOrFail($id);
+        }
         $thread->delete();
 
         return back();
@@ -239,6 +245,12 @@ class MessagesController extends Controller
     public function destroyMessage($id)
     {
         $message = Message::findOrFail($id);
+
+        // Solo el autor del mensaje o admin/profesor pueden borrarlo.
+        if ($message->user_id !== Auth::id() && !Auth::user()->hasAnyRole(['admin', 'profesor'])) {
+            abort(403);
+        }
+
         $message->delete();
 
         return back();
