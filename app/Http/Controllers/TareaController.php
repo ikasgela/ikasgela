@@ -118,6 +118,12 @@ class TareaController extends Controller
      */
     private function borrarTarea(Tarea $tarea): void
     {
+        // Si la tarea ya fue borrada (p. ej. al procesar otra del mismo equipo en un
+        // borrado múltiple), no hay nada que hacer.
+        if (is_null($tarea->fresh())) {
+            return;
+        }
+
         $tarea->loadMissing(['user', 'actividad.cuestionarios', 'actividad.file_uploads', 'actividad.intellij_projects']);
 
         $actividad_id = $tarea->actividad_id;

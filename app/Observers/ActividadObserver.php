@@ -16,7 +16,7 @@ class ActividadObserver
 
     public function deleted(Actividad $actividad)
     {
-        $this->clearCache($actividad);
+        $this->clearCache($actividad, true);
     }
 
     public function deleting(Actividad $actividad)
@@ -37,9 +37,11 @@ class ActividadObserver
         }
     }
 
-    private function clearCache(Actividad $actividad): void
+    private function clearCache(Actividad $actividad, bool $includeTrashed = false): void
     {
-        $tareas = Tarea::where('actividad_id', $actividad->id)->get();
+        $tareas = $includeTrashed
+            ? Tarea::withTrashed()->where('actividad_id', $actividad->id)->get()
+            : Tarea::where('actividad_id', $actividad->id)->get();
 
         if ($tareas->isEmpty()) {
             return;

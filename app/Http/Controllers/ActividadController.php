@@ -19,7 +19,9 @@ use App\Models\User;
 use App\Traits\InformeActividadesCurso;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -253,7 +255,26 @@ class ActividadController extends Controller
 
     public function destroy(Actividad $actividad)
     {
-        $actividad->delete();
+        DB::transaction(function () use ($actividad) {
+            $curso_id = Unidad::find($actividad->unidad_id)?->curso_id;
+
+            $tareas_activas = Tarea::where('actividad_id', $actividad->id)->whereNull('deleted_at')->get();
+
+            foreach ($tareas_activas as $tarea) {
+                if ($curso_id) {
+                    Registro::create([
+                        'user_id' => $tarea->user_id,
+                        'tarea_id' => $tarea->id,
+                        'timestamp' => Carbon::now(),
+                        'estado' => 61,
+                        'curso_id' => $curso_id,
+                    ]);
+                }
+                $tarea->delete();
+            }
+
+            $actividad->delete();
+        });
 
         return back();
     }
