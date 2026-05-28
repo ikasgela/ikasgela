@@ -120,13 +120,16 @@ class TareaController extends Controller
     {
         $tarea->loadMissing(['user', 'actividad.cuestionarios', 'actividad.file_uploads', 'actividad.intellij_projects']);
 
-        $registro = new Registro();
-        $registro->user_id = $tarea->user->id;
-        $registro->tarea_id = $tarea->id;
-        $registro->timestamp = Carbon::now();
-        $registro->estado = 61;
-        $registro->curso_id = Auth::user()->curso_actual()->id;
-        $registro->save();
+        $actividad_id = $tarea->actividad_id;
+        $curso_id = Auth::user()->curso_actual()->id;
+
+        Registro::create([
+            'user_id' => $tarea->user->id,
+            'tarea_id' => $tarea->id,
+            'timestamp' => Carbon::now(),
+            'estado' => 61,
+            'curso_id' => $curso_id,
+        ]);
 
         foreach ($tarea->actividad->cuestionarios as $cuestionario) {
             $cuestionario->delete();
@@ -148,7 +151,26 @@ class TareaController extends Controller
         }
 
         $tarea->actividad->delete();
-
         $tarea->delete();
+        $tarea->user->clearCache();
+
+        // Al borrar la actividad compartida de un equipo, eliminar también
+        // las tareas del resto de miembros que apuntan a la misma actividad.
+        $tareas_equipo = Tarea::where('actividad_id', $actividad_id)
+            ->whereNull('deleted_at')
+            ->get();
+
+        foreach ($tareas_equipo as $tarea_equipo) {
+            Registro::create([
+                'user_id' => $tarea_equipo->user_id,
+                'tarea_id' => $tarea_equipo->id,
+                'timestamp' => Carbon::now(),
+                'estado' => 61,
+                'curso_id' => $curso_id,
+            ]);
+
+            $tarea_equipo->delete();
+            $tarea_equipo->user->clearCache();
+        }
     }
 }
