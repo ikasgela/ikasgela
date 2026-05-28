@@ -62,6 +62,10 @@ class ProfesorControllerTest extends TestCase
 
         // Given
         $alumno = User::factory()->create();
+        $curso = Curso::factory()->create();
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        $alumno->cursos()->syncWithoutDetaching($curso);
+        setting_usuario(['curso_actual' => $curso->id]);
 
         // When
         $response = $this->get(route('profesor.tareas', $alumno));
@@ -106,6 +110,11 @@ class ProfesorControllerTest extends TestCase
         $original = Actividad::factory()->create();
         $actividad = Actividad::factory()->create(['plantilla_id' => $original->id]);
         $tarea = Tarea::factory()->create(['user_id' => $this->alumno->id, 'actividad_id' => $actividad->id]);
+
+        $curso = Curso::factory()->create();
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        $this->alumno->cursos()->syncWithoutDetaching($curso);
+        setting_usuario(['curso_actual' => $curso->id]);
 
         // When
         $response = $this->get(route('profesor.revisar', [$this->alumno, $tarea]));

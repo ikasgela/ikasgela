@@ -191,6 +191,12 @@ class ProfesorController extends Controller
 
     public function tareas(User $user, Request $request)
     {
+        abort_unless(
+            Auth::user()->hasRole('admin') ||
+            Auth::user()->curso_actual()?->users()->where('user_id', $user->id)->exists(),
+            403
+        );
+
         $actividades = $this->getActividadesFiltradas($request, $user);
 
         $actividades = $actividades->with(['unidad.curso']);
@@ -289,6 +295,14 @@ class ProfesorController extends Controller
 
     public function revisar(User $user, Tarea $tarea, Request $request)
     {
+        abort_unless(
+            Auth::user()->hasRole('admin') ||
+            Auth::user()->curso_actual()?->users()->where('user_id', $user->id)->exists(),
+            403
+        );
+
+        abort_if($tarea->user_id !== $user->id, 403);
+
         $actividades = $this->getActividadesFiltradas($request, $user);
 
         $tarea->load('actividad.unidad.curso');
@@ -503,6 +517,12 @@ class ProfesorController extends Controller
 
     public function editNotaManual(User $user, Curso $curso, ?Milestone $milestone = null)
     {
+        abort_unless(
+            Auth::user()->hasRole('admin') ||
+            Auth::user()->curso_actual()?->users()->where('user_id', $user->id)->exists(),
+            403
+        );
+
         if ($milestone !== null) {
             $nota = $user->milestones()->wherePivot('milestone_id', $milestone->id)->first()?->pivot?->nota;
         } else {
@@ -516,6 +536,12 @@ class ProfesorController extends Controller
     {
         if (!Auth::user()->hasAnyRole(['admin', 'profesor']))
             abort('403');
+
+        abort_unless(
+            Auth::user()->hasRole('admin') ||
+            Auth::user()->curso_actual()?->users()->where('user_id', $user->id)->exists(),
+            403
+        );
 
         if ($milestone !== null) {
             $user->milestones()->sync([$milestone->id => ['nota' => request('nota')]], false);
