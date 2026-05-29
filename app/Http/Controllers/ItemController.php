@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Models\Pregunta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ItemController extends Controller
 {
@@ -53,6 +54,8 @@ class ItemController extends Controller
 
     public function edit(Item $item)
     {
+        $this->verificarAccesoAItem($item);
+
         $preguntas = Pregunta::orderBy('titulo')->get();
 
         return view('items.edit', compact(['item', 'preguntas']));
@@ -60,6 +63,8 @@ class ItemController extends Controller
 
     public function update(Request $request, Item $item)
     {
+        $this->verificarAccesoAItem($item);
+
         $this->validate($request, [
             'texto' => 'required',
             'pregunta_id' => 'required',
@@ -79,6 +84,8 @@ class ItemController extends Controller
 
     public function destroy(Item $item)
     {
+        $this->verificarAccesoAItem($item);
+
         $item->delete();
 
         return back();
@@ -108,5 +115,15 @@ class ItemController extends Controller
         $clon->save();
 
         return back();
+    }
+
+    private function verificarAccesoAItem(Item $item): void
+    {
+        $cuestionario = $item->pregunta->cuestionario;
+        $curso_actual_id = Auth::user()->curso_actual()?->id;
+        abort_unless(
+            Auth::user()->hasRole('admin') || $cuestionario->curso_id === $curso_actual_id,
+            403
+        );
     }
 }

@@ -3,8 +3,13 @@
 namespace Tests\Feature\Recursos\Cuestionarios;
 
 use Override;
+use App\Http\Middleware\UserLocale;
+use App\Models\Cuestionario;
+use App\Models\Curso;
 use App\Models\Pregunta;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Once;
 use Tests\TestCase;
 
 class PreguntasCRUDTest extends TestCase
@@ -246,9 +251,10 @@ class PreguntasCRUDTest extends TestCase
     {
         // Auth
         $this->actingAs($this->profesor);
+        $this->withoutMiddleware(UserLocale::class);
 
         // Given
-        $pregunta = Pregunta::factory()->create();
+        $pregunta = $this->createPreguntaInCurso();
 
         // When
         $response = $this->get(route('preguntas.edit', $pregunta), $pregunta->toArray());
@@ -289,9 +295,10 @@ class PreguntasCRUDTest extends TestCase
     {
         // Auth
         $this->actingAs($this->profesor);
+        $this->withoutMiddleware(UserLocale::class);
 
         // Given
-        $pregunta = Pregunta::factory()->create();
+        $pregunta = $this->createPreguntaInCurso();
         $pregunta->texto = "Updated";
 
         // When
@@ -335,9 +342,10 @@ class PreguntasCRUDTest extends TestCase
     {
         // Auth
         $this->actingAs($this->profesor);
+        $this->withoutMiddleware(UserLocale::class);
 
         // Given
-        $pregunta = Pregunta::factory()->create();
+        $pregunta = $this->createPreguntaInCurso();
         $empty = new Pregunta();
         foreach ($this->required as $field) {
             $empty->$field = '0';
@@ -354,9 +362,11 @@ class PreguntasCRUDTest extends TestCase
     {
         // Auth
         $this->actingAs($this->profesor);
+        $this->withoutMiddleware(UserLocale::class);
+        Once::flush();
 
         // Given
-        $pregunta = Pregunta::factory()->create();
+        $pregunta = $this->createPreguntaInCurso();
         $pregunta->$field = null;
 
         // When
@@ -377,9 +387,10 @@ class PreguntasCRUDTest extends TestCase
     {
         // Auth
         $this->actingAs($this->profesor);
+        $this->withoutMiddleware(UserLocale::class);
 
         // Given
-        $pregunta = Pregunta::factory()->create();
+        $pregunta = $this->createPreguntaInCurso();
 
         // When
         $this->delete(route('preguntas.destroy', $pregunta));
@@ -507,5 +518,13 @@ class PreguntasCRUDTest extends TestCase
 
         // Then
         $response->assertRedirect(route('login'));
+    }
+
+    private function createPreguntaInCurso(): Pregunta
+    {
+        $curso = Curso::factory()->create();
+        Cache::tags('user_' . $this->profesor->id)->put('curso_actual', $curso->id, config('ikasgela.eloquent_cache_time'));
+        $cuestionario = Cuestionario::factory()->create(['curso_id' => $curso->id]);
+        return Pregunta::factory()->create(['cuestionario_id' => $cuestionario->id]);
     }
 }

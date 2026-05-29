@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cuestionario;
 use App\Models\Pregunta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PreguntaController extends Controller
 {
@@ -57,6 +58,8 @@ class PreguntaController extends Controller
 
     public function edit(Pregunta $pregunta)
     {
+        $this->verificarAccesoACuestionario($pregunta->cuestionario);
+
         $cuestionarios = Cuestionario::orderBy('titulo')->get();
 
         $items = $pregunta->items;
@@ -67,6 +70,8 @@ class PreguntaController extends Controller
 
     public function update(Request $request, Pregunta $pregunta)
     {
+        $this->verificarAccesoACuestionario($pregunta->cuestionario);
+
         $this->validate($request, [
             'titulo' => 'required',
             'texto' => 'required',
@@ -88,6 +93,8 @@ class PreguntaController extends Controller
 
     public function destroy(Pregunta $pregunta)
     {
+        $this->verificarAccesoACuestionario($pregunta->cuestionario);
+
         $pregunta->delete();
 
         return back();
@@ -117,5 +124,14 @@ class PreguntaController extends Controller
         $clon->save();
 
         return back();
+    }
+
+    private function verificarAccesoACuestionario(Cuestionario $cuestionario): void
+    {
+        $curso_actual_id = Auth::user()->curso_actual()?->id;
+        abort_unless(
+            Auth::user()->hasRole('admin') || $cuestionario->curso_id === $curso_actual_id,
+            403
+        );
     }
 }

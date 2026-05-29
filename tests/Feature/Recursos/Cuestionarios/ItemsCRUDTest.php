@@ -3,8 +3,14 @@
 namespace Tests\Feature\Recursos\Cuestionarios;
 
 use Override;
+use App\Http\Middleware\UserLocale;
+use App\Models\Cuestionario;
+use App\Models\Curso;
 use App\Models\Item;
+use App\Models\Pregunta;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Once;
 use Tests\TestCase;
 
 class ItemsCRUDTest extends TestCase
@@ -230,9 +236,10 @@ class ItemsCRUDTest extends TestCase
     {
         // Auth
         $this->actingAs($this->profesor);
+        $this->withoutMiddleware(UserLocale::class);
 
         // Given
-        $item = Item::factory()->create();
+        $item = $this->createItemInCurso();
 
         // When
         $response = $this->get(route('items.edit', $item), $item->toArray());
@@ -273,9 +280,10 @@ class ItemsCRUDTest extends TestCase
     {
         // Auth
         $this->actingAs($this->profesor);
+        $this->withoutMiddleware(UserLocale::class);
 
         // Given
-        $item = Item::factory()->create();
+        $item = $this->createItemInCurso();
         $item->texto = "Updated";
 
         // When
@@ -319,9 +327,10 @@ class ItemsCRUDTest extends TestCase
     {
         // Auth
         $this->actingAs($this->profesor);
+        $this->withoutMiddleware(UserLocale::class);
 
         // Given
-        $item = Item::factory()->create();
+        $item = $this->createItemInCurso();
         $empty = new Item();
         foreach ($this->required as $field) {
             $empty->$field = '0';
@@ -338,9 +347,11 @@ class ItemsCRUDTest extends TestCase
     {
         // Auth
         $this->actingAs($this->profesor);
+        $this->withoutMiddleware(UserLocale::class);
+        Once::flush();
 
         // Given
-        $item = Item::factory()->create();
+        $item = $this->createItemInCurso();
         $item->$field = null;
 
         // When
@@ -361,9 +372,10 @@ class ItemsCRUDTest extends TestCase
     {
         // Auth
         $this->actingAs($this->profesor);
+        $this->withoutMiddleware(UserLocale::class);
 
         // Given
-        $item = Item::factory()->create();
+        $item = $this->createItemInCurso();
 
         // When
         $this->delete(route('items.destroy', $item));
@@ -491,5 +503,14 @@ class ItemsCRUDTest extends TestCase
 
         // Then
         $response->assertRedirect(route('login'));
+    }
+
+    private function createItemInCurso(): Item
+    {
+        $curso = Curso::factory()->create();
+        Cache::tags('user_' . $this->profesor->id)->put('curso_actual', $curso->id, config('ikasgela.eloquent_cache_time'));
+        $cuestionario = Cuestionario::factory()->create(['curso_id' => $curso->id]);
+        $pregunta = Pregunta::factory()->create(['cuestionario_id' => $cuestionario->id]);
+        return Item::factory()->create(['pregunta_id' => $pregunta->id]);
     }
 }
