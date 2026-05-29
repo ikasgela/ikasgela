@@ -106,12 +106,14 @@ class FileController extends Controller
 
     public function rotateLeft(File $file)
     {
+        abort_unless($file->user()->where('id', Auth::id())->exists() || Auth::user()->hasRole('admin'), 403);
         $this->rotate($file, true);
         return back();
     }
 
     public function rotateRight(File $file)
     {
+        abort_unless($file->user()->where('id', Auth::id())->exists() || Auth::user()->hasRole('admin'), 403);
         $this->rotate($file);
         return back();
     }
@@ -141,6 +143,8 @@ class FileController extends Controller
 
     public function reordenar(File $a1, File $a2)
     {
+        $this->verificarAccesoProfesor($a1);
+
         $temp = $a1->orden;
         $a1->orden = $a2->orden;
         $a2->orden = $temp;
@@ -153,6 +157,8 @@ class FileController extends Controller
 
     public function toggle_visible(File $file)
     {
+        $this->verificarAccesoProfesor($file);
+
         $file->visible = !$file->visible;
         $file->save();
 
@@ -161,15 +167,30 @@ class FileController extends Controller
 
     public function edit(File $file)
     {
+        $this->verificarAccesoProfesor($file);
+
         return view('files.edit', compact(['file']));
     }
 
     public function update(Request $request, File $file)
     {
+        $this->verificarAccesoProfesor($file);
+
         $file->update([
             'description' => request('description'),
         ]);
 
         return retornar();
+    }
+
+    private function verificarAccesoProfesor(File $file): void
+    {
+        $uploadable = $file->uploadable;
+        $curso_actual_id = Auth::user()->curso_actual()?->id;
+        abort_unless(
+            Auth::user()->hasRole('admin') ||
+            ($uploadable !== null && $uploadable->curso_id === $curso_actual_id),
+            403
+        );
     }
 }

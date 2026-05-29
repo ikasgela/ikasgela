@@ -3,9 +3,12 @@
 namespace Tests\Feature;
 
 use Override;
+use App\Http\Middleware\UserLocale;
+use App\Models\Curso;
 use App\Models\File;
 use App\Models\FileUpload;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
 
 class FileControllerTest extends TestCase
@@ -52,9 +55,14 @@ class FileControllerTest extends TestCase
     {
         // Auth
         $this->actingAs($this->profesor);
+        $this->withoutMiddleware(UserLocale::class);
 
         // Given
-        $fileUpload = FileUpload::factory()->create();
+        $curso = Curso::factory()->create();
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        Cache::tags('user_' . $this->profesor->id)->put('curso_actual', $curso->id, config('ikasgela.eloquent_cache_time'));
+
+        $fileUpload = FileUpload::factory()->create(['curso_id' => $curso->id]);
         $a1 = File::factory()->create(['orden' => 1, 'uploadable_id' => $fileUpload->id, 'uploadable_type' => FileUpload::class]);
         $a2 = File::factory()->create(['orden' => 2, 'uploadable_id' => $fileUpload->id, 'uploadable_type' => FileUpload::class]);
 
@@ -87,9 +95,19 @@ class FileControllerTest extends TestCase
     {
         // Auth
         $this->actingAs($this->profesor);
+        $this->withoutMiddleware(UserLocale::class);
 
         // Given
-        $file = File::factory()->create(['visible' => true]);
+        $curso = Curso::factory()->create();
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        Cache::tags('user_' . $this->profesor->id)->put('curso_actual', $curso->id, config('ikasgela.eloquent_cache_time'));
+
+        $fileUpload = FileUpload::factory()->create(['curso_id' => $curso->id]);
+        $file = File::factory()->create([
+            'visible' => true,
+            'uploadable_id' => $fileUpload->id,
+            'uploadable_type' => FileUpload::class,
+        ]);
 
         // When
         $response = $this->post(route('files.toggle.visible', $file));
