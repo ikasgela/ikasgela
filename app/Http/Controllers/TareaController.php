@@ -21,11 +21,17 @@ class TareaController extends Controller
 
     public function edit(Tarea $tarea)
     {
+        $curso_actual = Auth::user()->curso_actual();
+        abort_unless($curso_actual?->users()->where('user_id', $tarea->user_id)->exists(), 403);
+
         return view('tareas.edit', compact('tarea'));
     }
 
     public function update(Request $request, Tarea $tarea)
     {
+        $curso_actual = Auth::user()->curso_actual();
+        abort_unless($curso_actual?->users()->where('user_id', $tarea->user_id)->exists(), 403);
+
         $this->validate($request, [
             'estado' => 'required',
         ]);
@@ -38,6 +44,10 @@ class TareaController extends Controller
 
     public function destroy(User $user, Tarea $tarea)
     {
+        $curso_actual = Auth::user()->curso_actual();
+        abort_unless($curso_actual?->users()->where('user_id', $user->id)->exists(), 403);
+        abort_unless($tarea->user_id === $user->id, 403);
+
         $this->borrarTarea($tarea);
 
         return redirect(route('profesor.tareas', ['user' => $user->id]));
@@ -45,11 +55,15 @@ class TareaController extends Controller
 
     public function borrarMultiple(User $user, Request $request)
     {
+        $curso_actual = Auth::user()->curso_actual();
+        abort_unless($curso_actual?->users()->where('user_id', $user->id)->exists(), 403);
+
         $this->validate($request, [
             'asignadas' => 'required',
         ]);
 
         $tareas = Tarea::whereIn('id', request('asignadas'))
+            ->where('user_id', $user->id)
             ->with(['user', 'actividad.cuestionarios', 'actividad.file_uploads', 'actividad.intellij_projects'])
             ->get();
 
@@ -62,13 +76,19 @@ class TareaController extends Controller
 
     public function fechaFinalizacionMultiple(User $user, Request $request)
     {
+        $curso_actual = Auth::user()->curso_actual();
+        abort_unless($curso_actual?->users()->where('user_id', $user->id)->exists(), 403);
+
         Log::debug(request('asignadas'));
 
         $this->validate($request, [
             'asignadas' => 'required',
         ]);
 
-        $tareas = Tarea::whereIn('id', request('asignadas'))->with('actividad')->get();
+        $tareas = Tarea::whereIn('id', request('asignadas'))
+            ->where('user_id', $user->id)
+            ->with('actividad')
+            ->get();
         foreach ($tareas as $tarea) {
             $actividad = $tarea->actividad;
             $actividad->fecha_entrega = request('fecha_override');
@@ -85,7 +105,11 @@ class TareaController extends Controller
             'asignadas' => 'required',
         ]);
 
+        $curso_actual = Auth::user()->curso_actual();
+        $user_ids = $curso_actual?->users()->pluck('users.id') ?? collect();
+
         $tareas = Tarea::whereIn('id', request('asignadas'))
+            ->whereIn('user_id', $user_ids)
             ->with(['user', 'actividad.cuestionarios', 'actividad.file_uploads', 'actividad.intellij_projects'])
             ->get();
 
@@ -102,7 +126,13 @@ class TareaController extends Controller
             'asignadas' => 'required',
         ]);
 
-        $tareas = Tarea::whereIn('id', request('asignadas'))->with('actividad')->get();
+        $curso_actual = Auth::user()->curso_actual();
+        $user_ids = $curso_actual?->users()->pluck('users.id') ?? collect();
+
+        $tareas = Tarea::whereIn('id', request('asignadas'))
+            ->whereIn('user_id', $user_ids)
+            ->with('actividad')
+            ->get();
         foreach ($tareas as $tarea) {
             $actividad = $tarea->actividad;
             $actividad->fecha_entrega = request('fecha_override');

@@ -2,9 +2,11 @@
 
 namespace Tests\Feature\Profesor;
 
+use App\Http\Middleware\UserLocale;
 use App\Models\Curso;
 use App\Models\Tarea;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Cache;
 use Override;
 use Tests\TestCase;
 
@@ -23,9 +25,13 @@ class TareaControllerTest extends TestCase
     {
         // Auth
         $this->actingAs($this->profesor);
+        $this->withoutMiddleware(UserLocale::class);
 
         // Given
+        $curso = Curso::factory()->create();
+        Cache::tags('user_' . $this->profesor->id)->put('curso_actual', $curso->id, config('ikasgela.eloquent_cache_time'));
         $tarea = Tarea::factory()->create();
+        $tarea->user->cursos()->syncWithoutDetaching($curso);
 
         // When
         $response = $this->get(route('tareas.edit', $tarea));
@@ -66,9 +72,13 @@ class TareaControllerTest extends TestCase
     {
         // Auth
         $this->actingAs($this->profesor);
+        $this->withoutMiddleware(UserLocale::class);
 
         // Given
+        $curso = Curso::factory()->create();
+        Cache::tags('user_' . $this->profesor->id)->put('curso_actual', $curso->id, config('ikasgela.eloquent_cache_time'));
         $tarea = Tarea::factory()->create(['estado' => 10]);
+        $tarea->user->cursos()->syncWithoutDetaching($curso);
 
         // When
         $response = $this->put(route('tareas.update', $tarea), ['estado' => 20]);
@@ -81,9 +91,13 @@ class TareaControllerTest extends TestCase
     {
         // Auth
         $this->actingAs($this->profesor);
+        $this->withoutMiddleware(UserLocale::class);
 
         // Given
+        $curso = Curso::factory()->create();
+        Cache::tags('user_' . $this->profesor->id)->put('curso_actual', $curso->id, config('ikasgela.eloquent_cache_time'));
         $tarea = Tarea::factory()->create();
+        $tarea->user->cursos()->syncWithoutDetaching($curso);
 
         // When
         $response = $this->put(route('tareas.update', $tarea), ['estado' => null]);
@@ -129,6 +143,7 @@ class TareaControllerTest extends TestCase
         $curso = Curso::factory()->create();
         setting_usuario(['curso_actual' => $curso->id]);
         $tarea = Tarea::factory()->create();
+        $tarea->user->cursos()->syncWithoutDetaching($curso);
 
         // When
         $this->delete(route('tareas.destroy', [$tarea->user, $tarea]));
@@ -173,6 +188,7 @@ class TareaControllerTest extends TestCase
         // Given
         $curso = Curso::factory()->create();
         setting_usuario(['curso_actual' => $curso->id]);
+        $this->alumno->cursos()->syncWithoutDetaching($curso);
         $tarea1 = Tarea::factory()->create(['user_id' => $this->alumno->id]);
         $tarea2 = Tarea::factory()->create(['user_id' => $this->alumno->id]);
 
@@ -188,8 +204,12 @@ class TareaControllerTest extends TestCase
     {
         // Auth
         $this->actingAs($this->profesor);
+        $this->withoutMiddleware(UserLocale::class);
 
         // Given
+        $curso = Curso::factory()->create();
+        Cache::tags('user_' . $this->profesor->id)->put('curso_actual', $curso->id, config('ikasgela.eloquent_cache_time'));
+        $this->alumno->cursos()->syncWithoutDetaching($curso);
         $tarea = Tarea::factory()->create(['user_id' => $this->alumno->id]);
 
         // When
@@ -235,6 +255,7 @@ class TareaControllerTest extends TestCase
         // Given
         $curso = Curso::factory()->create();
         setting_usuario(['curso_actual' => $curso->id]);
+        $this->alumno->cursos()->syncWithoutDetaching($curso);
         $tarea = Tarea::factory()->create(['user_id' => $this->alumno->id]);
 
         // When
@@ -251,8 +272,12 @@ class TareaControllerTest extends TestCase
     {
         // Auth
         $this->actingAs($this->profesor);
+        $this->withoutMiddleware(UserLocale::class);
 
         // Given
+        $curso = Curso::factory()->create();
+        Cache::tags('user_' . $this->profesor->id)->put('curso_actual', $curso->id, config('ikasgela.eloquent_cache_time'));
+        $this->alumno->cursos()->syncWithoutDetaching($curso);
         $tarea = Tarea::factory()->create(['user_id' => $this->alumno->id]);
 
         // When
@@ -307,6 +332,7 @@ class TareaControllerTest extends TestCase
         // Given
         $curso = Curso::factory()->create();
         setting_usuario(['curso_actual' => $curso->id]);
+        $this->alumno->cursos()->syncWithoutDetaching($curso);
         $tarea1 = Tarea::factory()->create(['user_id' => $this->alumno->id]);
         $tarea2 = Tarea::factory()->create(['user_id' => $this->alumno->id]);
 
@@ -367,6 +393,7 @@ class TareaControllerTest extends TestCase
         // Given
         $curso = Curso::factory()->create();
         setting_usuario(['curso_actual' => $curso->id]);
+        $this->alumno->cursos()->syncWithoutDetaching($curso);
         $tarea = Tarea::factory()->create(['user_id' => $this->alumno->id]);
 
         // When
