@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Actividad;
 use App\Models\Cuestionario;
 use App\Models\Curso;
-use App\Models\Pregunta;
+use App\Models\Tarea;
 use App\Traits\FiltroCurso;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
@@ -125,11 +125,23 @@ class CuestionarioController extends Controller
 
     public function respuesta(Request $request, Cuestionario $cuestionario)
     {
+        // Verificar que el cuestionario está asignado al usuario actual
+        if (!Auth::user()->hasAnyRole(['profesor', 'admin'])) {
+            $actividad_ids = $cuestionario->actividades()->pluck('actividades.id');
+            $tieneTarea = Tarea::whereIn('actividad_id', $actividad_ids)
+                ->where('user_id', Auth::id())
+                ->whereNull('deleted_at')
+                ->exists();
+            abort_unless($tieneTarea, 403);
+        }
+
         $this->validate($request, [
             'respuestas' => 'required',
         ]);
 
-        $preguntas = Pregunta::whereIn('id', array_keys($request->input('respuestas')))
+        // Limitar las preguntas a las que pertenecen a este cuestionario
+        $preguntas = $cuestionario->preguntas()
+            ->whereIn('id', array_keys($request->input('respuestas')))
             ->with('items')
             ->get()
             ->keyBy('id');
