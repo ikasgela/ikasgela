@@ -7,6 +7,7 @@ use App\Models\Registro;
 use App\Models\User;
 use App\Traits\PaginarUltima;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RegistroController extends Controller
 {
@@ -31,11 +32,20 @@ class RegistroController extends Controller
             if ($user_id == -1) {
                 session()->forget('filtrar_user_actual');
             } else {
+                abort_unless(
+                    Auth::user()->hasRole('admin') ||
+                    $curso?->users()->where('user_id', $user_id)->exists(),
+                    403
+                );
                 $user = User::find($user_id);
                 session(['filtrar_user_actual' => $user_id]);
             }
         } else if (!empty(session('filtrar_user_actual'))) {
             $user = User::find(session('filtrar_user_actual'));
+            if (!is_null($user) && !Auth::user()->hasRole('admin') && !$curso?->users()->where('user_id', $user->id)->exists()) {
+                $user = null;
+                session()->forget('filtrar_user_actual');
+            }
         }
 
         if (!is_null($user)) {
@@ -56,7 +66,15 @@ class RegistroController extends Controller
         ]);
 
         $user = User::find(request('user_id'));
-        $curso = $user->curso_actual();
+        $actor = Auth::user();
+        $curso = $actor->curso_actual();
+
+        abort_unless(
+            $actor->hasRole('admin') ||
+            ($actor->hasRole('alumno') && $user) ||
+            ($user && $curso && $curso->users()->where('user_id', $user->id)->exists()),
+            403
+        );
 
         Registro::create([
             'user_id' => request('user_id'),
