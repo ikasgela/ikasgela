@@ -61,6 +61,7 @@
         "ymigval/laravel-model-cache": "^1.1"
     },
     "require-dev": {
+        "andreapollastri/checkpoint": "^1.0",
         "barryvdh/laravel-debugbar": "^3.7",
         "barryvdh/laravel-ide-helper": "^3.0",
         "brianium/paratest": "^7.0",
