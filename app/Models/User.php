@@ -64,6 +64,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             $email = $this->gravatar_email;
         }
 
+        // MD5 es requerido por la API de Gravatar (no se usa para seguridad)
         $hash = md5(strtolower(trim($email)));
         return "https://www.gravatar.com/avatar/$hash?s=$width&d=identicon";
     }
