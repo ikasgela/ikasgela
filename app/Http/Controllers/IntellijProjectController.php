@@ -61,7 +61,7 @@ class IntellijProjectController extends Controller
             'curso_id' => $request->has('curso_id') ? request('curso_id') : Auth::user()->curso_actual()?->id,
         ]);
 
-        IntellijProject::create($request->all());
+        IntellijProject::create($request->only(['repositorio', 'titulo', 'descripcion', 'host', 'open_with', 'curso_id']));
 
         return retornar();
     }
@@ -88,7 +88,7 @@ class IntellijProjectController extends Controller
             'host' => 'required',
         ]);
 
-        $intellij_project->update($request->all());
+        $intellij_project->update($request->only(['repositorio', 'titulo', 'descripcion', 'host', 'open_with']));
 
         if (!$intellij_project->isForked()) {
             Log::debug("IntellijProjectController - update() - Repositorio plantilla borrado de caché: ", ['key' => $intellij_project->templateCacheKey(), 'repo' => $intellij_project->repositorio]);
