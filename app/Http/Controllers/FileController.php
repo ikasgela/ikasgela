@@ -34,7 +34,8 @@ class FileController extends Controller
         $subida_corracta = false;
 
         foreach ($request->file('files') as $fichero) {
-            $filename = Str::uuid() . '/' . $fichero->getClientOriginalName();
+            $nombreSeguro = basename($fichero->getClientOriginalName());
+            $filename = Str::uuid() . '/' . $nombreSeguro;
 
             $imagen = Image::read($fichero)
                 ->scaleDown(2000, 2000)
@@ -70,7 +71,8 @@ class FileController extends Controller
     {
         $fichero = $request->file;
 
-        $filename = Str::uuid() . '/' . $fichero->getClientOriginalName();
+        $nombreSeguro = basename($fichero->getClientOriginalName());
+        $filename = Str::uuid() . '/' . $nombreSeguro;
 
         Storage::disk('s3')->put('documents/' . $filename, file_get_contents($fichero));
 
