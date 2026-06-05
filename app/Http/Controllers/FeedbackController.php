@@ -61,7 +61,7 @@ class FeedbackController extends Controller
             'comentable_type' => Curso::class,
         ]);
 
-        $feedback = Feedback::create($request->all());
+        $feedback = Feedback::create($request->only(['comentable_id', 'titulo', 'mensaje']) + ['comentable_type' => Curso::class]);
 
         $feedback->orden = $feedback->id;
         $feedback->save();
