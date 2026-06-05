@@ -372,6 +372,16 @@ class CursoController extends Controller
 
     private function exportarRelacionJSON(string $ruta, $curso, $tabla): void
     {
+        $tablas_permitidas = [
+            'intellij_project', 'markdown_text', 'youtube_video', 'file_resource',
+            'link_collection', 'cuestionario', 'file_upload', 'rubric',
+            'test_result', 'selector',
+        ];
+
+        if (!in_array($tabla, $tablas_permitidas, true)) {
+            abort(400, 'Tipo de tabla no válido para exportación.');
+        }
+
         $datos = DB::table("actividad_{$tabla}")
             ->join('actividades', "actividad_{$tabla}.actividad_id", '=', 'actividades.id')
             ->where('actividades.plantilla', '=', true)
