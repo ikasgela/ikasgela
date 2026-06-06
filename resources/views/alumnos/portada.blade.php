@@ -34,7 +34,7 @@
                     @if(session('users_filtro_cursos_no_disponibles') == 'S' && !$curso->disponible())
                         @include('alumnos.partials.tarjeta_curso')
                         @php($total += 1)
-                    @elseif($curso->disponible())
+                    @elseif($curso->disponible() || $curso->forzar_mostrar)
                         @include('alumnos.partials.tarjeta_curso')
                         @php($total += 1)
                     @endif

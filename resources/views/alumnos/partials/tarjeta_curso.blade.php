@@ -23,7 +23,7 @@
                             {{ $recuento }}
                         </div>
                     @endif
-                @elseif(!$curso->disponible())
+                @elseif(!$curso->disponible() && !$curso->forzar_mostrar)
                     <div class="badge text-bg-secondary fw-light ms-2">
                         {{ __('Course not available') }}
                     </div>
