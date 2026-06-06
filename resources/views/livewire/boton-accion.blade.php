@@ -20,7 +20,7 @@
             @case(21)
                 {{-- Feedback leído --}}
                 @if($actividad->envioPermitido())
-                    @if($actividad->unidad->curso->disponible() || $actividad->hasEtiqueta('examen'))
+                    @if($actividad->unidad->curso->disponible() || $actividad->hasEtiqueta('examen') || $actividad->auto_avance)
                         @if(!$actividad->is_expired)
                             {{-- Mostrar el botón si no ha superado el límite --}}
                             @if(!$actividad->auto_avance)
