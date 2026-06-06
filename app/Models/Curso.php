@@ -35,6 +35,7 @@ class Curso extends Model
         'normalizar_nota', 'ajuste_proporcional_nota',
         'mostrar_calificaciones',
         'gitea_organization',
+        'forzar_mostrar',
     ];
 
     public function getFullNameAttribute()
@@ -133,6 +134,10 @@ class Curso extends Model
 
     public function disponible()
     {
+        if ($this->forzar_mostrar) {
+            return true;
+        }
+
         return isset($this->fecha_inicio) && $this->fecha_inicio->lt(now())
             && isset($this->fecha_fin) && $this->fecha_fin->gt(now());
     }

@@ -101,6 +101,11 @@
             ])
 
             @include('components.label-check', [
+                'label' => __('Force course to always appear in course selector'),
+                'name' => 'forzar_mostrar',
+            ])
+
+            @include('components.label-check', [
                 'label' => __('Show course progress'),
                 'name' => 'progreso_visible',
             ])

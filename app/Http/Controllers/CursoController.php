@@ -89,6 +89,7 @@ class CursoController extends Controller
             'normalizar_nota' => $request->has('normalizar_nota'),
             'ajuste_proporcional_nota' => $request->input('ajuste_proporcional_nota'),
             'mostrar_calificaciones' => $request->has('mostrar_calificaciones'),
+            'forzar_mostrar' => $request->has('forzar_mostrar'),
         ]);
 
         GiteaClient::organization($curso->gitea_organization, $curso->nombre);
@@ -153,6 +154,7 @@ class CursoController extends Controller
             'normalizar_nota' => $request->has('normalizar_nota'),
             'ajuste_proporcional_nota' => $request->input('ajuste_proporcional_nota'),
             'mostrar_calificaciones' => $request->has('mostrar_calificaciones'),
+            'forzar_mostrar' => $request->has('forzar_mostrar'),
         ]);
 
         GiteaClient::organization($curso->gitea_organization, $curso->nombre);
