@@ -49,6 +49,28 @@ class TinymceUploadControllerTest extends TestCase
         $response->assertNotFound();
     }
 
+    public function testGetS3NonImagesPathAborts()
+    {
+        $this->actingAs($this->profesor);
+
+        // Paths outside images/ should be rejected
+        $response = $this->get(route('tinymce.upload.url') . '?path=documents/test/file.pdf');
+
+        $response->assertNotFound();
+    }
+
+    public function testGetS3ImagesPathRedirects()
+    {
+        Storage::fake('s3-urls');
+
+        $this->actingAs($this->profesor);
+
+        // Paths starting with images/ should work
+        $response = $this->get(route('tinymce.upload.url') . '?path=images/uuid/file.jpg');
+
+        $response->assertRedirect();
+    }
+
     public function testUploadImageStoresFileAndRegistersDatabaseRecord()
     {
         Storage::fake('s3');
