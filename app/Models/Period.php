@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use YMigVal\LaravelModelCache\HasCachedQueries;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
+
 
 /**
  * @mixin IdeHelperPeriod
@@ -13,7 +14,7 @@ use YMigVal\LaravelModelCache\HasCachedQueries;
 class Period extends Model
 {
     use HasFactory;
-    use HasCachedQueries;
+    use Cachable;
 
     protected $fillable = [
         'organization_id', 'name', 'slug'

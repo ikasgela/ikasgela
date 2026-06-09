@@ -6,8 +6,9 @@ use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Support\Str;
-use YMigVal\LaravelModelCache\HasCachedQueries;
+
 
 /**
  * @mixin IdeHelperRubric
@@ -16,7 +17,7 @@ class Rubric extends Model
 {
     use HasFactory;
     use Cloneable;
-    use HasCachedQueries;
+    use Cachable;
 
     protected $cloneable_relations = ['criteria_groups'];
     protected $clone_exempt_attributes = ['plantilla', 'completada'];

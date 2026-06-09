@@ -9,8 +9,9 @@ use GrahamCampbell\Markdown\Facades\Markdown;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Support\Facades\Cache;
-use YMigVal\LaravelModelCache\HasCachedQueries;
+
 
 /**
  * @mixin IdeHelperMarkdownText
@@ -20,7 +21,7 @@ class MarkdownText extends Model
     use HasFactory;
     use Cloneable;
     use ClonarRepoGitea;
-    use HasCachedQueries;
+    use Cachable;
 
     protected $fillable = [
         'titulo', 'descripcion', 'repositorio', 'rama', 'archivo',

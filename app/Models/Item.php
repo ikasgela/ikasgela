@@ -6,7 +6,8 @@ use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use YMigVal\LaravelModelCache\HasCachedQueries;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
+
 
 /**
  * @mixin IdeHelperItem
@@ -15,7 +16,7 @@ class Item extends Model
 {
     use HasFactory;
     use Cloneable;
-    use HasCachedQueries;
+    use Cachable;
 
     protected $clone_exempt_attributes = ['seleccionado'];
 

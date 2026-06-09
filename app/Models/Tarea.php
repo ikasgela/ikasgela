@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use Carbon\CarbonInterface;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use YMigVal\LaravelModelCache\HasCachedQueries;
+
 
 /**
  * @mixin IdeHelperTarea
@@ -19,7 +20,7 @@ class Tarea extends Pivot
     use HasFactory;
     use LogsActivity;
     use SoftDeletes;
-    use HasCachedQueries;
+    use Cachable;
 
     protected $table = 'tareas';
 

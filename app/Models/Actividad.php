@@ -7,13 +7,14 @@ use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use YMigVal\LaravelModelCache\HasCachedQueries;
-use YMigVal\LaravelModelCache\ModelRelationships;
+
+
 
 /**
  * @mixin IdeHelperActividad
@@ -25,7 +26,7 @@ class Actividad extends Model
     use LogsActivity;
     use SoftDeletes;
     use Etiquetas;
-    use HasCachedQueries, ModelRelationships;
+    use Cachable;
 
     protected $cloneable_relations = [
         'intellij_projects',

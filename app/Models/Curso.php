@@ -6,11 +6,12 @@ use App\Traits\Etiquetas;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Jenssegers\Agent\Facades\Agent;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
-use YMigVal\LaravelModelCache\HasCachedQueries;
+
 
 /**
  * @mixin IdeHelperCurso
@@ -20,7 +21,7 @@ class Curso extends Model
     use HasFactory;
     use Etiquetas;
     use HasRelationships;
-    use HasCachedQueries;
+    use Cachable;
 
     protected $fillable = [
         'category_id', 'nombre', 'descripcion', 'slug', 'qualification_id', 'max_simultaneas',

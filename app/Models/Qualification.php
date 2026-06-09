@@ -6,8 +6,9 @@ use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use YMigVal\LaravelModelCache\HasCachedQueries;
-use YMigVal\LaravelModelCache\ModelRelationships;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
+
+
 
 /**
  * @mixin IdeHelperQualification
@@ -16,7 +17,7 @@ class Qualification extends Model
 {
     use HasFactory;
     use Cloneable;
-    use HasCachedQueries, ModelRelationships;
+    use Cachable;
 
     protected $cloneable_relations = ['skills'];
 

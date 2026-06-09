@@ -6,7 +6,8 @@ use Bkwld\Cloner\Cloneable;
 use Cohensive\OEmbed\Facades\OEmbed;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use YMigVal\LaravelModelCache\HasCachedQueries;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
+
 
 /**
  * @mixin IdeHelperYoutubeVideo
@@ -15,7 +16,7 @@ class YoutubeVideo extends Model
 {
     use HasFactory;
     use Cloneable;
-    use HasCachedQueries;
+    use Cachable;
 
     protected $fillable = [
         'titulo', 'descripcion', 'codigo',

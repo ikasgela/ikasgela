@@ -5,7 +5,8 @@ namespace App\Models;
 use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use YMigVal\LaravelModelCache\HasCachedQueries;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
+
 
 /**
  * @mixin IdeHelperLink
@@ -14,7 +15,7 @@ class Link extends Model
 {
     use HasFactory;
     use Cloneable;
-    use HasCachedQueries;
+    use Cachable;
 
     protected $fillable = [
         'url', 'descripcion', 'orden', 'link_collection_id',

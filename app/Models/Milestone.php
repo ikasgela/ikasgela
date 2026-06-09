@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Support\Str;
-use YMigVal\LaravelModelCache\HasCachedQueries;
+
 
 /**
  * @mixin IdeHelperMilestone
@@ -14,7 +15,7 @@ use YMigVal\LaravelModelCache\HasCachedQueries;
 class Milestone extends Model
 {
     use HasFactory;
-    use HasCachedQueries;
+    use Cachable;
 
     protected $fillable = [
         'name', 'date', 'published', 'curso_id',

@@ -33,6 +33,7 @@
         "cohensive/oembed": "^v0.20",
         "consoletvs/charts": "6.*",
         "eduardokum/laravel-mail-auto-embed": "^2.0",
+        "genealabs/laravel-model-caching": "^13.0",
         "graham-campbell/markdown": "^16.0",
         "ikasgela/laravel-gitea": "^1.0",
         "intervention/image-laravel": "^1.5",
@@ -57,8 +58,7 @@
         "staudenmeir/eloquent-has-many-deep": "^1.7",
         "stechstudio/laravel-zipstream": "^5.0",
         "symfony/http-client": "^7.1",
-        "symfony/mailgun-mailer": "^7.1",
-        "ymigval/laravel-model-cache": "^1.1"
+        "symfony/mailgun-mailer": "^7.1"
     },
     "require-dev": {
         "andreapollastri/checkpoint": "^1.0",

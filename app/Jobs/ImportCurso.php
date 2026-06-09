@@ -83,7 +83,7 @@ class ImportCurso implements ShouldQueue
             $this->addImportId($import_id);
         }
 
-        // HasCachedQueries invalida automáticamente el model-cache en cada create/insert.
+        // Cachable invalida automáticamente el model-cache en cada create/insert.
         // No es necesario un flush global de caché.
 
         // Curso

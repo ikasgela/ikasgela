@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use YMigVal\LaravelModelCache\HasCachedQueries;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
+
 
 /**
  * @mixin IdeHelperTeam
@@ -12,7 +13,7 @@ use YMigVal\LaravelModelCache\HasCachedQueries;
 class Team extends Model
 {
     use HasFactory;
-    use HasCachedQueries;
+    use Cachable;
 
     protected $fillable = [
         'group_id', 'name', 'slug'

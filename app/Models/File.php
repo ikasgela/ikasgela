@@ -5,9 +5,10 @@ namespace App\Models;
 use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Support\Facades\Storage;
 use Override;
-use YMigVal\LaravelModelCache\HasCachedQueries;
+
 
 /**
  * @mixin IdeHelperFile
@@ -16,7 +17,7 @@ class File extends Model
 {
     use HasFactory;
     use Cloneable;
-    use HasCachedQueries;
+    use Cachable;
 
     protected $fillable = [
         'path', 'title', 'size', 'uploadable_id', 'user_id', 'uploadable_type', 'description', 'archived', 'extension',

@@ -8,12 +8,13 @@ use Exception;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Jenssegers\Agent\Facades\Agent;
-use YMigVal\LaravelModelCache\HasCachedQueries;
+
 
 /**
  * @mixin IdeHelperIntellijProject
@@ -23,7 +24,7 @@ class IntellijProject extends Model
     use HasFactory;
     use Cloneable;
     use ClonarRepoGitea;
-    use HasCachedQueries;
+    use Cachable;
 
     protected $fillable = [
         'repositorio', 'titulo', 'descripcion', 'host',

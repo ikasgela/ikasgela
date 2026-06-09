@@ -5,8 +5,9 @@ namespace App\Models;
 use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use YMigVal\LaravelModelCache\HasCachedQueries;
+
 
 /**
  * @mixin IdeHelperFlashCard
@@ -16,7 +17,7 @@ class FlashCard extends Model
     use HasFactory;
     use Cloneable;
     use SoftDeletes;
-    use HasCachedQueries;
+    use Cachable;
 
     protected $fillable = [
         'titulo', 'descripcion', 'anverso', 'anverso_visible', 'reverso', 'reverso_visible', 'orden',
