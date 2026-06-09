@@ -122,9 +122,13 @@ class FileResourceController extends Controller
     public function toggle_titulo_visible(Actividad $actividad, FileResource $file_resource)
     {
         $pivote = $file_resource->pivote($actividad);
+        $file_resource_id = $pivote->file_resource_id;
 
         $pivote->titulo_visible = !$pivote->titulo_visible;
-        $pivote->save();
+        // Use updateExistingPivot to trigger cache invalidation
+        $actividad->file_resources()->updateExistingPivot($file_resource_id, [
+            'titulo_visible' => $pivote->titulo_visible,
+        ]);
 
         return back();
     }
@@ -132,9 +136,13 @@ class FileResourceController extends Controller
     public function toggle_descripcion_visible(Actividad $actividad, FileResource $file_resource)
     {
         $pivote = $file_resource->pivote($actividad);
+        $file_resource_id = $pivote->file_resource_id;
 
         $pivote->descripcion_visible = !$pivote->descripcion_visible;
-        $pivote->save();
+        // Use updateExistingPivot to trigger cache invalidation
+        $actividad->file_resources()->updateExistingPivot($file_resource_id, [
+            'descripcion_visible' => $pivote->descripcion_visible,
+        ]);
 
         return back();
     }

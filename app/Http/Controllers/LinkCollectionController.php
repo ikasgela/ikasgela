@@ -118,9 +118,13 @@ class LinkCollectionController extends Controller
     public function toggle_titulo_visible(Actividad $actividad, LinkCollection $link_collection)
     {
         $pivote = $link_collection->pivote($actividad);
+        $link_collection_id = $pivote->link_collection_id;
 
         $pivote->titulo_visible = !$pivote->titulo_visible;
-        $pivote->save();
+        // Use updateExistingPivot to trigger cache invalidation
+        $actividad->link_collections()->updateExistingPivot($link_collection_id, [
+            'titulo_visible' => $pivote->titulo_visible,
+        ]);
 
         return back();
     }
@@ -128,9 +132,13 @@ class LinkCollectionController extends Controller
     public function toggle_descripcion_visible(Actividad $actividad, LinkCollection $link_collection)
     {
         $pivote = $link_collection->pivote($actividad);
+        $link_collection_id = $pivote->link_collection_id;
 
         $pivote->descripcion_visible = !$pivote->descripcion_visible;
-        $pivote->save();
+        // Use updateExistingPivot to trigger cache invalidation
+        $actividad->link_collections()->updateExistingPivot($link_collection_id, [
+            'descripcion_visible' => $pivote->descripcion_visible,
+        ]);
 
         return back();
     }

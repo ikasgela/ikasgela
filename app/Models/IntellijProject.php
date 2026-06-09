@@ -159,8 +159,11 @@ class IntellijProject extends Model
 
                 Cache::forget($this->cacheKey());
 
-                $this->pivot->archivado = $archived;
-                $this->pivot->save();
+                $this->archivado = $archived;
+                // Use updateExistingPivot to trigger cache invalidation automatically
+                $this->actividades()->updateExistingPivot($this->pivot->actividad_id, [
+                    'archivado' => $this->archivado,
+                ]);
 
                 break;
             default:
@@ -186,10 +189,12 @@ class IntellijProject extends Model
 
     public function setForkStatus($fork_status, $fork = null)
     {
-        $this->pivot->fork_status = $fork_status;
-        if (!is_null($fork))
-            $this->pivot->fork = $fork;
-        $this->pivot->save();
+        $attributes = ['fork_status' => $fork_status];
+        if (!is_null($fork)) {
+            $attributes['fork'] = $fork;
+        }
+        // Use updateExistingPivot to trigger cache invalidation automatically
+        $this->actividades()->updateExistingPivot($this->pivot->actividad_id, $attributes);
     }
 
     public function cacheKey(): string

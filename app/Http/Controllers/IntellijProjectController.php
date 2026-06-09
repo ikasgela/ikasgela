@@ -437,9 +437,14 @@ class IntellijProjectController extends Controller
     public function toggle_titulo_visible(Actividad $actividad, IntellijProject $intellij_project)
     {
         $pivote = $intellij_project->pivote($actividad);
+        $actividad_id = $pivote->actividad_id;
+        $intellij_project_id = $pivote->intellij_project_id;
 
         $pivote->titulo_visible = !$pivote->titulo_visible;
-        $pivote->save();
+        // Use updateExistingPivot to trigger cache invalidation
+        $actividad->intellij_projects()->updateExistingPivot($intellij_project_id, [
+            'titulo_visible' => $pivote->titulo_visible,
+        ]);
 
         return back();
     }
@@ -447,9 +452,14 @@ class IntellijProjectController extends Controller
     public function toggle_descripcion_visible(Actividad $actividad, IntellijProject $intellij_project)
     {
         $pivote = $intellij_project->pivote($actividad);
+        $actividad_id = $pivote->actividad_id;
+        $intellij_project_id = $pivote->intellij_project_id;
 
         $pivote->descripcion_visible = !$pivote->descripcion_visible;
-        $pivote->save();
+        // Use updateExistingPivot to trigger cache invalidation
+        $actividad->intellij_projects()->updateExistingPivot($intellij_project_id, [
+            'descripcion_visible' => $pivote->descripcion_visible,
+        ]);
 
         return back();
     }
@@ -457,9 +467,14 @@ class IntellijProjectController extends Controller
     public function toggle_incluir_siempre(Actividad $actividad, IntellijProject $intellij_project)
     {
         $pivote = $intellij_project->pivote($actividad);
+        $actividad_id = $pivote->actividad_id;
+        $intellij_project_id = $pivote->intellij_project_id;
 
         $pivote->incluir_siempre = !$pivote->incluir_siempre;
-        $pivote->save();
+        // Use updateExistingPivot to trigger cache invalidation
+        $actividad->intellij_projects()->updateExistingPivot($intellij_project_id, [
+            'incluir_siempre' => $pivote->incluir_siempre,
+        ]);
 
         return back();
     }

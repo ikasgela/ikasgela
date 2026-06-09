@@ -115,9 +115,13 @@ class YoutubeVideoController extends Controller
     public function toggle_titulo_visible(Actividad $actividad, YoutubeVideo $youtube_video)
     {
         $pivote = $youtube_video->pivote($actividad);
+        $youtube_video_id = $pivote->youtube_video_id;
 
         $pivote->titulo_visible = !$pivote->titulo_visible;
-        $pivote->save();
+        // Use updateExistingPivot to trigger cache invalidation
+        $actividad->youtube_videos()->updateExistingPivot($youtube_video_id, [
+            'titulo_visible' => $pivote->titulo_visible,
+        ]);
 
         return back();
     }
@@ -125,9 +129,13 @@ class YoutubeVideoController extends Controller
     public function toggle_descripcion_visible(Actividad $actividad, YoutubeVideo $youtube_video)
     {
         $pivote = $youtube_video->pivote($actividad);
+        $youtube_video_id = $pivote->youtube_video_id;
 
         $pivote->descripcion_visible = !$pivote->descripcion_visible;
-        $pivote->save();
+        // Use updateExistingPivot to trigger cache invalidation
+        $actividad->youtube_videos()->updateExistingPivot($youtube_video_id, [
+            'descripcion_visible' => $pivote->descripcion_visible,
+        ]);
 
         return back();
     }

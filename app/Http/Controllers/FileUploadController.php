@@ -122,9 +122,13 @@ class FileUploadController extends Controller
     public function toggle_titulo_visible(Actividad $actividad, FileUpload $file_upload)
     {
         $pivote = $file_upload->pivote($actividad);
+        $file_upload_id = $pivote->file_upload_id;
 
         $pivote->titulo_visible = !$pivote->titulo_visible;
-        $pivote->save();
+        // Use updateExistingPivot to trigger cache invalidation
+        $actividad->file_uploads()->updateExistingPivot($file_upload_id, [
+            'titulo_visible' => $pivote->titulo_visible,
+        ]);
 
         return back();
     }
@@ -132,9 +136,13 @@ class FileUploadController extends Controller
     public function toggle_descripcion_visible(Actividad $actividad, FileUpload $file_upload)
     {
         $pivote = $file_upload->pivote($actividad);
+        $file_upload_id = $pivote->file_upload_id;
 
         $pivote->descripcion_visible = !$pivote->descripcion_visible;
-        $pivote->save();
+        // Use updateExistingPivot to trigger cache invalidation
+        $actividad->file_uploads()->updateExistingPivot($file_upload_id, [
+            'descripcion_visible' => $pivote->descripcion_visible,
+        ]);
 
         return back();
     }

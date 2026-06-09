@@ -860,8 +860,9 @@ class ActividadController extends Controller
         $a1->pivot->orden = $a2->pivot->orden;
         $a2->pivot->orden = $temp;
 
-        $a1->pivot->save();
-        $a2->pivot->save();
+        // Use updateExistingPivot to trigger cache invalidation
+        $actividad->youtube_videos()->updateExistingPivot($a1->id, ['orden' => $a1->pivot->orden]);
+        $actividad->youtube_videos()->updateExistingPivot($a2->id, ['orden' => $a2->pivot->orden]);
 
         return back();
     }

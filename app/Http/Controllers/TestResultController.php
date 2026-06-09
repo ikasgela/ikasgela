@@ -144,9 +144,13 @@ class TestResultController extends Controller
     public function toggle_titulo_visible(Actividad $actividad, TestResult $test_result)
     {
         $pivote = $test_result->pivote($actividad);
+        $test_result_id = $pivote->test_result_id;
 
         $pivote->titulo_visible = !$pivote->titulo_visible;
-        $pivote->save();
+        // Use updateExistingPivot to trigger cache invalidation
+        $actividad->test_results()->updateExistingPivot($test_result_id, [
+            'titulo_visible' => $pivote->titulo_visible,
+        ]);
 
         return back();
     }
@@ -154,9 +158,13 @@ class TestResultController extends Controller
     public function toggle_descripcion_visible(Actividad $actividad, TestResult $test_result)
     {
         $pivote = $test_result->pivote($actividad);
+        $test_result_id = $pivote->test_result_id;
 
         $pivote->descripcion_visible = !$pivote->descripcion_visible;
-        $pivote->save();
+        // Use updateExistingPivot to trigger cache invalidation
+        $actividad->test_results()->updateExistingPivot($test_result_id, [
+            'descripcion_visible' => $pivote->descripcion_visible,
+        ]);
 
         return back();
     }
