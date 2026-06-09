@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Traits\Etiquetas;
 use Cmgmyr\Messenger\Traits\Messagable;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
+use GeneaLabs\LaravelModelCaching\Traits\CachedPivotOperations;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -28,6 +30,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     use Messagable;
     use Etiquetas;
     use Impersonate;
+    use Cachable;
+    use CachedPivotOperations;
 
     /**
      * The attributes that are mass assignable.
