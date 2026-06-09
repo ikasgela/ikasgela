@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6ace5ec5cf814f30200146cc371de624",
+    "content-hash": "f9ffc568a14c263792141d0361903608",
     "packages": [
         {
             "name": "akaunting/laravel-setting",
@@ -2491,21 +2491,22 @@
         },
         {
             "name": "ikasgela/laravel-gitea",
-            "version": "1.0.13",
+            "version": "1.0.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ikasgela/laravel-gitea.git",
-                "reference": "1b505a7d97c783ea987ac7a33e48af14ddc4d713"
+                "reference": "0a7d9ef11b5c220665a2e2fcd5abf9cf565c5a2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ikasgela/laravel-gitea/zipball/1b505a7d97c783ea987ac7a33e48af14ddc4d713",
-                "reference": "1b505a7d97c783ea987ac7a33e48af14ddc4d713",
+                "url": "https://api.github.com/repos/ikasgela/laravel-gitea/zipball/0a7d9ef11b5c220665a2e2fcd5abf9cf565c5a2f",
+                "reference": "0a7d9ef11b5c220665a2e2fcd5abf9cf565c5a2f",
                 "shasum": ""
             },
             "require": {
-                "guzzlehttp/guzzle": "^7.0.1",
-                "php": "^8.0",
+                "illuminate/http": "^9.0|^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^9.0|^10.0|^11.0|^12.0|^13.0",
+                "php": "^8.4",
                 "spatie/laravel-package-tools": "^1.4.3"
             },
             "type": "library",
@@ -2541,15 +2542,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ikasgela/laravel-gitea/issues",
-                "source": "https://github.com/ikasgela/laravel-gitea/tree/1.0.13"
+                "source": "https://github.com/ikasgela/laravel-gitea/tree/1.0.17"
             },
-            "funding": [
-                {
-                    "url": "https://github.com/ikasgela",
-                    "type": "github"
-                }
-            ],
-            "time": "2025-07-27T20:43:52+00:00"
+            "time": "2026-06-08T09:19:42+00:00"
         },
         {
             "name": "intervention/gif",
