@@ -627,10 +627,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::post('/milestones/filtro', [MilestoneController::class, 'index'])
                 ->name('milestones.index.filtro');
 
-            // Visor de logs: https://github.com/rap2hpoutre/laravel-log-viewer
-            Route::get('logs', [LogViewerController::class, 'index'])
-                ->name('logs');
-
             // Ver entradas en el registro
             Route::get('/registros', [RegistroController::class, 'index'])
                 ->name('registros.index');
