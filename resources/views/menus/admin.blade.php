@@ -208,3 +208,9 @@
     'text' => __('Records'),
     'icon' => 'bi-database',
 ])
+@include('layouts.sidebar.nav-item', [
+    'route' => route('logs'),
+    'text' => __('Logs'),
+    'icon' => 'bi-bug',
+    'target' => '_blank',
+])

@@ -50,6 +50,7 @@
         "livewire/livewire": "^3.6",
         "maatwebsite/excel": "4.x-dev",
         "mcamara/laravel-localization": "^2.0",
+        "rap2hpoutre/laravel-log-viewer": "^3.0",
         "mike-bronner/laravel-model-caching": "^13.0",
         "spatie/laravel-activitylog": "^4.0",
         "spatie/laravel-html": "^3.11",
