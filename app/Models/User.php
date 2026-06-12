@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
@@ -32,6 +33,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     use Impersonate;
     use Cachable;
     use CachedPivotOperations;
+    use HasApiTokens;
 
     /**
      * The attributes that are mass assignable.

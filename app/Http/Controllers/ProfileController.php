@@ -92,4 +92,14 @@ class ProfileController extends Controller
 
         return back()->with('success', __('Password updated'));
     }
+
+    public function generateToken(Request $request)
+    {
+        $user = Auth::user();
+
+        // Generate a Sanctum token with name 'Ikasgela API'
+        $token = $user->createToken('Ikasgela API')->plainTextToken;
+
+        return response()->json(['token' => $token]);
+    }
 }

@@ -91,6 +91,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             ->name('profile.update.user');
         Route::put('/profile/update_password', [ProfileController::class, 'updatePassword'])
             ->name('profile.update.password');
+        Route::post('/profile/generate_token', [ProfileController::class, 'generateToken'])
+            ->name('profile.generate.token');
 
         // Actualizar estado de una tarea
         Route::put('/actividades/{tarea}/estado', [ActividadController::class, 'actualizarEstado'])
