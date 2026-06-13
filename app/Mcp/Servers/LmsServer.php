@@ -42,6 +42,25 @@ class LmsServer extends Server
         \App\Mcp\Tools\Curso\CreateCurso::class,
         \App\Mcp\Tools\Curso\UpdateCurso::class,
         \App\Mcp\Tools\Curso\DeleteCurso::class,
+
+        // Unidad tools (read)
+        \App\Mcp\Tools\Unidad\ListUnidades::class,
+        \App\Mcp\Tools\Unidad\GetUnidad::class,
+
+        // Unidad tools (write)
+        \App\Mcp\Tools\Unidad\CreateUnidad::class,
+        \App\Mcp\Tools\Unidad\UpdateUnidad::class,
+        \App\Mcp\Tools\Unidad\DeleteUnidad::class,
+
+        // Actividad tools (read)
+        \App\Mcp\Tools\Actividad\ListActividades::class,
+        \App\Mcp\Tools\Actividad\GetActividad::class,
+        \App\Mcp\Tools\Actividad\ListActividadesByCurso::class,
+
+        // Actividad tools (write)
+        \App\Mcp\Tools\Actividad\CreateActividad::class,
+        \App\Mcp\Tools\Actividad\UpdateActividad::class,
+        \App\Mcp\Tools\Actividad\DeleteActividad::class,
     ];
 
     protected array $resources = [];
