@@ -26,7 +26,7 @@ class GetPeriod extends Tool
             return Response::error("No se encontró el periodo con id {$validated['id']}.");
         }
 
-        return Response::structured([
+        return Response::json([
             'id' => $period->id,
             'organization_id' => (int) $period->organization_id,
             'name' => $period->name,

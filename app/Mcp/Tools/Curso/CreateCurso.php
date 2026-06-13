@@ -89,7 +89,7 @@ class CreateCurso extends Tool
             'mostrar_calificaciones' => (bool) ($validated['mostrar_calificaciones'] ?? false),
         ]);
 
-        return Response::structured([
+        return Response::json([
             'id' => $curso->id,
             'category_id' => (int) $curso->category_id,
             'nombre' => $curso->nombre,

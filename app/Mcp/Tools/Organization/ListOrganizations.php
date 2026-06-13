@@ -27,7 +27,7 @@ class ListOrganizations extends Tool
                 'seats' => (int) $org->seats,
             ]);
 
-        return Response::structured($organizations->toArray());
+        return Response::json($organizations->toArray());
     }
 
     public function schema(JsonSchema $schema): array

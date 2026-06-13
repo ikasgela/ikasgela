@@ -39,7 +39,7 @@ class DeletePeriod extends Tool
 
         $period->delete();
 
-        return Response::structured([
+        return Response::json([
             'deleted' => true,
             'id' => $validated['id'],
         ]);

@@ -67,7 +67,7 @@ class UpdateOrganization extends Tool
 
         $org->update($updateData);
 
-        return Response::structured([
+        return Response::json([
             'id' => $org->id,
             'name' => $org->name,
             'slug' => $org->slug,

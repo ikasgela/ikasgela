@@ -26,7 +26,7 @@ class GetCurso extends Tool
             return Response::error("No se encontró el curso con id {$validated['id']}.");
         }
 
-        return Response::structured([
+        return Response::json([
             'id' => $curso->id,
             'category_id' => (int) $curso->category_id,
             'nombre' => $curso->nombre,

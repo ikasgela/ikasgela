@@ -45,7 +45,7 @@ class CreatePeriod extends Tool
             'slug' => Str::slug($validated['name']),
         ]);
 
-        return Response::structured([
+        return Response::json([
             'id' => $period->id,
             'organization_id' => (int) $period->organization_id,
             'name' => $period->name,

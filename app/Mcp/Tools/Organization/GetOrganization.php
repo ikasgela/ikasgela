@@ -26,7 +26,7 @@ class GetOrganization extends Tool
             return Response::error("No se encontró la organización con id {$validated['id']}.");
         }
 
-        return Response::structured([
+        return Response::json([
             'id' => $org->id,
             'name' => $org->name,
             'slug' => $org->slug,

@@ -26,7 +26,7 @@ class ListPeriods extends Tool
                 'slug' => $p->slug,
             ]);
 
-        return Response::structured($periods->toArray());
+        return Response::json($periods->toArray());
     }
 
     public function schema(JsonSchema $schema): array

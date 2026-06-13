@@ -45,7 +45,7 @@ class CreateCategory extends Tool
             'slug' => Str::slug($validated['name']),
         ]);
 
-        return Response::structured([
+        return Response::json([
             'id' => $category->id,
             'period_id' => (int)$category->period_id,
             'name' => $category->name,

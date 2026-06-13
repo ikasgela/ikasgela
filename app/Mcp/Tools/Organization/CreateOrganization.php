@@ -41,7 +41,7 @@ class CreateOrganization extends Tool
             'current_period_id' => $validated['current_period_id'] ?? null,
         ]);
 
-        return Response::structured([
+        return Response::json([
             'id' => $org->id,
             'name' => $org->name,
             'slug' => $org->slug,

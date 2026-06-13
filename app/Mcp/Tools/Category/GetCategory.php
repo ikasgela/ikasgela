@@ -26,7 +26,7 @@ class GetCategory extends Tool
             return Response::error("No se encontró la categoría con id {$validated['id']}.");
         }
 
-        return Response::structured([
+        return Response::json([
             'id' => $category->id,
             'period_id' => (int) $category->period_id,
             'name' => $category->name,

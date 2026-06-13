@@ -39,7 +39,7 @@ class DeleteCategory extends Tool
 
         $category->delete();
 
-        return Response::structured([
+        return Response::json([
             'deleted' => true,
             'id' => $validated['id'],
         ]);

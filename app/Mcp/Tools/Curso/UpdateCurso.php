@@ -169,7 +169,7 @@ class UpdateCurso extends Tool
 
         $curso->update($updateData);
 
-        return Response::structured([
+        return Response::json([
             'id' => $curso->id,
             'category_id' => (int) $curso->category_id,
             'nombre' => $curso->nombre,

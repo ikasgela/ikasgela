@@ -26,7 +26,7 @@ class ListCategories extends Tool
                 'slug' => $c->slug,
             ]);
 
-        return Response::structured($categories->toArray());
+        return Response::json($categories->toArray());
     }
 
     public function schema(JsonSchema $schema): array
