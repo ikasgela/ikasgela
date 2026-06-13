@@ -4,6 +4,7 @@ namespace App\Mcp\Tools\Actividad;
 
 use App\Models\Actividad;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
+use Illuminate\Support\Str;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Attributes\Description;
@@ -42,13 +43,19 @@ class CreateActividad extends Tool
             'fecha_limite' => ['nullable', 'date'],
         ]);
 
+        // Verify unit exists
+        $unitExists = \App\Models\Unidad::where('id', $validated['unidad_id'])->exists();
+        if (!$unitExists) {
+            return Response::error("No se encontró la unidad con id {$validated['unidad_id']}.");
+        }
+
         $actividad = Actividad::create([
             'unidad_id' => $validated['unidad_id'],
             'nombre' => $validated['nombre'],
             'descripcion' => $validated['descripcion'] ?? null,
             'puntuacion' => $validated['puntuacion'] ?? 0,
             'plantilla' => (bool) ($validated['plantilla'] ?? false),
-            'slug' => $validated['slug'] ?? null,
+            'slug' => $validated['slug'] ?? Str::slug($validated['nombre']),
             'final' => (bool) ($validated['final'] ?? false),
             'siguiente_id' => $validated['siguiente_id'] ?? null,
             'auto_avance' => (bool) ($validated['auto_avance'] ?? false),
