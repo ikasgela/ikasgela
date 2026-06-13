@@ -6,6 +6,8 @@ use Laravel\Mcp\Server;
 
 class LmsServer extends Server
 {
+    public int $defaultPaginationLength = 50;
+
     protected array $tools = [
         // Organization tools (read)
         \App\Mcp\Tools\Organization\ListOrganizations::class,
