@@ -213,18 +213,10 @@ class IntellijProjectsGiteaTest extends TestCase
 
     public function testDownloadStreamsZipFromGitea(): void
     {
-        $actividad = Actividad::factory()->create();
         $project = IntellijProject::factory()->create([
             'curso_id' => $this->curso->id,
             'repositorio' => 'root/test-repo',
             'host' => 'gitea',
-        ]);
-        $actividad->intellij_projects()->attach($project, [
-            'orden' => \Illuminate\Support\Str::orderedUuid(),
-        ]);
-        \App\Models\Tarea::factory()->create([
-            'user_id' => $this->alumno->id,
-            'actividad_id' => $actividad->id,
         ]);
 
         Http::fake([
@@ -242,18 +234,10 @@ class IntellijProjectsGiteaTest extends TestCase
 
     public function testDownloadCuandoStreamEsNullRetornaRespuestaOk(): void
     {
-        $actividad = Actividad::factory()->create();
         $project = IntellijProject::factory()->create([
             'curso_id' => $this->curso->id,
             'repositorio' => 'root/test-repo',
             'host' => 'gitea',
-        ]);
-        $actividad->intellij_projects()->attach($project, [
-            'orden' => \Illuminate\Support\Str::orderedUuid(),
-        ]);
-        \App\Models\Tarea::factory()->create([
-            'user_id' => $this->alumno->id,
-            'actividad_id' => $actividad->id,
         ]);
 
         Http::fake([

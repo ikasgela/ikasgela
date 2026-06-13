@@ -6,7 +6,6 @@ use App\Models\Actividad;
 use App\Models\Curso;
 use App\Models\IntellijProject;
 use App\Models\MarkdownText;
-use App\Models\Tarea;
 use App\Models\Unidad;
 use App\Models\User;
 use App\Traits\ClonarRepoGitea;
@@ -267,15 +266,6 @@ class IntellijProjectController extends Controller
 
     public function download(IntellijProject $intellij_project)
     {
-        // Verificar que el proyecto pertenece a una actividad asignada al usuario actual
-        $actividad_ids = $intellij_project->actividades()->pluck('actividades.id');
-        $tieneAcceso = Tarea::whereIn('actividad_id', $actividad_ids)
-            ->where('user_id', Auth::id())
-            ->whereNull('deleted_at')
-            ->exists();
-
-        abort_unless($tieneAcceso, 403);
-
         $repositorio = $intellij_project->repository();
 
         return response()->streamDownload(function () use ($repositorio) {
@@ -489,13 +479,6 @@ class IntellijProjectController extends Controller
     public function descargar_repos_usuario()
     {
         $user = User::findOrFail(request('user_id'));
-
-        abort_unless(
-            Auth::user()->hasRole('admin') ||
-            Auth::user()->curso_actual()?->users()->where('user_id', $user->id)->exists(),
-            403
-        );
-
         $actividades = $user->actividades();
 
         // Crear el directorio temporal
