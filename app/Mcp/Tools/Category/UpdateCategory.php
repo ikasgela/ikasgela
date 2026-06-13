@@ -74,26 +74,19 @@ class UpdateCategory extends Tool
     public function schema(JsonSchema $schema): array
     {
         return [
-            'type' => 'object',
-            'properties' => [
-                'id' => ['type' => 'integer'],
-                'period_id' => ['type' => 'integer'],
-                'name' => ['type' => 'string'],
-            ],
-            'required' => ['id'],
+            'id' => $schema->integer()->required(),
+            'period_id' => $schema->integer(),
+            'name' => $schema->string(),
         ];
     }
 
     public function outputSchema(JsonSchema $schema): array
     {
         return [
-            'type' => 'object',
-            'properties' => [
-                'id' => ['type' => 'integer'],
-                'period_id' => ['type' => 'integer'],
-                'name' => ['type' => 'string'],
-                'slug' => ['type' => 'string'],
-            ],
+            'id' => $schema->integer(),
+            'period_id' => $schema->integer(),
+            'name' => $schema->string(),
+            'slug' => $schema->string(),
         ];
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Attributes\Description;
-use Laravel\Mcp\Server\Attributes\IsReadOnly;
+use Laravel\Mcp\Server\Tools\Annotations\IsReadOnly;
 use Laravel\Mcp\Server\Tool;
 
 #[Description('Obtener los detalles de una organización por su ID. Devuelve id, nombre, slug, current_period_id, estado de registro y plazas disponibles.')]
@@ -39,26 +39,19 @@ class GetOrganization extends Tool
     public function schema(JsonSchema $schema): array
     {
         return [
-            'type' => 'object',
-            'properties' => [
-                'id' => ['type' => 'integer'],
-            ],
-            'required' => ['id'],
+            'id' => $schema->integer()->required(),
         ];
     }
 
     public function outputSchema(JsonSchema $schema): array
     {
         return [
-            'type' => 'object',
-            'properties' => [
-                'id' => ['type' => 'integer'],
-                'name' => ['type' => 'string'],
-                'slug' => ['type' => 'string'],
-                'current_period_id' => ['type' => 'integer'],
-                'registration_open' => ['type' => 'boolean'],
-                'seats' => ['type' => 'integer'],
-            ],
+            'id' => $schema->integer(),
+            'name' => $schema->string(),
+            'slug' => $schema->string(),
+            'current_period_id' => $schema->integer(),
+            'registration_open' => $schema->boolean(),
+            'seats' => $schema->integer(),
         ];
     }
 }

@@ -54,29 +54,22 @@ class CreateOrganization extends Tool
     public function schema(JsonSchema $schema): array
     {
         return [
-            'type' => 'object',
-            'properties' => [
-                'name' => ['type' => 'string'],
-                'seats' => ['type' => 'integer'],
-                'registration_open' => ['type' => 'boolean'],
-                'current_period_id' => ['type' => 'integer'],
-            ],
-            'required' => ['name', 'seats'],
+            'name' => $schema->string()->required(),
+            'seats' => $schema->integer()->required(),
+            'registration_open' => $schema->boolean(),
+            'current_period_id' => $schema->integer(),
         ];
     }
 
     public function outputSchema(JsonSchema $schema): array
     {
         return [
-            'type' => 'object',
-            'properties' => [
-                'id' => ['type' => 'integer'],
-                'name' => ['type' => 'string'],
-                'slug' => ['type' => 'string'],
-                'current_period_id' => ['type' => 'integer'],
-                'registration_open' => ['type' => 'boolean'],
-                'seats' => ['type' => 'integer'],
-            ],
+            'id' => $schema->integer(),
+            'name' => $schema->string(),
+            'slug' => $schema->string(),
+            'current_period_id' => $schema->integer(),
+            'registration_open' => $schema->boolean(),
+            'seats' => $schema->integer(),
         ];
     }
 }

@@ -74,26 +74,19 @@ class UpdatePeriod extends Tool
     public function schema(JsonSchema $schema): array
     {
         return [
-            'type' => 'object',
-            'properties' => [
-                'id' => ['type' => 'integer'],
-                'organization_id' => ['type' => 'integer'],
-                'name' => ['type' => 'string'],
-            ],
-            'required' => ['id'],
+            'id' => $schema->integer()->required(),
+            'organization_id' => $schema->integer(),
+            'name' => $schema->string(),
         ];
     }
 
     public function outputSchema(JsonSchema $schema): array
     {
         return [
-            'type' => 'object',
-            'properties' => [
-                'id' => ['type' => 'integer'],
-                'organization_id' => ['type' => 'integer'],
-                'name' => ['type' => 'string'],
-                'slug' => ['type' => 'string'],
-            ],
+            'id' => $schema->integer(),
+            'organization_id' => $schema->integer(),
+            'name' => $schema->string(),
+            'slug' => $schema->string(),
         ];
     }
 }

@@ -11,7 +11,7 @@ use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Attributes\Description;
 use Laravel\Mcp\Server\Tool;
 
-#[Description('Actualizar un curso existente por su ID. Campos opcionales: todos los campos de creación excepto id. Devuelve los datos actualizados.')]
+#[Description('Actualizar un curso existente por su ID. Campos opcionales: category_id, nombre, descripcion, slug, gitea_organization, tags, matricula_abierta, qualification_id, max_simultaneas, plazo_actividad, fecha_inicio, fecha_fin, minimo_entregadas, minimo_competencias, minimo_examenes, minimo_examenes_finales, examenes_obligatorios, maximo_recuperable_examenes_finales, progreso_visible, silence_notifications, normalizar_nota, ajuste_proporcional_nota, mostrar_calificaciones. Devuelve los datos actualizados.')]
 class UpdateCurso extends Tool
 {
     public function handle(Request $request): Response
@@ -60,15 +60,18 @@ class UpdateCurso extends Tool
             return Response::error("No se encontró el curso con id {$validated['id']}.");
         }
 
-        $updateData = [];
-
+        // Verify category if provided
         if (isset($validated['category_id'])) {
             $categoryExists = Category::where('id', $validated['category_id'])->exists();
 
             if (!$categoryExists) {
                 return Response::error("No se encontró la categoría con id {$validated['category_id']}.");
             }
+        }
 
+        $updateData = [];
+
+        if (isset($validated['category_id'])) {
             $updateData['category_id'] = $validated['category_id'];
         }
 
@@ -178,48 +181,41 @@ class UpdateCurso extends Tool
     public function schema(JsonSchema $schema): array
     {
         return [
-            'type' => 'object',
-            'properties' => [
-                'id' => ['type' => 'integer'],
-                'category_id' => ['type' => 'integer'],
-                'nombre' => ['type' => 'string'],
-                'descripcion' => ['type' => 'string'],
-                'slug' => ['type' => 'string'],
-                'gitea_organization' => ['type' => 'string'],
-                'tags' => ['type' => 'string'],
-                'matricula_abierta' => ['type' => 'boolean'],
-                'qualification_id' => ['type' => 'integer'],
-                'max_simultaneas' => ['type' => 'integer'],
-                'plazo_actividad' => ['type' => 'integer'],
-                'fecha_inicio' => ['type' => 'string', 'format' => 'date'],
-                'fecha_fin' => ['type' => 'string', 'format' => 'date'],
-                'minimo_entregadas' => ['type' => 'integer'],
-                'minimo_competencias' => ['type' => 'integer'],
-                'minimo_examenes' => ['type' => 'integer'],
-                'minimo_examenes_finales' => ['type' => 'integer'],
-                'examenes_obligatorios' => ['type' => 'boolean'],
-                'maximo_recuperable_examenes_finales' => ['type' => 'integer'],
-                'progreso_visible' => ['type' => 'boolean'],
-                'silence_notifications' => ['type' => 'boolean'],
-                'normalizar_nota' => ['type' => 'boolean'],
-                'ajuste_proporcional_nota' => ['type' => 'number'],
-                'mostrar_calificaciones' => ['type' => 'boolean'],
-            ],
-            'required' => ['id'],
+            'id' => $schema->integer()->required(),
+            'category_id' => $schema->integer(),
+            'nombre' => $schema->string(),
+            'descripcion' => $schema->string(),
+            'slug' => $schema->string(),
+            'gitea_organization' => $schema->string(),
+            'tags' => $schema->string(),
+            'matricula_abierta' => $schema->boolean(),
+            'qualification_id' => $schema->integer(),
+            'max_simultaneas' => $schema->integer(),
+            'plazo_actividad' => $schema->integer(),
+            'fecha_inicio' => $schema->string(),
+            'fecha_fin' => $schema->string(),
+            'minimo_entregadas' => $schema->integer(),
+            'minimo_competencias' => $schema->integer(),
+            'minimo_examenes' => $schema->integer(),
+            'minimo_examenes_finales' => $schema->integer(),
+            'examenes_obligatorios' => $schema->boolean(),
+            'maximo_recuperable_examenes_finales' => $schema->integer(),
+            'progreso_visible' => $schema->boolean(),
+            'silence_notifications' => $schema->boolean(),
+            'normalizar_nota' => $schema->boolean(),
+            'ajuste_proporcional_nota' => $schema->number(),
+            'mostrar_calificaciones' => $schema->boolean(),
         ];
     }
 
     public function outputSchema(JsonSchema $schema): array
     {
         return [
-            'type' => 'object',
-            'properties' => [
-                'id' => ['type' => 'integer'],
-                'category_id' => ['type' => 'integer'],
-                'nombre' => ['type' => 'string'],
-                'slug' => ['type' => 'string'],
-                'matricula_abierta' => ['type' => 'boolean'],
-            ],
+            'id' => $schema->integer(),
+            'category_id' => $schema->integer(),
+            'nombre' => $schema->string(),
+            'slug' => $schema->string(),
+            'matricula_abierta' => $schema->boolean(),
         ];
     }
 }

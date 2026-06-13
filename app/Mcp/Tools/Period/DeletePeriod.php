@@ -7,7 +7,7 @@ use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Attributes\Description;
-use Laravel\Mcp\Server\Attributes\IsDestructive;
+use Laravel\Mcp\Server\Tools\Annotations\IsDestructive;
 use Laravel\Mcp\Server\Tool;
 
 #[Description('Eliminar un periodo por su ID. Esta acción es irreversible y elimina también las categorías asociadas. Solo administradores pueden ejecutarla.')]
@@ -48,22 +48,15 @@ class DeletePeriod extends Tool
     public function schema(JsonSchema $schema): array
     {
         return [
-            'type' => 'object',
-            'properties' => [
-                'id' => ['type' => 'integer'],
-            ],
-            'required' => ['id'],
+            'id' => $schema->integer()->required(),
         ];
     }
 
     public function outputSchema(JsonSchema $schema): array
     {
         return [
-            'type' => 'object',
-            'properties' => [
-                'deleted' => ['type' => 'boolean'],
-                'id' => ['type' => 'integer'],
-            ],
+            'deleted' => $schema->boolean(),
+            'id' => $schema->integer(),
         ];
     }
 }

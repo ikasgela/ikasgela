@@ -56,25 +56,18 @@ class CreatePeriod extends Tool
     public function schema(JsonSchema $schema): array
     {
         return [
-            'type' => 'object',
-            'properties' => [
-                'organization_id' => ['type' => 'integer'],
-                'name' => ['type' => 'string'],
-            ],
-            'required' => ['organization_id', 'name'],
+            'organization_id' => $schema->integer()->required(),
+            'name' => $schema->string()->required(),
         ];
     }
 
     public function outputSchema(JsonSchema $schema): array
     {
         return [
-            'type' => 'object',
-            'properties' => [
-                'id' => ['type' => 'integer'],
-                'organization_id' => ['type' => 'integer'],
-                'name' => ['type' => 'string'],
-                'slug' => ['type' => 'string'],
-            ],
+            'id' => $schema->integer(),
+            'organization_id' => $schema->integer(),
+            'name' => $schema->string(),
+            'slug' => $schema->string(),
         ];
     }
 }

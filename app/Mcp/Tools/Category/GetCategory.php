@@ -7,7 +7,7 @@ use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Attributes\Description;
-use Laravel\Mcp\Server\Attributes\IsReadOnly;
+use Laravel\Mcp\Server\Tools\Annotations\IsReadOnly;
 use Laravel\Mcp\Server\Tool;
 
 #[Description('Obtener los detalles de una categoría por su ID. Devuelve id, period_id, nombre y slug.')]
@@ -37,24 +37,17 @@ class GetCategory extends Tool
     public function schema(JsonSchema $schema): array
     {
         return [
-            'type' => 'object',
-            'properties' => [
-                'id' => ['type' => 'integer'],
-            ],
-            'required' => ['id'],
+            'id' => $schema->integer()->required(),
         ];
     }
 
     public function outputSchema(JsonSchema $schema): array
     {
         return [
-            'type' => 'object',
-            'properties' => [
-                'id' => ['type' => 'integer'],
-                'period_id' => ['type' => 'integer'],
-                'name' => ['type' => 'string'],
-                'slug' => ['type' => 'string'],
-            ],
+            'id' => $schema->integer(),
+            'period_id' => $schema->integer(),
+            'name' => $schema->string(),
+            'slug' => $schema->string(),
         ];
     }
 }

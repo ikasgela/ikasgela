@@ -7,7 +7,7 @@ use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Attributes\Description;
-use Laravel\Mcp\Server\Attributes\IsReadOnly;
+use Laravel\Mcp\Server\Tools\Annotations\IsReadOnly;
 use Laravel\Mcp\Server\Tool;
 
 #[Description('Listar todos los periodos. Devuelve id, organization_id, nombre y slug de cada periodo.')]
@@ -37,21 +37,7 @@ class ListPeriods extends Tool
     public function outputSchema(JsonSchema $schema): array
     {
         return [
-            'type' => 'object',
-            'properties' => [
-                'periods' => [
-                    'type' => 'array',
-                    'items' => [
-                        'type' => 'object',
-                        'properties' => [
-                            'id' => ['type' => 'integer'],
-                            'organization_id' => ['type' => 'integer'],
-                            'name' => ['type' => 'string'],
-                            'slug' => ['type' => 'string'],
-                        ],
-                    ],
-                ],
-            ],
+            'periods' => $schema->array(),
         ];
     }
 }

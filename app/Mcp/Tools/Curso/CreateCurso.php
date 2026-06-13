@@ -101,47 +101,40 @@ class CreateCurso extends Tool
     public function schema(JsonSchema $schema): array
     {
         return [
-            'type' => 'object',
-            'properties' => [
-                'category_id' => ['type' => 'integer'],
-                'nombre' => ['type' => 'string'],
-                'descripcion' => ['type' => 'string'],
-                'slug' => ['type' => 'string'],
-                'gitea_organization' => ['type' => 'string'],
-                'tags' => ['type' => 'string'],
-                'matricula_abierta' => ['type' => 'boolean'],
-                'qualification_id' => ['type' => 'integer'],
-                'max_simultaneas' => ['type' => 'integer'],
-                'plazo_actividad' => ['type' => 'integer'],
-                'fecha_inicio' => ['type' => 'string', 'format' => 'date'],
-                'fecha_fin' => ['type' => 'string', 'format' => 'date'],
-                'minimo_entregadas' => ['type' => 'integer'],
-                'minimo_competencias' => ['type' => 'integer'],
-                'minimo_examenes' => ['type' => 'integer'],
-                'minimo_examenes_finales' => ['type' => 'integer'],
-                'examenes_obligatorios' => ['type' => 'boolean'],
-                'maximo_recuperable_examenes_finales' => ['type' => 'integer'],
-                'progreso_visible' => ['type' => 'boolean'],
-                'silence_notifications' => ['type' => 'boolean'],
-                'normalizar_nota' => ['type' => 'boolean'],
-                'ajuste_proporcional_nota' => ['type' => 'number'],
-                'mostrar_calificaciones' => ['type' => 'boolean'],
-            ],
-            'required' => ['category_id', 'nombre', 'plazo_actividad'],
+            'category_id' => $schema->integer()->required(),
+            'nombre' => $schema->string()->required(),
+            'descripcion' => $schema->string(),
+            'slug' => $schema->string(),
+            'gitea_organization' => $schema->string(),
+            'tags' => $schema->string(),
+            'matricula_abierta' => $schema->boolean(),
+            'qualification_id' => $schema->integer(),
+            'max_simultaneas' => $schema->integer(),
+            'plazo_actividad' => $schema->integer()->required(),
+            'fecha_inicio' => $schema->string(),
+            'fecha_fin' => $schema->string(),
+            'minimo_entregadas' => $schema->integer(),
+            'minimo_competencias' => $schema->integer(),
+            'minimo_examenes' => $schema->integer(),
+            'minimo_examenes_finales' => $schema->integer(),
+            'examenes_obligatorios' => $schema->boolean(),
+            'maximo_recuperable_examenes_finales' => $schema->integer(),
+            'progreso_visible' => $schema->boolean(),
+            'silence_notifications' => $schema->boolean(),
+            'normalizar_nota' => $schema->boolean(),
+            'ajuste_proporcional_nota' => $schema->number(),
+            'mostrar_calificaciones' => $schema->boolean(),
         ];
     }
 
     public function outputSchema(JsonSchema $schema): array
     {
         return [
-            'type' => 'object',
-            'properties' => [
-                'id' => ['type' => 'integer'],
-                'category_id' => ['type' => 'integer'],
-                'nombre' => ['type' => 'string'],
-                'slug' => ['type' => 'string'],
-                'matricula_abierta' => ['type' => 'boolean'],
-            ],
+            'id' => $schema->integer(),
+            'category_id' => $schema->integer(),
+            'nombre' => $schema->string(),
+            'slug' => $schema->string(),
+            'matricula_abierta' => $schema->boolean(),
         ];
     }
 }

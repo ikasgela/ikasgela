@@ -7,7 +7,7 @@ use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Attributes\Description;
-use Laravel\Mcp\Server\Attributes\IsReadOnly;
+use Laravel\Mcp\Server\Tools\Annotations\IsReadOnly;
 use Laravel\Mcp\Server\Tool;
 
 #[Description('Listar todas las categorías. Devuelve id, period_id, nombre y slug de cada categoría.')]
@@ -37,21 +37,7 @@ class ListCategories extends Tool
     public function outputSchema(JsonSchema $schema): array
     {
         return [
-            'type' => 'object',
-            'properties' => [
-                'categories' => [
-                    'type' => 'array',
-                    'items' => [
-                        'type' => 'object',
-                        'properties' => [
-                            'id' => ['type' => 'integer'],
-                            'period_id' => ['type' => 'integer'],
-                            'name' => ['type' => 'string'],
-                            'slug' => ['type' => 'string'],
-                        ],
-                    ],
-                ],
-            ],
+            'categories' => $schema->array(),
         ];
     }
 }

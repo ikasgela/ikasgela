@@ -47,7 +47,7 @@ class CreateCategory extends Tool
 
         return Response::structured([
             'id' => $category->id,
-            'period_id' => (int) $category->period_id,
+            'period_id' => (int)$category->period_id,
             'name' => $category->name,
             'slug' => $category->slug,
         ]);
@@ -56,25 +56,18 @@ class CreateCategory extends Tool
     public function schema(JsonSchema $schema): array
     {
         return [
-            'type' => 'object',
-            'properties' => [
-                'period_id' => ['type' => 'integer'],
-                'name' => ['type' => 'string'],
-            ],
-            'required' => ['period_id', 'name'],
+            'period_id' => $schema->integer()->required(),
+            'name' => $schema->string()->required(),
         ];
     }
 
     public function outputSchema(JsonSchema $schema): array
     {
         return [
-            'type' => 'object',
-            'properties' => [
-                'id' => ['type' => 'integer'],
-                'period_id' => ['type' => 'integer'],
-                'name' => ['type' => 'string'],
-                'slug' => ['type' => 'string'],
-            ],
+            'id' => $schema->integer(),
+            'period_id' => $schema->integer(),
+            'name' => $schema->string(),
+            'slug' => $schema->string(),
         ];
     }
 }
