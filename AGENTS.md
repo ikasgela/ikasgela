@@ -276,6 +276,19 @@ no la URL completa del repositorio.
 El `host` por defecto es `gitea`. Si se necesita otro host, pasarlo explícitamente en el
 campo `host` (ejemplo: `'gitlab'`).
 
+### Recursos de MarkdownText — rama por defecto
+
+Los recursos `MarkdownText` almacenan la referencia a un archivo en un repositorio Git
+mediante los campos `repositorio` y `archivo`. El campo `rama` especifica la rama donde
+se encuentra el archivo.
+
+**La rama por defecto es `master`.** Si el archivo se encuentra en otra rama del
+repositorio, hay que especificarla explícitamente con `rama`.
+
+Al crear un MarkdownText, los campos `repositorio` y `archivo` son obligatorios.
+Al actualizar, todos los campos son opcionales pero al actualizarse `rama` sin valor
+explícito se asume `'master'`.
+
 ### Convenciones de herramientas MCP
 
 - **Imports de anotaciones**: `Laravel\Mcp\Server\Tools\Annotations\IsReadOnly` (no

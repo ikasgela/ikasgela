@@ -10,7 +10,7 @@ use Laravel\Mcp\Server\Attributes\Description;
 use Laravel\Mcp\Server\Tools\Annotations\IsReadOnly;
 use Laravel\Mcp\Server\Tool;
 
-#[Description('Obtener los detalles de un texto Markdown por su ID. Devuelve id, curso_id, titulo y descripcion.')]
+#[Description('Obtener los detalles de un texto Markdown por su ID. Devuelve id, curso_id, titulo, descripcion y rama.')]
 #[IsReadOnly]
 class GetMarkdownText extends Tool
 {
@@ -31,6 +31,7 @@ class GetMarkdownText extends Tool
             'curso_id' => (int) $markdownText->curso_id,
             'titulo' => $markdownText->titulo,
             'descripcion' => $markdownText->descripcion,
+            'rama' => $markdownText->rama,
         ]);
     }
 
@@ -48,6 +49,7 @@ class GetMarkdownText extends Tool
             'curso_id' => $schema->integer(),
             'titulo' => $schema->string(),
             'descripcion' => $schema->string(),
+            'rama' => $schema->string(),
         ];
     }
 }

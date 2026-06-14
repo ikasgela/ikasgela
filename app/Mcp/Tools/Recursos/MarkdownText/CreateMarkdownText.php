@@ -10,7 +10,7 @@ use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Attributes\Description;
 use Laravel\Mcp\Server\Tool;
 
-#[Description('Crear un nuevo texto Markdown. Requiere titulo y curso_id (ID del curso). Devuelve los datos del texto creado.')]
+#[Description('Crear un nuevo texto Markdown. Requiere titulo, curso_id (ID del curso), repositorio y archivo. La rama por defecto es master; si el archivo se encuentra en otra rama del repositorio, hay que especificarla explícitamente con rama. Devuelve los datos del texto creado.')]
 class CreateMarkdownText extends Tool
 {
     public function handle(Request $request): Response
@@ -33,7 +33,7 @@ class CreateMarkdownText extends Tool
             'repositorio' => ['required', 'string', 'max:255'],
             'rama' => ['nullable', 'string', 'max:255'],
             'archivo' => ['required', 'string', 'max:255'],
-            
+
         ]);
 
         // Verify course exists
@@ -47,10 +47,10 @@ class CreateMarkdownText extends Tool
             'curso_id' => $validated['curso_id'],
             'titulo' => $validated['titulo'],
             'descripcion' => $validated['descripcion'] ?? null,
-            'repositorio' => $validated['repositorio'] ?? null,
-            'rama' => $validated['rama'] ?? null,
-            'archivo' => $validated['archivo'] ?? null,
-            
+            'repositorio' => $validated['repositorio'],
+            'rama' => $validated['rama'] ?? 'master',
+            'archivo' => $validated['archivo'],
+
         ]);
 
         return Response::json([
@@ -58,6 +58,7 @@ class CreateMarkdownText extends Tool
             'curso_id' => (int) $markdownText->curso_id,
             'titulo' => $markdownText->titulo,
             'descripcion' => $markdownText->descripcion,
+            'rama' => $markdownText->rama,
         ]);
     }
 
@@ -67,10 +68,10 @@ class CreateMarkdownText extends Tool
             'curso_id' => $schema->integer()->required(),
             'titulo' => $schema->string()->required(),
             'descripcion' => $schema->string(),
-            'repositorio' => $schema->string(),
-            'rama' => $schema->string(),
-            'archivo' => $schema->string(),
-            
+            'repositorio' => $schema->string()->required(),
+            'rama' => $schema->string()->description('Rama del repositorio. Por defecto es master; si el archivo se encuentra en otra rama, especificarla aquí.'),
+            'archivo' => $schema->string()->required(),
+
         ];
     }
 
@@ -81,6 +82,7 @@ class CreateMarkdownText extends Tool
             'curso_id' => $schema->integer(),
             'titulo' => $schema->string(),
             'descripcion' => $schema->string(),
+            'rama' => $schema->string(),
         ];
     }
 }

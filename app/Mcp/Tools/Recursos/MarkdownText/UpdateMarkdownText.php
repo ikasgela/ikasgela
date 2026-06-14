@@ -10,7 +10,7 @@ use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Attributes\Description;
 use Laravel\Mcp\Server\Tool;
 
-#[Description('Actualizar un texto Markdown existente por su ID. Campos opcionales: curso_id, titulo, descripcion, repositorio, rama, archivo. Devuelve los datos actualizados.')]
+#[Description('Actualizar un texto Markdown existente por su ID. Campos opcionales: curso_id, titulo, descripcion, repositorio y archivo. La rama por defecto es master; si se proporciona sin valor explícito, se asume master. Devuelve los datos actualizados.')]
 class UpdateMarkdownText extends Tool
 {
     public function handle(Request $request): Response
@@ -71,13 +71,12 @@ class UpdateMarkdownText extends Tool
         }
 
         if (isset($validated['rama'])) {
-            $updateData['rama'] = $validated['rama'];
+            $updateData['rama'] = $validated['rama'] ?? 'master';
         }
 
         if (isset($validated['archivo'])) {
             $updateData['archivo'] = $validated['archivo'];
         }
-
 
         $markdownText->update($updateData);
 
@@ -86,6 +85,7 @@ class UpdateMarkdownText extends Tool
             'curso_id' => (int) $markdownText->curso_id,
             'titulo' => $markdownText->titulo,
             'descripcion' => $markdownText->descripcion,
+            'rama' => $markdownText->rama,
         ]);
     }
 
@@ -97,9 +97,9 @@ class UpdateMarkdownText extends Tool
             'titulo' => $schema->string(),
             'descripcion' => $schema->string(),
             'repositorio' => $schema->string(),
-            'rama' => $schema->string(),
+            'rama' => $schema->string()->description('Rama del repositorio. Por defecto es master; si el archivo se encuentra en otra rama, especificarla aquí.'),
             'archivo' => $schema->string(),
-            
+
         ];
     }
 
@@ -110,6 +110,7 @@ class UpdateMarkdownText extends Tool
             'curso_id' => $schema->integer(),
             'titulo' => $schema->string(),
             'descripcion' => $schema->string(),
+            'rama' => $schema->string(),
         ];
     }
 }
