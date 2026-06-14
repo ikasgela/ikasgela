@@ -261,6 +261,29 @@ Usar en todas las validaciones de email en controladores.
 | `AVATAR_ENABLED` | Habilitar avatares de usuario |
 | `PAGINATION_SHORT/MEDIUM/LONG` | Tamaños de paginación (10/25/100) |
 
+## Servidores MCP
+
+La aplicación expone herramientas MCP (Model Context Protocol) a través de `LmsServer` en
+`app/Mcp/Servers/LmsServer.php`. Todas las herramientas usan `Response::json()` (nunca
+`Response::structured()`, que no funciona correctamente).
+
+### Recursos de IntelliJ — formato de repositorio
+
+Los recursos `IntellijProject` usan el campo `repositorio` para almacenar la referencia al
+repositorio Git. **El formato debe ser `usuario/repositorio`** (ejemplo: `ikasgela/mi-proyecto`),
+no la URL completa del repositorio.
+
+El `host` por defecto es `gitea`. Si se necesita otro host, pasarlo explícitamente en el
+campo `host` (ejemplo: `'gitlab'`).
+
+### Convenciones de herramientas MCP
+
+- **Imports de anotaciones**: `Laravel\Mcp\Server\Tools\Annotations\IsReadOnly` (no
+  `Laravel\Mcp\Server\Attributes\...`).
+- **Respuestas**: usar siempre `Response::json()`.
+- **Herramientas de solo lectura**: anotar con `#[IsReadOnly]`.
+- **Herramientas destructivas**: anotar con `#[IsDestructive]`.
+
 ---
 
 ## Guías para agentes

@@ -10,7 +10,7 @@ use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Attributes\Description;
 use Laravel\Mcp\Server\Tool;
 
-#[Description('Actualizar un IntellijProject existente por su ID. Campos opcionales: titulo, descripcion, repository, host, curso_id. Devuelve los datos actualizados.')]
+#[Description('Actualizar un IntellijProject existente por su ID. Campos opcionales: titulo, descripcion, repositorio (formato usuario/repositorio), host (por defecto gitea), curso_id. Devuelve los datos actualizados.')]
 class UpdateIntellijProject extends Tool
 {
     public function handle(Request $request): Response
@@ -58,10 +58,6 @@ class UpdateIntellijProject extends Tool
 
         if (isset($validated['host'])) {
             $updateData['host'] = $validated['host'];
-        }
-
-        if (false) {
-            
         }
 
         if (isset($validated['curso_id'])) {
