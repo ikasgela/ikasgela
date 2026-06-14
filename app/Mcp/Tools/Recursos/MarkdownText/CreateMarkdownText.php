@@ -68,7 +68,7 @@ class CreateMarkdownText extends Tool
             'curso_id' => $schema->integer()->required(),
             'titulo' => $schema->string()->required(),
             'descripcion' => $schema->string(),
-            'repositorio' => $schema->string()->required(),
+            'repositorio' => $schema->string()->required()->description('Formato: usuario/nombre_del_repositorio (no la URL completa del repositorio)'),
             'rama' => $schema->string()->description('Rama del repositorio donde se encuentra el archivo. Debe ser una rama válida del repositorio especificado. Por defecto es master.'),
             'archivo' => $schema->string()->required(),
 

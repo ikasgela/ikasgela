@@ -270,13 +270,13 @@ La aplicación expone herramientas MCP (Model Context Protocol) a través de `Lm
 ### Recursos de IntelliJ — formato de repositorio
 
 Los recursos `IntellijProject` usan el campo `repositorio` para almacenar la referencia al
-repositorio Git. **El formato debe ser `usuario/repositorio`** (ejemplo: `ikasgela/mi-proyecto`),
-no la URL completa del repositorio.
+repositorio Git. **El formato debe ser `usuario/nombre_del_repositorio`** (ejemplo:
+`ikasgela/mi-proyecto`), no la URL completa del repositorio.
 
 El `host` por defecto es `gitea`. Si se necesita otro host, pasarlo explícitamente en el
 campo `host` (ejemplo: `'gitlab'`).
 
-### Recursos de MarkdownText — rama por defecto
+### Recursos de MarkdownText — formato y rama por defecto
 
 Los recursos `MarkdownText` almacenan la referencia a un archivo en un repositorio Git
 mediante los campos `repositorio` y `archivo`. El campo `rama` especifica la rama donde

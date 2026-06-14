@@ -10,7 +10,7 @@ use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Attributes\Description;
 use Laravel\Mcp\Server\Tool;
 
-#[Description('Actualizar un texto Markdown existente por su ID. Campos opcionales: curso_id, titulo, descripcion, repositorio y archivo. La rama por defecto es master; si se proporciona sin valor explícito, se asume master. Devuelve los datos actualizados.')]
+#[Description('Actualizar un texto Markdown existente por su ID. Campos opcionales: curso_id, titulo, descripcion, repositorio (formato usuario/nombre_del_repositorio) y archivo. La rama por defecto es master; si se proporciona sin valor explícito, se asume master. Devuelve los datos actualizados.')]
 class UpdateMarkdownText extends Tool
 {
     public function handle(Request $request): Response
@@ -96,7 +96,7 @@ class UpdateMarkdownText extends Tool
             'curso_id' => $schema->integer(),
             'titulo' => $schema->string(),
             'descripcion' => $schema->string(),
-            'repositorio' => $schema->string(),
+            'repositorio' => $schema->string()->description('Formato: usuario/nombre_del_repositorio (no la URL completa del repositorio)'),
             'rama' => $schema->string()->description('Rama del repositorio. Por defecto es master; si el archivo se encuentra en otra rama, especificarla aquí.'),
             'archivo' => $schema->string(),
 

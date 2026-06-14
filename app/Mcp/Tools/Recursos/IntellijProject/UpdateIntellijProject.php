@@ -10,7 +10,7 @@ use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Attributes\Description;
 use Laravel\Mcp\Server\Tool;
 
-#[Description('Actualizar un IntellijProject existente por su ID. Campos opcionales: titulo, descripcion, repositorio (formato usuario/repositorio), host (por defecto gitea), curso_id. Devuelve los datos actualizados.')]
+#[Description('Actualizar un IntellijProject existente por su ID. Campos opcionales: titulo, descripcion, repositorio (formato usuario/nombre_del_repositorio), host (por defecto gitea), curso_id. Devuelve los datos actualizados.')]
 class UpdateIntellijProject extends Tool
 {
     public function handle(Request $request): Response
@@ -89,7 +89,7 @@ class UpdateIntellijProject extends Tool
             'id' => $schema->integer()->required(),
             'titulo' => $schema->string(),
             'descripcion' => $schema->string(),
-            'repositorio' => $schema->string(),
+            'repositorio' => $schema->string()->description('Formato: usuario/nombre_del_repositorio (no la URL completa del repositorio)'),
             'host' => $schema->string(),
             
             'curso_id' => $schema->integer(),
