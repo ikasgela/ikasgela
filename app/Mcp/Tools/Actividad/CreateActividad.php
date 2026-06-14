@@ -92,7 +92,7 @@ class CreateActividad extends Tool
             'nombre' => $schema->string()->required(),
             'descripcion' => $schema->string(),
             'puntuacion' => $schema->number(),
-            'plantilla' => $schema->boolean()->description('Por defecto true (se crea como plantilla). Pasar false si la actividad se va a asignar directamente a estudiantes.'),
+            'plantilla' => $schema->boolean()->description('Por defecto true (normalmente las actividades se crean como plantillas). Solo pasar false si la actividad se va a asignar directamente a estudiantes.'),
             'slug' => $schema->string(),
             'final' => $schema->boolean(),
             'siguiente_id' => $schema->integer(),
