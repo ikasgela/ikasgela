@@ -10,7 +10,7 @@ use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Attributes\Description;
 use Laravel\Mcp\Server\Tool;
 
-#[Description('Crear un nuevo texto Markdown. Requiere titulo, curso_id (ID del curso), repositorio y archivo. La rama por defecto es master; si el archivo se encuentra en otra rama del repositorio, hay que especificarla explícitamente con rama. Devuelve los datos del texto creado.')]
+#[Description('Crear un nuevo texto Markdown. Requiere titulo, curso_id (ID del curso), repositorio y archivo. La rama por defecto es master; si el archivo se encuentra en otra rama válida del repositorio, hay que especificarla explícitamente con rama. Devuelve los datos del texto creado.')]
 class CreateMarkdownText extends Tool
 {
     public function handle(Request $request): Response
@@ -69,7 +69,7 @@ class CreateMarkdownText extends Tool
             'titulo' => $schema->string()->required(),
             'descripcion' => $schema->string(),
             'repositorio' => $schema->string()->required(),
-            'rama' => $schema->string()->description('Rama del repositorio. Por defecto es master; si el archivo se encuentra en otra rama, especificarla aquí.'),
+            'rama' => $schema->string()->description('Rama del repositorio donde se encuentra el archivo. Debe ser una rama válida del repositorio especificado. Por defecto es master.'),
             'archivo' => $schema->string()->required(),
 
         ];
