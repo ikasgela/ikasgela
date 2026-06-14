@@ -10,7 +10,7 @@ use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Attributes\Description;
 use Laravel\Mcp\Server\Tool;
 
-#[Description('Crear un nuevo IntellijProject. Requiere titulo y repositorio (formato usuario/repositorio, no la URL completa del repositorio). El host por defecto es gitea. Devuelve los datos del proyecto creado.')]
+#[Description('Crear un nuevo IntellijProject. Requiere titulo y repositorio (formato usuario/nombre_del_repositorio, no la URL completa del repositorio). El host por defecto es gitea. Devuelve los datos del proyecto creado.')]
 class CreateIntellijProject extends Tool
 {
     public function handle(Request $request): Response
@@ -69,7 +69,7 @@ class CreateIntellijProject extends Tool
         return [
             'titulo' => $schema->string()->required(),
             'descripcion' => $schema->string(),
-            'repositorio' => $schema->string()->required()->description('Formato: usuario/repositorio (no la URL completa del repositorio)'),
+            'repositorio' => $schema->string()->required()->description('Formato: usuario/nombre_del_repositorio (no la URL completa del repositorio)'),
             'host' => $schema->string(),
             
             'curso_id' => $schema->integer(),
