@@ -299,9 +299,12 @@ explícito se asume `'master'`.
 
 ### Creación de actividades (plantilla por defecto)
 
-Al crear una actividad con la herramienta MCP `CreateActividad`, se crea como plantilla
-(`plantilla=true`) por defecto. Si la actividad va a asignarse directamente a estudiantes
-y no es una plantilla, hay que pasar explícitamente `plantilla=false`.
+Al crear una actividad con la herramienta MCP `CreateActividad`, se crea siempre como
+plantilla (`plantilla=true`) por defecto. **Los agentes deben crear actividades como
+plantillas salvo indicación expresa del usuario en sentido contrario.**
+
+Nunca pasar `plantilla=false` a menos que se solicite explícitamente crear una actividad
+directamente asignable a estudiantes. Si no estás seguro, deja el valor por defecto.
 
 ### Organización de Gitea en cursos
 

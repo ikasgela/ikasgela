@@ -10,7 +10,7 @@ use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Attributes\Description;
 use Laravel\Mcp\Server\Tool;
 
-#[Description('Crear una nueva actividad. Por defecto se crea como plantilla (plantilla=true). Solo si la actividad va a asignarse directamente a estudiantes y no es una plantilla, pasar explícitamente plantilla=false. Requiere unidad_id, nombre y orden. Campos opcionales: descripcion, puntuacion, plantilla (true por defecto), slug, final, siguiente_id, auto_avance, qualification_id, orden, fecha_disponibilidad, fecha_entrega, fecha_limite. Solo administradores pueden ejecutar esta acción.')]
+#[Description('Crear una nueva actividad. Por defecto se crea como plantilla (plantilla=true). Los agentes deben crear siempre actividades como plantillas a menos que se solicite explícitamente lo contrario. Nunca pasar plantilla=false salvo indicación expresa del usuario de que la actividad se va a asignar directamente a estudiantes. Requiere unidad_id, nombre y orden. Campos opcionales: descripcion, puntuacion, plantilla (true por defecto), slug, final, siguiente_id, auto_avance, qualification_id, orden, fecha_disponibilidad, fecha_entrega, fecha_limite. Solo administradores pueden ejecutar esta acción.')]
 class CreateActividad extends Tool
 {
     public function handle(Request $request): Response
@@ -92,7 +92,7 @@ class CreateActividad extends Tool
             'nombre' => $schema->string()->required(),
             'descripcion' => $schema->string(),
             'puntuacion' => $schema->number(),
-            'plantilla' => $schema->boolean()->description('Por defecto true (normalmente las actividades se crean como plantillas). Solo pasar false si la actividad se va a asignar directamente a estudiantes.'),
+            'plantilla' => $schema->boolean()->description('Por defecto true. Las actividades se crean siempre como plantillas a menos que se indique explícitamente lo contrario. Nunca pasar false salvo indicación expresa de que la actividad se va a asignar directamente a estudiantes.'),
             'slug' => $schema->string(),
             'final' => $schema->boolean(),
             'siguiente_id' => $schema->integer(),
