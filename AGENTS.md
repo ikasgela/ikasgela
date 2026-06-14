@@ -2,17 +2,17 @@
 
 ## Descripción del proyecto
 
-**Ikasgela** es una plataforma de gestión del aprendizaje (LMS) construida con **Laravel 12** y **PHP 8.4**. Permite a profesores crear cursos con unidades y actividades, asignarlas a alumnos, hacer seguimiento del progreso, evaluar con rúbricas, y gestionar recursos educativos variados.
+**Ikasgela** es una plataforma de gestión del aprendizaje (LMS) construida con **Laravel 13** y **PHP 8.4**. Permite a profesores crear cursos con unidades y actividades, asignarlas a alumnos, hacer seguimiento del progreso, evaluar con rúbricas, y gestionar recursos educativos variados.
 
 ### Stack tecnológico
 
-- **Backend**: Laravel 12, PHP 8.4
+- **Backend**: Laravel 13, PHP 8.4
 - **Frontend**: Livewire 3, Bootstrap/SASS, Vite
 - **Base de datos**: MySQL (con soporte para cache de Eloquent vía `ymigval/laravel-model-cache`)
 - **Tiempo real**: Laravel Reverb (WebSockets)
 - **Storage**: AWS S3 compatible (via Flysystem)
 - **Testing**: PHPUnit 12, Paratest (ejecución paralela), Laravel Dusk (browser)
-- **Refactoring**: Rector (configurado para Laravel 12)
+- **Refactoring**: Rector (configurado para Laravel 13)
 
 ---
 
@@ -347,7 +347,7 @@ el sistema generará un valor por defecto a partir del nombre del curso.
 ### Al refactorizar
 
 - Ejecutar Rector con `--dry-run` antes de aplicar cambios.
-- El código debe ser compatible con PHP 8.4 y Laravel 12.
+- El código debe ser compatible con PHP 8.4 y Laravel 13.
 - No usar `MigrateToSimplifiedAttributeRector` (está excluido en `rector.php`).
 
 ### Commits
