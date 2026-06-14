@@ -297,6 +297,12 @@ explícito se asume `'master'`.
 - **Herramientas de solo lectura**: anotar con `#[IsReadOnly]`.
 - **Herramientas destructivas**: anotar con `#[IsDestructive]`.
 
+### Creación de actividades (plantilla por defecto)
+
+Al crear una actividad con la herramienta MCP `CreateActividad`, se crea como plantilla
+(`plantilla=true`) por defecto. Si la actividad va a asignarse directamente a estudiantes
+y no es una plantilla, hay que pasar explícitamente `plantilla=false`.
+
 ---
 
 ## Guías para agentes
