@@ -303,6 +303,13 @@ Al crear una actividad con la herramienta MCP `CreateActividad`, se crea como pl
 (`plantilla=true`) por defecto. Si la actividad va a asignarse directamente a estudiantes
 y no es una plantilla, hay que pasar explícitamente `plantilla=false`.
 
+### Organización de Gitea en cursos
+
+El campo `gitea_organization` de los cursos (`CreateCurso`, `UpdateCurso`) se usa para
+especificar la organización de Gitea con la que se crearán posibles nuevos repositorios y
+con la que se interactuará en general a través del servidor de Gitea. Si no se proporciona,
+el sistema generará un valor por defecto a partir del nombre del curso.
+
 ---
 
 ## Guías para agentes

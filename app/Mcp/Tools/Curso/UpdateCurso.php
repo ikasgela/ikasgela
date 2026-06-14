@@ -11,7 +11,7 @@ use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Attributes\Description;
 use Laravel\Mcp\Server\Tool;
 
-#[Description('Actualizar un curso existente por su ID. Campos opcionales: category_id, nombre, descripcion, slug, gitea_organization, tags, matricula_abierta, qualification_id, max_simultaneas, plazo_actividad, fecha_inicio, fecha_fin, minimo_entregadas, minimo_competencias, minimo_examenes, minimo_examenes_finales, examenes_obligatorios, maximo_recuperable_examenes_finales, progreso_visible, silence_notifications, normalizar_nota, ajuste_proporcional_nota, mostrar_calificaciones. Devuelve los datos actualizados.')]
+#[Description('Actualizar un curso existente por su ID. Campos opcionales: category_id, nombre, descripcion, slug, gitea_organization (organización de Gitea para crear repositorios e interactuar con el servidor), tags, matricula_abierta, qualification_id, max_simultaneas, plazo_actividad, fecha_inicio, fecha_fin, minimo_entregadas, minimo_competencias, minimo_examenes, minimo_examenes_finales, examenes_obligatorios, maximo_recuperable_examenes_finales, progreso_visible, silence_notifications, normalizar_nota, ajuste_proporcional_nota, mostrar_calificaciones. Devuelve los datos actualizados.')]
 class UpdateCurso extends Tool
 {
     public function handle(Request $request): Response
@@ -186,7 +186,7 @@ class UpdateCurso extends Tool
             'nombre' => $schema->string(),
             'descripcion' => $schema->string(),
             'slug' => $schema->string(),
-            'gitea_organization' => $schema->string(),
+            'gitea_organization' => $schema->string()->description('Organización de Gitea. Se usará para crear posibles nuevos repositorios en Gitea y para interactuar con el servidor de Gitea.'),
             'tags' => $schema->string(),
             'matricula_abierta' => $schema->boolean(),
             'qualification_id' => $schema->integer(),

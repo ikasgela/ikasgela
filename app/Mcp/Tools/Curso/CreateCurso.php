@@ -11,7 +11,7 @@ use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Attributes\Description;
 use Laravel\Mcp\Server\Tool;
 
-#[Description('Crear un nuevo curso. Requiere category_id (ID de la categoría) y nombre. Devuelve los datos del curso creado.')]
+#[Description('Crear un nuevo curso. Requiere category_id (ID de la categoría) y nombre. El campo gitea_organization es opcional pero, si se proporciona, se usará como organización de Gitea para crear posibles nuevos repositorios y para interactuar con el servidor de Gitea. Devuelve los datos del curso creado.')]
 class CreateCurso extends Tool
 {
     public function handle(Request $request): Response
@@ -105,7 +105,7 @@ class CreateCurso extends Tool
             'nombre' => $schema->string()->required(),
             'descripcion' => $schema->string(),
             'slug' => $schema->string(),
-            'gitea_organization' => $schema->string(),
+            'gitea_organization' => $schema->string()->description('Organización de Gitea. Si se proporciona, se usará para crear posibles nuevos repositorios en Gitea y para interactuar con el servidor de Gitea.'),
             'tags' => $schema->string(),
             'matricula_abierta' => $schema->boolean(),
             'qualification_id' => $schema->integer(),
