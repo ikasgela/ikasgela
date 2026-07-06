@@ -37,7 +37,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single', 'gelf'],
+            'channels' => ['single', 'openobserve'],
         ],
 
         'single' => [
@@ -125,6 +125,13 @@ return [
             // \Monolog\Formatter\GelfMessageFormatter::DEFAULT_MAX_LENGTH is
             // used (currently this value is 32766)
             'max_length' => null,
+        ],
+
+        'openobserve' => [
+            'driver' => 'custom',
+            'via' => \Weijukeji\LaravelOpenObserve\Logging\OpenObserveLogger::class,
+            'level' => env('LOG_LEVEL', 'debug'),
+            'name' => 'openobserve',
         ],
     ],
 

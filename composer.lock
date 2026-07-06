@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1b5e20122449c80cda1cc705c0842762",
+    "content-hash": "85e7b6fedbea8cdc8bed265bfaa2f29a",
     "packages": [
         {
             "name": "akaunting/laravel-setting",
@@ -11394,6 +11394,69 @@
                 }
             ],
             "time": "2026-04-26T05:33:54+00:00"
+        },
+        {
+            "name": "weijukeji/laravel-openobserve",
+            "version": "v0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/WeiJuKeJi/laravel-openobserve.git",
+                "reference": "3bf0f26c640aa196a8408a5498aeda850eeb6060"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/WeiJuKeJi/laravel-openobserve/zipball/3bf0f26c640aa196a8408a5498aeda850eeb6060",
+                "reference": "3bf0f26c640aa196a8408a5498aeda850eeb6060",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/http": "^11.0|^12.0|^13.0",
+                "illuminate/support": "^11.0|^12.0|^13.0",
+                "php": "^8.3"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^9.0|^10.0|^11.0",
+                "pestphp/pest": "^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "OpenObserve": "Weijukeji\\LaravelOpenObserve\\Facades\\OpenObserve"
+                    },
+                    "providers": [
+                        "Weijukeji\\LaravelOpenObserve\\OpenObserveServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Weijukeji\\LaravelOpenObserve\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Minhyung Park",
+                    "email": "urlinee@gmail.com"
+                }
+            ],
+            "description": "Laravel package for OpenObserve integration - centralized log management and monitoring",
+            "keywords": [
+                "laravel",
+                "logging",
+                "monitoring",
+                "observability",
+                "openobserve"
+            ],
+            "support": {
+                "issues": "https://github.com/overworks/laravel-openobserve/issues",
+                "source": "https://github.com/overworks/laravel-openobserve"
+            },
+            "time": "2026-05-05T06:27:33+00:00"
         }
     ],
     "packages-dev": [
