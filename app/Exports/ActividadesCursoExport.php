@@ -18,7 +18,7 @@ class ActividadesCursoExport implements FromView, ShouldAutoSize, WithStyles
         return view('actividades.export', $this->datosInforme(request(), true));
     }
 
-    public function styles(Worksheet $sheet)
+    public function styles(Worksheet $sheet): ?array
     {
         return [
             2 => ['font' => ['bold' => true]],
