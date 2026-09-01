@@ -107,7 +107,7 @@
                     name="action" value="unblock"
                     class="btn btn-light btn-sm"><i class="bi bi-unlock2"></i>
             </button>
-            @include('partials.boton_borrar')
+            @include('partials.boton_borrar', ['name' => 'action', 'value' => 'delete'])
         </div>
     </div>
     <div class="col-12">
