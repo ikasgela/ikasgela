@@ -538,9 +538,20 @@ class CursoController extends Controller
 
             $zip->close();
 
+            // PHP 8.5 no crea el fichero en disco al cerrar un ZIP vacío.
+            // Symfony 8 BinaryFileResponse verifica file_exists() en la
+            // construcción. Creamos el fichero manualmente si no existe.
+            if (!file_exists($zip_path)) {
+                file_put_contents($zip_path,
+                    pack('VvvvvVv',
+                        0x06054b50, 0, 0, 0, 0, 0, 0
+                    ) . str_repeat("\0", 18)
+                );
+            }
+
             return response()->download($zip_path)->deleteFileAfterSend(true);
         } else {
-            return "Failed to create the zip file.";
+            return response()->json(['message' => 'No se pudo crear el ZIP.'], 500);
         }
     }
 
