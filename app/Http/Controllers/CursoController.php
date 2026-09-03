@@ -313,7 +313,7 @@ class CursoController extends Controller
         // Exportar el log
         $this->log_txt = Arr::sort($this->log_txt);
         $this->log_txt = Arr::join($this->log_txt, PHP_EOL);
-        SystemFile::append($ruta . "log.txt", $this->log_txt);
+        SystemFile::append($ruta . '/' . "log.txt", $this->log_txt);
 
         // Crear el zip
         $fecha = now()->format('Ymd-His');
@@ -333,7 +333,7 @@ class CursoController extends Controller
 
     private function exportarFicheroJSON(string $ruta, string $fichero, $datos): void
     {
-        $ok = SystemFile::put($ruta . $fichero, $datos->toJson(JSON_PRETTY_PRINT));
+        $ok = SystemFile::put($ruta . '/' . $fichero, $datos->toJson(JSON_PRETTY_PRINT));
         if ($ok) {
             $this->log_txt[] = $fichero . ': ' . (!is_a($datos, Curso::class) ? $datos->count() : 1);
         } else {
