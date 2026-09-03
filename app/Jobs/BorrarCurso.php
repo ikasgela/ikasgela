@@ -58,7 +58,7 @@ class BorrarCurso implements ShouldQueue
             ->delete();
 
         $curso->intellij_projects()->delete();
-        GiteaClient::borrar_organizacion($curso->slug);
+        GiteaClient::borrar_organizacion($curso->gitea_organization);
         $curso->markdown_texts()->delete();
         $curso->youtube_videos()->delete();
         $curso->cuestionarios()->delete();
