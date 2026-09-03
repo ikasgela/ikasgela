@@ -17,63 +17,77 @@ export default defineConfig({
                 // PrismJS themes and plugins
                 {
                     src: 'node_modules/prismjs/themes/prism-coy.min.css',
-                    dest: 'prismjs'
+                    dest: 'prismjs',
+                    rename: { stripBase: true }
                 },
                 {
                     src: 'node_modules/prismjs/themes/prism-tomorrow.min.css',
-                    dest: 'prismjs'
+                    dest: 'prismjs',
+                    rename: { stripBase: true }
                 },
                 {
                     src: 'node_modules/prismjs/plugins/line-numbers/prism-line-numbers.min.css',
-                    dest: 'prismjs'
+                    dest: 'prismjs',
+                    rename: { stripBase: true }
                 },
                 // TinyMCE
                 {
                     src: 'node_modules/tinymce/icons',
-                    dest: 'tinymce'
+                    dest: 'tinymce',
+                    rename: { stripBase: 2 }
                 },
                 {
                     src: 'node_modules/tinymce/models',
-                    dest: 'tinymce'
+                    dest: 'tinymce',
+                    rename: { stripBase: 2 }
                 },
                 {
                     src: 'node_modules/tinymce/plugins',
-                    dest: 'tinymce'
+                    dest: 'tinymce',
+                    rename: { stripBase: 2 }
                 },
                 {
                     src: 'node_modules/tinymce/skins',
-                    dest: 'tinymce'
+                    dest: 'tinymce',
+                    rename: { stripBase: 2 }
                 },
                 {
                     src: 'node_modules/tinymce/themes',
-                    dest: 'tinymce'
+                    dest: 'tinymce',
+                    rename: { stripBase: 2 }
                 },
                 {
                     src: 'node_modules/tinymce/tinymce.min.js',
-                    dest: 'tinymce'
+                    dest: 'tinymce',
+                    rename: { stripBase: 2 }
                 },
                 {
-                    src: 'node_modules/tinymce-i18n/langs7/*',
-                    dest: 'tinymce/langs'
+                    src: 'node_modules/tinymce-i18n/langs8',
+                    dest: 'tinymce/langs',
+                    rename: { stripBase: true }
                 },
                 // Chart.js
                 {
                     src: 'node_modules/chart.js/dist/chart.umd.js',
-                    dest: 'js'
+                    dest: 'js',
+                    rename: { stripBase: true }
                 },
                 // Fancybox 5
                 {
                     src: 'node_modules/@fancyapps/ui/dist/fancybox/fancybox.css',
-                    dest: 'fancybox'
+                    dest: 'fancybox',
+                    rename: { stripBase: true }
                 },
                 {
                     src: 'node_modules/@fancyapps/ui/dist/fancybox/fancybox.umd.js',
-                    dest: 'fancybox'
+                    dest: 'fancybox',
+                    rename: { stripBase: true }
                 },
                 // Single click script
                 {
                     src: 'resources/js/single_click.js',
-                    dest: 'js'
+                    dest: 'js',
+                    rename: { stripBase: true }
                 },
             ]
         }),

@@ -10,12 +10,12 @@
         "axios": "^1.6.1",
         "bootstrap": "^5.3.3",
         "laravel-echo": "^2.1.5",
-        "laravel-vite-plugin": "^2.0.0",
+        "laravel-vite-plugin": "^3.0.0",
         "lodash": "^4.17.21",
         "pusher-js": "^8.4.0",
         "sass-embedded": "^1.98.0",
-        "vite": "^7.0.0",
-        "vite-plugin-static-copy": "^3.0.0"
+        "vite": "^8.0.0",
+        "vite-plugin-static-copy": "^4.0.0"
     },
     "dependencies": {
         "@fancyapps/ui": "^6.0.0",
