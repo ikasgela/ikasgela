@@ -786,13 +786,35 @@ class ImportCurso implements ShouldQueue
     {
         $path = $ruta . $directorio;
 
-        try {
-            $rama = Process::path($path)
-                ->run('git rev-parse --abbrev-ref HEAD')->output();
+        // Nombres procedentes del zip importado: validarlos para evitar
+        // inyección de comandos en la orden git
+        if (!preg_match('/^[a-zA-Z0-9._-]+$/', $organizacion) || !preg_match('/^[a-zA-Z0-9._-]+$/', $repositorio)) {
+            Log::error('Organización o repositorio con nombre no válido al importar.', [
+                'organizacion' => $organizacion,
+                'repositorio' => $repositorio,
+            ]);
+            return false;
+        }
 
+        try {
+            // Desactivar configuración git potencialmente maliciosa incluida en el zip
+            if (is_dir($path . '/.git')) {
+                Process::path($path)->run('rm -rf .git/hooks');
+                foreach (['core.fsmonitor', 'core.sshCommand', 'core.hooksPath'] as $clave) {
+                    Process::path($path)->run('git config --local --unset ' . $clave . ' 2>/dev/null || true');
+                }
+            }
+
+            $rama = trim(Process::path($path)
+                ->run('git rev-parse --abbrev-ref HEAD')->output());
+            if ($rama === '' || !preg_match('/^[a-zA-Z0-9._\/-]+$/', $rama)) {
+                Log::error('Rama no válida en el repositorio importado.', ['rama' => $rama]);
+                return false;
+            }
+
+            $url = 'http://root:' . config('gitea.token') . '@gitea:3000/' . $organizacion . '/' . $repositorio . '.git';
             $result = Process::path($path)
-                ->run('git push -f --set-upstream http://root:' . config('gitea.token') . '@gitea:3000/'
-                    . $organizacion . '/' . $repositorio . '.git ' . $rama);
+                ->run('git push -f --set-upstream ' . escapeshellarg($url) . ' ' . escapeshellarg($rama));
 
             if ($result->failed()) {
                 Log::error('Error al crear el repositorio.', [

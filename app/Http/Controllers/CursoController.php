@@ -355,14 +355,25 @@ class CursoController extends Controller
         $ruta = Storage::disk('temp')->path($directorio);
 
         $fichero = $request->file;
-        $filename = $directorio . '/' . $fichero->getClientOriginalName();
+        $nombre = basename(str_replace('\\', '/', $fichero->getClientOriginalName())) ?: 'import.zip';
+        $filename = $directorio . '/' . $nombre;
         $filename_full = Storage::disk('temp')->path($filename);
 
         Storage::disk('temp')->put($filename, file_get_contents($fichero));
 
-        // Descomprimir el archivo zip
+        // Descomprimir el archivo zip validando cada entrada para evitar que
+        // se escriban ficheros fuera del directorio temporal (zip-slip)
         $zip = new ZipArchive();
         if ($zip->open($filename_full)) {
+            $base = realpath($ruta) . DIRECTORY_SEPARATOR;
+            for ($i = 0; $i < $zip->numFiles; $i++) {
+                $entrada = str_replace('\\', '/', $zip->getNameIndex($i));
+                if (str_starts_with($entrada, '/') || in_array('..', explode('/', $entrada), true)
+                    || !str_starts_with($base . ltrim($entrada, '/'), $base)) {
+                    $zip->close();
+                    abort(400, 'El archivo zip contiene rutas no válidas.');
+                }
+            }
             $zip->extractTo($ruta);
             $zip->close();
         }
