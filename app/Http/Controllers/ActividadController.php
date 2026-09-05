@@ -298,13 +298,22 @@ class ActividadController extends Controller
             }
         }
 
-        $nuevoestado = $request->input('nuevoestado');
+        $nuevoestado = (int) $request->input('nuevoestado');
 
         $estado_anterior = $tarea->estado;
 
         $actividad = $tarea->actividad;
         $usuario = $tarea->user;
         $curso = $actividad->unidad->curso;
+
+        // Las transiciones que asignan puntuación (40, 41, 42, 64) solo las puede
+        // ejecutar el docente/administrador: el alumno únicamente puede usar el
+        // avance automático (42, 64) de una actividad con auto_avance.
+        $asignaPuntuacion = in_array($nuevoestado, [40, 41, 42, 64]);
+        $avanceAutomatico = in_array($nuevoestado, [42, 64]) && (bool) $actividad->auto_avance;
+        if ($asignaPuntuacion && !$override_allowed && !$avanceAutomatico) {
+            abort(403);
+        }
 
         $registro = new Registro();
         $registro->user_id = $usuario->id;
@@ -427,6 +436,8 @@ class ActividadController extends Controller
                     abort(400, __('Invalid task state.'));
                 }
 
+                $this->validarPuntuacion($request, $actividad);
+
                 $dias = $actividad->unidad->curso->plazo_actividad ?? 7;
                 if ($dias > 0) {
                     $actividad->ampliarPlazo($dias);
@@ -442,6 +453,8 @@ class ActividadController extends Controller
                 if (!in_array($estado_anterior, [30, 31]) && !$override_allowed) {
                     abort(400, __('Invalid task state.'));
                 }
+
+                $this->validarPuntuacion($request, $actividad);
 
                 $tarea->estado = $nuevoestado;
 
@@ -507,11 +520,17 @@ class ActividadController extends Controller
 
             // Ampliar plazo
             case 63:
-                if (!$tarea->is_expired && !$override_allowed) {
+                // Solo los profesores/administradores pueden ampliar plazos,
+                // salvo si la actividad ha caducado
+                if (!$actividad->is_expired && !$override_allowed) {
                     abort(400, __('Invalid task state.'));
                 }
 
                 $dias = $request->input('ampliacion_plazo', 7);
+                $maxDias = $override_allowed ? 365 : max(30, (int) ($actividad->unidad->curso->plazo_actividad ?? 7));
+                if (!is_numeric($dias) || (int) $dias < 1 || (int) $dias > $maxDias) {
+                    abort(400, __('Invalid task state.'));
+                }
                 if ($dias > 0) {
                     $actividad->ampliarPlazo($dias);
                 }
@@ -543,6 +562,11 @@ class ActividadController extends Controller
                 $actividad->save();
                 break;
             case 70:
+                // Solo el docente puede marcar/desmarcar una actividad como final
+                if (!$override_allowed) {
+                    abort(403);
+                }
+
                 $tarea->estado = $nuevoestado;
 
                 $actividad->final = !$actividad->final;
@@ -876,6 +900,22 @@ class ActividadController extends Controller
             } else {
                 $intellij_project->unarchive();
             }
+        }
+    }
+
+    private function validarPuntuacion(Request $request, Actividad $actividad)
+    {
+        $puntuacion = $request->input('puntuacion');
+
+        if (is_null($puntuacion) || $puntuacion === '') {
+            return;
+        }
+
+        $maximo = is_null($actividad->puntuacion) ? null : (float) $actividad->puntuacion;
+
+        if (!is_numeric($puntuacion) || (float) $puntuacion < 0
+            || (!is_null($maximo) && (float) $puntuacion > $maximo)) {
+            abort(400, __('Invalid score.'));
         }
     }
 

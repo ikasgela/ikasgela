@@ -250,6 +250,127 @@ class ActividadesEstadoTest extends TestCase
         $this->assertNotEquals($originalFinal, $actividad->final);
     }
 
+    // ===== Seguridad: autoevaluación =====
+    public function testActualizarEstadoStudentCannotSelfGrade()
+    {
+        $this->actingAs($this->alumno);
+        ['actividad' => $actividad, 'tarea' => $tarea] = $this->crearTareaConCursoActual(30);
+
+        $response = $this->put(route('actividades.estado', $tarea), [
+            'nuevoestado' => 40,
+            'puntuacion' => 100,
+            'feedback' => 'Self grading',
+        ]);
+
+        $response->assertForbidden();
+        $tarea->refresh();
+        $this->assertEquals(30, $tarea->estado);
+        $this->assertNull($tarea->puntuacion);
+    }
+
+    public function testActualizarEstadoStudentCannotUseAutoAdvanceOnManualActivity()
+    {
+        $this->actingAs($this->alumno);
+        ['actividad' => $actividad, 'tarea' => $tarea] = $this->crearTareaConCursoActual(20);
+
+        $response = $this->put(route('actividades.estado', $tarea), [
+            'nuevoestado' => 64,
+        ]);
+
+        $response->assertForbidden();
+        $tarea->refresh();
+        $this->assertEquals(20, $tarea->estado);
+        $this->assertNull($tarea->puntuacion);
+    }
+
+    public function testActualizarEstadoStudentAutoAdvanceAllowedOnAutoAvanceActivity()
+    {
+        $this->actingAs($this->alumno);
+        ['actividad' => $actividad, 'tarea' => $tarea] = $this->crearTareaConCursoActual(20);
+        $actividad->update(['auto_avance' => true, 'puntuacion' => 10]);
+
+        $response = $this->put(route('actividades.estado', $tarea), [
+            'nuevoestado' => 64,
+        ]);
+
+        $response->assertRedirect();
+        $tarea->refresh();
+        $this->assertEquals(64, $tarea->estado);
+        $this->assertEquals(10, $tarea->puntuacion);
+    }
+
+    // ===== Seguridad: validación de puntuación =====
+    public function testActualizarEstadoScoreAboveMaxRejected()
+    {
+        $this->actingAs($this->not_profesor);
+        ['actividad' => $actividad, 'tarea' => $tarea] = $this->crearTareaConCursoActual(30);
+        $actividad->update(['puntuacion' => 10]);
+        setting_usuario(['curso_actual' => $actividad->unidad->curso->id], $this->not_profesor);
+
+        $response = $this->put(route('actividades.estado', $tarea), [
+            'nuevoestado' => 40,
+            'puntuacion' => 999,
+            'feedback' => 'Cheating',
+        ]);
+
+        $response->assertStatus(400);
+        $tarea->refresh();
+        $this->assertEquals(30, $tarea->estado);
+        $this->assertNull($tarea->puntuacion);
+    }
+
+    // ===== Seguridad: ampliación de plazo =====
+    public function testActualizarEstadoStudentCannotExtendDeadlineOnActiveActivity()
+    {
+        $this->actingAs($this->alumno);
+        ['actividad' => $actividad, 'tarea' => $tarea] = $this->crearTareaConCursoActual(20);
+        $actividad->update(['fecha_limite' => now()->addDays(5)]);
+        $original = $actividad->fecha_limite->toDateTimeString();
+
+        $response = $this->put(route('actividades.estado', $tarea), [
+            'nuevoestado' => 63,
+            'ampliacion_plazo' => 7,
+        ]);
+
+        $response->assertStatus(400);
+        $actividad->refresh();
+        $this->assertEquals($original, $actividad->fecha_limite->toDateTimeString());
+    }
+
+    public function testActualizarEstadoStudentCannotExtendDeadlineBeyondCap()
+    {
+        $this->actingAs($this->alumno);
+        ['actividad' => $actividad, 'tarea' => $tarea] = $this->crearTareaConCursoActual(20);
+        $actividad->unidad->curso->update(['plazo_actividad' => 10]);
+        $actividad->update(['fecha_limite' => now()->subDays(1)]);
+        $original = $actividad->fecha_limite->toDateTimeString();
+
+        $response = $this->put(route('actividades.estado', $tarea), [
+            'nuevoestado' => 63,
+            'ampliacion_plazo' => 3650,
+        ]);
+
+        $response->assertStatus(400);
+        $actividad->refresh();
+        $this->assertEquals($original, $actividad->fecha_limite->toDateTimeString());
+    }
+
+    // ===== Seguridad: toggle final solo staff =====
+    public function testActualizarEstadoStudentCannotToggleFinal()
+    {
+        $this->actingAs($this->alumno);
+        ['actividad' => $actividad, 'tarea' => $tarea] = $this->crearTareaConCursoActual(10);
+        $originalFinal = $actividad->final;
+
+        $response = $this->put(route('actividades.estado', $tarea), [
+            'nuevoestado' => 70,
+        ]);
+
+        $response->assertForbidden();
+        $actividad->refresh();
+        $this->assertEquals($originalFinal, $actividad->final);
+    }
+
     // ===== actualizarEstado - case 10: undo pending =====
     public function testActualizarEstadoCase10Admin()
     {

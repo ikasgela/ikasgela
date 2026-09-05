@@ -344,6 +344,7 @@
     "Invalid filename.": "Nombre de archivo no válido.",
     "Invalid JSON was returned from the route.": "Se devolvió un JSON no válido desde la ruta.",
     "Invalid rule": "Regla no válida",
+    "Invalid score.": "Puntuación no válida.",
     "Invalid SSL Certificate": "Certificado SSL no válido",
     "Invalid task state.": "Estado de tarea no válido.",
     "Items": "Items",
