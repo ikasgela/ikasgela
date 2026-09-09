@@ -214,6 +214,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::post('/actividades/plantillas', [ActividadController::class, 'plantillas'])
                 ->name('actividades.plantillas.filtro');
 
+            // No paginar las plantillas
+            Route::post('/actividades/no_paginar_plantillas', [ActividadController::class, 'plantillas'])
+                ->name('actividades.plantillas.no_paginar');
+
             // Reordenar actividades
             Route::post('/actividades/reordenar/{a1}/{a2}', [ActividadController::class, 'reordenar'])
                 ->name('actividades.reordenar');

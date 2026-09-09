@@ -98,6 +98,14 @@ class ActividadController extends Controller
             session()->push('tags_actividades', request('tag_actividad'));
         }
 
+        if ($request->has('profesor_no_paginar')) {
+            if (session('profesor_actividades_no_paginar') == 'S') {
+                session(['profesor_actividades_no_paginar' => '']);
+            } else {
+                session(['profesor_actividades_no_paginar' => 'S']);
+            }
+        }
+
         $actividades = $this->obtenerPlantillas();
 
         $ids = $actividades->pluck('id')->toArray();
@@ -939,7 +947,11 @@ class ActividadController extends Controller
             $actividades = $actividades->tags(session('tags_actividades'));
         }
 
-        $actividades = $this->paginate_ultima($actividades, config('ikasgela.pagination_medium'));
+        if (session('profesor_actividades_no_paginar') == 'S') {
+            $actividades = $this->paginate_ultima($actividades, 1000000);
+        } else {
+            $actividades = $this->paginate_ultima($actividades, config('ikasgela.pagination_medium'));
+        }
 
         return $actividades;
     }

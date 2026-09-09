@@ -15,6 +15,12 @@
 
     <div class="d-flex justify-content-end">
         <div class="btn-toolbar" role="toolbar">
+            {{ html()->form('POST', route('actividades.plantillas.no_paginar'))->open() }}
+            {{ html()->submit(session('profesor_actividades_no_paginar') == 'S' ? __('Paginate results') : __('Show all results'))
+                    ->class(['btn btn-sm mx-1 mb-3', session('profesor_actividades_no_paginar') == 'S' ? 'btn-primary' : 'btn-outline-secondary']) }}
+            {{ html()->hidden('profesor_no_paginar', 'S') }}
+            {{ html()->form()->close() }}
+
             {{ html()->form('POST', route('actividades.plantillas.filtro'))->open() }}
             {{ html()->submit(__('Clear filters'))
                     ->class(['btn btn-sm mx-1 mb-3', (session('profesor_filtro_etiquetas') == 'S' || session('profesor_filtro_actividades_etiquetas') == 'S') ? 'btn-primary' : 'btn-outline-secondary']) }}
