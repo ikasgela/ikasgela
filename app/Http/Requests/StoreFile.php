@@ -27,7 +27,11 @@ class StoreFile extends FormRequest
         if (Auth::user()->hasAnyRole(['admin'])) {
             $rules = 'required';
         } else {
-            $rules = 'required|mimes:pdf,doc,docx,odt,xls,xlsx,ods,zip,exe,dmg|max:524288'; // 512MB
+            // Los no-administradores solo suben documentos: se excluyen los
+            // binarios ejecutables (exe, dmg), que no tienen sentido como
+            // adjunto de documento y suponen un riesgo defensivo (un fichero
+            // ejecutable almacenado es un activo que nunca se debe servir).
+            $rules = 'required|mimes:pdf,doc,docx,odt,xls,xlsx,ods,zip|max:524288'; // 512MB
         }
 
         return [

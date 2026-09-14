@@ -45,19 +45,43 @@ class FileControllerExtraTest extends TestCase
     {
         Storage::fake('s3');
 
-        $fileResource = FileResource::factory()->create();
+         $fileResource = FileResource::factory()->create();
 
-        $this->actingAs($this->admin);
+         $this->actingAs($this->admin);
 
-        $fakeFile = UploadedFile::fake()->create('document.pdf', 100, 'application/pdf');
+         $fakeFile = UploadedFile::fake()->create('document.pdf', 100, 'application/pdf');
 
-        $response = $this->post(route('files.upload.document'), [
-            'file' => $fakeFile,
-            'file_resource_id' => $fileResource->id,
-        ]);
+         $response = $this->post(route('files.upload.document'), [
+             'file' => $fakeFile,
+             'file_resource_id' => $fileResource->id,
+         ]);
 
-        $response->assertRedirect();
-        $response->assertSessionHas('success');
+         $response->assertRedirect();
+         $response->assertSessionHas('success');
+    }
+
+    public function testDocumentUploadRejectsExecutableForNonAdmin()
+    {
+        Storage::fake('s3');
+
+         $fileResource = FileResource::factory()->create();
+
+         // Los no-administradores no deben poder subir binarios ejecutables
+         $this->actingAs($this->alumno);
+
+         $fakeExe = UploadedFile::fake()->create('malware.exe', 100, 'application/x-msdownload');
+
+         $response = $this->post(route('files.upload.document'), [
+             'file' => $fakeExe,
+             'file_resource_id' => $fileResource->id,
+         ]);
+
+        // La validación de tipos mimes rechaza el ejecutable
+         $response->assertSessionHasErrors('file');
+         $this->assertFalse(
+            File::where('extension', 'exe')->exists(),
+            'Un fichero ejecutable no debe guardarse para un usuario no administrador.'
+         );
     }
 
     public function testRotateLeft()
