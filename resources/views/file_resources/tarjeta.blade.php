@@ -1,3 +1,5 @@
+@include('partials.copiar-enlace')
+
 <div class="card mb-3">
     <div class="card-header d-flex justify-content-between">
         <div><i class="bi bi-file-earmark me-2"></i>{{ __('Files') }}</div>
@@ -35,9 +37,13 @@
                                         {{ $file->description ?: $file->title }}
                                     </a>
                                     @if(Auth::user()->hasRole('profesor') && Route::currentRouteName() == 'file_resources.show')
-                                        <a title="{{ __('Edit') }}"
-                                           href="{{ route('files.edit', [$file->id]) }}"
-                                           class='ms-1 text-link-light'><i class="bi bi-pencil-square"></i></a>
+                                        <button name="copy_title"
+                                                type="button"
+                                                title="{{ __('Copy title') }}"
+                                                onclick="copyToClipboard(this, '{{ $file->description ?: $file->title }}', '{{ __('Title copied') }}')"
+                                                class="btn btn-sm">
+                                            <i class="bi bi-copy"></i>
+                                        </button>
                                     @endif
                                 </td>
                                 <td>{{ $file->size_in_kb }} KB</td>
@@ -53,6 +59,11 @@
                                                         ->class(['btn btn-sm', $file->visible ? 'btn-primary' : 'btn-light'])
                                                         ->attribute('title', $file->visible ? __('Visible') : __('Hidden')) }}
                                             {{ html()->form()->close() }}
+                                        </div>
+                                        <div class='btn-group me-2'>
+                                            <a title="{{ __('Edit') }}"
+                                               href="{{ route('files.edit', [$file->id]) }}"
+                                               class='btn btn-sm btn-light'><i class="bi bi-pencil-square"></i></a>
                                         </div>
                                         <div class='btn-group'>
                                             {{ html()->form('DELETE', route('files.delete', $file->id))->open() }}

@@ -1,6 +1,5 @@
 <script>
-    function copyToClipboard(el, text) {
-        const message = "{{ __('Link copied') }}.";
+    function copyToClipboard(el, text, message = "{{ __('Link copied') }}.") {
 
         // Intentar escribir en el portapapeles
         navigator.clipboard.writeText(text).then(function () {
