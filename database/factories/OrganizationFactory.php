@@ -19,7 +19,7 @@ class OrganizationFactory extends Factory
 
         return [
             'name' => $name,
-            'slug' => Str::slug($name),
+            'slug' => Str::slug($name) . '-' . Str::random(6),
             'seats' => fake()->numberBetween(5, 10),
         ];
     }
