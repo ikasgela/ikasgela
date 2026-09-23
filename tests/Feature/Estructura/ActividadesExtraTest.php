@@ -196,6 +196,34 @@ class ActividadesExtraTest extends TestCase
         $response->assertForbidden();
     }
 
+    public function testReordenarRecursosNoYoutubeVideos()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given - actividad con recursos que NO son vídeos (la causa del bug)
+        $actividad = Actividad::factory()->create();
+        $mt = MarkdownText::factory()->create();
+        $rubric = Rubric::factory()->create();
+        $actividad->markdown_texts()->attach($mt, ['orden' => 1, 'titulo_visible' => true, 'descripcion_visible' => true, 'columnas' => 12]);
+        $actividad->rubrics()->attach($rubric, ['orden' => 2, 'titulo_visible' => true, 'descripcion_visible' => true, 'columnas' => 12]);
+
+        // When - mover el segundo recurso hacia arriba
+        $response = $this->post(route('actividades.reordenar_recursos', $actividad), [
+            'a1' => 2,
+            'a2' => 1,
+        ]);
+
+        // Then - el orden se intercambia y persiste en la base de datos
+        $response->assertRedirect();
+        $actividad->refresh();
+        $recursos = $actividad->recursos->keyBy('pivot.orden');
+        $this->assertSame($rubric->id, $recursos->get(1)->id);
+        $this->assertSame($mt->id, $recursos->get(2)->id);
+        $this->assertDatabaseHas('actividad_rubric', ['rubric_id' => $rubric->id, 'orden' => 1]);
+        $this->assertDatabaseHas('actividad_markdown_text', ['markdown_text_id' => $mt->id, 'orden' => 2]);
+    }
+
     // --- recurso_modificar_columnas (requires role:admin via controller __construct) ---
 
     public function testRecursoModificarColumnasSumar()

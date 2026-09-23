@@ -892,14 +892,19 @@ class ActividadController extends Controller
         $a1->pivot->orden = $a2->pivot->orden;
         $a2->pivot->orden = $temp;
 
-        // Use updateExistingPivot to trigger cache invalidation
-        $actividad->youtube_videos()->updateExistingPivot($a1->id, ['orden' => $a1->pivot->orden]);
-        $actividad->youtube_videos()->updateExistingPivot($a2->id, ['orden' => $a2->pivot->orden]);
+        // Use the relation of each resource's own type (updateExistingPivot on the relation
+        // triggers the model-cache invalidation). Hardcoding youtube_videos() left every
+        // non-video resource (MarkdownText, Rubric, FileResource, ...) untouched.
+        $relacion1 = Str::plural(Str::snake(class_basename($a1)));
+        $relacion2 = Str::plural(Str::snake(class_basename($a2)));
+
+        $actividad->{$relacion1}()->updateExistingPivot($a1->id, ['orden' => $a1->pivot->orden]);
+        $actividad->{$relacion2}()->updateExistingPivot($a2->id, ['orden' => $a2->pivot->orden]);
 
         return back();
-    }
+     }
 
-    private function bloquearRepositorios(Tarea $tarea, bool $solo_lectura)
+     private function bloquearRepositorios(Tarea $tarea, bool $solo_lectura)
     {
         foreach ($tarea->actividad->intellij_projects as $intellij_project) {
 
