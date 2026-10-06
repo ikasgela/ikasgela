@@ -83,6 +83,9 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             $usuario = $usuario_dominio[0];
 
             $email = substr($usuario, 0, 39 - $longitud_dominio) . '.' . $dominio;
+
+            // Si en el username resultante hay dos puntos seguidos, se produce un error de Gitea
+            $email = str_replace('..', '.', $email);
         }
 
         return strtolower(str_replace('@', '.', $email));
