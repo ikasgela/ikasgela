@@ -11331,22 +11331,24 @@
     "packages-dev": [
         {
             "name": "andreapollastri/checkpoint",
-            "version": "1.1.8",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/andreapollastri/checkpoint.git",
-                "reference": "be3b70607a0e9136ae9513a4da96f97c85baf33b"
+                "reference": "282998e9d9353ca16dc1e6d8ebd5f30619600765"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/andreapollastri/checkpoint/zipball/be3b70607a0e9136ae9513a4da96f97c85baf33b",
-                "reference": "be3b70607a0e9136ae9513a4da96f97c85baf33b",
+                "url": "https://api.github.com/repos/andreapollastri/checkpoint/zipball/282998e9d9353ca16dc1e6d8ebd5f30619600765",
+                "reference": "282998e9d9353ca16dc1e6d8ebd5f30619600765",
                 "shasum": ""
             },
             "require": {
                 "illuminate/console": "^8.0 || ^9.0 || ^10.0 || ^11.0 || ^12.0 || ^13.0",
                 "illuminate/support": "^8.0 || ^9.0 || ^10.0 || ^11.0 || ^12.0 || ^13.0",
-                "php": "^8.1"
+                "php": "^8.1",
+                "symfony/finder": "^5.4 || ^6.0 || ^7.0 || ^8.0",
+                "symfony/process": "^5.4 || ^6.0 || ^7.0 || ^8.0"
             },
             "require-dev": {
                 "orchestra/testbench": "^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0",
@@ -11384,7 +11386,7 @@
                 "security": "https://github.com/andreapollastri/checkpoint/security/advisories",
                 "source": "https://github.com/andreapollastri/checkpoint"
             },
-            "time": "2026-09-17T23:38:37+00:00"
+            "time": "2026-10-07T09:51:41+00:00"
         },
         {
             "name": "barryvdh/laravel-debugbar",
