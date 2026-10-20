@@ -6,6 +6,6 @@
     <span class="badge text-bg-danger ms-2">{{ $num_env }}</span>
 @endif
 
-@if($num_env_examen > 0)
+@if(session('profesor_filtro_actividades_examen') == 'E')
     <span class="badge text-bg-info ms-2">{{ $num_env_examen }}</span>
 @endif
