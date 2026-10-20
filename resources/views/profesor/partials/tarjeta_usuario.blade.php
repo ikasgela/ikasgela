@@ -6,6 +6,7 @@
                     <a title="{{ __('Control panel') }}"
                        href="{{ route('profesor.tareas', ['user' => $user->id]) }}"
                        class='text-primary-emphasis'>{{ $user->full_name }}</a>
+                    @include('profesor.partials.num_actividades_usuario')
                     @include('profesor.partials.status_usuario')
                     @include('profesor.partials.etiquetas_usuario')
                     @include('profesor.partials.baja_ansiedad_usuario')
