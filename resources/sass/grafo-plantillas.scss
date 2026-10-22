@@ -152,6 +152,11 @@
         text-decoration: none;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 
+        // Vue Flow desactiva los eventos de puntero en los nodos que no se
+        // pueden mover, por lo que hay que reactivarlos para poder pulsar
+        pointer-events: all;
+        cursor: pointer;
+
         &:hover {
             background-color: #6f42c1;
             color: var(--bs-body-bg);
@@ -194,5 +199,8 @@
         border: 2px solid var(--bs-body-bg);
         width: 16px;
         height: 16px;
+
+        // El handle debe quedar por encima del enlace para poder arrastrar
+        z-index: 2;
     }
 }

@@ -315,6 +315,43 @@ class T4_GrafoPlantillasTest extends DuskTestCase
         });
     }
 
+    public function testElCirculoDelSelectorAbreLaEdicion()
+    {
+        $this->browse(function (Browser $browser) {
+            $this->prepararPlantillas(2);
+
+            $this->posicionarPlantillas();
+
+            $this->crearSelector(true);
+
+            $this->login($browser);
+
+            $this->abrirGrafo($browser);
+
+            $browser->waitForText('Selector de prueba', 20);
+
+            $original = $browser->driver->getWindowHandle();
+
+            // Se pulsa el círculo con un evento de puntero real
+            $this->clic($browser, '.vue-flow__node-selector .nodo-selector__enlace');
+
+            $browser->pause(2000);
+
+            $nuevas = array_values(array_diff($browser->driver->getWindowHandles(), [$original]));
+
+            $this->assertNotEmpty(
+                $nuevas,
+                'El círculo del selector no ha abierto la edición del recurso'
+            );
+
+            $browser->driver->switchTo()->window($nuevas[0]);
+
+            $browser->assertRouteIs('selectors.edit', [$this->selector->id]);
+            $browser->assertSee(__('Edit selector'));
+            $browser->assertInputValue('titulo', 'Selector de prueba');
+        });
+    }
+
     public function testFiltroUnidadMuestraSoloLasPlantillasDeLaUnidad()
     {
         $this->browse(function (Browser $browser) {
@@ -571,6 +608,33 @@ class T4_GrafoPlantillasTest extends DuskTestCase
         }
 
         $acciones[] = ['type' => 'pointerUp', 'button' => 0];
+
+        $browser->driver->execute(DriverCommand::ACTIONS, [
+            'actions' => [
+                [
+                    'type' => 'pointer',
+                    'id' => 'mouse',
+                    'parameters' => ['pointerType' => 'mouse'],
+                    'actions' => $acciones,
+                ],
+            ],
+        ]);
+
+        $browser->pause(500);
+    }
+
+    /**
+     * Pulsa un elemento con eventos de puntero reales.
+     */
+    private function clic(Browser $browser, string $selector): void
+    {
+        $centro = $this->centro($browser, $selector);
+
+        $acciones = [
+            ['type' => 'pointerMove', 'duration' => 0, 'origin' => 'viewport', 'x' => $centro['x'], 'y' => $centro['y']],
+            ['type' => 'pointerDown', 'button' => 0],
+            ['type' => 'pointerUp', 'button' => 0],
+        ];
 
         $browser->driver->execute(DriverCommand::ACTIONS, [
             'actions' => [
