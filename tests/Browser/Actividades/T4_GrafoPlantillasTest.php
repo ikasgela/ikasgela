@@ -179,6 +179,8 @@ class T4_GrafoPlantillasTest extends DuskTestCase
             // La primera plantilla sigue encadenada con la segunda
             $this->plantilla1->update(['siguiente_id' => $this->plantilla2->id]);
 
+            $this->posicionarPlantillas();
+
             $this->crearSelector();
 
             $this->login($browser);
@@ -223,10 +225,64 @@ class T4_GrafoPlantillasTest extends DuskTestCase
         });
     }
 
+    public function testReconectarCondicionCambiaDestino()
+    {
+        $this->browse(function (Browser $browser) {
+            $this->prepararPlantillas(3);
+
+            // La primera plantilla encadena con la segunda, donde está el círculo
+            $this->plantilla1->update(['siguiente_id' => $this->plantilla2->id]);
+
+            $this->posicionarPlantillas();
+
+            $this->crearSelector(true);
+
+            $this->login($browser);
+
+            $this->abrirGrafo($browser);
+
+            $enlace = '.vue-flow__edge[data-id="s' . $this->selector->id . '-' . $this->regla->id . '"]';
+
+            $browser->waitFor('.vue-flow__node-selector', 15);
+            $browser->waitFor($enlace, 15);
+
+            // Se arrastra el extremo del enlace condicionado hasta la tercera plantilla
+            $this->arrastrar(
+                $browser,
+                $enlace . ' .vue-flow__edgeupdater-target',
+                '.vue-flow__node[data-id="' . $this->plantilla3->id . '"] .vue-flow__handle-left'
+            );
+
+            $browser->pause(2000);
+
+            $this->assertEquals(
+                $this->plantilla3->id,
+                RuleGroup::find($this->regla->id)->resultado,
+                'La condición del selector no se ha reconectado'
+            );
+
+            // Las reglas de la condición se conservan
+            $this->assertEquals(
+                1,
+                Rule::where('rule_group_id', $this->regla->id)->count(),
+                'Las reglas de la condición no se han conservado'
+            );
+
+            // No se ha creado ninguna condición nueva
+            $this->assertEquals(
+                1,
+                RuleGroup::where('selector_id', $this->selector->id)->count(),
+                'La condición se ha duplicado en lugar de reconectarse'
+            );
+        });
+    }
+
     public function testEliminarCondicionBorraGrupoDeReglas()
     {
         $this->browse(function (Browser $browser) {
             $this->prepararPlantillas(2);
+
+            $this->posicionarPlantillas();
 
             $this->crearSelector(true);
 
@@ -327,6 +383,29 @@ class T4_GrafoPlantillasTest extends DuskTestCase
             'plantilla' => true,
             'unidad_id' => $this->unidad->id,
         ]);
+    }
+
+    /**
+     * Coloca las plantillas en posiciones separadas para que los handles no se pisen.
+     */
+    private function posicionarPlantillas(): void
+    {
+        $posiciones = [
+            [$this->plantilla1, 0],
+            [$this->plantilla2, 600],
+        ];
+
+        if (!is_null($this->plantilla3)) {
+            $posiciones[] = [$this->plantilla3, 1200];
+        }
+
+        foreach ($posiciones as [$plantilla, $x]) {
+            ActividadGrafo::create([
+                'actividad_id' => $plantilla->id,
+                'posicion_x' => $x,
+                'posicion_y' => 0,
+            ]);
+        }
     }
 
     /**
