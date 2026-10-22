@@ -25,6 +25,7 @@ use App\Http\Controllers\MilestoneController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\PeriodController;
+use App\Http\Controllers\PlantillaGrafoController;
 use App\Http\Controllers\PreguntaController;
 use App\Http\Controllers\ProfesorController;
 use App\Http\Controllers\ProfileController;
@@ -217,6 +218,26 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             // No paginar las plantillas
             Route::post('/actividades/no_paginar_plantillas', [ActividadController::class, 'plantillas'])
                 ->name('actividades.plantillas.no_paginar');
+
+            // Gestionar plantillas de actividades - Vista de grafo (nodos)
+            Route::get('/actividades/plantillas/grafo', [PlantillaGrafoController::class, 'index'])
+                ->name('actividades.plantillas.grafo');
+
+            // Datos del grafo de plantillas (JSON)
+            Route::get('/actividades/plantillas/grafo/datos', [PlantillaGrafoController::class, 'datos'])
+                ->name('actividades.plantillas.grafo.datos');
+
+            // Selector de unidad de la vista de grafo
+            Route::post('/actividades/plantillas/grafo/filtro', [PlantillaGrafoController::class, 'filtro'])
+                ->name('actividades.plantillas.grafo.filtro');
+
+            // Guardar la posición de los nodos del grafo
+            Route::post('/actividades/plantillas/grafo/posiciones', [PlantillaGrafoController::class, 'posiciones'])
+                ->name('actividades.plantillas.grafo.posiciones');
+
+            // Guardar las conexiones (encadenado) del grafo
+            Route::post('/actividades/plantillas/grafo/conexiones', [PlantillaGrafoController::class, 'conexiones'])
+                ->name('actividades.plantillas.grafo.conexiones');
 
             // Reordenar actividades
             Route::post('/actividades/reordenar/{a1}/{a2}', [ActividadController::class, 'reordenar'])

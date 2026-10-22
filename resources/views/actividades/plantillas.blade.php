@@ -15,6 +15,11 @@
 
     <div class="d-flex justify-content-end">
         <div class="btn-toolbar" role="toolbar">
+            <a class="btn btn-sm mx-1 mb-3 btn-outline-secondary"
+               href="{{ route('actividades.plantillas.grafo') }}">
+                <i class="bi bi-diagram-3 me-1"></i>{{ __('Graph view') }}
+            </a>
+
             {{ html()->form('POST', route('actividades.plantillas.no_paginar'))->open() }}
             {{ html()->submit(session('profesor_actividades_no_paginar') == 'S' ? __('Paginate results') : __('Show all results'))
                     ->class(['btn btn-sm mx-1 mb-3', session('profesor_actividades_no_paginar') == 'S' ? 'btn-primary' : 'btn-outline-secondary']) }}

@@ -293,6 +293,14 @@ class Actividad extends Model
         return $this->belongsTo(Actividad::class, 'siguiente_id');
     }
 
+    /**
+     * Posición de la plantilla en el grafo de encadenado (vista de nodos).
+     */
+    public function grafo()
+    {
+        return $this->hasOne(ActividadGrafo::class);
+    }
+
     public function setSiguienteAttribute($value)
     {
         $this->attributes['siguiente_id'] = $value;

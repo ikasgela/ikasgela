@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
+import vue from '@vitejs/plugin-vue';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig({
@@ -9,9 +10,11 @@ export default defineConfig({
                 'resources/sass/app.scss',
                 'resources/js/app.js',
                 'resources/js/prism.js',
+                'resources/js/grafo-plantillas/main.js',
             ],
             refresh: true,
         }),
+        vue(),
         viteStaticCopy({
             targets: [
                 // PrismJS themes and plugins
