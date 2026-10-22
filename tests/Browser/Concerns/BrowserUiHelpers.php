@@ -27,13 +27,15 @@ trait BrowserUiHelpers
         $this->assertNoAppErrors($browser, false);
     }
 
-    protected function assertNoAppErrors(Browser $browser, bool $assertHttpCodes = true): void
+    protected function assertNoAppErrors(Browser $browser, bool $assertPaginaDeError = true): void
     {
         $browser->assertDontSee('Ignition');
 
-        if ($assertHttpCodes) {
-            $browser->assertDontSee('403');
-            $browser->assertDontSee('404');
+        if ($assertPaginaDeError) {
+            // Las páginas de error (403, 404, 500...) usan su propia maquetación.
+            // Se comprueba por estructura porque el texto depende del idioma y
+            // los códigos sueltos (403, 404) pueden aparecer en cualquier sitio.
+            $browser->assertScript("!document.querySelector('.font-black.text-5xl')");
         }
     }
 }
