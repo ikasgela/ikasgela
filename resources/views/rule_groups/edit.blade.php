@@ -43,4 +43,6 @@
            href="{{ route('rules.anyadir', $rule_group) }}">{{ __('New rule') }}</a>
     </div>
 
+    @include('partials.backbutton', ['url_volver' => $volver])
+
 @endsection

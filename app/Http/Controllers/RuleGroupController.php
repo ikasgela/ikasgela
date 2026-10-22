@@ -46,7 +46,7 @@ class RuleGroupController extends Controller
         abort(404);
     }
 
-    public function edit(RuleGroup $rule_group)
+    public function edit(RuleGroup $rule_group, Request $request)
     {
         $selector = $rule_group->selector;
 
@@ -61,7 +61,7 @@ class RuleGroupController extends Controller
 
         return view('rule_groups.edit', array_merge(
             compact(['rule_group', 'selector']),
-            ['actividades' => $actividades]
+            ['actividades' => $actividades, 'volver' => $this->urlVolver($selector, $request->query('volver'))]
         ));
     }
 
@@ -99,5 +99,19 @@ class RuleGroupController extends Controller
     private function actividades()
     {
         return Actividad::cursoActual()->plantilla()->orderBy('orden')->orderBy('id')->get();
+    }
+
+    /**
+     * Página a la que se vuelve al editar un grupo de reglas: la ficha o la
+     * edición del selector correspondiente, según de dónde se haya llegado
+     * (la ficha o la edición). Si no se sabe, se vuelve a la ficha.
+     */
+    private function urlVolver(Selector $selector, ?string $origen = null): string
+    {
+        if ($origen === 'edit') {
+            return route('selectors.edit', $selector->id);
+        }
+
+        return route('selectors.show', $selector->id);
     }
 }

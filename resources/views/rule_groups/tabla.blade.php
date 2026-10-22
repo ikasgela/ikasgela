@@ -1,6 +1,9 @@
 @php
     $acciones = Auth::user()->hasAnyRole(['admin', 'profesor'])
         && in_array(Route::currentRouteName(), ['selectors.show', 'selectors.edit']);
+
+    // Se recuerda de dónde se edita el grupo de reglas para poder volver allí
+    $volver = Route::currentRouteName() === 'selectors.edit' ? 'edit' : 'show';
 @endphp
 
 @if(count($rule_groups) > 0)
@@ -29,7 +32,7 @@
                     @if($acciones)
                         <td class="text-center">
                             <div class='btn-group'>
-                                @include('partials.boton_editar', ['ruta' => 'rule_groups', 'recurso' => $rule_group])
+                                @include('partials.boton_editar', ['ruta' => 'rule_groups', 'recurso' => $rule_group, 'parametros_url' => '?volver=' . $volver])
                                 @include('partials.boton_duplicar', ['ruta' => 'rule_groups.duplicar', 'id' => $rule_group->id, 'middle' => true])
                                 {{ html()->form('DELETE', route('rule_groups.destroy', $rule_group->id))->open() }}
                                 @include('partials.boton_borrar', ['last' => true])
