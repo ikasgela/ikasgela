@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body p-0">
             <div id="grafo-plantillas" class="grafo-plantillas"></div>
         </div>
