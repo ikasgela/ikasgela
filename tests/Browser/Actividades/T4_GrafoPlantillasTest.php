@@ -349,6 +349,40 @@ class T4_GrafoPlantillasTest extends DuskTestCase
             $browser->assertRouteIs('selectors.edit', [$this->selector->id]);
             $browser->assertSee(__('Edit selector'));
             $browser->assertInputValue('titulo', 'Selector de prueba');
+
+            // El botón «Volver» regresa al grafo
+            $browser->click('#boton_volver');
+            $browser->pause(2000);
+
+            $browser->assertRouteIs('actividades.plantillas.grafo');
+            $browser->waitForText('Selector de prueba', 20);
+        });
+    }
+
+    public function testElBotonVolverDesdeLaListaVuelveALaLista()
+    {
+        $this->browse(function (Browser $browser) {
+            $this->prepararPlantillas(2);
+
+            $this->crearSelector(true);
+
+            $this->login($browser);
+
+            // Se edita el selector desde la lista de selectores
+            $browser->visit(route('selectors.index'));
+            $browser->assertRouteIs('selectors.index');
+
+            $browser->click('a[href="' . route('selectors.edit', $this->selector->id) . '"]');
+            $browser->pause(2000);
+
+            $browser->assertRouteIs('selectors.edit', [$this->selector->id]);
+
+            // El botón «Volver» regresa a la lista de selectores
+            $browser->click('#boton_volver');
+            $browser->pause(2000);
+
+            $browser->assertRouteIs('selectors.index');
+            $browser->assertSee('Selector de prueba');
         });
     }
 
