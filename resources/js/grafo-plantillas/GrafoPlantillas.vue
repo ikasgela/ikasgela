@@ -27,6 +27,10 @@ const siguientes = ref({})
 const guardando = ref(false)
 const aviso = ref(null)
 
+// El cuadro de ayuda se puede minimizar y se recuerda la preferencia
+const CLAVE_AYUDA = 'ikasgela.grafo.ayuda'
+const ayudaVisible = ref(leerPreferenciaAyuda())
+
 const nodeTypes = { plantilla: NodoPlantilla, grupo: NodoGrupo, selector: NodoSelector }
 
 const defaultEdgeOptions = {
@@ -194,6 +198,32 @@ function construirGrafo() {
             guardarPosiciones()
         }
     })
+}
+
+/**
+ * Recupera la preferencia de mostrar el cuadro de ayuda.
+ */
+function leerPreferenciaAyuda() {
+    try {
+        const valor = window.localStorage.getItem(CLAVE_AYUDA)
+
+        return valor === null ? true : valor === '1'
+    } catch (error) {
+        return true
+    }
+}
+
+/**
+ * Muestra u oculta el cuadro de ayuda y recuerda la preferencia.
+ */
+function alternarAyuda() {
+    ayudaVisible.value = !ayudaVisible.value
+
+    try {
+        window.localStorage.setItem(CLAVE_AYUDA, ayudaVisible.value ? '1' : '0')
+    } catch (error) {
+        // Si el navegador no permite guardar preferencias, se ignora
+    }
 }
 
 /**
@@ -809,15 +839,27 @@ function mostrarAviso(tipo, texto) {
             >
                 <Background pattern-color="#adb5bd" :gap="20" />
                 <Controls />
-                <MiniMap pannable zoomable />
+                <MiniMap pannable zoomable :aria-label="textos.minimapa" />
 
                 <Panel position="bottom-left">
                     <div class="grafo-plantillas__ayuda">
-                        <div><i class="bi bi-arrow-right-circle me-1"></i>{{ textos.arrastra }}</div>
-                        <div><i class="bi bi-pencil me-1"></i>{{ textos.reconectar }}</div>
-                        <div><i class="bi bi-trash me-1"></i>{{ textos.borrar_enlace }}</div>
-                        <div><i class="bi bi-shuffle me-1"></i>{{ textos.condicional }}</div>
-                        <div><i class="bi bi-exclamation-triangle me-1"></i>{{ textos.borrar_condicion }}</div>
+                        <div class="grafo-plantillas__ayuda-cabecera">
+                            <span><i class="bi bi-question-circle me-1"></i>{{ textos.ayuda }}</span>
+                            <button type="button" id="grafo-ayuda" class="btn btn-sm btn-link p-0 grafo-plantillas__ayuda-boton"
+                                :aria-expanded="ayudaVisible ? 'true' : 'false'"
+                                :aria-label="ayudaVisible ? textos.ocultar_ayuda : textos.mostrar_ayuda"
+                                :title="ayudaVisible ? textos.ocultar_ayuda : textos.mostrar_ayuda"
+                                @click="alternarAyuda">
+                                <i :class="ayudaVisible ? 'bi bi-chevron-down' : 'bi bi-chevron-up'"></i>
+                            </button>
+                        </div>
+                        <div v-if="ayudaVisible" class="grafo-plantillas__ayuda-contenido">
+                            <div><i class="bi bi-arrow-right-circle me-1"></i>{{ textos.arrastra }}</div>
+                            <div><i class="bi bi-pencil me-1"></i>{{ textos.reconectar }}</div>
+                            <div><i class="bi bi-trash me-1"></i>{{ textos.borrar_enlace }}</div>
+                            <div><i class="bi bi-shuffle me-1"></i>{{ textos.condicional }}</div>
+                            <div><i class="bi bi-exclamation-triangle me-1"></i>{{ textos.borrar_condicion }}</div>
+                        </div>
                     </div>
                 </Panel>
             </VueFlow>

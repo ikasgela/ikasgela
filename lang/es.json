@@ -887,6 +887,9 @@
     "YouTube videos": "Vídeos en YouTube",
     "Drag from the circle to the activity to show when the condition is met": "Arrastra desde el círculo hasta la actividad que se mostrará cuando se cumpla la condición",
     "Deleting a conditional link removes its rule group and its rules": "Al borrar una conexión condicional se eliminan su grupo de reglas y sus reglas",
+    "Hide help": "Ocultar la ayuda",
+    "Show help": "Mostrar la ayuda",
+    "Mini map of the graph": "Minimapa del grafo",
     "Rule groups": "Grupos de reglas",
     "This selector has no rule groups yet.": "Este selector todavía no tiene grupos de reglas."
 }

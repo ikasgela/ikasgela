@@ -886,6 +886,9 @@
     "YouTube videos": "YouTube videos",
     "Drag from the circle to the activity to show when the condition is met": "Drag from the circle to the activity to show when the condition is met",
     "Deleting a conditional link removes its rule group and its rules": "Deleting a conditional link removes its rule group and its rules",
+    "Hide help": "Hide help",
+    "Show help": "Show help",
+    "Mini map of the graph": "Mini map of the graph",
     "Rule groups": "Rule groups",
     "This selector has no rule groups yet.": "This selector has no rule groups yet."
 }

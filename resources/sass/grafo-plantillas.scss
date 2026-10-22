@@ -27,6 +27,28 @@
         font-size: 0.8rem;
         color: var(--bs-secondary-color);
         max-width: 24rem;
+
+        &-cabecera {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+
+        &-boton {
+            color: var(--bs-secondary-color);
+            text-decoration: none;
+            line-height: 1;
+
+            &:hover {
+                color: var(--bs-primary);
+            }
+        }
+
+        &-contenido {
+            margin-top: 0.35rem;
+        }
     }
 }
 

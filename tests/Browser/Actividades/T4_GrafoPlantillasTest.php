@@ -386,6 +386,78 @@ class T4_GrafoPlantillasTest extends DuskTestCase
         });
     }
 
+    public function testElCuadroDeAyudaSePuedeMinimizar()
+    {
+        $this->browse(function (Browser $browser) {
+            $this->prepararPlantillas(2);
+
+            $this->login($browser);
+
+            $this->abrirGrafo($browser);
+
+            $browser->waitForText('Grafo plantilla uno', 20);
+
+            $selector = '.grafo-plantillas__ayuda-contenido';
+
+            $inicial = $this->visible($browser, $selector);
+
+            $browser->click('#grafo-ayuda');
+            $browser->pause(500);
+
+            $this->assertNotEquals(
+                $inicial,
+                $this->visible($browser, $selector),
+                'El cuadro de ayuda no se ha minimizado'
+            );
+
+            $browser->click('#grafo-ayuda');
+            $browser->pause(500);
+
+            $this->assertEquals(
+                $inicial,
+                $this->visible($browser, $selector),
+                'El cuadro de ayuda no se ha restaurado'
+            );
+        });
+    }
+
+    public function testElMinimapaUsaElTituloTraducido()
+    {
+        $this->browse(function (Browser $browser) {
+            $this->prepararPlantillas(2);
+
+            $this->login($browser);
+
+            $this->abrirGrafo($browser);
+
+            $browser->waitForText('Grafo plantilla uno', 20);
+
+            $titulo = $browser->driver->findElement(
+                WebDriverBy::cssSelector('.vue-flow__minimap title')
+            );
+
+            $this->assertEquals(
+                __('Mini map of the graph'),
+                $titulo->getDomProperty('textContent'),
+                'El minimapa no muestra el título traducido'
+            );
+        });
+    }
+
+    /**
+     * Indica si el elemento está presente y visible.
+     */
+    private function visible(Browser $browser, string $selector): bool
+    {
+        $elementos = $browser->driver->findElements(WebDriverBy::cssSelector($selector));
+
+        if (!count($elementos)) {
+            return false;
+        }
+
+        return $elementos[0]->isDisplayed();
+    }
+
     public function testFiltroUnidadMuestraSoloLasPlantillasDeLaUnidad()
     {
         $this->browse(function (Browser $browser) {

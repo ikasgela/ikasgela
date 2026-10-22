@@ -363,6 +363,10 @@ class PlantillaGrafoController extends Controller
                 'selector' => __('Selector'),
                 'condicional' => __('Drag from the circle to the activity to show when the condition is met'),
                 'borrar_condicion' => __('Deleting a conditional link removes its rule group and its rules'),
+                'ayuda' => __('Help'),
+                'ocultar_ayuda' => __('Hide help'),
+                'mostrar_ayuda' => __('Show help'),
+                'minimapa' => __('Mini map of the graph'),
             ],
             'urls' => [
                 'datos' => route('actividades.plantillas.grafo.datos'),
