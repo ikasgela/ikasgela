@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Actividad;
 use App\Models\ActividadGrafo;
+use App\Models\RuleGroup;
+use App\Models\Selector;
 use App\Models\Unidad;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -134,6 +136,102 @@ class PlantillaGrafoController extends Controller
     }
 
     /**
+     * Guarda el resultado de las condiciones de los selectores.
+     *
+     * Cada conexión recibida fija el `resultado` de un grupo de reglas del selector
+     * (la actividad que se muestra cuando la condición se cumple). Si `regla_id` es
+     * null se crea un grupo de reglas nuevo y si `destino_id` es null se elimina el
+     * grupo de reglas (y sus reglas, en cascada).
+     */
+    public function resultados(Request $request): JsonResponse
+    {
+        $request->validate([
+            'conexiones' => 'required|array|max:2000',
+            'conexiones.*.selector_id' => 'required|integer',
+            'conexiones.*.regla_id' => 'nullable|integer',
+            'conexiones.*.destino_id' => 'nullable|integer',
+        ]);
+
+        // Plantillas del curso actual (el destino puede estar oculto por el filtro)
+        $plantillas = $this->plantillasQuery(false)->pluck('id')->toArray();
+
+        // Selectores de las plantillas del curso actual
+        $selectores = Selector::where('curso_id', setting_usuario('curso_actual'))
+            ->whereHas('actividades', function ($query) use ($plantillas) {
+                $query->where('actividades.plantilla', true)->whereIn('actividades.id', $plantillas);
+            })->get()->keyBy('id');
+
+        $afectados = [];
+
+        foreach ($request->input('conexiones') as $conexion) {
+            $selector_id = (int) $conexion['selector_id'];
+            $regla_id = isset($conexion['regla_id']) && $conexion['regla_id'] !== ''
+                ? (int) $conexion['regla_id']
+                : null;
+            $destino_id = isset($conexion['destino_id']) && $conexion['destino_id'] !== ''
+                ? (int) $conexion['destino_id']
+                : null;
+
+            $selector = $selectores->get($selector_id);
+
+            if (is_null($selector)) {
+                continue;
+            }
+
+            $afectados[$selector_id] = $selector;
+
+            if (is_null($regla_id)) {
+                // Nueva condición del selector
+                if (is_null($destino_id) || !in_array($destino_id, $plantillas)) {
+                    continue;
+                }
+
+                RuleGroup::create([
+                    'selector_id' => $selector->id,
+                    'operador' => 'or',
+                    'accion' => 'siguiente',
+                    'resultado' => $destino_id,
+                ]);
+
+                continue;
+            }
+
+            $regla = $selector->rule_groups()->where('id', $regla_id)->first();
+
+            if (is_null($regla)) {
+                continue;
+            }
+
+            if (is_null($destino_id)) {
+                // Se elimina la condición (y sus reglas en cascada)
+                $regla->delete();
+
+                continue;
+            }
+
+            if (!in_array($destino_id, $plantillas)) {
+                continue;
+            }
+
+            $regla->update(['resultado' => $destino_id]);
+        }
+
+        $reglas = [];
+
+        foreach ($afectados as $selector) {
+            foreach ($selector->rule_groups()->get() as $regla) {
+                $reglas[] = [
+                    'selector_id' => $selector->id,
+                    'regla_id' => $regla->id,
+                    'destino_id' => $regla->resultado ? (int) $regla->resultado : null,
+                ];
+            }
+        }
+
+        return response()->json(['ok' => true, 'reglas' => $reglas]);
+    }
+
+    /**
      * Plantillas del curso actual con los filtros de sesión de la vista de tabla.
      */
     private function plantillasQuery(bool $filtrar = true)
@@ -153,12 +251,15 @@ class PlantillaGrafoController extends Controller
 
     private function datosGrafo(): array
     {
+        $curso_id = setting_usuario('curso_actual');
+
         $actividades = $this->plantillasQuery()
             ->with([
                 'unidad',
                 'youtube_videos', 'intellij_projects', 'markdown_texts',
                 'file_resources', 'file_uploads', 'link_collections',
-                'cuestionarios', 'selectors', 'rubrics', 'test_results',
+                'cuestionarios', 'rubrics', 'test_results',
+                'selectors' => fn ($query) => $query->where('curso_id', $curso_id)->with('rule_groups'),
             ])
             ->get();
 
@@ -168,9 +269,42 @@ class PlantillaGrafoController extends Controller
 
         $nodos = [];
         $enlaces = [];
+        $enlaces_selectores = [];
 
         foreach ($actividades as $actividad) {
             $posicion = $posiciones->get($actividad->id);
+
+            $selectores = [];
+
+            foreach ($actividad->selectors as $selector) {
+                $reglas = [];
+
+                foreach ($selector->rule_groups as $regla) {
+                    $reglas[] = [
+                        'id' => $regla->id,
+                        'resultado_id' => $regla->resultado ? (string) $regla->resultado : null,
+                    ];
+
+                    // Solo se dibuja la condición si su resultado es visible
+                    if ($regla->resultado && in_array((int) $regla->resultado, $ids)) {
+                        $enlaces_selectores[] = [
+                            'id' => 's' . $selector->id . '-' . $regla->id,
+                            'source' => $this->idSelector($actividad->id, $selector->id),
+                            'target' => (string) $regla->resultado,
+                            'selector_id' => $selector->id,
+                            'regla_id' => $regla->id,
+                            'actividad_id' => $actividad->id,
+                        ];
+                    }
+                }
+
+                $selectores[] = [
+                    'id' => $selector->id,
+                    'titulo' => $selector->titulo,
+                    'url_edit' => route('selectors.edit', $selector->id),
+                    'reglas' => $reglas,
+                ];
+            }
 
             $nodos[] = [
                 'id' => (string) $actividad->id,
@@ -186,6 +320,7 @@ class PlantillaGrafoController extends Controller
                 'recursos' => $actividad->recursos->count(),
                 'etiquetas' => array_values(array_filter($actividad->etiquetas())),
                 'siguiente_id' => $actividad->siguiente_id ? (string) $actividad->siguiente_id : null,
+                'selectores' => $selectores,
                 'url_preview' => route('actividades.preview', $actividad->id),
                 'url_edit' => route('actividades.edit', $actividad->id),
                 'posicion' => [
@@ -206,6 +341,7 @@ class PlantillaGrafoController extends Controller
         return [
             'nodos' => $nodos,
             'enlaces' => $enlaces,
+            'enlaces_selectores' => $enlaces_selectores,
             'textos' => [
                 'organizar' => __('Organize automatically'),
                 'recargar' => __('Reload'),
@@ -224,12 +360,24 @@ class PlantillaGrafoController extends Controller
                 'edit' => __('Edit'),
                 'sin_conexion' => __('Not connected'),
                 'con_conexion' => __('Connected'),
+                'selector' => __('Selector'),
+                'condicional' => __('Drag from the circle to the activity to show when the condition is met'),
+                'borrar_condicion' => __('Deleting a conditional link removes its rule group and its rules'),
             ],
             'urls' => [
                 'datos' => route('actividades.plantillas.grafo.datos'),
                 'posiciones' => route('actividades.plantillas.grafo.posiciones'),
                 'conexiones' => route('actividades.plantillas.grafo.conexiones'),
+                'resultados' => route('actividades.plantillas.grafo.resultados'),
             ],
         ];
+    }
+
+    /**
+     * Identificador del nodo (círculo) de un selector en el grafo.
+     */
+    private function idSelector(int $actividad_id, int $selector_id): string
+    {
+        return 'selector-' . $actividad_id . '-' . $selector_id;
     }
 }

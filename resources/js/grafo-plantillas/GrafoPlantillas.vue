@@ -6,7 +6,8 @@ import { Controls } from '@vue-flow/controls'
 import { MiniMap } from '@vue-flow/minimap'
 import NodoGrupo from './NodoGrupo.vue'
 import NodoPlantilla from './NodoPlantilla.vue'
-import { calcularDisposicion, calcularGrupo } from './disposicion.js'
+import NodoSelector from './NodoSelector.vue'
+import { ANCHO_NODO, ALTO_NODO, calcularDisposicion, calcularGrupo } from './disposicion.js'
 
 const props = defineProps({
     datos: { type: Object, required: true },
@@ -26,13 +27,23 @@ const siguientes = ref({})
 const guardando = ref(false)
 const aviso = ref(null)
 
-const nodeTypes = { plantilla: NodoPlantilla, grupo: NodoGrupo }
+const nodeTypes = { plantilla: NodoPlantilla, grupo: NodoGrupo, selector: NodoSelector }
 
 const defaultEdgeOptions = {
     type: 'smoothstep',
     markerEnd: MarkerType.ArrowClosed,
     style: { strokeWidth: 2 },
 }
+
+// Conexiones condicionadas de los selectores
+const opcionesCondicion = {
+    type: 'smoothstep',
+    markerEnd: MarkerType.ArrowClosed,
+    style: { strokeWidth: 2, strokeDasharray: '6 4', stroke: '#6f42c1' },
+}
+
+// Radio del círculo de los selectores
+const RADIO_SELECTOR = 20
 
 const {
     addEdges,
@@ -47,6 +58,12 @@ const sinPlantillas = computed(() => (datosGrafo.value.nodos || []).length === 0
 
 let temporizadorGuardado = null
 let temporizadorAviso = null
+
+// Información de cada enlace (tipo y regla asociada) para reconocer los condicionados
+const infoEdges = new Map()
+
+// Grupos de reglas que se han borrado y hay que eliminar en el servidor
+let borradosCondicion = []
 
 onMounted(() => {
     construirGrafo()
@@ -65,6 +82,7 @@ onBeforeUnmount(() => {
 function construirGrafo() {
     const datosNodos = datosGrafo.value.nodos || []
     const datosEnlaces = datosGrafo.value.enlaces || []
+    const datosCondiciones = datosGrafo.value.enlaces_selectores || []
 
     const encadenado = {}
     datosNodos.forEach((nodo) => {
@@ -72,12 +90,43 @@ function construirGrafo() {
     })
     siguientes.value = encadenado
 
-    edges.value = datosEnlaces.map((enlace) => ({
-        id: enlace.id,
-        source: String(enlace.source),
-        target: String(enlace.target),
-        ...defaultEdgeOptions,
-    }))
+    infoEdges.clear()
+    borradosCondicion = []
+
+    const enlacesBase = datosEnlaces.map((enlace) => {
+        const edge = {
+            id: enlace.id,
+            source: String(enlace.source),
+            target: String(enlace.target),
+            tipo: 'siguiente',
+            ...defaultEdgeOptions,
+        }
+
+        infoEdges.set(edge.id, { tipo: 'siguiente' })
+
+        return edge
+    })
+
+    const enlacesCondicion = datosCondiciones.map((enlace) => {
+        const edge = {
+            id: enlace.id,
+            source: String(enlace.source),
+            target: String(enlace.target),
+            tipo: 'condicion',
+            ...opcionesCondicion,
+            data: {
+                selector_id: Number(enlace.selector_id),
+                regla_id: Number(enlace.regla_id),
+                actividad_id: Number(enlace.actividad_id),
+            },
+        }
+
+        infoEdges.set(edge.id, { tipo: 'condicion', ...edge.data })
+
+        return edge
+    })
+
+    edges.value = [...enlacesBase, ...enlacesCondicion]
 
     const disposicion = calcularDisposicion(datosNodos, datosEnlaces)
 
@@ -99,6 +148,27 @@ function construirGrafo() {
         data: { ...nodo },
     }))
 
+    // Círculos de los selectores, que se dibujan encima de la conexión
+    datosNodos.forEach((nodo) => {
+        const selectores = nodo.selectores || []
+
+        selectores.forEach((selector, indice) => {
+            nuevosNodos.push({
+                id: idSelector(nodo.id, selector.id),
+                type: 'selector',
+                position: { x: 0, y: 0 },
+                draggable: false,
+                selectable: false,
+                data: {
+                    ...selector,
+                    actividad_id: String(nodo.id),
+                    indice,
+                    total: selectores.length,
+                },
+            })
+        })
+    })
+
     const grupo = calcularGrupo(posiciones, conectados())
 
     if (grupo) {
@@ -116,10 +186,21 @@ function construirGrafo() {
 
     nodes.value = nuevosNodos
 
-    if (!conPosicion && datosNodos.length) {
-        // Se guarda la disposición inicial para que sea estable entre visitas
-        nextTick(() => guardarPosiciones())
-    }
+    nextTick(() => {
+        actualizarPosicionesSelectores()
+
+        if (!conPosicion && datosNodos.length) {
+            // Se guarda la disposición inicial para que sea estable entre visitas
+            guardarPosiciones()
+        }
+    })
+}
+
+/**
+ * Identificador del nodo (círculo) de un selector.
+ */
+function idSelector(actividad_id, selector_id) {
+    return `selector-${actividad_id}-${selector_id}`
 }
 
 /**
@@ -133,7 +214,89 @@ function conectados() {
         ids.add(String(enlace.target))
     })
 
+    // Los selectores son conexiones adicionales: su plantilla no está suelta
+    nodes.value.forEach((nodo) => {
+        if (nodo.type === 'plantilla' && (nodo.data.selectores || []).length) {
+            ids.add(String(nodo.id))
+        }
+    })
+
     return ids
+}
+
+/**
+ * Coloca los círculos de los selectores encima de su conexión base.
+ */
+function actualizarPosicionesSelectores() {
+    const porId = new Map(nodes.value.map((nodo) => [nodo.id, nodo]))
+
+    const bases = new Map()
+    edges.value.filter((enlace) => enlace.tipo === 'siguiente').forEach((enlace) => {
+        const lista = bases.get(String(enlace.source)) || []
+        lista.push(enlace)
+        bases.set(String(enlace.source), lista)
+    })
+
+    nodes.value.filter((nodo) => nodo.type === 'selector').forEach((nodo) => {
+        const actividad_id = String(nodo.data.actividad_id)
+        const origen = porId.get(actividad_id)
+        const base = (bases.get(actividad_id) || [])[0]
+        const destino = base ? porId.get(String(base.target)) : null
+
+        let centro = null
+
+        if (origen && destino) {
+            // Repartidos a lo largo de la conexión base
+            const p1 = handleDerecho(origen)
+            const p2 = handleIzquierdo(destino)
+            const total = nodo.data.total || 1
+            const paso = (nodo.data.indice + 1) / (total + 1)
+
+            centro = {
+                x: p1.x + (p2.x - p1.x) * paso,
+                y: p1.y + (p2.y - p1.y) * paso,
+            }
+        } else if (origen) {
+            // Sin conexión base, el círculo se coloca al lado de la plantilla
+            centro = {
+                x: origen.position.x + ancho(origen) + 60,
+                y: origen.position.y + alto(origen) / 2,
+            }
+        }
+
+        if (!centro) {
+            return
+        }
+
+        updateNode(nodo.id, {
+            position: {
+                x: centro.x - RADIO_SELECTOR,
+                y: centro.y - RADIO_SELECTOR,
+            },
+        })
+    })
+}
+
+function ancho(nodo) {
+    return nodo.dimensions?.width || ANCHO_NODO
+}
+
+function alto(nodo) {
+    return nodo.dimensions?.height || ALTO_NODO
+}
+
+function handleDerecho(nodo) {
+    return {
+        x: nodo.position.x + ancho(nodo),
+        y: nodo.position.y + alto(nodo) / 2,
+    }
+}
+
+function handleIzquierdo(nodo) {
+    return {
+        x: nodo.position.x,
+        y: nodo.position.y + alto(nodo) / 2,
+    }
 }
 
 /**
@@ -184,8 +347,24 @@ function alConectar(conexion) {
         return
     }
 
+    const nodoOrigen = nodes.value.find((nodo) => nodo.id === origen)
+
+    if (!nodoOrigen) {
+        return
+    }
+
+    // Los selectores crean conexiones condicionadas
+    if (nodoOrigen.type === 'selector') {
+        conectarCondicion(nodoOrigen, destino)
+        return
+    }
+
+    if (nodoOrigen.type !== 'plantilla') {
+        return
+    }
+
     // Cada plantilla solo puede tener una actividad siguiente
-    const existentes = edges.value.filter((enlace) => String(enlace.source) === origen)
+    const existentes = edges.value.filter((enlace) => enlace.tipo === 'siguiente' && String(enlace.source) === origen)
     if (existentes.length) {
         removeEdges(existentes)
     }
@@ -194,13 +373,61 @@ function alConectar(conexion) {
         id: `e${origen}-${destino}`,
         source: conexion.source,
         target: conexion.target,
+        tipo: 'siguiente',
         ...defaultEdgeOptions,
     }])
 
+    infoEdges.set(`e${origen}-${destino}`, { tipo: 'siguiente' })
+
     siguientes.value[origen] = destino
 
+    nextTick(() => actualizarPosicionesSelectores())
     actualizarGrupo()
     guardarConexiones()
+}
+
+/**
+ * Crea una conexión condicionada desde el círculo de un selector.
+ */
+function conectarCondicion(nodoSelector, destino) {
+    const nodoDestino = nodes.value.find((nodo) => nodo.id === destino)
+
+    // Solo se puede condicionar hacia otra plantilla
+    if (!nodoDestino || nodoDestino.type !== 'plantilla') {
+        return
+    }
+
+    const selector_id = Number(nodoSelector.data.id)
+
+    // Se usa la primera condición que todavía no está conectada
+    const conectadas = new Set(edges.value
+        .filter((enlace) => enlace.tipo === 'condicion' && enlace.source === nodoSelector.id)
+        .map((enlace) => enlace.data?.regla_id))
+
+    const libre = (nodoSelector.data.reglas || []).find(
+        (regla) => !regla.resultado_id && !conectadas.has(regla.id)
+    )
+    const regla_id = libre ? Number(libre.id) : null
+
+    const id = `s${selector_id}-${regla_id ?? 'nueva'}-${destino}`
+
+    addEdges([{
+        id,
+        source: nodoSelector.id,
+        target: destino,
+        tipo: 'condicion',
+        ...opcionesCondicion,
+        data: {
+            selector_id,
+            regla_id,
+            actividad_id: Number(nodoSelector.data.actividad_id),
+        },
+    }])
+
+    infoEdges.set(id, { tipo: 'condicion', selector_id, regla_id, actividad_id: Number(nodoSelector.data.actividad_id) })
+
+    actualizarGrupo()
+    guardarCondiciones()
 }
 
 /**
@@ -217,9 +444,31 @@ function alActualizarEnlace(payload) {
         return
     }
 
-    updateEdge(edge, connection)
+    const info = infoEdges.get(edge.id)
+
+    const actualizado = updateEdge(edge, {
+        ...connection,
+        tipo: edge.tipo,
+        ...(edge.tipo === 'condicion' ? opcionesCondicion : defaultEdgeOptions),
+    })
+
+    if (actualizado) {
+        // Al actualizar, el enlace cambia de identificador
+        infoEdges.delete(edge.id)
+        infoEdges.set(actualizado.id, info
+            ? { ...info, ...(edge.data || {}) }
+            : { tipo: edge.tipo })
+    }
+
+    if (edge.tipo === 'condicion') {
+        nextTick(() => actualizarPosicionesSelectores())
+        guardarCondiciones()
+        return
+    }
 
     siguientes.value[String(connection.source)] = String(connection.target)
+
+    nextTick(() => actualizarPosicionesSelectores())
 
     actualizarGrupo()
     guardarConexiones()
@@ -234,9 +483,22 @@ function alCambiarEdges(cambios) {
     }
 
     let eliminado = false
+    let eliminadaCondicion = false
 
     cambios.forEach((cambio) => {
         if (cambio.type !== 'remove' || !cambio.source) {
+            return
+        }
+
+        const info = infoEdges.get(cambio.id)
+
+        if (info && info.tipo === 'condicion') {
+            infoEdges.delete(cambio.id)
+            borradosCondicion.push({
+                selector_id: info.selector_id,
+                regla_id: info.regla_id,
+            })
+            eliminadaCondicion = true
             return
         }
 
@@ -252,12 +514,19 @@ function alCambiarEdges(cambios) {
         actualizarGrupo()
         guardarConexiones()
     }
+
+    if (eliminadaCondicion) {
+        nextTick(() => actualizarPosicionesSelectores())
+        actualizarGrupo()
+        guardarCondiciones()
+    }
 }
 
 /**
  * Guarda la posición de un nodo al terminar de arrastrarlo.
  */
 function alSoltarNodo() {
+    actualizarPosicionesSelectores()
     actualizarGrupo()
     guardarPosiciones()
 }
@@ -289,7 +558,9 @@ function alPulsarTecla(evento) {
  */
 function organizar() {
     const datosNodos = datosGrafo.value.nodos || []
-    const enlaces = edges.value.map((enlace) => ({ source: enlace.source, target: enlace.target }))
+    const enlaces = edges.value
+        .filter((enlace) => enlace.tipo === 'siguiente')
+        .map((enlace) => ({ source: enlace.source, target: enlace.target }))
 
     const disposicion = calcularDisposicion(datosNodos, enlaces)
 
@@ -304,6 +575,7 @@ function organizar() {
     })
 
     nextTick(() => {
+        actualizarPosicionesSelectores()
         actualizarGrupo()
         fitView({ padding: 0.2, duration: 300 })
         guardarPosiciones()
@@ -367,6 +639,85 @@ function guardarConexiones() {
     }, 300)
 }
 
+/**
+ * Guarda el resultado de las condiciones de los selectores.
+ */
+function guardarCondiciones() {
+    clearTimeout(temporizadorGuardado)
+
+    temporizadorGuardado = setTimeout(async () => {
+        const conexiones = edges.value
+            .filter((enlace) => enlace.tipo === 'condicion')
+            .map((enlace) => ({
+                selector_id: enlace.data?.selector_id,
+                regla_id: enlace.data?.regla_id,
+                destino_id: Number(enlace.target),
+            }))
+
+        const borrados = borradosCondicion.map((borrado) => ({
+            selector_id: borrado.selector_id,
+            regla_id: borrado.regla_id,
+            destino_id: null,
+        }))
+
+        borradosCondicion = []
+
+        if (!conexiones.length && !borrados.length) {
+            return
+        }
+
+        const respuesta = await enviar('resultados', { conexiones: [...conexiones, ...borrados] })
+
+        if (respuesta && respuesta.reglas) {
+            sincronizarCondiciones(respuesta.reglas)
+        }
+    }, 300)
+}
+
+/**
+ * Actualiza los círculos con los grupos de reglas devueltos por el servidor.
+ */
+function sincronizarCondiciones(reglas) {
+    const porSelector = {}
+
+    reglas.forEach((regla) => {
+        const lista = porSelector[regla.selector_id] || []
+        lista.push(regla)
+        porSelector[regla.selector_id] = lista
+    })
+
+    nodes.value.forEach((nodo) => {
+        if (nodo.type !== 'selector') {
+            return
+        }
+
+        const lista = porSelector[nodo.data.id] || []
+
+        nodo.data.reglas = lista.map((regla) => ({
+            id: regla.regla_id,
+            resultado_id: regla.destino_id ? String(regla.destino_id) : null,
+        }))
+
+        // Las condiciones nuevas reciben el identificador del grupo de reglas
+        edges.value.forEach((enlace) => {
+            if (enlace.tipo !== 'condicion' || enlace.source !== nodo.id) {
+                return
+            }
+
+            if (enlace.data?.regla_id) {
+                return
+            }
+
+            const encontrada = lista.find((regla) => String(regla.destino_id) === String(enlace.target))
+
+            if (encontrada) {
+                enlace.data.regla_id = encontrada.regla_id
+                infoEdges.set(enlace.id, { ...infoEdges.get(enlace.id), regla_id: encontrada.regla_id })
+            }
+        })
+    })
+}
+
 async function enviar(tipo, cuerpo) {
     guardando.value = true
 
@@ -388,11 +739,11 @@ async function enviar(tipo, cuerpo) {
 
         mostrarAviso('ok', textos.value.guardado)
 
-        return true
+        return await respuesta.json()
     } catch (error) {
         mostrarAviso('error', textos.value.error)
 
-        return false
+        return null
     } finally {
         guardando.value = false
     }
@@ -454,6 +805,7 @@ function mostrarAviso(tipo, texto) {
                 @edge-update="alActualizarEnlace"
                 @edges-change="alCambiarEdges"
                 @node-drag-stop="alSoltarNodo"
+                @nodes-initialized="actualizarPosicionesSelectores"
             >
                 <Background pattern-color="#adb5bd" :gap="20" />
                 <Controls />
@@ -464,6 +816,8 @@ function mostrarAviso(tipo, texto) {
                         <div><i class="bi bi-arrow-right-circle me-1"></i>{{ textos.arrastra }}</div>
                         <div><i class="bi bi-pencil me-1"></i>{{ textos.reconectar }}</div>
                         <div><i class="bi bi-trash me-1"></i>{{ textos.borrar_enlace }}</div>
+                        <div><i class="bi bi-shuffle me-1"></i>{{ textos.condicional }}</div>
+                        <div><i class="bi bi-exclamation-triangle me-1"></i>{{ textos.borrar_condicion }}</div>
                     </div>
                 </Panel>
             </VueFlow>

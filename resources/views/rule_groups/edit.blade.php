@@ -25,11 +25,7 @@
                 'name' => 'accion',
                 'placeholder' => 'siguiente',
             ])
-            @include('components.label-text', [
-                'label' => __('Result'),
-                'name' => 'resultado',
-                'placeholder' => '10 (id_actividad)',
-            ])
+            @include('rule_groups.campo_resultado', ['actividades' => $actividades, 'resultado' => $rule_group->resultado])
 
             @include('partials.guardar_cancelar')
             @include('layouts.errors')

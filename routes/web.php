@@ -239,6 +239,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::post('/actividades/plantillas/grafo/conexiones', [PlantillaGrafoController::class, 'conexiones'])
                 ->name('actividades.plantillas.grafo.conexiones');
 
+            // Guardar los resultados de las condiciones de los selectores del grafo
+            Route::post('/actividades/plantillas/grafo/resultados', [PlantillaGrafoController::class, 'resultados'])
+                ->name('actividades.plantillas.grafo.resultados');
+
             // Reordenar actividades
             Route::post('/actividades/reordenar/{a1}/{a2}', [ActividadController::class, 'reordenar'])
                 ->name('actividades.reordenar');

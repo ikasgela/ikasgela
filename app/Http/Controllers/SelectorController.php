@@ -60,7 +60,7 @@ class SelectorController extends Controller
 
     public function edit(Selector $selector)
     {
-        $rule_groups = $selector->rule_groups()->get();
+        $rule_groups = $selector->rule_groups()->with('rules')->get();
         $ids = $rule_groups->pluck('id')->toArray();
 
         return view('selectors.edit', compact(['selector', 'rule_groups', 'ids']));

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Actividad;
 use App\Models\RuleGroup;
 use App\Models\Selector;
 use Illuminate\Http\Request;
@@ -21,7 +22,10 @@ class RuleGroupController extends Controller
 
     public function create(Selector $selector)
     {
-        return view('rule_groups.create', compact('selector'));
+        return view('rule_groups.create', array_merge(
+            compact('selector'),
+            ['actividades' => $this->actividades()]
+        ));
     }
 
     public function store(Request $request)
@@ -46,7 +50,19 @@ class RuleGroupController extends Controller
     {
         $selector = $rule_group->selector;
 
-        return view('rule_groups.edit', compact(['rule_group', 'selector']));
+        $actividades = $this->actividades();
+
+        // El resultado actual se conserva aunque no sea una plantilla del curso actual
+        $resultado = Actividad::find($rule_group->resultado);
+
+        if (!is_null($resultado) && !$actividades->contains('id', $resultado->id)) {
+            $actividades->push($resultado);
+        }
+
+        return view('rule_groups.edit', array_merge(
+            compact(['rule_group', 'selector']),
+            ['actividades' => $actividades]
+        ));
     }
 
     public function update(Request $request, RuleGroup $rule_group)
@@ -75,5 +91,13 @@ class RuleGroupController extends Controller
         $clon->save();
 
         return back();
+    }
+
+    /**
+     * Plantillas del curso actual, que son las que se pueden mostrar como resultado.
+     */
+    private function actividades()
+    {
+        return Actividad::cursoActual()->plantilla()->orderBy('orden')->orderBy('id')->get();
     }
 }

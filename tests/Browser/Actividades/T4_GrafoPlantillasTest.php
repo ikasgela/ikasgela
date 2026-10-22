@@ -5,11 +5,15 @@ namespace Tests\Browser\Actividades;
 use App\Models\Actividad;
 use App\Models\ActividadGrafo;
 use App\Models\Curso;
+use App\Models\Rule;
+use App\Models\RuleGroup;
+use App\Models\Selector;
 use App\Models\Unidad;
 use App\Models\User;
 use Facebook\WebDriver\Remote\DriverCommand;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverKeys;
+use Illuminate\Support\Str;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Concerns\BrowserUiHelpers;
 use Tests\DuskTestCase;
@@ -22,6 +26,8 @@ class T4_GrafoPlantillasTest extends DuskTestCase
     private $plantilla2;
     private $plantilla3;
     private $unidad;
+    private $selector;
+    private $regla;
 
     public function testGrafoPlantillas()
     {
@@ -165,6 +171,94 @@ class T4_GrafoPlantillasTest extends DuskTestCase
         });
     }
 
+    public function testCondicionDelSelectorSeGuarda()
+    {
+        $this->browse(function (Browser $browser) {
+            $this->prepararPlantillas(3);
+
+            // La primera plantilla sigue encadenada con la segunda
+            $this->plantilla1->update(['siguiente_id' => $this->plantilla2->id]);
+
+            $this->crearSelector();
+
+            $this->login($browser);
+
+            $this->abrirGrafo($browser);
+
+            // El círculo del selector aparece en el grafo
+            $browser->waitFor('.vue-flow__node-selector', 15);
+            $browser->assertVisible('.vue-flow__node-selector');
+            $browser->assertSee('Selector de prueba');
+
+            // El enlace normal de la actividad sigue visible
+            $browser->waitFor('.vue-flow__edge', 15);
+            $browser->assertPresent(
+                '.vue-flow__edge[data-id="e' . $this->plantilla1->id . '-' . $this->plantilla2->id . '"]'
+            );
+
+            // Se arrastra el círculo del selector hasta la tercera plantilla
+            $this->arrastrar(
+                $browser,
+                '.vue-flow__node-selector .vue-flow__handle-right',
+                '.vue-flow__node[data-id="' . $this->plantilla3->id . '"] .vue-flow__handle-left'
+            );
+
+            $browser->pause(2000);
+
+            $regla = RuleGroup::where('selector_id', $this->selector->id)->first();
+
+            $this->assertNotNull(
+                $regla,
+                'No se ha creado la condición del selector'
+            );
+
+            $this->assertEquals(
+                $this->plantilla3->id,
+                $regla->resultado,
+                'La condición del selector no apunta a la plantilla arrastrada'
+            );
+
+            // El enlace normal sigue estando junto al enlace condicionado
+            $browser->assertScript("document.querySelectorAll('.vue-flow__edge').length", 2);
+        });
+    }
+
+    public function testEliminarCondicionBorraGrupoDeReglas()
+    {
+        $this->browse(function (Browser $browser) {
+            $this->prepararPlantillas(2);
+
+            $this->crearSelector(true);
+
+            $this->login($browser);
+
+            $this->abrirGrafo($browser);
+
+            $browser->waitFor('.vue-flow__node-selector', 15);
+            $browser->waitFor('.vue-flow__edge', 15);
+
+            // Se selecciona el enlace condicionado y se elimina con la tecla Supr
+            $browser->script("
+                var enlace = document.querySelector('.vue-flow__edge[data-id^=\"s\"]');
+                enlace.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true, view: window}));
+            ");
+            $browser->pause(500);
+            $browser->driver->getKeyboard()->pressKey(WebDriverKeys::DELETE);
+            $browser->pause(2000);
+
+            $this->assertNull(
+                RuleGroup::where('selector_id', $this->selector->id)->first(),
+                'La condición del selector no se ha eliminado'
+            );
+
+            $this->assertEquals(
+                0,
+                Rule::where('rule_group_id', $this->regla->id)->count(),
+                'Las reglas de la condición no se han eliminado'
+            );
+        });
+    }
+
     public function testUsuarioNoAdminNoAccede()
     {
         $this->browse(function (Browser $browser) {
@@ -232,6 +326,42 @@ class T4_GrafoPlantillasTest extends DuskTestCase
             'nombre' => $nombre,
             'plantilla' => true,
             'unidad_id' => $this->unidad->id,
+        ]);
+    }
+
+    /**
+     * Crea un selector con sus reglas y lo adjunta a la primera plantilla.
+     */
+    private function crearSelector(bool $conReglas = false): void
+    {
+        $usuario = User::where('email', 'admin@ikasgela.com')->first();
+        $curso = Curso::find(setting_usuario('curso_actual', $usuario));
+
+        $this->selector = Selector::factory()->create([
+            'titulo' => 'Selector de prueba',
+            'curso_id' => $curso->id,
+        ]);
+
+        $this->plantilla1->selectors()->attach($this->selector, ['orden' => (string) Str::orderedUuid()]);
+
+        if (!$conReglas) {
+            return;
+        }
+
+        $regla = RuleGroup::factory()->create([
+            'selector_id' => $this->selector->id,
+            'operador' => 'and',
+            'accion' => 'siguiente',
+            'resultado' => $this->plantilla2->id,
+        ]);
+
+        $this->regla = $regla;
+
+        Rule::factory()->create([
+            'rule_group_id' => $regla->id,
+            'propiedad' => 'puntuacion',
+            'operador' => '<',
+            'valor' => 80,
         ]);
     }
 

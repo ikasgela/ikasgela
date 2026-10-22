@@ -884,5 +884,9 @@
     "You need a user account to use ikasgela.": "ikasgela erabiltzeko kontu bat behar duzu.",
     "Your data": "Zure datuak",
     "YouTube video": "YouTubeko bideoa",
-    "YouTube videos": "YouTubeko bideoak"
+    "YouTube videos": "YouTubeko bideoak",
+    "Drag from the circle to the activity to show when the condition is met": "Eman zirkitik erakutsi nahi den zentroko jarduerara arte, baldintza bete denean",
+    "Deleting a conditional link removes its rule group and its rules": "Baldintzazko lotura bat ezabatzeak bere erregela taldea eta erregelak ezabatzen ditu",
+    "Rule groups": "Arau taldeak",
+    "This selector has no rule groups yet.": "Hautatzaile honek oraindik ez du arau talderik."
 }

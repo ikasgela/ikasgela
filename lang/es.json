@@ -884,5 +884,9 @@
     "You need a user account to use ikasgela.": "Para utilizar ikasgela necesitas una cuenta de usuario.",
     "Your data": "Tus datos",
     "YouTube video": "Vídeo en YouTube",
-    "YouTube videos": "Vídeos en YouTube"
+    "YouTube videos": "Vídeos en YouTube",
+    "Drag from the circle to the activity to show when the condition is met": "Arrastra desde el círculo hasta la actividad que se mostrará cuando se cumpla la condición",
+    "Deleting a conditional link removes its rule group and its rules": "Al borrar una conexión condicional se eliminan su grupo de reglas y sus reglas",
+    "Rule groups": "Grupos de reglas",
+    "This selector has no rule groups yet.": "Este selector todavía no tiene grupos de reglas."
 }
