@@ -58,6 +58,7 @@
 @yield('tinymce')
 @yield('prismjs-scripts')
 @yield('reload_position')
+@stack('scripts')
 <livewire:modals/>
 </body>
 </html>
