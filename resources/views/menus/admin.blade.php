@@ -15,6 +15,11 @@
                 'icon' => 'bi-file-text',
             ])
             @include('layouts.sidebar.nav-item-desplegable', [
+                'route' => route('actividades.plantillas.grafo'),
+                'text' => __('Activity template graph'),
+                'icon' => 'bi-diagram-3',
+            ])
+            @include('layouts.sidebar.nav-item-desplegable', [
                 'route' => route('intellij_projects.copia'),
                 'text' => __('Project cloner'),
                 'icon' => 'bi-copy',

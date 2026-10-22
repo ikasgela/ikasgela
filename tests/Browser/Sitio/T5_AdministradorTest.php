@@ -33,6 +33,16 @@ class T5_AdministradorTest extends DuskTestCase
         });
     }
 
+    public function testActividadesGrafoPlantillas()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(route('actividades.plantillas.grafo'));
+            $browser->assertRouteIs('actividades.plantillas.grafo');
+            $browser->assertDontSee('Ignition');
+            $browser->assertSee(__('Activity template graph'));
+        });
+    }
+
     public function testActividadesClonador()
     {
         $this->browse(function (Browser $browser) {

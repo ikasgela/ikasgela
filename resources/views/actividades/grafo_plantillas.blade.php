@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="d-flex flex-row flex-wrap justify-content-between align-items-baseline mb-3">
-        <h1>{{ __('Activity templates') }}</h1>
+        <h1>{{ __('Activity template graph') }}</h1>
         <h2 class="text-muted font-xl">{{ Auth::user()->curso_actual()?->pretty_name }}</h2>
     </div>
 
