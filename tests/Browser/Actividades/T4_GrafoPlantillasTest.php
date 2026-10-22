@@ -40,7 +40,7 @@ class T4_GrafoPlantillasTest extends DuskTestCase
             $browser->visit(route('actividades.plantillas.grafo'));
             $browser->assertRouteIs('actividades.plantillas.grafo');
 
-            $browser->waitFor('.vue-flow__node-plantilla', 15);
+            $this->esperarGrafo($browser);
             $browser->assertVisible('.vue-flow__node-plantilla');
             $browser->assertSee('Grafo plantilla uno');
             $browser->assertSee('Grafo plantilla dos');
@@ -188,7 +188,7 @@ class T4_GrafoPlantillasTest extends DuskTestCase
             $this->abrirGrafo($browser);
 
             // El círculo del selector aparece en el grafo
-            $browser->waitFor('.vue-flow__node-selector', 15);
+            $browser->waitForText('Selector de prueba', 20);
             $browser->assertVisible('.vue-flow__node-selector');
             $browser->assertSee('Selector de prueba');
 
@@ -243,7 +243,7 @@ class T4_GrafoPlantillasTest extends DuskTestCase
 
             $enlace = '.vue-flow__edge[data-id="s' . $this->selector->id . '-' . $this->regla->id . '"]';
 
-            $browser->waitFor('.vue-flow__node-selector', 15);
+            $browser->waitForText('Selector de prueba', 20);
             $browser->waitFor($enlace, 15);
 
             // Se arrastra el extremo del enlace condicionado hasta la tercera plantilla
@@ -290,7 +290,7 @@ class T4_GrafoPlantillasTest extends DuskTestCase
 
             $this->abrirGrafo($browser);
 
-            $browser->waitFor('.vue-flow__node-selector', 15);
+            $browser->waitForText('Selector de prueba', 20);
             $browser->waitFor('.vue-flow__edge', 15);
 
             // Se selecciona el enlace condicionado y se elimina con la tecla Supr
@@ -311,6 +311,91 @@ class T4_GrafoPlantillasTest extends DuskTestCase
                 0,
                 Rule::where('rule_group_id', $this->regla->id)->count(),
                 'Las reglas de la condición no se han eliminado'
+            );
+        });
+    }
+
+    public function testFiltroUnidadMuestraSoloLasPlantillasDeLaUnidad()
+    {
+        $this->browse(function (Browser $browser) {
+            $this->prepararPlantillas();
+
+            $usuario = User::where('email', 'admin@ikasgela.com')->first();
+            $curso = Curso::find(setting_usuario('curso_actual', $usuario));
+
+            $otraUnidad = Unidad::factory()->create(['curso_id' => $curso->id]);
+
+            Actividad::factory()->create([
+                'nombre' => 'Grafo plantilla fuera de filtro',
+                'plantilla' => true,
+                'unidad_id' => $otraUnidad->id,
+            ]);
+
+            $this->login($browser);
+
+            $browser->visit(route('actividades.plantillas.grafo'));
+
+            // Se quita cualquier filtro previo de la sesión
+            $browser->select('select[name="unidad_id_disponibles"]', '');
+            $browser->press(__('Filter'));
+            $browser->pause(2000);
+
+            $browser->waitForText('Grafo plantilla fuera de filtro', 20);
+
+            // Al filtrar por la unidad solo quedan sus plantillas
+            $browser->select('select[name="unidad_id_disponibles"]', (string) $this->unidad->id);
+            $browser->press(__('Filter'));
+            $browser->pause(2000);
+
+            $this->esperarGrafo($browser);
+            $browser->assertSee('Grafo plantilla uno');
+            $browser->assertDontSee('Grafo plantilla fuera de filtro');
+
+            $this->assertNoAppErrors($browser);
+        });
+    }
+
+    public function testOrganizarAutomaticamenteGuardaLaDisposicion()
+    {
+        $this->browse(function (Browser $browser) {
+            $this->prepararPlantillas();
+
+            $this->login($browser);
+
+            $this->abrirGrafo($browser);
+
+            $original = ActividadGrafo::where('actividad_id', $this->plantilla1->id)->first();
+
+            $this->assertNotNull($original, 'La disposición inicial no se ha guardado');
+
+            // Se mueve el nodo y después se reorganiza todo el grafo
+            $this->arrastrar(
+                $browser,
+                '.vue-flow__node[data-id="' . $this->plantilla1->id . '"] .nodo-plantilla__nombre',
+                '.vue-flow__node[data-id="' . $this->plantilla2->id . '"] .nodo-plantilla__nombre',
+                150,
+                120
+            );
+
+            $browser->pause(1500);
+
+            $movida = ActividadGrafo::where('actividad_id', $this->plantilla1->id)->first();
+
+            $this->assertNotEquals(
+                [$original->posicion_x, $original->posicion_y],
+                [$movida->posicion_x, $movida->posicion_y],
+                'El nodo no se ha movido'
+            );
+
+            $browser->click('#grafo-organizar');
+            $browser->pause(2000);
+
+            $organizada = ActividadGrafo::where('actividad_id', $this->plantilla1->id)->first();
+
+            $this->assertEquals(
+                [$original->posicion_x, $original->posicion_y],
+                [$organizada->posicion_x, $organizada->posicion_y],
+                'La organización automática no ha guardado la disposición'
             );
         });
     }
@@ -340,6 +425,19 @@ class T4_GrafoPlantillasTest extends DuskTestCase
     }
 
     /**
+     * Espera a que el grafo se haya dibujado en el lienzo.
+     *
+     * Vue Flow mantiene los nodos ocultos hasta que conoce sus dimensiones,
+     * por lo que se espera a que sea visible el texto de una plantilla.
+     */
+    private function esperarGrafo(Browser $browser, int $segundos = 20): void
+    {
+        $browser->waitForText('Grafo plantilla uno', $segundos);
+        $browser->waitFor('.vue-flow__node-plantilla', $segundos);
+        $browser->pause(1000);
+    }
+
+    /**
      * Abre el grafo filtrando por la unidad de las plantillas de prueba.
      */
     private function abrirGrafo(Browser $browser): void
@@ -349,8 +447,8 @@ class T4_GrafoPlantillasTest extends DuskTestCase
         $browser->select('select[name="unidad_id_disponibles"]', (string) $this->unidad->id);
         $browser->press(__('Filter'));
 
-        $browser->waitFor('.vue-flow__node-plantilla', 15);
-        $browser->pause(1500);
+        $this->esperarGrafo($browser);
+        $browser->pause(1000);
 
         $this->assertNoAppErrors($browser);
     }

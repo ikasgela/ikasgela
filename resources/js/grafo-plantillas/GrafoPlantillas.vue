@@ -768,10 +768,10 @@ function mostrarAviso(tipo, texto) {
 <template>
     <div class="grafo-plantillas">
         <div class="grafo-plantillas__barra">
-            <button type="button" class="btn btn-sm btn-primary" @click="organizar">
+            <button type="button" id="grafo-organizar" class="btn btn-sm btn-primary" @click="organizar">
                 <i class="bi bi-magic me-1"></i>{{ textos.organizar }}
             </button>
-            <button type="button" class="btn btn-sm btn-outline-secondary" @click="recargar">
+            <button type="button" id="grafo-recargar" class="btn btn-sm btn-outline-secondary" @click="recargar">
                 <i class="bi bi-arrow-clockwise me-1"></i>{{ textos.recargar }}
             </button>
 
