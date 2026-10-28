@@ -97,6 +97,9 @@ function construirGrafo() {
     infoEdges.clear()
     borradosCondicion = []
 
+    // Plantillas de origen (nodos visibles)
+    const plantillas = new Set(datosNodos.map((nodo) => String(nodo.id)))
+
     const enlacesBase = datosEnlaces.map((enlace) => {
         const edge = {
             id: enlace.id,
@@ -111,11 +114,24 @@ function construirGrafo() {
         return edge
     })
 
-    const enlacesCondicion = datosCondiciones.map((enlace) => {
+    // Cada regla con resultado visible dibuja una flecha desde el círculo del
+    // selector hacia la actividad destino (la entrada al círculo la añade
+    // `redibujarSelectores`).
+    const enlacesCondicion = []
+
+    datosCondiciones.forEach((enlace) => {
+        const destino = String(enlace.target)
+
+        // Solo se dibuja la flecha si su resultado es una plantilla visible
+        if (!plantillas.has(destino)) {
+            return
+        }
+
+        const id = `s${enlace.selector_id}-${enlace.regla_id}-${destino}`
         const edge = {
-            id: enlace.id,
-            source: String(enlace.source),
-            target: String(enlace.target),
+            id,
+            source: idSelector(enlace.actividad_id, enlace.selector_id),
+            target: destino,
             tipo: 'condicion',
             ...opcionesCondicion,
             data: {
@@ -125,14 +141,9 @@ function construirGrafo() {
             },
         }
 
-        // Cada condición sale del conector derecho de la plantilla del selector
-        if (Number(enlace.actividad_id)) {
-            edge.source = String(enlace.actividad_id)
-        }
+        infoEdges.set(id, { tipo: 'condicion', ...edge.data })
 
-        infoEdges.set(edge.id, { tipo: 'condicion', ...edge.data })
-
-        return edge
+        enlacesCondicion.push(edge)
     })
 
     edges.value = [...enlacesBase, ...enlacesCondicion]
@@ -193,8 +204,10 @@ function construirGrafo() {
 
     nodes.value = nuevosNodos
 
+    // El círculo y las flechas de entrada se dibujan una vez que los nodos
+    // conocen sus dimensiones.
     nextTick(() => {
-        actualizarPosicionesSelectores()
+        redibujarSelectores()
 
         if (!conPosicion && datosNodos.length) {
             // Se guarda la disposición inicial para que sea estable entre visitas
@@ -202,6 +215,7 @@ function construirGrafo() {
         }
     })
 }
+
 
 /**
  * Recupera la preferencia de mostrar el cuadro de ayuda.
@@ -258,57 +272,34 @@ function conectados() {
 }
 
 /**
- * Coloca los círculos de los selectores siempre encima de su propia flecha
- * condicional. Con varias condiciones, cada círculo se reparte a lo largo de
- * su flecha para que no se solapen. Sin condiciones dibujadas, se coloca al
- * lado de la plantilla.
+ * Redibuja los selectores: coloca cada círculo sobre la flecha que lo une a su
+ * plantilla y añade o quita la flecha de entrada (plantilla → círculo).
+ *
+ * Cada regla de la condición dibuja, además, su propia flecha desde la salida
+ * del círculo hacia la actividad destino: un selector con tres reglas de
+ * «siguiente» tiene una entrada y tres salidas.
  */
-function actualizarPosicionesSelectores() {
-    const porId = new Map(nodes.value.map((nodo) => [nodo.id, nodo]))
+function redibujarSelectores() {
+    const plantillas = new Map(
+        nodes.value.filter((nodo) => nodo.type === 'plantilla').map((nodo) => [nodo.id, nodo])
+    )
 
-    const condiciones = new Map()
-    edges.value.filter((enlace) => enlace.tipo === 'condicion').forEach((enlace) => {
-        const lista = condiciones.get(enlace.data?.selector_id) || []
-        lista.push(enlace)
-        condiciones.set(enlace.data?.selector_id, lista)
-    })
+    // Se reutilizan las flechas de entrada existentes y se borran las obsoletas
+    const entradas = edges.value.filter((enlace) => enlace.tipo === 'selector')
+    const entradasNecesarias = new Set()
 
     nodes.value.filter((nodo) => nodo.type === 'selector').forEach((nodo) => {
-        const actividad_id = String(nodo.data.actividad_id)
-        const origen = porId.get(actividad_id)
+        const origen = plantillas.get(String(nodo.data.actividad_id))
 
         if (!origen) {
             return
         }
 
-        // El círculo se dibuja siempre sobre su propia flecha condicional.
-        // Si el selector tiene varias condiciones, cada círculo se reparte
-        // a lo largo de su flecha para que no se solapen.
-        const propias = condiciones.get(nodo.data.id) || []
-        const indice = propias.findIndex((enlace) => enlace.target === nodo.id)
-        const total = propias.length
-        const paso = total > 0 ? ((indice === -1 ? 0 : indice) + 1) / (total + 1) : 0.5
-
-        let p1 = null
-        let p2 = null
-
-        if (total > 0) {
-            const destino = porId.get(String(propias[0].target))
-            if (destino) {
-                p1 = handleDerecho(origen)
-                p2 = handleIzquierdo(destino)
-            }
-        }
-
-        if (!p1 || !p2) {
-            // Sin condiciones dibujadas: se coloca al lado de la plantilla
-            p1 = { x: origen.position.x + ancho(origen), y: origen.position.y + alto(origen) / 2 }
-            p2 = { x: p1.x + 120, y: p1.y }
-        }
-
+        // El círculo se coloca un poco a la derecha de la plantilla origen
+        const p1 = handleDerecho(origen)
         const centro = {
-            x: p1.x + (p2.x - p1.x) * paso,
-            y: p1.y + (p2.y - p1.y) * paso,
+            x: p1.x + 80,
+            y: p1.y,
         }
 
         updateNode(nodo.id, {
@@ -317,6 +308,68 @@ function actualizarPosicionesSelectores() {
                 y: centro.y - RADIO_SELECTOR,
             },
         })
+
+        entradasNecesarias.add(`${nodo.data.actividad_id}-${nodo.id}`)
+    })
+    // Se eliminan las flechas de entrada ya no necesarias
+    const obsoletas = entradas.filter((enlace) => !entradasNecesarias.has(`${enlace.source}-${enlace.target}`))
+
+    if (obsoletas.length) {
+        removeEdges(obsoletas)
+    }
+
+    // Se añaden las flechas de entrada que faltan (plantilla → círculo)
+    entradas.forEach((enlace) => {
+        entradasNecesarias.delete(`${enlace.source}-${enlace.target}`)
+    })
+
+    const nuevas = Array.from(entradasNecesarias).map((clave) => {
+        const [actividad_id, nodo_id] = clave.split('-')
+
+        return {
+            id: `sel${actividad_id}-${nodo_id}`,
+            source: actividad_id,
+            target: nodo_id,
+            tipo: 'selector',
+            ...opcionesCondicion,
+        }
+    })
+
+    if (nuevas.length) {
+        addEdges(nuevas)
+    }
+
+    // Las salidas del círculo hacia cada destino: se normalizan los ids
+    const destinosVistos = new Set()
+
+    edges.value.forEach((enlace) => {
+        if (enlace.tipo !== 'condicion') {
+            return
+        }
+
+        const clave = `s${enlace.data?.selector_id}-${enlace.data?.regla_id}-${enlace.target}`
+
+        if (enlace.id === clave) {
+            destinosVistos.add(clave)
+            return
+        }
+
+        if (destinosVistos.has(clave)) {
+            // Duplicado: se conserva el primero y se descarta este
+            removeEdges([enlace])
+            return
+        }
+
+        destinosVistos.add(clave)
+
+        updateEdge(enlace, { id: clave })
+
+        const info = infoEdges.get(enlace.id)
+
+        if (info) {
+            infoEdges.delete(enlace.id)
+            infoEdges.set(clave, info)
+        }
     })
 }
 
@@ -424,7 +477,7 @@ function alConectar(conexion) {
 
     siguientes.value[origen] = destino
 
-    nextTick(() => actualizarPosicionesSelectores())
+    nextTick(() => redibujarSelectores())
     actualizarGrupo()
     guardarConexiones()
 }
@@ -441,12 +494,12 @@ function conectarCondicion(nodoSelector, destino) {
     }
 
     const selector_id = Number(nodoSelector.data.id)
-    // La condición sale del conector derecho de la plantilla que tiene el selector
-    const origen = String(nodoSelector.data.actividad_id)
+    // La flecha sale del conector derecho del círculo del selector
+    const origen = nodoSelector.id
 
-    // Se usa la primera condición que todavía no está conectada
+    // Se usa la primera regla que todavía no está conectada
     const conectadas = new Set(edges.value
-        .filter((enlace) => enlace.tipo === 'condicion' && enlace.source === origen && enlace.data?.selector_id === selector_id)
+        .filter((enlace) => enlace.tipo === 'condicion' && enlace.data?.selector_id === selector_id)
         .map((enlace) => enlace.data?.regla_id))
 
     const libre = (nodoSelector.data.reglas || []).find(
@@ -505,17 +558,19 @@ function alActualizarEnlace(payload) {
             : { tipo: edge.tipo })
     }
 
-    if (edge.tipo === 'condicion') {
-        nextTick(() => actualizarPosicionesSelectores())
+    if (edge.tipo === 'condicion' || edge.tipo === 'selector') {
+        nextTick(() => redibujarSelectores())
         guardarCondiciones()
         return
     }
 
     siguientes.value[String(connection.source)] = String(connection.target)
 
-    nextTick(() => actualizarPosicionesSelectores())
+    nextTick(() => {
+        redibujarSelectores()
+        actualizarGrupo()
+    })
 
-    actualizarGrupo()
     guardarConexiones()
 }
 
@@ -539,10 +594,18 @@ function alCambiarEdges(cambios) {
 
         if (info && info.tipo === 'condicion') {
             infoEdges.delete(cambio.id)
+            // El destino de la regla se pasa a null para borrarla en el servidor
             borradosCondicion.push({
                 selector_id: info.selector_id,
                 regla_id: info.regla_id,
             })
+            eliminadaCondicion = true
+            return
+        }
+
+        if (info && info.tipo === 'selector') {
+            // La flecha de entrada se redibuja automáticamente: no se guarda nada
+            infoEdges.delete(cambio.id)
             eliminadaCondicion = true
             return
         }
@@ -561,9 +624,12 @@ function alCambiarEdges(cambios) {
     }
 
     if (eliminadaCondicion) {
-        nextTick(() => actualizarPosicionesSelectores())
+        nextTick(() => redibujarSelectores())
         actualizarGrupo()
-        guardarCondiciones()
+
+        if (borradosCondicion.length) {
+            guardarCondiciones()
+        }
     }
 }
 
@@ -571,7 +637,7 @@ function alCambiarEdges(cambios) {
  * Guarda la posición de un nodo al terminar de arrastrarlo.
  */
 function alSoltarNodo() {
-    actualizarPosicionesSelectores()
+    redibujarSelectores()
     actualizarGrupo()
     guardarPosiciones()
 }
@@ -620,7 +686,7 @@ function organizar() {
     })
 
     nextTick(() => {
-        actualizarPosicionesSelectores()
+        redibujarSelectores()
         actualizarGrupo()
         fitView({ padding: 0.2, duration: 300 })
         guardarPosiciones()
@@ -850,7 +916,7 @@ function mostrarAviso(tipo, texto) {
                 @edge-update="alActualizarEnlace"
                 @edges-change="alCambiarEdges"
                 @node-drag-stop="alSoltarNodo"
-                @nodes-initialized="actualizarPosicionesSelectores"
+                @nodes-initialized="redibujarSelectores"
             >
                 <Background pattern-color="#adb5bd" :gap="20" />
                 <Controls />

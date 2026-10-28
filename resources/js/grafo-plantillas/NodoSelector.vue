@@ -12,6 +12,7 @@ const textos = inject('textos', {})
 
 <template>
     <div class="nodo-selector">
+        <Handle type="target" :position="Position.Left" class="nodo-selector__handle" />
         <Handle type="source" :position="Position.Right" class="nodo-selector__handle" />
 
         <a class="nodo-selector__enlace nodrag" :href="data.url_edit" target="_blank" rel="noopener"

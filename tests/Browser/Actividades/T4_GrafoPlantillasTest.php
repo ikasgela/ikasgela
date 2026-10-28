@@ -248,64 +248,21 @@ class T4_GrafoPlantillasTest extends DuskTestCase
 
             $browser->waitForText('Selector de prueba', 20);
             $browser->waitFor(
-                '.vue-flow__edge[data-id="s' . $this->selector->id . '-' . $this->regla->id . '"]',
+                '.vue-flow__edge[data-id="s' . $this->selector->id . '-' . $this->regla->id . '-' . $this->plantilla2->id . '"]',
                 15
             );
 
             // La flecha condicional tiene su propio path dibujado (flecha completa)
             $this->assertNotEmpty(
                 $browser->driver->findElements(
-                    WebDriverBy::cssSelector('.vue-flow__edge[data-id="s' . $this->selector->id . '-' . $this->regla->id . '"] .vue-flow__edge-path')
+                    WebDriverBy::cssSelector('.vue-flow__edge[data-id="s' . $this->selector->id . '-' . $this->regla->id . '-' . $this->plantilla2->id . '"] .vue-flow__edge-path')
                 ),
                 'La flecha condicional no se ha dibujado'
             );
         });
     }
 
-    public function testElCirculoSeDibujaSobreSuPropiaFlecha()
-    {
-        $this->browse(function (Browser $browser) {
-            $this->prepararPlantillas(3);
 
-            // La primera plantilla encadena con la segunda: hay flecha «siguiente»
-            $this->plantilla1->update(['siguiente_id' => $this->plantilla2->id]);
-
-            $this->posicionarPlantillas();
-
-            // El selector apunta a la tercera plantilla: su flecha es distinta de la «siguiente»
-            $this->crearSelector(true);
-            $this->regla->update(['resultado' => $this->plantilla3->id]);
-
-            $this->login($browser);
-
-            $this->abrirGrafo($browser);
-
-            $browser->waitForText('Selector de prueba', 20);
-
-            // El círculo debe estar cerca del punto medio de la flecha condicional
-            $selector1 = '.vue-flow__node[data-id="' . $this->plantilla1->id . '"]';
-            $selector3 = '.vue-flow__node[data-id="' . $this->plantilla3->id . '"]';
-
-            $this->assertTrue(
-                $browser->driver->executeScript(
-                    'var c = document.querySelector(arguments[0]);' .
-                    'var a = document.querySelector(arguments[1]);' .
-                    'var b = document.querySelector(arguments[2]);' .
-                    'if (!c || !a || !b) return false;' .
-                    'var rc = c.getBoundingClientRect();' .
-                    'var ra = a.getBoundingClientRect();' .
-                    'var rb = b.getBoundingClientRect();' .
-                    'var cx = rc.x + rc.width / 2, cy = rc.y + rc.height / 2;' .
-                    'var ox = ra.right, oy = ra.y + ra.height / 2;' .
-                    'var dx = rb.x, dy = rb.y + rb.height / 2;' .
-                    'var mx = (ox + dx) / 2, my = (oy + dy) / 2;' .
-                    'return Math.abs(cx - mx) < 60 && Math.abs(cy - my) < 60',
-                    ['.vue-flow__node-selector', $selector1, $selector3]
-                ),
-                'El círculo no está sobre su propia flecha condicional'
-            );
-        });
-    }
 
 
     public function testReconectarCondicionCambiaDestino()
@@ -324,7 +281,7 @@ class T4_GrafoPlantillasTest extends DuskTestCase
 
             $this->abrirGrafo($browser);
 
-            $enlace = '.vue-flow__edge[data-id="s' . $this->selector->id . '-' . $this->regla->id . '"]';
+            $enlace = '.vue-flow__edge[data-id="s' . $this->selector->id . '-' . $this->regla->id . '-' . $this->plantilla2->id . '"]';
 
             $browser->waitForText('Selector de prueba', 20);
             $browser->waitFor($enlace, 15);

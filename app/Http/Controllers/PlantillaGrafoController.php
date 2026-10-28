@@ -288,8 +288,8 @@ class PlantillaGrafoController extends Controller
                     // Solo se dibuja la condición si su resultado es visible
                     if ($regla->resultado && in_array((int) $regla->resultado, $ids)) {
                         $enlaces_selectores[] = [
-                            'id' => 's' . $selector->id . '-' . $regla->id,
-                            'source' => (string) $actividad->id,
+                            'id' => 's' . $selector->id . '-' . $regla->id . '-' . $regla->resultado,
+                            'source' => 'selector-' . $actividad->id . '-' . $selector->id,
                             'target' => (string) $regla->resultado,
                             'selector_id' => $selector->id,
                             'regla_id' => $regla->id,
