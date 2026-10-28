@@ -222,6 +222,43 @@ class T4_GrafoPlantillasTest extends DuskTestCase
 
             // El enlace normal sigue estando junto al enlace condicionado
             $browser->assertScript("document.querySelectorAll('.vue-flow__edge').length", 2);
+
+            // La flecha condicional tiene su propio path dibujado (flecha completa)
+            $this->assertNotEmpty(
+                $browser->driver->findElements(
+                    WebDriverBy::cssSelector('.vue-flow__edge[data-id^="s' . $this->selector->id . '"] .vue-flow__edge-path')
+                ),
+                'La flecha condicional no se ha dibujado'
+            );
+        });
+    }
+
+    public function testLaFlechaCondicionalSaleDeLaPlantilla()
+    {
+        $this->browse(function (Browser $browser) {
+            $this->prepararPlantillas(2);
+
+            $this->posicionarPlantillas();
+
+            $this->crearSelector(true);
+
+            $this->login($browser);
+
+            $this->abrirGrafo($browser);
+
+            $browser->waitForText('Selector de prueba', 20);
+            $browser->waitFor(
+                '.vue-flow__edge[data-id="s' . $this->selector->id . '-' . $this->regla->id . '"]',
+                15
+            );
+
+            // La flecha condicional tiene su propio path dibujado (flecha completa)
+            $this->assertNotEmpty(
+                $browser->driver->findElements(
+                    WebDriverBy::cssSelector('.vue-flow__edge[data-id="s' . $this->selector->id . '-' . $this->regla->id . '"] .vue-flow__edge-path')
+                ),
+                'La flecha condicional no se ha dibujado'
+            );
         });
     }
 

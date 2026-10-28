@@ -289,7 +289,7 @@ class PlantillaGrafoController extends Controller
                     if ($regla->resultado && in_array((int) $regla->resultado, $ids)) {
                         $enlaces_selectores[] = [
                             'id' => 's' . $selector->id . '-' . $regla->id,
-                            'source' => $this->idSelector($actividad->id, $selector->id),
+                            'source' => (string) $actividad->id,
                             'target' => (string) $regla->resultado,
                             'selector_id' => $selector->id,
                             'regla_id' => $regla->id,
@@ -375,13 +375,5 @@ class PlantillaGrafoController extends Controller
                 'resultados' => route('actividades.plantillas.grafo.resultados'),
             ],
         ];
-    }
-
-    /**
-     * Identificador del nodo (círculo) de un selector en el grafo.
-     */
-    private function idSelector(int $actividad_id, int $selector_id): string
-    {
-        return 'selector-' . $actividad_id . '-' . $selector_id;
     }
 }

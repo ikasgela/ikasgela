@@ -125,6 +125,11 @@ function construirGrafo() {
             },
         }
 
+        // Cada condición sale del conector derecho de la plantilla del selector
+        if (Number(enlace.actividad_id)) {
+            edge.source = String(enlace.actividad_id)
+        }
+
         infoEdges.set(edge.id, { tipo: 'condicion', ...edge.data })
 
         return edge
@@ -156,7 +161,7 @@ function construirGrafo() {
     datosNodos.forEach((nodo) => {
         const selectores = nodo.selectores || []
 
-        selectores.forEach((selector, indice) => {
+        selectores.forEach((selector) => {
             nuevosNodos.push({
                 id: idSelector(nodo.id, selector.id),
                 type: 'selector',
@@ -166,8 +171,6 @@ function construirGrafo() {
                 data: {
                     ...selector,
                     actividad_id: String(nodo.id),
-                    indice,
-                    total: selectores.length,
                 },
             })
         })
@@ -255,7 +258,12 @@ function conectados() {
 }
 
 /**
- * Coloca los círculos de los selectores encima de su conexión base.
+ * Coloca los círculos de los selectores encima de sus conexiones.
+ *
+ * Cada selector se apoya en la flecha que sale de su plantilla: en el destino
+ * de la conexión «siguiente» (la base), o en el destino de su propia condición
+ * si no tiene conexión normal. Con varias condiciones, cada círculo se reparte
+ * a lo largo de su propia flecha para que no se solapen.
  */
 function actualizarPosicionesSelectores() {
     const porId = new Map(nodes.value.map((nodo) => [nodo.id, nodo]))
@@ -267,35 +275,59 @@ function actualizarPosicionesSelectores() {
         bases.set(String(enlace.source), lista)
     })
 
+    const condiciones = new Map()
+    edges.value.filter((enlace) => enlace.tipo === 'condicion').forEach((enlace) => {
+        const lista = condiciones.get(enlace.data?.selector_id) || []
+        lista.push(enlace)
+        condiciones.set(enlace.data?.selector_id, lista)
+    })
+
     nodes.value.filter((nodo) => nodo.type === 'selector').forEach((nodo) => {
         const actividad_id = String(nodo.data.actividad_id)
         const origen = porId.get(actividad_id)
+
+        if (!origen) {
+            return
+        }
+
+        // Cada condición del selector, con su flecha, se dibuja en un punto
+        // separado para que no se solapen
+        const propias = condiciones.get(nodo.data.id) || []
+        const indice = propias.findIndex((enlace) => enlace.target === nodo.id)
+        const total = propias.length
+        const paso = total > 0 ? ((indice === -1 ? 0 : indice) + 1) / (total + 1) : 0.5
+
+        let p1 = null
+        let p2 = null
+
+        // Por defecto se sigue la flecha «siguiente» de la plantilla
         const base = (bases.get(actividad_id) || [])[0]
-        const destino = base ? porId.get(String(base.target)) : null
-
-        let centro = null
-
-        if (origen && destino) {
-            // Repartidos a lo largo de la conexión base
-            const p1 = handleDerecho(origen)
-            const p2 = handleIzquierdo(destino)
-            const total = nodo.data.total || 1
-            const paso = (nodo.data.indice + 1) / (total + 1)
-
-            centro = {
-                x: p1.x + (p2.x - p1.x) * paso,
-                y: p1.y + (p2.y - p1.y) * paso,
-            }
-        } else if (origen) {
-            // Sin conexión base, el círculo se coloca al lado de la plantilla
-            centro = {
-                x: origen.position.x + ancho(origen) + 60,
-                y: origen.position.y + alto(origen) / 2,
+        if (base) {
+            const destino = porId.get(String(base.target))
+            if (destino) {
+                p1 = handleDerecho(origen)
+                p2 = handleIzquierdo(destino)
             }
         }
 
-        if (!centro) {
-            return
+        // Sin conexión normal se dibuja sobre su propia flecha condicional
+        if (!p1 && !p2 && total > 0) {
+            const destino = porId.get(String(propias[0].target))
+            if (destino) {
+                p1 = handleDerecho(origen)
+                p2 = handleIzquierdo(destino)
+            }
+        }
+
+        if (!p1 || !p2) {
+            // Ni conexión normal ni condiciones: se coloca al lado de la plantilla
+            p1 = { x: origen.position.x + ancho(origen), y: origen.position.y + alto(origen) / 2 }
+            p2 = { x: p1.x + 120, y: p1.y }
+        }
+
+        const centro = {
+            x: p1.x + (p2.x - p1.x) * paso,
+            y: p1.y + (p2.y - p1.y) * paso,
         }
 
         updateNode(nodo.id, {
@@ -428,10 +460,12 @@ function conectarCondicion(nodoSelector, destino) {
     }
 
     const selector_id = Number(nodoSelector.data.id)
+    // La condición sale del conector derecho de la plantilla que tiene el selector
+    const origen = String(nodoSelector.data.actividad_id)
 
     // Se usa la primera condición que todavía no está conectada
     const conectadas = new Set(edges.value
-        .filter((enlace) => enlace.tipo === 'condicion' && enlace.source === nodoSelector.id)
+        .filter((enlace) => enlace.tipo === 'condicion' && enlace.source === origen && enlace.data?.selector_id === selector_id)
         .map((enlace) => enlace.data?.regla_id))
 
     const libre = (nodoSelector.data.reglas || []).find(
@@ -443,7 +477,7 @@ function conectarCondicion(nodoSelector, destino) {
 
     addEdges([{
         id,
-        source: nodoSelector.id,
+        source: origen,
         target: destino,
         tipo: 'condicion',
         ...opcionesCondicion,
@@ -730,7 +764,7 @@ function sincronizarCondiciones(reglas) {
 
         // Las condiciones nuevas reciben el identificador del grupo de reglas
         edges.value.forEach((enlace) => {
-            if (enlace.tipo !== 'condicion' || enlace.source !== nodo.id) {
+            if (enlace.tipo !== 'condicion' || enlace.data?.selector_id !== nodo.data.id) {
                 return
             }
 
