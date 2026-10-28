@@ -258,22 +258,13 @@ function conectados() {
 }
 
 /**
- * Coloca los círculos de los selectores encima de sus conexiones.
- *
- * Cada selector se apoya en la flecha que sale de su plantilla: en el destino
- * de la conexión «siguiente» (la base), o en el destino de su propia condición
- * si no tiene conexión normal. Con varias condiciones, cada círculo se reparte
- * a lo largo de su propia flecha para que no se solapen.
+ * Coloca los círculos de los selectores siempre encima de su propia flecha
+ * condicional. Con varias condiciones, cada círculo se reparte a lo largo de
+ * su flecha para que no se solapen. Sin condiciones dibujadas, se coloca al
+ * lado de la plantilla.
  */
 function actualizarPosicionesSelectores() {
     const porId = new Map(nodes.value.map((nodo) => [nodo.id, nodo]))
-
-    const bases = new Map()
-    edges.value.filter((enlace) => enlace.tipo === 'siguiente').forEach((enlace) => {
-        const lista = bases.get(String(enlace.source)) || []
-        lista.push(enlace)
-        bases.set(String(enlace.source), lista)
-    })
 
     const condiciones = new Map()
     edges.value.filter((enlace) => enlace.tipo === 'condicion').forEach((enlace) => {
@@ -290,8 +281,9 @@ function actualizarPosicionesSelectores() {
             return
         }
 
-        // Cada condición del selector, con su flecha, se dibuja en un punto
-        // separado para que no se solapen
+        // El círculo se dibuja siempre sobre su propia flecha condicional.
+        // Si el selector tiene varias condiciones, cada círculo se reparte
+        // a lo largo de su flecha para que no se solapen.
         const propias = condiciones.get(nodo.data.id) || []
         const indice = propias.findIndex((enlace) => enlace.target === nodo.id)
         const total = propias.length
@@ -300,18 +292,7 @@ function actualizarPosicionesSelectores() {
         let p1 = null
         let p2 = null
 
-        // Por defecto se sigue la flecha «siguiente» de la plantilla
-        const base = (bases.get(actividad_id) || [])[0]
-        if (base) {
-            const destino = porId.get(String(base.target))
-            if (destino) {
-                p1 = handleDerecho(origen)
-                p2 = handleIzquierdo(destino)
-            }
-        }
-
-        // Sin conexión normal se dibuja sobre su propia flecha condicional
-        if (!p1 && !p2 && total > 0) {
+        if (total > 0) {
             const destino = porId.get(String(propias[0].target))
             if (destino) {
                 p1 = handleDerecho(origen)
@@ -320,7 +301,7 @@ function actualizarPosicionesSelectores() {
         }
 
         if (!p1 || !p2) {
-            // Ni conexión normal ni condiciones: se coloca al lado de la plantilla
+            // Sin condiciones dibujadas: se coloca al lado de la plantilla
             p1 = { x: origen.position.x + ancho(origen), y: origen.position.y + alto(origen) / 2 }
             p2 = { x: p1.x + 120, y: p1.y }
         }
