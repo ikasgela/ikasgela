@@ -541,6 +541,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             // Descargar los repositorios de un usuario
             Route::post('/intellij_projects/descargar', [IntellijProjectController::class, 'descargar_repos_usuario'])
                 ->name('archivo.descargar');
+
+            // Activar o desactivar divisores y destacadas
+            Route::post('/actividades/{actividad}/toggle_destacada', [ActividadController::class, 'toggle_destacada'])
+                ->name('actividades.toggle_destacada');
+            Route::post('/actividades/{actividad}/toggle_divisor', [ActividadController::class, 'toggle_divisor'])
+                ->name('actividades.toggle_divisor');
         });
 
         // Administrador

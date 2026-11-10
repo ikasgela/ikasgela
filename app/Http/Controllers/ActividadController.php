@@ -1028,4 +1028,20 @@ class ActividadController extends Controller
 
         return back();
     }
+
+    public function toggle_destacada(Actividad $actividad)
+    {
+        $actividad->destacada = !$actividad->destacada;
+        $actividad->save();
+
+        return back();
+    }
+
+    public function toggle_divisor(Actividad $actividad)
+    {
+        $actividad->divisor = !$actividad->divisor;
+        $actividad->save();
+
+        return back();
+    }
 }

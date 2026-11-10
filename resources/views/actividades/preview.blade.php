@@ -49,6 +49,24 @@
                                     }}
                                     {{ html()->form()->close() }}
                                 </div>
+                                <div class='btn-group me-3'>
+                                    {{ html()->form('POST', route('actividades.toggle_destacada', $actividad->id))->open() }}
+                                    {{ html()
+                                        ->submit('<i class="bi bi-star"></i>')
+                                        ->name('revisar')
+                                        ->class(['btn btn-sm rounded-end-0', $actividad->destacada ? 'btn-warning' : 'btn-light'])
+                                        ->attribute('title',  $actividad->destacada ? __('Highlighted') : __('Not highlighted'))
+                                    }}
+                                    {{ html()->form()->close() }}
+                                    {{ html()->form('POST', route('actividades.toggle_divisor', $actividad->id))->open() }}
+                                    {{ html()
+                                        ->submit('<i class="bi bi-hr"></i>')
+                                        ->name('revisar')
+                                        ->class(['btn btn-sm rounded-start-0', $actividad->divisor ? 'btn-warning' : 'btn-light'])
+                                        ->attribute('title',  $actividad->divisor ? __('Divider') : __('Not a divider'))
+                                    }}
+                                    {{ html()->form()->close() }}
+                                </div>
                                 @include('partials.botones_recursos')
                                 <div class='btn-group ms-3'>
                                     <a title="{{ __('Sort resources') }}"
