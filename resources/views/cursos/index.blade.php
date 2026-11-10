@@ -42,7 +42,7 @@
                     @include('profesor.partials.titulo-columna', ['titulo' => __('Maximum recoverable percent')])
                 </th>
                 <th class="text-center">
-                    @include('profesor.partials.titulo-columna', ['titulo' => __('Silence notifications') ])
+                    @include('profesor.partials.titulo-columna', ['titulo' => __('Notifications') ])
                 </th>
                 <th class="text-center">
                     @include('profesor.partials.titulo-columna', ['titulo' => __('Normalize calification')])
@@ -91,8 +91,20 @@
                     <td class="text-center">{{ $curso->minimo_examenes_finales ?? __('Undefined') }}</td>
                     <td class="text-center">{{ $curso->examenes_obligatorios ? __('Yes') : __('No') }}</td>
                     <td class="text-center">{{ $curso->maximo_recuperable_examenes_finales ?? __('Undefined') }}</td>
-                    <td class="text-center {{ $curso->silence_notifications ? 'text-bg-warning' : '' }}">
-                        {{ $curso->silence_notifications ? __('Yes') : __('No') }}
+                    <td class="text-center">
+                        @if($curso->silence_notifications)
+                            {{ html()->form('POST', route('cursos.toggle.notificaciones_curso', [$curso->id]))->open() }}
+                            {{ html()->submit('<i class="bi bi-bell-slash"></i>')
+                                    ->attribute('title', __('Notifications disabled'))
+                                    ->class('btn btn-sm btn-warning') }}
+                            {{ html()->form()->close() }}
+                        @else
+                            {{ html()->form('POST', route('cursos.toggle.notificaciones_curso', [$curso->id]))->open() }}
+                            {{ html()->submit('<i class="bi bi-bell"></i>')
+                                    ->attribute('title', __('Notifications enabled'))
+                                    ->class('btn btn-sm btn-secondary') }}
+                            {{ html()->form()->close() }}
+                        @endif
                     </td>
                     <td class="text-center">@include('partials.check_yes_no', ['checked' => $curso->normalizar_nota])</td>
                     <td class="text-center">

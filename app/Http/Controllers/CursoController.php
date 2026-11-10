@@ -562,4 +562,12 @@ class CursoController extends Controller
 
         return back();
     }
+
+    public function toggle_notificaciones_curso(Curso $curso)
+    {
+        $curso->silence_notifications = !$curso->silence_notifications;
+        $curso->save();
+
+        return back();
+    }
 }

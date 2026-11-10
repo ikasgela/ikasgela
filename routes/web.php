@@ -502,6 +502,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::post('/organizations/{organization}/toggle_registration_open', [OrganizationController::class, 'toggle_registration_open'])
                 ->name('organizations.toggle.registration_open');
 
+            // Activar/desactivar las notificaciones en los cursos
+            Route::post('/cursos/{curso}/toggle_notificaciones_curso', [CursoController::class, 'toggle_notificaciones_curso'])
+                ->name('cursos.toggle.notificaciones_curso');
+
             // Rúbricas
             Route::resource('flash_decks', FlashDeckController::class);
             Route::get('/flash_decks/{actividad}/actividad', [FlashDeckController::class, 'actividad'])
