@@ -625,17 +625,31 @@ class ActividadController extends Controller
             return redirect(route('users.home'));
         } else if ($usuario_actual->hasRole('profesor')) {
 
-            if (session('profesor_filtro_actividades_examen') == 'E') {
-                $siguiente_para_corregir = $usuario->actividades_enviadas_noautoavance()->first();
-            } else {
-                $siguiente_para_corregir = $usuario->actividades_enviadas_noautoavance_noexamen()->first();
-            }
+            $siguiente_para_corregir = $this->siguienteActividadPendiente($usuario);
 
             if ($siguiente_para_corregir != null) {
                 return redirect(route('profesor.revisar', [
                     'user' => $usuario->id,
                     'tarea' => $siguiente_para_corregir->tarea->id
                 ]));
+            }
+
+            if (session('profesor_filtro_alumnos') == 'R') {
+                // No quedan tareas pendientes de revisar de este alumno: saltar al
+                // siguiente alumno con pendientes (orden del panel) para continuar
+                // encadenando la corrección sin volver al panel
+                $siguiente_alumno = app(ProfesorController::class)->siguienteAlumnoConPendientes($usuario);
+
+                if ($siguiente_alumno !== null) {
+                    $siguiente_para_corregir = $this->siguienteActividadPendiente($siguiente_alumno);
+
+                    if ($siguiente_para_corregir != null) {
+                        return redirect(route('profesor.revisar', [
+                            'user' => $siguiente_alumno->id,
+                            'tarea' => $siguiente_para_corregir->tarea->id
+                        ]));
+                    }
+                }
             }
 
             if (session('profesor_filtro_alumnos') == 'ACT') {
@@ -646,6 +660,19 @@ class ActividadController extends Controller
         } else {
             return redirect(route('home'));
         }
+    }
+
+    /**
+     * Primera actividad pendiente de revisión del alumno (enviada y sin
+     * auto-avance; incluye exámenes si el filtro `E` está activo).
+     */
+    private function siguienteActividadPendiente(User $usuario)
+    {
+        if (session('profesor_filtro_actividades_examen') == 'E') {
+            return $usuario->actividades_enviadas_noautoavance()->first();
+        }
+
+        return $usuario->actividades_enviadas_noautoavance_noexamen()->first();
     }
 
     public function duplicar(Actividad $actividad)

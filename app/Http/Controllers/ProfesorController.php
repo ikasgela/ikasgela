@@ -609,11 +609,7 @@ class ProfesorController extends Controller
 
     public function getUsuariosFiltrados()
     {
-        $alumnos = User::cursoActual()->rolAlumno()->orderBy('surname')->orderBy('name');
-
-        if (!session('profesor_filtro_alumnos_bloqueados') == 'B') {
-            $alumnos = $alumnos->noBloqueado();
-        }
+        $alumnos = $this->getAlumnosBase();
 
         if (session('profesor_filtro_actividades_examen') == 'E') {
             if (session('profesor_filtro_alumnos') == 'R') {
@@ -646,9 +642,74 @@ class ProfesorController extends Controller
             }
         }
 
+        return $alumnos->pluck('id')->toArray();
+    }
+
+    /**
+     * Población base de alumnos del curso actual con los filtros del panel de
+     * control (bloqueados, etiquetas) y su ordenación (apellido, nombre).
+     */
+    private function getAlumnosBase()
+    {
+        $alumnos = User::cursoActual()->rolAlumno()->orderBy('surname')->orderBy('name');
+
+        if (!session('profesor_filtro_alumnos_bloqueados') == 'B') {
+            $alumnos = $alumnos->noBloqueado();
+        }
+
         if (!is_null(session('tags_usuario')))
             $alumnos = $alumnos->tags(session('tags_usuario'));
 
-        return $alumnos->pluck('id')->toArray();
+        return $alumnos;
+    }
+
+    /**
+     * Buscar el siguiente alumno (en la ordenación del panel de control, con
+     * volteo al inicio de la lista) que tenga tareas pendientes de revisar.
+     *
+     * Sirve para encadenar la corrección entre alumnos cuando, con el filtro R
+     * (pendientes de revisión) activo, el alumno actual se queda sin pendientes.
+     *
+     * @return User|null
+     */
+    public function siguienteAlumnoConPendientes(User $alumno)
+    {
+        $orden = $this->getAlumnosBase()->pluck('id')->all();
+
+        if (count($orden) === 0) {
+            return null;
+        }
+
+        // Mismo criterio que el filtro de alumnos «R» (pendientes de revisión)
+        $con_pendientes = $this->getAlumnosBase()
+            ->whereHas('actividades', function ($query) {
+                $query->where('auto_avance', false)->where('estado', 30);
+
+                if (session('profesor_filtro_actividades_examen') != 'E') {
+                    $query->tag('examen', false);
+                }
+            })
+            ->pluck('id');
+
+        $total = count($orden);
+        $pos = array_search($alumno->id, $orden);
+        $inicio = ($pos === false ? -1 : $pos) + 1;
+
+        for ($i = 0; $i < $total; $i++) {
+            $id = $orden[($inicio + $i) % $total];
+
+            if ($id == $alumno->id) {
+                // El llamante ya ha comprobado que este alumno no tiene pendientes
+                continue;
+            }
+
+            if (!$con_pendientes->contains($id)) {
+                continue;
+            }
+
+            return User::find($id);
+        }
+
+        return null;
     }
 }

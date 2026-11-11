@@ -4,7 +4,9 @@ namespace Tests\Feature\Profesor;
 
 use App\Models\Actividad;
 use App\Models\Curso;
+use App\Models\Role;
 use App\Models\Tarea;
+use App\Models\Unidad;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Mail;
@@ -72,6 +74,37 @@ class ProfesorControllerTest extends TestCase
 
         // Then
         $response->assertSuccessful();
+    }
+
+    public function testTareasConFiltroPendientesDeRevision()
+    {
+        // Auth
+        $this->actingAs($this->profesor);
+
+        // Given
+        $alumno = User::factory()->create();
+        $alumno->roles()->attach(Role::where('name', 'alumno')->first());
+
+        $curso = Curso::factory()->create();
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        $alumno->cursos()->syncWithoutDetaching($curso);
+        setting_usuario(['curso_actual' => $curso->id]);
+
+        $actividad = Actividad::factory()->create([
+            'plantilla' => false,
+            'auto_avance' => false,
+            'unidad_id' => Unidad::factory()->create(['curso_id' => $curso->id])->id,
+        ]);
+        $alumno->actividades()->attach($actividad, ['estado' => 30]);
+
+        // When
+        $response = $this->post(route('profesor.tareas.filtro', $alumno->id), [
+            'filtro_alumnos' => 'R',
+        ]);
+
+        // Then
+        $response->assertSuccessful();
+        $this->assertEquals('R', session('profesor_filtro_alumnos'));
     }
 
     public function testNotAdminProfesorNotTareas()

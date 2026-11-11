@@ -5,8 +5,12 @@ namespace Tests\Feature\Estructura;
 use Override;
 use App\Http\Controllers\ActividadController;
 use App\Models\Actividad;
+use App\Models\Curso;
 use App\Models\Registro;
+use App\Models\Role;
 use App\Models\Tarea;
+use App\Models\Unidad;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
@@ -451,6 +455,164 @@ class ActividadesEstadoTest extends TestCase
         $tarea->estado = 60;
         $controller->archivarTarea($tarea, $actividad, $this->alumno);
         $this->assertTrue(true);
+    }
+
+    // ===== actualizarEstado - profesor: encadenado entre alumnos (filtro R) =====
+
+    private function crearAlumnoEnCurso(Curso $curso, string $nombre, string $apellido): User
+    {
+        $alumno = User::factory()->create(['name' => $nombre, 'surname' => $apellido]);
+        $alumno->roles()->attach(Role::where('name', 'alumno')->first());
+        $alumno->cursos()->syncWithoutDetaching($curso);
+        setting_usuario(['curso_actual' => $curso->id], $alumno);
+
+        return $alumno;
+    }
+
+    private function crearTareaPendiente(Curso $curso, User $alumno, int $estado = 30): Tarea
+    {
+        $actividad = Actividad::factory()->create([
+            'plantilla' => false,
+            'auto_avance' => false,
+            'puntuacion' => 100,
+            'unidad_id' => Unidad::factory()->create(['curso_id' => $curso->id])->id,
+        ]);
+
+        $alumno->actividades()->attach($actividad, ['estado' => $estado]);
+
+        return Tarea::where('user_id', $alumno->id)
+            ->where('actividad_id', $actividad->id)
+            ->first();
+    }
+
+    public function testActualizarEstadoProfesorSaltaAlSiguienteAlumnoConPendientes()
+    {
+        $this->actingAs($this->profesor);
+
+        $curso = Curso::factory()->create(['silence_notifications' => true]);
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        setting_usuario(['curso_actual' => $curso->id], $this->profesor);
+        session(['profesor_filtro_alumnos' => 'R']);
+
+        $alumno1 = $this->crearAlumnoEnCurso($curso, 'Primer', 'Apellido1');
+        $alumno2 = $this->crearAlumnoEnCurso($curso, 'Segund', 'Apellido2');
+
+        $tarea1 = $this->crearTareaPendiente($curso, $alumno1);
+        $tarea2 = $this->crearTareaPendiente($curso, $alumno2);
+
+        $response = $this->put(route('actividades.estado', $tarea1), [
+            'nuevoestado' => 40,
+            'puntuacion' => 100,
+            'feedback' => 'Correcto',
+        ]);
+
+        $response->assertRedirect(route('profesor.revisar', [
+            'user' => $alumno2->id,
+            'tarea' => $tarea2->id,
+        ]));
+    }
+
+    public function testActualizarEstadoProfesorVolteaAlPrimerAlumnoConPendientes()
+    {
+        $this->actingAs($this->profesor);
+
+        $curso = Curso::factory()->create(['silence_notifications' => true]);
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        setting_usuario(['curso_actual' => $curso->id], $this->profesor);
+        session(['profesor_filtro_alumnos' => 'R']);
+
+        $alumno1 = $this->crearAlumnoEnCurso($curso, 'Primer', 'Apellido1');
+        $alumno2 = $this->crearAlumnoEnCurso($curso, 'Segund', 'Apellido2');
+
+        $tarea1 = $this->crearTareaPendiente($curso, $alumno1);
+        $tarea2 = $this->crearTareaPendiente($curso, $alumno2);
+
+        // Revisada con error (vuelve a 20, deja de ser pendiente)
+        $response = $this->put(route('actividades.estado', $tarea2), [
+            'nuevoestado' => 41,
+            'puntuacion' => 50,
+            'feedback' => 'Pulir',
+        ]);
+
+        $response->assertRedirect(route('profesor.revisar', [
+            'user' => $alumno1->id,
+            'tarea' => $tarea1->id,
+        ]));
+    }
+
+    public function testActualizarEstadoProfesorSinOtroPendienteVaAlPanelDeTareas()
+    {
+        $this->actingAs($this->profesor);
+
+        $curso = Curso::factory()->create(['silence_notifications' => true]);
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        setting_usuario(['curso_actual' => $curso->id], $this->profesor);
+        session(['profesor_filtro_alumnos' => 'R']);
+
+        $alumno1 = $this->crearAlumnoEnCurso($curso, 'Primer', 'Apellido1');
+        // Matriculado pero sin ninguna pendiente
+        $this->crearAlumnoEnCurso($curso, 'Segund', 'Apellido2');
+
+        $tarea1 = $this->crearTareaPendiente($curso, $alumno1);
+
+        $response = $this->put(route('actividades.estado', $tarea1), [
+            'nuevoestado' => 40,
+            'puntuacion' => 100,
+            'feedback' => 'Correcto',
+        ]);
+
+        $response->assertRedirect(route('profesor.tareas', ['user' => $alumno1->id]));
+    }
+
+    public function testActualizarEstadoProfesorSinFiltroRNoSaltaEntreAlumnos()
+    {
+        $this->actingAs($this->profesor);
+
+        $curso = Curso::factory()->create(['silence_notifications' => true]);
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        setting_usuario(['curso_actual' => $curso->id], $this->profesor);
+        session(['profesor_filtro_alumnos' => 'A']);
+
+        $alumno1 = $this->crearAlumnoEnCurso($curso, 'Primer', 'Apellido1');
+        $alumno2 = $this->crearAlumnoEnCurso($curso, 'Segund', 'Apellido2');
+
+        $tarea1 = $this->crearTareaPendiente($curso, $alumno1);
+        $this->crearTareaPendiente($curso, $alumno2);
+
+        $response = $this->put(route('actividades.estado', $tarea1), [
+            'nuevoestado' => 40,
+            'puntuacion' => 100,
+            'feedback' => 'Correcto',
+        ]);
+
+        $response->assertRedirect(route('profesor.tareas', ['user' => $alumno1->id]));
+    }
+
+    public function testActualizarEstadoProfesorSequedaEnElMismoAlumnoSiTieneMasPendientes()
+    {
+        $this->actingAs($this->profesor);
+
+        $curso = Curso::factory()->create(['silence_notifications' => true]);
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        setting_usuario(['curso_actual' => $curso->id], $this->profesor);
+        session(['profesor_filtro_alumnos' => 'R']);
+
+        $alumno1 = $this->crearAlumnoEnCurso($curso, 'Primer', 'Apellido1');
+        $this->crearAlumnoEnCurso($curso, 'Segund', 'Apellido2');
+
+        $tarea1 = $this->crearTareaPendiente($curso, $alumno1);
+        $tarea2 = $this->crearTareaPendiente($curso, $alumno1);
+
+        $response = $this->put(route('actividades.estado', $tarea1), [
+            'nuevoestado' => 40,
+            'puntuacion' => 100,
+            'feedback' => 'Correcto',
+        ]);
+
+        $response->assertRedirect(route('profesor.revisar', [
+            'user' => $alumno1->id,
+            'tarea' => $tarea2->id,
+        ]));
     }
 
     // ===== actualizarEstado - not authenticated =====
