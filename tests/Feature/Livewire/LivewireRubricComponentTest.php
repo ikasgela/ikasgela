@@ -181,15 +181,104 @@ class LivewireRubricComponentTest extends TestCase
         $this->assertEquals(10, $component->get('max_total'));
     }
 
+    /**
+     * Construye un `orden` con el timestamp dado (mismo formato que
+     * `Str::orderedUuid()`) para tener un control determinista del orden en
+     * los tests.
+     */
+    private function ordenTs(int $ts): string
+    {
+        return sprintf('%08x-%04x-4000-8000-000000000000', $ts >> 16, $ts & 0xffff);
+    }
+
     public function testDuplicateCriteriaGroup()
     {
-        $initialCount = $this->rubric->criteria_groups()->count();
+        $this->group->update(['orden' => $this->ordenTs(1000), 'titulo' => 'Original']);
+        Criteria::factory()->create([
+            'criteria_group_id' => $this->group->id,
+            'texto' => 'Criterio 1',
+            'puntuacion' => 5,
+        ]);
+
+        $inicial = $this->rubric->criteria_groups()->count();
 
         Livewire::actingAs($this->profesor)
             ->test(RubricComponent::class, ['rubric' => $this->rubric])
             ->call('duplicate_criteria_group', $this->group->id)
             ->assertOk();
 
-        $this->assertEquals($initialCount + 1, $this->rubric->fresh()->criteria_groups()->count());
+        $grupos = $this->rubric->fresh()->criteria_groups()->get();
+
+        $this->assertEquals($inicial + 1, $grupos->count());
+        // Con un único grupo, la copia queda justo después (al final)
+        $this->assertSame($this->group->id, $grupos->first()->id);
+
+        $clon = $grupos->last();
+        $this->assertNotEquals($this->group->id, $clon->id);
+        $this->assertEquals('Original', $clon->titulo);
+        $this->assertEquals($this->group->rubric_id, $clon->rubric_id);
+        $this->assertTrue($this->group->orden < $clon->orden);
+
+        // Los criterios se clonan con sus valores
+        $criterias = $clon->criterias()->get();
+        $this->assertCount(1, $criterias);
+        $this->assertEquals('Criterio 1', $criterias->first()->texto);
+        $this->assertEquals(5, $criterias->first()->puntuacion);
+    }
+
+    public function testDuplicateCriteriaGroupQuedaTrasElOriginal()
+    {
+        $this->group->delete();
+
+        $a = CriteriaGroup::factory()->create(['rubric_id' => $this->rubric->id, 'titulo' => 'A', 'orden' => $this->ordenTs(1000)]);
+        $b = CriteriaGroup::factory()->create(['rubric_id' => $this->rubric->id, 'titulo' => 'B', 'orden' => $this->ordenTs(2000)]);
+        $c = CriteriaGroup::factory()->create(['rubric_id' => $this->rubric->id, 'titulo' => 'C', 'orden' => $this->ordenTs(3000)]);
+
+        Livewire::actingAs($this->profesor)
+            ->test(RubricComponent::class, ['rubric' => $this->rubric])
+            ->call('duplicate_criteria_group', $b->id)
+            ->assertOk();
+
+        $clon = $this->rubric->criteria_groups()->where('titulo', 'B')->where('id', '!=', $b->id)->first();
+        $this->assertNotNull($clon);
+
+        // La copia queda como fila siguiente de B (A, B, B-copia, C)
+        $ids = $this->rubric->fresh()->criteria_groups()->pluck('id')->all();
+        $this->assertSame([$a->id, $b->id, $clon->id, $c->id], $ids);
+        $this->assertTrue($b->orden < $clon->orden && $clon->orden < $c->orden);
+
+        // Solo se intercala: los demás grupos conservan su `orden`
+        $this->assertSame($this->ordenTs(1000), $a->fresh()->orden);
+        $this->assertSame($this->ordenTs(2000), $b->fresh()->orden);
+        $this->assertSame($this->ordenTs(3000), $c->fresh()->orden);
+    }
+
+    public function testDuplicateCriteriaGroupSinHuecoReordenaLaSerie()
+    {
+        $this->group->delete();
+
+        // A y B crean en el mismo 100 µs: no hay hueco para intercalar
+        $a = CriteriaGroup::factory()->create(['rubric_id' => $this->rubric->id, 'titulo' => 'A', 'orden' => $this->ordenTs(1000)]);
+        $b = CriteriaGroup::factory()->create(['rubric_id' => $this->rubric->id, 'titulo' => 'B', 'orden' => $this->ordenTs(1001)]);
+        $c = CriteriaGroup::factory()->create(['rubric_id' => $this->rubric->id, 'titulo' => 'C', 'orden' => $this->ordenTs(9000000)]);
+
+        Livewire::actingAs($this->profesor)
+            ->test(RubricComponent::class, ['rubric' => $this->rubric])
+            ->call('duplicate_criteria_group', $a->id)
+            ->assertOk();
+
+        $clon = $this->rubric->criteria_groups()->where('titulo', 'A')->where('id', '!=', $a->id)->first();
+        $this->assertNotNull($clon);
+
+        // El orden relativo se mantiene, con la copia tras A
+        $ids = $this->rubric->fresh()->criteria_groups()->pluck('id')->all();
+        $this->assertSame([$a->id, $clon->id, $b->id, $c->id], $ids);
+
+        // La serie completa se regeneró: `orden` únicos y ordenados
+        $ordenes = $this->rubric->fresh()->criteria_groups()->pluck('orden')->all();
+        $this->assertCount(4, array_unique($ordenes));
+        $ordenado = $ordenes;
+        sort($ordenado);
+        $this->assertSame($ordenes, $ordenado);
     }
 }
