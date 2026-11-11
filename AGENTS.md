@@ -7,7 +7,7 @@
 ### Stack tecnológico
 
 - **Backend**: Laravel 12, PHP 8.4
-- **Frontend**: Livewire 3, Bootstrap/SASS, Vite
+- **Frontend**: Livewire 4, Bootstrap/SASS, Vite
 - **Base de datos**: MySQL (con soporte para cache de Eloquent vía `ymigval/laravel-model-cache`)
 - **Tiempo real**: Laravel Reverb (WebSockets)
 - **Storage**: AWS S3 compatible (via Flysystem)
