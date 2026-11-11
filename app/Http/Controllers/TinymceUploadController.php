@@ -17,7 +17,7 @@ class TinymceUploadController extends Controller
 
         $filename = Str::uuid() . '/' . $fichero->getClientOriginalName();
 
-        $imagen = Image::read($fichero)
+        $imagen = Image::decode($fichero)
             ->scaleDown(2000, 2000)
             ->encode(new WebpEncoder(quality: 80));
 

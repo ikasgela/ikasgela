@@ -37,11 +37,11 @@ class FileController extends Controller
             $nombreSeguro = basename($fichero->getClientOriginalName());
             $filename = Str::uuid() . '/' . $nombreSeguro;
 
-            $imagen = Image::read($fichero)
+            $imagen = Image::decode($fichero)
                 ->scaleDown(2000, 2000)
                 ->encode(new WebpEncoder(quality: 80));
 
-            $thumbnail = Image::read($fichero)
+            $thumbnail = Image::decode($fichero)
                 ->coverDown(128, 128)
                 ->encode(new WebpEncoder(quality: 80));
 
@@ -131,11 +131,11 @@ class FileController extends Controller
 
         // Rotar 90º a derecha o izquierda
         if (!$left) {
-            $imagen = Image::read($fichero_imagen)->rotate(-90);
-            $thumbnail = Image::read($fichero_thumbnail)->rotate(-90);
+            $imagen = Image::decode($fichero_imagen)->rotate(-90);
+            $thumbnail = Image::decode($fichero_thumbnail)->rotate(-90);
         } else {
-            $imagen = Image::read($fichero_imagen)->rotate(90);
-            $thumbnail = Image::read($fichero_thumbnail)->rotate(90);
+            $imagen = Image::decode($fichero_imagen)->rotate(90);
+            $thumbnail = Image::decode($fichero_thumbnail)->rotate(90);
         }
 
         // Volver a subir los ficheros en el mismo path

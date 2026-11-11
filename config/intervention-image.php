@@ -31,7 +31,7 @@ return [
     | - "decodeAnimation" decides whether a possibly animated image is
     |    decoded as such or whether the animation is discarded.
     |
-    | - "blendingColor" Defines the default blending color.
+    | - "backgroundColor" Defines the default background and blending color.
     |
     | - "strip" controls if meta data like exif tags should be removed when
     |    encoding images.
@@ -40,7 +40,7 @@ return [
     'options' => [
         'autoOrientation' => true,
         'decodeAnimation' => true,
-        'blendingColor' => 'ffffff',
+        'backgroundColor' => 'ffffff',
         'strip' => false,
     ]
 ];
