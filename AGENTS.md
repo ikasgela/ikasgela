@@ -2,17 +2,17 @@
 
 ## Descripción del proyecto
 
-**Ikasgela** es una plataforma de gestión del aprendizaje (LMS) construida con **Laravel 12** y **PHP 8.4**. Permite a profesores crear cursos con unidades y actividades, asignarlas a alumnos, hacer seguimiento del progreso, evaluar con rúbricas, y gestionar recursos educativos variados.
+**Ikasgela** es una plataforma de gestión del aprendizaje (LMS) construida con **Laravel 13** y **PHP 8.5**. Permite a profesores crear cursos con unidades y actividades, asignarlas a alumnos, hacer seguimiento del progreso, evaluar con rúbricas, y gestionar recursos educativos variados.
 
 ### Stack tecnológico
 
-- **Backend**: Laravel 12, PHP 8.4
+- **Backend**: Laravel 13, PHP 8.5
 - **Frontend**: Livewire 4, Bootstrap/SASS, Vite
-- **Base de datos**: MySQL (con soporte para cache de Eloquent vía `ymigval/laravel-model-cache`)
+- **Base de datos**: MySQL (con soporte para cache de Eloquent vía `mike-bronner/laravel-model-caching`)
 - **Tiempo real**: Laravel Reverb (WebSockets)
 - **Storage**: AWS S3 compatible (via Flysystem)
-- **Testing**: PHPUnit 12, Paratest (ejecución paralela), Laravel Dusk (browser)
-- **Refactoring**: Rector (configurado para Laravel 12)
+- **Testing**: PHPUnit 13, Paratest (ejecución paralela), Laravel Dusk (browser)
+- **Refactoring**: Rector (configurado para Laravel 13)
 
 ---
 
@@ -117,7 +117,7 @@ o `php vendor/bin/phpunit`.
 ### Modelos Eloquent
 
 - Usar `SoftDeletes` en todos los modelos con datos de dominio relevantes.
-- Usar `HasCachedQueries` (y `ModelRelationships` cuando corresponda) de `ymigval/laravel-model-cache` para cachear consultas.
+- Usar `Cachable` de `mike-bronner/laravel-model-caching` (namespace `GeneaLabs\LaravelModelCaching\Traits`) para cachear consultas.
 - Registrar actividad con `LogsActivity` de `spatie/laravel-activitylog` implementando `getActivitylogOptions()`.
 - Añadir `@mixin IdeHelperNombreModelo` en el docblock de clase para soporte IDE.
 - Los modelos clonables deben declarar `$cloneable_relations` y `$clone_exempt_attributes`.
@@ -177,7 +177,7 @@ tests/
 - El nombre de los tests sigue `camelCase` con prefijo `test`.
 - `setUp()` siempre llama a `parent::setUp()` y `parent::crearUsuarios()`.
 - PHPUnit está configurado con `stopOnFailure="true"`: corregir el primer fallo antes de continuar.
-- **PHPUnit 12**: usar `createStub()` en lugar de `createMock()` cuando no se necesitan expectativas. `createMock()` sin configurar expectativas genera un PHPUnit Notice.
+- **PHPUnit 13**: usar `createStub()` en lugar de `createMock()` cuando no se necesitan expectativas. `createMock()` sin configurar expectativas genera un PHPUnit Notice.
 
 ### Tests Dusk (browser)
 
@@ -280,7 +280,7 @@ Usar en todas las validaciones de email en controladores.
 - Llamar a `crearUsuarios()` en `setUp()`.
 - Seguir el patrón `// Auth → // Given → // When → // Then` en cada test.
 - Cubrir al menos: acceso autorizado, acceso denegado por rol, acceso sin autenticar.
-- **No usar `createMock()` sin expectativas** — usar `createStub()` (PHPUnit 12).
+- **No usar `createMock()` sin expectativas** — usar `createStub()` (PHPUnit 13).
 - **No usar `email:rfc,dns`** directamente en validaciones — usar el helper `email_rule()`.
 - Para tests de índices con scope `plantilla: true`: pasar también `session(['filtrar_curso_actual' => $id])`.
 - Para tests con procesos externos (git, etc.): usar `Process::fake(['*' => Process::result(output:'ok', exitCode:0)])`.
@@ -295,7 +295,7 @@ Usar en todas las validaciones de email en controladores.
 ### Al refactorizar
 
 - Ejecutar Rector con `--dry-run` antes de aplicar cambios.
-- El código debe ser compatible con PHP 8.4 y Laravel 12.
+- El código debe ser compatible con PHP 8.5 y Laravel 13.
 - No usar `MigrateToSimplifiedAttributeRector` (está excluido en `rector.php`).
 
 ### Commits
