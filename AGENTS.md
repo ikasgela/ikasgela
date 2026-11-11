@@ -118,7 +118,7 @@ o `php vendor/bin/phpunit`.
 
 - Usar `SoftDeletes` en todos los modelos con datos de dominio relevantes.
 - Usar `Cachable` de `mike-bronner/laravel-model-caching` (namespace `GeneaLabs\LaravelModelCaching\Traits`) para cachear consultas.
-- Registrar actividad con `LogsActivity` de `spatie/laravel-activitylog` implementando `getActivitylogOptions()`.
+- Registrar actividad con `LogsActivity` de `spatie/laravel-activitylog` v5 (`Spatie\Activitylog\Models\Concerns\LogsActivity` + `Support\LogOptions`) implementando `getActivitylogOptions()`.
 - Añadir `@mixin IdeHelperNombreModelo` en el docblock de clase para soporte IDE.
 - Los modelos clonables deben declarar `$cloneable_relations` y `$clone_exempt_attributes`.
 
@@ -267,7 +267,7 @@ Usar en todas las validaciones de email en controladores.
 
 ### Al añadir un nuevo recurso de actividad
 
-1. Crear el modelo en `app/Models/` con `SoftDeletes`, `HasCachedQueries`, `LogsActivity` y `Cloneable`.
+1. Crear el modelo en `app/Models/` con `SoftDeletes`, `Cachable`, `LogsActivity` y `Cloneable`.
 2. Añadirlo a `$cloneable_relations` en `Actividad`.
 3. Crear el controlador en `app/Http/Controllers/` con middleware `auth`.
 4. Registrar las rutas en `routes/web.php`.
