@@ -668,6 +668,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 
             // Visor de logs: https://github.com/rap2hpoutre/laravel-log-viewer
             Route::get('logs', [LogViewerController::class, 'index'])
+                ->withoutMiddleware('localeCookieRedirect')
                 ->name('logs');
 
             // Ver entradas en el registro
@@ -699,6 +700,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 
             // Exportar/importar cursos
             Route::post('/cursos/{curso}/export', [CursoController::class, 'export'])
+                ->withoutMiddleware('localeCookieRedirect')
                 ->name('cursos.export');
             Route::post('/cursos.import', [CursoController::class, 'import'])
                 ->name('cursos.import');
