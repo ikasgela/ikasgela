@@ -12,11 +12,14 @@ use App\Models\File;
 use App\Models\FileResource;
 use App\Models\FlashDeck;
 use App\Models\IntellijProject;
+use App\Models\Role;
 use App\Models\Rubric;
 use App\Models\Tarea;
 use App\Models\Unidad;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Http\Client\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -59,6 +62,8 @@ class RemainingMethodsCoverageTest extends TestCase
             'plantilla_id' => $plantilla->id,
         ]);
         $user = User::factory()->create();
+        $user->roles()->attach(Role::firstOrCreate(['name' => 'alumno'], ['description' => 'Alumno']));
+        $curso->users()->attach($user);
         $tarea = Tarea::factory()->create([
             'actividad_id' => $actividad->id,
             'user_id' => $user->id,
@@ -77,7 +82,104 @@ class RemainingMethodsCoverageTest extends TestCase
         $controller = new ProfesorController();
         $controller->run_jplag($tarea, $ruta, $directorio);
 
+        // La copia del alumno activo forma parte de la cohorte: se clona la plantilla
+        Process::assertRan(fn($process) => str_contains($process->command, '__template'));
         Process::assertRan(fn($process) => str_contains($process->command, 'java -jar /opt/jplag.jar'));
+    }
+
+    public function testJplagRunnerCohortExcludesBlockedAndUnenrolledUsers()
+    {
+        Process::fake([
+            '*' => Process::result(output: 'ok', exitCode: 0),
+        ]);
+        Storage::fake('temp');
+
+        $curso = Curso::factory()->create();
+        $unidad = Unidad::factory()->create(['curso_id' => $curso->id]);
+        $plantilla = Actividad::factory()->create(['unidad_id' => $unidad->id, 'plantilla' => true]);
+        $rol = Role::firstOrCreate(['name' => 'alumno'], ['description' => 'Alumno']);
+
+        // Alumno activo: matriculado, con rol alumno y sin bloquear
+        $activo = User::factory()->create();
+        $activo->roles()->attach($rol);
+        $curso->users()->attach($activo);
+
+        // Alumno bloqueado: sigue matriculado pero bloqueado
+        $bloqueado = User::factory()->create();
+        $bloqueado->roles()->attach($rol);
+        $curso->users()->attach($bloqueado);
+        $bloqueado->update(['blocked_date' => now()]);
+
+        // Alumno desmatriculado: ya no está asociado al curso
+        $desmatriculado = User::factory()->create();
+        $desmatriculado->roles()->attach($rol);
+        $curso->users()->attach($desmatriculado);
+        $curso->users()->detach($desmatriculado);
+
+        $usuarios = [
+            'activo' => $activo,
+            'bloqueado' => $bloqueado,
+            'desmatriculado' => $desmatriculado,
+        ];
+
+        $tarea = null;
+        foreach ($usuarios as $clave => $usuario) {
+            $actividad = Actividad::factory()->create([
+                'unidad_id' => $unidad->id,
+                'plantilla_id' => $plantilla->id,
+            ]);
+            $project = IntellijProject::factory()->create([
+                'curso_id' => $curso->id,
+                'repositorio' => "root/plantilla-{$clave}",
+            ]);
+            $actividad->intellij_projects()->attach($project, [
+                'fork' => $usuario->username . '/copia-' . $clave,
+                'fork_status' => 2,
+            ]);
+            $tareaUsuario = Tarea::factory()->create([
+                'actividad_id' => $actividad->id,
+                'user_id' => $usuario->id,
+            ]);
+            if ($clave === 'activo') {
+                $tarea = $tareaUsuario;
+            }
+        }
+
+        // Gitea: cada repositorio devuelto tiene como owner el segmento del path
+        Http::fake(function (Request $request) {
+            $partes = array_values(array_filter(
+                explode('/', parse_url($request->url(), PHP_URL_PATH) ?? '')
+            ));
+            $owner = $partes[3] ?? 'root';
+            $name = $partes[4] ?? 'repositorio';
+
+            return Http::response([
+                'id' => 1,
+                'name' => $name,
+                'description' => 'Repositorio de prueba',
+                'clone_url' => "http://gitea:3000/{$owner}/{$name}.git",
+                'full_name' => "{$owner}/{$name}",
+                'html_url' => "http://gitea:3000/{$owner}/{$name}",
+                'template' => true,
+                'owner' => ['login' => $owner],
+            ], 200);
+        });
+
+        $directorio = '/jplag-cohorte';
+        Storage::disk('temp')->makeDirectory($directorio);
+        $ruta = Storage::disk('temp')->path($directorio);
+
+        $controller = new ProfesorController();
+        $controller->run_jplag($tarea, $ruta, $directorio);
+
+        // El fork del alumno activo sí se incluye en el análisis
+        Process::assertRan(fn($process) => str_contains($process->command, $activo->username . '@'));
+
+        // El fork del alumno bloqueado no se incluye
+        Process::assertNotRan(fn($process) => str_contains($process->command, $bloqueado->username . '@'));
+
+        // El fork del alumno desmatriculado no se incluye
+        Process::assertNotRan(fn($process) => str_contains($process->command, $desmatriculado->username . '@'));
     }
 
     public function testTarjetaIntellijForkWhenAlreadyForking()

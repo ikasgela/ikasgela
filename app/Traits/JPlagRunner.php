@@ -15,9 +15,19 @@ trait JPlagRunner
 {
     public function run_jplag(Tarea $tarea, string $ruta, string $directorio): void
     {
-        // Buscar todas las actividades de compartan plantilla con la actual
+        // Buscar todas las actividades que compartan plantilla con la actual. La cohorte
+        // se limita a las copias cuyo usuario sigue matriculado en el curso, no está
+        // bloqueado y tiene rol de alumno (mismos criterios que Curso::alumnos_activos).
         $curso = $tarea->actividad->unidad->curso;
-        $actividades = $curso->actividades()->where('plantilla_id', $tarea->actividad->plantilla_id)->get();
+        $actividades = $curso->actividades()
+            ->where('plantilla_id', $tarea->actividad->plantilla_id)
+            ->whereHas('users', function ($query) use ($curso) {
+                $query->whereIn('users.id', $curso->users()->select('users.id'))
+                    ->where('tareas.deleted_at', null)
+                    ->noBloqueado()
+                    ->rolAlumno();
+            })
+            ->get();
 
         Log::debug('Ejecutando JPlag...', [
             'directorio' => $directorio,
