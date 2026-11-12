@@ -1,7 +1,15 @@
-@foreach($criteria_group->criterias as $criteria)
+@php
+    $criterias = $criteria_group->criterias;
+    $ordenes_criterias = $criterias->map(fn ($c) => $c->orden);
+@endphp
+@foreach($criterias as $i => $criteria)
+    @php
+        $orden_vecinos = sha1(($ordenes_criterias[$i - 1] ?? '') . '|' . ($ordenes_criterias[$i + 1] ?? ''));
+    @endphp
     <livewire:criteria-component
         :$criteria
         :key="'criteria-'.$criteria->id"
+        :orden_vecinos="$orden_vecinos"
         :$rubric_is_editing
         :$rubric_is_qualifying
     />

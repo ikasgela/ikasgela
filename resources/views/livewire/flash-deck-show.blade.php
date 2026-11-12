@@ -80,10 +80,18 @@
             </div>
             <hr class="my-0">
         @endif
-        @foreach($flash_deck->flash_cards as $flash_card)
+        @php
+            $tarjetas = $flash_deck->flash_cards;
+            $ordenes_tarjetas = $tarjetas->map(fn ($c) => $c->orden);
+        @endphp
+        @foreach($tarjetas as $i => $flash_card)
+            @php
+                $orden_vecinos = sha1(($ordenes_tarjetas[$i - 1] ?? '') . '|' . ($ordenes_tarjetas[$i + 1] ?? ''));
+            @endphp
             <livewire:flash-card-component
                 :$flash_card
                 :key="'flash-card-'.$flash_card->id"
+                :orden_vecinos="$orden_vecinos"
                 :$flash_deck_is_editing
                 :$flash_deck_is_qualifying
             />

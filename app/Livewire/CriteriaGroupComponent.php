@@ -14,6 +14,19 @@ class CriteriaGroupComponent extends Component
 {
     public CriteriaGroup $criteria_group;
 
+    /**
+     * Señal de cambio de posición (ADR-013): hash de los `orden` de los grupos
+     * adyacentes (UUID, ADR-005) en la rúbrica. Livewire 4 omite el re-renderizado
+     * de un hijo cuyas props `#[Reactive]` no cambian; el modelo `criteria_group`
+     * no lo detecta fiablemente (comparación por flags dirty/changed). La firma
+     * cambia exactamente en los grupos afectados por mover (swap), añadir (el
+     * anterior último) o borrar (los adyacentes), y fuerza el re-renderizado para
+     * refrescar el estado de los botones. No se usa en el Blade: solo sirve de
+     * señal de cambio.
+     */
+    #[Reactive]
+    public $orden_vecinos;
+
     #[Reactive]
     public $rubric_is_editing = false;
 

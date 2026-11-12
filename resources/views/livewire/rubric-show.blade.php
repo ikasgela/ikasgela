@@ -111,10 +111,18 @@
             </div>
             <hr class="my-0">
         @endif
-        @foreach($rubric->criteria_groups as $criteria_group)
+        @php
+            $grupos = $rubric->criteria_groups;
+            $ordenes_grupos = $grupos->map(fn ($g) => $g->orden);
+        @endphp
+        @foreach($grupos as $i => $criteria_group)
+            @php
+                $orden_vecinos = sha1(($ordenes_grupos[$i - 1] ?? '') . '|' . ($ordenes_grupos[$i + 1] ?? ''));
+            @endphp
             <livewire:criteria-group-component
                 :$criteria_group
                 :key="'criteria-group-'.$criteria_group->id"
+                :orden_vecinos="$orden_vecinos"
                 :$rubric_is_editing
                 :$rubric_is_qualifying
             />

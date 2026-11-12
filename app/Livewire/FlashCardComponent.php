@@ -15,6 +15,19 @@ class FlashCardComponent extends Component
 {
     public FlashCard $flash_card;
 
+    /**
+     * Señal de cambio de posición (ADR-013): hash de los `orden` de las tarjetas
+     * adyacentes (UUID, ADR-005) en el mazo. Livewire 4 omite el re-renderizado
+     * de un hijo cuyas props `#[Reactive]` no cambian; el modelo `flash_card` no
+     * lo detecta fiablemente (comparación por flags dirty/changed). La firma
+     * cambia exactamente en las tarjetas afectadas por mover (swap), añadir (el
+     * anterior último) o borrar (los adyacentes), y fuerza el re-renderizado para
+     * refrescar el estado de los botones. No se usa en el Blade: solo sirve de
+     * señal de cambio.
+     */
+    #[Reactive]
+    public $orden_vecinos;
+
     #[Reactive]
     public $rubric_is_editing = false;
 
