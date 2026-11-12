@@ -275,8 +275,12 @@ class T1_RubricEditorTest extends DuskTestCase
             $conteoInicial = $rubric->criteria_groups()->count();
 
             $this->activarEditor($browser, $rubric);
-            $browser->waitFor('button[title="' . __('Duplicate') . '"]');
-            $browser->elements('button[title="' . __('Duplicate') . '"]')[0]->click();
+            // Seleccionar por wire:click: el botón de duplicar CRITERIO comparte
+            // el mismo título 'Duplicate' y aparece antes en el DOM (el body de la
+            // fila se renderiza antes que la barra de botones del grupo)
+            $selector = 'button[title="' . __('Duplicate') . '"][wire\:click*="duplicate_criteria_group"]';
+            $browser->waitFor($selector);
+            $browser->elements($selector)[0]->click();
             $browser->pause(600);
 
             $rubric->refresh();

@@ -52,6 +52,13 @@
                         <i class="bi bi-trash"></i>
                     </button>
                 </div>
+                <div class="btn-group btn-group-sm ms-2">
+                    <button class="btn btn-secondary"
+                            title="{{ __('Duplicate') }}"
+                            wire:click="$parent.duplicate_criteria({{ $criteria->id }})">
+                        <i class="bi bi-copy"></i>
+                    </button>
+                </div>
             </div>
         @else
             <div class="btn-toolbar justify-content-center">

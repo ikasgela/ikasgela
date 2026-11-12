@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Actividad;
 use App\Models\CriteriaGroup;
 use App\Models\Rubric;
+use App\Traits\OrdenUuid;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
@@ -12,6 +13,7 @@ use Livewire\Component;
 
 class RubricComponent extends Component
 {
+    use OrdenUuid;
     public ?Actividad $actividad;
     public Rubric $rubric;
     public $rubric_is_editing = false;
@@ -87,110 +89,18 @@ class RubricComponent extends Component
         $criteria_group = CriteriaGroup::findOrFail($criteria_group_id);
 
         $clon = $criteria_group->duplicate();
-        $clon->orden = $this->ordenTrasCriteriaGroup($criteria_group);
+        // Intercalado ADR-005 (trait OrdenUuid): la copia queda justo después
+        // del grupo duplicado; si no hay hueco, se regenera la serie completa.
+        $clon->orden = $this->ordenTras(
+            $criteria_group,
+            fn () => $this->rubric->criteria_groups()->orderBy('orden')->get()->values()
+        );
         $clon->save();
 
         foreach ($clon->criterias()->orderBy('orden')->get() as $criteria) {
             $criteria->orden = Str::orderedUuid();
             $criteria->save();
         }
-    }
-
-    /**
-     * Calcula un `orden` (UUID ordenable, ADR-005) que ordena justo después de
-     * $criteria_group dentro de la rúbrica — es decir, entre ese grupo y su
-     * siguiente vecino — para que la copia duplicada aparezca como su fila
-     * siguiente. Si la serie no tiene hueco para intercalar, se regenera la
-     * serie completa de `orden` de los grupos.
-     */
-    private function ordenTrasCriteriaGroup(CriteriaGroup $criteria_group): string
-    {
-        if (empty($criteria_group->orden)) {
-            return Str::orderedUuid();
-        }
-
-        $siguiente = $this->rubric->criteria_groups()
-            ->where('orden', '>', $criteria_group->orden)
-            ->orderBy('orden')
-            ->first();
-
-        $ts_origen = self::tsOrden($criteria_group->orden);
-        $ts_clon = $ts_origen + 1;
-        $cola = substr($criteria_group->orden, 14); // versión/variante/azar (grupos 3-5)
-
-        if ($siguiente !== null && !empty($siguiente->orden)) {
-            $hueco = self::tsOrden($siguiente->orden) - $ts_origen;
-
-            if ($hueco < 2) {
-                return $this->reordenarSerieTras($criteria_group, $cola);
-            }
-
-            $ts_clon = $ts_origen + ($hueco >> 1);
-        }
-
-        return self::ordenConTs($ts_clon, $cola);
-    }
-
-    /**
-     * No hay hueco entre el grupo y su vecino (tras muchas inserciones en el
-     * mismo punto, ADR-005): regenera la serie completa de `orden` de los grupos
-     * de la rúbrica, con la copia interpolada justo después de $original, y
-     * devuelve el `orden` correspondiente a la copia.
-     */
-    private function reordenarSerieTras(CriteriaGroup $original, string $cola): string
-    {
-        $ts_actual = self::tsOrdenAhora();
-        $ts_max = $this->rubric->criteria_groups()
-            ->get()
-            ->filter(fn ($g) => !empty($g->orden))
-            ->map(fn ($g) => self::tsOrden($g->orden))
-            ->max();
-
-        $base = max($ts_actual, $ts_max ?? 0) + 1;
-
-        $grupos = $this->rubric->criteria_groups()->orderBy('orden')->get()->values();
-        $orden_clon = null;
-
-        foreach ($grupos as $grupo) {
-            $grupo->orden = self::ordenConTs($base++, $cola);
-            $grupo->save();
-
-            if ($grupo->id === $original->id && $orden_clon === null) {
-                $orden_clon = self::ordenConTs($base++, $cola);
-            }
-        }
-
-        return $orden_clon ?? self::ordenConTs($base, $cola);
-    }
-
-    /**
-     * Extrae los 48 bits de timestamp (primera parte del UUID) de un `orden`
-     * generado con `Str::orderedUuid()` (COMB «timestamp first»: 12 hex =
-     * segundos*1e5 + µs/10, seguido de azar).
-     */
-    private static function tsOrden(string $orden): int
-    {
-        return hexdec(substr($orden, 0, 8)) * 0x10000 + hexdec(substr($orden, 9, 4));
-    }
-
-    /**
-     * Timestamp actual con la misma resolución que `Str::orderedUuid()`
-     * (100 µs): segundos*1e5 + µs/10.
-     */
-    private static function tsOrdenAhora(): int
-    {
-        $tiempo = explode(' ', microtime(false));
-
-        return (int) $tiempo[1] * 100000 + (int) substr($tiempo[0], 2, 5);
-    }
-
-    /**
-     * Construye un `orden` con el timestamp dado y el resto (versión/variante/
-     * azar) tomado de $cola (el mismo formato que `Str::orderedUuid()`).
-     */
-    private static function ordenConTs(int $ts, string $cola = '4000-8000-000000000000'): string
-    {
-        return sprintf('%08x-%04x-%s', $ts >> 16, $ts & 0xffff, $cola);
     }
 
     public function toggle_edit()

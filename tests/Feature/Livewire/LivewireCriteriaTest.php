@@ -115,6 +115,67 @@ class LivewireCriteriaTest extends TestCase
         $this->assertNull(Criteria::find($extra->id));
     }
 
+    public function testCriteriaGroupComponentDuplicateCriteria()
+    {
+        // Serie con huecos (ADR-005): 1000, 2000, 3000
+        $c1 = $this->criteria;
+        $c1->update(['orden' => $this->ordenTs(1000), 'puntuacion' => 3, 'seleccionado' => true]);
+        $c2 = Criteria::factory()->create(['criteria_group_id' => $this->group->id, 'puntuacion' => 4, 'orden' => $this->ordenTs(2000)]);
+        $c3 = Criteria::factory()->create(['criteria_group_id' => $this->group->id, 'puntuacion' => 5, 'orden' => $this->ordenTs(3000)]);
+
+        $orden2 = $c2->orden;
+        $orden3 = $c3->orden;
+
+        Livewire::actingAs($this->alumno)
+            ->test(CriteriaGroupComponent::class, ['criteria_group' => $this->group])
+            ->call('duplicate_criteria', $c1->id)
+            ->assertOk();
+
+        $clon = $this->group->criterias()->where('id', '!=', $c1->id)->where('texto', $c1->texto)->first();
+        $this->assertNotNull($clon);
+
+        // La copia queda justo a la derecha del original (c1, clon, c2, c3)
+        $ids = $this->group->fresh()->criterias()->pluck('id')->all();
+        $this->assertSame([$c1->id, $clon->id, $c2->id, $c3->id], $ids);
+        $this->assertTrue($c1->orden < $clon->orden && $clon->orden < $c2->orden);
+
+        // La copia hereda texto/puntuacion, pero no `seleccionado` (ADR-008)
+        $this->assertEquals($c1->puntuacion, $clon->puntuacion);
+        $this->assertFalse((bool) $clon->seleccionado);
+
+        // Solo se intercaló: los demás conservan su `orden`
+        $this->assertSame($orden2, $c2->fresh()->orden);
+        $this->assertSame($orden3, $c3->fresh()->orden);
+    }
+
+    public function testCriteriaGroupComponentDuplicateCriteriaSinHuecoRegeneraLaSerie()
+    {
+        $c1 = $this->criteria;
+        $c1->update(['orden' => $this->ordenTs(1000)]);
+        // El vecino está a 1 tick: no hay hueco para intercalar (ADR-005)
+        $c2 = Criteria::factory()->create(['criteria_group_id' => $this->group->id, 'orden' => $this->ordenTs(1001)]);
+        $c3 = Criteria::factory()->create(['criteria_group_id' => $this->group->id, 'orden' => $this->ordenTs(9000000)]);
+
+        Livewire::actingAs($this->alumno)
+            ->test(CriteriaGroupComponent::class, ['criteria_group' => $this->group])
+            ->call('duplicate_criteria', $c1->id)
+            ->assertOk();
+
+        $clon = $this->group->criterias()->where('id', '!=', $c1->id)->where('texto', $c1->texto)->first();
+        $this->assertNotNull($clon);
+
+        // El orden relativo se mantiene, con la copia tras el original
+        $ids = $this->group->fresh()->criterias()->pluck('id')->all();
+        $this->assertSame([$c1->id, $clon->id, $c2->id, $c3->id], $ids);
+
+        // La serie completa se regeneró: `orden` únicos y ordenados
+        $ordenes = $this->group->fresh()->criterias()->pluck('orden')->all();
+        $this->assertCount(4, array_unique($ordenes));
+        $ordenado = $ordenes;
+        sort($ordenado);
+        $this->assertSame($ordenes, $ordenado);
+    }
+
     public function testCriteriaGroupComponentLeftRightCriteria()
     {
         $c2 = Criteria::factory()->create(['criteria_group_id' => $this->group->id]);
@@ -234,5 +295,14 @@ class LivewireCriteriaTest extends TestCase
         $this->assertFalse($component->instance()->is_last_criteria_group($this->group->id));
         $this->assertFalse($component->instance()->is_first_criteria_group($group2->id));
         $this->assertTrue($component->instance()->is_last_criteria_group($group2->id));
+    }
+
+    /**
+     * Construye un `orden` con el timestamp dado y cola fija, con el mismo
+     * formato que `Str::orderedUuid()` (ver `App\Traits\OrdenUuid`).
+     */
+    private function ordenTs(int $ts): string
+    {
+        return sprintf('%08x-%04x-4000-8000-000000000000', $ts >> 16, $ts & 0xffff);
     }
 }

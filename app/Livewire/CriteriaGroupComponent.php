@@ -4,6 +4,8 @@ namespace App\Livewire;
 
 use App\Models\Criteria;
 use App\Models\CriteriaGroup;
+use App\Traits\OrdenUuid;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
@@ -12,6 +14,8 @@ use Livewire\Component;
 
 class CriteriaGroupComponent extends Component
 {
+    use OrdenUuid;
+
     public CriteriaGroup $criteria_group;
 
     /**
@@ -104,6 +108,28 @@ class CriteriaGroupComponent extends Component
     {
         $criteria = Criteria::findOrFail($criteria_id);
         $criteria->delete();
+    }
+
+    /**
+     * Duplica un criterio: la copia (mismo `texto`/`puntuacion`; `seleccionado`
+     * excluido, ADR-008) queda **justo a la derecha** del original — su `orden`
+     * UUID se intercala entre el criterio y su siguiente vecino dentro del grupo
+     * (ADR-005, trait OrdenUuid); si no hay hueco, se regenera la serie del grupo.
+     * El `orden` se calcula antes de guardar la copia, de modo que la serie
+     * consultada no la incluye.
+     */
+    public function duplicate_criteria($criteria_id)
+    {
+        $criteria = Criteria::findOrFail($criteria_id);
+        $grupo = $criteria->criteria_group;
+
+        $orden = $this->ordenTras($criteria, function () use ($grupo) {
+            return $grupo?->criterias()->orderBy('orden')->get()->values() ?? new Collection();
+        });
+
+        $copia = $criteria->duplicate();
+        $copia->orden = $orden;
+        $copia->save();
     }
 
     public function left_criteria($criteria_id)
