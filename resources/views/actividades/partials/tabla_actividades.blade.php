@@ -126,6 +126,22 @@
 {{ html()->form('POST', route('actividades.duplicar_grupo'))->id('multiple')->open() }}
 <div class="row row-cols-lg-auto g-3 align-items-center mb-3">
     <div class="col-12">
+        <div class='btn-group me-3'>
+            {{ html()
+                ->submit('<i class="bi bi-clipboard-check"></i>')
+                ->name('action')
+                ->value('mark_reviewed')
+                ->class(['btn btn-sm btn-light rounded-end-0'])
+                ->attribute('title', __('Mark selected as reviewed'))
+            }}
+            {{ html()
+                ->submit('<i class="bi bi-clipboard-x"></i>')
+                ->name('action')
+                ->value('mark_not_reviewed')
+                ->class(['btn btn-sm btn-light rounded-start-0'])
+                ->attribute('title', __('Mark selected as not reviewed'))
+            }}
+        </div>
         <button title="{{ __('Move') }}"
                 type="submit"
                 name="action" value="move"

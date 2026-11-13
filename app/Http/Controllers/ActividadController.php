@@ -786,6 +786,20 @@ class ActividadController extends Controller
                     $this->mover($actividad, $request->input('unidad_id'));
                 }
                 break;
+            case 'mark_reviewed':
+                foreach ($request->input('seleccionadas') as $id) {
+                    $actividad = Actividad::findOrFail($id);
+                    $actividad->fecha_revision = now();
+                    $actividad->save();
+                }
+                break;
+            case 'mark_not_reviewed':
+                foreach ($request->input('seleccionadas') as $id) {
+                    $actividad = Actividad::findOrFail($id);
+                    $actividad->fecha_revision = null;
+                    $actividad->save();
+                }
+                break;
             default:
                 $accion = explode('_', (string)request('action'))[0];
                 $id_destino = explode('_', (string)request('action'))[1];
