@@ -50,6 +50,7 @@
                     <td class="text-nowrap">
                         <div class='btn-group'>
                             @include('partials.boton_editar', ['ruta' => 'milestones', 'recurso' => $milestone])
+                            @include('partials.boton_duplicar', ['ruta' => 'milestones.duplicar', 'id' => $milestone->id, 'middle' => true])
                             {{ html()->form('DELETE', route('milestones.destroy', $milestone->id))->open() }}
                             @include('partials.boton_borrar', ['last' => true])
                             {{ html()->form()->close() }}

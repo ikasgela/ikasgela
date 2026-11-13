@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use Bkwld\Cloner\Cloneable;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Support\Str;
 
 
@@ -15,6 +16,7 @@ use Illuminate\Support\Str;
 class Milestone extends Model
 {
     use HasFactory;
+    use Cloneable;
     use Cachable;
 
     protected $fillable = [
@@ -50,5 +52,19 @@ class Milestone extends Model
         return [
             'date' => 'datetime',
         ];
+    }
+
+    public function duplicar(?Curso $curso_destino)
+    {
+        $clon = $this->duplicate();
+        if (is_null($curso_destino)) {
+            $clon->name = $clon->name . " (" . __("Copy") . ')';
+        } else {
+            $clon->curso_id = $curso_destino->id;
+        }
+        $clon->published = false;
+        $clon->save();
+
+        return $clon;
     }
 }

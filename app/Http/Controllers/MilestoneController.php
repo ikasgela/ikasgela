@@ -92,4 +92,11 @@ class MilestoneController extends Controller
 
         return back();
     }
+
+    public function duplicar(Milestone $milestone)
+    {
+        $milestone->duplicar(null);
+
+        return redirect(route('milestones.index'));
+    }
 }
