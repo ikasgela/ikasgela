@@ -38,7 +38,7 @@ class TinymceUploadController extends Controller
     {
         $path = request('path');
 
-        if (!isset($path) || Str::contains($path, '..') || !Str::startsWith($path, 'images/'))
+        if (!isset($path) || Str::contains($path, '..') || !(Str::startsWith($path, 'images/') || Str::startsWith($path, 'markdown_images/')))
             abort(404);
 
         return response()->redirectTo(Storage::disk('s3-urls')->temporaryUrl($path, now()->addDays(2)));
