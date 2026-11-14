@@ -17,5 +17,23 @@ class MarkdownTextsTableSeeder extends Seeder
             'archivo' => 'README.md',
             'curso_id' => 1,
         ]);
+
+        MarkdownText::factory()->create([
+            'titulo' => 'PlantUML',
+            'descripcion' => 'Ejemplo de actividad con PlantUML incrustado.',
+            'repositorio' => 'root/plantuml',
+            'rama' => 'master',
+            'archivo' => 'README.md',
+            'curso_id' => 1,
+        ]);
+
+        MarkdownText::factory()->create([
+            'titulo' => 'Imagen embebida',
+            'descripcion' => 'Ejemplo de texto imagen embebida en el Markdown.',
+            'repositorio' => 'root/imagen-embebida',
+            'rama' => 'master',
+            'archivo' => 'README.md',
+            'curso_id' => 1,
+        ]);
     }
 }
