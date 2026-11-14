@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Bkwld\Cloner\Cloneable;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 

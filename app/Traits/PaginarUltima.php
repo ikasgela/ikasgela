@@ -14,7 +14,7 @@ trait PaginarUltima
         $session_key = 'paginador_' . $scope . '_' . $key;
 
         if (request()->has($key)) {
-            session([$session_key => (int) request()->input($key)]);
+            session([$session_key => (int)request()->input($key)]);
             return $coleccion->paginate($items_per_page, ['*'], $key);
         }
 

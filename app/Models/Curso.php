@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use App\Traits\Etiquetas;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
+use GeneaLabs\LaravelModelCaching\Traits\CachedPivotOperations;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
-use GeneaLabs\LaravelModelCaching\Traits\CachedPivotOperations;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Jenssegers\Agent\Facades\Agent;

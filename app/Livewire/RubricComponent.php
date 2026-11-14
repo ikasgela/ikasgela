@@ -14,6 +14,7 @@ use Livewire\Component;
 class RubricComponent extends Component
 {
     use OrdenUuid;
+
     public ?Actividad $actividad;
     public Rubric $rubric;
     public $rubric_is_editing = false;
@@ -93,7 +94,7 @@ class RubricComponent extends Component
         // del grupo duplicado; si no hay hueco, se regenera la serie completa.
         $clon->orden = $this->ordenTras(
             $criteria_group,
-            fn () => $this->rubric->criteria_groups()->orderBy('orden')->get()->values()
+            fn() => $this->rubric->criteria_groups()->orderBy('orden')->get()->values()
         );
         $clon->save();
 

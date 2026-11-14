@@ -842,11 +842,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
      */
     private function calcularActividadesObligatorias(
         ResultadoCalificaciones $r,
-        ?Curso $curso,
-        Collection $unidades,
-        Collection $completadas_base_por_unidad,
-        Collection $num_actividades_base_por_unidad
-    ): void {
+        ?Curso                  $curso,
+        Collection              $unidades,
+        Collection              $completadas_base_por_unidad,
+        Collection              $num_actividades_base_por_unidad
+    ): void
+    {
         $minimo_entregadas = $curso?->minimo_entregadas;
 
         $r->actividades_obligatorias_superadas = true;
@@ -873,11 +874,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
      */
     private function calcularNotaPonderada(
         ResultadoCalificaciones $r,
-        ?Curso $curso,
-        ?Milestone $milestone,
-        $media_actividades_grupo,
-        int $total_completadas_base
-    ): float {
+        ?Curso                  $curso,
+        ?Milestone              $milestone,
+                                $media_actividades_grupo,
+        int                     $total_completadas_base
+    ): float
+    {
         $nota = 0;
         $porcentaje_total = 0;
 
@@ -920,9 +922,10 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
      */
     private function calcularResultadosUnidades(
         ResultadoCalificaciones $r,
-        Collection $unidades,
-        Collection $actividades_por_unidad
-    ): void {
+        Collection              $unidades,
+        Collection              $actividades_por_unidad
+    ): void
+    {
         $r->resultados_unidades = [];
 
         foreach ($unidades as $unidad) {
@@ -948,10 +951,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
      */
     private function calcularPruebasEvaluacion(
         ResultadoCalificaciones $r,
-        Collection $unidades,
-        Collection $completadas_examen_por_unidad,
-        ?Curso $curso
-    ): void {
+        Collection              $unidades,
+        Collection              $completadas_examen_por_unidad,
+        ?Curso                  $curso
+    ): void
+    {
         $r->minimo_examenes = $curso?->minimo_examenes;
         $r->pruebas_evaluacion = true;
         $r->num_pruebas_evaluacion = 0;
@@ -979,11 +983,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
      */
     private function calcularExamenesFinales(
         ResultadoCalificaciones $r,
-        Collection $unidades,
-        Collection $completadas_examen_por_unidad,
-        ?Curso $curso,
-        float &$nota
-    ): void {
+        Collection              $unidades,
+        Collection              $completadas_examen_por_unidad,
+        ?Curso                  $curso,
+        float                   &$nota
+    ): void
+    {
         $r->minimo_examenes_finales = $curso?->minimo_examenes_finales;
         $r->examen_final = false;
         $r->examen_final_superado = false;

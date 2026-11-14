@@ -18,8 +18,8 @@ use App\Models\Unidad;
 use App\Models\User;
 use App\Traits\InformeActividadesCurso;
 use App\Traits\PaginarUltima;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -306,7 +306,7 @@ class ActividadController extends Controller
             }
         }
 
-        $nuevoestado = (int) $request->input('nuevoestado');
+        $nuevoestado = (int)$request->input('nuevoestado');
 
         $estado_anterior = $tarea->estado;
 
@@ -318,7 +318,7 @@ class ActividadController extends Controller
         // ejecutar el docente/administrador: el alumno únicamente puede usar el
         // avance automático (42, 64) de una actividad con auto_avance.
         $asignaPuntuacion = in_array($nuevoestado, [40, 41, 42, 64]);
-        $avanceAutomatico = in_array($nuevoestado, [42, 64]) && (bool) $actividad->auto_avance;
+        $avanceAutomatico = in_array($nuevoestado, [42, 64]) && (bool)$actividad->auto_avance;
         if ($asignaPuntuacion && !$override_allowed && !$avanceAutomatico) {
             abort(403);
         }
@@ -535,8 +535,8 @@ class ActividadController extends Controller
                 }
 
                 $dias = $request->input('ampliacion_plazo', 7);
-                $maxDias = $override_allowed ? 365 : max(30, (int) ($actividad->unidad->curso->plazo_actividad ?? 7));
-                if (!is_numeric($dias) || (int) $dias < 1 || (int) $dias > $maxDias) {
+                $maxDias = $override_allowed ? 365 : max(30, (int)($actividad->unidad->curso->plazo_actividad ?? 7));
+                if (!is_numeric($dias) || (int)$dias < 1 || (int)$dias > $maxDias) {
                     abort(400, __('Invalid task state.'));
                 }
                 if ($dias > 0) {
@@ -943,9 +943,9 @@ class ActividadController extends Controller
         $actividad->{$relacion2}()->updateExistingPivot($a2->id, ['orden' => $a2->pivot->orden]);
 
         return back();
-     }
+    }
 
-     private function bloquearRepositorios(Tarea $tarea, bool $solo_lectura)
+    private function bloquearRepositorios(Tarea $tarea, bool $solo_lectura)
     {
         foreach ($tarea->actividad->intellij_projects as $intellij_project) {
 
@@ -965,10 +965,10 @@ class ActividadController extends Controller
             return;
         }
 
-        $maximo = is_null($actividad->puntuacion) ? null : (float) $actividad->puntuacion;
+        $maximo = is_null($actividad->puntuacion) ? null : (float)$actividad->puntuacion;
 
-        if (!is_numeric($puntuacion) || (float) $puntuacion < 0
-            || (!is_null($maximo) && (float) $puntuacion > $maximo)) {
+        if (!is_numeric($puntuacion) || (float)$puntuacion < 0
+            || (!is_null($maximo) && (float)$puntuacion > $maximo)) {
             abort(400, __('Invalid score.'));
         }
     }

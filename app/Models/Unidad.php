@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use App\Traits\Etiquetas;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 
 /**
@@ -77,7 +77,7 @@ class Unidad extends Model
 
     public function puntos()
     {
-        return (float) $this->actividades()
+        return (float)$this->actividades()
             ->where('plantilla', true)
             ->selectRaw('COALESCE(SUM(puntuacion * COALESCE(multiplicador, 1)), 0) as total')
             ->value('total');

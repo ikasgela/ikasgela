@@ -5,11 +5,11 @@ namespace App\Models;
 use App\Traits\ClonarRepoGitea;
 use Bkwld\Cloner\Cloneable;
 use Exception;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Ikasgela\Gitea\GiteaClient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Support\Facades\Cache;
 
 

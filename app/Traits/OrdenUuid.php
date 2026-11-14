@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 /**
@@ -24,7 +25,7 @@ trait OrdenUuid
      * hueco para intercalar, se regenera la serie completa con la nueva fila
      * interpolada y se devuelve el `orden` correspondiente a la nueva fila.
      *
-     * @param callable(): \Illuminate\Support\Collection $coleccion Devuelve la
+     * @param callable(): Collection $coleccion Devuelve la
      *        serie ordenada de `orden` que contiene a $fila.
      */
     protected function ordenTras(Model $fila, callable $coleccion): string
@@ -34,7 +35,7 @@ trait OrdenUuid
         }
 
         $siguiente = $coleccion()
-            ->filter(fn ($f) => !empty($f->orden) && $f->orden > $fila->orden)
+            ->filter(fn($f) => !empty($f->orden) && $f->orden > $fila->orden)
             ->sortBy('orden')
             ->first();
 
@@ -61,15 +62,15 @@ trait OrdenUuid
      * nueva fila interpolada justo después de $original, y devuelve el `orden`
      * correspondiente a la nueva fila.
      *
-     * @param callable(): \Illuminate\Support\Collection $coleccion Devuelve la
+     * @param callable(): Collection $coleccion Devuelve la
      *        serie ordenada de `orden` que contiene a $original.
      */
     protected function regenerarSerieTras(Model $original, callable $coleccion, string $cola): string
     {
         $ts_actual = self::tsOrdenAhora();
         $ts_max = $coleccion()
-            ->filter(fn ($f) => !empty($f->orden))
-            ->map(fn ($f) => self::tsOrden($f->orden))
+            ->filter(fn($f) => !empty($f->orden))
+            ->map(fn($f) => self::tsOrden($f->orden))
             ->max();
 
         $base = max($ts_actual, $ts_max ?? 0) + 1;
@@ -106,7 +107,7 @@ trait OrdenUuid
     {
         $tiempo = explode(' ', microtime(false));
 
-        return (int) $tiempo[1] * 100000 + (int) substr($tiempo[0], 2, 5);
+        return (int)$tiempo[1] * 100000 + (int)substr($tiempo[0], 2, 5);
     }
 
     /**

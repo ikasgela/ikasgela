@@ -72,7 +72,7 @@ class PlantillaGrafoController extends Controller
         $ids = $this->plantillasQuery()->pluck('id')->toArray();
 
         foreach ($request->input('posiciones') as $posicion) {
-            $actividad_id = (int) $posicion['actividad_id'];
+            $actividad_id = (int)$posicion['actividad_id'];
 
             // Solo se guardan posiciones de plantillas del curso actual
             if (!in_array($actividad_id, $ids)) {
@@ -82,8 +82,8 @@ class PlantillaGrafoController extends Controller
             ActividadGrafo::updateOrCreate(
                 ['actividad_id' => $actividad_id],
                 [
-                    'posicion_x' => (float) $posicion['x'],
-                    'posicion_y' => (float) $posicion['y'],
+                    'posicion_x' => (float)$posicion['x'],
+                    'posicion_y' => (float)$posicion['y'],
                 ]
             );
         }
@@ -111,9 +111,9 @@ class PlantillaGrafoController extends Controller
         $ids_curso = $this->plantillasQuery(false)->pluck('id')->toArray();
 
         foreach ($request->input('conexiones') as $conexion) {
-            $origen_id = (int) $conexion['origen_id'];
+            $origen_id = (int)$conexion['origen_id'];
             $destino_id = isset($conexion['destino_id']) && $conexion['destino_id'] !== ''
-                ? (int) $conexion['destino_id']
+                ? (int)$conexion['destino_id']
                 : null;
 
             // Solo se conectan plantillas visibles del curso actual
@@ -164,12 +164,12 @@ class PlantillaGrafoController extends Controller
         $afectados = [];
 
         foreach ($request->input('conexiones') as $conexion) {
-            $selector_id = (int) $conexion['selector_id'];
+            $selector_id = (int)$conexion['selector_id'];
             $regla_id = isset($conexion['regla_id']) && $conexion['regla_id'] !== ''
-                ? (int) $conexion['regla_id']
+                ? (int)$conexion['regla_id']
                 : null;
             $destino_id = isset($conexion['destino_id']) && $conexion['destino_id'] !== ''
-                ? (int) $conexion['destino_id']
+                ? (int)$conexion['destino_id']
                 : null;
 
             $selector = $selectores->get($selector_id);
@@ -223,7 +223,7 @@ class PlantillaGrafoController extends Controller
                 $reglas[] = [
                     'selector_id' => $selector->id,
                     'regla_id' => $regla->id,
-                    'destino_id' => $regla->resultado ? (int) $regla->resultado : null,
+                    'destino_id' => $regla->resultado ? (int)$regla->resultado : null,
                 ];
             }
         }
@@ -259,7 +259,7 @@ class PlantillaGrafoController extends Controller
                 'youtube_videos', 'intellij_projects', 'markdown_texts',
                 'file_resources', 'file_uploads', 'link_collections',
                 'cuestionarios', 'rubrics', 'test_results',
-                'selectors' => fn ($query) => $query->where('curso_id', $curso_id)->with('rule_groups'),
+                'selectors' => fn($query) => $query->where('curso_id', $curso_id)->with('rule_groups'),
             ])
             ->get();
 
@@ -282,15 +282,15 @@ class PlantillaGrafoController extends Controller
                 foreach ($selector->rule_groups as $regla) {
                     $reglas[] = [
                         'id' => $regla->id,
-                        'resultado_id' => $regla->resultado ? (string) $regla->resultado : null,
+                        'resultado_id' => $regla->resultado ? (string)$regla->resultado : null,
                     ];
 
                     // Solo se dibuja la condición si su resultado es visible
-                    if ($regla->resultado && in_array((int) $regla->resultado, $ids)) {
+                    if ($regla->resultado && in_array((int)$regla->resultado, $ids)) {
                         $enlaces_selectores[] = [
                             'id' => 's' . $selector->id . '-' . $regla->id . '-' . $regla->resultado,
                             'source' => 'selector-' . $actividad->id . '-' . $selector->id,
-                            'target' => (string) $regla->resultado,
+                            'target' => (string)$regla->resultado,
                             'selector_id' => $selector->id,
                             'regla_id' => $regla->id,
                             'actividad_id' => $actividad->id,
@@ -307,19 +307,19 @@ class PlantillaGrafoController extends Controller
             }
 
             $nodos[] = [
-                'id' => (string) $actividad->id,
+                'id' => (string)$actividad->id,
                 'nombre' => $actividad->nombre,
                 'slug' => $actividad->slug,
                 'unidad' => $actividad->unidad?->nombre,
                 'unidad_id' => $actividad->unidad_id,
                 'orden' => $actividad->orden,
                 'puntuacion' => $actividad->puntuacion,
-                'final' => (bool) $actividad->final,
-                'auto_avance' => (bool) $actividad->auto_avance,
-                'destacada' => (bool) $actividad->destacada,
+                'final' => (bool)$actividad->final,
+                'auto_avance' => (bool)$actividad->auto_avance,
+                'destacada' => (bool)$actividad->destacada,
                 'recursos' => $actividad->recursos->count(),
                 'etiquetas' => array_values(array_filter($actividad->etiquetas())),
-                'siguiente_id' => $actividad->siguiente_id ? (string) $actividad->siguiente_id : null,
+                'siguiente_id' => $actividad->siguiente_id ? (string)$actividad->siguiente_id : null,
                 'selectores' => $selectores,
                 'url_preview' => route('actividades.preview', $actividad->id),
                 'url_edit' => route('actividades.edit', $actividad->id),
@@ -332,8 +332,8 @@ class PlantillaGrafoController extends Controller
             if ($actividad->siguiente_id && in_array($actividad->siguiente_id, $ids)) {
                 $enlaces[] = [
                     'id' => 'e' . $actividad->id . '-' . $actividad->siguiente_id,
-                    'source' => (string) $actividad->id,
-                    'target' => (string) $actividad->siguiente_id,
+                    'source' => (string)$actividad->id,
+                    'target' => (string)$actividad->siguiente_id,
                 ];
             }
         }

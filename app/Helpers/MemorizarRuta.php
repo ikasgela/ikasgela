@@ -12,7 +12,7 @@ if (!function_exists('memorizar_ruta')) {
 
             // Verificar exclusiones (pueden tener prefijo de idioma como /es/)
             $excluir = str_contains($actual, 'tinymce') ||
-                       str_contains($actual, 'livewire');
+                str_contains($actual, 'livewire');
 
             if (!$excluir) {
                 $accion = request()->route()->getActionMethod(); // index

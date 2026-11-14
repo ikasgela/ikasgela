@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Bkwld\Cloner\Cloneable;
 use Cohensive\OEmbed\Facades\OEmbed;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 
 /**
