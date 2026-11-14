@@ -1027,6 +1027,7 @@ class ActividadController extends Controller
         }
 
         $recurso->pivot->save();
+        $recurso->save();
 
         return back();
     }
