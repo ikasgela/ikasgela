@@ -624,35 +624,43 @@ class ActividadController extends Controller
         if ($usuario_actual->hasRole('alumno')) {
             return redirect(route('users.home'));
         } else if ($usuario_actual->hasRole('profesor')) {
+            $filtro_alumnos = session('profesor_filtro_alumnos');
 
-            $siguiente_para_corregir = $this->siguienteActividadPendiente($usuario);
+            // La cadena de revisión trabaja por niveles: primero los exámenes
+            // (solo con filtro `E` activo) y, una vez agotados todos los
+            // exámenes del curso, las tareas normales. En cada nivel se abre
+            // primero la pendiente del propio alumno y, si con el filtro R no
+            // le quedan, la del siguiente alumno con pendientes de ese nivel.
+            $niveles = [false];
 
-            if ($siguiente_para_corregir != null) {
-                return redirect(route('profesor.revisar', [
-                    'user' => $usuario->id,
-                    'tarea' => $siguiente_para_corregir->tarea->id
-                ]));
+            if (session('profesor_filtro_actividades_examen') == 'E') {
+                array_unshift($niveles, true);
             }
 
-            if (session('profesor_filtro_alumnos') == 'R') {
-                // No quedan tareas pendientes de revisar de este alumno: saltar al
-                // siguiente alumno con pendientes (orden del panel) para continuar
-                // encadenando la corrección sin volver al panel
-                $siguiente_alumno = app(ProfesorController::class)->siguienteAlumnoConPendientes($usuario);
+            foreach ($niveles as $examen) {
+                $siguiente_para_corregir = $this->primeraActividadPendiente($usuario, $examen);
 
-                if ($siguiente_alumno !== null) {
-                    $siguiente_para_corregir = $this->siguienteActividadPendiente($siguiente_alumno);
+                if ($siguiente_para_corregir !== null) {
+                    return $this->redirigirRevisar($usuario, $siguiente_para_corregir);
+                }
 
-                    if ($siguiente_para_corregir != null) {
-                        return redirect(route('profesor.revisar', [
-                            'user' => $siguiente_alumno->id,
-                            'tarea' => $siguiente_para_corregir->tarea->id
-                        ]));
+                if ($filtro_alumnos == 'R') {
+                    // No le quedan pendientes de este nivel: saltar al siguiente
+                    // alumno con pendientes de ese nivel (orden del panel) para
+                    // continuar encadenando la corrección sin volver al panel
+                    $siguiente_alumno = app(ProfesorController::class)->siguienteAlumnoConPendientes($usuario, $examen);
+
+                    if ($siguiente_alumno !== null) {
+                        $siguiente_para_corregir = $this->primeraActividadPendiente($siguiente_alumno, $examen);
+
+                        if ($siguiente_para_corregir !== null) {
+                            return $this->redirigirRevisar($siguiente_alumno, $siguiente_para_corregir);
+                        }
                     }
                 }
             }
 
-            if (session('profesor_filtro_alumnos') == 'ACT') {
+            if ($filtro_alumnos == 'ACT') {
                 return redirect(route('profesor.index'));
             } else {
                 return redirect(route('profesor.tareas', ['user' => $tarea->user->id]));
@@ -664,18 +672,25 @@ class ActividadController extends Controller
 
     /**
      * Primera actividad pendiente de revisión del alumno (enviada y sin
-     * auto-avance). Con el filtro `E` activo el pool incluye exámenes y se
-     * priorizan: si hay pendientes de examen se abre la primera de ellas, y
-     * solo si no hay ninguna se abre la primera pendiente normal.
+     * auto-avance) del tipo indicado: `true` = exámenes, `false` = normales.
      */
-    private function siguienteActividadPendiente(User $usuario)
+    private function primeraActividadPendiente(User $usuario, bool $examen)
     {
-        if (session('profesor_filtro_actividades_examen') == 'E') {
-            return $usuario->actividades_enviadas_noautoavance_examen()->first()
-                ?? $usuario->actividades_enviadas_noautoavance_noexamen()->first();
-        }
+        return $examen
+            ? $usuario->actividades_enviadas_noautoavance_examen()->first()
+            : $usuario->actividades_enviadas_noautoavance_noexamen()->first();
+    }
 
-        return $usuario->actividades_enviadas_noautoavance_noexamen()->first();
+    /**
+     * Redirigir al profesor a la pantalla de revisión de la actividad
+     * (y su tarea) indicada.
+     */
+    private function redirigirRevisar(User $alumno, Actividad $actividad)
+    {
+        return redirect(route('profesor.revisar', [
+            'user' => $alumno->id,
+            'tarea' => $actividad->tarea->id
+        ]));
     }
 
     public function duplicar(Actividad $actividad)

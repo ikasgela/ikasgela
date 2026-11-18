@@ -787,6 +787,78 @@ class ActividadesEstadoTest extends TestCase
         ]));
     }
 
+    /**
+     * Con los filtros R y E, la cadena agota antes los exámenes de todo el
+     * curso: si al agotar los exámenes de A este le quedan normales pero B aún
+     * tiene exámenes, se abre la primera pendiente de examen de B (no la
+     * normal de A)
+     */
+    public function testActualizarEstadoProfesorERevisaExamenDelOtroAlumnoAunqueElActualTengaNormales()
+    {
+        $this->actingAs($this->profesor);
+
+        $curso = Curso::factory()->create(['silence_notifications' => true]);
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        setting_usuario(['curso_actual' => $curso->id], $this->profesor);
+        session([
+            'profesor_filtro_alumnos' => 'R',
+            'profesor_filtro_actividades_examen' => 'E',
+        ]);
+
+        $alumno1 = $this->crearAlumnoEnCurso($curso, 'Primer', 'Apellido1');
+        $alumno2 = $this->crearAlumnoEnCurso($curso, 'Segund', 'Apellido2');
+
+        $tarea1_examen = $this->crearTareaPendiente($curso, $alumno1, 30, 'examen');
+        $tarea1_normal = $this->crearTareaPendiente($curso, $alumno1);
+        $tarea2_examen = $this->crearTareaPendiente($curso, $alumno2, 30, 'examen');
+
+        $response = $this->put(route('actividades.estado', $tarea1_examen), [
+            'nuevoestado' => 40,
+            'puntuacion' => 100,
+            'feedback' => 'Correcto',
+        ]);
+
+        $response->assertRedirect(route('profesor.revisar', [
+            'user' => $alumno2->id,
+            'tarea' => $tarea2_examen->id,
+        ]));
+    }
+
+    /**
+     * Con los filtros R y E y sin exámenes pendientes en el curso, al agotar
+     * las normales de un alumno se salta al siguiente alumno con pendientes
+     * normales (nivel normales entre alumnos)
+     */
+    public function testActualizarEstadoProfesorERevisaNormalDelSiguienteAlumnoSinExamenEnElCurso()
+    {
+        $this->actingAs($this->profesor);
+
+        $curso = Curso::factory()->create(['silence_notifications' => true]);
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        setting_usuario(['curso_actual' => $curso->id], $this->profesor);
+        session([
+            'profesor_filtro_alumnos' => 'R',
+            'profesor_filtro_actividades_examen' => 'E',
+        ]);
+
+        $alumno1 = $this->crearAlumnoEnCurso($curso, 'Primer', 'Apellido1');
+        $alumno2 = $this->crearAlumnoEnCurso($curso, 'Segund', 'Apellido2');
+
+        $tarea1 = $this->crearTareaPendiente($curso, $alumno1);
+        $tarea2 = $this->crearTareaPendiente($curso, $alumno2);
+
+        $response = $this->put(route('actividades.estado', $tarea1), [
+            'nuevoestado' => 40,
+            'puntuacion' => 100,
+            'feedback' => 'Correcto',
+        ]);
+
+        $response->assertRedirect(route('profesor.revisar', [
+            'user' => $alumno2->id,
+            'tarea' => $tarea2->id,
+        ]));
+    }
+
     // ===== actualizarEstado - not authenticated =====
     public function testActualizarEstadoNotAuth()
     {

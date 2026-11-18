@@ -668,11 +668,16 @@ class ProfesorController extends Controller
      * volteo al inicio de la lista) que tenga tareas pendientes de revisar.
      *
      * Sirve para encadenar la corrección entre alumnos cuando, con el filtro R
-     * (pendientes de revisión) activo, el alumno actual se queda sin pendientes.
+     * (pendientes de revisión) activo, el alumno actual se queda sin pendientes
+     * del tipo buscado.
      *
+     * @param User $alumno Alumno actual (se excluye de la búsqueda).
+     * @param bool|null $examen `true`: solo alumnos con pendientes de **examen**;
+     *   `false`: solo alumnos con pendientes **normales**; `null` (comportamiento
+     *   heredado): cualquier pendiente, incluidos exámenes si el filtro `E` está activo.
      * @return User|null
      */
-    public function siguienteAlumnoConPendientes(User $alumno)
+    public function siguienteAlumnoConPendientes(User $alumno, ?bool $examen = null)
     {
         $orden = $this->getAlumnosBase()->pluck('id')->all();
 
@@ -682,10 +687,15 @@ class ProfesorController extends Controller
 
         // Mismo criterio que el filtro de alumnos «R» (pendientes de revisión)
         $con_pendientes = $this->getAlumnosBase()
-            ->whereHas('actividades', function ($query) {
+            ->whereHas('actividades', function ($query) use ($examen) {
                 $query->where('auto_avance', false)->where('estado', 30);
 
-                if (session('profesor_filtro_actividades_examen') != 'E') {
+                if ($examen === true) {
+                    $query->tag('examen', true);
+                } else if ($examen === false) {
+                    $query->tag('examen', false);
+                } else if (session('profesor_filtro_actividades_examen') != 'E') {
+                    // `null` (heredado): mismo criterio que el filtro R sin E
                     $query->tag('examen', false);
                 }
             })
