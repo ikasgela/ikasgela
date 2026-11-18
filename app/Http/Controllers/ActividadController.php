@@ -664,12 +664,15 @@ class ActividadController extends Controller
 
     /**
      * Primera actividad pendiente de revisión del alumno (enviada y sin
-     * auto-avance; incluye exámenes si el filtro `E` está activo).
+     * auto-avance). Con el filtro `E` activo el pool incluye exámenes y se
+     * priorizan: si hay pendientes de examen se abre la primera de ellas, y
+     * solo si no hay ninguna se abre la primera pendiente normal.
      */
     private function siguienteActividadPendiente(User $usuario)
     {
         if (session('profesor_filtro_actividades_examen') == 'E') {
-            return $usuario->actividades_enviadas_noautoavance()->first();
+            return $usuario->actividades_enviadas_noautoavance_examen()->first()
+                ?? $usuario->actividades_enviadas_noautoavance_noexamen()->first();
         }
 
         return $usuario->actividades_enviadas_noautoavance_noexamen()->first();

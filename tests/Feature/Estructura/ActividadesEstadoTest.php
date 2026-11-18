@@ -469,12 +469,13 @@ class ActividadesEstadoTest extends TestCase
         return $alumno;
     }
 
-    private function crearTareaPendiente(Curso $curso, User $alumno, int $estado = 30): Tarea
+    private function crearTareaPendiente(Curso $curso, User $alumno, int $estado = 30, ?string $tags = null): Tarea
     {
         $actividad = Actividad::factory()->create([
             'plantilla' => false,
             'auto_avance' => false,
             'puntuacion' => 100,
+            'tags' => $tags,
             'unidad_id' => Unidad::factory()->create(['curso_id' => $curso->id])->id,
         ]);
 
@@ -612,6 +613,177 @@ class ActividadesEstadoTest extends TestCase
         $response->assertRedirect(route('profesor.revisar', [
             'user' => $alumno1->id,
             'tarea' => $tarea2->id,
+        ]));
+    }
+
+    // ===== actualizarEstado - filtro E: prioridad de exámenes =====
+    /**
+     * Con los filtros R y E, si el alumno tiene pendientes de examen y
+     * normales, la revisión de una normal redirige a la primera pendiente de
+     * examen del propio alumno
+     */
+    public function testActualizarEstadoProfesorEAbreExamenSiHayPendienteDeExamen()
+    {
+        $this->actingAs($this->profesor);
+
+        $curso = Curso::factory()->create(['silence_notifications' => true]);
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        setting_usuario(['curso_actual' => $curso->id], $this->profesor);
+        session([
+            'profesor_filtro_alumnos' => 'R',
+            'profesor_filtro_actividades_examen' => 'E',
+        ]);
+
+        $alumno1 = $this->crearAlumnoEnCurso($curso, 'Primer', 'Apellido1');
+
+        $tarea_examen = $this->crearTareaPendiente($curso, $alumno1, 30, 'examen');
+        $tarea_normal = $this->crearTareaPendiente($curso, $alumno1);
+
+        $response = $this->put(route('actividades.estado', $tarea_normal), [
+            'nuevoestado' => 41,
+            'puntuacion' => 50,
+            'feedback' => 'Revisa',
+        ]);
+
+        $response->assertRedirect(route('profesor.revisar', [
+            'user' => $alumno1->id,
+            'tarea' => $tarea_examen->id,
+        ]));
+    }
+
+    /**
+     * Con los filtros R y E, si al revisar el alumno ya no tiene pendientes de
+     * examen, se abre la primera pendiente normal
+     */
+    public function testActualizarEstadoProfesorESinExamenPendienteAbreNormal()
+    {
+        $this->actingAs($this->profesor);
+
+        $curso = Curso::factory()->create(['silence_notifications' => true]);
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        setting_usuario(['curso_actual' => $curso->id], $this->profesor);
+        session([
+            'profesor_filtro_alumnos' => 'R',
+            'profesor_filtro_actividades_examen' => 'E',
+        ]);
+
+        $alumno1 = $this->crearAlumnoEnCurso($curso, 'Primer', 'Apellido1');
+
+        $tarea_examen = $this->crearTareaPendiente($curso, $alumno1, 30, 'examen');
+        $tarea_normal = $this->crearTareaPendiente($curso, $alumno1);
+
+        $response = $this->put(route('actividades.estado', $tarea_examen), [
+            'nuevoestado' => 40,
+            'puntuacion' => 100,
+            'feedback' => 'Correcto',
+        ]);
+
+        $response->assertRedirect(route('profesor.revisar', [
+            'user' => $alumno1->id,
+            'tarea' => $tarea_normal->id,
+        ]));
+    }
+
+    /**
+     * Con los filtros R y E, al agotar las pendientes de un alumno se salta al
+     * siguiente alumno con pendientes y se abre la suya de examen (prioridad)
+     */
+    public function testActualizarEstadoProfesorESaltaAlSiguienteAlumnoYAbreSuExamen()
+    {
+        $this->actingAs($this->profesor);
+
+        $curso = Curso::factory()->create(['silence_notifications' => true]);
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        setting_usuario(['curso_actual' => $curso->id], $this->profesor);
+        session([
+            'profesor_filtro_alumnos' => 'R',
+            'profesor_filtro_actividades_examen' => 'E',
+        ]);
+
+        $alumno1 = $this->crearAlumnoEnCurso($curso, 'Primer', 'Apellido1');
+        $alumno2 = $this->crearAlumnoEnCurso($curso, 'Segund', 'Apellido2');
+
+        $tarea1 = $this->crearTareaPendiente($curso, $alumno1);
+        $tarea2_examen = $this->crearTareaPendiente($curso, $alumno2, 30, 'examen');
+        $tarea2_normal = $this->crearTareaPendiente($curso, $alumno2);
+
+        $response = $this->put(route('actividades.estado', $tarea1), [
+            'nuevoestado' => 40,
+            'puntuacion' => 100,
+            'feedback' => 'Correcto',
+        ]);
+
+        $response->assertRedirect(route('profesor.revisar', [
+            'user' => $alumno2->id,
+            'tarea' => $tarea2_examen->id,
+        ]));
+    }
+
+    /**
+     * Con los filtros R y E, si el siguiente alumno solo tiene pendientes
+     * normales (sin exámenes), se abre la primera normal
+     */
+    public function testActualizarEstadoProfesorESaltaAlSiguienteAlumnoYSinExamenAbreNormal()
+    {
+        $this->actingAs($this->profesor);
+
+        $curso = Curso::factory()->create(['silence_notifications' => true]);
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        setting_usuario(['curso_actual' => $curso->id], $this->profesor);
+        session([
+            'profesor_filtro_alumnos' => 'R',
+            'profesor_filtro_actividades_examen' => 'E',
+        ]);
+
+        $alumno1 = $this->crearAlumnoEnCurso($curso, 'Primer', 'Apellido1');
+        $alumno2 = $this->crearAlumnoEnCurso($curso, 'Segund', 'Apellido2');
+
+        $tarea1 = $this->crearTareaPendiente($curso, $alumno1, 30, 'examen');
+        $tarea2 = $this->crearTareaPendiente($curso, $alumno2);
+
+        $response = $this->put(route('actividades.estado', $tarea1), [
+            'nuevoestado' => 41,
+            'puntuacion' => 50,
+            'feedback' => 'Revisa',
+        ]);
+
+        $response->assertRedirect(route('profesor.revisar', [
+            'user' => $alumno2->id,
+            'tarea' => $tarea2->id,
+        ]));
+    }
+
+    /**
+     * La prioridad de exámenes viene del filtro E: con filtro A (ver todos) y
+     * E, la revisión de una normal también redirige a la pendiente de examen
+     * del propio alumno
+     */
+    public function testActualizarEstadoProfesorFiltroAConEAbreExamenSiHayPendienteDeExamen()
+    {
+        $this->actingAs($this->profesor);
+
+        $curso = Curso::factory()->create(['silence_notifications' => true]);
+        $this->profesor->cursos()->syncWithoutDetaching($curso);
+        setting_usuario(['curso_actual' => $curso->id], $this->profesor);
+        session([
+            'profesor_filtro_alumnos' => 'A',
+            'profesor_filtro_actividades_examen' => 'E',
+        ]);
+
+        $alumno1 = $this->crearAlumnoEnCurso($curso, 'Primer', 'Apellido1');
+
+        $tarea_examen = $this->crearTareaPendiente($curso, $alumno1, 30, 'examen');
+        $tarea_normal = $this->crearTareaPendiente($curso, $alumno1);
+
+        $response = $this->put(route('actividades.estado', $tarea_normal), [
+            'nuevoestado' => 41,
+            'puntuacion' => 50,
+            'feedback' => 'Revisa',
+        ]);
+
+        $response->assertRedirect(route('profesor.revisar', [
+            'user' => $alumno1->id,
+            'tarea' => $tarea_examen->id,
         ]));
     }
 
