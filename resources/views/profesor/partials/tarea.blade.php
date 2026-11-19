@@ -19,8 +19,19 @@
                 @method('PUT')
 
                 <div class="card-body">
-                    @include('actividades.partials.encabezado_con_etiquetas')
-                    <p>{{ $actividad->descripcion }}&nbsp;</p>
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            @include('actividades.partials.encabezado_con_etiquetas')
+                            <p>{{ $actividad->descripcion }}&nbsp;</p>
+                        </div>
+                        <div>
+                            <span class="small">
+                                {{ $actividad->fecha_finalizacion
+                                        ? __('Completion date') . ': ' . $actividad->fecha_finalizacion->isoFormat('L LT')
+                                        : trans_choice('tasks.not_sent', 1) }}
+                            </span>
+                        </div>
+                    </div>
                     @include('profesor.partials.botonera-calificacion')
                     <div class="mt-2">
                         <i class="bi bi-megaphone mt-3"></i>

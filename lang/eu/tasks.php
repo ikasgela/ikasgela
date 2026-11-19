@@ -15,4 +15,5 @@ return [
     'passed' => 'Gainditua|Gaindituak',
     'not_passed' => 'Gainditu gabea|Gainditu gabeak',
     'expired' => 'Iraungita|Iraungitakoak',
+    'not_sent' => 'Bidali gabea|Bidali gabeak',
 ];

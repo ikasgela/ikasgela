@@ -15,4 +15,5 @@ return [
     'passed' => 'Passed',
     'not_passed' => 'Not passed',
     'expired' => 'Expired',
+    'not_sent' => 'Not sent',
 ];

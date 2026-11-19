@@ -15,4 +15,5 @@ return [
     'passed' => 'Superada|Superadas',
     'not_passed' => 'No superada|No superadas',
     'expired' => 'Caducada|Caducadas',
+    'not_sent' => 'No enviada|No enviadas',
 ];
