@@ -31,16 +31,23 @@
         @php($ajuste_proporcional_nota = $milestone?->ajuste_proporcional_nota ?: $curso?->ajuste_proporcional_nota)
         @foreach($usuarios as $user)
             @php($calificaciones = $user->calcular_calificaciones($mediana, $milestone))
+            @php($num_completadas_usuario = $user->num_completadas($milestone?->etiquetas_obligatorias ?? ['base'], null, $milestone))
             @if(!$media && !isset($exportar) && session('tutor_filtro_alumnos') == 'P')
                 @switch($ajuste_proporcional_nota)
                     @case('mediana')
-                        @if($user->num_completadas('base', null, $milestone) >= $mediana)
+                        @if($num_completadas_usuario >= $mediana)
+                            @include('tutor.partials.fila_media')
+                            @php($media = true)
+                        @endif
+                        @break
+                    @case('fijo')
+                        @if($num_completadas_usuario >= $milestone?->num_actividades_obligatorias)
                             @include('tutor.partials.fila_media')
                             @php($media = true)
                         @endif
                         @break
                     @default
-                        @if($user->num_completadas('base', null, $milestone) >= $media_actividades_grupo)
+                        @if($num_completadas_usuario >= $media_actividades_grupo)
                             @include('tutor.partials.fila_media')
                             @php($media = true)
                         @endif
@@ -91,13 +98,16 @@
                 <td class="text-center
                     @switch($ajuste_proporcional_nota)
                         @case('mediana')
-                             {{ $calificaciones->hay_nota_manual ? '' : ($user->num_completadas('base', null, $milestone) < $mediana ? 'bg-warning text-dark' : '') }}
+                             {{ $calificaciones->hay_nota_manual ? '' : ($num_completadas_usuario < $mediana ? 'bg-warning text-dark' : '') }}
+                            @break
+                        @case('fijo')
+                             {{ $calificaciones->hay_nota_manual ? '' : ($num_completadas_usuario < $milestone?->num_actividades_obligatorias ? 'bg-warning text-dark' : '') }}
                             @break
                         @default
-                            {{ $calificaciones->hay_nota_manual ? '' : ($user->num_completadas('base', null, $milestone) < $media_actividades_grupo ? 'bg-warning text-dark' : '') }}
+                            {{ $calificaciones->hay_nota_manual ? '' : ($num_completadas_usuario < $media_actividades_grupo ? 'bg-warning text-dark' : '') }}
                     @endswitch
                     ">
-                    {{ $user->num_completadas('base', null, $milestone) }}
+                    {{ $num_completadas_usuario }}
                 </td>
                 @php($rango = ($curso?->normalizar_nota || $milestone?->normalizar_nota) ? ['min' => $nota_minima, 'max' => $nota_maxima] : null)
                 <td {!! $calificaciones->nota_numerica_normalizada($rango) < 5 ? 'style="color:#e3342f"' : '' !!}

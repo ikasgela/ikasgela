@@ -12,6 +12,7 @@ use App\Models\Actividad;
 use App\Models\Category;
 use App\Models\Curso;
 use App\Models\Group;
+use App\Models\Milestone;
 use App\Models\Organization;
 use App\Models\Period;
 use App\Models\Qualification;
@@ -23,6 +24,7 @@ use App\Observers\ActividadObserver;
 use App\Observers\CategoryObserver;
 use App\Observers\CursoObserver;
 use App\Observers\GroupObserver;
+use App\Observers\MilestoneObserver;
 use App\Observers\OrganizationObserver;
 use App\Observers\PeriodObserver;
 use App\Observers\QualificationObserver;
@@ -96,5 +98,7 @@ class EventServiceProvider extends ServiceProvider
 
         Qualification::observe(QualificationObserver::class);
         Skill::observe(SkillObserver::class);
+
+        Milestone::observe(MilestoneObserver::class);
     }
 }

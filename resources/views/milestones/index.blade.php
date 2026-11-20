@@ -43,6 +43,9 @@
                             @case('mediana')
                                 {{ __('Median') }}
                                 @break
+                            @case('fijo')
+                                {{ __('Fixed') }}
+                                @break
                             @default
                                 {{ __('Undefined') }}
                         @endswitch

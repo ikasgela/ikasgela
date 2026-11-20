@@ -277,9 +277,12 @@ class Curso extends Model
     {
         $users = $this->alumnos_activos();
 
+        // Etiquetas con las que se cuentan las completadas (por defecto 'base')
+        $etiquetas_obligatorias = $milestone?->etiquetas_obligatorias ?? ['base'];
+
         $total_actividades_grupo = 0;
         foreach ($users as $usuario) {
-            $total_actividades_grupo += $usuario->num_completadas('base', null, $milestone);
+            $total_actividades_grupo += $usuario->num_completadas($etiquetas_obligatorias, null, $milestone);
         }
         $media = $users->count() > 0 ? $total_actividades_grupo / $users->count() : 0;
 
@@ -290,9 +293,12 @@ class Curso extends Model
     {
         $users = $this->alumnos_activos();
 
+        // Etiquetas con las que se cuentan las completadas (por defecto 'base')
+        $etiquetas_obligatorias = $milestone?->etiquetas_obligatorias ?? ['base'];
+
         $total_actividades_usuarios = [];
         foreach ($users as $usuario) {
-            $total_actividades_usuarios[] = $usuario->num_completadas('base', null, $milestone);
+            $total_actividades_usuarios[] = $usuario->num_completadas($etiquetas_obligatorias, null, $milestone);
         }
         $mediana = count($total_actividades_usuarios) > 0 ? mediana($total_actividades_usuarios) : 0;
 

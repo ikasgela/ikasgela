@@ -520,12 +520,17 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         return $total;
     }
 
-    public function num_completadas($etiqueta, $unidad = null, ?Milestone $milestone = null)
+    public function num_completadas($etiquetas, $unidad = null, ?Milestone $milestone = null)
     {
-        $curso_id = $this->curso_actual()?->id ?? 0;
-        $key = 'num_completadas_' . $etiqueta . '_' . ($unidad ?? 'null') . '_' . ($milestone?->cache_key ?? 'null') . '_' . $curso_id;
+        if (!is_array($etiquetas)) {
+            $etiquetas = array_filter(array_map('trim', explode(',', (string) $etiquetas)));
+        }
+        $etiquetas = $etiquetas ?: ['base'];
 
-        return Cache::tags('user_' . $this->id)->remember($key, config('ikasgela.eloquent_cache_time'), function () use ($etiqueta, $unidad, $milestone) {
+        $curso_id = $this->curso_actual()?->id ?? 0;
+        $key = 'num_completadas_' . implode('|', $etiquetas) . '_' . ($unidad ?? 'null') . '_' . ($milestone?->cache_key ?? 'null') . '_' . $curso_id;
+
+        return Cache::tags('user_' . $this->id)->remember($key, config('ikasgela.eloquent_cache_time'), function () use ($etiquetas, $unidad, $milestone) {
             $total = 0;
 
             $query = $this->actividades_completadas($milestone);
@@ -534,7 +539,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
                 $query = $query->where('unidad_id', $unidad);
 
             foreach ($query->get() as $actividad) {
-                if ($actividad->hasEtiqueta($etiqueta))
+                if ($actividad->hasCualquierEtiqueta($etiquetas))
                     $total += 1;
             }
 
@@ -731,15 +736,20 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
                 ->groupBy('unidad_id')
                 ->map(fn($g) => $g->count());
 
-            // Total de actividades base completadas (para el ajuste proporcional)
-            $total_completadas_base = $completadas_base_por_unidad->sum();
+            // Total de actividades obligatorias completadas según las etiquetas del
+            // milestone (por defecto 'base') — para el ajuste proporcional
+            $etiquetas_obligatorias = $milestone?->etiquetas_obligatorias ?? ['base'];
+
+            $total_completadas = $actividades_completadas
+                ->filter(fn($a) => $a->hasCualquierEtiqueta($etiquetas_obligatorias))
+                ->count();
 
             $r = new ResultadoCalificaciones();
 
             $this->calcularCompetencias($r, $curso, $actividades_completadas);
             $this->verificarMinimoCompetencias($r, $curso);
             $this->calcularActividadesObligatorias($r, $curso, $unidades, $completadas_base_por_unidad, $num_actividades_base_por_unidad);
-            $nota = $this->calcularNotaPonderada($r, $curso, $milestone, $media_actividades_grupo, $total_completadas_base);
+            $nota = $this->calcularNotaPonderada($r, $curso, $milestone, $media_actividades_grupo, $total_completadas);
             $this->calcularResultadosUnidades($r, $unidades, $actividades_por_unidad);
             $this->calcularPruebasEvaluacion($r, $unidades, $completadas_examen_por_unidad, $curso);
 
@@ -877,7 +887,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         ?Curso                  $curso,
         ?Milestone              $milestone,
                                 $media_actividades_grupo,
-        int                     $total_completadas_base
+        int                     $total_completadas
     ): float
     {
         $nota = 0;
@@ -902,11 +912,15 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
         // Ajuste proporcional: 100% completadas = 100% de nota
         // En evaluación parcial, ajustar según la media del grupo
-        $r->numero_actividades_completadas = $total_completadas_base;
+        $r->numero_actividades_completadas = $total_completadas;
 
-        if ($r->num_actividades_obligatorias > 0) {
-            $ajuste = $milestone?->ajuste_proporcional_nota ?: $curso?->ajuste_proporcional_nota;
+        $ajuste = $milestone?->ajuste_proporcional_nota ?: $curso?->ajuste_proporcional_nota;
+
+        if ($ajuste === 'fijo' || $r->num_actividades_obligatorias > 0) {
             $nota = match ($ajuste) {
+                'fijo' => $milestone && ($milestone->num_actividades_obligatorias ?? 0) > 0
+                    ? $nota * ($r->numero_actividades_completadas / $milestone->num_actividades_obligatorias)
+                    : -1,
                 'media', 'mediana' => $media_actividades_grupo > 0
                     ? $nota * ($r->numero_actividades_completadas / $media_actividades_grupo)
                     : -1,

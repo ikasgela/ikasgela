@@ -5,6 +5,9 @@
         @case('mediana')
             - {{ __('Group median') }}: {{ $mediana_actividades_grupo }}
             @break
+        @case('fijo')
+            - {{ __('Number of mandatory activities') }}: {{ $milestone?->num_actividades_obligatorias }}
+            @break
         @default
             - {{ __('Group mean') }}: {{ $media_actividades_grupo }}
     @endswitch

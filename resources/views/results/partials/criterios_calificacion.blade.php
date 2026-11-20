@@ -47,6 +47,9 @@
                     @case('mediana')
                         <li>{{ __('The qualification is adjusted proportionally to the median of mandatory activities completed by the group.') }}</li>
                         @break
+                    @case('fijo')
+                        <li>{{ __('The qualification is adjusted proportionally to the number of mandatory activities established on the evaluation.') }}</li>
+                        @break
                     @default
                         <li>{{ __('The qualification is adjusted proportionally to the number of mandatory activities.') }}</li>
                 @endswitch

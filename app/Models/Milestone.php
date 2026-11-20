@@ -24,6 +24,7 @@ class Milestone extends Model
         '__import_id',
         'decimals', 'truncate',
         'normalizar_nota', 'ajuste_proporcional_nota',
+        'etiquetas', 'num_actividades_obligatorias',
     ];
 
     public function getFullNameAttribute()
@@ -34,6 +35,19 @@ class Milestone extends Model
     public function curso()
     {
         return $this->belongsTo(Curso::class);
+    }
+
+    /**
+     * Etiquetas (CSV) con las que se cuentan las actividades obligatorias del
+     * alumno en este milestone. Por defecto se usa 'base'.
+     *
+     * @return array
+     */
+    public function getEtiquetasObligatoriasAttribute()
+    {
+        $etiquetas = array_values(array_filter(array_map('trim', explode(',', (string) $this->etiquetas))));
+
+        return $etiquetas ?: ['base'];
     }
 
     public function getCacheKeyAttribute()
@@ -51,6 +65,7 @@ class Milestone extends Model
     {
         return [
             'date' => 'datetime',
+            'num_actividades_obligatorias' => 'integer',
         ];
     }
 

@@ -49,7 +49,7 @@ trait InformeGrupo
 
         $usuarios = match (session('tutor_filtro_alumnos')) {
             'P' => $curso?->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name')->get()
-                ->sortBy(fn($user) => $user->num_completadas('base', null, $milestone) . $user->calcular_calificaciones($mediana, $milestone)->nota_numerica) ?? new Collection(),
+                ->sortBy(fn($user) => $user->num_completadas($milestone?->etiquetas_obligatorias ?? ['base'], null, $milestone) . $user->calcular_calificaciones($mediana, $milestone)->nota_numerica) ?? new Collection(),
             default => $curso?->users()->rolAlumno()->noBloqueado()->orderBy('surname')->orderBy('name')->get() ?? new Collection(),
         };
 

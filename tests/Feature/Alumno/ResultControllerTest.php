@@ -4,6 +4,7 @@ namespace Tests\Feature\Alumno;
 
 use App\Models\Curso;
 use App\Models\Milestone;
+use App\Models\Unidad;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Override;
@@ -277,6 +278,27 @@ class ResultControllerTest extends TestCase
         $response = $this->get(route('results.index'));
 
         $response->assertSuccessful();
+    }
+
+    public function testIndexConMilestoneAjusteFijo()
+    {
+        $this->actingAs($this->alumno);
+
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+        $milestone = Milestone::factory()->create([
+            'curso_id' => $curso->id,
+            'ajuste_proporcional_nota' => 'fijo',
+            'num_actividades_obligatorias' => 5,
+        ]);
+        session(['filtrar_milestone_actual' => $milestone->id]);
+
+        // Unidad para que se renderice el bloque de completadas
+        Unidad::factory()->create(['curso_id' => $curso->id]);
+
+        $response = $this->get(route('results.index'));
+
+        $response->assertSuccessful()->assertSee(__('Number of mandatory activities'));
     }
 
     public function testIndexConNormalizarNota()

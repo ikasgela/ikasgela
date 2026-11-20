@@ -5,6 +5,9 @@
         @case('mediana')
             <td class="text-center">{{ __('Median') }}: {{ $mediana_formato }}</td>
             @break
+        @case('fijo')
+            <td class="text-center">{{ __('Fixed') }}: {{ $milestone?->num_actividades_obligatorias }}</td>
+            @break
         @default
             <td class="text-center">{{ __('Mean') }}: {{ $media_actividades_grupo_formato }}</td>
     @endswitch

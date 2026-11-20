@@ -36,6 +36,7 @@ class MilestoneController extends Controller
             'curso_id' => 'required',
             'name' => 'required',
             'date' => 'required',
+            'num_actividades_obligatorias' => 'required_if:ajuste_proporcional_nota,fijo|nullable|integer|min:1',
         ]);
 
         Milestone::create([
@@ -47,6 +48,8 @@ class MilestoneController extends Controller
             'truncate' => $request->has('truncate'),
             'normalizar_nota' => $request->has('normalizar_nota'),
             'ajuste_proporcional_nota' => $request->input('ajuste_proporcional_nota'),
+            'etiquetas' => $request->input('etiquetas', 'base'),
+            'num_actividades_obligatorias' => $request->input('ajuste_proporcional_nota') === 'fijo' ? $request->input('num_actividades_obligatorias') : null,
         ]);
 
         return retornar();
@@ -59,9 +62,7 @@ class MilestoneController extends Controller
 
     public function edit(Milestone $milestone)
     {
-        $cursos = Curso::orderBy('nombre')->get();
-
-        return view('milestones.edit', compact(['milestone', 'cursos']));
+        return view('milestones.edit', compact(['milestone']));
     }
 
     public function update(Request $request, Milestone $milestone)
@@ -70,6 +71,7 @@ class MilestoneController extends Controller
             'curso_id' => 'required',
             'name' => 'required',
             'date' => 'required',
+            'num_actividades_obligatorias' => 'required_if:ajuste_proporcional_nota,fijo|nullable|integer|min:1',
         ]);
 
         $milestone->update([
@@ -81,6 +83,8 @@ class MilestoneController extends Controller
             'truncate' => $request->has('truncate'),
             'normalizar_nota' => $request->has('normalizar_nota'),
             'ajuste_proporcional_nota' => $request->input('ajuste_proporcional_nota'),
+            'etiquetas' => $request->input('etiquetas', 'base'),
+            'num_actividades_obligatorias' => $request->input('ajuste_proporcional_nota') === 'fijo' ? $request->input('num_actividades_obligatorias') : null,
         ]);
 
         return retornar();

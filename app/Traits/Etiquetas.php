@@ -32,6 +32,25 @@ trait Etiquetas
         return $encontradas;
     }
 
+    /**
+     * Comprueba si tiene al menos una de las etiquetas indicadas (acepta array
+     * o CSV) para contar actividades con varias etiquetas alternativas.
+     */
+    public function hasCualquierEtiqueta($etiquetas)
+    {
+        if (is_string($etiquetas)) {
+            $etiquetas = array_filter(array_map('trim', explode(',', $etiquetas)));
+        }
+
+        foreach ($etiquetas as $etiqueta) {
+            if ($this->hasEtiqueta($etiqueta)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function scopeTag($query, $tag, $exists = true)
     {
         return $this->buscarEtiqueta($query, $exists, $tag);

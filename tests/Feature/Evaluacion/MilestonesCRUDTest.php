@@ -116,6 +116,73 @@ class MilestonesCRUDTest extends TestCase
         $this->assertEquals($total + 1, Milestone::all()->count());
     }
 
+    public function testStoreFijoGuardaEtiquetasYNumero()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $milestone = Milestone::factory()->make();
+        setting_usuario(['curso_actual' => $milestone->curso_id]);
+
+        // When
+        $this->post(route('milestones.store'), array_merge($milestone->toArray(), [
+            'ajuste_proporcional_nota' => 'fijo',
+            'etiquetas' => 'base,extra',
+            'num_actividades_obligatorias' => 5,
+        ]));
+
+        // Then
+        $this->assertDatabaseHas('milestones', [
+            'curso_id' => $milestone->curso_id,
+            'name' => $milestone->name,
+            'ajuste_proporcional_nota' => 'fijo',
+            'etiquetas' => 'base,extra',
+            'num_actividades_obligatorias' => 5,
+        ]);
+    }
+
+    public function testStoreFijoRequiereNumero()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $milestone = Milestone::factory()->make();
+
+        // When
+        $response = $this->post(route('milestones.store'), $milestone->toArray() + [
+            'ajuste_proporcional_nota' => 'fijo',
+        ]);
+
+        // Then
+        $response->assertSessionHasErrors('num_actividades_obligatorias');
+    }
+
+    public function testStoreNoFijoNullNumero()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $milestone = Milestone::factory()->make();
+        setting_usuario(['curso_actual' => $milestone->curso_id]);
+
+        // When
+        $this->post(route('milestones.store'), $milestone->toArray() + [
+            'ajuste_proporcional_nota' => 'media',
+            'num_actividades_obligatorias' => 5,
+        ]);
+
+        // Then: el número solo tiene sentido con fijo
+        $this->assertDatabaseHas('milestones', [
+            'curso_id' => $milestone->curso_id,
+            'name' => $milestone->name,
+            'ajuste_proporcional_nota' => 'media',
+            'num_actividades_obligatorias' => null,
+        ]);
+    }
+
     public function testNotAdminNotStore()
     {
         // Auth
@@ -285,6 +352,30 @@ class MilestonesCRUDTest extends TestCase
 
         // Then
         $this->assertDatabaseHas('milestones', ['id' => $milestone->id, 'name' => $milestone->name]);
+    }
+
+    public function testUpdateFijoGuardaEtiquetasYNumero()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $milestone = Milestone::factory()->create();
+
+        // When
+        $this->put(route('milestones.update', $milestone), array_merge($milestone->toArray(), [
+            'ajuste_proporcional_nota' => 'fijo',
+            'etiquetas' => 'base,extra',
+            'num_actividades_obligatorias' => 7,
+        ]));
+
+        // Then
+        $this->assertDatabaseHas('milestones', [
+            'id' => $milestone->id,
+            'ajuste_proporcional_nota' => 'fijo',
+            'etiquetas' => 'base,extra',
+            'num_actividades_obligatorias' => 7,
+        ]);
     }
 
     public function testNotAdminNotUpdate()

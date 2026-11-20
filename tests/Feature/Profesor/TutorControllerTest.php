@@ -3,6 +3,7 @@
 namespace Tests\Feature\Profesor;
 
 use App\Models\Curso;
+use App\Models\Milestone;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Override;
 use Tests\TestCase;
@@ -32,6 +33,28 @@ class TutorControllerTest extends TestCase
 
         // Then
         $response->assertSuccessful()->assertSee(__('Group report'));
+    }
+
+    public function testIndexConMilestoneAjusteFijo()
+    {
+        // Auth
+        $this->actingAs($this->tutor);
+
+        // Given
+        $curso = Curso::factory()->create();
+        setting_usuario(['curso_actual' => $curso->id]);
+        $milestone = Milestone::factory()->create([
+            'curso_id' => $curso->id,
+            'ajuste_proporcional_nota' => 'fijo',
+            'num_actividades_obligatorias' => 5,
+        ]);
+        session(['filtrar_milestone_actual' => $milestone->id]);
+
+        // When
+        $response = $this->get(route('tutor.index'));
+
+        // Then
+        $response->assertSuccessful()->assertSee(__('Fixed'));
     }
 
     public function testNotProfesorTutorNotIndex()

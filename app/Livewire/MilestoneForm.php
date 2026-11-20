@@ -1,0 +1,87 @@
+<?php
+
+namespace App\Livewire;
+
+use App\Models\Milestone;
+use Livewire\Component;
+
+/**
+ * Formulario de creación/edición de milestone.
+ *
+ * Con el ajuste proporcional 'fijo' se muestra el número de actividades
+ * obligatorias (denominador fijo del ajuste) vía wire:model.
+ */
+class MilestoneForm extends Component
+{
+    public ?Milestone $milestone = null;
+
+    public ?int $curso_id = null;
+
+    public string $name = '';
+    public ?string $date = null;
+    public bool $published = false;
+    public ?string $decimals = null;
+    public bool $truncate = false;
+    public bool $normalizar_nota = false;
+    public ?string $ajuste_proporcional_nota = null;
+    public string $etiquetas = 'base';
+    public ?string $num_actividades_obligatorias = null;
+
+    public function mount(?Milestone $milestone = null, ?int $curso_id = null)
+    {
+        $this->milestone = $milestone;
+
+        $this->curso_id = $curso_id ?? $milestone?->curso_id ?? setting_usuario('curso_actual');
+
+        if ($milestone) {
+            $this->name = $milestone->name;
+            $this->date = $milestone->date?->format('Y-m-d\TH:i:s');
+            $this->published = (bool) $milestone->published;
+            $this->decimals = $milestone->decimals;
+            $this->truncate = (bool) $milestone->truncate;
+            $this->normalizar_nota = (bool) $milestone->normalizar_nota;
+            $this->ajuste_proporcional_nota = $milestone->ajuste_proporcional_nota;
+            $this->etiquetas = $milestone->etiquetas ?? 'base';
+            $this->num_actividades_obligatorias = $milestone->num_actividades_obligatorias;
+        }
+    }
+
+    public function save()
+    {
+        $this->validate([
+            'curso_id' => 'required',
+            'name' => 'required',
+            'date' => 'required',
+            'decimals' => 'nullable|integer',
+            'etiquetas' => 'nullable|string|max:255',
+            'ajuste_proporcional_nota' => 'nullable|in:media,mediana,fijo',
+            'num_actividades_obligatorias' => 'required_if:ajuste_proporcional_nota,fijo|nullable|integer|min:1',
+        ]);
+
+        $data = [
+            'curso_id' => $this->curso_id,
+            'name' => $this->name,
+            'date' => $this->date,
+            'published' => $this->published,
+            'decimals' => $this->decimals !== '' ? $this->decimals : null,
+            'truncate' => $this->truncate,
+            'normalizar_nota' => $this->normalizar_nota,
+            'ajuste_proporcional_nota' => in_array($this->ajuste_proporcional_nota, ['media', 'mediana', 'fijo']) ? $this->ajuste_proporcional_nota : null,
+            'etiquetas' => $this->etiquetas !== '' ? $this->etiquetas : 'base',
+            'num_actividades_obligatorias' => $this->ajuste_proporcional_nota === 'fijo' ? $this->num_actividades_obligatorias : null,
+        ];
+
+        if ($this->milestone) {
+            $this->milestone->update($data);
+        } else {
+            Milestone::create($data);
+        }
+
+        $this->redirect(route('milestones.index'), navigate: true);
+    }
+
+    public function render()
+    {
+        return view('livewire.milestone-form');
+    }
+}
