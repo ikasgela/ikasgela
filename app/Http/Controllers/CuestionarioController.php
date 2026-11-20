@@ -111,7 +111,7 @@ class CuestionarioController extends Controller
 
         $recursos = Cuestionario::whereIn('id', request('seleccionadas'))->get()->keyBy('id');
         foreach (request('seleccionadas') as $recurso_id) {
-            $actividad->cuestionarios()->attach($recursos[$recurso_id], ['orden' => Str::orderedUuid()]);
+            $actividad->cuestionarios()->attach($recursos[$recurso_id], ['orden' => Str::uuid7()]);
         }
 
         return redirect(route('cuestionarios.actividad', ['actividad' => $actividad->id]));

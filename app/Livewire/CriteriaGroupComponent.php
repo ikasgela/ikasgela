@@ -99,7 +99,7 @@ class CriteriaGroupComponent extends Component
         Criteria::create([
             'texto' => __('Write your criteria here'),
             'puntuacion' => 0,
-            'orden' => Str::orderedUuid(),
+            'orden' => Str::uuid7(),
             'criteria_group_id' => $criteria_group->id,
         ]);
     }

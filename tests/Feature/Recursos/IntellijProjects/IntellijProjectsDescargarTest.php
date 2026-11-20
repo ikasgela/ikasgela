@@ -109,7 +109,7 @@ class IntellijProjectsDescargarTest extends TestCase
         ]);
         $actividad->intellij_projects()->attach($project, [
             'fork' => 'alumno/fork-repo',
-            'orden' => Str::orderedUuid(),
+            'orden' => Str::uuid7(),
         ]);
 
         $this->curso->users()->attach($this->alumno);
@@ -146,7 +146,7 @@ class IntellijProjectsDescargarTest extends TestCase
         $project = IntellijProject::factory()->create(['curso_id' => $this->curso->id]);
         $actividad->intellij_projects()->attach($project, [
             'fork' => null,
-            'orden' => Str::orderedUuid(),
+            'orden' => Str::uuid7(),
         ]);
 
         $this->curso->users()->attach($this->alumno);
@@ -201,7 +201,7 @@ class IntellijProjectsDescargarTest extends TestCase
             'curso_id' => $this->curso->id,
             'repositorio' => 'root/plantilla-repo',
         ]);
-        $plantilla->intellij_projects()->attach($project, ['orden' => Str::orderedUuid()]);
+        $plantilla->intellij_projects()->attach($project, ['orden' => Str::uuid7()]);
 
         Http::fake([
             '*/api/v1/repos/root/plantilla-repo' => Http::response(
@@ -293,7 +293,7 @@ class IntellijProjectsDescargarTest extends TestCase
         $actividad->intellij_projects()->attach($project, [
             'fork' => null,
             'fork_status' => 0,
-            'orden' => Str::orderedUuid(),
+            'orden' => Str::uuid7(),
         ]);
         Tarea::factory()->create([
             'user_id' => $this->alumno->id,
@@ -337,7 +337,7 @@ class IntellijProjectsDescargarTest extends TestCase
         $actividad->intellij_projects()->attach($project, [
             'fork' => 'alumno/fork-repo',
             'fork_status' => 2,
-            'orden' => Str::orderedUuid(),
+            'orden' => Str::uuid7(),
         ]);
         Tarea::factory()->create([
             'user_id' => $this->alumno->id,
@@ -394,7 +394,7 @@ class IntellijProjectsDescargarTest extends TestCase
         $actividad->intellij_projects()->attach($project, [
             'fork' => null,
             'fork_status' => 0,
-            'orden' => Str::orderedUuid(),
+            'orden' => Str::uuid7(),
         ]);
         Tarea::factory()->create([
             'user_id' => $this->alumno->id,

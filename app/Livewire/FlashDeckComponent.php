@@ -35,7 +35,7 @@ class FlashDeckComponent extends Component
             'descripcion' => '',
             'anverso' => '',
             'reverso' => '',
-            'orden' => Str::orderedUuid(),
+            'orden' => Str::uuid7(),
             'flash_deck_id' => $this->flash_deck->id,
         ]);
     }
@@ -82,7 +82,7 @@ class FlashDeckComponent extends Component
         $flash_card = FlashCard::findOrFail($flash_card_id);
 
         $clon = $flash_card->duplicate();
-        $clon->orden = Str::orderedUuid();
+        $clon->orden = Str::uuid7();
         $clon->save();
     }
 

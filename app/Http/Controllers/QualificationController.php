@@ -58,7 +58,7 @@ class QualificationController extends Controller
             foreach ($request->input('skills_seleccionados') as $skill) {
                 $qualification->skills()->attach($skill, [
                     'percentage' => $request->input('percentage_' . $skill),
-                    'orden' => Str::orderedUuid(),
+                    'orden' => Str::uuid7(),
                 ]);
             }
         }
@@ -104,7 +104,7 @@ class QualificationController extends Controller
             foreach ($request->input('skills_seleccionados') as $skill) {
                 $qualification->skills()->attach($skill, [
                     'percentage' => $request->input('percentage_' . $skill),
-                    'orden' => Str::orderedUuid(),
+                    'orden' => Str::uuid7(),
                 ]);
             }
         }

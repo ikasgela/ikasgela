@@ -702,7 +702,7 @@ class T4_GrafoPlantillasTest extends DuskTestCase
             'curso_id' => $curso->id,
         ]);
 
-        $this->plantilla1->selectors()->attach($this->selector, ['orden' => (string) Str::orderedUuid()]);
+        $this->plantilla1->selectors()->attach($this->selector, ['orden' => (string) Str::uuid7()]);
 
         if (!$conReglas) {
             return;

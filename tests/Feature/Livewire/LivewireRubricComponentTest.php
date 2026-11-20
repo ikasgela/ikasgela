@@ -183,12 +183,12 @@ class LivewireRubricComponentTest extends TestCase
 
     /**
      * Construye un `orden` con el timestamp dado (mismo formato que
-     * `Str::orderedUuid()`) para tener un control determinista del orden en
+     * `Str::uuid7()`) para tener un control determinista del orden en
      * los tests.
      */
     private function ordenTs(int $ts): string
     {
-        return sprintf('%08x-%04x-4000-8000-000000000000', $ts >> 16, $ts & 0xffff);
+        return sprintf('%08x-%04x-7000-8000-000000000000', $ts >> 16, $ts & 0xffff);
     }
 
     public function testDuplicateCriteriaGroup()

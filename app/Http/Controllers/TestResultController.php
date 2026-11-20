@@ -120,7 +120,7 @@ class TestResultController extends Controller
         foreach (request('seleccionadas') as $recurso_id) {
             $recurso = TestResult::find($recurso_id);
             $actividad->test_results()->attach($recurso, [
-                'orden' => Str::orderedUuid(),
+                'orden' => Str::uuid7(),
                 'columnas' => 12,
             ]);
         }

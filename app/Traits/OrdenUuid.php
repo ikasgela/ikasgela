@@ -31,7 +31,7 @@ trait OrdenUuid
     protected function ordenTras(Model $fila, callable $coleccion): string
     {
         if (empty($fila->orden)) {
-            return Str::orderedUuid();
+            return Str::uuid7();
         }
 
         $siguiente = $coleccion()
@@ -91,7 +91,7 @@ trait OrdenUuid
 
     /**
      * Extrae los 48 bits de timestamp (primera parte del UUID) de un `orden`
-     * generado con `Str::orderedUuid()` (COMB «timestamp first»: 12 hex =
+     * generado con `Str::uuid7()` (COMB «timestamp first»: 12 hex =
      * segundos*1e5 + µs/10, seguido de azar).
      */
     protected static function tsOrden(string $orden): int
@@ -100,7 +100,7 @@ trait OrdenUuid
     }
 
     /**
-     * Timestamp actual con la misma resolución que `Str::orderedUuid()`
+     * Timestamp actual con la misma resolución que `Str::uuid7()`
      * (100 µs): segundos*1e5 + µs/10.
      */
     protected static function tsOrdenAhora(): int
@@ -112,7 +112,7 @@ trait OrdenUuid
 
     /**
      * Construye un `orden` con el timestamp dado y el resto (versión/variante/
-     * azar) tomado de $cola (el mismo formato que `Str::orderedUuid()`).
+     * azar) tomado de $cola (el mismo formato que `Str::uuid7()`).
      */
     protected static function ordenConTs(int $ts, string $cola = '4000-8000-000000000000'): string
     {

@@ -50,26 +50,26 @@ class T2_CriteriaMoveButtonsTest extends DuskTestCase
         $group = CriteriaGroup::factory()->create([
             'titulo'    => 'Grupo Botones',
             'rubric_id' => $rubric->id,
-            'orden'     => Str::orderedUuid(),
+            'orden'     => Str::uuid7(),
         ]);
 
         Criteria::factory()->create([
             'texto'             => 'Botones Criterio A',
             'puntuacion'        => 1,
             'criteria_group_id' => $group->id,
-            'orden'             => Str::orderedUuid(),
+            'orden'             => Str::uuid7(),
         ]);
         Criteria::factory()->create([
             'texto'             => 'Botones Criterio B',
             'puntuacion'        => 2,
             'criteria_group_id' => $group->id,
-            'orden'             => Str::orderedUuid(),
+            'orden'             => Str::uuid7(),
         ]);
         Criteria::factory()->create([
             'texto'             => 'Botones Criterio C',
             'puntuacion'        => 3,
             'criteria_group_id' => $group->id,
-            'orden'             => Str::orderedUuid(),
+            'orden'             => Str::uuid7(),
         ]);
 
         $this->browse(function (Browser $browser) use ($rubric) {
@@ -108,26 +108,26 @@ class T2_CriteriaMoveButtonsTest extends DuskTestCase
         $group = CriteriaGroup::factory()->create([
             'titulo'    => 'Grupo Botones 2',
             'rubric_id' => $rubric->id,
-            'orden'     => Str::orderedUuid(),
+            'orden'     => Str::uuid7(),
         ]);
 
         Criteria::factory()->create([
             'texto'             => 'Botones2 Criterio A',
             'puntuacion'        => 1,
             'criteria_group_id' => $group->id,
-            'orden'             => Str::orderedUuid(),
+            'orden'             => Str::uuid7(),
         ]);
         Criteria::factory()->create([
             'texto'             => 'Botones2 Criterio B',
             'puntuacion'        => 2,
             'criteria_group_id' => $group->id,
-            'orden'             => Str::orderedUuid(),
+            'orden'             => Str::uuid7(),
         ]);
         Criteria::factory()->create([
             'texto'             => 'Botones2 Criterio C',
             'puntuacion'        => 3,
             'criteria_group_id' => $group->id,
-            'orden'             => Str::orderedUuid(),
+            'orden'             => Str::uuid7(),
         ]);
 
         $this->browse(function (Browser $browser) use ($rubric) {
@@ -156,9 +156,9 @@ class T2_CriteriaMoveButtonsTest extends DuskTestCase
     public function testMoverUltimoGrupoArribaActualizaLosBotones(): void
     {
         $rubric = Rubric::factory()->create(['titulo' => 'Rubric Botones Grupo Dusk']);
-        CriteriaGroup::factory()->create(['titulo' => 'Grupos Boton A', 'rubric_id' => $rubric->id, 'orden' => Str::orderedUuid()]);
-        CriteriaGroup::factory()->create(['titulo' => 'Grupos Boton B', 'rubric_id' => $rubric->id, 'orden' => Str::orderedUuid()]);
-        CriteriaGroup::factory()->create(['titulo' => 'Grupos Boton C', 'rubric_id' => $rubric->id, 'orden' => Str::orderedUuid()]);
+        CriteriaGroup::factory()->create(['titulo' => 'Grupos Boton A', 'rubric_id' => $rubric->id, 'orden' => Str::uuid7()]);
+        CriteriaGroup::factory()->create(['titulo' => 'Grupos Boton B', 'rubric_id' => $rubric->id, 'orden' => Str::uuid7()]);
+        CriteriaGroup::factory()->create(['titulo' => 'Grupos Boton C', 'rubric_id' => $rubric->id, 'orden' => Str::uuid7()]);
 
         $this->browse(function (Browser $browser) use ($rubric) {
             $this->activarEditor($browser, $rubric);
@@ -194,26 +194,26 @@ class T2_CriteriaMoveButtonsTest extends DuskTestCase
         $group = CriteriaGroup::factory()->create([
             'titulo'    => 'Grupo Botones Add',
             'rubric_id' => $rubric->id,
-            'orden'     => Str::orderedUuid(),
+            'orden'     => Str::uuid7(),
         ]);
 
         Criteria::factory()->create([
             'texto'             => 'BotonesA Criterio A',
             'puntuacion'        => 1,
             'criteria_group_id' => $group->id,
-            'orden'             => Str::orderedUuid(),
+            'orden'             => Str::uuid7(),
         ]);
         Criteria::factory()->create([
             'texto'             => 'BotonesA Criterio B',
             'puntuacion'        => 2,
             'criteria_group_id' => $group->id,
-            'orden'             => Str::orderedUuid(),
+            'orden'             => Str::uuid7(),
         ]);
         Criteria::factory()->create([
             'texto'             => 'BotonesA Criterio C',
             'puntuacion'        => 3,
             'criteria_group_id' => $group->id,
-            'orden'             => Str::orderedUuid(),
+            'orden'             => Str::uuid7(),
         ]);
 
         $textoNuevo = (string) __('Write your criteria here');
@@ -252,26 +252,26 @@ class T2_CriteriaMoveButtonsTest extends DuskTestCase
         $group = CriteriaGroup::factory()->create([
             'titulo'    => 'Grupo Botones Del',
             'rubric_id' => $rubric->id,
-            'orden'     => Str::orderedUuid(),
+            'orden'     => Str::uuid7(),
         ]);
 
         Criteria::factory()->create([
             'texto'             => 'BotonesB Criterio A',
             'puntuacion'        => 1,
             'criteria_group_id' => $group->id,
-            'orden'             => Str::orderedUuid(),
+            'orden'             => Str::uuid7(),
         ]);
         Criteria::factory()->create([
             'texto'             => 'BotonesB Criterio B',
             'puntuacion'        => 2,
             'criteria_group_id' => $group->id,
-            'orden'             => Str::orderedUuid(),
+            'orden'             => Str::uuid7(),
         ]);
         Criteria::factory()->create([
             'texto'             => 'BotonesB Criterio C',
             'puntuacion'        => 3,
             'criteria_group_id' => $group->id,
-            'orden'             => Str::orderedUuid(),
+            'orden'             => Str::uuid7(),
         ]);
 
         $this->browse(function (Browser $browser) use ($rubric) {
@@ -305,26 +305,26 @@ class T2_CriteriaMoveButtonsTest extends DuskTestCase
         $group = CriteriaGroup::factory()->create([
             'titulo'    => 'Grupo Botones Del 2',
             'rubric_id' => $rubric->id,
-            'orden'     => Str::orderedUuid(),
+            'orden'     => Str::uuid7(),
         ]);
 
         Criteria::factory()->create([
             'texto'             => 'BotonesC Criterio A',
             'puntuacion'        => 1,
             'criteria_group_id' => $group->id,
-            'orden'             => Str::orderedUuid(),
+            'orden'             => Str::uuid7(),
         ]);
         Criteria::factory()->create([
             'texto'             => 'BotonesC Criterio B',
             'puntuacion'        => 2,
             'criteria_group_id' => $group->id,
-            'orden'             => Str::orderedUuid(),
+            'orden'             => Str::uuid7(),
         ]);
         Criteria::factory()->create([
             'texto'             => 'BotonesC Criterio C',
             'puntuacion'        => 3,
             'criteria_group_id' => $group->id,
-            'orden'             => Str::orderedUuid(),
+            'orden'             => Str::uuid7(),
         ]);
 
         $this->browse(function (Browser $browser) use ($rubric) {
@@ -354,9 +354,9 @@ class T2_CriteriaMoveButtonsTest extends DuskTestCase
     public function testAnadirGrupoActualizaLosBotones(): void
     {
         $rubric = Rubric::factory()->create(['titulo' => 'Rubric Botones GAdd Dusk']);
-        CriteriaGroup::factory()->create(['titulo' => 'GruposGAdd A', 'rubric_id' => $rubric->id, 'orden' => Str::orderedUuid()]);
-        CriteriaGroup::factory()->create(['titulo' => 'GruposGAdd B', 'rubric_id' => $rubric->id, 'orden' => Str::orderedUuid()]);
-        CriteriaGroup::factory()->create(['titulo' => 'GruposGAdd C', 'rubric_id' => $rubric->id, 'orden' => Str::orderedUuid()]);
+        CriteriaGroup::factory()->create(['titulo' => 'GruposGAdd A', 'rubric_id' => $rubric->id, 'orden' => Str::uuid7()]);
+        CriteriaGroup::factory()->create(['titulo' => 'GruposGAdd B', 'rubric_id' => $rubric->id, 'orden' => Str::uuid7()]);
+        CriteriaGroup::factory()->create(['titulo' => 'GruposGAdd C', 'rubric_id' => $rubric->id, 'orden' => Str::uuid7()]);
 
         $this->browse(function (Browser $browser) use ($rubric) {
             $this->activarEditor($browser, $rubric);
@@ -383,9 +383,9 @@ class T2_CriteriaMoveButtonsTest extends DuskTestCase
     public function testBorrarPrimerGrupoDesactivaBotonArriba(): void
     {
         $rubric = Rubric::factory()->create(['titulo' => 'Rubric Botones GDel Dusk']);
-        CriteriaGroup::factory()->create(['titulo' => 'GruposGDel A', 'rubric_id' => $rubric->id, 'orden' => Str::orderedUuid()]);
-        CriteriaGroup::factory()->create(['titulo' => 'GruposGDel B', 'rubric_id' => $rubric->id, 'orden' => Str::orderedUuid()]);
-        CriteriaGroup::factory()->create(['titulo' => 'GruposGDel C', 'rubric_id' => $rubric->id, 'orden' => Str::orderedUuid()]);
+        CriteriaGroup::factory()->create(['titulo' => 'GruposGDel A', 'rubric_id' => $rubric->id, 'orden' => Str::uuid7()]);
+        CriteriaGroup::factory()->create(['titulo' => 'GruposGDel B', 'rubric_id' => $rubric->id, 'orden' => Str::uuid7()]);
+        CriteriaGroup::factory()->create(['titulo' => 'GruposGDel C', 'rubric_id' => $rubric->id, 'orden' => Str::uuid7()]);
 
         $this->browse(function (Browser $browser) use ($rubric) {
             $this->activarEditor($browser, $rubric);

@@ -26,7 +26,7 @@ class FlashCardFactory extends Factory
             'anverso_visible' => true,
             'reverso' => fake()->sentence(8),
             'reverso_visible' => false,
-            'orden' => Str::orderedUuid(),
+            'orden' => Str::uuid7(),
             'flash_deck_id' => FlashDeck::factory(),
         ];
     }

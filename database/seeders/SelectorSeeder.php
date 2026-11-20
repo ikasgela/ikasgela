@@ -46,7 +46,7 @@ class SelectorSeeder extends Seeder
         );
 
         $markdown = MarkdownText::where('titulo', 'Apuntes')->first();
-        $actividad->markdown_texts()->attach($markdown, ['orden' => Str::orderedUuid()]);
+        $actividad->markdown_texts()->attach($markdown, ['orden' => Str::uuid7()]);
 
         $rule_group = RuleGroup::factory()->create([
             'operador' => 'and',
@@ -70,6 +70,6 @@ class SelectorSeeder extends Seeder
         ]);
 
         $actividad = Actividad::where('slug', 'agenda')->first();
-        $actividad->selectors()->attach($selector, ['orden' => Str::orderedUuid()]);
+        $actividad->selectors()->attach($selector, ['orden' => Str::uuid7()]);
     }
 }

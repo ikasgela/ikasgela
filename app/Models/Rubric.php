@@ -70,10 +70,10 @@ class Rubric extends Model
         $clon->save();
 
         foreach ($clon->criteria_groups()->orderBy('orden')->get() as $cg) {
-            $cg->orden = Str::orderedUuid();
+            $cg->orden = Str::uuid7();
             $cg->save();
             foreach ($cg->criterias()->orderBy('orden')->get() as $criteria) {
-                $criteria->orden = Str::orderedUuid();
+                $criteria->orden = Str::uuid7();
                 $criteria->save();
             }
         }

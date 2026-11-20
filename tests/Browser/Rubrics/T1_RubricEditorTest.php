@@ -52,17 +52,17 @@ class T1_RubricEditorTest extends DuskTestCase
         $groupA = CriteriaGroup::factory()->create([
             'titulo'    => 'Grupo A',
             'rubric_id' => $rubric->id,
-            'orden'     => Str::orderedUuid(),
+            'orden'     => Str::uuid7(),
         ]);
         $groupB = CriteriaGroup::factory()->create([
             'titulo'    => 'Grupo B',
             'rubric_id' => $rubric->id,
-            'orden'     => Str::orderedUuid(),
+            'orden'     => Str::uuid7(),
         ]);
         $groupC = CriteriaGroup::factory()->create([
             'titulo'    => 'Grupo C',
             'rubric_id' => $rubric->id,
-            'orden'     => Str::orderedUuid(),
+            'orden'     => Str::uuid7(),
         ]);
 
         foreach ([$groupA, $groupB, $groupC] as $group) {
@@ -70,13 +70,13 @@ class T1_RubricEditorTest extends DuskTestCase
                 'texto'             => "Criterio 1 de {$group->titulo}",
                 'puntuacion'        => 1,
                 'criteria_group_id' => $group->id,
-                'orden'             => Str::orderedUuid(),
+                'orden'             => Str::uuid7(),
             ]);
             Criteria::factory()->create([
                 'texto'             => "Criterio 2 de {$group->titulo}",
                 'puntuacion'        => 2,
                 'criteria_group_id' => $group->id,
-                'orden'             => Str::orderedUuid(),
+                'orden'             => Str::uuid7(),
             ]);
         }
 

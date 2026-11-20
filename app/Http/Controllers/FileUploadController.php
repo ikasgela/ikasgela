@@ -107,7 +107,7 @@ class FileUploadController extends Controller
 
         $recursos = FileUpload::whereIn('id', request('seleccionadas'))->get()->keyBy('id');
         foreach (request('seleccionadas') as $recurso_id) {
-            $actividad->file_uploads()->attach($recursos[$recurso_id], ['orden' => Str::orderedUuid()]);
+            $actividad->file_uploads()->attach($recursos[$recurso_id], ['orden' => Str::uuid7()]);
         }
 
         return redirect(route('file_uploads.actividad', ['actividad' => $actividad->id]));

@@ -285,7 +285,7 @@ class LivewireCriteriaTest extends TestCase
         $this->assertTrue($isFirst);
         $this->assertTrue($isLast);
 
-        // Create second group - it will have a higher UUID (orderedUuid is time-based)
+        // Create second group - it will have a higher UUID (uuid7 is time-based)
         $group2 = CriteriaGroup::factory()->create([
             'rubric_id' => $this->rubric->id,
         ]);
@@ -299,10 +299,10 @@ class LivewireCriteriaTest extends TestCase
 
     /**
      * Construye un `orden` con el timestamp dado y cola fija, con el mismo
-     * formato que `Str::orderedUuid()` (ver `App\Traits\OrdenUuid`).
+     * formato que `Str::uuid7()` (ver `App\Traits\OrdenUuid`).
      */
     private function ordenTs(int $ts): string
     {
-        return sprintf('%08x-%04x-4000-8000-000000000000', $ts >> 16, $ts & 0xffff);
+        return sprintf('%08x-%04x-7000-8000-000000000000', $ts >> 16, $ts & 0xffff);
     }
 }

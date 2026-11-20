@@ -106,7 +106,7 @@ class SelectorController extends Controller
 
         $recursos = Selector::whereIn('id', request('seleccionadas'))->get()->keyBy('id');
         foreach (request('seleccionadas') as $recurso_id) {
-            $actividad->selectors()->attach($recursos[$recurso_id], ['orden' => Str::orderedUuid()]);
+            $actividad->selectors()->attach($recursos[$recurso_id], ['orden' => Str::uuid7()]);
         }
 
         return redirect(route('selectors.actividad', ['actividad' => $actividad->id]));

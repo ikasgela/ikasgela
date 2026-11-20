@@ -43,7 +43,7 @@ class RubricComponent extends Component
         CriteriaGroup::create([
             'titulo' => '',
             'descripcion' => '',
-            'orden' => Str::orderedUuid(),
+            'orden' => Str::uuid7(),
             'rubric_id' => $this->rubric->id,
         ]);
     }
@@ -99,7 +99,7 @@ class RubricComponent extends Component
         $clon->save();
 
         foreach ($clon->criterias()->orderBy('orden')->get() as $criteria) {
-            $criteria->orden = Str::orderedUuid();
+            $criteria->orden = Str::uuid7();
             $criteria->save();
         }
     }
