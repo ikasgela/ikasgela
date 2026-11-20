@@ -7,11 +7,15 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 /**
- * Intercalado en series de `orden` UUID (ADR-005): calcula el `orden` de una
+ * Intercalado en series de `orden` UUIDv7 (ADR-005): calcula el `orden` de una
  * fila nueva que aparezca **justo después** de $fila dentro de su serie — por
  * ejemplo, la copia de una fila duplicada (ADR-008) — y, si no hay hueco para
  * intercalar (muchas inserciones seguidas en el mismo punto), regenera la serie
  * completa con la nueva fila interpolada.
+ *
+ * Los `orden` son UUIDv7 (`Str::uuid7()`): los 48 bits iniciales son el epoch
+ * en milisegundos y el resto, la secuencia monotónica del proceso, de modo que
+ * el orden lexicográfico coincide con el orden de generación.
  *
  * Lo usan `RubricComponent` (serie de `criteria_groups` de la rúbrica) y
  * `CriteriaGroupComponent` (serie de `criterias` del grupo).
@@ -19,7 +23,7 @@ use Illuminate\Support\Str;
 trait OrdenUuid
 {
     /**
-     * Calcula un `orden` (UUID ordenable, ADR-005) para que una fila nueva
+     * Calcula un `orden` (UUIDv7 ordenable, ADR-005) para que una fila nueva
      * aparezca justo después de $fila en la serie devuelta por $coleccion
      * (es decir, entre esa fila y su siguiente vecino). Si la serie no tiene
      * hueco para intercalar, se regenera la serie completa con la nueva fila
@@ -41,7 +45,7 @@ trait OrdenUuid
 
         $ts_origen = self::tsOrden($fila->orden);
         $ts_clon = $ts_origen + 1;
-        $cola = substr($fila->orden, 14); // versión/variante/azar (grupos 3-5)
+        $cola = substr($fila->orden, 14); // versión/variante/secuencia (grupos 3-5)
 
         if ($siguiente !== null) {
             $hueco = self::tsOrden($siguiente->orden) - $ts_origen;
@@ -91,8 +95,8 @@ trait OrdenUuid
 
     /**
      * Extrae los 48 bits de timestamp (primera parte del UUID) de un `orden`
-     * generado con `Str::uuid7()` (COMB «timestamp first»: 12 hex =
-     * segundos*1e5 + µs/10, seguido de azar).
+     * generado con `Str::uuid7()`: 12 hex = epoch Unix en **milisegundos**,
+     * seguido de la secuencia (fracción de 12 bits + contador).
      */
     protected static function tsOrden(string $orden): int
     {
@@ -100,21 +104,20 @@ trait OrdenUuid
     }
 
     /**
-     * Timestamp actual con la misma resolución que `Str::uuid7()`
-     * (100 µs): segundos*1e5 + µs/10.
+     * Timestamp actual en la misma escala que `Str::uuid7()` (milisegundos),
+     * decodificando un v7 recién generado: la fuente única del reloj para los
+     * cálculos de intercalado.
      */
     protected static function tsOrdenAhora(): int
     {
-        $tiempo = explode(' ', microtime(false));
-
-        return (int)$tiempo[1] * 100000 + (int)substr($tiempo[0], 2, 5);
+        return self::tsOrden((string) Str::uuid7());
     }
 
     /**
      * Construye un `orden` con el timestamp dado y el resto (versión/variante/
-     * azar) tomado de $cola (el mismo formato que `Str::uuid7()`).
+     * secuencia) tomado de $cola (el mismo formato que `Str::uuid7()`).
      */
-    protected static function ordenConTs(int $ts, string $cola = '4000-8000-000000000000'): string
+    protected static function ordenConTs(int $ts, string $cola = '7000-8000-000000000000'): string
     {
         return sprintf('%08x-%04x-%s', $ts >> 16, $ts & 0xffff, $cola);
     }
