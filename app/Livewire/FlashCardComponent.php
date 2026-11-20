@@ -54,16 +54,28 @@ class FlashCardComponent extends Component
     public function is_first_flash_card($flash_card_id)
     {
         $flash_card = FlashCard::findOrFail($flash_card_id);
-        $orden = $flash_card->rubric->flash_cards()->min('orden');
-        return $flash_card->orden == $orden;
+        if (!$flash_card?->flash_deck) {
+            return true;
+        }
+        // Primera en la serie `(orden, id)` del mazo (ADR-005).
+        return !FlashCard::where('flash_deck_id', $flash_card->flash_deck_id)
+            ->where(fn ($q) => $q->where('orden', '<', $flash_card->orden)
+                ->orWhere(fn ($q) => $q->where('orden', $flash_card->orden)->where('id', '<', $flash_card->id)))
+            ->exists();
     }
 
     #[Computed]
     public function is_last_flash_card($flash_card_id)
     {
         $flash_card = FlashCard::findOrFail($flash_card_id);
-        $orden = $flash_card->rubric->flash_cards()->max('orden');
-        return $flash_card->orden == $orden;
+        if (!$flash_card?->flash_deck) {
+            return true;
+        }
+        // Última en la serie `(orden, id)` del mazo (ADR-005).
+        return !FlashCard::where('flash_deck_id', $flash_card->flash_deck_id)
+            ->where(fn ($q) => $q->where('orden', '>', $flash_card->orden)
+                ->orWhere(fn ($q) => $q->where('orden', $flash_card->orden)->where('id', '>', $flash_card->id)))
+            ->exists();
     }
 
     public function seleccionar($criteria_id)

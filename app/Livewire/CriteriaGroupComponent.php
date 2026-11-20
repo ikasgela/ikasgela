@@ -59,16 +59,24 @@ class CriteriaGroupComponent extends Component
     public function is_first_criteria_group($criteria_group_id)
     {
         $criteria_group = CriteriaGroup::findOrFail($criteria_group_id);
-        $orden = $criteria_group->rubric->criteria_groups()->min('orden');
-        return $criteria_group->orden == $orden;
+        // Primera en la serie `(orden, id)` (ADR-005): no existe ninguna fila
+        // antes. Con `orden == min(orden)` la segunda de un empate contaría como
+        // primera.
+        return !CriteriaGroup::where('rubric_id', $criteria_group->rubric_id)
+            ->where(fn ($q) => $q->where('orden', '<', $criteria_group->orden)
+                ->orWhere(fn ($q) => $q->where('orden', $criteria_group->orden)->where('id', '<', $criteria_group->id)))
+            ->exists();
     }
 
     #[Computed]
     public function is_last_criteria_group($criteria_group_id)
     {
         $criteria_group = CriteriaGroup::findOrFail($criteria_group_id);
-        $orden = $criteria_group->rubric->criteria_groups()->max('orden');
-        return $criteria_group->orden == $orden;
+        // Última en la serie `(orden, id)` (ADR-005): no existe ninguna fila después.
+        return !CriteriaGroup::where('rubric_id', $criteria_group->rubric_id)
+            ->where(fn ($q) => $q->where('orden', '>', $criteria_group->orden)
+                ->orWhere(fn ($q) => $q->where('orden', $criteria_group->orden)->where('id', '>', $criteria_group->id)))
+            ->exists();
     }
 
     public function seleccionar($criteria_id)
@@ -135,8 +143,16 @@ class CriteriaGroupComponent extends Component
     public function left_criteria($criteria_id)
     {
         $c1 = Criteria::findOrFail($criteria_id);
-        $orden = $c1->criteria_group->criterias()->where('orden', '<', $c1->orden)->max('orden');
-        $c2 = $c1->criteria_group->criterias()->where('orden', $orden)->first();
+        // Fila anterior en la serie `(orden, id)` (ADR-005): robusta frente a
+        // `orden` empatados — `max(orden < X)` saltaría el empate y elegiría un
+        // miembro arbitrario del bloque de empatados.
+        $c2 = $c1->criteria_group->criterias()
+            ->where(fn ($q) => $q->where('orden', '<', $c1->orden)
+                ->orWhere(fn ($q) => $q->where('orden', $c1->orden)->where('id', '<', $c1->id)))
+            ->reorder()
+            ->orderByDesc('orden')
+            ->orderByDesc('id')
+            ->first();
 
         if ($c2 != null) {
             $temp = $c1->orden;
@@ -151,7 +167,13 @@ class CriteriaGroupComponent extends Component
     public function right_criteria($criteria_id)
     {
         $c1 = Criteria::findOrFail($criteria_id);
-        $c2 = $c1->criteria_group->criterias()->where('orden', '>', $c1->orden)->first();
+        // Fila siguiente en la serie `(orden, id)` (ADR-005): el `orderBy('id')`
+        // desempata los empates de `orden` (la relación ya ordena por `orden`).
+        $c2 = $c1->criteria_group->criterias()
+            ->where(fn ($q) => $q->where('orden', '>', $c1->orden)
+                ->orWhere(fn ($q) => $q->where('orden', $c1->orden)->where('id', '>', $c1->id)))
+            ->orderBy('id')
+            ->first();
 
         if ($c2 != null) {
             $temp = $c1->orden;

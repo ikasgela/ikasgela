@@ -46,16 +46,29 @@ class CriteriaComponent extends Component
     public function is_first_in_group()
     {
         $criteria = Criteria::find($this->criteria->id);
-        $orden = $criteria->criteria_group?->criterias()->min('orden');
-        return $criteria->orden == $orden;
+        if (!$criteria?->criteria_group) {
+            return true;
+        }
+        // Primera en la serie `(orden, id)` (ADR-005): no existe ninguna fila antes.
+        // Con `orden == min(orden)` la segunda de un empate contaría como primera.
+        return !Criteria::where('criteria_group_id', $criteria->criteria_group_id)
+            ->where(fn ($q) => $q->where('orden', '<', $criteria->orden)
+                ->orWhere(fn ($q) => $q->where('orden', $criteria->orden)->where('id', '<', $criteria->id)))
+            ->exists();
     }
 
     #[Computed]
     public function is_last_in_group()
     {
         $criteria = Criteria::find($this->criteria->id);
-        $orden = $criteria->criteria_group?->criterias()->max('orden');
-        return $criteria->orden == $orden;
+        if (!$criteria?->criteria_group) {
+            return true;
+        }
+        // Última en la serie `(orden, id)` (ADR-005): no existe ninguna fila después.
+        return !Criteria::where('criteria_group_id', $criteria->criteria_group_id)
+            ->where(fn ($q) => $q->where('orden', '>', $criteria->orden)
+                ->orWhere(fn ($q) => $q->where('orden', $criteria->orden)->where('id', '>', $criteria->id)))
+            ->exists();
     }
 
     #[Computed]

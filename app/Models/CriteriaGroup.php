@@ -36,8 +36,11 @@ class CriteriaGroup extends Model
 
     public function criterias()
     {
+        // `id` como desempate: orden determinista incluso con `orden` empatados
+        // (restos de la remapa COMB→v7, ADR-005)
         return $this->hasMany(Criteria::class)
-            ->orderBy('orden');
+            ->orderBy('orden')
+            ->orderBy('id');
     }
 
     #[Scope]

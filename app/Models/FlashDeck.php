@@ -29,8 +29,11 @@ class FlashDeck extends Model
 
     public function flash_cards()
     {
+        // `id` como desempate: orden determinista incluso con `orden` empatados
+        // (restos de la remapa COMB→v7, ADR-005)
         return $this->hasMany(FlashCard::class)
-            ->orderBy('orden');
+            ->orderBy('orden')
+            ->orderBy('id');
     }
 
     public function actividades()

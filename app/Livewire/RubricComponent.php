@@ -57,8 +57,16 @@ class RubricComponent extends Component
     public function up_criteria_group($criteria_group_id)
     {
         $c1 = CriteriaGroup::findOrFail($criteria_group_id);
-        $orden = $this->rubric->criteria_groups()->where('orden', '<', $c1->orden)->max('orden');
-        $c2 = $this->rubric->criteria_groups()->where('orden', $orden)->first();
+        // Fila anterior en la serie `(orden, id)` (ADR-005): robusta frente a
+        // `orden` empatados — `max(orden < X)` saltaría el empate y elegiría un
+        // miembro arbitrario del bloque de empatados.
+        $c2 = $this->rubric->criteria_groups()
+            ->where(fn ($q) => $q->where('orden', '<', $c1->orden)
+                ->orWhere(fn ($q) => $q->where('orden', $c1->orden)->where('id', '<', $c1->id)))
+            ->reorder()
+            ->orderByDesc('orden')
+            ->orderByDesc('id')
+            ->first();
 
         if ($c2 != null) {
             $temp = $c1->orden;
@@ -73,7 +81,13 @@ class RubricComponent extends Component
     public function down_criteria_group($criteria_group_id)
     {
         $c1 = CriteriaGroup::findOrFail($criteria_group_id);
-        $c2 = $this->rubric->criteria_groups()->where('orden', '>', $c1->orden)->first();
+        // Fila siguiente en la serie `(orden, id)` (ADR-005): el `orderBy('id')`
+        // desempata los empates de `orden` (la relación ya ordena por `orden`).
+        $c2 = $this->rubric->criteria_groups()
+            ->where(fn ($q) => $q->where('orden', '>', $c1->orden)
+                ->orWhere(fn ($q) => $q->where('orden', $c1->orden)->where('id', '>', $c1->id)))
+            ->orderBy('id')
+            ->first();
 
         if ($c2 != null) {
             $temp = $c1->orden;

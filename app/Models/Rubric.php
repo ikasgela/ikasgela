@@ -31,8 +31,11 @@ class Rubric extends Model
 
     public function criteria_groups()
     {
+        // `id` como desempate: orden determinista incluso con `orden` empatados
+        // (restos de la remapa COMB→v7, ADR-005)
         return $this->hasMany(CriteriaGroup::class)
-            ->orderBy('orden');
+            ->orderBy('orden')
+            ->orderBy('id');
     }
 
     public function actividades()

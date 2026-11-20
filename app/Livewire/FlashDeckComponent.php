@@ -49,8 +49,16 @@ class FlashDeckComponent extends Component
     public function up_flash_card($flash_card_id)
     {
         $c1 = FlashCard::findOrFail($flash_card_id);
-        $orden = $this->flash_deck->flash_cards()->where('orden', '<', $c1->orden)->max('orden');
-        $c2 = FlashCard::where('orden', $orden)->first();
+        // Tarjeta anterior en la serie `(orden, id)` del mazo (ADR-005): robusta
+        // frente a `orden` empatados y acotada al mazo (antes consultaba la tabla
+        // completa y podía intercambiar con una tarjeta de otro mazo).
+        $c2 = $this->flash_deck->flash_cards()
+            ->where(fn ($q) => $q->where('orden', '<', $c1->orden)
+                ->orWhere(fn ($q) => $q->where('orden', $c1->orden)->where('id', '<', $c1->id)))
+            ->reorder()
+            ->orderByDesc('orden')
+            ->orderByDesc('id')
+            ->first();
 
         if ($c2 != null) {
             $temp = $c1->orden;
@@ -65,7 +73,14 @@ class FlashDeckComponent extends Component
     public function down_flash_card($flash_card_id)
     {
         $c1 = FlashCard::findOrFail($flash_card_id);
-        $c2 = $this->flash_deck->flash_cards()->where('orden', '>', $c1->orden)->first();
+        // Tarjeta siguiente en la serie `(orden, id)` del mazo (ADR-005): el
+        // `orderBy('id')` desempata los empates de `orden` (la relación ya ordena
+        // por `orden`).
+        $c2 = $this->flash_deck->flash_cards()
+            ->where(fn ($q) => $q->where('orden', '>', $c1->orden)
+                ->orWhere(fn ($q) => $q->where('orden', $c1->orden)->where('id', '>', $c1->id)))
+            ->orderBy('id')
+            ->first();
 
         if ($c2 != null) {
             $temp = $c1->orden;
