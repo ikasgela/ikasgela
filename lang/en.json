@@ -1,6 +1,7 @@
 {
     "(and :count more error)": "(and :count more error)",
     "(and :count more errors)": "(and :count more error)|(and :count more errors)|(and :count more errors)",
+    "--- Course qualification (default) ---": "--- Course qualification (default) ---",
     "--- No ---": "--- No ---",
     "--- None (whole course) ---": "--- None (whole course) ---",
     "--- None ---": "--- None ---",
@@ -329,6 +330,7 @@
     "HTTP Version Not Supported": "HTTP Version Not Supported",
     "I'm a teapot": "I'm a teapot",
     "Identifier": "Identifier",
+    "If set, the grade is computed over this qualification instead of the course one (partial evaluation: only the skills it contains are weighted).": "If set, the grade is computed over this qualification instead of the course one (partial evaluation: only the skills it contains are weighted).",
     "If you can see this page, something went wrong. Contact your teacher for help.": "If you can see this page, something went wrong. Contact your teacher for help.",
     "If you did not create an account, no further action is required.": "If you did not create an account, no further action is required.",
     "If you did not receive the email": "If you did not receive the email",
@@ -587,6 +589,7 @@
     "Published": "Published",
     "Published calification": "Published calification",
     "Qualification": "Qualification",
+    "Qualification (partial)": "Qualification (partial)",
     "Qualification has been manually established.": "Qualification has been manually established.",
     "Qualifications": "Qualifications",
     "Question": "Question",

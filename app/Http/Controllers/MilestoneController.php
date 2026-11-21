@@ -37,6 +37,7 @@ class MilestoneController extends Controller
             'name' => 'required',
             'date' => 'required',
             'num_actividades_obligatorias' => 'required_if:ajuste_proporcional_nota,fijo|nullable|integer|min:1',
+            'qualification_id' => 'nullable|integer|exists:qualifications,id',
         ]);
 
         Milestone::create([
@@ -50,6 +51,7 @@ class MilestoneController extends Controller
             'ajuste_proporcional_nota' => $request->input('ajuste_proporcional_nota'),
             'etiquetas' => $request->input('etiquetas', 'base'),
             'num_actividades_obligatorias' => $request->input('ajuste_proporcional_nota') === 'fijo' ? $request->input('num_actividades_obligatorias') : null,
+            'qualification_id' => $request->input('qualification_id') ?: null,
         ]);
 
         return retornar();
@@ -72,6 +74,7 @@ class MilestoneController extends Controller
             'name' => 'required',
             'date' => 'required',
             'num_actividades_obligatorias' => 'required_if:ajuste_proporcional_nota,fijo|nullable|integer|min:1',
+            'qualification_id' => 'nullable|integer|exists:qualifications,id',
         ]);
 
         $milestone->update([
@@ -85,6 +88,7 @@ class MilestoneController extends Controller
             'ajuste_proporcional_nota' => $request->input('ajuste_proporcional_nota'),
             'etiquetas' => $request->input('etiquetas', 'base'),
             'num_actividades_obligatorias' => $request->input('ajuste_proporcional_nota') === 'fijo' ? $request->input('num_actividades_obligatorias') : null,
+            'qualification_id' => $request->input('qualification_id') ?: null,
         ]);
 
         return retornar();

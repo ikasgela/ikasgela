@@ -25,6 +25,7 @@ class Milestone extends Model
         'decimals', 'truncate',
         'normalizar_nota', 'ajuste_proporcional_nota',
         'etiquetas', 'num_actividades_obligatorias',
+        'qualification_id',
     ];
 
     public function getFullNameAttribute()
@@ -35,6 +36,15 @@ class Milestone extends Model
     public function curso()
     {
         return $this->belongsTo(Curso::class);
+    }
+
+    /**
+     * Cualificación propia del milestone (R-EVAL-20). Si existe, el cálculo de
+     * la nota la usa como cualificación base en lugar de la del curso.
+     */
+    public function qualification()
+    {
+        return $this->belongsTo(Qualification::class);
     }
 
     /**

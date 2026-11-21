@@ -1,6 +1,7 @@
 {
     "(and :count more error)": "(y :count error más)",
     "(and :count more errors)": "(y :count error más)|(y :count errores más)|(y :count errores más)",
+    "--- Course qualification (default) ---": "--- Cualificación del curso (predeterminada) ---",
     "--- No ---": "--- No ---",
     "--- None (whole course) ---": "--- Ninguna (todo el curso) ---",
     "--- None ---": "--- Ninguna ---",
@@ -329,6 +330,7 @@
     "HTTP Version Not Supported": "Versión HTTP no compatible",
     "I'm a teapot": "Soy una tetera",
     "Identifier": "Identificador",
+    "If set, the grade is computed over this qualification instead of the course one (partial evaluation: only the skills it contains are weighted).": "Si se establece, la nota se calcula sobre esta cualificación en lugar de la del curso (evaluación parcial: solo se ponderan las competencias que contiene).",
     "If you can see this page, something went wrong. Contact your teacher for help.": "Si puedes ver esta página, algo ha ido mal. Contacta con tu profesor para obtener ayuda.",
     "If you did not create an account, no further action is required.": "Si no ha creado una cuenta, no se requiere ninguna acción adicional.",
     "If you did not receive the email": "Si usted no recibió el correo electrónico",
@@ -587,6 +589,7 @@
     "Published": "Publicada",
     "Published calification": "Calificación publicada",
     "Qualification": "Cualificación",
+    "Qualification (partial)": "Cualificación (parcial)",
     "Qualification has been manually established.": "La calificación se ha establecido manualmente.",
     "Qualifications": "Cualificaciones",
     "Question": "Pregunta",

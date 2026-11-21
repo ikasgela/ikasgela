@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Milestone;
+use App\Models\Qualification;
 use Livewire\Component;
 
 /**
@@ -26,6 +27,7 @@ class MilestoneForm extends Component
     public ?string $ajuste_proporcional_nota = null;
     public string $etiquetas = 'base';
     public ?string $num_actividades_obligatorias = null;
+    public ?string $qualification_id = null;
 
     public function mount(?Milestone $milestone = null, ?int $curso_id = null)
     {
@@ -43,6 +45,7 @@ class MilestoneForm extends Component
             $this->ajuste_proporcional_nota = $milestone->ajuste_proporcional_nota;
             $this->etiquetas = $milestone->etiquetas ?? 'base';
             $this->num_actividades_obligatorias = $milestone->num_actividades_obligatorias;
+            $this->qualification_id = $milestone->qualification_id;
         }
     }
 
@@ -56,6 +59,7 @@ class MilestoneForm extends Component
             'etiquetas' => 'nullable|string|max:255',
             'ajuste_proporcional_nota' => 'nullable|in:media,mediana,fijo',
             'num_actividades_obligatorias' => 'required_if:ajuste_proporcional_nota,fijo|nullable|integer|min:1',
+            'qualification_id' => 'nullable|integer|exists:qualifications,id',
         ]);
 
         $data = [
@@ -69,6 +73,7 @@ class MilestoneForm extends Component
             'ajuste_proporcional_nota' => in_array($this->ajuste_proporcional_nota, ['media', 'mediana', 'fijo']) ? $this->ajuste_proporcional_nota : null,
             'etiquetas' => $this->etiquetas !== '' ? $this->etiquetas : 'base',
             'num_actividades_obligatorias' => $this->ajuste_proporcional_nota === 'fijo' ? $this->num_actividades_obligatorias : null,
+            'qualification_id' => $this->qualification_id !== '' ? $this->qualification_id : null,
         ];
 
         if ($this->milestone) {
@@ -82,6 +87,10 @@ class MilestoneForm extends Component
 
     public function render()
     {
-        return view('livewire.milestone-form');
+        $qualifications = Qualification::where('curso_id', $this->curso_id)->orderBy('name')->get();
+
+        return view('livewire.milestone-form', [
+            'qualifications' => $qualifications,
+        ]);
     }
 }

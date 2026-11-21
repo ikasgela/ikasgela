@@ -83,6 +83,21 @@
 
     <div class="row mb-3">
         <div class="col-sm-2">
+            {{ html()->label(__('Qualification (partial)'), 'qualification_id')->class('col-form-label') }}
+        </div>
+        <div class="col-sm-10">
+            {{ html()->select('qualification_id')->class('form-select')->attribute('wire:model', 'qualification_id')->open() }}
+            {{ html()->option(__('--- Course qualification (default) ---'), '', $qualification_id === null || $qualification_id === '') }}
+            @foreach($qualifications as $qualification)
+                {{ html()->option($qualification->name, $qualification->id, (string) $qualification_id === (string) $qualification->id) }}
+            @endforeach
+            {{ html()->select()->close() }}
+            <div class="form-text">{{ __('If set, the grade is computed over this qualification instead of the course one (partial evaluation: only the skills it contains are weighted).') }}</div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-sm-2">
             {{ html()->label(__('Mandatory activities tags'), 'etiquetas')->class('col-form-label') }}
         </div>
         <div class="col-sm-10">

@@ -752,7 +752,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
             $r = new ResultadoCalificaciones();
 
-            $this->calcularCompetencias($r, $curso, $actividades_completadas);
+            $this->calcularCompetencias($r, $curso, $milestone, $actividades_completadas);
             $this->verificarMinimoCompetencias($r, $curso);
             $this->calcularActividadesObligatorias($r, $curso, $unidades, $completadas_base_por_unidad, $num_actividades_base_por_unidad);
             $nota = $this->calcularNotaPonderada($r, $curso, $milestone, $media_actividades_grupo, $total_completadas);
@@ -774,18 +774,34 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
     /**
      * Inicializa y calcula los resultados por competencias (skills) a partir de las actividades completadas.
+     *
+     * La cualificación base del cálculo es la del milestone si la tiene (R-EVAL-20,
+     * evaluación parcial); si no, la del curso (comportamiento histórico).
      */
-    private function calcularCompetencias(ResultadoCalificaciones $r, ?Curso $curso, Collection $actividades): void
+    private function calcularCompetencias(ResultadoCalificaciones $r, ?Curso $curso, ?Milestone $milestone, Collection $actividades): void
     {
         $r->skills_curso = [];
         $r->resultados = [];
         $r->hayExamenes = false;
 
-        if (is_null($curso) || is_null($curso->qualification)) {
+        // La relación puede estar obsoleta en un modelo reutilizado (p. ej. un
+        // proceso que cambió la FK tras un cálculo anterior): forzar la lectura
+        // fresca siempre que la relación cargada no concuerde con la FK.
+        $qualification = $milestone?->qualification;
+
+        if (!is_null($milestone)
+            && ((is_null($milestone->qualification_id) && !is_null($qualification))
+                || (!is_null($milestone->qualification_id) && ($qualification?->id ?? null) !== $milestone->qualification_id))) {
+            $qualification = is_null($milestone->qualification_id) ? null : Qualification::find($milestone->qualification_id);
+        }
+
+        $qualification ??= $curso?->qualification;
+
+        if (is_null($qualification)) {
             return;
         }
 
-        $r->skills_curso = $curso->qualification->skills->sortBy('pivot.orden');
+        $r->skills_curso = $qualification->skills->sortBy('pivot.orden');
 
         foreach ($r->skills_curso as $skill) {
             $r->resultados[$skill->id] = new Resultado();

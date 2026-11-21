@@ -1,6 +1,7 @@
 {
     "(and :count more error)": "(eta :count errore gehiago)",
     "(and :count more errors)": "(eta :count errore gehiago)|(eta :count akats gehiago)|(eta :count akats gehiago)",
+    "--- Course qualification (default) ---": "--- Kurtsoaren kualifikazioa (lehenetsia) ---",
     "--- No ---": "--- Ez ---",
     "--- None (whole course) ---": "--- Bat ere ez (ikastaro osoa) ---",
     "--- None ---": "--- Bat ere ez ---",
@@ -329,6 +330,7 @@
     "HTTP Version Not Supported": "HTTP bertsioa ez da onartzen",
     "I'm a teapot": "teontzi bat naiz",
     "Identifier": "Identifikatzailea",
+    "If set, the grade is computed over this qualification instead of the course one (partial evaluation: only the skills it contains are weighted).": "Ezarri bada, nota kalkulatuko da kualifikazio honetan oinarrituta, ez kurtsoaren kualifikazioan (ebaluazio partziala: soilik honek dituen gaitasunak ponderatzen dira).",
     "If you can see this page, something went wrong. Contact your teacher for help.": "Horri hau ikusten ari bazara, zerbait gaizki joan da. Eskatu laguntza zure irakasleari.",
     "If you did not create an account, no further action is required.": "Ez baduzu konturik sortu, ez duzu ezer egin behar.",
     "If you did not receive the email": "Emaila jaso ez baduzu",
@@ -587,6 +589,7 @@
     "Published": "Argitaratua",
     "Published calification": "Argitaratutako kalifikazioa",
     "Qualification": "Kualifikazioa",
+    "Qualification (partial)": "Kualifikazioa (partziala)",
     "Qualification has been manually established.": "Kalifikazioa eskuz ezarri da.",
     "Qualifications": "Kualifikazioak",
     "Question": "Galdera",
