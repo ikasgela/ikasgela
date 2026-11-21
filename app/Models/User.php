@@ -355,7 +355,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         $completadas = $this->actividades()
             ->wherePivotIn('estado', [40, 60, 64]);
 
-        return $milestone == null ? $completadas : $completadas->whereBetween('actividades.fecha_finalizacion', [$milestone?->curso->fecha_inicio, $milestone?->date]);
+        return $milestone == null ? $completadas : $completadas->whereBetween('actividades.fecha_finalizacion', [$milestone?->curso?->fecha_inicio, $milestone?->date]);
     }
 
     public function num_actividades_completadas(?Curso $curso = null, ?Milestone $milestone = null)
@@ -698,13 +698,19 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
     public function calcular_calificaciones($media_actividades_grupo, ?Milestone $milestone = null, ?Curso $curso = null): ResultadoCalificaciones
     {
-        $curso_id = $curso?->id ?? $this->curso_actual()->id ?? 0;
+        $curso = $curso ?? $this->curso_actual();
 
-        $key = 'calificaciones_' . $curso_id . $milestone?->cache_key;
+        $curso_id = $curso?->id ?? 0;
 
-        return Cache::tags('user_' . $this->id)->remember($key, config('ikasgela.eloquent_cache_time'), function () use ($media_actividades_grupo, $milestone) {
+        // La clave de caché incluye la referencia del grupo (media/mediana) para
+        // que un cambio en el grupo no devuelva un resultado calculado con otra
+        // referencia (la media no forma parte de los demás operandos de la key).
+        $ajuste = $milestone?->ajuste_proporcional_nota ?: $curso?->ajuste_proporcional_nota;
 
-            $curso = $this->curso_actual();
+        $key = 'calificaciones_' . $curso_id . $milestone?->cache_key
+            . (in_array($ajuste, ['media', 'mediana'], true) ? '_' . $media_actividades_grupo : '');
+
+        return Cache::tags('user_' . $this->id)->remember($key, config('ikasgela.eloquent_cache_time'), function () use ($media_actividades_grupo, $milestone, $curso) {
 
             // Eager-load todas las relaciones necesarias en una sola query
             $actividades_completadas = $this->actividades_completadas($milestone)
@@ -799,16 +805,28 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             }
 
             // Resolver competencias: Actividad > Unidad > Curso
-            if (!is_null($actividad->qualification_id)) {
+            // (cualificación/unidad en colgante → null → se omite la actividad)
+            if (!is_null($actividad->qualification_id) && !is_null($actividad->qualification)) {
                 $skills = $actividad->qualification->skills;
-            } elseif (!is_null($actividad->unidad->qualification_id)) {
+            } elseif (!is_null($actividad->unidad?->qualification_id) && !is_null($actividad->unidad?->qualification)) {
                 $skills = $actividad->unidad->qualification->skills;
             } else {
                 $skills = $r->skills_curso;
             }
 
+            if (is_null($skills)) {
+                continue;
+            }
+
             foreach ($skills as $skill) {
-                $porcentaje = $skill->pivot->percentage;
+                $porcentaje = $skill->pivot?->percentage ?? 0;
+
+                // Skill fuera de la cualificación del curso: se incorpora al DTO
+                // con su propio percentage (sin crasar por asignación sobre null)
+                if (!isset($r->resultados[$skill->id])) {
+                    $r->resultados[$skill->id] = new Resultado();
+                    $r->resultados[$skill->id]->porcentaje = $porcentaje;
+                }
 
                 $r->resultados[$skill->id]->peso_examen = $skill->peso_examen;
 
@@ -893,11 +911,13 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         $nota = 0;
         $porcentaje_total = 0;
 
+        // Σ recorre todas las skills del DTO (las del curso más las incorporadas
+        // desde cualificaciones de actividades/unidades), sin filtro por actividad:
+        // una skill sin actividad aportará 0 al numerador pero entrará en el
+        // denominador (spec R-EVAL-8).
         foreach ($r->resultados as $resultado) {
-            if ($resultado->actividad > 0) {
-                $nota += ($resultado->porcentaje_competencia() / 100) * ($resultado->porcentaje / 100);
-                $porcentaje_total += $resultado->porcentaje;
-            }
+            $nota += ($resultado->porcentaje_competencia() / 100) * ($resultado->porcentaje / 100);
+            $porcentaje_total += $resultado->porcentaje;
         }
 
         // Nota sobre 10

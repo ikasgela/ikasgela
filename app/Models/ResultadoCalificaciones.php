@@ -12,7 +12,7 @@ class ResultadoCalificaciones
 
     public function normalizar_nota($rango, $nota)
     {
-        if (!is_null($rango) && $rango['max'] > 0) {
+        if (!is_null($rango) && $rango['max'] > $rango['min']) {
             $nota = ($nota - $rango['min']) / ($rango['max'] - $rango['min']) * 10;
         }
         return $nota;
@@ -27,7 +27,7 @@ class ResultadoCalificaciones
     {
         $nota = $this->normalizar_nota($rango, $this->nota_numerica);
 
-        return formato_decimales($nota, 2);
+        return formato_decimales(min($nota, 10), 2);
     }
 
     public function nota_publicar($milestone = null, $rango = null)
