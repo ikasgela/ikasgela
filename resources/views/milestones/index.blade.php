@@ -44,7 +44,7 @@
                                 {{ __('Median') }}
                                 @break
                             @case('fijo')
-                                {{ __('Fixed') }}
+                                {{ __('Fixed') }} {{ '(' . $milestone?->num_actividades_obligatorias . ')' }}
                                 @break
                             @default
                                 {{ __('Undefined') }}
