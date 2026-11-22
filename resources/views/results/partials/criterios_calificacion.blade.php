@@ -42,13 +42,13 @@
                 @php($ajuste_proporcional_nota = $milestone?->ajuste_proporcional_nota ?: $curso?->ajuste_proporcional_nota)
                 @switch($ajuste_proporcional_nota)
                     @case('media')
-                        <li>{{ __('The qualification is adjusted proportionally to the average of mandatory activities completed by the group.') }}</li>
+                        <li>{{ __('The qualification is adjusted proportionally to the average of mandatory activities completed by the group.') }} {{ '(' . $media_actividades_grupo . ')' }}</li>
                         @break
                     @case('mediana')
-                        <li>{{ __('The qualification is adjusted proportionally to the median of mandatory activities completed by the group.') }}</li>
+                        <li>{{ __('The qualification is adjusted proportionally to the median of mandatory activities completed by the group.') }} {{ '(' . $mediana_actividades_grupo . ')' }}</li>
                         @break
                     @case('fijo')
-                        <li>{{ __('The qualification is adjusted proportionally to the number of mandatory activities established on the evaluation.') }}</li>
+                        <li>{{ __('The qualification is adjusted proportionally to the number of mandatory activities established on the evaluation.') }} {{ '(' . $milestone?->num_actividades_obligatorias . ')' }}</li>
                         @break
                     @default
                         <li>{{ __('The qualification is adjusted proportionally to the number of mandatory activities.') }}</li>
