@@ -19,9 +19,13 @@
                 <td>{{ $skill->name }}</td>
 
                 @php($porcentaje_tarea = $resultado->porcentaje_tarea())
-                <td class="text-center">
-                    {{ formato_decimales($porcentaje_tarea) }}&thinsp;%
-                </td>
+                @if(100-$peso_examenes>0)
+                    <td class="text-center">
+                        {{ formato_decimales($porcentaje_tarea) }}&thinsp;%
+                    </td>
+                @else
+                    <td class="text-center">-</td>
+                @endif
                 @if($peso_examenes>0)
                     @php($porcentaje_examen = $resultado->porcentaje_examen())
                     <td class="text-center">
