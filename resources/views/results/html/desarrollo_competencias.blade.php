@@ -14,41 +14,44 @@
                 @php($resultado = $calificaciones->resultados[$skill->id])
 
                 <div class="row g-0 ms-5">
-                    <div class="col" style="flex: 0 0 {{ $peso_actividades }}%;">{{ __('Activities') }}</div>
+                    @if(100-$peso_examenes>0)
+                        <div class="col" style="flex: 0 0 {{ $peso_actividades }}%;">{{ __('Activities') }}</div>
+                    @endif
                     @if($peso_examenes>0)
                         <div style="flex: 0 0 {{ $peso_examenes }}%;">{{ __('Exams') }}</div>
                     @endif
                 </div>
 
                 <div class="progress-stacked ms-5">
-                    @php($porcentaje_tarea = $resultado->porcentaje_tarea())
-                    <div class="progress" role="progressbar"
-                         style="width: {{ $peso_actividades * $porcentaje_tarea / 100 }}%"
-                         aria-valuenow="{{ $porcentaje_tarea }}"
-                         aria-valuemin="0" aria-valuemax="100"
-                         title="{{ $resultado->puntos_tarea }}/{{ $resultado->puntos_totales_tarea }}">
-                        <div class="progress-bar">
-                            @if($porcentaje_tarea>=30){{ formato_decimales($porcentaje_tarea) }}&thinsp;%@endif
-                        </div>
-                    </div>
-                    @if($resultado->puntos_totales_tarea > 0 && $porcentaje_tarea<30)
-                        <div class="progress"
-                             style="width:30%;">
-                            <div class="progress-bar bg-body-secondary bg-opacity-10 text-body text-start ps-2">
-                                {{ formato_decimales($porcentaje_tarea) }}&thinsp;%
+                    @if(100-$peso_examenes>0)
+                        @php($porcentaje_tarea = $resultado->porcentaje_tarea())
+                        <div class="progress" role="progressbar"
+                             style="width: {{ $peso_actividades * $porcentaje_tarea / 100 }}%"
+                             aria-valuenow="{{ $porcentaje_tarea }}"
+                             aria-valuemin="0" aria-valuemax="100"
+                             title="{{ $resultado->puntos_tarea }}/{{ $resultado->puntos_totales_tarea }}">
+                            <div class="progress-bar">
+                                @if($porcentaje_tarea>=30){{ formato_decimales($porcentaje_tarea) }}&thinsp;%@endif
                             </div>
                         </div>
-                        <div class="progress"
-                             style="width: {{ $peso_actividades * (100-$porcentaje_tarea) / 100 - 30 }}%">
-                            <div class="progress-bar bg-body-secondary bg-opacity-10 text-body"></div>
-                        </div>
-                    @else
-                        <div class="progress"
-                             style="width: {{ $peso_actividades * (100-$porcentaje_tarea) / 100 }}%">
-                            <div class="progress-bar bg-body-secondary bg-opacity-10 text-body"></div>
-                        </div>
+                        @if($resultado->puntos_totales_tarea > 0 && $porcentaje_tarea<30)
+                            <div class="progress"
+                                 style="width:30%;">
+                                <div class="progress-bar bg-body-secondary bg-opacity-10 text-body text-start ps-2">
+                                    {{ formato_decimales($porcentaje_tarea) }}&thinsp;%
+                                </div>
+                            </div>
+                            <div class="progress"
+                                 style="width: {{ $peso_actividades * (100-$porcentaje_tarea) / 100 - 30 }}%">
+                                <div class="progress-bar bg-body-secondary bg-opacity-10 text-body"></div>
+                            </div>
+                        @else
+                            <div class="progress"
+                                 style="width: {{ $peso_actividades * (100-$porcentaje_tarea) / 100 }}%">
+                                <div class="progress-bar bg-body-secondary bg-opacity-10 text-body"></div>
+                            </div>
+                        @endif
                     @endif
-
                     @if($peso_examenes>0)
                         @php($porcentaje_examen = $resultado->porcentaje_examen())
                         <div class="progress"
@@ -82,12 +85,18 @@
                 <div class="row g-0 ms-5">
                     <div class="col text-secondary small" style="flex: 0 0 10%;">0&thinsp;%</div>
                     @if($peso_examenes>0)
-                        <div class="col text-secondary small text-end pe-1 border-end"
-                             style="flex: 0 0 {{ $peso_actividades-10 }}%;">{{ $peso_actividades }}&thinsp;%
-                        </div>
-                        <div class="col text-secondary small text-end"
-                             style="flex: 0 0 {{ $peso_examenes }}%;">100&thinsp;%
-                        </div>
+                        @if(100-$peso_examenes>0)
+                            <div class="col text-secondary small text-end pe-1 border-end"
+                                 style="flex: 0 0 {{ $peso_actividades-10 }}%;">{{ $peso_actividades }}&thinsp;%
+                            </div>
+                            <div class="col text-secondary small text-end"
+                                 style="flex: 0 0 {{ $peso_examenes }}%;">100&thinsp;%
+                            </div>
+                        @else
+                            <div class="col text-secondary small text-end"
+                                 style="flex: 0 0 90%;">100&thinsp;%
+                            </div>
+                        @endif
                     @else
                         <div class="col text-secondary small text-end"
                              style="flex: 0 0 90%;">100&thinsp;%
