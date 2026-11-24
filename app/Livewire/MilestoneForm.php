@@ -82,7 +82,11 @@ class MilestoneForm extends Component
             Milestone::create($data);
         }
 
-        $this->redirect(route('milestones.index'), navigate: true);
+        // Sin `navigate: true`: la navegación en cliente (Livewire) reemplaza
+        // <head>/<body> sin recargar la página, lo que arranca el atributo
+        // `data-bs-theme` de <html> y vuelve la página a modo claro.
+        // Un redirect completo es coherente con el resto de la app (ADR-009).
+        $this->redirect(route('milestones.index'));
     }
 
     public function render()

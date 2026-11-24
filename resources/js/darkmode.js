@@ -100,6 +100,16 @@
         }
     })
 
+    // Reaplicar el tema después de una navegación en cliente (Livewire `navigate`):
+    // el intercambio de <head>/<body> sin recarga elimina el atributo
+    // `data-bs-theme` de <html> y no vuelve a ejecutar los scripts inline del
+    // <head>, por lo que la página caería al tema por defecto de Bootstrap (claro).
+    document.addEventListener('livewire:navigated', () => {
+        const theme = getPreferredTheme()
+        setTheme(theme)
+        showActiveTheme(theme)
+    })
+
     window.addEventListener('DOMContentLoaded', () => {
         showActiveTheme(getPreferredTheme())
 
