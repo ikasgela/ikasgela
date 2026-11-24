@@ -37,6 +37,7 @@ class Curso extends Model
         'tarea_bienvenida_id',
         'normalizar_nota', 'ajuste_proporcional_nota',
         'mostrar_calificaciones',
+        'ocultar_resultados_globales',
         'gitea_organization',
         'forzar_mostrar',
     ];
@@ -139,6 +140,24 @@ class Curso extends Model
     {
         return isset($this->fecha_inicio) && $this->fecha_inicio->lt(now())
             && isset($this->fecha_fin) && $this->fecha_fin->gt(now());
+    }
+
+    /**
+     * El alumno puede ver la página de resultados del curso (R-ALU-20).
+     * Si el curso oculta los resultados globales, exige `mostrar_calificaciones`
+     * y al menos una evaluación publicada.
+     */
+    public function resultadosVisiblesAlumno(): bool
+    {
+        if (!$this->mostrar_calificaciones) {
+            return false;
+        }
+
+        if (!$this->ocultar_resultados_globales) {
+            return true;
+        }
+
+        return $this->milestones()->published()->exists();
     }
 
     public function intellij_projects()

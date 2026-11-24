@@ -113,6 +113,22 @@ class CursosCRUDTest extends TestCase
         // Then
         $this->assertEquals($total + 1, Curso::all()->count());
     }
+    public function testStoreOcultarResultadosGlobales()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $curso = Curso::factory()->make();
+
+        // When
+        $this->post(route('cursos.store'), array_merge($curso->toArray(), [
+            'ocultar_resultados_globales' => 1,
+        ]));
+
+        // Then
+        $this->assertTrue(Curso::where('ocultar_resultados_globales', 1)->exists());
+    }
 
     public function testNotAdminNotStore()
     {
@@ -283,6 +299,22 @@ class CursosCRUDTest extends TestCase
 
         // Then
         $this->assertDatabaseHas('cursos', ['id' => $curso->id, 'nombre' => $curso->nombre]);
+    }
+    public function testUpdateOcultarResultadosGlobales()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $curso = Curso::factory()->create();
+
+        // When
+        $this->put(route('cursos.update', $curso), array_merge($curso->toArray(), [
+            'ocultar_resultados_globales' => 1,
+        ]));
+
+        // Then
+        $this->assertDatabaseHas('cursos', ['id' => $curso->id, 'ocultar_resultados_globales' => 1]);
     }
 
     public function testNotAdminNotUpdate()

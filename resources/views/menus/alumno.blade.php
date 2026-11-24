@@ -15,7 +15,7 @@
     'badge_number' => Auth::user()->newThreadsCount(),
     'badge_color' => 'success',
 ])
-@if(Auth::user()->curso_actual()?->mostrar_calificaciones)
+@if(Auth::user()->curso_actual()?->resultadosVisiblesAlumno())
     @include('layouts.sidebar.nav-item', [
         'route' => route('results.index'),
         'text' => __('Results'),

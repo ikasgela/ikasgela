@@ -89,6 +89,7 @@ class CursoController extends Controller
             'normalizar_nota' => $request->has('normalizar_nota'),
             'ajuste_proporcional_nota' => $request->input('ajuste_proporcional_nota'),
             'mostrar_calificaciones' => $request->has('mostrar_calificaciones'),
+            'ocultar_resultados_globales' => $request->has('ocultar_resultados_globales'),
             'forzar_mostrar' => $request->has('forzar_mostrar'),
         ]);
 
@@ -154,6 +155,7 @@ class CursoController extends Controller
             'normalizar_nota' => $request->has('normalizar_nota'),
             'ajuste_proporcional_nota' => $request->input('ajuste_proporcional_nota'),
             'mostrar_calificaciones' => $request->has('mostrar_calificaciones'),
+            'ocultar_resultados_globales' => $request->has('ocultar_resultados_globales'),
             'forzar_mostrar' => $request->has('forzar_mostrar'),
         ]);
 

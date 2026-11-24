@@ -148,6 +148,11 @@
                 'name' => 'mostrar_calificaciones',
             ])
 
+            @include('components.label-check', [
+                'label' => __('Hide whole-course results'),
+                'name' => 'ocultar_resultados_globales',
+            ])
+
             @include('partials.guardar_cancelar')
             @include('layouts.errors')
             {{ html()->closeModelForm() }}

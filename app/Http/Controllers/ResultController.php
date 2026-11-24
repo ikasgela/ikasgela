@@ -89,6 +89,27 @@ class ResultController extends Controller
             $milestone = Milestone::find(session('filtrar_milestone_actual'));
         }
 
+        // Alumnos de un curso que oculta los resultados globales no ven la vista
+        // de curso completo (R-ALU-20): 404 o la evaluación published más reciente
+        $oculta_globales = !Auth::user()->hasAnyRole(['admin', 'profesor', 'tutor'])
+            && $curso?->ocultar_resultados_globales;
+        $mostrar_opcion_global = !$oculta_globales;
+
+        if ($oculta_globales) {
+            if (!$curso->mostrar_calificaciones
+                || (is_null($milestone) && !$curso->milestones()->published()->exists())) {
+                abort(404, __('Course not found.'));
+            }
+
+            if (is_null($milestone)) {
+                $milestone = $curso->milestones()->published()->orderByDesc('date')->first();
+
+                if (!is_null($milestone)) {
+                    session(['filtrar_milestone_actual' => $milestone->id]);
+                }
+            }
+        }
+
         // Calcular la media y la mediana de actividades del grupo
         $media = $curso?->media($milestone);
         $mediana = $curso?->mediana($milestone);
@@ -198,6 +219,7 @@ class ResultController extends Controller
         $calificacion_dato_publicar = ($calificaciones->evaluacion_continua_superada || $calificaciones->examen_final_superado || $calificaciones->nota_manual_superada || $milestone != null) ? $calificaciones->nota_publicar($milestone, $rango) : ($curso?->disponible() ? __('Unavailable') : __('Fail'));
 
         return compact(['user', 'curso', 'users', 'unidades', 'calificaciones', 'chart',
+            'oculta_globales', 'mostrar_opcion_global',
             'actividades_obligatorias_fondo', 'actividades_obligatorias_dato',
             'competencias_fondo', 'competencias_dato',
             'pruebas_evaluacion_fondo', 'pruebas_evaluacion_dato',

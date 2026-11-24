@@ -6,6 +6,7 @@ use App\Models\Curso;
 use App\Models\Milestone;
 use App\Models\Unidad;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Override;
 use Tests\TestCase;
@@ -311,5 +312,99 @@ class ResultControllerTest extends TestCase
         $response = $this->get(route('results.index'));
 
         $response->assertSuccessful();
+    }
+
+    public function testIndexOcultarGlobalesSinEvaluacionesPublicadas()
+    {
+        $this->actingAs($this->alumno);
+
+        // Given - curso que oculta los resultados globales y sin evaluaciones published
+        $curso = Curso::factory()->create(['ocultar_resultados_globales' => true]);
+        Milestone::factory()->create(['curso_id' => $curso->id, 'published' => false]);
+        setting_usuario(['curso_actual' => $curso->id]);
+
+        $response = $this->get(route('results.index'));
+
+        $response->assertNotFound();
+    }
+
+    public function testIndexOcultarGlobalesSinMostrarCalificaciones()
+    {
+        $this->actingAs($this->alumno);
+
+        // Given - curso que oculta los resultados globales y no muestra calificaciones
+        $curso = Curso::factory()->create([
+            'mostrar_calificaciones' => false,
+            'ocultar_resultados_globales' => true,
+        ]);
+        Milestone::factory()->create(['curso_id' => $curso->id]);
+        setting_usuario(['curso_actual' => $curso->id]);
+
+        $response = $this->get(route('results.index'));
+
+        $response->assertNotFound();
+    }
+
+    public function testIndexOcultarGlobalesAutoSeleccionaEvaluacion()
+    {
+        $this->actingAs($this->alumno);
+
+        // Given - curso que oculta los resultados globales con 2 evaluaciones published
+        $curso = Curso::factory()->create(['ocultar_resultados_globales' => true]);
+        Milestone::factory()->create([
+            'curso_id' => $curso->id,
+            'date' => Carbon::now()->subMonths(2)->second(0),
+        ]);
+        $reciente = Milestone::factory()->create([
+            'curso_id' => $curso->id,
+            'date' => Carbon::now()->subMonth()->second(0),
+        ]);
+        setting_usuario(['curso_actual' => $curso->id]);
+
+        $response = $this->get(route('results.index'));
+
+        // Then - auto-selecciona la más reciente y no ofrece "whole course"
+        $response->assertSuccessful();
+        $this->assertEquals($reciente->id, session('filtrar_milestone_actual'));
+        $response->assertDontSee(__('--- None (whole course) ---'));
+    }
+
+    public function testIndexOcultarGlobalesConEvaluacionSeleccionada()
+    {
+        $this->actingAs($this->alumno);
+
+        $curso = Curso::factory()->create(['ocultar_resultados_globales' => true]);
+        $milestone = Milestone::factory()->create(['curso_id' => $curso->id]);
+        setting_usuario(['curso_actual' => $curso->id]);
+
+        $response = $this->get(route('results.index', ['milestone_id' => $milestone->id]));
+
+        $response->assertSuccessful();
+    }
+
+    public function testPdfOcultarGlobalesSinEvaluacionesPublicadas()
+    {
+        $this->actingAs($this->alumno);
+
+        $curso = Curso::factory()->create(['ocultar_resultados_globales' => true]);
+        setting_usuario(['curso_actual' => $curso->id]);
+
+        $response = $this->get(route('results.pdf'));
+
+        $response->assertNotFound();
+    }
+
+    public function testIndexAsProfesorOcultarGlobales()
+    {
+        // Given - los docentes no se ven afectados: ven el curso completo
+        $this->actingAs($this->profesor);
+
+        $curso = Curso::factory()->create(['ocultar_resultados_globales' => true]);
+        Milestone::factory()->create(['curso_id' => $curso->id]);
+        setting_usuario(['curso_actual' => $curso->id]);
+
+        $response = $this->get(route('results.index'));
+
+        $response->assertSuccessful()->assertSee(__('--- None (whole course) ---'));
     }
 }

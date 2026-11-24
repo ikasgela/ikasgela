@@ -2,6 +2,8 @@
 
 namespace Tests\Browser\Sitio;
 
+use App\Models\Curso;
+use App\Models\User;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Concerns\BrowserUiHelpers;
 use Tests\DuskTestCase;
@@ -44,6 +46,33 @@ class T2_AlumnoTest extends DuskTestCase
             $browser->assertRouteIs('results.index');
             $this->assertNoAppErrors($browser);
             $browser->assertSee(__('Results'));
+        });
+    }
+
+    public function testResultadosOcultandoGlobales()
+    {
+        $this->browse(function (Browser $browser) {
+            $marc = User::where('email', 'marc@ikasgela.com')->first();
+            $curso = is_null($marc) ? null : Curso::find(setting_usuario('curso_actual', $marc));
+
+            if (!is_null($curso)) {
+                $curso->update(['ocultar_resultados_globales' => true]);
+            }
+
+            $browser->visit(route('results.index'));
+            $browser->assertRouteIs('results.index');
+            $this->assertNoAppErrors($browser);
+            $browser->assertSee(__('Results'));
+
+            // Auto-selecciona la evaluación published más reciente ("Segunda evaluación")
+            // y el desplegable no ofrece la opción de curso completo
+            $browser->assertSee('Segunda evaluación');
+            $ocultaOpcionGlobal = $browser->script("return !!document.querySelector('#milestone_id option[value=\"-1\"]');");
+            $this->assertFalse($ocultaOpcionGlobal[0] ?? true, 'El desplegable ofrece la opción de curso completo');
+
+            if (!is_null($curso)) {
+                $curso->update(['ocultar_resultados_globales' => false]);
+            }
         });
     }
 
