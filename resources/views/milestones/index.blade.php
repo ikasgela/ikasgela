@@ -15,8 +15,8 @@
                 <th>#</th>
                 <th>{{ __('Course') }}</th>
                 <th>{{ __('Name') }}</th>
-                <th>{{ __('Date') }}</th>
                 <th>{{ __('Start date') }}</th>
+                <th>{{ __('Date') }}</th>
                 <th class="text-center">{{ __('Published') }}</th>
                 <th class="text-center">{{ __('Decimals') }}</th>
                 <th class="text-center">{{ __('Truncate') }}</th>
@@ -31,9 +31,9 @@
                     <td>{{ $milestone->id }}</td>
                     <td>{{ $milestone->curso->full_name }}</td>
                     <td>{{ $milestone->name }}</td>
+                    <td>{{ $milestone->start_date?->isoFormat('L LT') ?: '-' }}</td>
                     <td>{{ $milestone->date?->isoFormat('L LT') }}</td>
-                    <td>{{ $milestone->start_date?->isoFormat('L LT') }}</td>
-                    <td class="text-center">@include('partials.check_yes_no', ['checked' => $milestone->published'])</td>
+                    <td class="text-center">@include('partials.check_yes_no', ['checked' => $milestone->published])</td>
                     <td class="text-center">{{ $milestone->decimals }}</td>
                     <td class="text-center">@include('partials.check_yes_no', ['checked' => $milestone->truncate])</td>
                     <td class="text-center">@include('partials.check_yes_no', ['checked' => $milestone->normalizar_nota])</td>
