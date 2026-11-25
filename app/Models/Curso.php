@@ -284,7 +284,7 @@ class Curso extends Model
 
     public function alumnos_activos()
     {
-        return $this->users()->rolAlumno()->noBloqueado()->orderBy('name')->get();
+        return $this->users()->rolAlumno()->noBloqueado()->orderBy('surname')->get();
     }
 
     public function test_results()
