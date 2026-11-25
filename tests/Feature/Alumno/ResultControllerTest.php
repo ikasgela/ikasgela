@@ -5,11 +5,13 @@ namespace Tests\Feature\Alumno;
 use App\Models\Actividad;
 use App\Models\Curso;
 use App\Models\Milestone;
+use App\Models\Role;
 use App\Models\Tarea;
 use App\Models\Unidad;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Collection;
 use Override;
 use Tests\TestCase;
 
@@ -397,13 +399,13 @@ class ResultControllerTest extends TestCase
     }
 
     /**
-     * Curso con 10 obligatorias (5 plantillas 'base' por unidad, 2 unidades) y el
-     * alumno con 3 de ellas finalizadas dentro de la ventana del milestone
-     * (2 en la primera unidad y 1 en la segunda; no superado: 3 < 10).
+     * Curso con 2 unidades de `plantillasPorUnidad` plantillas 'base', el alumno
+     * matriculado con `completadas` de ellas (más `noPlantilla` actividades 'base'
+     * no plantilla) finalizadas dentro de la ventana del milestone.
      *
-     * @return array{0: Curso, 1: Unidad}
+     * @return array{0: Curso, 1: Collection}
      */
-    private function cursoConObligatorias(): array
+    private function cursoConObligatorias(int $plantillasPorUnidad = 5, int $completadas = 3, int $noPlantilla = 0): array
     {
         $this->actingAs($this->alumno);
 
@@ -419,29 +421,78 @@ class ResultControllerTest extends TestCase
             Unidad::factory()->create(['curso_id' => $curso->id]),
         ]);
 
-        for ($i = 0; $i < 10; $i++) {
-            $actividad = Actividad::factory()->create([
-                'unidad_id' => $unidades[$i < 5 ? 0 : 1]->id,
+        $actividades = [];
+
+        for ($i = 0; $i < $plantillasPorUnidad * 2; $i++) {
+            $actividades[] = Actividad::factory()->create([
+                'unidad_id' => $unidades[intdiv($i, $plantillasPorUnidad)]->id,
                 'tags' => 'base',
                 'plantilla' => true,
                 'puntuacion' => 100,
             ]);
-
-            if ($i < 3) {
-                $actividad->update(['fecha_finalizacion' => now()]);
-                Tarea::factory()->create([
-                    'user_id' => $this->alumno->id,
-                    'actividad_id' => $actividad->id,
-                    'estado' => 40,
-                    'puntuacion' => 100,
-                ]);
-            }
         }
 
-        return [$curso, $unidades[0]];
+        for ($i = 0; $i < $noPlantilla; $i++) {
+            $actividades[] = Actividad::factory()->create([
+                'unidad_id' => $unidades[0]->id,
+                'tags' => 'base',
+                'plantilla' => false,
+                'puntuacion' => 100,
+            ]);
+        }
+
+        foreach (array_slice($actividades, 0, $completadas + $noPlantilla) as $actividad) {
+            $actividad->update(['fecha_finalizacion' => now()]);
+            Tarea::factory()->create([
+                'user_id' => $this->alumno->id,
+                'actividad_id' => $actividad->id,
+                'estado' => 40,
+                'puntuacion' => 100,
+            ]);
+        }
+
+        return [$curso, $unidades];
     }
 
-    // R-EVAL-21 — con milestone de ajuste 'fijo', el divisor es el del milestone
+    /**
+     * Segundo alumno matriculado en el curso con `completadas` actividades 'base'
+     * no plantilla finalizadas (para la media/mediana del grupo).
+     */
+    private function segundoAlumnoConCompletadas(Curso $curso, Collection $unidades, int $completadas): User
+    {
+        $alumno = User::factory()->create();
+        $alumno->roles()->attach(Role::where('name', 'alumno')->first());
+        $curso->users()->attach($alumno->id);
+
+        for ($i = 0; $i < $completadas; $i++) {
+            $actividad = Actividad::factory()->create([
+                'unidad_id' => $unidades[$i % $unidades->count()]->id,
+                'tags' => 'base',
+                'plantilla' => false,
+                'puntuacion' => 100,
+                'fecha_finalizacion' => now(),
+            ]);
+            Tarea::factory()->create([
+                'user_id' => $alumno->id,
+                'actividad_id' => $actividad->id,
+                'estado' => 40,
+                'puntuacion' => 100,
+            ]);
+        }
+
+        return $alumno;
+    }
+
+    /**
+     * Bloque de cabecera de la tarjeta de obligatorias con el fondo dado.
+     */
+    private function tarjetaObligatoriasCon(string $fondo): string
+    {
+        return '<div class="card mb-3 ' . $fondo . '">' . "\n"
+            . '                <div class="card-header">Mandatory activities</div>';
+    }
+
+    // R-EVAL-21 — fijo por debajo del divisor: ámbar y 3/5 (divisor del milestone)
 
     public function testIndexConMilestoneFijoDivisorDelMilestone()
     {
@@ -456,16 +507,43 @@ class ResultControllerTest extends TestCase
 
         $response = $this->get(route('results.index', ['milestone_id' => $milestone->id]));
 
+        // 3 < 5 → ámbar y 3/5 (el divisor del milestone, no el 10 del curso)
         $response->assertSuccessful()
+            ->assertSee($this->tarjetaObligatoriasCon('text-bg-warning'), false)
             ->assertSee('3/5')
             ->assertDontSee('3/10');
     }
 
-    // R-EVAL-21 — con milestone de ajuste 'media', el divisor es la media del grupo
+    // R-EVAL-21 — fijo superado (13 ≥ 12): verde y el recuento 13/12 (nunca
+    // «completed» en un parcial)
+
+    public function testIndexConMilestoneFijoSuperadoMuestraElRecuento()
+    {
+        // 12 plantillas (6 por unidad) + 2 no plantilla = 13 completadas
+        [$curso] = $this->cursoConObligatorias(6, 11, 2);
+
+        $milestone = Milestone::factory()->create([
+            'curso_id' => $curso->id,
+            'date' => now()->addDays(30),
+            'ajuste_proporcional_nota' => 'fijo',
+            'num_actividades_obligatorias' => 12,
+        ]);
+
+        $response = $this->get(route('results.index', ['milestone_id' => $milestone->id]));
+
+        // 13 ≥ 12 → verde, aunque el criterio de curso por unidad no se cumpla
+        $response->assertSuccessful()
+            ->assertSee($this->tarjetaObligatoriasCon('text-bg-success'), false)
+            ->assertSee('13/12')
+            ->assertDontSee('font-size:150%;">Completed</p>', false);
+    }
+
+    // R-EVAL-21 — media por debajo de la media del grupo: ámbar y 3/4.00
 
     public function testIndexConMilestoneMediaDivisorMediaGrupo()
     {
-        [$curso] = $this->cursoConObligatorias();
+        [$curso, $unidades] = $this->cursoConObligatorias();      // 3 completadas
+        $this->segundoAlumnoConCompletadas($curso, $unidades, 5); // media = 4
 
         $milestone = Milestone::factory()->create([
             'curso_id' => $curso->id,
@@ -475,13 +553,36 @@ class ResultControllerTest extends TestCase
 
         $response = $this->get(route('results.index', ['milestone_id' => $milestone->id]));
 
-        // El alumno es el único del grupo: media = 3 → divisor 3.00 (no 10 del curso)
+        // 3 < 4 (media del grupo) → ámbar y 3/4.00 (no el 10 del curso)
         $response->assertSuccessful()
-            ->assertSee('3/3.00')
+            ->assertSee($this->tarjetaObligatoriasCon('text-bg-warning'), false)
+            ->assertSee('3/4.00')
             ->assertDontSee('3/10');
     }
 
-    // R-EVAL-21 — sin milestone, el divisor sigue siendo el de todo el curso
+    // R-EVAL-21 — media por encima de la media del grupo: verde y la proporción 5/4.00
+
+    public function testIndexConMilestoneMediaSuperadoMuestraElRecuento()
+    {
+        [$curso, $unidades] = $this->cursoConObligatorias(5, 5);    // 5 completadas
+        $this->segundoAlumnoConCompletadas($curso, $unidades, 3);   // media = 4
+
+        $milestone = Milestone::factory()->create([
+            'curso_id' => $curso->id,
+            'date' => now()->addDays(30),
+            'ajuste_proporcional_nota' => 'media',
+        ]);
+
+        $response = $this->get(route('results.index', ['milestone_id' => $milestone->id]));
+
+        // 5 ≥ 4 (media) → verde y la proporción aplicada (nunca «completed» en un parcial)
+        $response->assertSuccessful()
+            ->assertSee($this->tarjetaObligatoriasCon('text-bg-success'), false)
+            ->assertSee('5/4.00')
+            ->assertDontSee('font-size:150%;">Completed</p>', false);
+    }
+
+    // R-EVAL-21 — sin milestone: divisor y criterio de todo el curso
 
     public function testIndexSinMilestoneDivisorCursoCompleto()
     {
@@ -489,8 +590,26 @@ class ResultControllerTest extends TestCase
 
         $response = $this->get(route('results.index'));
 
+        // 3 < 10 (curso completo) → ámbar y 3/10
         $response->assertSuccessful()
+            ->assertSee($this->tarjetaObligatoriasCon('text-bg-warning'), false)
             ->assertSee('3/10');
+    }
+
+    // R-EVAL-21 — sin milestone y superado: verde y «completed» (solo el curso
+    // completo lo muestra)
+
+    public function testIndexSinMilestoneSuperadoMuestraCompleted()
+    {
+        $this->cursoConObligatorias(5, 10); // todas las 10 plantillas finalizadas
+
+        $response = $this->get(route('results.index'));
+
+        // 10 ≥ 10 (curso completo) → verde y «completed»
+        $response->assertSuccessful()
+            ->assertSee($this->tarjetaObligatoriasCon('text-bg-success'), false)
+            ->assertSee('font-size:150%;">Completed</p>', false)
+            ->assertDontSee('10/10');
     }
 
     public function testIndexAsProfesorOcultarGlobales()

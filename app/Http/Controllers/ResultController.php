@@ -178,22 +178,43 @@ class ResultController extends Controller
             $bg_warning = 'bg-warning text-dark';
         }
 
-        $actividades_obligatorias_fondo = $calificaciones->examen_final || $calificaciones->hay_nota_manual ? $bg_light : ($calificaciones->actividades_obligatorias_superadas ? $bg_success : $bg_warning);
-        // Divisor del contador de actividades obligatorias (R-EVAL-21): con
-        // milestone, la cantidad de obligatorias calculada para ese milestone según su
-        // ajuste proporcional; sin milestone, el total de todo el curso
+        // Cantidad de obligatorias (divisor) según el milestone (R-EVAL-21): con
+        // milestone, la calculada para ese milestone según su ajuste proporcional
+        // (fijo → milestone, media/mediana → referencia del grupo); sin milestone, el
+        // total de todo el curso
         $divisor_actividades_obligatorias = $calificaciones->num_actividades_obligatorias;
 
         if (!is_null($milestone)) {
             $divisor_actividades_obligatorias = match ($ajuste_proporcional_nota) {
                 'fijo' => $milestone->num_actividades_obligatorias,
-                'media' => $media_actividades_grupo,
-                'mediana' => $mediana_actividades_grupo,
+                'media' => $media,
+                'mediana' => $mediana,
                 default => $calificaciones->num_actividades_obligatorias,
             };
         }
 
-        $actividades_obligatorias_dato = $divisor_actividades_obligatorias > 0 ? $calificaciones->actividades_obligatorias_superadas ? trans_choice('tasks.completed', 2) : ($calificaciones->numero_actividades_completadas + 0) . "/" . $divisor_actividades_obligatorias : __('None');
+        // Superación de la tarjeta (R-EVAL-21): con milestone, las completadas de su
+        // ventana frente a esa cantidad; sin milestone, el criterio del curso (R-EVAL-9)
+        $actividades_obligatorias_superadas = $calificaciones->actividades_obligatorias_superadas;
+
+        if (!is_null($milestone) && $divisor_actividades_obligatorias > 0) {
+            $actividades_obligatorias_superadas = $calificaciones->numero_actividades_completadas >= $divisor_actividades_obligatorias;
+        }
+
+        // Divisor formateado solo para el dato (media/mediana del grupo a 2 decimales)
+        $divisor_dato = (!is_null($milestone) && in_array($ajuste_proporcional_nota, ['media', 'mediana'], true))
+            ? ($ajuste_proporcional_nota === 'media' ? $media_actividades_grupo : $mediana_actividades_grupo)
+            : $divisor_actividades_obligatorias;
+
+        $actividades_obligatorias_fondo = $calificaciones->examen_final || $calificaciones->hay_nota_manual ? $bg_light : ($actividades_obligatorias_superadas ? $bg_success : $bg_warning);
+        // «completed» solo para el curso completo y superado; en un parcial
+        // (milestone) se muestra siempre el recuento frente al divisor para que se
+        // vea la proporción aplicada, aunque se haya superado
+        $actividades_obligatorias_dato = $divisor_dato > 0
+            ? (is_null($milestone) && $actividades_obligatorias_superadas
+                ? trans_choice('tasks.completed', 2)
+                : ($calificaciones->numero_actividades_completadas + 0) . "/" . $divisor_dato)
+            : __('None');
 
         $competencias_fondo = $calificaciones->examen_final || $calificaciones->hay_nota_manual ? $bg_light : ($calificaciones->competencias_50_porciento ? $bg_success : $bg_warning);
         $competencias_dato = $calificaciones->competencias_50_porciento ? trans_choice('tasks.passed', 2) : trans_choice('tasks.not_passed', 2);
