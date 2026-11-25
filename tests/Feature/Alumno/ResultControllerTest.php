@@ -411,6 +411,7 @@ class ResultControllerTest extends TestCase
 
         $curso = Curso::factory()->create([
             'minimo_entregadas' => 100,
+            'minimo_competencias' => 50,
             'fecha_inicio' => now()->subDays(30),
         ]);
         setting_usuario(['curso_actual' => $curso->id]);
@@ -484,12 +485,24 @@ class ResultControllerTest extends TestCase
     }
 
     /**
-     * Bloque de cabecera de la tarjeta de obligatorias con el fondo dado.
+     * Bloque de tarjeta (fondo + cabecera, y dato opcional) con el contenido dado.
+     * `$indent` son los espacios de sangría de la cabecera (16 dentro de @if, 12
+     * para las tarjetas a nivel superior como «Continuous evaluation»).
      */
-    private function tarjetaObligatoriasCon(string $fondo): string
+    private function tarjetaCon(string $fondo, string $header, ?string $dato = null, int $indent = 16): string
     {
-        return '<div class="card mb-3 ' . $fondo . '">' . "\n"
-            . '                <div class="card-header">Mandatory activities</div>';
+        $s = str_repeat(' ', $indent);
+
+        $html = '<div class="card mb-3 ' . $fondo . '">' . "\n"
+            . $s . '<div class="card-header">' . $header . '</div>';
+
+        if (!is_null($dato)) {
+            $html .= "\n"
+                . $s . '<div class="card-body text-center">' . "\n"
+                . str_repeat(' ', $indent + 4) . '<p class="card-text" style="font-size:150%;">' . $dato . '</p>';
+        }
+
+        return $html;
     }
 
     // R-EVAL-21 — fijo por debajo del divisor: ámbar y 3/5 (divisor del milestone)
@@ -509,7 +522,7 @@ class ResultControllerTest extends TestCase
 
         // 3 < 5 → ámbar y 3/5 (el divisor del milestone, no el 10 del curso)
         $response->assertSuccessful()
-            ->assertSee($this->tarjetaObligatoriasCon('text-bg-warning'), false)
+            ->assertSee($this->tarjetaCon('text-bg-warning', 'Mandatory activities'), false)
             ->assertSee('3/5')
             ->assertDontSee('3/10');
     }
@@ -533,7 +546,7 @@ class ResultControllerTest extends TestCase
 
         // 13 ≥ 12 → verde, aunque el criterio de curso por unidad no se cumpla
         $response->assertSuccessful()
-            ->assertSee($this->tarjetaObligatoriasCon('text-bg-success'), false)
+            ->assertSee($this->tarjetaCon('text-bg-success', 'Mandatory activities'), false)
             ->assertSee('13/12')
             ->assertDontSee('font-size:150%;">Completed</p>', false);
     }
@@ -555,7 +568,7 @@ class ResultControllerTest extends TestCase
 
         // 3 < 4 (media del grupo) → ámbar y 3/4.00 (no el 10 del curso)
         $response->assertSuccessful()
-            ->assertSee($this->tarjetaObligatoriasCon('text-bg-warning'), false)
+            ->assertSee($this->tarjetaCon('text-bg-warning', 'Mandatory activities'), false)
             ->assertSee('3/4.00')
             ->assertDontSee('3/10');
     }
@@ -577,7 +590,7 @@ class ResultControllerTest extends TestCase
 
         // 5 ≥ 4 (media) → verde y la proporción aplicada (nunca «completed» en un parcial)
         $response->assertSuccessful()
-            ->assertSee($this->tarjetaObligatoriasCon('text-bg-success'), false)
+            ->assertSee($this->tarjetaCon('text-bg-success', 'Mandatory activities'), false)
             ->assertSee('5/4.00')
             ->assertDontSee('font-size:150%;">Completed</p>', false);
     }
@@ -592,7 +605,7 @@ class ResultControllerTest extends TestCase
 
         // 3 < 10 (curso completo) → ámbar y 3/10
         $response->assertSuccessful()
-            ->assertSee($this->tarjetaObligatoriasCon('text-bg-warning'), false)
+            ->assertSee($this->tarjetaCon('text-bg-warning', 'Mandatory activities'), false)
             ->assertSee('3/10');
     }
 
@@ -607,9 +620,47 @@ class ResultControllerTest extends TestCase
 
         // 10 ≥ 10 (curso completo) → verde y «completed»
         $response->assertSuccessful()
-            ->assertSee($this->tarjetaObligatoriasCon('text-bg-success'), false)
+            ->assertSee($this->tarjetaCon('text-bg-success', 'Mandatory activities'), false)
             ->assertSee('font-size:150%;">Completed</p>', false)
             ->assertDontSee('10/10');
+    }
+
+    // R-EVAL-22 — con milestone, los bloques de curso completo (Skills y
+    // Continuous evaluation) se grisan y muestran «No aplicable»
+
+    public function testIndexConMilestoneBloquesNoAplicables()
+    {
+        [$curso] = $this->cursoConObligatorias();
+
+        $milestone = Milestone::factory()->create([
+            'curso_id' => $curso->id,
+            'date' => now()->addDays(30),
+            'ajuste_proporcional_nota' => 'fijo',
+            'num_actividades_obligatorias' => 5,
+        ]);
+
+        $response = $this->get(route('results.index', ['milestone_id' => $milestone->id]));
+
+        // Criterio de curso completo en un parcial: gris y «No aplicable»
+        $response->assertSuccessful()
+            ->assertSee($this->tarjetaCon('text-bg-light', 'Skills', 'Not applicable'), false)
+            ->assertSee($this->tarjetaCon('text-bg-light', 'Continuous evaluation', 'Not applicable', 12), false);
+    }
+
+    // R-EVAL-22 — sin milestone, los bloques muestran su criterio normal
+
+    public function testIndexSinMilestoneBloquesConCriterio()
+    {
+        $this->cursoConObligatorias();
+
+        $response = $this->get(route('results.index'));
+
+        // Sin cualificación: competencias vacías (superadas) y evaluación continua no
+        // superada (3 < 10 y nota 0 < 5)
+        $response->assertSuccessful()
+            ->assertSee($this->tarjetaCon('text-bg-success', 'Skills', 'Passed'), false)
+            ->assertSee($this->tarjetaCon('text-bg-warning', 'Continuous evaluation', 'Not passed', 12), false)
+            ->assertDontSee('Not applicable');
     }
 
     public function testIndexAsProfesorOcultarGlobales()
@@ -626,3 +677,4 @@ class ResultControllerTest extends TestCase
         $response->assertSuccessful()->assertSee(__('--- None (whole course) ---'));
     }
 }
+

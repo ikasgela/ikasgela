@@ -178,6 +178,10 @@ class ResultController extends Controller
             $bg_warning = 'bg-warning text-dark';
         }
 
+        // Con milestone (evaluación parcial) los bloques de curso completo no
+        // aplican (R-EVAL-22): se grisan y muestran «No aplicable»
+        $es_evaluacion_parcial = !is_null($milestone);
+
         // Cantidad de obligatorias (divisor) según el milestone (R-EVAL-21): con
         // milestone, la calculada para ese milestone según su ajuste proporcional
         // (fijo → milestone, media/mediana → referencia del grupo); sin milestone, el
@@ -216,8 +220,8 @@ class ResultController extends Controller
                 : ($calificaciones->numero_actividades_completadas + 0) . "/" . $divisor_dato)
             : __('None');
 
-        $competencias_fondo = $calificaciones->examen_final || $calificaciones->hay_nota_manual ? $bg_light : ($calificaciones->competencias_50_porciento ? $bg_success : $bg_warning);
-        $competencias_dato = $calificaciones->competencias_50_porciento ? trans_choice('tasks.passed', 2) : trans_choice('tasks.not_passed', 2);
+        $competencias_fondo = $es_evaluacion_parcial || $calificaciones->examen_final || $calificaciones->hay_nota_manual ? $bg_light : ($calificaciones->competencias_50_porciento ? $bg_success : $bg_warning);
+        $competencias_dato = $es_evaluacion_parcial ? __('No aplicable') : ($calificaciones->competencias_50_porciento ? trans_choice('tasks.passed', 2) : trans_choice('tasks.not_passed', 2));
 
         $pruebas_evaluacion_fondo = ($curso?->examenes_obligatorios || $calificaciones->examen_final) && !$calificaciones->hay_nota_manual
             ? ($calificaciones->examen_final ? ($calificaciones->examen_final_superado ? $bg_success : $bg_warning)
@@ -226,8 +230,8 @@ class ResultController extends Controller
             ? ($calificaciones->examen_final ? ($calificaciones->examen_final_superado ? trans_choice('tasks.passed', 2) : trans_choice('tasks.not_passed', 2))
                 : ($calificaciones->pruebas_evaluacion ? trans_choice('tasks.passed', 2) : trans_choice('tasks.not_passed', 2))) : __('None');
 
-        $evaluacion_continua_fondo = $calificaciones->examen_final || $calificaciones->hay_nota_manual ? $bg_light : ($calificaciones->evaluacion_continua_superada ? $bg_success : $bg_warning);
-        $evaluacion_continua_dato = $calificaciones->evaluacion_continua_superada ? trans_choice('tasks.passed', 1) : trans_choice('tasks.not_passed', 1);
+        $evaluacion_continua_fondo = $es_evaluacion_parcial || $calificaciones->examen_final || $calificaciones->hay_nota_manual ? $bg_light : ($calificaciones->evaluacion_continua_superada ? $bg_success : $bg_warning);
+        $evaluacion_continua_dato = $es_evaluacion_parcial ? __('No aplicable') : ($calificaciones->evaluacion_continua_superada ? trans_choice('tasks.passed', 1) : trans_choice('tasks.not_passed', 1));
 
         $usuarios = $curso?->alumnos_activos() ?? [];
 
