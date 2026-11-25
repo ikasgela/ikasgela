@@ -26,7 +26,7 @@ use Tests\TestCase;
  *   cualificaciones en colgante, curso del milestone en colgante;
  * - normalización (PHP 8.5: 0.0/0.0 lanza DivisionByZeroError);
  * - denominador de la nota ponderada (Σ percentage de todas las skills);
- * - topado a 10 en nota_final/nota_publicar;
+ * - nota_publicar topada a 10 y nota_final con el valor real (puede superar 10);
  * - clave de caché con la referencia del grupo (media/mediana);
  * - mínimos, exámenes finales, nota manual, filtro por fecha de milestone.
  */
@@ -224,14 +224,14 @@ class CalculoCalificacionesTest extends TestCase
     }
 
     // ------------------------------------------------------------------
-    // 2. PUBLICACIÓN: TOPADO A 10 (spec R-EVAL-14)
+    // 2. PUBLICACIÓN (spec R-EVAL-14)
     // ------------------------------------------------------------------
 
     /**
-     * Ajuste propio 3/2 → nota 15. Tanto nota_final como nota_publicar
-     * deben topar a 10.
+     * Ajuste propio 3/2 → nota 15. nota_final muestra el valor real calculado
+     * (sin topado a 10) y nota_publicar topa a 10.
      */
-    public function testNotaSobre10TopadaEnAmbasPublicaciones(): void
+    public function testNotaSobre10FinalRealYPublicarTopada(): void
     {
         $s1 = $this->crearSkill(0);
         $qc = $this->crearQualification([$s1->id => 100]);
@@ -250,9 +250,10 @@ class CalculoCalificacionesTest extends TestCase
 
         $milestone = Milestone::factory()->create(['curso_id' => $this->curso->id]);
 
-        $this->assertSame('10.00', $calificaciones->nota_final(),
-            'Spec R-EVAL-14: nota_final = min(nota, 10) con 2 decimales.');
-        $this->assertSame('10.00', $calificaciones->nota_publicar($milestone));
+        $this->assertSame('15.00', $calificaciones->nota_final(),
+            'Spec R-EVAL-14: nota_final muestra la nota real calculada (sin topado a 10).');
+        $this->assertSame('10.00', $calificaciones->nota_publicar($milestone),
+            'Spec R-EVAL-14: nota_publicar = min(nota, 10).');
     }
 
     // ------------------------------------------------------------------

@@ -27,7 +27,9 @@ class ResultadoCalificaciones
     {
         $nota = $this->normalizar_nota($rango, $this->nota_numerica);
 
-        return formato_decimales(min($nota, 10), 2);
+        // Sin topado a 10: se muestra la nota real calculada (el ajuste
+        // proporcional puede dar > 10); la publicada (nota_publicar) sí topa
+        return formato_decimales($nota, 2);
     }
 
     public function nota_publicar($milestone = null, $rango = null)
