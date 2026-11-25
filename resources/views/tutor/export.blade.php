@@ -4,7 +4,7 @@
         <h5>{{ $curso->pretty_name }}</h5>
     @endisset
     @isset($milestone)
-        <h5>{{ $milestone->name . ' (' . $milestone->date->isoFormat('L LT') . ')' }}</h5>
+        <h5>{{ $milestone->full_name }}</h5>
     @endisset
     <p></p>
     @include('tutor.partials.criterios_ajuste_nota')

@@ -22,6 +22,15 @@
 
     <div class="row mb-3">
         <div class="col-sm-2">
+            {{ html()->label(__('Start date'), 'start_date')->class('col-form-label') }}
+        </div>
+        <div class="col-sm-10">
+            {{ html()->datetime('start_date', $start_date)->class('form-control')->attribute('wire:model', 'start_date') }}
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-sm-2">
             {{ html()->label(__('Published'), 'published')->class('form-check-label') }}
         </div>
         <div class="col-sm-10">

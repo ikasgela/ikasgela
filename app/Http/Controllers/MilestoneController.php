@@ -35,7 +35,8 @@ class MilestoneController extends Controller
         $this->validate($request, [
             'curso_id' => 'required',
             'name' => 'required',
-            'date' => 'required',
+            'date' => 'nullable',
+            'start_date' => $request->filled('date') ? 'nullable|before_or_equal:date' : 'nullable',
             'num_actividades_obligatorias' => 'required_if:ajuste_proporcional_nota,fijo|nullable|integer|min:1',
             'qualification_id' => 'nullable|integer|exists:qualifications,id',
         ]);
@@ -43,7 +44,8 @@ class MilestoneController extends Controller
         Milestone::create([
             'curso_id' => $request->input('curso_id'),
             'name' => $request->input('name'),
-            'date' => $request->input('date'),
+            'date' => $request->input('date') ?: null,
+            'start_date' => $request->input('start_date') ?: null,
             'published' => $request->has('published'),
             'decimals' => $request->input('decimals'),
             'truncate' => $request->has('truncate'),
@@ -72,7 +74,8 @@ class MilestoneController extends Controller
         $this->validate($request, [
             'curso_id' => 'required',
             'name' => 'required',
-            'date' => 'required',
+            'date' => 'nullable',
+            'start_date' => $request->filled('date') ? 'nullable|before_or_equal:date' : 'nullable',
             'num_actividades_obligatorias' => 'required_if:ajuste_proporcional_nota,fijo|nullable|integer|min:1',
             'qualification_id' => 'nullable|integer|exists:qualifications,id',
         ]);
@@ -80,7 +83,8 @@ class MilestoneController extends Controller
         $milestone->update([
             'curso_id' => $request->input('curso_id'),
             'name' => $request->input('name'),
-            'date' => $request->input('date'),
+            'date' => $request->input('date') ?: null,
+            'start_date' => $request->input('start_date') ?: null,
             'published' => $request->has('published'),
             'decimals' => $request->input('decimals'),
             'truncate' => $request->has('truncate'),

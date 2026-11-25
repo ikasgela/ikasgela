@@ -20,6 +20,7 @@ class MilestoneForm extends Component
 
     public string $name = '';
     public ?string $date = null;
+    public ?string $start_date = null;
     public bool $published = false;
     public ?string $decimals = null;
     public bool $truncate = false;
@@ -38,6 +39,7 @@ class MilestoneForm extends Component
         if ($milestone) {
             $this->name = $milestone->name;
             $this->date = $milestone->date?->format('Y-m-d\TH:i:s');
+            $this->start_date = $milestone->start_date?->format('Y-m-d\TH:i:s');
             $this->published = (bool) $milestone->published;
             $this->decimals = $milestone->decimals;
             $this->truncate = (bool) $milestone->truncate;
@@ -54,7 +56,8 @@ class MilestoneForm extends Component
         $this->validate([
             'curso_id' => 'required',
             'name' => 'required',
-            'date' => 'required',
+            'date' => 'nullable',
+            'start_date' => $this->date !== '' ? 'nullable|before_or_equal:date' : 'nullable',
             'decimals' => 'nullable|integer',
             'etiquetas' => 'nullable|string|max:255',
             'ajuste_proporcional_nota' => 'nullable|in:media,mediana,fijo',
@@ -65,7 +68,8 @@ class MilestoneForm extends Component
         $data = [
             'curso_id' => $this->curso_id,
             'name' => $this->name,
-            'date' => $this->date,
+            'date' => $this->date !== '' ? $this->date : null,
+            'start_date' => $this->start_date !== '' ? $this->start_date : null,
             'published' => $this->published,
             'decimals' => $this->decimals !== '' ? $this->decimals : null,
             'truncate' => $this->truncate,

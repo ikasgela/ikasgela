@@ -355,7 +355,20 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         $completadas = $this->actividades()
             ->wherePivotIn('estado', [40, 60, 64]);
 
-        return $milestone == null ? $completadas : $completadas->whereBetween('actividades.fecha_finalizacion', [$milestone?->curso?->fecha_inicio, $milestone?->date]);
+        if ($milestone == null) {
+            return $completadas;
+        }
+
+        // Ventana de conteo (R-EVAL-6): [start_date ?? curso.fecha_inicio, date ?? ahora]
+        $inicio = $milestone->start_date ?? $milestone->curso?->fecha_inicio;
+        $fin = $milestone->date ?? now();
+
+        if (is_null($inicio)) {
+            // Sin extremo inferior no cuenta ninguna (misma semántica que el BETWEEN con null)
+            return $completadas->whereRaw('1 = 0');
+        }
+
+        return $completadas->whereBetween('actividades.fecha_finalizacion', [$inicio, $fin]);
     }
 
     public function num_actividades_completadas(?Curso $curso = null, ?Milestone $milestone = null)

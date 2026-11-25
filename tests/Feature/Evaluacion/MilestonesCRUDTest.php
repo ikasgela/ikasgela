@@ -12,7 +12,7 @@ class MilestonesCRUDTest extends TestCase
     use DatabaseTransactions;
 
     private $required = [
-        'curso_id', 'name', 'date'
+        'curso_id', 'name'
     ];
 
     #[Override]
@@ -251,6 +251,89 @@ class MilestonesCRUDTest extends TestCase
         foreach ($this->required as $field) {
             $this->storeRequires($field);
         }
+    }
+
+    public function testStoreSinFechaGuardaNulas()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $milestone = Milestone::factory()->make(['date' => null, 'start_date' => null]);
+        setting_usuario(['curso_actual' => $milestone->curso_id]);
+
+        // When
+        $response = $this->post(route('milestones.store'), $milestone->toArray());
+
+        // Then
+        $response->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('milestones', [
+            'curso_id' => $milestone->curso_id,
+            'name' => $milestone->name,
+            'date' => null,
+            'start_date' => null,
+        ]);
+    }
+
+    public function testStoreGuardaVentanaDeFechas()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given (sin fracción: la columna TIMESTAMP tiene precisión de segundo)
+        $inicio = now()->subWeeks(2)->startOfSecond();
+        $fin = now()->subWeek()->startOfSecond();
+        $milestone = Milestone::factory()->make(['date' => $fin, 'start_date' => $inicio]);
+        setting_usuario(['curso_actual' => $milestone->curso_id]);
+
+        // When (formato naive, como el datetime-local del navegador: el ISO-Z
+        // lo interpretaría como UTC y derivaría una hora en el round-trip)
+        $payload = $milestone->toArray();
+        $payload['date'] = $fin->toDateTimeString();
+        $payload['start_date'] = $inicio->toDateTimeString();
+        $response = $this->post(route('milestones.store'), $payload);
+
+        // Then
+        $response->assertSessionHasNoErrors();
+        $guardado = Milestone::where('curso_id', $milestone->curso_id)->where('name', $milestone->name)->first();
+        $this->assertNotNull($guardado);
+        $this->assertTrue($guardado->start_date->eq($inicio), 'Debe guardar start_date');
+        $this->assertTrue($guardado->date->eq($fin), 'Debe guardar date');
+    }
+
+    public function testStoreInicioTrasFinDaError()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given
+        $milestone = Milestone::factory()->make([
+            'date' => now()->subWeek(),
+            'start_date' => now(),
+        ]);
+        setting_usuario(['curso_actual' => $milestone->curso_id]);
+
+        // When
+        $response = $this->post(route('milestones.store'), $milestone->toArray());
+
+        // Then: start_date debe ser anterior o igual a date
+        $response->assertSessionHasErrors('start_date');
+    }
+
+    public function testStoreInicioSinFinNoDaError()
+    {
+        // Auth
+        $this->actingAs($this->admin);
+
+        // Given: sin fecha de corte la validación de orden no aplica
+        $milestone = Milestone::factory()->make(['date' => null, 'start_date' => now()]);
+        setting_usuario(['curso_actual' => $milestone->curso_id]);
+
+        // When
+        $response = $this->post(route('milestones.store'), $milestone->toArray());
+
+        // Then
+        $response->assertSessionHasNoErrors();
     }
 
     public function testShow()

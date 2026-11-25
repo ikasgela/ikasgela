@@ -562,6 +562,84 @@ class CalculoCalificacionesTest extends TestCase
     }
 
     /**
+     * Ventana con start_date y date: solo [start_date, date] (R-EVAL-6).
+     */
+    public function testMilestoneVentanaStartDateYDate(): void
+    {
+        $s1 = $this->crearSkill(0);
+        $qc = $this->crearQualification([$s1->id => 100]);
+        $this->asignarQualificationCursos($qc);
+
+        $milestone = Milestone::factory()->create([
+            'curso_id' => $this->curso->id,
+            'date' => now()->subDays(5),
+            'start_date' => now()->subDays(10),
+            'published' => true,
+        ]);
+
+        // Antes del inicio de la ventana (tras fecha_inicio del curso): no cuenta
+        $this->crearActividad('base', 100, 100, fechaFinalizacion: now()->subDays(15));
+        // Dentro de la ventana: cuenta
+        $this->crearActividad('base', 100, 100, fechaFinalizacion: now()->subDays(7));
+        // Tras el fin de la ventana: no cuenta
+        $this->crearActividad('base', 100, 100, fechaFinalizacion: now()->subDays(2));
+
+        $this->assertSame(1, $this->alumno->actividades_completadas($milestone)->count(),
+            'Solo cuenta las actividades finalizadas dentro de [start_date, date].');
+    }
+
+    /**
+     * Milestone sin date: la ventana es [curso.fecha_inicio, ahora] (R-EVAL-6).
+     */
+    public function testMilestoneSinDateHastaAhora(): void
+    {
+        $s1 = $this->crearSkill(0);
+        $qc = $this->crearQualification([$s1->id => 100]);
+        $this->asignarQualificationCursos($qc);
+
+        $milestone = Milestone::factory()->create([
+            'curso_id' => $this->curso->id,
+            'date' => null,
+            'published' => true,
+        ]);
+
+        // Dentro de [fecha_inicio (hace 30 días), ahora]
+        $this->crearActividad('base', 100, 100, fechaFinalizacion: now()->subDay());
+        // Antes del inicio del curso: no cuenta
+        $this->crearActividad('base', 100, 100, fechaFinalizacion: now()->subDays(60));
+
+        $this->assertSame(1, $this->alumno->actividades_completadas($milestone)->count(),
+            'Sin date, cuenta entre curso.fecha_inicio y ahora.');
+    }
+
+    /**
+     * Milestone con start_date y sin date: la ventana es [start_date, ahora] (R-EVAL-6).
+     */
+    public function testMilestoneStartDateSinDate(): void
+    {
+        $s1 = $this->crearSkill(0);
+        $qc = $this->crearQualification([$s1->id => 100]);
+        $this->asignarQualificationCursos($qc);
+
+        $milestone = Milestone::factory()->create([
+            'curso_id' => $this->curso->id,
+            'date' => null,
+            'start_date' => now()->subDays(10),
+            'published' => true,
+        ]);
+
+        // Antes del inicio de la ventana: no cuenta
+        $this->crearActividad('base', 100, 100, fechaFinalizacion: now()->subDays(15));
+        // Tras el inicio (hasta ahora): cuenta
+        $this->crearActividad('base', 100, 100, fechaFinalizacion: now()->subDays(5));
+        // En el futuro: no cuenta
+        $this->crearActividad('base', 100, 100, fechaFinalizacion: now()->addDay());
+
+        $this->assertSame(1, $this->alumno->actividades_completadas($milestone)->count(),
+            'Con start_date y sin date, cuenta entre start_date y ahora.');
+    }
+
+    /**
      * Milestone con curso_id en colgante (anomalía de datos): no crasa.
      */
     public function testMilestoneDelCursoBorradoNoCrasha(): void
