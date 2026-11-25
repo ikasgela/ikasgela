@@ -179,7 +179,21 @@ class ResultController extends Controller
         }
 
         $actividades_obligatorias_fondo = $calificaciones->examen_final || $calificaciones->hay_nota_manual ? $bg_light : ($calificaciones->actividades_obligatorias_superadas ? $bg_success : $bg_warning);
-        $actividades_obligatorias_dato = $calificaciones->num_actividades_obligatorias > 0 ? $calificaciones->actividades_obligatorias_superadas ? trans_choice('tasks.completed', 2) : ($calificaciones->numero_actividades_completadas + 0) . "/" . ($calificaciones->num_actividades_obligatorias + 0) : __('None');
+        // Divisor del contador de actividades obligatorias (R-EVAL-21): con
+        // milestone, la cantidad de obligatorias calculada para ese milestone según su
+        // ajuste proporcional; sin milestone, el total de todo el curso
+        $divisor_actividades_obligatorias = $calificaciones->num_actividades_obligatorias;
+
+        if (!is_null($milestone)) {
+            $divisor_actividades_obligatorias = match ($ajuste_proporcional_nota) {
+                'fijo' => $milestone->num_actividades_obligatorias,
+                'media' => $media_actividades_grupo,
+                'mediana' => $mediana_actividades_grupo,
+                default => $calificaciones->num_actividades_obligatorias,
+            };
+        }
+
+        $actividades_obligatorias_dato = $divisor_actividades_obligatorias > 0 ? $calificaciones->actividades_obligatorias_superadas ? trans_choice('tasks.completed', 2) : ($calificaciones->numero_actividades_completadas + 0) . "/" . $divisor_actividades_obligatorias : __('None');
 
         $competencias_fondo = $calificaciones->examen_final || $calificaciones->hay_nota_manual ? $bg_light : ($calificaciones->competencias_50_porciento ? $bg_success : $bg_warning);
         $competencias_dato = $calificaciones->competencias_50_porciento ? trans_choice('tasks.passed', 2) : trans_choice('tasks.not_passed', 2);

@@ -2,8 +2,10 @@
 
 namespace Tests\Feature\Alumno;
 
+use App\Models\Actividad;
 use App\Models\Curso;
 use App\Models\Milestone;
+use App\Models\Tarea;
 use App\Models\Unidad;
 use App\Models\User;
 use Carbon\Carbon;
@@ -392,6 +394,103 @@ class ResultControllerTest extends TestCase
         $response = $this->get(route('results.pdf'));
 
         $response->assertNotFound();
+    }
+
+    /**
+     * Curso con 10 obligatorias (5 plantillas 'base' por unidad, 2 unidades) y el
+     * alumno con 3 de ellas finalizadas dentro de la ventana del milestone
+     * (2 en la primera unidad y 1 en la segunda; no superado: 3 < 10).
+     *
+     * @return array{0: Curso, 1: Unidad}
+     */
+    private function cursoConObligatorias(): array
+    {
+        $this->actingAs($this->alumno);
+
+        $curso = Curso::factory()->create([
+            'minimo_entregadas' => 100,
+            'fecha_inicio' => now()->subDays(30),
+        ]);
+        setting_usuario(['curso_actual' => $curso->id]);
+        $curso->users()->attach($this->alumno->id);
+
+        $unidades = collect([
+            Unidad::factory()->create(['curso_id' => $curso->id]),
+            Unidad::factory()->create(['curso_id' => $curso->id]),
+        ]);
+
+        for ($i = 0; $i < 10; $i++) {
+            $actividad = Actividad::factory()->create([
+                'unidad_id' => $unidades[$i < 5 ? 0 : 1]->id,
+                'tags' => 'base',
+                'plantilla' => true,
+                'puntuacion' => 100,
+            ]);
+
+            if ($i < 3) {
+                $actividad->update(['fecha_finalizacion' => now()]);
+                Tarea::factory()->create([
+                    'user_id' => $this->alumno->id,
+                    'actividad_id' => $actividad->id,
+                    'estado' => 40,
+                    'puntuacion' => 100,
+                ]);
+            }
+        }
+
+        return [$curso, $unidades[0]];
+    }
+
+    // R-EVAL-21 — con milestone de ajuste 'fijo', el divisor es el del milestone
+
+    public function testIndexConMilestoneFijoDivisorDelMilestone()
+    {
+        [$curso] = $this->cursoConObligatorias();
+
+        $milestone = Milestone::factory()->create([
+            'curso_id' => $curso->id,
+            'date' => now()->addDays(30),
+            'ajuste_proporcional_nota' => 'fijo',
+            'num_actividades_obligatorias' => 5,
+        ]);
+
+        $response = $this->get(route('results.index', ['milestone_id' => $milestone->id]));
+
+        $response->assertSuccessful()
+            ->assertSee('3/5')
+            ->assertDontSee('3/10');
+    }
+
+    // R-EVAL-21 — con milestone de ajuste 'media', el divisor es la media del grupo
+
+    public function testIndexConMilestoneMediaDivisorMediaGrupo()
+    {
+        [$curso] = $this->cursoConObligatorias();
+
+        $milestone = Milestone::factory()->create([
+            'curso_id' => $curso->id,
+            'date' => now()->addDays(30),
+            'ajuste_proporcional_nota' => 'media',
+        ]);
+
+        $response = $this->get(route('results.index', ['milestone_id' => $milestone->id]));
+
+        // El alumno es el único del grupo: media = 3 → divisor 3.00 (no 10 del curso)
+        $response->assertSuccessful()
+            ->assertSee('3/3.00')
+            ->assertDontSee('3/10');
+    }
+
+    // R-EVAL-21 — sin milestone, el divisor sigue siendo el de todo el curso
+
+    public function testIndexSinMilestoneDivisorCursoCompleto()
+    {
+        $this->cursoConObligatorias();
+
+        $response = $this->get(route('results.index'));
+
+        $response->assertSuccessful()
+            ->assertSee('3/10');
     }
 
     public function testIndexAsProfesorOcultarGlobales()
