@@ -5,13 +5,16 @@ namespace Tests\Feature\Alumno;
 use App\Models\Actividad;
 use App\Models\Curso;
 use App\Models\Milestone;
+use App\Models\Qualification;
 use App\Models\Role;
+use App\Models\Skill;
 use App\Models\Tarea;
 use App\Models\Unidad;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Override;
 use Tests\TestCase;
 
@@ -661,6 +664,68 @@ class ResultControllerTest extends TestCase
             ->assertSee($this->tarjetaCon('text-bg-success', 'Skills', 'Passed'), false)
             ->assertSee($this->tarjetaCon('text-bg-warning', 'Continuous evaluation', 'Not passed', 12), false)
             ->assertDontSee('Not applicable');
+    }
+
+    /**
+     * Curso (sin completadas previas) con milestone de cualificación propia (1 skill
+     * al 100%) y una actividad 'base' finalizada con `obtenida`/100 (la skill queda
+     * al % `obtenida`).
+     */
+    private function cursoConMilestoneCualificacionPropia(int $obtenida): Milestone
+    {
+        [$curso, $unidades] = $this->cursoConObligatorias(5, 0);
+
+        $qual = Qualification::factory()->create(['curso_id' => $curso->id]);
+        $skill = Skill::factory()->create(['curso_id' => $curso->id, 'peso_examen' => 0]);
+        $qual->skills()->attach($skill->id, ['percentage' => 100, 'orden' => Str::uuid()]);
+        $curso->update(['qualification_id' => $qual->id]);
+
+        $actividad = Actividad::factory()->create([
+            'unidad_id' => $unidades[0]->id,
+            'tags' => 'base',
+            'puntuacion' => 100,
+            'fecha_finalizacion' => now(),
+        ]);
+        Tarea::factory()->create([
+            'user_id' => $this->alumno->id,
+            'actividad_id' => $actividad->id,
+            'estado' => 40,
+            'puntuacion' => $obtenida,
+        ]);
+
+        return Milestone::factory()->create([
+            'curso_id' => $curso->id,
+            'date' => now()->addDays(30),
+            'qualification_id' => $qual->id,
+        ]);
+    }
+
+    // R-EVAL-22 — con cualificación propia del milestone el criterio de Skills sí
+    // aplica: 60% ≥ 50 → verde y «Passed»
+
+    public function testIndexConMilestoneCualificacionPropiaCompetenciasSuperadas()
+    {
+        $milestone = $this->cursoConMilestoneCualificacionPropia(60);
+
+        $response = $this->get(route('results.index', ['milestone_id' => $milestone->id]));
+
+        $response->assertSuccessful()
+            ->assertSee($this->tarjetaCon('text-bg-success', 'Skills', 'Passed'), false)
+            ->assertSee($this->tarjetaCon('text-bg-light', 'Continuous evaluation', 'Not applicable', 12), false);
+    }
+
+    // R-EVAL-22 — con cualificación propia del milestone: 40% < 50 → ámbar y
+    // «Not passed» (el bloque no es «No aplicable»)
+
+    public function testIndexConMilestoneCualificacionPropiaCompetenciasNoSuperadas()
+    {
+        $milestone = $this->cursoConMilestoneCualificacionPropia(40);
+
+        $response = $this->get(route('results.index', ['milestone_id' => $milestone->id]));
+
+        $response->assertSuccessful()
+            ->assertSee($this->tarjetaCon('text-bg-warning', 'Skills', 'Not passed'), false)
+            ->assertSee($this->tarjetaCon('text-bg-light', 'Continuous evaluation', 'Not applicable', 12), false);
     }
 
     public function testIndexAsProfesorOcultarGlobales()

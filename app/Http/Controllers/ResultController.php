@@ -179,8 +179,11 @@ class ResultController extends Controller
         }
 
         // Con milestone (evaluación parcial) los bloques de curso completo no
-        // aplican (R-EVAL-22): se grisan y muestran «No aplicable»
+        // aplican (R-EVAL-22): se grisan y muestran «No aplicable». El bloque de
+        // Skills sí aplica si el milestone tiene cualificación propia (R-EVAL-20):
+        // el criterio se evalúa solo sobre sus competencias
         $es_evaluacion_parcial = !is_null($milestone);
+        $skills_no_aplicables = $es_evaluacion_parcial && is_null($milestone?->qualification);
 
         // Cantidad de obligatorias (divisor) según el milestone (R-EVAL-21): con
         // milestone, la calculada para ese milestone según su ajuste proporcional
@@ -220,8 +223,8 @@ class ResultController extends Controller
                 : ($calificaciones->numero_actividades_completadas + 0) . "/" . $divisor_dato)
             : __('None');
 
-        $competencias_fondo = $es_evaluacion_parcial || $calificaciones->examen_final || $calificaciones->hay_nota_manual ? $bg_light : ($calificaciones->competencias_50_porciento ? $bg_success : $bg_warning);
-        $competencias_dato = $es_evaluacion_parcial ? __('No aplicable') : ($calificaciones->competencias_50_porciento ? trans_choice('tasks.passed', 2) : trans_choice('tasks.not_passed', 2));
+        $competencias_fondo = $skills_no_aplicables || $calificaciones->examen_final || $calificaciones->hay_nota_manual ? $bg_light : ($calificaciones->competencias_50_porciento ? $bg_success : $bg_warning);
+        $competencias_dato = $skills_no_aplicables ? __('No aplicable') : ($calificaciones->competencias_50_porciento ? trans_choice('tasks.passed', 2) : trans_choice('tasks.not_passed', 2));
 
         $pruebas_evaluacion_fondo = ($curso?->examenes_obligatorios || $calificaciones->examen_final) && !$calificaciones->hay_nota_manual
             ? ($calificaciones->examen_final ? ($calificaciones->examen_final_superado ? $bg_success : $bg_warning)
