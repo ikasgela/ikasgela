@@ -289,7 +289,7 @@ class PlantillaGrafoController extends Controller
                     if ($regla->resultado && in_array((int)$regla->resultado, $ids)) {
                         $enlaces_selectores[] = [
                             'id' => 's' . $selector->id . '-' . $regla->id . '-' . $regla->resultado,
-                            'source' => 'selector-' . $actividad->id . '-' . $selector->id,
+                            'source' => (string)$actividad->id,
                             'target' => (string)$regla->resultado,
                             'selector_id' => $selector->id,
                             'regla_id' => $regla->id,
@@ -361,7 +361,8 @@ class PlantillaGrafoController extends Controller
                 'sin_conexion' => __('Not connected'),
                 'con_conexion' => __('Connected'),
                 'selector' => __('Selector'),
-                'condicional' => __('Drag from the circle to the activity to show when the condition is met'),
+                'reglas' => __('Rules'),
+                'condicional' => __('Drag from the conditional handle to the activity to show when the condition is met'),
                 'borrar_condicion' => __('Deleting a conditional link removes its rule group and its rules'),
                 'ayuda' => __('Help'),
                 'ocultar_ayuda' => __('Hide help'),

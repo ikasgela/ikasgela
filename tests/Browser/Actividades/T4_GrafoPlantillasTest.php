@@ -91,7 +91,7 @@ class T4_GrafoPlantillasTest extends DuskTestCase
 
             $this->arrastrar(
                 $browser,
-                '.vue-flow__node[data-id="' . $this->plantilla1->id . '"] .vue-flow__handle-right',
+                '.vue-flow__node[data-id="' . $this->plantilla1->id . '"] .nodo-plantilla__handle--siguiente',
                 '.vue-flow__node[data-id="' . $this->plantilla2->id . '"] .vue-flow__handle-left'
             );
 
@@ -118,7 +118,7 @@ class T4_GrafoPlantillasTest extends DuskTestCase
             // Se encadena la primera plantilla con la segunda
             $this->arrastrar(
                 $browser,
-                '.vue-flow__node[data-id="' . $this->plantilla1->id . '"] .vue-flow__handle-right',
+                '.vue-flow__node[data-id="' . $this->plantilla1->id . '"] .nodo-plantilla__handle--siguiente',
                 '.vue-flow__node[data-id="' . $this->plantilla2->id . '"] .vue-flow__handle-left'
             );
 
@@ -186,9 +186,9 @@ class T4_GrafoPlantillasTest extends DuskTestCase
 
             $this->abrirGrafo($browser);
 
-            // El círculo del selector aparece en el grafo
+            // La pastilla del selector aparece en el grafo
             $browser->waitForText('Selector de prueba', 20);
-            $browser->assertVisible('.vue-flow__node-selector');
+            $browser->assertVisible('.nodo-plantilla__selector');
             $browser->assertSee('Selector de prueba');
 
             // El enlace normal de la actividad sigue visible
@@ -197,10 +197,10 @@ class T4_GrafoPlantillasTest extends DuskTestCase
                 '.vue-flow__edge[data-id="e' . $this->plantilla1->id . '-' . $this->plantilla2->id . '"]'
             );
 
-            // Se arrastra el círculo del selector hasta la tercera plantilla
+            // Se arrastra el tirador de condición hasta la tercera plantilla
             $this->arrastrar(
                 $browser,
-                '.vue-flow__node-selector .vue-flow__handle-right',
+                '.vue-flow__node[data-id="' . $this->plantilla1->id . '"] .nodo-plantilla__handle--condicion',
                 '.vue-flow__node[data-id="' . $this->plantilla3->id . '"] .vue-flow__handle-left'
             );
 
@@ -355,7 +355,7 @@ class T4_GrafoPlantillasTest extends DuskTestCase
         });
     }
 
-    public function testElCirculoDelSelectorAbreLaEdicion()
+    public function testLaPastillaDelSelectorAbreLaEdicion()
     {
         $this->browse(function (Browser $browser) {
             $this->prepararPlantillas(2);
@@ -372,8 +372,8 @@ class T4_GrafoPlantillasTest extends DuskTestCase
 
             $original = $browser->driver->getWindowHandle();
 
-            // Se pulsa el círculo con un evento de puntero real
-            $this->clic($browser, '.vue-flow__node-selector .nodo-selector__enlace');
+            // Se pulsa la pastilla con un evento de puntero real
+            $this->clic($browser, '.nodo-plantilla__selector');
 
             $this->esperar(fn () => count(array_diff($browser->driver->getWindowHandles(), [$original])) > 0);
 
@@ -381,7 +381,7 @@ class T4_GrafoPlantillasTest extends DuskTestCase
 
             $this->assertNotEmpty(
                 $nuevas,
-                'El círculo del selector no ha abierto la edición del recurso'
+                'La pastilla del selector no ha abierto la edición del recurso'
             );
 
             $browser->driver->switchTo()->window($nuevas[0]);

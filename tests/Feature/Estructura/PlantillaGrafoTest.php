@@ -300,10 +300,10 @@ class PlantillaGrafoTest extends TestCase
         $this->assertCount(1, $datos['enlaces']);
         $this->assertEquals((string) $destino->id, $datos['enlaces'][0]['target']);
 
-        // Y se añade la conexión condicional, que sale del círculo del selector
+        // Y se añade la conexión condicional, que sale de la tarjeta
         $this->assertCount(1, $datos['enlaces_selectores']);
         $this->assertEquals(
-            'selector-' . $origen->id . '-' . $selector->id,
+            (string) $origen->id,
             $datos['enlaces_selectores'][0]['source']
         );
         $this->assertEquals((string) $resultado->id, $datos['enlaces_selectores'][0]['target']);
