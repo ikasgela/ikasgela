@@ -41,7 +41,7 @@ const defaultEdgeOptions = {
 // Conexiones condicionadas de los selectores
 const opcionesCondicion = {
     type: 'smoothstep',
-    markerEnd: MarkerType.ArrowClosed,
+    markerEnd: { type: MarkerType.ArrowClosed, color: '#6f42c1' },
     style: { strokeWidth: 2, strokeDasharray: '6 4', stroke: '#6f42c1' },
 }
 
