@@ -94,8 +94,8 @@ class T3_FiltradoActividadesTest extends DuskTestCase
             $browser->refresh();
 
             $browser->click('#enviadas-tab');
-            $browser->pause(1000);
 
+            $browser->waitForText($nombre);
             $browser->assertSee($nombre);
 
             $actividad->delete();

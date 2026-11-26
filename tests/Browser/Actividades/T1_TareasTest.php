@@ -60,7 +60,9 @@ class T1_TareasTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($alumno, $actividadAgenda) {
             $browser->visit(route('profesor.index'));
-            $browser->pause(500)->check("usuarios_seleccionados[{$alumno->id}]");
+            $browser->waitFor("input[name='usuarios_seleccionados[{$alumno->id}]']");
+            $browser->check("usuarios_seleccionados[{$alumno->id}]");
+            $browser->waitFor("input[name='seleccionadas[{$actividadAgenda->id}]']");
             $browser->check("seleccionadas[{$actividadAgenda->id}]");
 
             $browser->press(__('Save assigment'));
@@ -88,6 +90,8 @@ class T1_TareasTest extends DuskTestCase
 
             $browser->press('@clone-button');
 
+            // El fork es asíncrono (websocket no conecta en headless): la página se
+            // recarga y el estado fresco muestra el resultado del fork.
             $browser->pause(1000);
 
             $browser->visit(route('users.home'));

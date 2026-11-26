@@ -50,10 +50,9 @@ class T1_SelectoresTest extends DuskTestCase
             $this->assertEnlaceVolver($browser, '/selectors/' . $this->selector->id);
 
             $browser->click('#boton_volver');
-            $browser->pause(1500);
+            $browser->waitForRoute('selectors.show', [$this->selector->id]);
 
-            $browser->assertRouteIs('selectors.show', [$this->selector->id]);
-            $browser->assertSee('Selector de prueba');
+            $browser->waitForText('Selector de prueba');
         });
     }
 
@@ -76,9 +75,9 @@ class T1_SelectoresTest extends DuskTestCase
             $this->assertEnlaceVolver($browser, '/selectors/' . $this->selector->id . '/edit');
 
             $browser->click('#boton_volver');
-            $browser->pause(1500);
+            $browser->waitForRoute('selectors.edit', [$this->selector->id]);
 
-            $browser->assertRouteIs('selectors.edit', [$this->selector->id]);
+            $browser->waitForInput('titulo');
             $browser->assertInputValue('titulo', 'Selector de prueba');
         });
     }
@@ -96,9 +95,7 @@ class T1_SelectoresTest extends DuskTestCase
 
             // Al no saber de dónde se viene, se vuelve a la ficha del selector
             $browser->click('#boton_volver');
-            $browser->pause(1500);
-
-            $browser->assertRouteIs('selectors.show', [$this->selector->id]);
+            $browser->waitForRoute('selectors.show', [$this->selector->id]);
         });
     }
 
@@ -122,9 +119,9 @@ class T1_SelectoresTest extends DuskTestCase
     private function editarGrupoReglas(Browser $browser): void
     {
         $browser->click('a[href^="' . route('rule_groups.edit', $this->regla->id) . '"]');
-        $browser->pause(1500);
+        $browser->waitForRoute('rule_groups.edit', [$this->regla->id]);
 
-        $browser->assertSee(__('Edit rule group'));
+        $browser->waitForText(__('Edit rule group'));
     }
 
     /**

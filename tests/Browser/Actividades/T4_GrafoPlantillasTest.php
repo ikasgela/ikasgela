@@ -71,7 +71,7 @@ class T4_GrafoPlantillasTest extends DuskTestCase
                 90
             );
 
-            $browser->pause(1500);
+            $this->esperar(fn () => ActividadGrafo::where('actividad_id', $this->plantilla1->id)->exists());
 
             $this->assertNotNull(
                 ActividadGrafo::where('actividad_id', $this->plantilla1->id)->first(),
@@ -96,7 +96,7 @@ class T4_GrafoPlantillasTest extends DuskTestCase
             );
 
             $browser->waitFor('.vue-flow__edge', 10);
-            $browser->pause(1500);
+            $this->esperar(fn () => $this->plantilla1->fresh()->siguiente_id === $this->plantilla2->id);
 
             $this->assertEquals(
                 $this->plantilla2->id,
@@ -123,7 +123,6 @@ class T4_GrafoPlantillasTest extends DuskTestCase
             );
 
             $browser->waitFor('.vue-flow__edgeupdater-target', 10);
-            $browser->pause(1000);
 
             // Se arrastra el final del enlace hasta la tercera plantilla
             $this->arrastrar(
@@ -132,7 +131,7 @@ class T4_GrafoPlantillasTest extends DuskTestCase
                 '.vue-flow__node[data-id="' . $this->plantilla3->id . '"] .vue-flow__handle-left'
             );
 
-            $browser->pause(1500);
+            $this->esperar(fn () => $this->plantilla1->fresh()->siguiente_id === $this->plantilla3->id);
 
             $this->assertEquals(
                 $this->plantilla3->id,
@@ -162,7 +161,7 @@ class T4_GrafoPlantillasTest extends DuskTestCase
             ");
             $browser->pause(500);
             $browser->driver->getKeyboard()->pressKey(WebDriverKeys::DELETE);
-            $browser->pause(1500);
+            $this->esperar(fn () => $this->plantilla1->fresh()->siguiente_id === null);
 
             $this->assertNull(
                 $this->plantilla1->fresh()->siguiente_id,
@@ -205,7 +204,8 @@ class T4_GrafoPlantillasTest extends DuskTestCase
                 '.vue-flow__node[data-id="' . $this->plantilla3->id . '"] .vue-flow__handle-left'
             );
 
-            $browser->pause(2000);
+            $this->esperar(fn () => RuleGroup::where('selector_id', $this->selector->id)
+                ->where('resultado', $this->plantilla3->id)->exists());
 
             $regla = RuleGroup::where('selector_id', $this->selector->id)->first();
 
@@ -293,7 +293,7 @@ class T4_GrafoPlantillasTest extends DuskTestCase
                 '.vue-flow__node[data-id="' . $this->plantilla3->id . '"] .vue-flow__handle-left'
             );
 
-            $browser->pause(2000);
+            $this->esperar(fn () => RuleGroup::find($this->regla->id)?->resultado === $this->plantilla3->id);
 
             $this->assertEquals(
                 $this->plantilla3->id,
@@ -340,7 +340,7 @@ class T4_GrafoPlantillasTest extends DuskTestCase
             ");
             $browser->pause(500);
             $browser->driver->getKeyboard()->pressKey(WebDriverKeys::DELETE);
-            $browser->pause(2000);
+            $this->esperar(fn () => !RuleGroup::where('selector_id', $this->selector->id)->exists());
 
             $this->assertNull(
                 RuleGroup::where('selector_id', $this->selector->id)->first(),
@@ -375,7 +375,7 @@ class T4_GrafoPlantillasTest extends DuskTestCase
             // Se pulsa el círculo con un evento de puntero real
             $this->clic($browser, '.vue-flow__node-selector .nodo-selector__enlace');
 
-            $browser->pause(2000);
+            $this->esperar(fn () => count(array_diff($browser->driver->getWindowHandles(), [$original])) > 0);
 
             $nuevas = array_values(array_diff($browser->driver->getWindowHandles(), [$original]));
 
@@ -392,9 +392,8 @@ class T4_GrafoPlantillasTest extends DuskTestCase
 
             // El botón «Volver» regresa al grafo
             $browser->click('#boton_volver');
-            $browser->pause(2000);
+            $browser->waitForRoute('actividades.plantillas.grafo');
 
-            $browser->assertRouteIs('actividades.plantillas.grafo');
             $browser->waitForText('Selector de prueba', 20);
         });
     }
@@ -413,16 +412,13 @@ class T4_GrafoPlantillasTest extends DuskTestCase
             $browser->assertRouteIs('selectors.index');
 
             $browser->click('a[href="' . route('selectors.edit', $this->selector->id) . '"]');
-            $browser->pause(2000);
-
-            $browser->assertRouteIs('selectors.edit', [$this->selector->id]);
+            $browser->waitForRoute('selectors.edit', [$this->selector->id]);
 
             // El botón «Volver» regresa a la lista de selectores
             $browser->click('#boton_volver');
-            $browser->pause(2000);
+            $browser->waitForRoute('selectors.index');
 
-            $browser->assertRouteIs('selectors.index');
-            $browser->assertSee('Selector de prueba');
+            $browser->waitForText('Selector de prueba');
         });
     }
 
@@ -442,7 +438,7 @@ class T4_GrafoPlantillasTest extends DuskTestCase
             $inicial = $this->visible($browser, $selector);
 
             $browser->click('#grafo-ayuda');
-            $browser->pause(500);
+            $this->esperar(fn () => $this->visible($browser, $selector) !== $inicial, 5);
 
             $this->assertNotEquals(
                 $inicial,
@@ -451,7 +447,7 @@ class T4_GrafoPlantillasTest extends DuskTestCase
             );
 
             $browser->click('#grafo-ayuda');
-            $browser->pause(500);
+            $this->esperar(fn () => $this->visible($browser, $selector) === $inicial, 5);
 
             $this->assertEquals(
                 $inicial,
@@ -521,14 +517,12 @@ class T4_GrafoPlantillasTest extends DuskTestCase
             // Se quita cualquier filtro previo de la sesión
             $browser->select('select[name="unidad_id_disponibles"]', '');
             $browser->press(__('Filter'));
-            $browser->pause(2000);
 
             $browser->waitForText('Grafo plantilla fuera de filtro', 20);
 
             // Al filtrar por la unidad solo quedan sus plantillas
             $browser->select('select[name="unidad_id_disponibles"]', (string) $this->unidad->id);
             $browser->press(__('Filter'));
-            $browser->pause(2000);
 
             $this->esperarGrafo($browser);
             $browser->assertSee('Grafo plantilla uno');
@@ -560,7 +554,8 @@ class T4_GrafoPlantillasTest extends DuskTestCase
                 120
             );
 
-            $browser->pause(1500);
+            $this->esperar(fn () => ($g = ActividadGrafo::where('actividad_id', $this->plantilla1->id)->first())
+                && ($g->posicion_x != $original->posicion_x || $g->posicion_y != $original->posicion_y));
 
             $movida = ActividadGrafo::where('actividad_id', $this->plantilla1->id)->first();
 
@@ -571,7 +566,8 @@ class T4_GrafoPlantillasTest extends DuskTestCase
             );
 
             $browser->click('#grafo-organizar');
-            $browser->pause(2000);
+            $this->esperar(fn () => ($g = ActividadGrafo::where('actividad_id', $this->plantilla1->id)->first())
+                && $g->posicion_x == $original->posicion_x && $g->posicion_y == $original->posicion_y, 15);
 
             $organizada = ActividadGrafo::where('actividad_id', $this->plantilla1->id)->first();
 
@@ -607,6 +603,28 @@ class T4_GrafoPlantillasTest extends DuskTestCase
         $this->loginAs($browser, 'admin@ikasgela.com', '12345Abcde', 'admin.index');
     }
 
+
+    /**
+     * Espera activa (PHP) hasta que la condición sea cierta. No falla:
+     * deja que el assert siguiente decida.
+     */
+    private function esperar(callable $condicion, int $segundos = 10): void
+    {
+        $limite = microtime(true) + $segundos;
+
+        while (microtime(true) < $limite) {
+            try {
+                if ($condicion()) {
+                    return;
+                }
+            } catch (\Throwable $e) {
+                // La condición aún no está disponible: seguir esperando.
+            }
+
+            usleep(100_000);
+        }
+    }
+
     /**
      * Espera a que el grafo se haya dibujado en el lienzo.
      *
@@ -617,7 +635,6 @@ class T4_GrafoPlantillasTest extends DuskTestCase
     {
         $browser->waitForText('Grafo plantilla uno', $segundos);
         $browser->waitFor('.vue-flow__node-plantilla', $segundos);
-        $browser->pause(1000);
     }
 
     /**
@@ -631,7 +648,6 @@ class T4_GrafoPlantillasTest extends DuskTestCase
         $browser->press(__('Filter'));
 
         $this->esperarGrafo($browser);
-        $browser->pause(1000);
 
         $this->assertNoAppErrors($browser);
     }

@@ -68,11 +68,11 @@ class T3_OrdenDuplicadosTest extends DuskTestCase
 
             // «Move up» del último grupo (el tercero, C): la segunda del empate.
             $browser->elements('button[title="' . __('Move up') . '"]')[2]->click();
-            $browser->pause(1200);
 
-            // C intercambia con B (su vecino en `(orden, id)`, el mismo valor) →
-            // no-op visible: la serie NO cambia. El código anterior la
-            // intercambiaba con A y aparecía en la primera posición.
+            // No-op visible: la serie NO cambia (espera breve: el servidor
+            // procesa el click aunque la afirmación sea idéntica).
+            $this->esperarOrden($browser, ['Empate Grupo A', 'Empate Grupo B', 'Empate Grupo C']);
+
             $this->assertOrdenGrupos($browser, ['Empate Grupo A', 'Empate Grupo B', 'Empate Grupo C']);
 
             // Los `orden` de la BD no han cambiado (swap de valores iguales).
@@ -114,11 +114,11 @@ class T3_OrdenDuplicadosTest extends DuskTestCase
 
             // «Move left» del tercer criterio (el segundo del empate).
             $browser->elements('button[title="' . __('Move left') . '"]')[2]->click();
-            $browser->pause(1200);
 
-            // C intercambia con B (el mismo valor) → no-op visible: la serie NO
-            // cambia. El código anterior la intercambiaba con A y aparecía en la
-            // primera posición (salto de dos).
+            // Espera breve: no-op visible (la serie no cambia aunque el servidor
+            // procese el click).
+            $this->esperarOrden($browser, ['Empate Crit A', 'Empate Crit B', 'Empate Crit C']);
+
             $this->assertOrdenCriterios($browser, ['Empate Crit A', 'Empate Crit B', 'Empate Crit C']);
 
             // Los `orden` no han cambiado (swap de valores iguales).
@@ -129,7 +129,8 @@ class T3_OrdenDuplicadosTest extends DuskTestCase
             // Y el «Move left» del PRIMER criterio del empate tampoco debe hacer
             // saltos: B (primero del empate) «izquierda» con A (único anterior).
             $browser->elements('button[title="' . __('Move left') . '"]')[1]->click();
-            $browser->pause(1200);
+
+            $this->esperarOrden($browser, ['Empate Crit B', 'Empate Crit A', 'Empate Crit C']);
 
             $this->assertOrdenCriterios($browser, ['Empate Crit B', 'Empate Crit A', 'Empate Crit C']);
 
@@ -165,6 +166,20 @@ class T3_OrdenDuplicadosTest extends DuskTestCase
         $browser->visit(route('rubrics.show', $rubric))
             ->click('a[title="' . __('Edit') . '"]')
             ->waitFor('button[title="' . __('Add criteria group') . '"]');
+    }
+
+    /**
+     * Espera (browser) a que los títulos aparezcan en el orden dado.
+     */
+    private function esperarOrden(Browser $browser, array $titulos): void
+    {
+        $posiciones = [];
+        foreach ($titulos as $titulo) {
+            $posiciones[] = "document.body.innerText.indexOf(" . json_encode($titulo) . ")";
+        }
+        $js = "return " . implode(' !== -1 && ', $posiciones) . ' && ' . implode(' < ', $posiciones) . ";";
+
+        $browser->waitUntil($js, 10);
     }
 
     /**

@@ -85,7 +85,7 @@ class T2_CriteriaMoveButtonsTest extends DuskTestCase
             $browser->waitUntil(
                 "document.body.innerText.indexOf('Botones Criterio A') !== -1 && document.body.innerText.indexOf('Botones Criterio C') !== -1 && document.body.innerText.indexOf('Botones Criterio B') !== -1 && document.body.innerText.indexOf('Botones Criterio A') < document.body.innerText.indexOf('Botones Criterio C') && document.body.innerText.indexOf('Botones Criterio C') < document.body.innerText.indexOf('Botones Criterio B')"
             );
-            $browser->pause(800);
+            $this->esperarBotonesFila($browser, 'Botones Criterio C', [false, false]);
 
             // C ya está en el medio → ambos botones activos.
             $this->assertRowButtons($browser, 'Botones Criterio C', [false, false]);
@@ -138,7 +138,7 @@ class T2_CriteriaMoveButtonsTest extends DuskTestCase
             $browser->waitUntil(
                 "document.body.innerText.indexOf('Botones2 Criterio B') !== -1 && document.body.innerText.indexOf('Botones2 Criterio A') !== -1 && document.body.innerText.indexOf('Botones2 Criterio B') < document.body.innerText.indexOf('Botones2 Criterio A')"
             );
-            $browser->pause(800);
+            $this->esperarBotonesFila($browser, 'Botones2 Criterio B', [true, false]);
 
             // B ahora es el primero → izq. inactivo, der. activo.
             $this->assertRowButtons($browser, 'Botones2 Criterio B', [true, false]);
@@ -171,7 +171,7 @@ class T2_CriteriaMoveButtonsTest extends DuskTestCase
             $browser->waitUntil(
                 "document.body.innerText.indexOf('Grupos Boton A') !== -1 && document.body.innerText.indexOf('Grupos Boton C') !== -1 && document.body.innerText.indexOf('Grupos Boton B') !== -1 && document.body.innerText.indexOf('Grupos Boton A') < document.body.innerText.indexOf('Grupos Boton C') && document.body.innerText.indexOf('Grupos Boton C') < document.body.innerText.indexOf('Grupos Boton B')"
             );
-            $browser->pause(800);
+            $this->esperarBotonesGrupo($browser, 'Grupos Boton C', [false, false]);
 
             // C ya está en el medio → ambos botones activos.
             $this->assertGroupButtons($browser, 'Grupos Boton C', [false, false]);
@@ -229,7 +229,7 @@ class T2_CriteriaMoveButtonsTest extends DuskTestCase
             $browser->waitUntil(
                 "document.body.innerText.indexOf(" . json_encode($textoNuevo) . ") !== -1"
             );
-            $browser->pause(800);
+            $this->esperarBotonesFila($browser, 'BotonesA Criterio C', [false, false]);
 
             // C ya no es el último → der. se activa.
             $this->assertRowButtons($browser, 'BotonesA Criterio C', [false, false]);
@@ -284,7 +284,7 @@ class T2_CriteriaMoveButtonsTest extends DuskTestCase
             // Borrar C (papelera de la tercera fila).
             $this->clickRowDelete($browser, 'BotonesB Criterio C');
             $browser->waitUntil("document.body.innerText.indexOf('BotonesB Criterio C') === -1");
-            $browser->pause(800);
+            $this->esperarBotonesFila($browser, 'BotonesB Criterio B', [false, true]);
 
             // B ahora es el último → der. se desactiva.
             $this->assertRowButtons($browser, 'BotonesB Criterio B', [false, true]);
@@ -336,7 +336,7 @@ class T2_CriteriaMoveButtonsTest extends DuskTestCase
             // Borrar A (papelera de la primera fila).
             $this->clickRowDelete($browser, 'BotonesC Criterio A');
             $browser->waitUntil("document.body.innerText.indexOf('BotonesC Criterio A') === -1");
-            $browser->pause(800);
+            $this->esperarBotonesFila($browser, 'BotonesC Criterio B', [true, false]);
 
             // B ahora es el primero → izq. se desactiva.
             $this->assertRowButtons($browser, 'BotonesC Criterio B', [true, false]);
@@ -369,7 +369,7 @@ class T2_CriteriaMoveButtonsTest extends DuskTestCase
             $browser->waitUntil(
                 "document.querySelectorAll('button[title=" . json_encode(__('Move up')) . "]').length === 4"
             );
-            $browser->pause(800);
+            $this->esperarBotonesGrupo($browser, 'GruposGAdd C', [false, false]);
 
             // C ya no es el último → abajo se activa.
             $this->assertGroupButtons($browser, 'GruposGAdd C', [false, false]);
@@ -396,7 +396,7 @@ class T2_CriteriaMoveButtonsTest extends DuskTestCase
             // Borrar A (papelera del primer grupo; sin criterios no hay otras papeleras).
             $browser->elements('button[title="' . __('Delete') . '"][wire\\:click*="delete_criteria_group("]')[0]->click();
             $browser->waitUntil("document.body.innerText.indexOf('GruposGDel A') === -1");
-            $browser->pause(800);
+            $this->esperarBotonesGrupo($browser, 'GruposGDel B', [true, false]);
 
             // B ahora es el primero → arriba se desactiva.
             $this->assertGroupButtons($browser, 'GruposGDel B', [true, false]);
@@ -425,6 +425,90 @@ class T2_CriteriaMoveButtonsTest extends DuskTestCase
     // -------------------------------------------------------------------------
     // Helpers
     // -------------------------------------------------------------------------
+
+    /**
+     * Espera activa (PHP) a que el script JS devuelva cierto, con 100 ms de intervalo.
+     * No falla por sí mismo: deja que el assert siguiente decida.
+     */
+    private function esperarJavascript(Browser $browser, string $script, int $segundos = 10): void
+    {
+        $limite = microtime(true) + $segundos;
+
+        while (microtime(true) < $limite) {
+            try {
+                if ($browser->driver->executeScript($script)) {
+                    return;
+                }
+            } catch (\Throwable $e) {
+                // La condición aún no está disponible: seguir esperando.
+            }
+
+            usleep(100_000);
+        }
+    }
+
+    /**
+     * Espera (browser) a que la fila $texto tenga los botones en el estado esperado.
+     *
+     * @param array{0: bool, 1: bool} $esperado [izquierdaDesactivado, derechaDesactivado]
+     */
+    private function esperarBotonesFila(Browser $browser, string $texto, array $esperado): void
+    {
+        $titulos = json_encode([__('Move left'), __('Move right')]);
+        $textoJs = json_encode($texto);
+        $exp = json_encode($esperado);
+
+        $this->esperarJavascript($browser, <<<JS
+            return (function() {
+                var filas = document.querySelectorAll('div.col-auto');
+                for (var i = 0; i < filas.length; i++) {
+                    if (filas[i].innerText.indexOf($textoJs) !== -1) {
+                        var titulos = $titulos;
+                        var left = filas[i].querySelector('button[title="' + titulos[0] + '"]');
+                        var right = filas[i].querySelector('button[title="' + titulos[1] + '"]');
+                        var esperado = $exp;
+                        return (left ? left.classList.contains('disabled') : null) == esperado[0]
+                            && (right ? right.classList.contains('disabled') : null) == esperado[1];
+                    }
+                }
+                return false;
+            })();
+        JS, 10);
+    }
+
+    /**
+     * Espera (browser) a que el grupo $titulo tenga los botones en el estado esperado.
+     *
+     * @param array{0: bool, 1: bool} $esperado [arribaDesactivado, abajoDesactivado]
+     */
+    private function esperarBotonesGrupo(Browser $browser, string $titulo, array $esperado): void
+    {
+        $titulos = json_encode([__('Move up'), __('Move down')]);
+        $tituloJs = json_encode($titulo);
+        $exp = json_encode($esperado);
+
+        $this->esperarJavascript($browser, <<<JS
+            return (function() {
+                var raices = document.querySelectorAll('[wire\\\\:id]');
+                var mejor = null;
+                for (var i = 0; i < raices.length; i++) {
+                    if (raices[i].innerText.indexOf($tituloJs) !== -1) {
+                        if (!mejor || raices[i].innerText.length < mejor.innerText.length) {
+                            mejor = raices[i];
+                        }
+                    }
+                }
+                if (!mejor) return false;
+                var titulos = $titulos;
+                var up = mejor.querySelector('button[title="' + titulos[0] + '"]');
+                if (!up) return false;
+                var down = mejor.querySelector('button[title="' + titulos[1] + '"]');
+                var esperado = $exp;
+                return up.classList.contains('disabled') == esperado[0]
+                    && (down ? down.classList.contains('disabled') : null) == esperado[1];
+            })();
+        JS, 10);
+    }
 
     /**
      * Navega a la página de la rúbrica y activa el modo edición

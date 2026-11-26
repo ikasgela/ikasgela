@@ -256,8 +256,9 @@ class T1_RubricEditorTest extends DuskTestCase
             $conteoInicial = $rubric->criteria_groups()->count();
 
             $this->activarEditor($browser, $rubric);
-            $browser->click('button[title="' . __('Add criteria group') . '"]')
-                ->pause(600);
+            $browser->click('button[title="' . __('Add criteria group') . '"]');
+
+            $this->esperar(fn () => $rubric->refresh()->criteria_groups()->count() === $conteoInicial + 1);
 
             $this->assertSame($conteoInicial + 1, $rubric->refresh()->criteria_groups()->count());
         });
@@ -281,7 +282,8 @@ class T1_RubricEditorTest extends DuskTestCase
             $selector = 'button[title="' . __('Duplicate') . '"][wire\:click*="duplicate_criteria_group"]';
             $browser->waitFor($selector);
             $browser->elements($selector)[0]->click();
-            $browser->pause(600);
+
+            $this->esperar(fn () => $rubric->refresh()->criteria_groups()->count() === $conteoInicial + 1);
 
             $rubric->refresh();
             $this->assertSame($conteoInicial + 1, $rubric->criteria_groups()->count());
@@ -311,7 +313,8 @@ class T1_RubricEditorTest extends DuskTestCase
             $browser->waitFor('button[title="' . __('Delete') . '"]');
             $deleteGroupButtons = $browser->elements('button[wire\:click*="delete_criteria_group"]');
             $deleteGroupButtons[0]->click();
-            $browser->pause(600);
+
+            $this->esperar(fn () => $rubric->refresh()->criteria_groups()->count() === $conteoInicial - 1);
 
             $rubric->refresh();
             $this->assertSame($conteoInicial - 1, $rubric->criteria_groups()->count());
@@ -345,6 +348,28 @@ class T1_RubricEditorTest extends DuskTestCase
      * Navega a la página de la rúbrica y activa el modo edición,
      * esperando a que los controles del editor aparezcan en el DOM.
      */
+
+    /**
+     * Espera activa (PHP) hasta que la condición sea cierta. No falla:
+     * deja que el assert siguiente decida.
+     */
+    private function esperar(callable $condicion, int $segundos = 10): void
+    {
+        $limite = microtime(true) + $segundos;
+
+        while (microtime(true) < $limite) {
+            try {
+                if ($condicion()) {
+                    return;
+                }
+            } catch (\Throwable $e) {
+                // La condición aún no está disponible: seguir esperando.
+            }
+
+            usleep(100_000);
+        }
+    }
+
     private function activarEditor(Browser $browser, Rubric $rubric): void
     {
         $browser->visit(route('rubrics.show', $rubric))
