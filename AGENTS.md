@@ -62,7 +62,7 @@ Todos son clonables junto con la actividad vía `bkwld/cloner`.
 
 make test           # migrate:fresh --env=testing + paratest (suite completa, ~20 s)
 make coverage       # igual que test pero genera informe HTML en ikasgela/coverage/
-make dusk           # migrate:fresh --seed + tests Dusk (browser)
+make dusk           # migrate:fresh --seed + tests Dusk (browser, una invocación)
 make assets         # compilar JS para entorno DEV (ver sección Vite más abajo)
 
 # --- Dentro del contenedor ---
