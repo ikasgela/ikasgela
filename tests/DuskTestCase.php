@@ -20,6 +20,13 @@ abstract class DuskTestCase extends BaseTestCase
     #[BeforeClass]
     public static function prepare(): void
     {
+        // Con Selenium el navegador lo gestiona la grid remota: no hace falta
+        // un chromedriver local, así que no se arranca ninguno. (env() porque en
+        // este contexto estático el contenedor aún no está resuelto).
+        if (env('USE_SELENIUM')) {
+            return;
+        }
+
         if (!static::runningInSail()) {
             static::startChromeDriver(['--port=9515']);
         }
@@ -45,5 +52,10 @@ abstract class DuskTestCase extends BaseTestCase
                 ChromeOptions::CAPABILITY, $options
             )->setCapability('acceptInsecureCerts', true));
         }
+
+        return RemoteWebDriver::create(
+            $_ENV['DUSK_DRIVER_URL'] ?? env('DUSK_DRIVER_URL') ?? 'http://localhost:9515',
+            DesiredCapabilities::chrome()->setCapability(ChromeOptions::CAPABILITY, $options)
+        );
     }
 }
