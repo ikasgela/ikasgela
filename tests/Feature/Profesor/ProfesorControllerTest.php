@@ -9,6 +9,7 @@ use App\Models\Tarea;
 use App\Models\Unidad;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Override;
 use Tests\TestCase;
@@ -617,5 +618,53 @@ class ProfesorControllerTest extends TestCase
 
         $response->assertRedirect();
         Mail::assertQueued(\App\Mail\ActividadAsignada::class);
+    }
+
+    public function testLimpiarCache()
+    {
+        // Auth
+        $this->actingAs($this->profesor);
+
+        // Given: caché con contenido (normal y con etiquetas)
+        Cache::put('test_limpiar_cache_key', 'valor');
+        Cache::tags(['test'])->put('etiqueta_test', 'valor');
+
+        // When
+        $response = $this->withSession(['profesor_filtro_alumnos' => 'A'])
+            ->post(route('profesor.limpiar_cache'));
+
+        // Then: la caché quedó borrada por completo
+        $response->assertRedirect(route('profesor.index'));
+        $this->assertNull(Cache::get('test_limpiar_cache_key'));
+        $this->assertNull(Cache::tags(['test'])->get('etiqueta_test'));
+
+        // ...pero las sesiones siguen vigentes
+        $response = $this->get(route('profesor.index'));
+        $response->assertSessionHas('profesor_filtro_alumnos', 'A');
+    }
+
+    public function testNotAdminProfesorNotLimpiarCache()
+    {
+        // Auth
+        $this->actingAs($this->not_admin_profesor);
+
+        // Given
+        Cache::put('test_limpiar_cache_key', 'valor');
+
+        // When
+        $response = $this->post(route('profesor.limpiar_cache'));
+
+        // Then
+        $response->assertForbidden();
+        $this->assertNotNull(Cache::get('test_limpiar_cache_key'));
+    }
+
+    public function testNotAuthNotLimpiarCache()
+    {
+        // When
+        $response = $this->post(route('profesor.limpiar_cache'));
+
+        // Then
+        $response->assertRedirect(route('login'));
     }
 }

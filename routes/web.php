@@ -154,6 +154,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::get('/alumnos/etiqueta', [ProfesorController::class, 'index'])
                 ->name('profesor.index.etiqueta');
 
+            // Borrar por completo la caché de Redis (conservando las sesiones)
+            Route::post('/alumnos/limpiar_cache', [ProfesorController::class, 'limpiar_cache'])
+                ->name('profesor.limpiar_cache');
+
             // Asignar una tarea a un alumno
             Route::post('/alumnos/asignar_tareas', [ProfesorController::class, 'asignarTareasGrupo'])
                 ->name('profesor.asignar_tareas_grupo');

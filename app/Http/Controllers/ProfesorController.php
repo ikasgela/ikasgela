@@ -20,6 +20,7 @@ use App\Traits\PaginarUltima;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -551,6 +552,15 @@ class ProfesorController extends Controller
         $user->save();  // Provocar que el observer limpie la caché
 
         return retornar();
+    }
+
+    public function limpiar_cache()
+    {
+        // Borra por completo la caché de Redis. Las sesiones de los usuarios viven
+        // en otra conexión/base de datos de Redis y no se tocan.
+        Cache::flush();
+
+        return redirect()->route('profesor.index');
     }
 
     public function getActividadesFiltradas(Request $request, User $user)
