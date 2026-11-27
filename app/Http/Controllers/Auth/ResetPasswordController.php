@@ -38,6 +38,7 @@ class ResetPasswordController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+        $this->middleware('throttle:auth-password-reset')->only('reset');
     }
 
     protected function resetPassword($user, $password)

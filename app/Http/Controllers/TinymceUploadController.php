@@ -11,6 +11,12 @@ use Intervention\Image\Laravel\Facades\Image;
 
 class TinymceUploadController extends Controller
 {
+    public function __construct()
+    {
+        // getS3 es público (R-AUTH-18): solo limiter por IP, sin auth
+        $this->middleware('throttle:auth-tinymce-url')->only('getS3');
+    }
+
     public function uploadImage(Request $request)
     {
         $fichero = $request->file('image');

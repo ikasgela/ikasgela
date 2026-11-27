@@ -29,6 +29,7 @@ class ForgotPasswordController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+        $this->middleware('throttle:auth-password-reset')->only('sendResetLinkEmail');
     }
 
     protected function validateEmail(Request $request)

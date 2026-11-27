@@ -26,4 +26,15 @@ return [
     'jplag_delete_temp' => env('JPLAG_DELETE_TEMP', true),
 
     'avatar_enabled' => env('AVATAR_ENABLED', false),
+
+    'auth_throttle' => [
+        'login_max_attempts' => intval(env('AUTH_LOGIN_MAX_ATTEMPTS', 5)),
+        'login_decay_minutes' => intval(env('AUTH_LOGIN_DECAY_MINUTES', 1)),
+        'register_max_attempts' => intval(env('AUTH_REGISTER_MAX_ATTEMPTS', 10)),
+        'register_decay_minutes' => intval(env('AUTH_REGISTER_DECAY_MINUTES', 60)),
+        'password_reset_max_attempts' => intval(env('AUTH_PASSWORD_RESET_MAX_ATTEMPTS', 5)),
+        'password_reset_decay_minutes' => intval(env('AUTH_PASSWORD_RESET_DECAY_MINUTES', 60)),
+        'tinymce_url_max_attempts' => intval(env('AUTH_TINYMCE_URL_MAX_ATTEMPTS', 60)),
+        'tinymce_url_decay_minutes' => intval(env('AUTH_TINYMCE_URL_DECAY_MINUTES', 1)),
+    ],
 ];

@@ -29,6 +29,20 @@ class LoginController extends Controller
     protected $redirectTo = '/';
 
     /**
+     * Max attempts before lockout (configurable via .env).
+     *
+     * @var int
+     */
+    protected $maxAttempts = 5;
+
+    /**
+     * Minutes during which attempts are locked out.
+     *
+     * @var int
+     */
+    protected $decayMinutes = 1;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -36,6 +50,9 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+
+        $this->maxAttempts = config('ikasgela.auth_throttle.login_max_attempts', 5);
+        $this->decayMinutes = config('ikasgela.auth_throttle.login_decay_minutes', 1);
     }
 
     protected function validateLogin(Request $request)

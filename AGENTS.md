@@ -260,6 +260,10 @@ Usar en todas las validaciones de email en controladores.
 | `TINYMCE_APIKEY` | API key de TinyMCE (editor de texto rico) |
 | `AVATAR_ENABLED` | Habilitar avatares de usuario |
 | `PAGINATION_SHORT/MEDIUM/LONG` | Tamaños de paginación (10/25/100) |
+| `AUTH_LOGIN_MAX_ATTEMPTS` / `AUTH_LOGIN_DECAY_MINUTES` | Intentos y ventana de lockout de login (5 / 1 min) |
+| `AUTH_REGISTER_MAX_ATTEMPTS` / `AUTH_REGISTER_DECAY_MINUTES` | Intentos y ventana de registro por IP (10 / 60 min) |
+| `AUTH_PASSWORD_RESET_MAX_ATTEMPTS` / `AUTH_PASSWORD_RESET_DECAY_MINUTES` | Intentos y ventana de recuperación por email+IP (5 / 60 min) |
+| `AUTH_TINYMCE_URL_MAX_ATTEMPTS` / `AUTH_TINYMCE_URL_DECAY_MINUTES` | Intentos y ventana de `tinymce_url` (público) por IP (60 / 1 min) |
 
 ---
 
