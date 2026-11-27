@@ -283,7 +283,22 @@ class T1_RubricEditorTest extends DuskTestCase
             $browser->waitFor($selector);
             $browser->elements($selector)[0]->click();
 
-            $this->esperar(fn () => $rubric->refresh()->criteria_groups()->count() === $conteoInicial + 1);
+            // Esperar al estado final completo: el conteo de grupos crece ANTES
+            // de que las criterias clonadas reciban sus `orden` únicos (el
+            // clonador guarda la fila del grupo antes de clonar las relaciones,
+            // y las criterias copia se crean con los `orden` de los originales),
+            // así que el único criterio fiable del cierre de la operación es que
+            // los `orden` de las criterias sean únicos.
+            $this->esperar(function () use ($rubric, $conteoInicial) {
+                $rubric->refresh();
+                $rubric->load('criteria_groups.criterias');
+
+                $ordenes = $rubric->criteria_groups
+                    ->flatMap(fn($cg) => $cg->criterias->pluck('orden'));
+
+                return $rubric->criteria_groups()->count() === $conteoInicial + 1
+                    && $ordenes->count() === $ordenes->unique()->count();
+            });
 
             $rubric->refresh();
             $this->assertSame($conteoInicial + 1, $rubric->criteria_groups()->count());

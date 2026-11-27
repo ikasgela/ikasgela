@@ -6,6 +6,7 @@ use App\Models\Criteria;
 use App\Models\CriteriaGroup;
 use App\Traits\OrdenUuid;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
@@ -131,13 +132,17 @@ class CriteriaGroupComponent extends Component
         $criteria = Criteria::findOrFail($criteria_id);
         $grupo = $criteria->criteria_group;
 
-        $orden = $this->ordenTras($criteria, function () use ($grupo) {
-            return $grupo?->criterias()->orderBy('orden')->get()->values() ?? new Collection();
-        });
+        // Transacción: la copia se guarda con el `orden` copiado antes de
+        // reasignárselo; sin ella, el estado intermedio sería visible.
+        DB::transaction(function () use ($criteria, $grupo) {
+            $orden = $this->ordenTras($criteria, function () use ($grupo) {
+                return $grupo?->criterias()->orderBy('orden')->get()->values() ?? new Collection();
+            });
 
-        $copia = $criteria->duplicate();
-        $copia->orden = $orden;
-        $copia->save();
+            $copia = $criteria->duplicate();
+            $copia->orden = $orden;
+            $copia->save();
+        });
     }
 
     public function left_criteria($criteria_id)

@@ -6,6 +6,7 @@ use App\Models\Actividad;
 use App\Models\CriteriaGroup;
 use App\Models\Rubric;
 use App\Traits\OrdenUuid;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
@@ -103,19 +104,26 @@ class RubricComponent extends Component
     {
         $criteria_group = CriteriaGroup::findOrFail($criteria_group_id);
 
-        $clon = $criteria_group->duplicate();
-        // Intercalado ADR-005 (trait OrdenUuid): la copia queda justo después
-        // del grupo duplicado; si no hay hueco, se regenera la serie completa.
-        $clon->orden = $this->ordenTras(
-            $criteria_group,
-            fn() => $this->rubric->criteria_groups()->orderBy('orden')->get()->values()
-        );
-        $clon->save();
+        // Toda la operación en una transacción: el clonador guarda la fila del
+        // grupo y luego las criterias copia (con sus `orden` copiados) ANTES de
+        // que esta función reasigne los `orden` únicos, así que sin transacción
+        // el estado intermedio (grupo visible + criterias duplicadas) sería
+        // observable por consumidores concurrentes de la base de datos.
+        DB::transaction(function () use ($criteria_group) {
+            $clon = $criteria_group->duplicate();
+            // Intercalado ADR-005 (trait OrdenUuid): la copia queda justo después
+            // del grupo duplicado; si no hay hueco, se regenera la serie completa.
+            $clon->orden = $this->ordenTras(
+                $criteria_group,
+                fn() => $this->rubric->criteria_groups()->orderBy('orden')->get()->values()
+            );
+            $clon->save();
 
-        foreach ($clon->criterias()->orderBy('orden')->get() as $criteria) {
-            $criteria->orden = Str::uuid7();
-            $criteria->save();
-        }
+            foreach ($clon->criterias()->orderBy('orden')->get() as $criteria) {
+                $criteria->orden = Str::uuid7();
+                $criteria->save();
+            }
+        });
     }
 
     public function toggle_edit()
