@@ -317,34 +317,45 @@ class T5_AdministradorTest extends DuskTestCase
     {
         $milestone = Milestone::where('name', 'Primera evaluación')->first();
 
-        $this->browse(function (Browser $browser) use ($milestone) {
-            // Asegurar sesión de admin (los tests previos pueden dejar la cookie remember)
-            $browser->visit(route('milestones.edit', $milestone));
+        $this->assertNotNull($milestone, 'Milestone sembrado no encontrado (¿falta seed?)');
 
-            if (str_contains($browser->driver->getCurrentURL(), route('login'))) {
-                // Tras el login el intended URL devuelve a la página de edición
-                $browser->type('email', 'admin@ikasgela.com')
-                    ->type('password', '12345Abcde')
-                    ->check('remember')
-                    ->press(__('Login'));
-            }
+        try {
+            $this->browse(function (Browser $browser) use ($milestone) {
+                // Asegurar sesión de admin (los tests previos pueden dejar la cookie remember)
+                $browser->visit(route('milestones.edit', $milestone));
 
-            $browser->visit(route('milestones.edit', $milestone));
+                if (str_contains($browser->driver->getCurrentURL(), route('login'))) {
+                    // Tras el login el intended URL devuelve a la página de edición
+                    $browser->type('email', 'admin@ikasgela.com')
+                        ->type('password', '12345Abcde')
+                        ->check('remember')
+                        ->press(__('Login'));
+                }
 
-            // Fijar modo oscuro (persistido en localStorage) y recargar la página de edición
-            $browser->script('localStorage.setItem("theme", "dark")');
-            $browser->visit(route('milestones.edit', $milestone))
-                ->assertScript('document.documentElement.getAttribute("data-bs-theme") === "dark"');
+                $browser->visit(route('milestones.edit', $milestone));
 
-            // Modificar y guardar el milestone (el redirect es asíncrono: esperar al índice)
-            $browser->type('name', 'Primera evaluación (editada)')
-                ->press(__('Save'))
-                ->waitForText('Primera evaluación (editada)')
-                ->assertRouteIs('milestones.index')
-                ->assertSee('Primera evaluación (editada)')
-                ->assertScript('document.documentElement.getAttribute("data-bs-theme") === "dark"')
-                ->assertDontSee('Ignition');
-        });
+                // Fijar modo oscuro (persistido en localStorage) y recargar la página de edición
+                $browser->script('localStorage.setItem("theme", "dark")');
+                $browser->visit(route('milestones.edit', $milestone))
+                    ->assertScript('document.documentElement.getAttribute("data-bs-theme") === "dark"');
+
+                // Modificar y guardar el milestone (el redirect es asíncrono: esperar al índice)
+                $browser->type('name', 'Primera evaluación (editada)')
+                    ->press(__('Save'))
+                    ->waitForText('Primera evaluación (editada)')
+                    ->assertRouteIs('milestones.index')
+                    ->assertSee('Primera evaluación (editada)')
+                    ->assertScript('document.documentElement.getAttribute("data-bs-theme") === "dark"')
+                    ->assertDontSee('Ignition');
+            });
+        } finally {
+            // Este test edita el milestone sembrado; restaurarlo para no
+            // ensuciar el estado compartido (y hacer fallar la siguiente
+            // pasada de la suite sin reseed).
+            // (`refresh` antes de actualizar: el modelo en memoria está stale
+            // y `update()` no marcaría nada como cambiado.)
+            $milestone->refresh()->update(['name' => 'Primera evaluación']);
+        }
     }
 
     public function testEvaluacionSafeexam()
