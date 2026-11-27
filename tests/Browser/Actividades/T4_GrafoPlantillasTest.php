@@ -541,6 +541,11 @@ class T4_GrafoPlantillasTest extends DuskTestCase
 
             $this->abrirGrafo($browser);
 
+            // El guardado inicial de la disposición es asíncrono (fetch fire-and-forget
+            // al montar el componente Vue): sin esta espera, la lectura de la BD puede
+            // ocurrir antes de que el POST escriba la fila.
+            $this->esperar(fn () => ActividadGrafo::where('actividad_id', $this->plantilla1->id)->exists());
+
             $original = ActividadGrafo::where('actividad_id', $this->plantilla1->id)->first();
 
             $this->assertNotNull($original, 'La disposición inicial no se ha guardado');
