@@ -68,8 +68,9 @@
             {{ html()->form()->close() }}
 
             {{ html()->form('POST', route('profesor.limpiar_cache'))->open() }}
-            {{ html()->submit('<i class="bi bi-recycle me-1"></i>'.__('Clear cache'))
-                    ->class(['btn btn-sm mx-1 mb-3 btn-outline-secondary']) }}
+            {{ html()->submit('<i class="bi bi-recycle"></i>')
+                    ->attribute('title', __('Clear cache'))
+                    ->class(['btn btn-sm ms-3 mb-3 btn-outline-secondary']) }}
             {{ html()->form()->close() }}
         </div>
     </div>
